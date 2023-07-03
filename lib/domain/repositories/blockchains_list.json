@@ -1,0 +1,12 @@
+{
+    "blockchains": [
+        {
+            "name": "Archethic",
+            "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/6887.png"
+        },
+        {
+            "name": "Ethereum",
+            "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png"
+        }
+    ]
+}

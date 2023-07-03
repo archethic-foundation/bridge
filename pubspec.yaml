@@ -1,0 +1,133 @@
+name: aebridge
+description: Enable interoperability and facilitate the transfer of data and assets between the two blockchains.
+publish_to: "none"
+
+version: 0.0.9+1
+
+environment:
+  sdk: ">=3.0.5 <4.0.0"
+
+dependencies:
+  # Archethic dart library for Flutter based on Official Archethic Javascript library for Node and Browser
+  archethic_lib_dart: ^3.1.1
+
+  # A client dart library to interact with Archethic Wallet RPC API.
+  archethic_wallet_client: ^1.0.6
+
+  # Collections and utilities functions and classes related to collections.
+  collection: ^1.17.0
+
+  crypto_font_icons: ^1.0.1
+
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.2
+
+  flutter:
+    sdk: flutter
+
+  # Add beautiful animated effects & builders in Flutter, via an easy, customizable, unified API.
+  flutter_animate: ^4.1.1+1
+
+  flutter_localizations:
+    sdk: flutter
+
+  # State management
+  flutter_riverpod: 2.1.1
+
+  # Provides a collection of Flutter grids layouts (staggered, masonry, quilted, woven, etc.).
+  flutter_staggered_grid_view: ^0.6.2
+
+  # An SVG rendering and widget library for Flutter, which allows painting and displaying Scalable Vector Graphics 1.1 files.
+  flutter_svg: ^2.0.5
+
+  # Annotations for freezed
+  freezed_annotation: ^2.2.0
+
+  # Simple direct Service Locator that allows to decouple the interface from a concrete implementation and to access the concrete implementation from everywhere in your App
+  get_it: ^7.6.0
+
+  # A declarative router for Flutter based on Navigation 2 supporting deep linking, data-driven routes and more
+  go_router: ^7.0.0
+
+  # GraphQL tools for parsing, transforming and printing GraphQL documents.
+  gql: ^0.14.0
+
+  # Gradient borders for inputs and containers. Borders package integrated with a basic flutter widgets as a container and input decorations. Easy in use, platform independent.
+  gradient_borders: ^1.0.0
+
+  # A GraphQL client for Flutter, bringing all the features from a modern GraphQL client to one easy to use package
+  graphql_flutter: ^5.1.2
+
+  # Hive is a lightweight and blazing fast key-value database written in pure Dart
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+
+  # Contains code to deal with internationalized/localized messages, date and number formatting and parsing, bi-directional text, and other internationalization issues.
+  intl: any
+
+  # Classes and helper functions that support JSON code generation via the `json_serializable` package.
+  json_annotation: ^4.8.1
+
+  # A collection loading animations written in pure dart. Out of the box, no extra dependency.
+  loading_indicator: ^3.1.0
+
+  # Flutter plugin for querying information about the application package, such as CFBundleVersion on iOS or versionCode on Android
+  package_info_plus: ^4.0.0
+
+  # A string-based path manipulation library. All of the path operations you know and love, with solid support for Windows, POSIX (Linux and Mac OS X), and the web.
+  path: ^1.8.2
+
+  # Flutter plugin for getting commonly used locations on host platform file systems, such as the temp and app data directories.
+  path_provider: ^2.0.15
+
+  # PhoenixSocket provides a feature-complete implementation of Phoenix Sockets, using a single API based on StreamChannels compatible with any deployment of Flutter
+  phoenix_socket: ^0.6.3
+
+  # A package exposing annotations for riverpod_generator
+  riverpod_annotation: 1.0.6
+
+  # Flutter plugin for launching a URL. Supports web, phone, SMS, and email schemes
+  url_launcher: ^6.1.11
+
+dev_dependencies:
+  # A build system for Dart code generation and modular compilation.
+  build_runner: ^2.3.3
+  # Recommended lints for Flutter apps, packages, and plugins to encourage good coding practices
+  flutter_lints: ^2.0.1
+  # Code generation for immutable classes that has a simple syntax/API without compromising on the features.
+  freezed: ^2.3.2
+  # Extension for Hive. Automatically generates TypeAdapters to store any class.
+  hive_generator: ^2.0.0
+  # Automatically generate code for converting to and from JSON by annotating Dart classes.
+  json_serializable: ^6.6.1
+  # A code generator for Riverpod. This both simplifies the syntax empowers it, such as allowing stateful hot-reload.
+  riverpod_generator: 1.0.6
+  # A full featured library for writing and running Dart tests across platforms.
+  test: ^1.23.0
+
+flutter:
+  generate: true
+  uses-material-design: true
+  assets:
+    - assets/images/
+    - lib/domain/repositories/blockchains_list.json
+
+  fonts:
+    - family: Lato
+      fonts:
+        - asset: assets/fonts/Lato-Regular.ttf
+        - asset: assets/fonts/Lato-Italic.ttf
+        - asset: assets/fonts/Lato-Bold.ttf
+    - family: Caveat
+      fonts:
+        - asset: assets/fonts/Caveat-Regular.ttf
+    - family: Equinox
+      fonts:
+        - asset: assets/fonts/Equinox Bold.otf
+        - asset: assets/fonts/Equinox Regular.otf
+    - family: Roboto
+      fonts:
+        - asset: assets/fonts/RobotoMono-Regular.ttf
+    - family: Iconsax
+      fonts:
+        - asset: assets/fonts/Iconsax.ttf
