@@ -1,4 +1,4 @@
-[![Platform](https://img.shields.io/badge/Platform-Flutter-02569B?logo=flutter)](https://flutter.dev) [![CodeFactor](https://www.codefactor.io/repository/github/archethic-foundation/bridge/badge?s=1cec48d77d18b2abdaffe9a4073be925ec527ba6)](https://www.codefactor.io/repository/github/archethic-foundation/bridge)
+[![Platform](https://img.shields.io/badge/Platform-Flutter-02569B?logo=flutter)](https://flutter.dev)
 
 # AE Bridge
 
