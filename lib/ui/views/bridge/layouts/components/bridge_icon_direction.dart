@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +15,18 @@ class BridgeBlockchainIconDirection extends ConsumerWidget {
     final bridgeForm = ref.watch(BridgeFormProvider.bridgeForm.notifier);
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
 
+    if (bridge.blockchainFrom == null || bridge.blockchainTo == null) {
+      return Padding(
+        padding: const EdgeInsets.only(top: 5),
+        child: Icon(
+          Iconsax.arrange_circle,
+          color: Colors.white.withOpacity(0.2),
+        ),
+      );
+    }
+
     return IconButton(
-      onPressed: () {
+      onPressed: () async {
         final blockchainFrom = bridge.blockchainFrom;
         final blockchainTo = bridge.blockchainTo;
         if (blockchainFrom != null) {
@@ -24,6 +35,9 @@ class BridgeBlockchainIconDirection extends ConsumerWidget {
 
         if (blockchainTo != null) {
           bridgeForm.setBlockchainFrom(blockchainTo);
+
+          final sessionNotifier = ref.read(SessionProviders.session.notifier);
+          await sessionNotifier.cancelConnection();
         }
       },
       icon: const Icon(Iconsax.arrange_circle),

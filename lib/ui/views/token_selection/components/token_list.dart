@@ -1,22 +1,22 @@
-import 'package:aebridge/application/bridge_blockchain.dart';
-import 'package:aebridge/model/bridge_blockchain.dart';
+import 'package:aebridge/application/bridge_token.dart';
+import 'package:aebridge/model/bridge_token.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class BlockchainList extends ConsumerWidget {
-  const BlockchainList({super.key});
+class TokenList extends ConsumerWidget {
+  const TokenList({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final blockchains = ref.watch(
-      BridgeBlockchainsProviders.getBlockchainsList,
+    final tokens = ref.watch(
+      BridgeTokensProviders.getTokensList,
     );
 
     return SizedBox(
-      child: blockchains.map(
+      child: tokens.map(
         data: (data) {
-          return _BlockchainsList(blockchains: data.value);
+          return _TokensList(tokens: data.value);
         },
         error: (error) => const SizedBox(
           height: 200,
@@ -42,10 +42,10 @@ class BlockchainList extends ConsumerWidget {
   }
 }
 
-class _BlockchainsList extends StatelessWidget {
-  const _BlockchainsList({required this.blockchains});
+class _TokensList extends StatelessWidget {
+  const _TokensList({required this.tokens});
 
-  final List<BridgeBlockchain> blockchains;
+  final List<BridgeToken> tokens;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -56,9 +56,9 @@ class _BlockchainsList extends StatelessWidget {
           height: 10,
         ),
         shrinkWrap: true,
-        itemCount: blockchains.length,
+        itemCount: tokens.length,
         itemBuilder: (BuildContext context, int index) {
-          return _SingleBlockchain(blockchain: blockchains[index])
+          return _SingleToken(token: tokens[index])
               .animate(delay: (100 * index).ms)
               .fadeIn(duration: 500.ms, delay: 100.ms)
               .shimmer(blendMode: BlendMode.srcOver, color: Colors.white12)
@@ -69,10 +69,10 @@ class _BlockchainsList extends StatelessWidget {
   }
 }
 
-class _SingleBlockchain extends StatelessWidget {
-  const _SingleBlockchain({required this.blockchain});
+class _SingleToken extends StatelessWidget {
+  const _SingleToken({required this.token});
 
-  final BridgeBlockchain blockchain;
+  final BridgeToken token;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -82,25 +82,50 @@ class _SingleBlockchain extends StatelessWidget {
       ),
       child: InkWell(
         onTap: () {
-          Navigator.pop(context, blockchain);
+          Navigator.pop(context, token);
         },
         child: Row(
           children: [
             const SizedBox(
               width: 10,
             ),
-            CircleAvatar(
-              radius: 15,
-              backgroundImage: NetworkImage(
-                blockchain.urlIcon,
+            Container(
+              width: 20,
+              height: 20,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.white.withOpacity(0.2),
+              ),
+              child: Center(
+                child: Text(
+                  token.symbol,
+                  style: const TextStyle(
+                    fontSize: 6,
+                    color: Colors.white,
+                  ),
+                ),
               ),
             ),
             const SizedBox(
               width: 10,
             ),
-            Text(
-              '${blockchain.name} ',
-              style: Theme.of(context).textTheme.labelLarge,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      '${token.name} ',
+                      style: Theme.of(context).textTheme.labelSmall,
+                    ),
+                  ],
+                ),
+                Text(
+                  token.symbol,
+                  style: Theme.of(context).textTheme.labelSmall,
+                ),
+              ],
             ),
           ],
         ),

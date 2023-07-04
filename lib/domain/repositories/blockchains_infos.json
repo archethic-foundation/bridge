@@ -9,7 +9,8 @@
             {
                 "name": "Ethereum",
                 "urlExplorer": "",
-                "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png"
+                "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
+                "chainId": 1337
             }
         ],
         "testnet": [
@@ -21,7 +22,8 @@
             {
                 "name": "Ethereum",
                 "urlExplorer": "https://goerli.etherscan.io/",
-                "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png"
+                "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
+                "chainId": 5
             }
         ],
         "mainnet": [
@@ -33,7 +35,8 @@
             {
                 "name": "Ethereum",
                 "urlExplorer": "https://etherscan.io/",
-                "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png"
+                "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
+                "chainId": 1
             }
         ]
     }

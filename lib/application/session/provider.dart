@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 import 'dart:developer';
+import 'package:aebridge/application/metamask.dart';
 import 'package:aebridge/application/session/state.dart';
 import 'package:aebridge/domain/repositories/features_flags.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
@@ -24,7 +25,73 @@ class _SessionNotifier extends Notifier<Session> {
     return const Session();
   }
 
-  Future<void> connectToWallet() async {
+  Future<void> connectToMetamask() async {
+    try {
+      final metamaskProvider = MetaMaskProvider();
+      if (metamaskProvider.isEnabled == false) {
+        state = state.copyWith(
+          isConnected: false,
+          error: 'Metamask is not available.',
+        );
+        return;
+      }
+      await metamaskProvider.connect();
+      if (metamaskProvider.isConnected) {
+        log('Connected', name: 'Wallet connection');
+
+        var chainIdLabel = '';
+        switch (metamaskProvider.currentChain) {
+          case 1:
+            chainIdLabel = 'Ethereum Mainnet';
+            break;
+          case 80001:
+            chainIdLabel = 'Mumbai Polygon Testnet';
+            break;
+          case 137:
+            chainIdLabel = 'Polygon Mainnet';
+            break;
+          case 97:
+            chainIdLabel = 'BSC Testnet';
+            break;
+          case 56:
+            chainIdLabel = 'BSC Mainnet';
+            break;
+          case 5:
+            chainIdLabel = 'Goerli Ethereum Testnet';
+            break;
+          case 1337:
+            chainIdLabel = 'Ethereum Devnet';
+            break;
+          default:
+            chainIdLabel = 'Unknown';
+            break;
+        }
+
+        state = state.copyWith(
+          wallet: 'metamask',
+          isConnected: true,
+          error: '',
+          nameAccount: metamaskProvider.account,
+          genesisAddress: metamaskProvider.currentAddress,
+          endpoint: chainIdLabel,
+        );
+        if (sl.isRegistered<MetaMaskProvider>()) {
+          sl.unregister<MetaMaskProvider>();
+        }
+        sl.registerLazySingleton<MetaMaskProvider>(
+          () => metamaskProvider,
+        );
+      }
+    } catch (e) {
+      log(e.toString());
+      state = state.copyWith(
+        isConnected: false,
+        error: 'Please, open your Metamask.',
+      );
+    }
+  }
+
+  Future<void> connectToArchethicWallet() async {
     try {
       state = state.copyWith(
         isConnected: false,
@@ -76,6 +143,7 @@ class _SessionNotifier extends Notifier<Session> {
               disconnected: () {
                 log('Disconnected', name: 'Wallet connection');
                 state = state.copyWith(
+                  wallet: '',
                   endpoint: '',
                   error: '',
                   genesisAddress: '',
@@ -87,6 +155,7 @@ class _SessionNotifier extends Notifier<Session> {
               connected: () async {
                 log('Connected', name: 'Wallet connection');
                 state = state.copyWith(
+                  wallet: 'archethic',
                   isConnected: true,
                   error: '',
                 );
@@ -94,6 +163,7 @@ class _SessionNotifier extends Notifier<Session> {
               connecting: () {
                 log('Connecting', name: 'Wallet connection');
                 state = state.copyWith(
+                  wallet: '',
                   endpoint: '',
                   error: '',
                   genesisAddress: '',

@@ -1,5 +1,4 @@
 import 'package:aebridge/application/session/provider.dart';
-import 'package:aebridge/ui/views/util/components/app_button.dart';
 import 'package:aebridge/ui/views/util/components/icon_close_connection.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:flutter/material.dart';
@@ -83,7 +82,7 @@ class _ConnectionToWalletStatusState
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            session.nameAccount,
+                            session.nameAccountDisplayed,
                             style: textTheme.labelMedium,
                           ),
                           Text(
@@ -98,27 +97,8 @@ class _ConnectionToWalletStatusState
                 ),
               )
             : const IconCloseConnection()
-        : AppButton(
-            labelBtn: AppLocalizations.of(context)!.btn_connect_wallet,
-            onPressed: () async {
-              final sessionNotifier =
-                  ref.watch(SessionProviders.session.notifier);
-              await sessionNotifier.connectToWallet();
-
-              if (ref.read(SessionProviders.session).error.isNotEmpty) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    backgroundColor:
-                        Theme.of(context).snackBarTheme.backgroundColor,
-                    content: Text(
-                      ref.read(SessionProviders.session).error,
-                      style: Theme.of(context).snackBarTheme.contentTextStyle,
-                    ),
-                    duration: const Duration(seconds: 2),
-                  ),
-                );
-              }
-            },
+        : const SizedBox(
+            height: 70,
           );
   }
 }

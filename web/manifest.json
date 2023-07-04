@@ -1,6 +1,6 @@
 {
-    "name": "aebridge",
-    "short_name": "aebridge",
+    "name": "Archethic Bridge",
+    "short_name": "AEBridge",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

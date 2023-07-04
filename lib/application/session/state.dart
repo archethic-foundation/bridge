@@ -9,6 +9,7 @@ part 'state.freezed.dart';
 @freezed
 class Session with _$Session {
   const factory Session({
+    @Default('') String wallet,
     @Default('') String endpoint,
     @Default('') String nameAccount,
     @Default('') String oldNameAccount,
@@ -19,4 +20,11 @@ class Session with _$Session {
     StreamSubscription<Account>? accountStreamSub,
   }) = _Session;
   const Session._();
+
+  String get nameAccountDisplayed {
+    if (wallet == 'metamask') {
+      return '${nameAccount.substring(0, 7)}...${nameAccount.substring(nameAccount.length - 4, nameAccount.length)}';
+    }
+    return nameAccount;
+  }
 }

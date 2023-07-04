@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Session {
+  String get wallet => throw _privateConstructorUsedError;
   String get endpoint => throw _privateConstructorUsedError;
   String get nameAccount => throw _privateConstructorUsedError;
   String get oldNameAccount => throw _privateConstructorUsedError;
@@ -36,7 +37,8 @@ abstract class $SessionCopyWith<$Res> {
       _$SessionCopyWithImpl<$Res, Session>;
   @useResult
   $Res call(
-      {String endpoint,
+      {String wallet,
+      String endpoint,
       String nameAccount,
       String oldNameAccount,
       String genesisAddress,
@@ -61,6 +63,7 @@ class _$SessionCopyWithImpl<$Res, $Val extends Session>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? wallet = null,
     Object? endpoint = null,
     Object? nameAccount = null,
     Object? oldNameAccount = null,
@@ -71,6 +74,10 @@ class _$SessionCopyWithImpl<$Res, $Val extends Session>
     Object? accountStreamSub = freezed,
   }) {
     return _then(_value.copyWith(
+      wallet: null == wallet
+          ? _value.wallet
+          : wallet // ignore: cast_nullable_to_non_nullable
+              as String,
       endpoint: null == endpoint
           ? _value.endpoint
           : endpoint // ignore: cast_nullable_to_non_nullable
@@ -127,7 +134,8 @@ abstract class _$$_SessionCopyWith<$Res> implements $SessionCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String endpoint,
+      {String wallet,
+      String endpoint,
       String nameAccount,
       String oldNameAccount,
       String genesisAddress,
@@ -150,6 +158,7 @@ class __$$_SessionCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? wallet = null,
     Object? endpoint = null,
     Object? nameAccount = null,
     Object? oldNameAccount = null,
@@ -160,6 +169,10 @@ class __$$_SessionCopyWithImpl<$Res>
     Object? accountStreamSub = freezed,
   }) {
     return _then(_$_Session(
+      wallet: null == wallet
+          ? _value.wallet
+          : wallet // ignore: cast_nullable_to_non_nullable
+              as String,
       endpoint: null == endpoint
           ? _value.endpoint
           : endpoint // ignore: cast_nullable_to_non_nullable
@@ -200,7 +213,8 @@ class __$$_SessionCopyWithImpl<$Res>
 
 class _$_Session extends _Session {
   const _$_Session(
-      {this.endpoint = '',
+      {this.wallet = '',
+      this.endpoint = '',
       this.nameAccount = '',
       this.oldNameAccount = '',
       this.genesisAddress = '',
@@ -210,6 +224,9 @@ class _$_Session extends _Session {
       this.accountStreamSub})
       : super._();
 
+  @override
+  @JsonKey()
+  final String wallet;
   @override
   @JsonKey()
   final String endpoint;
@@ -235,7 +252,7 @@ class _$_Session extends _Session {
 
   @override
   String toString() {
-    return 'Session(endpoint: $endpoint, nameAccount: $nameAccount, oldNameAccount: $oldNameAccount, genesisAddress: $genesisAddress, error: $error, isConnected: $isConnected, accountSub: $accountSub, accountStreamSub: $accountStreamSub)';
+    return 'Session(wallet: $wallet, endpoint: $endpoint, nameAccount: $nameAccount, oldNameAccount: $oldNameAccount, genesisAddress: $genesisAddress, error: $error, isConnected: $isConnected, accountSub: $accountSub, accountStreamSub: $accountStreamSub)';
   }
 
   @override
@@ -243,6 +260,7 @@ class _$_Session extends _Session {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Session &&
+            (identical(other.wallet, wallet) || other.wallet == wallet) &&
             (identical(other.endpoint, endpoint) ||
                 other.endpoint == endpoint) &&
             (identical(other.nameAccount, nameAccount) ||
@@ -263,6 +281,7 @@ class _$_Session extends _Session {
   @override
   int get hashCode => Object.hash(
       runtimeType,
+      wallet,
       endpoint,
       nameAccount,
       oldNameAccount,
@@ -281,7 +300,8 @@ class _$_Session extends _Session {
 
 abstract class _Session extends Session {
   const factory _Session(
-      {final String endpoint,
+      {final String wallet,
+      final String endpoint,
       final String nameAccount,
       final String oldNameAccount,
       final String genesisAddress,
@@ -291,6 +311,8 @@ abstract class _Session extends Session {
       final StreamSubscription<Account>? accountStreamSub}) = _$_Session;
   const _Session._() : super._();
 
+  @override
+  String get wallet;
   @override
   String get endpoint;
   @override

@@ -40,6 +40,9 @@ dependencies:
   # An SVG rendering and widget library for Flutter, which allows painting and displaying Scalable Vector Graphics 1.1 files.
   flutter_svg: ^2.0.5
 
+  # Web3 Ethereum, Etherjs and Wallet Connect wrapper for Flutter Web. Made especially for developing Dapp
+  flutter_web3: ^2.1.9
+
   # Annotations for freezed
   freezed_annotation: ^2.2.0
 

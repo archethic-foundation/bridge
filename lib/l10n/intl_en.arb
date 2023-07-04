@@ -43,5 +43,8 @@
   "bridge_token_address_lbl": "Token address: ",
   "bridge_blockchain_from_lbl": "From",
   "bridge_blockchain_to_lbl": "To",
-  "blockchain_selection_title": "Select a blockchain"
+  "blockchain_selection_title": "Select a blockchain",
+  "bridge_token_selection_lbl": "Select a token",
+  "token_selection_title": "Select a token",
+  "addressCopied": "Address copied"
 }

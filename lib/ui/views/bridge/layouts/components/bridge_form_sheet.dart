@@ -1,11 +1,10 @@
-import 'package:aebridge/ui/views/bridge/layouts/components/bridge_balance_max_btn.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_blockchain_from_selection.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_blockchain_to_selection.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_btn.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_connect_wallet_btn.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_icon_direction.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_address.dart';
-import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_amount_fiat.dart';
-import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_balance.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -109,10 +108,10 @@ class BridgeFormSheet extends ConsumerWidget {
                     ),
                     BridgeBlockchainIconDirection(),
                     SizedBox(
-                      height: 10,
+                      height: 5,
                     ),
                     BridgeBlockchainToSelection(),
-                    Row(
+                    /*Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         BridgeTokenToBridgeAmountFiat(),
@@ -127,16 +126,9 @@ class BridgeFormSheet extends ConsumerWidget {
                           ],
                         ),
                       ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
+                    ),*/
+
+                    BridgeTokenToBridgeSelection(),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: BridgeTokenAddress(),
@@ -145,6 +137,7 @@ class BridgeFormSheet extends ConsumerWidget {
                       height: 30,
                     ),
                     BridgeConnectWalletButton(),
+                    BridgeButton(),
                   ],
                 ),
               ),

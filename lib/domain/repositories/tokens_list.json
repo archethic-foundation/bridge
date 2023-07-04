@@ -1,0 +1,92 @@
+{
+    "tokens": {
+        "Archethic->Ethereum": {
+            "local": [
+                {
+                    "symbol": "WETH",
+                    "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
+                    "contractAddress": "0x123abc...",
+                    "decimals": 18
+                },
+                {
+                    "symbol": "UCO",
+                    "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/6887.png",
+                    "contractAddress": "",
+                    "decimals": 18
+                }
+            ],
+            "testnet": [
+                {
+                    "symbol": "WETH",
+                    "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
+                    "contractAddress": "0x123abc...",
+                    "decimals": 18
+                },
+                {
+                    "symbol": "UCO",
+                    "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/6887.png",
+                    "contractAddress": "",
+                    "decimals": 18
+                }
+            ],
+            "mainnet": [
+                {
+                    "symbol": "WETH",
+                    "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
+                    "contractAddress": "0x123abc...",
+                    "decimals": 18
+                },
+                {
+                    "symbol": "UCO",
+                    "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/6887.png",
+                    "contractAddress": "",
+                    "decimals": 18
+                }
+            ]
+        },
+        "Ethereum->Archethic": {
+            "local": [
+                {
+                    "symbol": "ETH",
+                    "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
+                    "contractAddress": "0x123abc...",
+                    "decimals": 18
+                },
+                {
+                    "symbol": "UCO",
+                    "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/6887.png",
+                    "contractAddress": "0x8a3d77e9d6968b780564936d15B09805827C21fa",
+                    "decimals": 18
+                }
+            ],
+            "testnet": [
+                {
+                    "symbol": "ETH",
+                    "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
+                    "contractAddress": "0x123abc...",
+                    "decimals": 18
+                },
+                {
+                    "symbol": "UCO",
+                    "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/6887.png",
+                    "contractAddress": "0x8a3d77e9d6968b780564936d15B09805827C21fa",
+                    "decimals": 18
+                }
+            ],
+            "mainnet": [
+                {
+                    "symbol": "ETH",
+                    "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png",
+                    "contractAddress": "0x123abc...",
+                    "decimals": 18
+                },
+                {
+                    "symbol": "UCO",
+                    "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/6887.png",
+                    "contractAddress": "0x8a3d77e9d6968b780564936d15B09805827C21fa",
+                    "decimals": 18
+                }
+            ]
+        }
+    }
+}

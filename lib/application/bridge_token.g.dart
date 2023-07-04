@@ -1,6 +1,6 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'provider.dart';
+part of 'bridge_token.dart';
 
 // **************************************************************************
 // RiverpodGenerator
@@ -29,19 +29,28 @@ class _SystemHash {
   }
 }
 
-String $_SessionNotifierHash() => r'82b290ae68e196f6a3c414a8b4a0b451aac79000';
+String $_bridgeTokensRepositoryHash() =>
+    r'12ebc18829ad73ffa1c0bfcbc09a9d49eb219bed';
 
-/// See also [_SessionNotifier].
-final _sessionNotifierProvider = NotifierProvider<_SessionNotifier, Session>(
-  _SessionNotifier.new,
-  name: r'_sessionNotifierProvider',
+/// See also [_bridgeTokensRepository].
+final _bridgeTokensRepositoryProvider =
+    AutoDisposeProvider<BridgeTokensRepository>(
+  _bridgeTokensRepository,
+  name: r'_bridgeTokensRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : $_SessionNotifierHash,
+      : $_bridgeTokensRepositoryHash,
 );
-typedef _SessionNotifierRef = NotifierProviderRef<Session>;
+typedef _BridgeTokensRepositoryRef
+    = AutoDisposeProviderRef<BridgeTokensRepository>;
+String $_getTokensListHash() => r'cd2f3ef071ba7abc34228aa001fc217ce2f2a99a';
 
-abstract class _$SessionNotifier extends Notifier<Session> {
-  @override
-  Session build();
-}
+/// See also [_getTokensList].
+final _getTokensListProvider = AutoDisposeFutureProvider<List<BridgeToken>>(
+  _getTokensList,
+  name: r'_getTokensListProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : $_getTokensListHash,
+);
+typedef _GetTokensListRef = AutoDisposeFutureProviderRef<List<BridgeToken>>;
