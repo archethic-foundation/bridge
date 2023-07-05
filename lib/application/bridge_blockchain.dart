@@ -30,7 +30,18 @@ class BridgeBlockchainsRepository {
     final blockchainsList =
         List<Map<String, dynamic>>.from(jsonData['blockchains']);
 
-    return blockchainsList.map(BridgeBlockchain.fromJson).toList();
+    final blockchainsListToSort =
+        blockchainsList.map(BridgeBlockchain.fromJson).toList()
+          ..sort((a, b) {
+            final compareEnv = a.env.compareTo(b.env);
+            if (compareEnv != 0) {
+              return compareEnv;
+            } else {
+              return a.name.compareTo(b.name);
+            }
+          });
+
+    return blockchainsListToSort;
   }
 }
 

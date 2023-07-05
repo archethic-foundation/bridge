@@ -8,9 +8,10 @@ part 'bridge_blockchain.g.dart';
 class BridgeBlockchain with _$BridgeBlockchain {
   const factory BridgeBlockchain({
     @Default('') String name,
-    int? chainId,
+    @Default(0) int chainId,
+    @Default('') String env,
+    @Default('') String icon,
     @Default('') String urlExplorer,
-    @Default('') String urlIcon,
   }) = _BridgeBlockchain;
 
   factory BridgeBlockchain.fromJson(Map<String, dynamic> json) =>

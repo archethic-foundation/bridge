@@ -1,11 +1,15 @@
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/model/bridge_blockchain.dart';
+import 'package:aebridge/ui/views/blockchain_selection/bloc/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 
 class BlockchainList extends ConsumerWidget {
-  const BlockchainList({super.key});
+  const BlockchainList({required this.blockchainsExcluded, super.key});
+
+  final List<String> blockchainsExcluded;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -16,15 +20,25 @@ class BlockchainList extends ConsumerWidget {
     return SizedBox(
       child: blockchains.map(
         data: (data) {
+          data.value.removeWhere(
+            (element) => blockchainsExcluded.contains(element.name),
+          );
+          final blockchainSelectionProvider = ref
+              .watch(BlockchainSelectionFormProvider.blockchainSelectionForm);
+          if (blockchainSelectionProvider.testnetIncluded == false) {
+            data.value.removeWhere(
+              (element) => element.env != '1-mainnet',
+            );
+          }
           return _BlockchainsList(blockchains: data.value);
         },
         error: (error) => const SizedBox(
-          height: 200,
+          height: 300,
         ),
         loading: (loading) => const Stack(
           children: [
             SizedBox(
-              height: 200,
+              height: 300,
             ),
             SizedBox(
               height: 20,
@@ -50,7 +64,7 @@ class _BlockchainsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: 200,
+      height: 300,
       child: ListView.separated(
         separatorBuilder: (context, index) => const SizedBox(
           height: 10,
@@ -89,11 +103,9 @@ class _SingleBlockchain extends StatelessWidget {
             const SizedBox(
               width: 10,
             ),
-            CircleAvatar(
-              radius: 15,
-              backgroundImage: NetworkImage(
-                blockchain.urlIcon,
-              ),
+            SvgPicture.asset(
+              'assets/images/bc-logos/${blockchain.icon}',
+              height: 20,
             ),
             const SizedBox(
               width: 10,

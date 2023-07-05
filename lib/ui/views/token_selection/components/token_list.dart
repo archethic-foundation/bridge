@@ -5,12 +5,14 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TokenList extends ConsumerWidget {
-  const TokenList({super.key});
+  const TokenList({this.direction, super.key});
+
+  final String? direction;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final tokens = ref.watch(
-      BridgeTokensProviders.getTokensList,
+      BridgeTokensProviders.getTokensListPerBridge(direction!),
     );
 
     return SizedBox(

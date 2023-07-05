@@ -8,6 +8,7 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 class TokenSelectionPopup {
   static Future<BridgeToken?> getDialog(
     BuildContext context,
+    String? direction,
   ) async {
     return showDialog<BridgeToken>(
       context: context,
@@ -71,7 +72,7 @@ class TokenSelectionPopup {
                         const SizedBox(
                           height: 30,
                         ),
-                        const TokenList(),
+                        TokenList(direction: direction),
                         const TokenSelectionCloseBtn(),
                       ],
                     ),

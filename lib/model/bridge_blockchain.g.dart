@@ -9,15 +9,17 @@ part of 'bridge_blockchain.dart';
 _$_BridgeBlockchain _$$_BridgeBlockchainFromJson(Map<String, dynamic> json) =>
     _$_BridgeBlockchain(
       name: json['name'] as String? ?? '',
-      chainId: json['chainId'] as int?,
+      chainId: json['chainId'] as int? ?? 0,
+      env: json['env'] as String? ?? '',
+      icon: json['icon'] as String? ?? '',
       urlExplorer: json['urlExplorer'] as String? ?? '',
-      urlIcon: json['urlIcon'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$_BridgeBlockchainToJson(_$_BridgeBlockchain instance) =>
     <String, dynamic>{
       'name': instance.name,
       'chainId': instance.chainId,
+      'env': instance.env,
+      'icon': instance.icon,
       'urlExplorer': instance.urlExplorer,
-      'urlIcon': instance.urlIcon,
     };

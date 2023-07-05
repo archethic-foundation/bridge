@@ -54,3 +54,77 @@ final _getTokensListProvider = AutoDisposeFutureProvider<List<BridgeToken>>(
       : $_getTokensListHash,
 );
 typedef _GetTokensListRef = AutoDisposeFutureProviderRef<List<BridgeToken>>;
+String $_getTokensListPerBridgeHash() =>
+    r'918b6b0c84ea079954c007ccf241c6526808a29e';
+
+/// See also [_getTokensListPerBridge].
+class _GetTokensListPerBridgeProvider
+    extends AutoDisposeFutureProvider<List<BridgeToken>> {
+  _GetTokensListPerBridgeProvider(
+    this.direction,
+  ) : super(
+          (ref) => _getTokensListPerBridge(
+            ref,
+            direction,
+          ),
+          from: _getTokensListPerBridgeProvider,
+          name: r'_getTokensListPerBridgeProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : $_getTokensListPerBridgeHash,
+        );
+
+  final String direction;
+
+  @override
+  bool operator ==(Object other) {
+    return other is _GetTokensListPerBridgeProvider &&
+        other.direction == direction;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, direction.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+typedef _GetTokensListPerBridgeRef
+    = AutoDisposeFutureProviderRef<List<BridgeToken>>;
+
+/// See also [_getTokensListPerBridge].
+final _getTokensListPerBridgeProvider = _GetTokensListPerBridgeFamily();
+
+class _GetTokensListPerBridgeFamily
+    extends Family<AsyncValue<List<BridgeToken>>> {
+  _GetTokensListPerBridgeFamily();
+
+  _GetTokensListPerBridgeProvider call(
+    String direction,
+  ) {
+    return _GetTokensListPerBridgeProvider(
+      direction,
+    );
+  }
+
+  @override
+  AutoDisposeFutureProvider<List<BridgeToken>> getProviderOverride(
+    covariant _GetTokensListPerBridgeProvider provider,
+  ) {
+    return call(
+      provider.direction,
+    );
+  }
+
+  @override
+  List<ProviderOrFamily>? get allTransitiveDependencies => null;
+
+  @override
+  List<ProviderOrFamily>? get dependencies => null;
+
+  @override
+  String? get name => r'_getTokensListPerBridgeProvider';
+}

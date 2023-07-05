@@ -4,6 +4,7 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 
 class BridgeBlockchainToSelection extends ConsumerWidget {
   const BridgeBlockchainToSelection({
@@ -76,11 +77,9 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
                                       )
                                     : Row(
                                         children: [
-                                          CircleAvatar(
-                                            radius: 15,
-                                            backgroundImage: NetworkImage(
-                                              bridge.blockchainTo!.urlIcon,
-                                            ),
+                                          SvgPicture.asset(
+                                            'assets/images/bc-logos/${bridge.blockchainTo!.icon}',
+                                            height: 20,
                                           ),
                                           const SizedBox(
                                             width: 10,
@@ -97,6 +96,9 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
                               final blockchain =
                                   await BlockchainSelectionPopup.getDialog(
                                 context,
+                                bridge.blockchainFrom == null
+                                    ? []
+                                    : [bridge.blockchainFrom!.name],
                               );
                               if (blockchain == null) return;
                               ref

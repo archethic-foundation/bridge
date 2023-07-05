@@ -46,5 +46,6 @@
   "blockchain_selection_title": "Select a blockchain",
   "bridge_token_selection_lbl": "Select a token",
   "token_selection_title": "Select a token",
-  "addressCopied": "Address copied"
+  "addressCopied": "Address copied",
+  "blockchain_selection_test_included_lbl": "Include testnet ?"
 }

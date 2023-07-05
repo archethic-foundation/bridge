@@ -2,11 +2,68 @@
     "blockchains": [
         {
             "name": "Archethic",
-            "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/6887.png"
+            "chainId": -1,
+            "env": "1-mainnet",
+            "icon": "Archethic.svg",
+            "urlExplorer": "https://mainnet.archethic.net/explorer"
+        },
+        {
+            "name": "Archethic Testnet",
+            "chainId": -2,
+            "env": "2-testnet",
+            "icon": "Archethic.svg",
+            "urlExplorer": "https://testnet.archethic.net/explorer"
+        },
+        {
+            "name": "Archethic Devnet",
+            "chainId": -3,
+            "env": "3-devnet",
+            "icon": "Archethic.svg",
+            "urlExplorer": "https://localhost:4000/explorer"
         },
         {
             "name": "Ethereum",
-            "urlIcon": "https://s2.coinmarketcap.com/static/img/coins/64x64/1027.png"
+            "chainId": 1,
+            "env": "1-mainnet",
+            "icon": "Ethereum.svg",
+            "urlExplorer": "https://etherscan.io/"
+        },
+        {
+            "name": "Goerli Ethereum Testnet",
+            "chainId": 5,
+            "env": "2-testnet",
+            "icon": "Ethereum.svg",
+            "urlExplorer": "https://goerli.etherscan.io/"
+        },
+        {
+            "name": "Ethereum Devnet",
+            "chainId": 1337,
+            "env": "3-devnet",
+            "icon": "Ethereum.svg"
+        },
+        {
+            "name": "Polygon",
+            "chainId": 137,
+            "env": "1-mainnet",
+            "icon": "Polygon.svg"
+        },
+        {
+            "name": "Mumbai Polygon Testnet",
+            "chainId": 80001,
+            "env": "2-testnet",
+            "icon": "Polygon.svg"
+        },
+        {
+            "name": "BSC",
+            "chainId": 56,
+            "env": "1-mainnet",
+            "icon": "BSC.svg"
+        },
+        {
+            "name": "BSC Testnet",
+            "chainId": 97,
+            "env": "2-testnet",
+            "icon": "BSC.svg"
         }
     ]
 }

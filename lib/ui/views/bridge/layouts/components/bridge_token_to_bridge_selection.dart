@@ -143,14 +143,21 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
                                 ),
                               ),
                               onTap: () async {
+                                final bridge =
+                                    ref.read(BridgeFormProvider.bridgeForm);
+                                final direction =
+                                    '${bridge.blockchainFrom!.chainId}->${bridge.blockchainTo!.chainId}';
+
                                 final token =
                                     await TokenSelectionPopup.getDialog(
                                   context,
+                                  direction,
                                 );
                                 if (token == null) return;
                                 ref
                                     .watch(
-                                        BridgeFormProvider.bridgeForm.notifier)
+                                      BridgeFormProvider.bridgeForm.notifier,
+                                    )
                                     .setTokenToBridge(token);
                               },
                             ),
