@@ -19,6 +19,8 @@ mixin _$BridgeToken {
   String get name => throw _privateConstructorUsedError;
   dynamic get tokenAddress => throw _privateConstructorUsedError;
   String get symbol => throw _privateConstructorUsedError;
+  String get targetTokenName => throw _privateConstructorUsedError;
+  String get targetTokenSymbol => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BridgeTokenCopyWith<BridgeToken> get copyWith =>
@@ -31,7 +33,12 @@ abstract class $BridgeTokenCopyWith<$Res> {
           BridgeToken value, $Res Function(BridgeToken) then) =
       _$BridgeTokenCopyWithImpl<$Res, BridgeToken>;
   @useResult
-  $Res call({String name, dynamic tokenAddress, String symbol});
+  $Res call(
+      {String name,
+      dynamic tokenAddress,
+      String symbol,
+      String targetTokenName,
+      String targetTokenSymbol});
 }
 
 /// @nodoc
@@ -50,6 +57,8 @@ class _$BridgeTokenCopyWithImpl<$Res, $Val extends BridgeToken>
     Object? name = null,
     Object? tokenAddress = freezed,
     Object? symbol = null,
+    Object? targetTokenName = null,
+    Object? targetTokenSymbol = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -64,6 +73,14 @@ class _$BridgeTokenCopyWithImpl<$Res, $Val extends BridgeToken>
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
               as String,
+      targetTokenName: null == targetTokenName
+          ? _value.targetTokenName
+          : targetTokenName // ignore: cast_nullable_to_non_nullable
+              as String,
+      targetTokenSymbol: null == targetTokenSymbol
+          ? _value.targetTokenSymbol
+          : targetTokenSymbol // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -76,7 +93,12 @@ abstract class _$$_BridgeTokenCopyWith<$Res>
       __$$_BridgeTokenCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String name, dynamic tokenAddress, String symbol});
+  $Res call(
+      {String name,
+      dynamic tokenAddress,
+      String symbol,
+      String targetTokenName,
+      String targetTokenSymbol});
 }
 
 /// @nodoc
@@ -93,6 +115,8 @@ class __$$_BridgeTokenCopyWithImpl<$Res>
     Object? name = null,
     Object? tokenAddress = freezed,
     Object? symbol = null,
+    Object? targetTokenName = null,
+    Object? targetTokenSymbol = null,
   }) {
     return _then(_$_BridgeToken(
       name: null == name
@@ -105,6 +129,14 @@ class __$$_BridgeTokenCopyWithImpl<$Res>
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
               as String,
+      targetTokenName: null == targetTokenName
+          ? _value.targetTokenName
+          : targetTokenName // ignore: cast_nullable_to_non_nullable
+              as String,
+      targetTokenSymbol: null == targetTokenSymbol
+          ? _value.targetTokenSymbol
+          : targetTokenSymbol // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -113,7 +145,11 @@ class __$$_BridgeTokenCopyWithImpl<$Res>
 
 class _$_BridgeToken implements _BridgeToken {
   const _$_BridgeToken(
-      {this.name = '', this.tokenAddress = '', this.symbol = ''});
+      {this.name = '',
+      this.tokenAddress = '',
+      this.symbol = '',
+      this.targetTokenName = '',
+      this.targetTokenSymbol = ''});
 
   @override
   @JsonKey()
@@ -124,10 +160,16 @@ class _$_BridgeToken implements _BridgeToken {
   @override
   @JsonKey()
   final String symbol;
+  @override
+  @JsonKey()
+  final String targetTokenName;
+  @override
+  @JsonKey()
+  final String targetTokenSymbol;
 
   @override
   String toString() {
-    return 'BridgeToken(name: $name, tokenAddress: $tokenAddress, symbol: $symbol)';
+    return 'BridgeToken(name: $name, tokenAddress: $tokenAddress, symbol: $symbol, targetTokenName: $targetTokenName, targetTokenSymbol: $targetTokenSymbol)';
   }
 
   @override
@@ -138,12 +180,21 @@ class _$_BridgeToken implements _BridgeToken {
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality()
                 .equals(other.tokenAddress, tokenAddress) &&
-            (identical(other.symbol, symbol) || other.symbol == symbol));
+            (identical(other.symbol, symbol) || other.symbol == symbol) &&
+            (identical(other.targetTokenName, targetTokenName) ||
+                other.targetTokenName == targetTokenName) &&
+            (identical(other.targetTokenSymbol, targetTokenSymbol) ||
+                other.targetTokenSymbol == targetTokenSymbol));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name,
-      const DeepCollectionEquality().hash(tokenAddress), symbol);
+  int get hashCode => Object.hash(
+      runtimeType,
+      name,
+      const DeepCollectionEquality().hash(tokenAddress),
+      symbol,
+      targetTokenName,
+      targetTokenSymbol);
 
   @JsonKey(ignore: true)
   @override
@@ -156,7 +207,9 @@ abstract class _BridgeToken implements BridgeToken {
   const factory _BridgeToken(
       {final String name,
       final dynamic tokenAddress,
-      final String symbol}) = _$_BridgeToken;
+      final String symbol,
+      final String targetTokenName,
+      final String targetTokenSymbol}) = _$_BridgeToken;
 
   @override
   String get name;
@@ -164,6 +217,10 @@ abstract class _BridgeToken implements BridgeToken {
   dynamic get tokenAddress;
   @override
   String get symbol;
+  @override
+  String get targetTokenName;
+  @override
+  String get targetTokenSymbol;
   @override
   @JsonKey(ignore: true)
   _$$_BridgeTokenCopyWith<_$_BridgeToken> get copyWith =>

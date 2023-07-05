@@ -20,9 +20,18 @@ class BlockchainList extends ConsumerWidget {
     return SizedBox(
       child: blockchains.map(
         data: (data) {
-          data.value.removeWhere(
-            (element) => blockchainsExcluded.contains(element.name),
-          );
+          if (blockchainsExcluded.isNotEmpty) {
+            if (blockchainsExcluded.contains('Archethic') == false) {
+              data.value.removeWhere(
+                (element) => element.name.contains('Archethic') == false,
+              );
+            } else {
+              data.value.removeWhere(
+                (element) => element.name.contains('Archethic'),
+              );
+            }
+          }
+
           final blockchainSelectionProvider = ref
               .watch(BlockchainSelectionFormProvider.blockchainSelectionForm);
           if (blockchainSelectionProvider.testnetIncluded == false) {

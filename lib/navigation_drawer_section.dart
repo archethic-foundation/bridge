@@ -71,6 +71,11 @@ class _NavigationDrawerSectionState
                           const Icon(Iconsax.recovery_convert),
                           false,
                         ),
+                        MenuDestination(
+                          AppLocalizations.of(context)!.menu_refund,
+                          const Icon(Iconsax.empty_wallet_change),
+                          false,
+                        ),
                       ].map((destination) {
                         return NavigationDrawerDestination(
                           label: destination.externalLink
@@ -261,27 +266,36 @@ class _NavigationDrawerSectionState
 
         break;
       case 1:
+        ref
+            .read(
+              MainScreenWidgetDiplayedProviders
+                  .mainScreenWidgetDiplayedProvider.notifier,
+            )
+            .setWidget(const BridgeSheet());
+
+        break;
+      case 2:
         launchUrl(
           Uri.parse(
             'https://wiki.archethic.net',
           ),
         );
         break;
-      case 2:
+      case 3:
         launchUrl(
           Uri.parse(
             'https://github.com/archethic-foundation/bridge',
           ),
         );
         break;
-      case 3:
+      case 4:
         launchUrl(
           Uri.parse(
             'https://wiki.archethic.net/category/FAQ',
           ),
         );
         break;
-      case 4:
+      case 5:
         launchUrl(
           Uri.parse(
             'https://wiki.archethic.net/',

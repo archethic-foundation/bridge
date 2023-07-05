@@ -7,7 +7,7 @@ part 'bridge_token_per_bridge.g.dart';
 @freezed
 class BridgeTokensPerBridge with _$BridgeTokensPerBridge {
   const factory BridgeTokensPerBridge({
-    Map<String, List<SymbolData>>? tokens,
+    Map<String, List<TokenData>>? tokens,
   }) = _BridgeTokensPerBridge;
 
   factory BridgeTokensPerBridge.fromJson(Map<String, dynamic> json) =>
@@ -15,11 +15,14 @@ class BridgeTokensPerBridge with _$BridgeTokensPerBridge {
 }
 
 @freezed
-class SymbolData with _$SymbolData {
-  factory SymbolData({
+class TokenData with _$TokenData {
+  factory TokenData({
+    @Default('') String name,
     @Default('') String symbol,
-  }) = _SymbolData;
+    @Default('') String targetTokenName,
+    @Default('') String targetTokenSymbol,
+  }) = _TokenData;
 
-  factory SymbolData.fromJson(Map<String, dynamic> json) =>
-      _$SymbolDataFromJson(json);
+  factory TokenData.fromJson(Map<String, dynamic> json) =>
+      _$TokenDataFromJson(json);
 }

@@ -27,6 +27,7 @@
   "welcomeNoWallet": "Unlock the full potential of our Web3 application - get the Archethic Wallet now!",
   "menu_section_actions": "Actions",
   "menu_bridge": "Bridge",
+  "menu_refund": "Refund",
   "menu_documentation": "Documentation",
   "menu_sourceCode": "Source code",
   "menu_faq": "FAQ",
@@ -45,6 +46,7 @@
   "bridge_blockchain_to_lbl": "To",
   "blockchain_selection_title": "Select a blockchain",
   "bridge_token_selection_lbl": "Select a token",
+  "bridge_token_bridged_lbl": "Target token",
   "token_selection_title": "Select a token",
   "addressCopied": "Address copied",
   "blockchain_selection_test_included_lbl": "Include testnet ?"

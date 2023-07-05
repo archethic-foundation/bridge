@@ -45,25 +45,29 @@
             "name": "Polygon",
             "chainId": 137,
             "env": "1-mainnet",
-            "icon": "Polygon.svg"
+            "icon": "Polygon.svg",
+            "urlExplorer": "https://polygonscan.com"
         },
         {
             "name": "Mumbai Polygon Testnet",
             "chainId": 80001,
             "env": "2-testnet",
-            "icon": "Polygon.svg"
+            "icon": "Polygon.svg",
+            "urlExplorer": "https://mumbai.polygonscan.com"
         },
         {
-            "name": "BSC",
+            "name": "Binance Smart Chain",
             "chainId": 56,
             "env": "1-mainnet",
-            "icon": "BSC.svg"
+            "icon": "BSC.svg",
+            "urlExplorer": "https://bscscan.com"
         },
         {
-            "name": "BSC Testnet",
+            "name": "Binance Smart Chain Testnet",
             "chainId": 97,
             "env": "2-testnet",
-            "icon": "BSC.svg"
+            "icon": "BSC.svg",
+            "urlExplorer": "https://testnet.bscscan.com"
         }
     ]
 }

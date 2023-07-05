@@ -27,7 +27,7 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
           ),
         ),
         SizedBox(
-          width: 400,
+          width: 450,
           child: Row(
             children: [
               Expanded(

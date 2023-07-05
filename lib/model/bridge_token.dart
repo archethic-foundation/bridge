@@ -9,5 +9,7 @@ class BridgeToken with _$BridgeToken {
     @Default('') String name,
     @Default('') tokenAddress,
     @Default('') String symbol,
+    @Default('') String targetTokenName,
+    @Default('') String targetTokenSymbol,
   }) = _BridgeToken;
 }

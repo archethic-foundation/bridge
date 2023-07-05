@@ -13,7 +13,7 @@ _$_BridgeTokensPerBridge _$$_BridgeTokensPerBridgeFromJson(
         (k, e) => MapEntry(
             k,
             (e as List<dynamic>)
-                .map((e) => SymbolData.fromJson(e as Map<String, dynamic>))
+                .map((e) => TokenData.fromJson(e as Map<String, dynamic>))
                 .toList()),
       ),
     );
@@ -24,12 +24,17 @@ Map<String, dynamic> _$$_BridgeTokensPerBridgeToJson(
       'tokens': instance.tokens,
     };
 
-_$_SymbolData _$$_SymbolDataFromJson(Map<String, dynamic> json) =>
-    _$_SymbolData(
+_$_TokenData _$$_TokenDataFromJson(Map<String, dynamic> json) => _$_TokenData(
+      name: json['name'] as String? ?? '',
       symbol: json['symbol'] as String? ?? '',
+      targetTokenName: json['targetTokenName'] as String? ?? '',
+      targetTokenSymbol: json['targetTokenSymbol'] as String? ?? '',
     );
 
-Map<String, dynamic> _$$_SymbolDataToJson(_$_SymbolData instance) =>
+Map<String, dynamic> _$$_TokenDataToJson(_$_TokenData instance) =>
     <String, dynamic>{
+      'name': instance.name,
       'symbol': instance.symbol,
+      'targetTokenName': instance.targetTokenName,
+      'targetTokenSymbol': instance.targetTokenSymbol,
     };

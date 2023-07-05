@@ -21,7 +21,7 @@ BridgeTokensPerBridge _$BridgeTokensPerBridgeFromJson(
 
 /// @nodoc
 mixin _$BridgeTokensPerBridge {
-  Map<String, List<SymbolData>>? get tokens =>
+  Map<String, List<TokenData>>? get tokens =>
       throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -36,7 +36,7 @@ abstract class $BridgeTokensPerBridgeCopyWith<$Res> {
           $Res Function(BridgeTokensPerBridge) then) =
       _$BridgeTokensPerBridgeCopyWithImpl<$Res, BridgeTokensPerBridge>;
   @useResult
-  $Res call({Map<String, List<SymbolData>>? tokens});
+  $Res call({Map<String, List<TokenData>>? tokens});
 }
 
 /// @nodoc
@@ -59,7 +59,7 @@ class _$BridgeTokensPerBridgeCopyWithImpl<$Res,
       tokens: freezed == tokens
           ? _value.tokens
           : tokens // ignore: cast_nullable_to_non_nullable
-              as Map<String, List<SymbolData>>?,
+              as Map<String, List<TokenData>>?,
     ) as $Val);
   }
 }
@@ -72,7 +72,7 @@ abstract class _$$_BridgeTokensPerBridgeCopyWith<$Res>
       __$$_BridgeTokensPerBridgeCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({Map<String, List<SymbolData>>? tokens});
+  $Res call({Map<String, List<TokenData>>? tokens});
 }
 
 /// @nodoc
@@ -92,7 +92,7 @@ class __$$_BridgeTokensPerBridgeCopyWithImpl<$Res>
       tokens: freezed == tokens
           ? _value._tokens
           : tokens // ignore: cast_nullable_to_non_nullable
-              as Map<String, List<SymbolData>>?,
+              as Map<String, List<TokenData>>?,
     ));
   }
 }
@@ -100,15 +100,15 @@ class __$$_BridgeTokensPerBridgeCopyWithImpl<$Res>
 /// @nodoc
 @JsonSerializable()
 class _$_BridgeTokensPerBridge implements _BridgeTokensPerBridge {
-  const _$_BridgeTokensPerBridge({final Map<String, List<SymbolData>>? tokens})
+  const _$_BridgeTokensPerBridge({final Map<String, List<TokenData>>? tokens})
       : _tokens = tokens;
 
   factory _$_BridgeTokensPerBridge.fromJson(Map<String, dynamic> json) =>
       _$$_BridgeTokensPerBridgeFromJson(json);
 
-  final Map<String, List<SymbolData>>? _tokens;
+  final Map<String, List<TokenData>>? _tokens;
   @override
-  Map<String, List<SymbolData>>? get tokens {
+  Map<String, List<TokenData>>? get tokens {
     final value = _tokens;
     if (value == null) return null;
     if (_tokens is EqualUnmodifiableMapView) return _tokens;
@@ -151,46 +151,52 @@ class _$_BridgeTokensPerBridge implements _BridgeTokensPerBridge {
 
 abstract class _BridgeTokensPerBridge implements BridgeTokensPerBridge {
   const factory _BridgeTokensPerBridge(
-      {final Map<String, List<SymbolData>>? tokens}) = _$_BridgeTokensPerBridge;
+      {final Map<String, List<TokenData>>? tokens}) = _$_BridgeTokensPerBridge;
 
   factory _BridgeTokensPerBridge.fromJson(Map<String, dynamic> json) =
       _$_BridgeTokensPerBridge.fromJson;
 
   @override
-  Map<String, List<SymbolData>>? get tokens;
+  Map<String, List<TokenData>>? get tokens;
   @override
   @JsonKey(ignore: true)
   _$$_BridgeTokensPerBridgeCopyWith<_$_BridgeTokensPerBridge> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
-SymbolData _$SymbolDataFromJson(Map<String, dynamic> json) {
-  return _SymbolData.fromJson(json);
+TokenData _$TokenDataFromJson(Map<String, dynamic> json) {
+  return _TokenData.fromJson(json);
 }
 
 /// @nodoc
-mixin _$SymbolData {
+mixin _$TokenData {
+  String get name => throw _privateConstructorUsedError;
   String get symbol => throw _privateConstructorUsedError;
+  String get targetTokenName => throw _privateConstructorUsedError;
+  String get targetTokenSymbol => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
-  $SymbolDataCopyWith<SymbolData> get copyWith =>
+  $TokenDataCopyWith<TokenData> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $SymbolDataCopyWith<$Res> {
-  factory $SymbolDataCopyWith(
-          SymbolData value, $Res Function(SymbolData) then) =
-      _$SymbolDataCopyWithImpl<$Res, SymbolData>;
+abstract class $TokenDataCopyWith<$Res> {
+  factory $TokenDataCopyWith(TokenData value, $Res Function(TokenData) then) =
+      _$TokenDataCopyWithImpl<$Res, TokenData>;
   @useResult
-  $Res call({String symbol});
+  $Res call(
+      {String name,
+      String symbol,
+      String targetTokenName,
+      String targetTokenSymbol});
 }
 
 /// @nodoc
-class _$SymbolDataCopyWithImpl<$Res, $Val extends SymbolData>
-    implements $SymbolDataCopyWith<$Res> {
-  _$SymbolDataCopyWithImpl(this._value, this._then);
+class _$TokenDataCopyWithImpl<$Res, $Val extends TokenData>
+    implements $TokenDataCopyWith<$Res> {
+  _$TokenDataCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -200,45 +206,78 @@ class _$SymbolDataCopyWithImpl<$Res, $Val extends SymbolData>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? name = null,
     Object? symbol = null,
+    Object? targetTokenName = null,
+    Object? targetTokenSymbol = null,
   }) {
     return _then(_value.copyWith(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
       symbol: null == symbol
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
+              as String,
+      targetTokenName: null == targetTokenName
+          ? _value.targetTokenName
+          : targetTokenName // ignore: cast_nullable_to_non_nullable
+              as String,
+      targetTokenSymbol: null == targetTokenSymbol
+          ? _value.targetTokenSymbol
+          : targetTokenSymbol // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$_SymbolDataCopyWith<$Res>
-    implements $SymbolDataCopyWith<$Res> {
-  factory _$$_SymbolDataCopyWith(
-          _$_SymbolData value, $Res Function(_$_SymbolData) then) =
-      __$$_SymbolDataCopyWithImpl<$Res>;
+abstract class _$$_TokenDataCopyWith<$Res> implements $TokenDataCopyWith<$Res> {
+  factory _$$_TokenDataCopyWith(
+          _$_TokenData value, $Res Function(_$_TokenData) then) =
+      __$$_TokenDataCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String symbol});
+  $Res call(
+      {String name,
+      String symbol,
+      String targetTokenName,
+      String targetTokenSymbol});
 }
 
 /// @nodoc
-class __$$_SymbolDataCopyWithImpl<$Res>
-    extends _$SymbolDataCopyWithImpl<$Res, _$_SymbolData>
-    implements _$$_SymbolDataCopyWith<$Res> {
-  __$$_SymbolDataCopyWithImpl(
-      _$_SymbolData _value, $Res Function(_$_SymbolData) _then)
+class __$$_TokenDataCopyWithImpl<$Res>
+    extends _$TokenDataCopyWithImpl<$Res, _$_TokenData>
+    implements _$$_TokenDataCopyWith<$Res> {
+  __$$_TokenDataCopyWithImpl(
+      _$_TokenData _value, $Res Function(_$_TokenData) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? name = null,
     Object? symbol = null,
+    Object? targetTokenName = null,
+    Object? targetTokenSymbol = null,
   }) {
-    return _then(_$_SymbolData(
+    return _then(_$_TokenData(
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
       symbol: null == symbol
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
+              as String,
+      targetTokenName: null == targetTokenName
+          ? _value.targetTokenName
+          : targetTokenName // ignore: cast_nullable_to_non_nullable
+              as String,
+      targetTokenSymbol: null == targetTokenSymbol
+          ? _value.targetTokenSymbol
+          : targetTokenSymbol // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -246,57 +285,86 @@ class __$$_SymbolDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SymbolData implements _SymbolData {
-  _$_SymbolData({this.symbol = ''});
+class _$_TokenData implements _TokenData {
+  _$_TokenData(
+      {this.name = '',
+      this.symbol = '',
+      this.targetTokenName = '',
+      this.targetTokenSymbol = ''});
 
-  factory _$_SymbolData.fromJson(Map<String, dynamic> json) =>
-      _$$_SymbolDataFromJson(json);
+  factory _$_TokenData.fromJson(Map<String, dynamic> json) =>
+      _$$_TokenDataFromJson(json);
 
   @override
   @JsonKey()
+  final String name;
+  @override
+  @JsonKey()
   final String symbol;
+  @override
+  @JsonKey()
+  final String targetTokenName;
+  @override
+  @JsonKey()
+  final String targetTokenSymbol;
 
   @override
   String toString() {
-    return 'SymbolData(symbol: $symbol)';
+    return 'TokenData(name: $name, symbol: $symbol, targetTokenName: $targetTokenName, targetTokenSymbol: $targetTokenSymbol)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SymbolData &&
-            (identical(other.symbol, symbol) || other.symbol == symbol));
+            other is _$_TokenData &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.symbol, symbol) || other.symbol == symbol) &&
+            (identical(other.targetTokenName, targetTokenName) ||
+                other.targetTokenName == targetTokenName) &&
+            (identical(other.targetTokenSymbol, targetTokenSymbol) ||
+                other.targetTokenSymbol == targetTokenSymbol));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, symbol);
+  int get hashCode => Object.hash(
+      runtimeType, name, symbol, targetTokenName, targetTokenSymbol);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SymbolDataCopyWith<_$_SymbolData> get copyWith =>
-      __$$_SymbolDataCopyWithImpl<_$_SymbolData>(this, _$identity);
+  _$$_TokenDataCopyWith<_$_TokenData> get copyWith =>
+      __$$_TokenDataCopyWithImpl<_$_TokenData>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SymbolDataToJson(
+    return _$$_TokenDataToJson(
       this,
     );
   }
 }
 
-abstract class _SymbolData implements SymbolData {
-  factory _SymbolData({final String symbol}) = _$_SymbolData;
+abstract class _TokenData implements TokenData {
+  factory _TokenData(
+      {final String name,
+      final String symbol,
+      final String targetTokenName,
+      final String targetTokenSymbol}) = _$_TokenData;
 
-  factory _SymbolData.fromJson(Map<String, dynamic> json) =
-      _$_SymbolData.fromJson;
+  factory _TokenData.fromJson(Map<String, dynamic> json) =
+      _$_TokenData.fromJson;
 
+  @override
+  String get name;
   @override
   String get symbol;
   @override
+  String get targetTokenName;
+  @override
+  String get targetTokenSymbol;
+  @override
   @JsonKey(ignore: true)
-  _$$_SymbolDataCopyWith<_$_SymbolData> get copyWith =>
+  _$$_TokenDataCopyWith<_$_TokenData> get copyWith =>
       throw _privateConstructorUsedError;
 }

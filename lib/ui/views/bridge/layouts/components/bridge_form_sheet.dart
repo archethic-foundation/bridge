@@ -4,6 +4,7 @@ import 'package:aebridge/ui/views/bridge/layouts/components/bridge_btn.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_connect_wallet_btn.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_icon_direction.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_address.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_bridged.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_selection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -40,8 +41,8 @@ class BridgeFormSheet extends ConsumerWidget {
           ),
         ),
         Container(
-          width: 500,
-          height: 500,
+          width: 550,
+          height: 550,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
@@ -111,28 +112,18 @@ class BridgeFormSheet extends ConsumerWidget {
                       height: 5,
                     ),
                     BridgeBlockchainToSelection(),
-                    /*Row(
+                    Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        BridgeTokenToBridgeAmountFiat(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            BridgeTokenToBridgeBalance(),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            BridgeBalanceMaxButton(),
-                          ],
-                        ),
+                        BridgeTokenToBridgeSelection(),
+                        BridgeTokenBridged(),
                       ],
-                    ),*/
-
-                    BridgeTokenToBridgeSelection(),
+                    ),
                     Align(
                       alignment: Alignment.centerLeft,
                       child: BridgeTokenAddress(),
                     ),
+                    //BridgeTokenToBridgeAmount(),
                     SizedBox(
                       height: 30,
                     ),

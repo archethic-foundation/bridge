@@ -47,9 +47,15 @@ class BridgeTokensRepository {
 
     tokens.tokens!.forEach((key, value) {
       if (key == direction) {
-        for (final symbol in value) {
-          bridgeTokens
-              .add(BridgeToken(name: symbol.symbol, symbol: symbol.symbol));
+        for (final token in value) {
+          bridgeTokens.add(
+            BridgeToken(
+              name: token.name,
+              symbol: token.symbol,
+              targetTokenName: token.targetTokenName,
+              targetTokenSymbol: token.targetTokenSymbol,
+            ),
+          );
         }
       }
     });
