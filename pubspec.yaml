@@ -65,6 +65,9 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
 
+  # A composable, multi-platform, Future-based API for HTTP requests
+  http: ^0.13.5
+
   # Contains code to deal with internationalized/localized messages, date and number formatting and parsing, bi-directional text, and other internationalization issues.
   intl: any
 
@@ -92,6 +95,12 @@ dependencies:
   # Flutter plugin for launching a URL. Supports web, phone, SMS, and email schemes
   url_launcher: ^6.1.11
 
+  # Dart library to connect to Ethereum clients. Send transactions and interact with smart contracts!
+  web3dart: ^2.6.1
+
+  # StreamChannel wrappers for WebSockets. Provides a cross-platform WebSocketChannel API, a cross-platform implementation of that API that communicates over an underlying StreamChannel
+  web_socket_channel: ^2.4.0
+
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.
   build_runner: ^2.3.3
@@ -116,6 +125,8 @@ flutter:
     - assets/images/bc-logos/
     - lib/domain/repositories/blockchains_list.json
     - lib/domain/repositories/tokens_list_per_bridge.json
+    - truffle/build/contracts/ERCSwapHTLC.json
+    - truffle/build/contracts/ETHSwapHTLC.json
 
   fonts:
     - family: Lato
