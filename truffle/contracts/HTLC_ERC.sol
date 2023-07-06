@@ -5,7 +5,7 @@ pragma solidity ^0.8.13;
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
-contract ERCSwapHTLC is Ownable {
+contract HTLC_ERC is Ownable {
     uint public startTime;
     uint public lockTime;
     bytes32 public secret;
@@ -15,13 +15,15 @@ contract ERCSwapHTLC is Ownable {
     IERC20 public token;
     bool public finished;
 
-    constructor(address _recipient, address _token, uint256 _amount, bytes32 _hash, uint _lockTime) {
+    constructor(address _recipient, IERC20 _token, uint256 _amount, bytes32 _hash, uint _lockTime) {
         require(_recipient != address(0), "Invalid recipient address");
-        require(_token != address(0), "Invalid token address");
+        require(address(_token) != address(0), "Invalid token address");
+        require(_amount > 0, "Invalid amount");
+        require(_lockTime > 0, "Invalid locktime");
 
         recipient = _recipient;
         amount = _amount;
-        token = IERC20(_token);
+        token = _token;
         hash = _hash;
         startTime = block.timestamp;
         lockTime = _lockTime;
@@ -32,7 +34,7 @@ contract ERCSwapHTLC is Ownable {
         return !finished && beforeLockTime() && enoughFunds();
     }
 
-    function withdraw(bytes32 _secret) external {
+    function withdraw(bytes32 _secret) public {
         require(finished == false, 'Swap already done');
         require(sha256(abi.encodePacked(_secret)) == hash, 'Wrong secret');
         require(enoughFunds(), 'Not enough funds');
@@ -40,8 +42,6 @@ contract ERCSwapHTLC is Ownable {
         secret = _secret;
         token.transfer(recipient, amount);
         finished = true;
-        
-        // TODO: check the signature from the Archethic Pool
     }
 
     function canRefund() external view returns (bool) {
@@ -64,7 +64,7 @@ contract ERCSwapHTLC is Ownable {
         return block.timestamp < startTime + lockTime;
     }
 
-     function signatureHash() external view returns (bytes32) {
+    function signatureHash() public view returns (bytes32) {
         return keccak256(abi.encodePacked(amount, hash, recipient, token));
     }
  }

@@ -1,5 +1,5 @@
 const DummyToken = artifacts.require("DummyToken")
-const HTLC = artifacts.require("ERCSwapHTLC")
+const HTLC = artifacts.require("HTLC_ERC")
 
 
 const { increaseTime} = require('./utils')

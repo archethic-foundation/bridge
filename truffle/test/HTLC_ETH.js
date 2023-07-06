@@ -1,4 +1,4 @@
-const HTLC = artifacts.require("ETHSwapHTLC")
+const HTLC = artifacts.require("HTLC_ETH")
 
 const { increaseTime} = require('./utils')
 const { createHash, randomBytes } = require("crypto")

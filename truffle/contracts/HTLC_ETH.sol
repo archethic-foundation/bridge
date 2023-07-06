@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
-contract ETHSwapHTLC is Ownable {
+contract HTLC_ETH is Ownable {
     uint public startTime;
     uint public lockTime;
     bytes32 public secret;
@@ -19,6 +19,9 @@ contract ETHSwapHTLC is Ownable {
 
     constructor(address payable _recipient, uint256 _amount, bytes32 _hash, uint _lockTime) {
         require(_recipient != address(0), "Invalid recipient address");
+        require(_amount > 0, "Invalid amount");
+        require(_lockTime > 0, "Invalid locktime");
+
         recipient = _recipient;
         amount = _amount;
         hash = _hash;
@@ -35,7 +38,7 @@ contract ETHSwapHTLC is Ownable {
         emit FundsReceived(msg.value);
     }
 
-    function withdraw(bytes32 _secret) external {
+    function withdraw(bytes32 _secret) public {
         require(finished == false, "Swap already done");
         require(sha256(abi.encodePacked(_secret)) == hash, 'Wrong secret');
         require(enoughFunds(), 'Not enough funds');
@@ -44,8 +47,6 @@ contract ETHSwapHTLC is Ownable {
         (bool sent,) = recipient.call{value: amount}("");
         require(sent, "Cannot withdraw ETH");
         finished = true;
-
-        // TODO: check the signature from the Archethic Pool
     }
 
     function canWithdraw() external view returns (bool) {
@@ -73,7 +74,7 @@ contract ETHSwapHTLC is Ownable {
         return block.timestamp < startTime + lockTime;
     }
 
-    function signatureHash() external view returns (bytes32) {
+    function signatureHash() public view returns (bytes32) {
         return keccak256(abi.encodePacked(amount, hash, recipient));
     }
  }

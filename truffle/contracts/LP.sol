@@ -2,10 +2,8 @@
 pragma solidity ^0.8.13;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./ETHSwapHTLC.sol";
-import "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 
-contract ETHLiquitidyPool is Ownable {
+abstract contract LP is Ownable {
 
     address public reserveAddress; 
     address public safetyModuleAddress;
@@ -14,6 +12,8 @@ contract ETHLiquitidyPool is Ownable {
     uint256 public poolCap;
     bool public locked;
 
+    mapping(bytes32 => address) public provisionedSwaps;
+
     event ReserveAddressChanged(address reservedAddress);
     event SafetyModuleAddressChanged(address safetyModuleAddress);
     event SafetyModuleFeeChanged(uint256 safetyModuleFee);
@@ -21,7 +21,6 @@ contract ETHLiquitidyPool is Ownable {
     event PoolCapChanged(uint256 poolCap);
     event Lock();
     event Unlock();
-    event FundsReceived(uint256 amount);
     event ContractProvisioned(address htlc, uint256 amount);
 
 	constructor(address _reserveAddress, address _safetyAddress, uint256 _safetyFee, address _archPoolSigner, uint256 _poolCap) {
@@ -78,26 +77,5 @@ contract ETHLiquitidyPool is Ownable {
     modifier onlyUnlocked {
         require(locked == false, "Pool is currently locked for provisionning withdrawals");
         _;
-    }
-
-    receive() payable external {
-        require(address(this).balance + msg.value > poolCap, "Cannot receive more ethers");
-        emit FundsReceived(msg.value);
-    }
-
-    function provisionHTLC(ETHSwapHTLC htlcContract, bytes32 r, bytes32 s, uint8 v) onlyUnlocked external {
-        require(htlcContract.finished() == false, "Swap contract already finished");
-        require(htlcContract.beforeLockTime(), "Swap contract lock time elapsed");
-        require(address(htlcContract).balance == 0, "Swap contract already provisioned");
-        bytes32 signatureHash = ECDSA.toEthSignedMessageHash(htlcContract.signatureHash());
-        address signer = ECDSA.recover(signatureHash, v, r, s);
-
-        require(signer != address(0), "Invalid signature - No signer recovered");
-        require(archethicPoolSigner == signer, "Invalid signature - Archethic Pool key does not match signature");
-
-        require(address(this).balance >= htlcContract.amount(), "Pool doesn't have enough funds to provision the swap");
-        (bool sent,) = address(htlcContract).call{value: htlcContract.amount()}("");
-        require(sent, "Cannot send ethers to the HTLC contract");
-        emit ContractProvisioned(address(htlcContract), htlcContract.amount());
     }
 }
