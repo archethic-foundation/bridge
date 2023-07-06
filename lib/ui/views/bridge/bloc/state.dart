@@ -14,6 +14,7 @@ class BridgeFormState with _$BridgeFormState {
     BridgeBlockchain? blockchainTo,
     BridgeToken? tokenToBridge,
     @Default(0) double tokenToBridgeAmount,
+    @Default('') String targetAddress,
     @Default(0) double tokenToBridgeAmountFiat,
     @Default(0.0) double networkFees,
     @Default(0.0) double networkFeesFiat,

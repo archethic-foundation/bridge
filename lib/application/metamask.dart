@@ -29,6 +29,12 @@ class MetaMaskProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> changeChainId(int chainId) async {
+    if (isEnabled && isConnected) {
+      await ethereum!.walletSwitchChain(chainId);
+    }
+  }
+
   void clear() {
     currentAddress = '';
     currentChain = -1;

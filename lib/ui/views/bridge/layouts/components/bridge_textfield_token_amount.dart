@@ -4,36 +4,38 @@ import 'package:aebridge/ui/views/bridge/layouts/components/bridge_balance_max_b
 import 'package:aebridge/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class BridgeTokenToBridgeAmount extends ConsumerStatefulWidget {
-  const BridgeTokenToBridgeAmount({
+class BridgeTokenAmount extends ConsumerStatefulWidget {
+  const BridgeTokenAmount({
     super.key,
   });
 
   @override
-  ConsumerState<BridgeTokenToBridgeAmount> createState() =>
-      _BridgeTokenToBridgeAmountState();
+  ConsumerState<BridgeTokenAmount> createState() => _BridgeTokenAmountState();
 }
 
-class _BridgeTokenToBridgeAmountState
-    extends ConsumerState<BridgeTokenToBridgeAmount> {
-  late TextEditingController tokenToBridgeAmountController;
-  late FocusNode tokenToBridgeAmountFocusNode;
+class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
+  late TextEditingController tokenAmountController;
+  late FocusNode tokenAmountFocusNode;
 
   @override
   void initState() {
     super.initState();
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
-    tokenToBridgeAmountFocusNode = FocusNode();
-    tokenToBridgeAmountController =
-        TextEditingController(text: bridge.tokenToBridgeAmount.toString());
+    tokenAmountFocusNode = FocusNode();
+    tokenAmountController = TextEditingController(
+        text: bridge.tokenToBridgeAmount == 0
+            ? ''
+            : bridge.tokenToBridgeAmount.toString());
   }
 
   @override
   void dispose() {
-    tokenToBridgeAmountFocusNode.dispose();
-    tokenToBridgeAmountController.dispose();
+    tokenAmountFocusNode.dispose();
+    tokenAmountController.dispose();
     super.dispose();
   }
 
@@ -46,13 +48,25 @@ class _BridgeTokenToBridgeAmountState
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
 
     final bridgeNotifier = ref.watch(BridgeFormProvider.bridgeForm.notifier);
+    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+
+    if (bridge.blockchainFrom == null ||
+        bridge.blockchainFrom == null ||
+        bridge.tokenToBridge == null) {
+      return const SizedBox();
+    }
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const BridgeTokenToBridgeAmount(),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.end,
+        Padding(
+          padding: const EdgeInsets.only(bottom: 5),
+          child: Text(
+            AppLocalizations.of(context)!.bridge_token_amount_lbl,
+          ),
+        ),
+        Stack(
+          alignment: Alignment.centerRight,
           children: [
             SizedBox(
               width: 450,
@@ -94,13 +108,13 @@ class _BridgeTokenToBridgeAmountState
                               child: TextField(
                                 style: textTheme.titleLarge,
                                 autocorrect: false,
-                                controller: tokenToBridgeAmountController,
+                                controller: tokenAmountController,
                                 onChanged: (text) async {
                                   bridgeNotifier.setTokenToBridgeAmount(
                                     double.tryParse(text) ?? 0,
                                   );
                                 },
-                                focusNode: tokenToBridgeAmountFocusNode,
+                                focusNode: tokenAmountFocusNode,
                                 textAlign: TextAlign.left,
                                 textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.text,
@@ -122,13 +136,16 @@ class _BridgeTokenToBridgeAmountState
                 ],
               ),
             ),
-            const SizedBox(
-              width: 5,
+            const Padding(
+              padding: EdgeInsets.only(right: 10),
+              child: BridgeBalanceMaxButton(),
             ),
-            const BridgeBalanceMaxButton(),
           ],
-        ),
+        )
       ],
-    );
+    )
+        .animate()
+        .fade(duration: const Duration(milliseconds: 300))
+        .scale(duration: const Duration(milliseconds: 300));
   }
 }

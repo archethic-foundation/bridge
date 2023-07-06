@@ -22,6 +22,7 @@ mixin _$BridgeFormState {
   BridgeBlockchain? get blockchainTo => throw _privateConstructorUsedError;
   BridgeToken? get tokenToBridge => throw _privateConstructorUsedError;
   double get tokenToBridgeAmount => throw _privateConstructorUsedError;
+  String get targetAddress => throw _privateConstructorUsedError;
   double get tokenToBridgeAmountFiat => throw _privateConstructorUsedError;
   double get networkFees => throw _privateConstructorUsedError;
   double get networkFeesFiat => throw _privateConstructorUsedError;
@@ -47,6 +48,7 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       BridgeBlockchain? blockchainTo,
       BridgeToken? tokenToBridge,
       double tokenToBridgeAmount,
+      String targetAddress,
       double tokenToBridgeAmountFiat,
       double networkFees,
       double networkFeesFiat,
@@ -78,6 +80,7 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? blockchainTo = freezed,
     Object? tokenToBridge = freezed,
     Object? tokenToBridgeAmount = null,
+    Object? targetAddress = null,
     Object? tokenToBridgeAmountFiat = null,
     Object? networkFees = null,
     Object? networkFeesFiat = null,
@@ -110,6 +113,10 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
           ? _value.tokenToBridgeAmount
           : tokenToBridgeAmount // ignore: cast_nullable_to_non_nullable
               as double,
+      targetAddress: null == targetAddress
+          ? _value.targetAddress
+          : targetAddress // ignore: cast_nullable_to_non_nullable
+              as String,
       tokenToBridgeAmountFiat: null == tokenToBridgeAmountFiat
           ? _value.tokenToBridgeAmountFiat
           : tokenToBridgeAmountFiat // ignore: cast_nullable_to_non_nullable
@@ -189,6 +196,7 @@ abstract class _$$_BridgeFormStateCopyWith<$Res>
       BridgeBlockchain? blockchainTo,
       BridgeToken? tokenToBridge,
       double tokenToBridgeAmount,
+      String targetAddress,
       double tokenToBridgeAmountFiat,
       double networkFees,
       double networkFeesFiat,
@@ -221,6 +229,7 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
     Object? blockchainTo = freezed,
     Object? tokenToBridge = freezed,
     Object? tokenToBridgeAmount = null,
+    Object? targetAddress = null,
     Object? tokenToBridgeAmountFiat = null,
     Object? networkFees = null,
     Object? networkFeesFiat = null,
@@ -253,6 +262,10 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
           ? _value.tokenToBridgeAmount
           : tokenToBridgeAmount // ignore: cast_nullable_to_non_nullable
               as double,
+      targetAddress: null == targetAddress
+          ? _value.targetAddress
+          : targetAddress // ignore: cast_nullable_to_non_nullable
+              as String,
       tokenToBridgeAmountFiat: null == tokenToBridgeAmountFiat
           ? _value.tokenToBridgeAmountFiat
           : tokenToBridgeAmountFiat // ignore: cast_nullable_to_non_nullable
@@ -291,6 +304,7 @@ class _$_BridgeFormState extends _BridgeFormState {
       this.blockchainTo,
       this.tokenToBridge,
       this.tokenToBridgeAmount = 0,
+      this.targetAddress = '',
       this.tokenToBridgeAmountFiat = 0,
       this.networkFees = 0.0,
       this.networkFeesFiat = 0.0,
@@ -316,6 +330,9 @@ class _$_BridgeFormState extends _BridgeFormState {
   final double tokenToBridgeAmount;
   @override
   @JsonKey()
+  final String targetAddress;
+  @override
+  @JsonKey()
   final double tokenToBridgeAmountFiat;
   @override
   @JsonKey()
@@ -335,7 +352,7 @@ class _$_BridgeFormState extends _BridgeFormState {
 
   @override
   String toString() {
-    return 'BridgeFormState(step: $step, stepError: $stepError, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, tokenToBridgeAmountFiat: $tokenToBridgeAmountFiat, networkFees: $networkFees, networkFeesFiat: $networkFeesFiat, tokenToBridgeBalance: $tokenToBridgeBalance, controlInProgress: $controlInProgress, errorText: $errorText)';
+    return 'BridgeFormState(step: $step, stepError: $stepError, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeAmountFiat: $tokenToBridgeAmountFiat, networkFees: $networkFees, networkFeesFiat: $networkFeesFiat, tokenToBridgeBalance: $tokenToBridgeBalance, controlInProgress: $controlInProgress, errorText: $errorText)';
   }
 
   @override
@@ -354,6 +371,8 @@ class _$_BridgeFormState extends _BridgeFormState {
                 other.tokenToBridge == tokenToBridge) &&
             (identical(other.tokenToBridgeAmount, tokenToBridgeAmount) ||
                 other.tokenToBridgeAmount == tokenToBridgeAmount) &&
+            (identical(other.targetAddress, targetAddress) ||
+                other.targetAddress == targetAddress) &&
             (identical(
                     other.tokenToBridgeAmountFiat, tokenToBridgeAmountFiat) ||
                 other.tokenToBridgeAmountFiat == tokenToBridgeAmountFiat) &&
@@ -378,6 +397,7 @@ class _$_BridgeFormState extends _BridgeFormState {
       blockchainTo,
       tokenToBridge,
       tokenToBridgeAmount,
+      targetAddress,
       tokenToBridgeAmountFiat,
       networkFees,
       networkFeesFiat,
@@ -400,6 +420,7 @@ abstract class _BridgeFormState extends BridgeFormState {
       final BridgeBlockchain? blockchainTo,
       final BridgeToken? tokenToBridge,
       final double tokenToBridgeAmount,
+      final String targetAddress,
       final double tokenToBridgeAmountFiat,
       final double networkFees,
       final double networkFeesFiat,
@@ -420,6 +441,8 @@ abstract class _BridgeFormState extends BridgeFormState {
   BridgeToken? get tokenToBridge;
   @override
   double get tokenToBridgeAmount;
+  @override
+  String get targetAddress;
   @override
   double get tokenToBridgeAmountFiat;
   @override

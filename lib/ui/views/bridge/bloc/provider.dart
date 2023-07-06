@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/metamask.dart';
 import 'package:aebridge/model/bridge_blockchain.dart';
 import 'package:aebridge/model/bridge_token.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
@@ -22,6 +23,17 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
 
   void setBlockchainFrom(BridgeBlockchain blockchainFrom) {
     state = state.copyWith(blockchainFrom: blockchainFrom);
+    if (sl.isRegistered<MetaMaskProvider>()) {
+      final metaMaskProvider = sl.get<MetaMaskProvider>();
+      if (metaMaskProvider.isConnected &&
+          metaMaskProvider.currentChain != blockchainFrom.chainId) {
+        if (blockchainFrom.chainId > 0) {
+          metaMaskProvider.changeChainId(blockchainFrom.chainId);
+        } else {
+          metaMaskProvider.clear();
+        }
+      }
+    }
   }
 
   void setBlockchainTo(BridgeBlockchain blockchainTo) {
@@ -54,6 +66,14 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   ) {
     state = state.copyWith(
       errorText: errorText,
+    );
+  }
+
+  void setTargetAddress(
+    String targetAddress,
+  ) {
+    state = state.copyWith(
+      targetAddress: targetAddress,
     );
   }
 
