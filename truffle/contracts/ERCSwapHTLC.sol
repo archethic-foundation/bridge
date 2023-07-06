@@ -16,6 +16,9 @@ contract ERCSwapHTLC is Ownable {
     bool public finished;
 
     constructor(address _recipient, address _token, uint256 _amount, bytes32 _hash, uint _lockTime) {
+        require(_recipient != address(0), "Invalid recipient address");
+        require(_token != address(0), "Invalid token address");
+
         recipient = _recipient;
         amount = _amount;
         token = IERC20(_token);
@@ -57,7 +60,11 @@ contract ERCSwapHTLC is Ownable {
         return token.balanceOf(address(this)) == amount;    
     }
 
-    function beforeLockTime() internal view returns (bool) {
+    function beforeLockTime() public view returns (bool) {
         return block.timestamp < startTime + lockTime;
+    }
+
+     function signatureHash() external view returns (bytes32) {
+        return keccak256(abi.encodePacked(amount, hash, recipient, token));
     }
  }

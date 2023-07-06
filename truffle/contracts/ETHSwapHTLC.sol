@@ -18,6 +18,7 @@ contract ETHSwapHTLC is Ownable {
     event FundsReceived(uint amount);
 
     constructor(address payable _recipient, uint256 _amount, bytes32 _hash, uint _lockTime) {
+        require(_recipient != address(0), "Invalid recipient address");
         recipient = _recipient;
         amount = _amount;
         hash = _hash;
@@ -28,6 +29,8 @@ contract ETHSwapHTLC is Ownable {
 
     receive() payable external {
         require(address(this).balance == amount, "Cannot receive more ethers");
+        require(!finished, "Cannot receive ethers when finished");
+        require(beforeLockTime(), "Cannot receive ethers after locktime elapsed");
         require(msg.value == amount, "Cannot receive more than expected amount");
         emit FundsReceived(msg.value);
     }
@@ -66,12 +69,11 @@ contract ETHSwapHTLC is Ownable {
         return address(this).balance == amount;
     }
 
-    function beforeLockTime() internal view returns (bool) {
+    function beforeLockTime() public view returns (bool) {
         return block.timestamp < startTime + lockTime;
     }
 
     function signatureHash() external view returns (bytes32) {
-        bytes memory payload = abi.encodePacked(amount, hash, recipient);
-        return sha256(payload);
+        return keccak256(abi.encodePacked(amount, hash, recipient));
     }
  }
