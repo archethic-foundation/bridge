@@ -78,34 +78,24 @@ contract ETHLiquitidyPool is Ownable {
         _;
     }
 
-    event Recover(address signer);
+    event FundsReceived(uint256 amount);
 
-    function provisionHTLC(ETHSwapHTLC htlcContract, bytes32 r, bytes32 s, uint8 v) onlyUnlocked external {
+    receive() payable external {
+        require(address(this).balance + msg.value > poolCap, "Cannot receive more ethers");
+        emit FundsReceived(msg.value);
+    }
+
+    function provisionHTLC(ETHSwapHTLC htlcContract, bytes32 r, bytes32 s, uint8 v) onlyUnlocked external returns (bool) {
         require(htlcContract.finished() == false, "Swap contract already finished");
-        require(address(htlcContract).balance == 0, "Swap already provisioned");
+        require(address(htlcContract).balance == 0, "Swap contract already provisioned");
         bytes32 signatureHash = ECDSA.toEthSignedMessageHash(htlcContract.signatureHash());
         address signer = ECDSA.recover(signatureHash, v, r, s);
-        emit Recover(signer);
 
-        require(signer != address(0), "Invalid ECDSA signature");
+        require(signer != address(0), "Invalid signature - No signer recovered");
         require(archethicPoolSigner == signer, "Invalid signature - Archethic Pool key does not match signature");
 
-        // require(address(this).balance >= htlcContract.amount(), "Pool doesn't have enough funds to provision");
-        // (bool sent,) = address(htlcContract).call{value: htlcContract.amount()}("");
-        // return sent;
-    }
-
-    function verifyRawSignature(bytes32 hashValue,  bytes32 r, bytes32 s, uint8 v) view external {
-        address signer = ECDSA.recover(ECDSA.toEthSignedMessageHash(hashValue), v, r, s);
-        require(signer != address(0), "Invalid ECDSA signature");
-        require(archethicPoolSigner == signer, "Invalid signature - Archethic Pool key does not match signature");
-    }
-
-    function getKeccak256(bytes memory value) pure external returns (bytes32) {
-        return keccak256(value);
-    }
-
-    function getEthSignedMessage(bytes32 hashValue) pure external returns (bytes32) {
-        return ECDSA.toEthSignedMessageHash(hashValue);
+        require(address(this).balance >= htlcContract.amount(), "Pool doesn't have enough funds to provision the swap");
+        (bool sent,) = address(htlcContract).call{value: htlcContract.amount()}("");
+        return sent;
     }
 }

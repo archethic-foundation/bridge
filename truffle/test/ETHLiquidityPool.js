@@ -1,6 +1,7 @@
 const LiquidityPool = artifacts.require("ETHLiquitidyPool")
 const HTLC = artifacts.require("ETHSwapHTLC")
 
+const { randomBytes, createHash } = require("crypto")
 const { generateECDSAKey, hexToUintArray, createEthSign } = require("./utils")
 
 contract("ETH LiquidityPool", (accounts) => {
@@ -86,7 +87,7 @@ contract("ETH LiquidityPool", (accounts) => {
         it("should send ETH to the HTLC contract after verifying the signature", async () => {
             const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, 20000)
             await instance.unlock()
-            // await web3.eth.sendTransaction({ from: accounts[1], to: HTLCInstance.address, value: web3.utils.toWei(2) });
+            await web3.eth.sendTransaction({ from: accounts[1], to: instance.address, value: web3.utils.toWei('2') });
 
             const recipientEthereum = accounts[2]
 
@@ -102,6 +103,131 @@ contract("ETH LiquidityPool", (accounts) => {
 
             const { r, s, v } = createEthSign(hashedData, archPoolSigner.privateKey)
             await instance.provisionHTLC(HTLCInstance.address, `0x${r}`, `0x${s}`, v)
+            const balanceHTLC = await web3.eth.getBalance(HTLCInstance.address)
+            assert.equal(web3.utils.toWei('1'), balanceHTLC)
+        })
+
+        it("should return an error when the HTLC contract is already finished", async() => {
+            const recipientEthereum = accounts[2]
+  
+            const amount = web3.utils.toWei('1')
+            const secret = randomBytes(32)
+            const secretHash = createHash("sha256")
+                .update(secret)
+                .digest("hex")
+        
+            const HTLCInstance = await HTLC.new(
+                recipientEthereum,
+                amount,
+                `0x${secretHash}`,
+                60
+            )
+            
+            await web3.eth.sendTransaction({ from: accounts[1], to: HTLCInstance.address, value: amount });
+            await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, { from: accounts[3] })
+
+            const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, 20000)
+            await instance.unlock()
+
+            const sigHash = await HTLCInstance.signatureHash()
+            const hashedData = hexToUintArray(sigHash.substring(2))
+
+            const { r, s, v } = createEthSign(hashedData, archPoolSigner.privateKey)
+            
+            try {
+                await instance.provisionHTLC(HTLCInstance.address, `0x${r}`, `0x${s}`, v)
+            }
+            catch(e) {
+                assert.equal(e.reason, "Swap contract already finished")
+            }
+        })
+
+        it("should return an error when the HTLC contract is already provisioned", async() => {
+            const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, 20000)
+            await instance.unlock()
+            await web3.eth.sendTransaction({ from: accounts[1], to: instance.address, value: web3.utils.toWei('2') });
+
+            const recipientEthereum = accounts[2]
+
+            const HTLCInstance = await HTLC.new(
+                recipientEthereum,
+                web3.utils.toWei("1"),
+                "0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+                1
+            )
+
+            await web3.eth.sendTransaction({ from: accounts[1], to: HTLCInstance.address, value: web3.utils.toWei('1') });
+
+            const sigHash = await HTLCInstance.signatureHash()
+            const hashedData = hexToUintArray(sigHash.substring(2))
+
+            const { r, s, v } = createEthSign(hashedData, archPoolSigner.privateKey)
+            
+            try {
+                await instance.provisionHTLC(HTLCInstance.address, `0x${r}`, `0x${s}`, v)
+            }
+            catch(e) {
+                assert.equal(e.reason, "Swap contract already provisioned")
+            }
+        })
+
+        it("should return an error when the signature is invalid", async() => {
+            const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, 20000)
+            await instance.unlock()
+            await web3.eth.sendTransaction({ from: accounts[1], to: instance.address, value: web3.utils.toWei('2') });
+
+            const recipientEthereum = accounts[2]
+
+            const HTLCInstance = await HTLC.new(
+                recipientEthereum,
+                web3.utils.toWei("1"),
+                "0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+                1
+            )
+
+            const sigHash = randomBytes(32)
+
+            const { r, s, v } = createEthSign(sigHash, archPoolSigner.privateKey)
+
+            try {
+                await instance.provisionHTLC(HTLCInstance.address, `0x${r}`, `0x${s}`, 30)
+            }
+            catch(e) {
+                assert.equal(e.reason, "ECDSA: invalid signature")
+            }
+
+            try {
+                await instance.provisionHTLC(HTLCInstance.address, `0x${r}`, `0x${s}`, v)
+            }
+            catch(e) {
+                assert.equal(e.reason, "Invalid signature - Archethic Pool key does not match signature")
+            }
+        })
+
+        it("should return an error when the pool doesn't have enough funds to provide HTLC contract", async() => {
+            const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, 20000)
+            await instance.unlock()
+
+            const recipientEthereum = accounts[2]
+
+            const HTLCInstance = await HTLC.new(
+                recipientEthereum,
+                web3.utils.toWei("1"),
+                "0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08",
+                1
+            )
+
+            const sigHash = await HTLCInstance.signatureHash()
+            const hashedData = hexToUintArray(sigHash.substring(2))
+
+            const { r, s, v } = createEthSign(hashedData, archPoolSigner.privateKey)
+
+            try {
+                await instance.provisionHTLC(HTLCInstance.address, `0x${r}`, `0x${s}`, v)
+            }
+            catch(e) {
+                assert.equal(e.reason, "Pool doesn't have enough funds to provision the swap")
+            }
         })
     })
 })
