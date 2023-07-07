@@ -13,6 +13,7 @@ contract SignedHTLC_ERC is HTLC_ERC {
     LP_ERC public pool;
 
     constructor(address _recipient, IERC20 _token, uint256 _amount, bytes32 _hash, uint _lockTime, LP_ERC _pool) HTLC_ERC(_recipient, _token, _amount, _hash, _lockTime) {
+        require(msg.sender == address(_pool), "The contract should be created from the pool");
         pool = _pool;
     }
 
