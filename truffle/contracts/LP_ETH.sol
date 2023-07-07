@@ -21,7 +21,7 @@ contract LP_ETH is LP {
     function _provisionHTLC(bytes32 hash, uint256 amount, uint lockTime) internal override returns (address) {
         require(address(this).balance >= amount, "Pool doesn't have enough funds to provision the swap");
         SignedHTLC_ETH htlcContract = new SignedHTLC_ETH(payable(msg.sender), amount, hash, lockTime, this);
-        (bool sent,) = address(htlcContract).call{value: htlcContract.amount()}("");
+        (bool sent,) = address(htlcContract).call{value: amount}("");
         require(sent, "Cannot send ethers to the HTLC contract");
         return address(htlcContract);
     }

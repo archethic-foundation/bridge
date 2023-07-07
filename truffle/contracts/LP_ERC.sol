@@ -25,7 +25,7 @@ contract LP_ERC is LP {
     function _provisionHTLC(bytes32 hash, uint256 amount, uint lockTime) override internal returns (address) {
         require(token.balanceOf(address(this)) >= amount, "Pool doesn't have enough funds to provision the swap");
         SignedHTLC_ERC htlcContract = new SignedHTLC_ERC(msg.sender, token, amount, hash, lockTime, this);
-        token.transfer(address(htlcContract), htlcContract.amount());
+        token.transfer(address(htlcContract), amount);
         return address(htlcContract);
     }
 }

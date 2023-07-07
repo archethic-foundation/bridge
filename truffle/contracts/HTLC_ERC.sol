@@ -30,6 +30,11 @@ contract HTLC_ERC is Ownable {
         finished = false;
     }
 
+     function _checkAmount() virtual internal {
+        require(token.balanceOf(address(this)) == amount, "Cannot receive more ethers");
+        require(msg.value == amount, "Cannot receive more than expected amount");
+    }
+
     function canWithdraw() external view returns (bool) {
         return !finished && beforeLockTime() && enoughFunds();
     }
@@ -40,8 +45,12 @@ contract HTLC_ERC is Ownable {
         require(enoughFunds(), 'Not enough funds');
         require(beforeLockTime(), 'Withdraw delay outdated, use refund');
         secret = _secret;
-        token.transfer(recipient, amount);
+        _transfer();
         finished = true;
+    }
+
+    function _transfer() virtual internal {
+        token.transfer(recipient, amount);
     }
 
     function canRefund() external view returns (bool) {

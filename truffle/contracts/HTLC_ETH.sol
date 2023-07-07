@@ -31,11 +31,15 @@ contract HTLC_ETH is Ownable {
     }
 
     receive() payable external {
-        require(address(this).balance == amount, "Cannot receive more ethers");
+        _checkAmount();
         require(!finished, "Cannot receive ethers when finished");
         require(beforeLockTime(), "Cannot receive ethers after locktime elapsed");
-        require(msg.value == amount, "Cannot receive more than expected amount");
         emit FundsReceived(msg.value);
+    }
+
+    function _checkAmount() virtual internal {
+        require(address(this).balance == amount, "Cannot receive more ethers");
+        require(msg.value == amount, "Cannot receive more than expected amount");
     }
 
     function withdraw(bytes32 _secret) public {
@@ -44,9 +48,13 @@ contract HTLC_ETH is Ownable {
         require(enoughFunds(), 'Not enough funds');
         require(beforeLockTime(), 'Withdraw delay outdated, use refund');
         secret = _secret;
+        _transfer();
+        finished = true;
+    }
+
+    function _transfer() virtual internal {
         (bool sent,) = recipient.call{value: amount}("");
         require(sent, "Cannot withdraw ETH");
-        finished = true;
     }
 
     function canWithdraw() external view returns (bool) {
