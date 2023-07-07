@@ -22,20 +22,10 @@ contract LP_ERC is LP {
         emit TokenChanged(address(_token));
     }
 
-    function provisionHTLC(bytes32 hash, uint256 amount, uint lockTime, bytes32 r, bytes32 s, uint8 v) onlyUnlocked external {
-        require(provisionedSwaps[hash] == address(0), "Contract already provisioned for this hash");
-        bytes32 signatureHash = ECDSA.toEthSignedMessageHash(hash);
-        address signer = ECDSA.recover(signatureHash, v, r, s);
-
-        require(signer != address(0), "Invalid signature - No signer recovered");
-        require(archethicPoolSigner == signer, "Invalid signature - Archethic Pool key does not match signature");
-
+    function _provisionHTLC(bytes32 hash, uint256 amount, uint lockTime) override internal returns (address) {
         require(token.balanceOf(address(this)) >= amount, "Pool doesn't have enough funds to provision the swap");
-
         SignedHTLC_ERC htlcContract = new SignedHTLC_ERC(msg.sender, token, amount, hash, lockTime, this);
-
         token.transfer(address(htlcContract), htlcContract.amount());
-        provisionedSwaps[hash] = address(htlcContract);
-        emit ContractProvisioned(address(htlcContract), amount);
+        return address(htlcContract);
     }
 }
