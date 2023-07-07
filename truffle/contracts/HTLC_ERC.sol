@@ -64,7 +64,7 @@ contract HTLC_ERC is Ownable {
         token.transfer(recipient, amount);
     }
 
-    function _enoughFunds() internal view returns (bool) {
+    function _enoughFunds() internal virtual view returns (bool) {
         return token.balanceOf(address(this)) == amount;    
     }
 

@@ -71,7 +71,7 @@ contract HTLC_ETH is Ownable {
         require(sent, "Cannot withdraw ETH");
     }
 
-    function _enoughFunds() internal view returns (bool) {
+    function _enoughFunds() internal view virtual returns (bool) {
         return address(this).balance == amount;
     }
 

@@ -22,7 +22,7 @@ contract SignedHTLC_ERC is HTLC_ERC {
     }
 
     function withdraw(bytes32 _secret, bytes32 _r, bytes32 _s, uint8 _v) external {
-        bytes32 sigHash = ECDSA.toEthSignedMessageHash(signatureHash());
+        bytes32 sigHash = ECDSA.toEthSignedMessageHash(_secret);
         address signer = ECDSA.recover(sigHash, _v, _r, _s);
 
         require(signer != address(0), "Invalid signature - No signer recovered");
@@ -33,6 +33,10 @@ contract SignedHTLC_ERC is HTLC_ERC {
 
     function signatureHash() public view returns (bytes32) {
         return keccak256(abi.encodePacked(amount, hash, recipient, token));
+    }
+
+    function _enoughFunds() internal view override returns (bool) {
+        return token.balanceOf(address(this)) == amount.add(fee);
     }
 
     function _transfer() override internal {
