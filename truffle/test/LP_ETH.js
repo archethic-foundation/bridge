@@ -24,7 +24,7 @@ contract("ETH LiquidityPool", (accounts) => {
     
         assert.equal(await instance.reserveAddress(), accounts[4])
         assert.equal(await instance.safetyModuleAddress(), accounts[3])
-        assert.equal(await instance.safeModuleFee(), 5)
+        assert.equal(await instance.safetyModuleFeeRate(), 5)
         assert.equal(await instance.archethicPoolSigner(), archPoolSigner.address)
         assert.equal(await instance.poolCap(), 20000)
         assert.equal(await instance.locked(), true)
@@ -44,8 +44,8 @@ contract("ETH LiquidityPool", (accounts) => {
 
     it("should update the safety module fee", async () => {
         const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, 20000)
-        await instance.setSafetyModuleFee(300)
-        assert.equal(await instance.safeModuleFee(), 300)
+        await instance.setSafetyModuleFeeRate(10)
+        assert.equal(await instance.safetyModuleFeeRate(), 10)
     })
 
     it("should update the archethic pool signer address", async () => {

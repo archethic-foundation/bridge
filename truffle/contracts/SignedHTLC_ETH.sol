@@ -17,7 +17,7 @@ contract SignedHTLC_ETH is HTLC_ETH {
     constructor(address payable _recipient, uint256 _amount, bytes32 _hash, uint _lockTime, LP_ETH _pool) HTLC_ETH(_recipient, _amount, _hash, _lockTime) {
         require(msg.sender == address(_pool), "The contract should be created from the pool");
         pool = _pool;
-        fee = _amount.mul(pool.safeModuleFee()).div(100);
+        fee = _amount.mul(pool.safetyModuleFeeRate()).div(100);
         amount = _amount.sub(fee);
     }
 

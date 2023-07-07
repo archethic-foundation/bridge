@@ -8,7 +8,7 @@ abstract contract LP is Ownable {
 
     address public reserveAddress; 
     address public safetyModuleAddress;
-    uint256 public safeModuleFee;
+    uint256 public safetyModuleFeeRate;
     address public archethicPoolSigner;
     uint256 public poolCap;
     bool public locked;
@@ -17,21 +17,21 @@ abstract contract LP is Ownable {
 
     event ReserveAddressChanged(address _reservedAddress);
     event SafetyModuleAddressChanged(address _safetyModuleAddress);
-    event SafetyModuleFeeChanged(uint256 _safetyModuleFee);
+    event SafetyModuleFeeRateChanged(uint256 _safetyModuleFeeRate);
     event ArchethicPoolSignerChanged(address _signer);
     event PoolCapChanged(uint256 _poolCap);
     event Lock();
     event Unlock();
     event ContractProvisioned(address _htlc, uint256 _amount);
 
-	constructor(address _reserveAddress, address _safetyAddress, uint256 _safetyFee, address _archPoolSigner, uint256 _poolCap) {
+	constructor(address _reserveAddress, address _safetyAddress, uint256 _safetyFeeRate, address _archPoolSigner, uint256 _poolCap) {
         require(_reserveAddress != address(0), "Invalid reserve address");
         require(_safetyAddress != address(0), "Invalid safety module address");
         require(_archPoolSigner != address(0), "Invalid Archethic Pool's signer address");
 
         reserveAddress = _reserveAddress;
         safetyModuleAddress = _safetyAddress;
-        safeModuleFee = _safetyFee;
+        safetyModuleFeeRate = _safetyFeeRate;
         archethicPoolSigner = _archPoolSigner;
         poolCap = _poolCap;
         locked = true;
@@ -54,9 +54,9 @@ abstract contract LP is Ownable {
         emit SafetyModuleAddressChanged(_safetyAddress);
     }
 
-    function setSafetyModuleFee(uint256 _safetyFee) onlyOwner external {
-        safeModuleFee = _safetyFee;
-        emit SafetyModuleFeeChanged(_safetyFee);
+    function setSafetyModuleFeeRate(uint256 _safetyFeeRate) onlyOwner external {
+        safetyModuleFeeRate = _safetyFeeRate;
+        emit SafetyModuleFeeRateChanged(_safetyFeeRate);
     }
 
     function setArchethicPoolSigner(address _archPoolSigner) onlyOwner external {

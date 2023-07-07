@@ -17,7 +17,7 @@ contract SignedHTLC_ERC is HTLC_ERC {
     constructor(address _recipient, IERC20 _token, uint256 _amount, bytes32 _hash, uint _lockTime, LP_ERC _pool) HTLC_ERC(_recipient, _token,  _amount, _hash, _lockTime) {
         require(msg.sender == address(_pool), "The contract should be created from the pool");
         pool = _pool;
-        fee = _amount.mul(pool.safeModuleFee()).div(100);
+        fee = _amount.mul(pool.safetyModuleFeeRate()).div(100);
         amount = _amount.sub(fee);
     }
 
