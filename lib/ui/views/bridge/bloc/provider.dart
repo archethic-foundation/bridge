@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/metamask.dart';
+import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/model/bridge_blockchain.dart';
 import 'package:aebridge/model/bridge_token.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
@@ -21,16 +22,46 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   @override
   BridgeFormState build() => const BridgeFormState();
 
-  void setBlockchainFrom(BridgeBlockchain blockchainFrom) {
+  Future<void> setBlockchainFrom(BridgeBlockchain blockchainFrom) async {
+    final oldBlockchainFrom = state.blockchainFrom;
     state = state.copyWith(blockchainFrom: blockchainFrom);
-    if (sl.isRegistered<MetaMaskProvider>()) {
-      final metaMaskProvider = sl.get<MetaMaskProvider>();
-      if (metaMaskProvider.isConnected &&
-          metaMaskProvider.currentChain != blockchainFrom.chainId) {
-        if (blockchainFrom.chainId > 0) {
-          metaMaskProvider.changeChainId(blockchainFrom.chainId);
-        } else {
-          metaMaskProvider.clear();
+
+    // Switch Metamask to Archethic
+    if (oldBlockchainFrom != null &&
+        oldBlockchainFrom.chainId > 0 &&
+        blockchainFrom.chainId < 0) {
+      if (sl.isRegistered<MetaMaskProvider>()) {
+        sl.get<MetaMaskProvider>().disconnect();
+        return;
+      }
+    }
+
+    // Switch Archethic to Metamask
+    if (oldBlockchainFrom != null &&
+        oldBlockchainFrom.chainId < 0 &&
+        blockchainFrom.chainId > 0) {
+      debugPrint('connect to Metamask');
+      final sessionNotifier = ref.read(SessionProviders.session.notifier);
+      await sessionNotifier.connectToMetamask(blockchainFrom);
+    }
+
+    // Switch metamask
+    if (oldBlockchainFrom != null &&
+        oldBlockchainFrom.chainId > 0 &&
+        blockchainFrom.chainId > 0) {
+      if (sl.isRegistered<MetaMaskProvider>()) {
+        final metaMaskProvider = sl.get<MetaMaskProvider>();
+        if (metaMaskProvider.walletConnected &&
+            metaMaskProvider.currentChain != blockchainFrom.chainId) {
+          if (blockchainFrom.chainId > 0) {
+            final changeIsOk =
+                await metaMaskProvider.changeChainId(blockchainFrom.chainId);
+            if (!changeIsOk) {
+              state = state.copyWith(blockchainFrom: oldBlockchainFrom);
+            }
+          } else {
+            metaMaskProvider.disconnect();
+          }
         }
       }
     }

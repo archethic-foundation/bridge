@@ -32,10 +32,13 @@ class BridgeConnectWalletButton extends ConsumerWidget {
       icon: Iconsax.wallet,
       onPressed: () async {
         final sessionNotifier = ref.read(SessionProviders.session.notifier);
-        if (bridge.blockchainFrom!.name == 'Archethic') {
+        debugPrint('chainId ${bridge.blockchainFrom!.chainId}');
+        if (bridge.blockchainFrom!.chainId < 0) {
+          debugPrint('connect to Archethic Wallet');
           await sessionNotifier.connectToArchethicWallet();
         } else {
-          await sessionNotifier.connectToMetamask();
+          debugPrint('connect to Metamask');
+          await sessionNotifier.connectToMetamask(bridge.blockchainFrom!);
         }
         final session = ref.read(SessionProviders.session);
         if (session.error.isNotEmpty) {

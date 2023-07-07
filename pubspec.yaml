@@ -17,7 +17,8 @@ dependencies:
   # Collections and utilities functions and classes related to collections.
   collection: ^1.17.0
 
-  crypto_font_icons: ^1.0.1
+  # Implementations of SHA, MD5, and HMAC cryptographic functions
+  crypto: ^3.0.3
 
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
@@ -95,11 +96,11 @@ dependencies:
   # Flutter plugin for launching a URL. Supports web, phone, SMS, and email schemes
   url_launcher: ^6.1.11
 
-  # Dart library to connect to Ethereum clients. Send transactions and interact with smart contracts!
-  web3dart: ^2.6.1
-
   # StreamChannel wrappers for WebSockets. Provides a cross-platform WebSocketChannel API, a cross-platform implementation of that API that communicates over an underlying StreamChannel
   web_socket_channel: ^2.4.0
+
+  # Dart library to connect to Ethereum clients. Send transactions and interact with smart contracts!
+  webthree: ^2.5.7+2
 
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.
@@ -125,8 +126,8 @@ flutter:
     - assets/images/bc-logos/
     - lib/domain/repositories/blockchains_list.json
     - lib/domain/repositories/tokens_list_per_bridge.json
-    - truffle/build/contracts/ERCSwapHTLC.json
-    - truffle/build/contracts/ETHSwapHTLC.json
+    - truffle/build/contracts/HTLC_ERC.json
+    - truffle/build/contracts/HTLC_ETH.json
 
   fonts:
     - family: Lato

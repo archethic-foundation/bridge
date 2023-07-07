@@ -1,57 +1,93 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter_web3/ethereum.dart';
+import 'dart:html';
+
+import 'package:flutter/material.dart';
+import 'package:js/js.dart';
+import 'package:webthree/browser.dart';
+import 'package:webthree/webthree.dart';
 
 class MetaMaskProvider extends ChangeNotifier {
   static const operatingChain = 4;
 
-  String currentAddress = '';
+  String? currentAddress;
+  String? get accountName => currentAddress;
+  int? currentChain;
+  bool walletConnected = false;
+  Ethereum? eth;
+  Web3Client? web3Client;
+  CredentialsWithKnownAddress? credentials;
 
-  String account = '';
+  Future<void> connect(int chainId) async {
+    walletConnected = false;
+    if (window.ethereum != null) {
+      eth = window.ethereum;
 
-  int currentChain = -1;
+      if (eth == null) {
+        debugPrint('MetaMask is not available');
+        return;
+      }
 
-  bool get isEnabled => ethereum != null;
+      final ethRPC = eth!.asRpcService();
 
-  bool get isInOperatingChain => currentChain == operatingChain;
+      web3Client = Web3Client.custom(ethRPC);
+      if (web3Client == null) {
+        return;
+      }
+      final currentChain = await web3Client!.getChainId();
+      debugPrint(
+        'chainId: $chainId, currentChain: $currentChain',
+      );
+      if (currentChain.toInt() != chainId) {
+        final changeOk = await changeChainId(chainId);
+        if (changeOk == false) {
+          return;
+        }
+      }
 
-  bool get isConnected => isEnabled && currentAddress.isNotEmpty;
-
-  Future<void> connect() async {
-    if (isEnabled) {
-      final accs = await ethereum!.requestAccount();
-      account = accs[0];
-
-      if (accs.isNotEmpty) currentAddress = accs.first;
-
-      currentChain = await ethereum!.getChainId();
+      try {
+        credentials = await eth!.requestAccount();
+        currentAddress = credentials!.address.hex.toUpperCase();
+        walletConnected = true;
+      } catch (e) {
+        debugPrint(e.toString());
+        return;
+      }
 
       notifyListeners();
     }
   }
 
-  Future<void> changeChainId(int chainId) async {
-    if (isEnabled && isConnected) {
-      await ethereum!.walletSwitchChain(chainId);
+  Future<bool> changeChainId(int chainId) async {
+    if (chainId != currentChain) {
+      try {
+        await eth!.rawRequest(
+          'wallet_switchEthereumChain',
+          params: [
+            JSrawRequestParams(chainId: '0x${chainId.toRadixString(16)}')
+          ],
+        );
+
+        currentChain = chainId;
+        notifyListeners();
+        return true;
+      } catch (e) {
+        debugPrint(e.toString());
+        return false;
+      }
     }
+
+    return false;
   }
 
-  void clear() {
-    currentAddress = '';
-    currentChain = -1;
+  Future<void> disconnect() async {
+    walletConnected = false;
+    currentAddress = null;
     notifyListeners();
   }
+}
 
-  void init() {
-    if (isEnabled) {
-      ethereum!.onAccountsChanged((accounts) {
-        clear();
-      });
-      ethereum!.onChainChanged((chainId) {
-        clear();
-      });
-      ethereum!.onDisconnect((error) {
-        clear();
-      });
-    }
-  }
+@JS()
+@anonymous
+class JSrawRequestParams {
+  external factory JSrawRequestParams({String chainId});
+  external String get chainId;
 }

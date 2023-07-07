@@ -1,13 +1,18 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'dart:developer';
+import 'dart:math';
+import 'dart:typed_data';
 import 'package:aebridge/application/metamask.dart';
 import 'package:aebridge/application/session/state.dart';
 import 'package:aebridge/domain/repositories/features_flags.dart';
+import 'package:aebridge/model/bridge_blockchain.dart';
+import 'package:aebridge/model/contracts/htlc_eth.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:aebridge/util/service_locator.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart';
+import 'package:crypto/crypto.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
@@ -19,61 +24,27 @@ class _SessionNotifier extends Notifier<Session> {
   @override
   Session build() {
     ref.onDispose(() {
-      log('dispose SessionNotifier');
+      debugPrint('dispose SessionNotifier');
       connectionStatusSubscription?.cancel();
     });
     return const Session();
   }
 
-  Future<void> connectToMetamask() async {
+  Future<void> connectToMetamask(BridgeBlockchain blockchain) async {
     try {
       final metamaskProvider = MetaMaskProvider();
-      if (metamaskProvider.isEnabled == false) {
-        state = state.copyWith(
-          isConnected: false,
-          error: 'Metamask is not available.',
-        );
-        return;
-      }
-      await metamaskProvider.connect();
-      if (metamaskProvider.isConnected) {
-        log('Connected', name: 'Wallet connection');
 
-        var chainIdLabel = '';
-        switch (metamaskProvider.currentChain) {
-          case 1:
-            chainIdLabel = 'Ethereum Mainnet';
-            break;
-          case 80001:
-            chainIdLabel = 'Mumbai Polygon Testnet';
-            break;
-          case 137:
-            chainIdLabel = 'Polygon Mainnet';
-            break;
-          case 97:
-            chainIdLabel = 'BSC Testnet';
-            break;
-          case 56:
-            chainIdLabel = 'BSC Mainnet';
-            break;
-          case 5:
-            chainIdLabel = 'Goerli Ethereum Testnet';
-            break;
-          case 1337:
-            chainIdLabel = 'Ethereum Devnet';
-            break;
-          default:
-            chainIdLabel = 'Unknown';
-            break;
-        }
+      await metamaskProvider.connect(blockchain.chainId);
+      if (metamaskProvider.walletConnected) {
+        debugPrint('Connected to ${blockchain.name}');
 
         state = state.copyWith(
           wallet: 'metamask',
           isConnected: true,
           error: '',
-          nameAccount: metamaskProvider.account,
-          genesisAddress: metamaskProvider.currentAddress,
-          endpoint: chainIdLabel,
+          nameAccount: metamaskProvider.accountName!,
+          genesisAddress: metamaskProvider.currentAddress!,
+          endpoint: blockchain.name,
         );
         if (sl.isRegistered<MetaMaskProvider>()) {
           sl.unregister<MetaMaskProvider>();
@@ -82,8 +53,19 @@ class _SessionNotifier extends Notifier<Session> {
           () => metamaskProvider,
         );
       }
+
+      final secret = Uint8List.fromList(
+        List<int>.generate(32, (int i) => Random.secure().nextInt(256)),
+      );
+
+      HTLCEthContract().deployHTLC(
+        '0xCF026E727C1A5A71058316D223cA5BDb51c962A6',
+        '0x26006236eaB6409D9FDECb16ed841033d6B4A6bC',
+        sha256.convert(secret).toString(),
+        BigInt.from(10),
+      );
     } catch (e) {
-      log(e.toString());
+      debugPrint(e.toString());
       state = state.copyWith(
         isConnected: false,
         error: 'Please, open your Metamask.',
@@ -116,7 +98,7 @@ class _SessionNotifier extends Notifier<Session> {
               );
               break;
             default:
-              log(failure.message ?? 'Connection failed');
+              debugPrint(failure.message ?? 'Connection failed');
               state = state.copyWith(
                 isConnected: false,
                 error: 'Please, open your Archethic Wallet.',
@@ -124,7 +106,7 @@ class _SessionNotifier extends Notifier<Session> {
           }
         },
         success: (result) async {
-          log('DApp is connected to archethic wallet.');
+          debugPrint('DApp is connected to archethic wallet.');
 
           if (FeatureFlags.mainnetActive == false &&
               result.endpointUrl == 'https://mainnet.archethic.net') {
@@ -141,7 +123,7 @@ class _SessionNotifier extends Notifier<Session> {
               archethicDAppClient.connectionStateStream.listen((event) {
             event.when(
               disconnected: () {
-                log('Disconnected', name: 'Wallet connection');
+                debugPrint('Disconnected');
                 state = state.copyWith(
                   wallet: '',
                   endpoint: '',
@@ -153,7 +135,7 @@ class _SessionNotifier extends Notifier<Session> {
                 );
               },
               connected: () async {
-                log('Connected', name: 'Wallet connection');
+                debugPrint('Connected');
                 state = state.copyWith(
                   wallet: 'archethic',
                   isConnected: true,
@@ -161,7 +143,7 @@ class _SessionNotifier extends Notifier<Session> {
                 );
               },
               connecting: () {
-                log('Connecting', name: 'Wallet connection');
+                debugPrint('Connecting');
                 state = state.copyWith(
                   wallet: '',
                   endpoint: '',
@@ -225,7 +207,7 @@ class _SessionNotifier extends Notifier<Session> {
         },
       );
     } catch (e) {
-      log(e.toString());
+      debugPrint(e.toString());
       state = state.copyWith(
         isConnected: false,
         error: 'Please, open your Archethic Wallet.',
@@ -239,7 +221,6 @@ class _SessionNotifier extends Notifier<Session> {
 
   Future<void> cancelConnection() async {
     await sl.get<ArchethicDAppClient>().close();
-    log('Unregister', name: 'ApiService');
     if (sl.isRegistered<ApiService>()) {
       sl.unregister<ApiService>();
     }
