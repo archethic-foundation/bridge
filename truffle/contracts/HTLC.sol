@@ -12,7 +12,10 @@ abstract contract HTLC is Ownable {
     uint256 public amount;
     bool public finished;
 
-     constructor(address _recipient, uint256 _amount, bytes32 _hash, uint _lockTime) {
+    event Withdrawn();
+    event Refunded();
+
+    constructor(address _recipient, uint256 _amount, bytes32 _hash, uint _lockTime) {
         require(_recipient != address(0), "Invalid recipient address");
         require(_amount > 0, "Invalid amount");
         require(_lockTime > 0, "Invalid locktime");
@@ -37,6 +40,7 @@ abstract contract HTLC is Ownable {
         secret = _secret;
         _transfer();
         finished = true;
+        emit Withdrawn();
     }
 
     function canRefund() external view returns (bool) {
@@ -49,28 +53,14 @@ abstract contract HTLC is Ownable {
         require(!_beforeLockTime(), "Cannot refund before the end of the lock time");
         _refund();
         finished = true;
-    }
-
-    function _checkAmount() virtual internal view {
-        require(address(this).balance == amount, "Cannot receive more ethers");
-        require(msg.value == amount, "Cannot receive more than expected amount");
-    }
-
-     function _transfer() virtual internal {
-        (bool sent,) = recipient.call{value: amount}("");
-        require(sent, "Cannot withdraw ETH");
-    }
-
-    function _refund() virtual internal {
-        (bool sent,) = owner().call{value: amount}("");
-        require(sent, "Cannot refund the ETH");
-    }
-
-    function _enoughFunds() internal virtual view returns (bool) {
-        return address(this).balance == amount;
+        emit Refunded();
     }
 
     function _beforeLockTime() internal view returns (bool) {
         return block.timestamp < startTime + lockTime;
     }
+
+    function _transfer() virtual internal{}
+    function _refund() virtual internal{}
+    function _enoughFunds() virtual internal view returns (bool) {}
 }

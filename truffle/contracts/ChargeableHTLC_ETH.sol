@@ -20,7 +20,7 @@ contract ChargeableHTLC_ETH is HTLC_ETH {
         amount = _amount.sub(fee);
     }
 
-    function _checkAmount() override internal {
+    function _checkAmount() override internal view {
         require(address(this).balance == amount.add(fee), "Cannot receive more ethers");
         require(msg.value == amount.add(fee), "Cannot receive more than expected amount");
     }
