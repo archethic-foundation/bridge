@@ -21,14 +21,9 @@ contract SignedHTLC_ETH is HTLC_ETH {
         amount = _amount.sub(fee);
     }
 
-    function _checkAmount() internal override {
-        require(address(this).balance == amount.add(fee), "Cannot receive more ethers");
-        require(msg.value == amount.add(fee), "Cannot receive more than expected amount");
-    }
-
-    function withdraw(bytes32 _secret, bytes32 r, bytes32 s, uint8 v) external {
+    function withdraw(bytes32 _secret, bytes32 _r, bytes32 _s, uint8 _v) external {
         bytes32 sigHash = ECDSA.toEthSignedMessageHash(signatureHash());
-        address signer = ECDSA.recover(sigHash, v, r, s);
+        address signer = ECDSA.recover(sigHash, _v, _r, _s);
 
         require(signer != address(0), "Invalid signature - No signer recovered");
         require(signer == pool.archethicPoolSigner(), "Invalid signature - Archethic Pool key does not match signature");
@@ -36,7 +31,16 @@ contract SignedHTLC_ETH is HTLC_ETH {
         withdraw(_secret);
     }
 
-     function _transfer() override internal {
+    function signatureHash() public view returns (bytes32) {
+        return keccak256(abi.encodePacked(amount, hash, recipient));
+    }
+
+     function _checkAmount() internal override {
+        require(address(this).balance == amount.add(fee), "Cannot receive more ethers");
+        require(msg.value == amount.add(fee), "Cannot receive more than expected amount");
+    }
+
+    function _transfer() override internal {
         (bool success,) = pool.safetyModuleAddress().call{value: fee}("");
         require(success, "Cannot withdraw fee to the safe module");
         (success,) = recipient.call{value: amount}("");

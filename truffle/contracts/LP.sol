@@ -15,14 +15,14 @@ abstract contract LP is Ownable {
 
     mapping(bytes32 => address) public provisionedSwaps;
 
-    event ReserveAddressChanged(address reservedAddress);
-    event SafetyModuleAddressChanged(address safetyModuleAddress);
-    event SafetyModuleFeeChanged(uint256 safetyModuleFee);
-    event ArchethicPoolSignerChanged(address signer);
-    event PoolCapChanged(uint256 poolCap);
+    event ReserveAddressChanged(address _reservedAddress);
+    event SafetyModuleAddressChanged(address _safetyModuleAddress);
+    event SafetyModuleFeeChanged(uint256 _safetyModuleFee);
+    event ArchethicPoolSignerChanged(address _signer);
+    event PoolCapChanged(uint256 _poolCap);
     event Lock();
     event Unlock();
-    event ContractProvisioned(address htlc, uint256 amount);
+    event ContractProvisioned(address _htlc, uint256 _amount);
 
 	constructor(address _reserveAddress, address _safetyAddress, uint256 _safetyFee, address _archPoolSigner, uint256 _poolCap) {
         require(_reserveAddress != address(0), "Invalid reserve address");
@@ -36,6 +36,11 @@ abstract contract LP is Ownable {
         poolCap = _poolCap;
         locked = true;
 	}
+
+    modifier onlyUnlocked {
+        require(locked == false, "Pool is currently locked for provisionning withdrawals");
+        _;
+    }
 
     function setReserveAddress(address _reserveAddress) onlyOwner external {
         require(_reserveAddress != address(0), "Invalid reserve address");
@@ -75,22 +80,17 @@ abstract contract LP is Ownable {
         emit Unlock();
     }
 
-    modifier onlyUnlocked {
-        require(locked == false, "Pool is currently locked for provisionning withdrawals");
-        _;
-    }
-
-    function provisionHTLC(bytes32 hash, uint256 amount, uint lockTime, bytes32 r, bytes32 s, uint8 v) onlyUnlocked external {
-        require(provisionedSwaps[hash] == address(0), "Contract already provisioned for this hash");
-        bytes32 signatureHash = ECDSA.toEthSignedMessageHash(hash);
-        address signer = ECDSA.recover(signatureHash, v, r, s);
+    function provisionHTLC(bytes32 _hash, uint256 _amount, uint _lockTime, bytes32 _r, bytes32 _s, uint8 _v) onlyUnlocked external {
+        require(provisionedSwaps[_hash] == address(0), "Contract already provisioned for this hash");
+        bytes32 signatureHash = ECDSA.toEthSignedMessageHash(_hash);
+        address signer = ECDSA.recover(signatureHash, _v, _r, _s);
 
         require(signer != address(0), "Invalid signature - No signer recovered");
         require(archethicPoolSigner == signer, "Invalid signature - Archethic Pool key does not match signature");
 
-        address htlcContract = _provisionHTLC(hash, amount, lockTime);
-        provisionedSwaps[hash] = address(htlcContract);
-        emit ContractProvisioned(address(htlcContract), amount);
+        address htlcContract = _provisionHTLC(_hash, _amount, _lockTime);
+        provisionedSwaps[_hash] = address(htlcContract);
+        emit ContractProvisioned(address(htlcContract), _amount);
     } 
 
     function _provisionHTLC(bytes32 hash, uint256 amount, uint lockTime) virtual internal returns (address) {}

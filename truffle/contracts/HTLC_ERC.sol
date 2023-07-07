@@ -1,5 +1,4 @@
 // SPDX-License-Identifier: AGPL-3
-
 pragma solidity ^0.8.13;
 
 import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
@@ -30,50 +29,46 @@ contract HTLC_ERC is Ownable {
         finished = false;
     }
 
-     function _checkAmount() virtual internal {
-        require(token.balanceOf(address(this)) == amount, "Cannot receive more ethers");
-        require(msg.value == amount, "Cannot receive more than expected amount");
-    }
-
     function canWithdraw() external view returns (bool) {
-        return !finished && beforeLockTime() && enoughFunds();
+        return !finished && _beforeLockTime() && _enoughFunds();
     }
 
     function withdraw(bytes32 _secret) public {
         require(finished == false, 'Swap already done');
         require(sha256(abi.encodePacked(_secret)) == hash, 'Wrong secret');
-        require(enoughFunds(), 'Not enough funds');
-        require(beforeLockTime(), 'Withdraw delay outdated, use refund');
+        require(_enoughFunds(), 'Not enough funds');
+        require(_beforeLockTime(), 'Withdraw delay outdated, use refund');
         secret = _secret;
         _transfer();
         finished = true;
+    }
+
+    function canRefund() external view returns (bool) {
+        return !finished && !_beforeLockTime() && _enoughFunds();
+    }
+
+    function refund() external {
+        require(finished == false, "Cannot refund a swap already finished");
+        require(_enoughFunds(), 'Not enough funds');
+        require(!_beforeLockTime(), "Cannot refund before the end of the lock time");
+        token.transfer(owner(), amount);
+        finished = true;
+    }
+
+    function _checkAmount() virtual internal {
+        require(token.balanceOf(address(this)) == amount, "Cannot receive more ethers");
+        require(msg.value == amount, "Cannot receive more than expected amount");
     }
 
     function _transfer() virtual internal {
         token.transfer(recipient, amount);
     }
 
-    function canRefund() external view returns (bool) {
-        return !finished && !beforeLockTime() && enoughFunds();
-    }
-
-    function refund() external {
-        require(finished == false, "Cannot refund a swap already finished");
-        require(enoughFunds(), 'Not enough funds');
-        require(!beforeLockTime(), "Cannot refund before the end of the lock time");
-        token.transfer(owner(), amount);
-        finished = true;
-    }
-
-    function enoughFunds() internal view returns (bool) {
+    function _enoughFunds() internal view returns (bool) {
         return token.balanceOf(address(this)) == amount;    
     }
 
-    function beforeLockTime() public view returns (bool) {
+    function _beforeLockTime() internal view returns (bool) {
         return block.timestamp < startTime + lockTime;
-    }
-
-    function signatureHash() public view returns (bytes32) {
-        return keccak256(abi.encodePacked(amount, hash, recipient, token));
     }
  }
