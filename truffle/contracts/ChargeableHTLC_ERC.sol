@@ -1,0 +1,35 @@
+// SPDX-License-Identifier: AGPL-3
+pragma solidity ^0.8.13;
+
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
+
+import "./HTLC_ERC.sol";
+import "./LP_ERC.sol";
+
+using SafeMath for uint256;
+
+contract ChargeableHTLC_ERC is HTLC_ERC {
+
+    LP_ERC public pool;
+    uint256 public fee;
+
+    constructor(IERC20 _token, uint256 _amount, bytes32 _hash, uint _lockTime, LP_ERC _pool) HTLC_ERC(_pool.reserveAddress(), _token, _amount, _hash, _lockTime) {
+        pool = _pool;
+        fee = _amount.mul(pool.safetyModuleFeeRate()).div(100);
+        amount = _amount.sub(fee);
+    }
+
+    function _enoughFunds() internal override view returns (bool) {
+        return token.balanceOf(address(this)) == amount.add(fee);    
+    }
+
+    function _transfer() override internal {
+        token.transfer(pool.safetyModuleAddress(), fee);
+        token.transfer(recipient, amount);
+    }
+
+    function _refund() override internal {
+        token.transfer(owner(), amount.add(fee));
+    }
+}

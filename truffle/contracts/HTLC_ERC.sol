@@ -51,7 +51,7 @@ contract HTLC_ERC is Ownable {
         require(finished == false, "Cannot refund a swap already finished");
         require(_enoughFunds(), 'Not enough funds');
         require(!_beforeLockTime(), "Cannot refund before the end of the lock time");
-        token.transfer(owner(), amount);
+        _refund();
         finished = true;
     }
 
@@ -62,6 +62,10 @@ contract HTLC_ERC is Ownable {
 
     function _transfer() virtual internal {
         token.transfer(recipient, amount);
+    }
+
+    function _refund() virtual internal {
+        token.transfer(owner(), amount);
     }
 
     function _enoughFunds() internal virtual view returns (bool) {

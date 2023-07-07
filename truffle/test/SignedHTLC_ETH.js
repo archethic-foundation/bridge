@@ -40,18 +40,14 @@ contract("Signed ETH HTLC", (accounts) => {
             const { r: rSecret, s: sSecret, v: vSecret } = createEthSign(secret, archPoolSigner.privateKey)
 
             const balanceRecipientBefore = await web3.eth.getBalance(accounts[0])
-            const balanceSafetyModuleBefore = await web3.eth.getBalance(satefyModuleAddress)
             await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, `0x${rSecret}`, `0x${sSecret}`, vSecret, { from: accounts[4] })
 
             assert.ok(await HTLCInstance.finished())
            
             const balanceRecipientAfter = await web3.eth.getBalance(accounts[0])
-            const balanceSafetyModuleAfter = await web3.eth.getBalance(satefyModuleAddress)
 
-            assert.ok(balanceRecipientAfter - balanceRecipientBefore == web3.utils.toWei('0.95'))
+            assert.ok(balanceRecipientAfter - balanceRecipientBefore == web3.utils.toWei('1'))
             assert.equal(await HTLCInstance.secret(), `0x${secret.toString('hex')}`)
-
-            assert.equal(balanceSafetyModuleAfter - balanceSafetyModuleBefore, web3.utils.toWei('0.05'))
         })
 
         it("should return an error if the signature is invalid", async () => {

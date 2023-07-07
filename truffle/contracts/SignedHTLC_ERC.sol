@@ -12,13 +12,10 @@ using SafeMath for uint256;
 
 contract SignedHTLC_ERC is HTLC_ERC {
     LP_ERC public pool;
-    uint256 public fee;
 
     constructor(address _recipient, IERC20 _token, uint256 _amount, bytes32 _hash, uint _lockTime, LP_ERC _pool) HTLC_ERC(_recipient, _token,  _amount, _hash, _lockTime) {
         require(msg.sender == address(_pool), "The contract should be created from the pool");
         pool = _pool;
-        fee = _amount.mul(pool.safetyModuleFeeRate()).div(100);
-        amount = _amount.sub(fee);
     }
 
     function withdraw(bytes32 _secret, bytes32 _r, bytes32 _s, uint8 _v) external {
@@ -33,14 +30,5 @@ contract SignedHTLC_ERC is HTLC_ERC {
 
     function signatureHash() public view returns (bytes32) {
         return keccak256(abi.encodePacked(amount, hash, recipient, token));
-    }
-
-    function _enoughFunds() internal view override returns (bool) {
-        return token.balanceOf(address(this)) == amount.add(fee);
-    }
-
-    function _transfer() override internal {
-        token.transfer(pool.safetyModuleAddress(), fee);
-        token.transfer(recipient, amount);
     }
  }

@@ -12,13 +12,10 @@ using SafeMath for uint256;
 
 contract SignedHTLC_ETH is HTLC_ETH {
     LP_ETH public pool;
-    uint256 public fee;
 
     constructor(address payable _recipient, uint256 _amount, bytes32 _hash, uint _lockTime, LP_ETH _pool) HTLC_ETH(_recipient, _amount, _hash, _lockTime) {
         require(msg.sender == address(_pool), "The contract should be created from the pool");
         pool = _pool;
-        fee = _amount.mul(pool.safetyModuleFeeRate()).div(100);
-        amount = _amount.sub(fee);
     }
 
     function withdraw(bytes32 _secret, bytes32 _r, bytes32 _s, uint8 _v) external {
@@ -33,21 +30,5 @@ contract SignedHTLC_ETH is HTLC_ETH {
 
     function signatureHash() public view returns (bytes32) {
         return keccak256(abi.encodePacked(amount, hash, recipient));
-    }
-
-     function _checkAmount() internal override {
-        require(address(this).balance == amount.add(fee), "Cannot receive more ethers");
-        require(msg.value == amount.add(fee), "Cannot receive more than expected amount");
-    }
-
-    function _enoughFunds() internal view override returns (bool) {
-        return address(this).balance == amount.add(fee);
-    }
-
-    function _transfer() override internal {
-        (bool success,) = pool.safetyModuleAddress().call{value: fee}("");
-        require(success, "Cannot withdraw fee to the safe module");
-        (success,) = recipient.call{value: amount}("");
-        require(success, "Cannot withdraw swap's amount to the recipient");
     }
  }

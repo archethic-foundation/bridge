@@ -50,10 +50,8 @@ contract("Signed ERC HTLC", (accounts) => {
            
             const balance2 = await DummyTokenInstance.balanceOf(accounts[2])
 
-            assert.ok(balance2 - balance1 == web3.utils.toWei('0.95'))
+            assert.ok(balance2 - balance1 == web3.utils.toWei('1'))
             assert.equal(await HTLCInstance.secret(), `0x${secret.toString('hex')}`)
-
-            assert.equal(await DummyTokenInstance.balanceOf(satefyModuleAddress), web3.utils.toWei('0.05'))
         })
 
         it("should return an error if the signature is invalid", async () => {
