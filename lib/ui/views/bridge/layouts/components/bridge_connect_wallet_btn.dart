@@ -39,6 +39,8 @@ class BridgeConnectWalletButton extends ConsumerWidget {
         } else {
           debugPrint('connect to Metamask');
           await sessionNotifier.connectToMetamask(bridge.blockchainFrom!);
+          //debugPrint('connect to Wallet Connect');
+          // await sessionNotifier.connectToMWalletConnect(bridge.blockchainFrom!);
         }
         final session = ref.read(SessionProviders.session);
         if (session.error.isNotEmpty) {

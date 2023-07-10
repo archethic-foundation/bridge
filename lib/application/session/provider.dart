@@ -4,6 +4,7 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'package:aebridge/application/metamask.dart';
 import 'package:aebridge/application/session/state.dart';
+import 'package:aebridge/application/wallet_connect.dart';
 import 'package:aebridge/domain/repositories/features_flags.dart';
 import 'package:aebridge/model/bridge_blockchain.dart';
 import 'package:aebridge/model/contracts/htlc_eth.dart';
@@ -28,6 +29,49 @@ class _SessionNotifier extends Notifier<Session> {
       connectionStatusSubscription?.cancel();
     });
     return const Session();
+  }
+
+  Future<void> connectToMWalletConnect(BridgeBlockchain blockchain) async {
+    try {
+      final walletConnectProvider = WalletConnectProvider();
+
+      await walletConnectProvider.connect(blockchain.chainId);
+      if (walletConnectProvider.walletConnected) {
+        debugPrint('Connected to ${blockchain.name}');
+
+        state = state.copyWith(
+          wallet: 'metamask',
+          isConnected: true,
+          error: '',
+          nameAccount: walletConnectProvider.session!.accounts[0],
+          genesisAddress: walletConnectProvider.session!.accounts[0],
+          endpoint: blockchain.name,
+        );
+        if (sl.isRegistered<WalletConnectProvider>()) {
+          sl.unregister<WalletConnectProvider>();
+        }
+        sl.registerLazySingleton<WalletConnectProvider>(
+          () => walletConnectProvider,
+        );
+      }
+
+      final secret = Uint8List.fromList(
+        List<int>.generate(32, (int i) => Random.secure().nextInt(256)),
+      );
+
+      HTLCEthContract().deployHTLC(
+        '0xCF026E727C1A5A71058316D223cA5BDb51c962A6',
+        '0x26006236eaB6409D9FDECb16ed841033d6B4A6bC',
+        sha256.convert(secret).toString(),
+        BigInt.from(10),
+      );
+    } catch (e) {
+      debugPrint(e.toString());
+      state = state.copyWith(
+        isConnected: false,
+        error: 'Please, open your WalletConnect.',
+      );
+    }
   }
 
   Future<void> connectToMetamask(BridgeBlockchain blockchain) async {

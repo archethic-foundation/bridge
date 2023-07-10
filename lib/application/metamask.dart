@@ -6,8 +6,6 @@ import 'package:webthree/browser.dart';
 import 'package:webthree/webthree.dart';
 
 class MetaMaskProvider extends ChangeNotifier {
-  static const operatingChain = 4;
-
   String? currentAddress;
   String? get accountName => currentAddress;
   int? currentChain;
