@@ -68,5 +68,13 @@ For tests you can use unit tests:
 truffle test
 ```
 
+To use the pool in a local environment you can use migrations with:
+```bash
+truffle deploy
+```
+
+This will create two pools for ETH and ERC.
+It will also create a dummy token, accessible via `LP_ERC.token()`
+
 
 
