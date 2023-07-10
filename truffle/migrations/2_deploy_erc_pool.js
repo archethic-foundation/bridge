@@ -15,6 +15,8 @@ module.exports = async function(deployer, network, accounts) {
 
         const tokenInstance = await DummyToken.deployed()
         tokenAddress = tokenInstance.address
+
+        console.log(`Deployed token: ${tokenAddress}`)
     }
 
     await deployer.deploy(LiquidityPool, reserveAddress, safetyModuleAddress, safeteModuleFeeRate, archethicPoolSigner, poolCap, tokenAddress);
