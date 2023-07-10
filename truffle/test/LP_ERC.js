@@ -3,7 +3,7 @@ const LiquidityPool = artifacts.require("LP_ERC")
 const HTLC = artifacts.require("SignedHTLC_ERC")
 const ChargeableHTLC = artifacts.require("ChargeableHTLC_ERC")
 
-const { randomBytes } = require("crypto")
+const { randomBytes, createHash } = require("crypto")
 const { generateECDSAKey, hexToUintArray, createEthSign } = require("./utils")
 const { ethers } = require("ethers")
 
@@ -166,17 +166,27 @@ contract("ERC LiquidityPool", (accounts) => {
         const instance = await LiquidityPool.new(reserveAddress, satefyModuleAddress, 5, archPoolSigner.address, web3.utils.toWei('2'), DummyTokenInstance.address)
         await instance.unlock()
 
-        await DummyTokenInstance.approve(instance.address, web3.utils.toWei('1'))
 
-        await instance.mintHTLC("0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", web3.utils.toWei('1'), 60)
-        const htlcAddress = await instance.mintedSwaps("0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08")
+        const secret = randomBytes(32)
+        const secretHash = createHash("sha256")
+            .update(secret)
+            .digest("hex")
+
+        await instance.mintHTLC(`0x${secretHash}`, web3.utils.toWei('1'), 60)
+        const htlcAddress = await instance.mintedSwaps(`0x${secretHash}`)
         const HTLCInstance = await ChargeableHTLC.at(htlcAddress)
         assert.equal(await HTLCInstance.pool(), instance.address)
-        assert.equal(await HTLCInstance.hash(), "0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08")
+        assert.equal(await HTLCInstance.hash(), `0x${secretHash}`)
         assert.equal(await HTLCInstance.recipient(), reserveAddress);
         assert.equal(await HTLCInstance.amount(), web3.utils.toWei('0.95'))
         assert.equal(await HTLCInstance.fee(), web3.utils.toWei('0.05'))
         assert.equal(await HTLCInstance.lockTime(), 60)
+
+        await DummyTokenInstance.transfer(htlcAddress, web3.utils.toWei('1'))
+        await HTLCInstance.withdraw(`0x${secret.toString('hex')}`)
+
+        assert.equal(await DummyTokenInstance.balanceOf(reserveAddress), web3.utils.toWei('0.95'))
+        assert.equal(await DummyTokenInstance.balanceOf(await instance.safetyModuleAddress()), web3.utils.toWei('0.05'))
     })
 
     it("should return an error if the sender does not have funds", async () => {
