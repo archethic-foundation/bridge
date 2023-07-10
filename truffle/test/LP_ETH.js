@@ -169,7 +169,7 @@ contract("ETH LiquidityPool", (accounts) => {
         const instance = await LiquidityPool.new(reserveAddress, satefyModuleAddress, 5, archPoolSigner.address, web3.utils.toWei('2'))
         await instance.unlock()
 
-        await instance.mintHTLC("0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", web3.utils.toWei('1'), 60, { value: web3.utils.toWei('1') })
+        await instance.mintHTLC("0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", web3.utils.toWei('1'), 60)
         const htlcAddress = await instance.mintedSwaps("0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08")
         const HTLCInstance = await ChargeableHTLC.at(htlcAddress)
         assert.equal(await HTLCInstance.pool(), instance.address)
@@ -201,10 +201,10 @@ contract("ETH LiquidityPool", (accounts) => {
         const instance = await LiquidityPool.new(reserveAddress, satefyModuleAddress, 5, archPoolSigner.address, web3.utils.toWei('2'))
         await instance.unlock()
 
-        await instance.mintHTLC("0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", web3.utils.toWei('1'), 60, { value: web3.utils.toWei('1') })
+        await instance.mintHTLC("0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", web3.utils.toWei('1'), 60)
 
         try {
-            await instance.mintHTLC("0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", web3.utils.toWei('1'), 60, { value: web3.utils.toWei('1') })
+            await instance.mintHTLC("0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", web3.utils.toWei('1'), 60)
         }
         catch(e) {
             const interface = new ethers.Interface(instance.abi);

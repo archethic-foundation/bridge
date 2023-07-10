@@ -123,7 +123,7 @@ abstract contract LP is Ownable {
         emit ContractProvisioned(address(htlcContract), _amount);
     } 
 
-    function mintHTLC(bytes32 _hash, uint256 _amount, uint _lockTime) payable external {
+    function mintHTLC(bytes32 _hash, uint256 _amount, uint _lockTime) external {
         if(mintedSwaps[_hash] != address(0)) {
             revert AlreadyMinted();
         }

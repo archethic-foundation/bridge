@@ -33,12 +33,10 @@ contract LP_ETH is LP {
     }
 
     function _mintHTLC(bytes32 _hash, uint256 _amount, uint _lockTime) override internal returns (address) {
-         if (msg.sender.balance < _amount) {
+        if (msg.sender.balance < _amount) {
             revert InsufficientFunds();
-        } 
+        }
         ChargeableHTLC_ETH htlcContract = new ChargeableHTLC_ETH(_amount, _hash, _lockTime, this);
-        (bool sent,) = address(htlcContract).call{value: _amount}("");
-        require(sent);
         return address(htlcContract);
     }
 }
