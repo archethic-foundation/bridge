@@ -5,13 +5,17 @@
                 "name": "Wrapped Ether",
                 "symbol": "WETH",
                 "targetTokenName": "Ether",
-                "targetTokenSymbol": "ETH"
+                "targetTokenSymbol": "ETH",
+                "poolAddress": "",
+                "type": "Wrapped"
             },
             {
                 "name": "Universal Coin",
                 "symbol": "UCO",
                 "targetTokenName": "ERC20 - Universal Coin",
-                "targetTokenSymbol": "UCO"
+                "targetTokenSymbol": "UCO",
+                "poolAddress": "",
+                "type": "Native"
             }
         ],
         "-1->137": [
@@ -19,13 +23,17 @@
                 "name": "Wrapped Polygon",
                 "symbol": "WMATIC",
                 "targetTokenName": "Polygon",
-                "targetTokenSymbol": "MATIC"
+                "targetTokenSymbol": "MATIC",
+                "poolAddress": "",
+                "type": "Wrapped"
             },
             {
                 "name": "Universal Coin",
                 "symbol": "UCO",
                 "targetTokenName": "ERC20 - Universal Coin",
-                "targetTokenSymbol": "UCO"
+                "targetTokenSymbol": "UCO",
+                "poolAddress": "",
+                "type": "Native"
             }
         ],
         "-1->56": [
@@ -33,13 +41,17 @@
                 "name": "Wrapped Binance Coin",
                 "symbol": "WBNB",
                 "targetTokenName": "Binance Coin",
-                "targetTokenSymbol": "BNB"
+                "targetTokenSymbol": "BNB",
+                "poolAddress": "",
+                "type": "Wrapped"
             },
             {
                 "name": "Universal Coin",
                 "symbol": "UCO",
                 "targetTokenName": "BEP20 - Universal Coin",
-                "targetTokenSymbol": "UCO"
+                "targetTokenSymbol": "UCO",
+                "poolAddress": "",
+                "type": "Native"
             }
         ],
         "-2->5": [
@@ -47,13 +59,17 @@
                 "name": "Wrapped Ether",
                 "symbol": "WETH",
                 "targetTokenName": "Ether",
-                "targetTokenSymbol": "ETH"
+                "targetTokenSymbol": "ETH",
+                "poolAddress": "",
+                "type": "Wrapped"
             },
             {
                 "name": "Universal Coin",
                 "symbol": "UCO",
                 "targetTokenName": "ERC20 - Universal Coin",
-                "targetTokenSymbol": "UCO"
+                "targetTokenSymbol": "UCO",
+                "poolAddress": "",
+                "type": "Native"
             }
         ],
         "-2->80001": [
@@ -61,13 +77,17 @@
                 "name": "Wrapped Polygon",
                 "symbol": "WMATIC",
                 "targetTokenName": "Polygon",
-                "targetTokenSymbol": "MATIC"
+                "targetTokenSymbol": "MATIC",
+                "poolAddress": "",
+                "type": "Wrapped"
             },
             {
                 "name": "Universal Coin",
                 "symbol": "UCO",
                 "targetTokenName": "ERC20 - Universal Coin",
-                "targetTokenSymbol": "UCO"
+                "targetTokenSymbol": "UCO",
+                "poolAddress": "",
+                "type": "Native"
             }
         ],
         "-2->97": [
@@ -75,13 +95,17 @@
                 "name": "Wrapped Binance Coin",
                 "symbol": "WBNB",
                 "targetTokenName": "Binance Coin",
-                "targetTokenSymbol": "BNB"
+                "targetTokenSymbol": "BNB",
+                "poolAddress": "",
+                "type": "Wrapped"
             },
             {
                 "name": "Universal Coin",
                 "symbol": "UCO",
                 "targetTokenName": "BEP20 - Universal Coin",
-                "targetTokenSymbol": "UCO"
+                "targetTokenSymbol": "UCO",
+                "poolAddress": "",
+                "type": "Native"
             }
         ],
         "-3->1337": [
@@ -89,13 +113,17 @@
                 "name": "Wrapped Ether",
                 "symbol": "WETH",
                 "targetTokenName": "Ether",
-                "targetTokenSymbol": "ETH"
+                "targetTokenSymbol": "ETH",
+                "poolAddress": "",
+                "type": "Wrapped"
             },
             {
                 "name": "Universal Coin",
                 "symbol": "UCO",
                 "targetTokenName": "ERC20 - Universal Coin",
-                "targetTokenSymbol": "UCO"
+                "targetTokenSymbol": "UCO",
+                "poolAddress": "",
+                "type": "Native"
             }
         ],
         "1->-1": [
@@ -103,13 +131,17 @@
                 "name": "Ether",
                 "symbol": "ETH",
                 "targetTokenName": "Wrapped Ether",
-                "targetTokenSymbol": "WETH"
+                "targetTokenSymbol": "WETH",
+                "poolAddress": "",
+                "type": "Native"
             },
             {
                 "name": "Universal Coin",
                 "symbol": "UCO",
                 "targetTokenName": "Universal Coin",
-                "targetTokenSymbol": "UCO"
+                "targetTokenSymbol": "UCO",
+                "poolAddress": "",
+                "type": "ERC20"
             }
         ],
         "137->-1": [
@@ -117,13 +149,17 @@
                 "name": "Polygon",
                 "symbol": "MATIC",
                 "targetTokenName": "Wrapped Polygon",
-                "targetTokenSymbol": "WMATIC"
+                "targetTokenSymbol": "WMATIC",
+                "poolAddress": "",
+                "type": "Native"
             },
             {
                 "name": "Universal Coin",
                 "symbol": "UCO",
                 "targetTokenName": "Universal Coin",
-                "targetTokenSymbol": "UCO"
+                "targetTokenSymbol": "UCO",
+                "poolAddress": "",
+                "type": "ERC20"
             }
         ],
         "56->-1": [
@@ -131,13 +167,17 @@
                 "name": "Binance Coin",
                 "symbol": "BNB",
                 "targetTokenName": "Wrapped Binance Coin",
-                "targetTokenSymbol": "WBNB"
+                "targetTokenSymbol": "WBNB",
+                "poolAddress": "",
+                "type": "Native"
             },
             {
                 "name": "Universal Coin",
                 "symbol": "UCO",
                 "targetTokenName": "Universal Coin",
-                "targetTokenSymbol": "UCO"
+                "targetTokenSymbol": "UCO",
+                "poolAddress": "",
+                "type": "ERC20"
             }
         ],
         "5->-2": [
@@ -145,13 +185,17 @@
                 "name": "Ether",
                 "symbol": "ETH",
                 "targetTokenName": "Wrapped Ether",
-                "targetTokenSymbol": "WETH"
+                "targetTokenSymbol": "WETH",
+                "poolAddress": "",
+                "type": "Native"
             },
             {
                 "name": "Universal Coin",
                 "symbol": "UCO",
                 "targetTokenName": "Universal Coin",
-                "targetTokenSymbol": "UCO"
+                "targetTokenSymbol": "UCO",
+                "poolAddress": "",
+                "type": "ERC20"
             }
         ],
         "80001->-2": [
@@ -159,13 +203,17 @@
                 "name": "Polygon",
                 "symbol": "MATIC",
                 "targetTokenName": "Wrapped Polygon",
-                "targetTokenSymbol": "WMATIC"
+                "targetTokenSymbol": "WMATIC",
+                "poolAddress": "",
+                "type": "Native"
             },
             {
                 "name": "Universal Coin",
                 "symbol": "UCO",
                 "targetTokenName": "Universal Coin",
-                "targetTokenSymbol": "UCO"
+                "targetTokenSymbol": "UCO",
+                "poolAddress": "",
+                "type": "ERC20"
             }
         ],
         "97->-2": [
@@ -173,13 +221,17 @@
                 "name": "Binance Coin",
                 "symbol": "BNB",
                 "targetTokenName": "Wrapped Binance Coin",
-                "targetTokenSymbol": "WBNB"
+                "targetTokenSymbol": "WBNB",
+                "poolAddress": "",
+                "type": "Native"
             },
             {
                 "name": "Universal Coin",
                 "symbol": "UCO",
                 "targetTokenName": "Universal Coin",
-                "targetTokenSymbol": "UCO"
+                "targetTokenSymbol": "UCO",
+                "poolAddress": "",
+                "type": "ERC20"
             }
         ],
         "1337->-3": [
@@ -187,13 +239,17 @@
                 "name": "Ether",
                 "symbol": "ETH",
                 "targetTokenName": "Wrapped Ether",
-                "targetTokenSymbol": "WETH"
+                "targetTokenSymbol": "WETH",
+                "poolAddress": "",
+                "type": "Native"
             },
             {
                 "name": "Universal Coin",
                 "symbol": "UCO",
                 "targetTokenName": "Universal Coin",
-                "targetTokenSymbol": "UCO"
+                "targetTokenSymbol": "UCO",
+                "poolAddress": "",
+                "type": "ERC20"
             }
         ]
     }

@@ -7,12 +7,11 @@ import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
-class HTLCEthContract {
+class LPETHContract {
   final String apiUrl = 'http://127.0.0.1:7545';
 
-  Future<void> deployHTLC(
-    String contractAddress,
-    String recipientAddress,
+  Future<void> deployAndProvisionHTLC(
+    String poolAddress,
     String hash,
     BigInt amount, {
     int lockTime = 720,
@@ -23,7 +22,7 @@ class HTLCEthContract {
     final web3Client = Web3Client(apiUrl, Client());
 
     final abiStringJson = jsonDecode(
-      await rootBundle.loadString('truffle/build/contracts/HTLC_ETH.json'),
+      await rootBundle.loadString('truffle/build/contracts/LP_ETH.json'),
     );
 
     final contract = DeployedContract(
@@ -31,19 +30,18 @@ class HTLCEthContract {
         jsonEncode(abiStringJson['abi']),
         abiStringJson['contractName'] as String,
       ),
-      EthereumAddress.fromHex(contractAddress),
+      EthereumAddress.fromHex(poolAddress),
     );
 
     debugPrint('deployed contract ok');
 
     final transaction = Transaction.callContract(
       contract: contract,
-      function: contract.function(''),
+      function: contract.function('mintHTLC'),
       parameters: [
-        EthereumAddress.fromHex(recipientAddress),
-        amount,
         hexToBytes(hash),
-        BigInt.from(lockTime),
+        EtherAmount.inWei(amount).getInWei,
+        lockTime,
       ],
     );
 

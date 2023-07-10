@@ -11,5 +11,7 @@ class BridgeToken with _$BridgeToken {
     @Default('') String symbol,
     @Default('') String targetTokenName,
     @Default('') String targetTokenSymbol,
+    @Default('') String poolAddress,
+    @Default('') String type,
   }) = _BridgeToken;
 }

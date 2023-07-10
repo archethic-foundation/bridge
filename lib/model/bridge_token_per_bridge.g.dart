@@ -29,6 +29,8 @@ _$_TokenData _$$_TokenDataFromJson(Map<String, dynamic> json) => _$_TokenData(
       symbol: json['symbol'] as String? ?? '',
       targetTokenName: json['targetTokenName'] as String? ?? '',
       targetTokenSymbol: json['targetTokenSymbol'] as String? ?? '',
+      poolAddress: json['poolAddress'] as String? ?? '',
+      type: json['type'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$_TokenDataToJson(_$_TokenData instance) =>
@@ -37,4 +39,6 @@ Map<String, dynamic> _$$_TokenDataToJson(_$_TokenData instance) =>
       'symbol': instance.symbol,
       'targetTokenName': instance.targetTokenName,
       'targetTokenSymbol': instance.targetTokenSymbol,
+      'poolAddress': instance.poolAddress,
+      'type': instance.type,
     };
