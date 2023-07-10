@@ -2,6 +2,8 @@ const HTLC = artifacts.require("HTLC_ETH")
 
 const { increaseTime} = require('./utils')
 const { createHash, randomBytes } = require("crypto")
+const { ethers } = require("ethers");
+
 
 contract("ETH HTLC", (accounts) => {
 
@@ -76,7 +78,8 @@ contract("ETH HTLC", (accounts) => {
         await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, { from: accounts[2] })
       }
       catch(e) {
-        assert.equal(e.reason, "Swap already done")
+        const interface = new ethers.Interface(HTLCInstance.abi);
+        assert.equal(interface.parseError(e.data.result).name, "AlreadyFinished")
       }
     })
 
@@ -95,13 +98,14 @@ contract("ETH HTLC", (accounts) => {
         `0x${secretHash}`,
         60
       )
-      
+
       await web3.eth.sendTransaction({ from: accounts[1], to: HTLCInstance.address, value: amount });
       try {
         await HTLCInstance.withdraw(`0x${randomBytes(32).toString('hex')}`, { from: accounts[3] })
       }
       catch(e) {
-        assert.equal(e.reason, "Wrong secret")
+        const interface = new ethers.Interface(HTLCInstance.abi);
+        assert.equal(interface.parseError(e.data.result).name, "InvalidSecret")
       }
     })
 
@@ -127,7 +131,8 @@ contract("ETH HTLC", (accounts) => {
         await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, { from: accounts[3] })
       }
       catch(e) {
-        assert.equal(e.reason, "Not enough funds")
+        const interface = new ethers.Interface(HTLCInstance.abi);
+        assert.equal(interface.parseError(e.data.result).name, "InsufficientFunds")
       }
     })
 
@@ -155,7 +160,8 @@ contract("ETH HTLC", (accounts) => {
         await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, { from: accounts[3] })
       }
       catch(e) {
-        assert.equal(e.reason, "Withdraw delay outdated, use refund")
+        const interface = new ethers.Interface(HTLCInstance.abi);
+        assert.equal(interface.parseError(e.data.result).name, "TooLate")
       }
     })
   })
@@ -217,7 +223,8 @@ contract("ETH HTLC", (accounts) => {
         await HTLCInstance.refund()
       }
       catch(e) {
-        assert.equal(e.reason, 'Cannot refund a swap already finished')
+        const interface = new ethers.Interface(HTLCInstance.abi);
+        assert.equal(interface.parseError(e.data.result).name, "AlreadyFinished")
       }
     })
 
@@ -243,7 +250,8 @@ contract("ETH HTLC", (accounts) => {
         await HTLCInstance.refund()
       }
       catch(e) {
-        assert.equal(e.reason, 'Not enough funds')
+        const interface = new ethers.Interface(HTLCInstance.abi);
+        assert.equal(interface.parseError(e.data.result).name, "InsufficientFunds")
       }
     })
 
@@ -271,7 +279,8 @@ contract("ETH HTLC", (accounts) => {
         await HTLCInstance.refund()
       }
       catch(e) {
-        assert.equal(e.reason, 'Cannot refund before the end of the lock time')
+        const interface = new ethers.Interface(HTLCInstance.abi);
+        assert.equal(interface.parseError(e.data.result).name, "TooEarly")
       }
     })
   })

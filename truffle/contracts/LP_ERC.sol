@@ -11,7 +11,6 @@ contract LP_ERC is LP {
     event TokenChanged(address _token);
 
 	constructor(address _reserveAddress, address _safetyAddress, uint256 _safetyFee, address _archPoolSigner, uint256 _poolCap, IERC20 _token) LP(_reserveAddress, _safetyAddress, _safetyFee, _archPoolSigner, _poolCap) {
-        require(address(_token) != address(0), "Invalid token");
         token = _token;
 	}
 
@@ -21,7 +20,10 @@ contract LP_ERC is LP {
     }
 
     function _provisionHTLC(bytes32 _hash, uint256 _amount, uint _lockTime) override internal returns (address) {
-        require(token.balanceOf(address(this)) >= _amount, "Pool doesn't have enough funds to provision the swap");
+        if (token.balanceOf(address(this)) < _amount) {
+            revert InsufficientFunds();
+        } 
+
         SignedHTLC_ERC htlcContract = new SignedHTLC_ERC(msg.sender, token, _amount, _hash, _lockTime, this);
         token.transfer(address(htlcContract), _amount);
         return address(htlcContract);

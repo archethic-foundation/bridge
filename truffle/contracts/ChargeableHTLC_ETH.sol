@@ -21,8 +21,9 @@ contract ChargeableHTLC_ETH is HTLC_ETH {
     }
 
     function _checkAmount() override internal view {
-        require(address(this).balance == amount.add(fee), "Cannot receive more ethers");
-        require(msg.value == amount.add(fee), "Cannot receive more than expected amount");
+        if(address(this).balance > amount.add(fee)) {
+            revert ProvisionLimitReached();
+        }
     }
 
     function _enoughFunds() internal view override returns (bool) {
@@ -31,13 +32,13 @@ contract ChargeableHTLC_ETH is HTLC_ETH {
 
     function _transfer() override internal {
         (bool sent,) = pool.safetyModuleAddress().call{value: fee}("");
-        require(sent, "Cannot withdraw fee to SafetyMmodule");
+        require(sent);
         (sent,) = recipient.call{value: amount}("");
-        require(sent, "Cannot withdraw ETH to the recipient");
+        require(sent);
     }
 
     function _refund() override internal {
         (bool sent,) = owner().call{value: amount.add(fee)}("");
-        require(sent, "Cannot refund the ETH");
+        require(sent);
     }
 }

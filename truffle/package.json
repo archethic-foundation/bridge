@@ -9,6 +9,7 @@
   "description": "",
   "devDependencies": {
     "@openzeppelin/contracts": "^4.9.2",
+    "ethers": "^6.6.2",
     "keccak256": "^1.0.6",
     "openzeppelin-solidity": "^3.4.2",
     "secp256k1": "^5.0.0",

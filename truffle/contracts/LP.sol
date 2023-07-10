@@ -23,11 +23,28 @@ abstract contract LP is Ownable {
     event Lock();
     event Unlock();
     event ContractProvisioned(address _htlc, uint256 _amount);
+    event ContractMinted(address _htlc, uint256 _amount);
+
+    error InvalidReserveAddress();
+    error InvalidSafetyModuleAddress();
+    error InvalidArchethicPoolSigner();
+    error AlreadyProvisioned();
+    error AlreadyMinted();
+    error InvalidSignature();
+    error InsufficientFunds();
+    error Locked();
 
 	constructor(address _reserveAddress, address _safetyAddress, uint256 _safetyFeeRate, address _archPoolSigner, uint256 _poolCap) {
-        require(_reserveAddress != address(0), "Invalid reserve address");
-        require(_safetyAddress != address(0), "Invalid safety module address");
-        require(_archPoolSigner != address(0), "Invalid Archethic Pool's signer address");
+        if(_reserveAddress == address(0)) {
+            revert InvalidReserveAddress();
+        }
+
+        if(_safetyAddress == address(0)) {
+            revert InvalidSafetyModuleAddress();
+        }
+        if(_archPoolSigner == address(0)) {
+            revert InvalidArchethicPoolSigner();
+        }
 
         reserveAddress = _reserveAddress;
         safetyModuleAddress = _safetyAddress;
@@ -38,18 +55,24 @@ abstract contract LP is Ownable {
 	}
 
     modifier onlyUnlocked {
-        require(locked == false, "Pool is currently locked for provisionning withdrawals");
+        if(locked) {
+            revert Locked();
+        }
         _;
     }
 
     function setReserveAddress(address _reserveAddress) onlyOwner external {
-        require(_reserveAddress != address(0), "Invalid reserve address");
+        if(_reserveAddress == address(0)) {
+            revert InvalidReserveAddress();
+        }
         reserveAddress = _reserveAddress;
         emit ReserveAddressChanged(_reserveAddress);
     }
 
     function setSafetyModuleAddress(address _safetyAddress) onlyOwner external {
-        require(_safetyAddress != address(0), "Invalid safety module address");
+        if(_safetyAddress == address(0)) {
+            revert InvalidSafetyModuleAddress();
+        }
         safetyModuleAddress = _safetyAddress;
         emit SafetyModuleAddressChanged(_safetyAddress);
     }
@@ -60,7 +83,9 @@ abstract contract LP is Ownable {
     }
 
     function setArchethicPoolSigner(address _archPoolSigner) onlyOwner external {
-        require(_archPoolSigner != address(0), "Invalid Archethic Pool's signer address");
+        if(_archPoolSigner == address(0)) {
+            revert InvalidArchethicPoolSigner();
+        }
         archethicPoolSigner = _archPoolSigner;
         emit ArchethicPoolSignerChanged(_archPoolSigner);
     }
@@ -81,12 +106,16 @@ abstract contract LP is Ownable {
     }
 
     function provisionHTLC(bytes32 _hash, uint256 _amount, uint _lockTime, bytes32 _r, bytes32 _s, uint8 _v) onlyUnlocked external {
-        require(provisionedSwaps[_hash] == address(0), "Contract already provisioned for this hash");
+        if(provisionedSwaps[_hash] != address(0)) {
+            revert AlreadyProvisioned();
+        }
+
         bytes32 signatureHash = ECDSA.toEthSignedMessageHash(_hash);
         address signer = ECDSA.recover(signatureHash, _v, _r, _s);
 
-        require(signer != address(0), "Invalid signature - No signer recovered");
-        require(archethicPoolSigner == signer, "Invalid signature - Archethic Pool key does not match signature");
+        if (signer != archethicPoolSigner) {
+            revert InvalidSignature();
+        }
 
         address htlcContract = _provisionHTLC(_hash, _amount, _lockTime);
         provisionedSwaps[_hash] = address(htlcContract);

@@ -1,14 +1,19 @@
 const DummyToken = artifacts.require("DummyToken")
 const HTLC = artifacts.require("HTLC_ERC")
-
+const { ethers } = require("ethers");
 
 const { increaseTime} = require('./utils')
 const { createHash, randomBytes } = require("crypto")
 
 contract("ERC HTLC", (accounts) => {
 
+  let DummyTokenInstance;
+
+  before(async() => {
+    DummyTokenInstance = await DummyToken.new(web3.utils.toWei('1000'))
+  })
+
   it("should create contract", async () => {
-    const DummyTokenInstance = await DummyToken.deployed()
     const recipientEthereum = accounts[2]
 
     const HTLCInstance = await HTLC.new(
@@ -29,7 +34,6 @@ contract("ERC HTLC", (accounts) => {
 
   describe("withdraw", () => {
     it("should withdraw the funds with the hash preimage reveal", async () => {
-      const DummyTokenInstance = await DummyToken.deployed()
       const recipientEthereum = accounts[2]
   
       const amount = web3.utils.toWei('1')
@@ -59,7 +63,6 @@ contract("ERC HTLC", (accounts) => {
     })
 
     it("should refuse the withdraw is the swap is already done", async () => {
-      const DummyTokenInstance = await DummyToken.deployed()
       const recipientEthereum = accounts[2]
   
       const amount = web3.utils.toWei('1')
@@ -83,12 +86,12 @@ contract("ERC HTLC", (accounts) => {
         await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, { from: accounts[2] })
       }
       catch(e) {
-        assert.equal(e.reason, "Swap already done")
+        const interface = new ethers.Interface(HTLCInstance.abi);
+        assert.equal(interface.parseError(e.data.result).name, "AlreadyFinished")
       }
     })
 
     it("should refuse the withdraw is secret is invalid", async () => {
-      const DummyTokenInstance = await DummyToken.deployed()
       const recipientEthereum = accounts[2]
   
       const amount = web3.utils.toWei('1')
@@ -111,12 +114,12 @@ contract("ERC HTLC", (accounts) => {
         await HTLCInstance.withdraw(`0x${randomBytes(32).toString('hex')}`, { from: accounts[2] })
       }
       catch(e) {
-        assert.equal(e.reason, "Wrong secret")
+        const interface = new ethers.Interface(HTLCInstance.abi);
+        assert.equal(interface.parseError(e.data.result).name, "InvalidSecret")
       }
     })
 
     it("should refuse the withdraw if the contract doesn't get funds", async () => {
-      const DummyTokenInstance = await DummyToken.deployed()
       const recipientEthereum = accounts[2]
   
       const amount = web3.utils.toWei('1')
@@ -137,12 +140,12 @@ contract("ERC HTLC", (accounts) => {
         await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, { from: accounts[2] })
       }
       catch(e) {
-        assert.equal(e.reason, "Not enough funds")
+        const interface = new ethers.Interface(HTLCInstance.abi);
+        assert.equal(interface.parseError(e.data.result).name, "InsufficientFunds")
       }
     })
 
     it("should refuse the withdraw if the locktime passed", async () => {
-      const DummyTokenInstance = await DummyToken.deployed()
       const recipientEthereum = accounts[2]
   
       const amount = web3.utils.toWei('1')
@@ -166,14 +169,14 @@ contract("ERC HTLC", (accounts) => {
         await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, { from: accounts[2] })
       }
       catch(e) {
-        assert.equal(e.reason, "Withdraw delay outdated, use refund")
+        const interface = new ethers.Interface(HTLCInstance.abi);
+        assert.equal(interface.parseError(e.data.result).name, "TooLate")
       }
     })
   })
 
   describe("refund", () => {
     it("should refund the owner after the lock time", async () => {
-      const DummyTokenInstance = await DummyToken.deployed()
       const recipientEthereum = accounts[2]
   
       const amount = web3.utils.toWei('1')
@@ -205,7 +208,6 @@ contract("ERC HTLC", (accounts) => {
     })
 
     it ("should return an error if the swap is already finished", async() => {
-      const DummyTokenInstance = await DummyToken.deployed()
       const recipientEthereum = accounts[2]
   
       const amount = web3.utils.toWei('1')
@@ -232,12 +234,12 @@ contract("ERC HTLC", (accounts) => {
         await HTLCInstance.refund()
       }
       catch(e) {
-        assert.equal(e.reason, 'Cannot refund a swap already finished')
+        const interface = new ethers.Interface(HTLCInstance.abi);
+        assert.equal(interface.parseError(e.data.result).name, "AlreadyFinished")
       }
     })
 
     it ("should return an error if contract doesn't get funds", async() => {
-      const DummyTokenInstance = await DummyToken.deployed()
       const recipientEthereum = accounts[2]
   
       const amount = web3.utils.toWei('1')
@@ -258,12 +260,12 @@ contract("ERC HTLC", (accounts) => {
         await HTLCInstance.refund()
       }
       catch(e) {
-        assert.equal(e.reason, 'Not enough funds')
+        const interface = new ethers.Interface(HTLCInstance.abi);
+        assert.equal(interface.parseError(e.data.result).name, "InsufficientFunds")
       }
     })
 
     it ("should return an error if the lock time is not reached", async() => {
-      const DummyTokenInstance = await DummyToken.deployed()
       const recipientEthereum = accounts[2]
   
       const amount = web3.utils.toWei('1')
@@ -285,7 +287,8 @@ contract("ERC HTLC", (accounts) => {
         await HTLCInstance.refund()
       }
       catch(e) {
-        assert.equal(e.reason, 'Cannot refund before the end of the lock time')
+        const interface = new ethers.Interface(HTLCInstance.abi);
+        assert.equal(interface.parseError(e.data.result).name, "TooEarly")
       }
     })
   })

@@ -6,29 +6,36 @@ import "./HTLC.sol";
 contract HTLC_ETH is HTLC {
     event FundsReceived(uint _amount);
 
+    error ProvisionLimitReached();
+
     constructor(address payable _recipient, uint256 _amount, bytes32 _hash, uint _lockTime) HTLC(_recipient, _amount, _hash, _lockTime) {
     }
 
     receive() payable external {
         _checkAmount();
-        require(!finished, "Cannot receive ethers when finished");
-        require(_beforeLockTime(), "Cannot receive ethers after locktime elapsed");
+        if (finished) {
+            revert AlreadyFinished();
+        }
+        if (!_beforeLockTime()) {
+            revert TooLate();
+        }
         emit FundsReceived(msg.value);
     }
 
-    function _checkAmount() virtual internal view {
-        require(address(this).balance == amount, "Cannot receive more ethers");
-        require(msg.value == amount, "Cannot receive more than expected amount");
+    function _checkAmount() virtual internal {
+        if(address(this).balance > amount) {
+            revert ProvisionLimitReached();
+        }
     }
 
     function _transfer() override virtual internal {
         (bool sent,) = recipient.call{value: amount}("");
-        require(sent, "Cannot withdraw ETH");
+        require(sent);
     }
 
     function _refund() override virtual internal {
         (bool sent,) = owner().call{value: amount}("");
-        require(sent, "Cannot refund the ETH");
+        require(sent);
     }
 
     function _enoughFunds() override virtual internal view returns (bool) {

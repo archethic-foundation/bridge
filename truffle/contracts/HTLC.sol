@@ -15,10 +15,27 @@ abstract contract HTLC is Ownable {
     event Withdrawn();
     event Refunded();
 
+    error AlreadyFinished();
+    error TooLate();
+    error TooEarly();
+    error InvalidSecret();
+    error InsufficientFunds();
+    error InvalidRecipient();
+    error InvalidAmount();
+    error InvalidLockTime();
+
     constructor(address _recipient, uint256 _amount, bytes32 _hash, uint _lockTime) {
-        require(_recipient != address(0), "Invalid recipient address");
-        require(_amount > 0, "Invalid amount");
-        require(_lockTime > 0, "Invalid locktime");
+        if (_recipient == address(0)) {
+            revert InvalidRecipient();
+        }
+
+        if (_amount == 0) {
+            revert InvalidAmount();
+        }
+
+        if (_lockTime == 0) {
+            revert InvalidLockTime();
+        }
 
         recipient = _recipient;
         amount = _amount;
@@ -33,10 +50,18 @@ abstract contract HTLC is Ownable {
     }
 
     function withdraw(bytes32 _secret) public {
-        require(finished == false, 'Swap already done');
-        require(sha256(abi.encodePacked(_secret)) == hash, 'Wrong secret');
-        require(_enoughFunds(), 'Not enough funds');
-        require(_beforeLockTime(), 'Withdraw delay outdated, use refund');
+        if (finished) {
+            revert AlreadyFinished();
+        }
+        if (sha256(abi.encodePacked(_secret)) != hash) {
+            revert InvalidSecret();
+        }
+        if (!_enoughFunds()) {
+            revert InsufficientFunds();
+        }
+        if (!_beforeLockTime()) {
+            revert TooLate();
+        }
         secret = _secret;
         _transfer();
         finished = true;
@@ -48,9 +73,15 @@ abstract contract HTLC is Ownable {
     }
 
     function refund() external {
-        require(finished == false, "Cannot refund a swap already finished");
-        require(_enoughFunds(), 'Not enough funds');
-        require(!_beforeLockTime(), "Cannot refund before the end of the lock time");
+        if (finished) {
+            revert AlreadyFinished();
+        }
+        if (!_enoughFunds()) {
+            revert InsufficientFunds();
+        }
+        if (_beforeLockTime()) {
+            revert TooEarly();
+        }
         _refund();
         finished = true;
         emit Refunded();

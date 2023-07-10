@@ -8,18 +8,20 @@ const { createHash, randomBytes } = require("crypto")
 contract("Chargeable ERC HTLC", (accounts) => {
 
   let archPoolSigner = {}
+  let DummyTokenInstance
 
-  before(() => {
+  before(async() => {
       const { privateKey } = generateECDSAKey()
       const { address } = web3.eth.accounts.privateKeyToAccount(`0x${privateKey.toString('hex')}`);
       archPoolSigner = {
           address: address,
           privateKey: privateKey
       }
+
+      DummyTokenInstance = await DummyToken.new(web3.utils.toWei('1000'))
   })
 
   it("should create contract and associated recipient and fee", async () => {
-    const DummyTokenInstance = await DummyToken.deployed()
     const satefyModuleAddress = accounts[3]
     const reserveAddress = accounts[4]
     const poolInstance = await LiquidityPool.new(reserveAddress, satefyModuleAddress, 5, archPoolSigner.address, 20000, DummyTokenInstance.address)
@@ -42,7 +44,6 @@ contract("Chargeable ERC HTLC", (accounts) => {
   })
 
   it("withdraw should send tokens to the reserve address and fee to the safety module", async() => {
-    const DummyTokenInstance = await DummyToken.deployed()
     const satefyModuleAddress = accounts[3]
     const reserveAddress = accounts[4]
     const poolInstance = await LiquidityPool.new(reserveAddress, satefyModuleAddress, 5, archPoolSigner.address, 20000, DummyTokenInstance.address)
@@ -70,7 +71,6 @@ contract("Chargeable ERC HTLC", (accounts) => {
   })
 
   it("refund should send back tokens to the owner", async() => {
-    const DummyTokenInstance = await DummyToken.deployed()
     const satefyModuleAddress = accounts[3]
     const reserveAddress = accounts[4]
     const poolInstance = await LiquidityPool.new(reserveAddress, satefyModuleAddress, 5, archPoolSigner.address, 20000, DummyTokenInstance.address)

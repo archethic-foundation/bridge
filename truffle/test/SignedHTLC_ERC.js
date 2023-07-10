@@ -4,25 +4,27 @@ const DummyToken = artifacts.require("DummyToken")
 
 const { generateECDSAKey, createEthSign } = require("./utils")
 const { randomBytes, createHash } = require("crypto")
+const { ethers } = require("ethers")
 
 contract("Signed ERC HTLC", (accounts) => {
 
     let archPoolSigner = {}
+    let DummyTokenInstance
 
-    before(() => {
+    before(async() => {
         const { privateKey } = generateECDSAKey()
         const { address } = web3.eth.accounts.privateKeyToAccount(`0x${privateKey.toString('hex')}`);
         archPoolSigner = {
             address: address,
             privateKey: privateKey
         }
+
+        DummyTokenInstance = await DummyToken.new(web3.utils.toWei('1000'))
     })
 
     describe("withdraw", () => {
 
         it("should send funds once the secret is valid for the hash and the hash is signed by the Archethic pool", async () => {
-            const DummyTokenInstance = await DummyToken.deployed()
-
             const satefyModuleAddress = accounts[3]
 
             const poolInstance = await LiquidityPool.new(accounts[4], satefyModuleAddress, 5, archPoolSigner.address, 20000, DummyTokenInstance.address)
@@ -55,7 +57,6 @@ contract("Signed ERC HTLC", (accounts) => {
         })
 
         it("should return an error if the signature is invalid", async () => {
-            const DummyTokenInstance = await DummyToken.deployed()
             const poolInstance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, 20000, DummyTokenInstance.address)
             await poolInstance.unlock()
 
@@ -79,7 +80,8 @@ contract("Signed ERC HTLC", (accounts) => {
                 await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, `0x${rSecret}`, `0x${sSecret}`, v, { from: accounts[3] })
             }
             catch(e) {
-                assert.equal(e.reason, "Invalid signature - Archethic Pool key does not match signature")
+                const interface = new ethers.Interface(HTLCInstance.abi);
+                assert.equal(interface.parseError(e.data.result).name, "InvalidSignature")
             }
         })
     })

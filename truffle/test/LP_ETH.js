@@ -4,6 +4,7 @@ const HTLC = artifacts.require("SignedHTLC_ETH")
 const { randomBytes } = require("crypto")
 const { generateECDSAKey, hexToUintArray, createEthSign } = require("./utils")
 const keccak256 = require("keccak256")
+const { ethers } = require("ethers")
 
 contract("ETH LiquidityPool", (accounts) => {
 
@@ -20,36 +21,36 @@ contract("ETH LiquidityPool", (accounts) => {
 
     it("should create contract", async () => {
         
-        const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, 20000)
+        const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, web3.utils.toWei('2'))
     
         assert.equal(await instance.reserveAddress(), accounts[4])
         assert.equal(await instance.safetyModuleAddress(), accounts[3])
         assert.equal(await instance.safetyModuleFeeRate(), 5)
         assert.equal(await instance.archethicPoolSigner(), archPoolSigner.address)
-        assert.equal(await instance.poolCap(), 20000)
+        assert.equal(await instance.poolCap(), web3.utils.toWei('2'))
         assert.equal(await instance.locked(), true)
     })
 
     it("should update the reserve address", async () => {
-        const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, 20000)
+        const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, web3.utils.toWei('2'))
         await instance.setReserveAddress(accounts[8])
         assert.equal(await instance.reserveAddress(), accounts[8])
     })
 
     it("should update the safety module address", async () => {
-        const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, 20000)
+        const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, web3.utils.toWei('2'))
         await instance.setSafetyModuleAddress(accounts[8])
         assert.equal(await instance.safetyModuleAddress(), accounts[8])
     })
 
     it("should update the safety module fee", async () => {
-        const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, 20000)
+        const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, web3.utils.toWei('2'))
         await instance.setSafetyModuleFeeRate(10)
         assert.equal(await instance.safetyModuleFeeRate(), 10)
     })
 
     it("should update the archethic pool signer address", async () => {
-        const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, 20000)
+        const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, web3.utils.toWei('2'))
 
         const { privateKey } = generateECDSAKey()
         const { address } = web3.eth.accounts.privateKeyToAccount(`0x${privateKey.toString('hex')}`);
@@ -59,19 +60,19 @@ contract("ETH LiquidityPool", (accounts) => {
     })
 
     it("should update the pool cap", async () => {
-        const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, 20000)
+        const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, web3.utils.toWei('2'))
         await instance.setPoolCap(50000)
         assert.equal(await instance.poolCap(), 50000)
     })
 
     it("should unlock pool", async () => {
-        const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, 20000)
+        const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, web3.utils.toWei('2'))
         await instance.unlock()
         assert.equal(false, await instance.locked())
     })
 
     it("should lock pool after unlocked", async () => {
-        const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, 20000)
+        const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, web3.utils.toWei('2'))
         await instance.unlock()
         assert.equal(false, await instance.locked())
         await instance.lock()
@@ -79,14 +80,14 @@ contract("ETH LiquidityPool", (accounts) => {
     })
 
     it("should update owner", async () => {
-        const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, 20000)
+        const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, web3.utils.toWei('2'))
         await instance.transferOwnership(accounts[3])
         assert.equal(accounts[3], await instance.owner())
     })
 
     describe("provisionHTLC", () => {
         it("should send ETH to the HTLC contract after verifying the signature", async () => {
-            const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, 20000)
+            const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, web3.utils.toWei('2'))
             await instance.unlock()
             await web3.eth.sendTransaction({ from: accounts[1], to: instance.address, value: web3.utils.toWei('2') });
 
@@ -108,7 +109,7 @@ contract("ETH LiquidityPool", (accounts) => {
         })
 
         it("should return an error an already provisioned hash contract is requested", async() => {
-            const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, 20000)
+            const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, web3.utils.toWei('2'))
             await instance.unlock()
             await web3.eth.sendTransaction({ from: accounts[1], to: instance.address, value: web3.utils.toWei('2') });
 
@@ -122,12 +123,13 @@ contract("ETH LiquidityPool", (accounts) => {
                 await instance.provisionHTLC("0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", web3.utils.toWei('1'), 60, `0x${r}`, `0x${s}`, v)
             }
             catch(e) {
-                assert.equal("Contract already provisioned for this hash", e.reason)
+                const interface = new ethers.Interface(instance.abi);
+                assert.equal(interface.parseError(e.data.result).name, "AlreadyProvisioned")
             }
         })
 
         it("should return an error when the signature is invalid", async() => {
-            const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, 20000)
+            const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, web3.utils.toWei('2'))
             await instance.unlock()
             await web3.eth.sendTransaction({ from: accounts[1], to: instance.address, value: web3.utils.toWei('2') });
 
@@ -139,12 +141,13 @@ contract("ETH LiquidityPool", (accounts) => {
 
             }
             catch(e) {
-                assert.equal("Invalid signature - Archethic Pool key does not match signature", e.reason)
+                const interface = new ethers.Interface(instance.abi);
+                assert.equal(interface.parseError(e.data.result).name, "InvalidSignature")
             }
         })
 
         it("should return an error when the pool doesn't have enough funds to provide HTLC contract", async() => {
-            const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, 20000)
+            const instance = await LiquidityPool.new(accounts[4], accounts[3], 5, archPoolSigner.address, web3.utils.toWei('2'))
             await instance.unlock()
 
             const sigHash = hexToUintArray("9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08")
@@ -155,7 +158,8 @@ contract("ETH LiquidityPool", (accounts) => {
                 await instance.provisionHTLC("0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", web3.utils.toWei('1'), 60, `0x${r}`, `0x${s}`, v)
             }
             catch(e) {
-                assert.equal("Pool doesn't have enough funds to provision the swap", e.reason)
+                const interface = new ethers.Interface(instance.abi);
+                assert.equal(interface.parseError(e.data.result).name, "InsufficientFunds")
             }
         })
     })

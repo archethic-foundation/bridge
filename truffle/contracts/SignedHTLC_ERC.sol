@@ -13,8 +13,13 @@ using SafeMath for uint256;
 contract SignedHTLC_ERC is HTLC_ERC {
     LP_ERC public pool;
 
+    error InvalidCreator();
+    error InvalidSignature();
+
     constructor(address _recipient, IERC20 _token, uint256 _amount, bytes32 _hash, uint _lockTime, LP_ERC _pool) HTLC_ERC(_recipient, _token,  _amount, _hash, _lockTime) {
-        require(msg.sender == address(_pool), "The contract should be created from the pool");
+        if(msg.sender != address(_pool)) {
+            revert InvalidCreator();
+        }
         pool = _pool;
     }
 
@@ -22,8 +27,9 @@ contract SignedHTLC_ERC is HTLC_ERC {
         bytes32 sigHash = ECDSA.toEthSignedMessageHash(_secret);
         address signer = ECDSA.recover(sigHash, _v, _r, _s);
 
-        require(signer != address(0), "Invalid signature - No signer recovered");
-        require(signer == pool.archethicPoolSigner(), "Invalid signature - Archethic Pool key does not match signature");
+        if (signer != pool.archethicPoolSigner()) {
+            revert InvalidSignature();
+        }
 
         withdraw(_secret);
     }
