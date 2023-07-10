@@ -3,6 +3,7 @@ pragma solidity ^0.8.13;
 
 import "./LP.sol";
 import "./SignedHTLC_ERC.sol";
+import "./ChargeableHTLC_ERC.sol";
 
 contract LP_ERC is LP {
 
@@ -26,6 +27,14 @@ contract LP_ERC is LP {
 
         SignedHTLC_ERC htlcContract = new SignedHTLC_ERC(msg.sender, token, _amount, _hash, _lockTime, this);
         token.transfer(address(htlcContract), _amount);
+        return address(htlcContract);
+    }
+
+    function _mintHTLC(bytes32 _hash, uint256 _amount, uint _lockTime) override internal returns (address) {
+        if (token.balanceOf(msg.sender) < _amount) {
+            revert InsufficientFunds();
+        } 
+        ChargeableHTLC_ERC htlcContract = new ChargeableHTLC_ERC(token, _amount, _hash, _lockTime, this);
         return address(htlcContract);
     }
 }

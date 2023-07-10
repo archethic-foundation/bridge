@@ -81,7 +81,6 @@ contract("Chargeable ETH HTLC", (accounts) => {
       
     const amount = web3.utils.toWei("1")
 
-
     const HTLCInstance = await HTLC.new(
       amount,
       `0x${secretHash}`,

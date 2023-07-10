@@ -14,6 +14,7 @@ abstract contract LP is Ownable {
     bool public locked;
 
     mapping(bytes32 => address) public provisionedSwaps;
+    mapping(bytes32 => address) public mintedSwaps;
 
     event ReserveAddressChanged(address _reservedAddress);
     event SafetyModuleAddressChanged(address _safetyModuleAddress);
@@ -122,5 +123,15 @@ abstract contract LP is Ownable {
         emit ContractProvisioned(address(htlcContract), _amount);
     } 
 
-    function _provisionHTLC(bytes32 hash, uint256 amount, uint lockTime) virtual internal returns (address) {}
+    function mintHTLC(bytes32 _hash, uint256 _amount, uint _lockTime) payable external {
+        if(mintedSwaps[_hash] != address(0)) {
+            revert AlreadyMinted();
+        }
+        address htlcContract = _mintHTLC(_hash, _amount, _lockTime);
+        mintedSwaps[_hash] = address(htlcContract);
+        emit ContractMinted(address(htlcContract), _amount);
+    }
+
+    function _provisionHTLC(bytes32 _hash, uint256 _amount, uint _lockTime) virtual internal returns (address) {}
+    function _mintHTLC(bytes32 _hash, uint256 _amount, uint _lockTime) virtual internal returns (address) {}
 }

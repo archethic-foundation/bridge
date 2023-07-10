@@ -32,264 +32,260 @@ contract("ERC HTLC", (accounts) => {
     assert.equal(await HTLCInstance.lockTime(), 1)
   })
 
-  describe("withdraw", () => {
-    it("should withdraw the funds with the hash preimage reveal", async () => {
-      const recipientEthereum = accounts[2]
-  
-      const amount = web3.utils.toWei('1')
-      const secret = randomBytes(32)
-      const secretHash = createHash("sha256")
-        .update(secret)
-        .digest("hex")
-  
-      const HTLCInstance = await HTLC.new(
-        recipientEthereum,
-        DummyTokenInstance.address,
-        amount,
-        `0x${secretHash}`,
-        60
-      )
-  
-      await DummyTokenInstance.transfer(HTLCInstance.address, amount)
-  
-      assert.ok(await HTLCInstance.canWithdraw())
+  it("should withdraw the funds with the hash preimage reveal", async () => {
+    const recipientEthereum = accounts[2]
 
-      const balance1 = await DummyTokenInstance.balanceOf(recipientEthereum)
-  
-      await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, { from: accounts[2] })
-  
-      const balance2 = await DummyTokenInstance.balanceOf(recipientEthereum)
-      assert.equal(1, web3.utils.fromWei(balance2) - web3.utils.fromWei(balance1))
-    })
+    const amount = web3.utils.toWei('1')
+    const secret = randomBytes(32)
+    const secretHash = createHash("sha256")
+      .update(secret)
+      .digest("hex")
 
-    it("should refuse the withdraw is the swap is already done", async () => {
-      const recipientEthereum = accounts[2]
-  
-      const amount = web3.utils.toWei('1')
-      const secret = randomBytes(32)
-      const secretHash = createHash("sha256")
-        .update(secret)
-        .digest("hex")
-  
-      const HTLCInstance = await HTLC.new(
-        recipientEthereum,
-        DummyTokenInstance.address,
-        amount,
-        `0x${secretHash}`,
-        60
-      )
-  
-      await DummyTokenInstance.transfer(HTLCInstance.address, amount)
-  
-      await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, { from: accounts[2] })
-      try {
-        await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, { from: accounts[2] })
-      }
-      catch(e) {
-        const interface = new ethers.Interface(HTLCInstance.abi);
-        assert.equal(interface.parseError(e.data.result).name, "AlreadyFinished")
-      }
-    })
+    const HTLCInstance = await HTLC.new(
+      recipientEthereum,
+      DummyTokenInstance.address,
+      amount,
+      `0x${secretHash}`,
+      60
+    )
 
-    it("should refuse the withdraw is secret is invalid", async () => {
-      const recipientEthereum = accounts[2]
-  
-      const amount = web3.utils.toWei('1')
-      const secret = randomBytes(32)
-      const secretHash = createHash("sha256")
-        .update(secret)
-        .digest("hex")
-  
-      const HTLCInstance = await HTLC.new(
-        recipientEthereum,
-        DummyTokenInstance.address,
-        amount,
-        `0x${secretHash}`,
-        60
-      )
-  
-      await DummyTokenInstance.transfer(HTLCInstance.address, amount)
-  
-      try {
-        await HTLCInstance.withdraw(`0x${randomBytes(32).toString('hex')}`, { from: accounts[2] })
-      }
-      catch(e) {
-        const interface = new ethers.Interface(HTLCInstance.abi);
-        assert.equal(interface.parseError(e.data.result).name, "InvalidSecret")
-      }
-    })
+    await DummyTokenInstance.transfer(HTLCInstance.address, amount)
 
-    it("should refuse the withdraw if the contract doesn't get funds", async () => {
-      const recipientEthereum = accounts[2]
-  
-      const amount = web3.utils.toWei('1')
-      const secret = randomBytes(32)
-      const secretHash = createHash("sha256")
-        .update(secret)
-        .digest("hex")
-  
-      const HTLCInstance = await HTLC.new(
-        recipientEthereum,
-        DummyTokenInstance.address,
-        amount,
-        `0x${secretHash}`,
-        60
-      )
-  
-      try {
-        await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, { from: accounts[2] })
-      }
-      catch(e) {
-        const interface = new ethers.Interface(HTLCInstance.abi);
-        assert.equal(interface.parseError(e.data.result).name, "InsufficientFunds")
-      }
-    })
+    assert.ok(await HTLCInstance.canWithdraw())
 
-    it("should refuse the withdraw if the locktime passed", async () => {
-      const recipientEthereum = accounts[2]
-  
-      const amount = web3.utils.toWei('1')
-      const secret = randomBytes(32)
-      const secretHash = createHash("sha256")
-        .update(secret)
-        .digest("hex")
-  
-      const HTLCInstance = await HTLC.new(
-        recipientEthereum,
-        DummyTokenInstance.address,
-        amount,
-        `0x${secretHash}`,
-        1
-      )
+    const balance1 = await DummyTokenInstance.balanceOf(recipientEthereum)
 
-      await DummyTokenInstance.transfer(HTLCInstance.address, amount)
+    await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, { from: accounts[2] })
 
-      await increaseTime(2)
-      try {
-        await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, { from: accounts[2] })
-      }
-      catch(e) {
-        const interface = new ethers.Interface(HTLCInstance.abi);
-        assert.equal(interface.parseError(e.data.result).name, "TooLate")
-      }
-    })
+    const balance2 = await DummyTokenInstance.balanceOf(recipientEthereum)
+    assert.equal(1, web3.utils.fromWei(balance2) - web3.utils.fromWei(balance1))
   })
 
-  describe("refund", () => {
-    it("should refund the owner after the lock time", async () => {
-      const recipientEthereum = accounts[2]
-  
-      const amount = web3.utils.toWei('1')
-      const secret = randomBytes(32)
-      const secretHash = createHash("sha256")
-        .update(secret)
-        .digest("hex")
-  
-      const balance1 = await DummyTokenInstance.balanceOf(accounts[0])
-  
-      const HTLCInstance = await HTLC.new(
-        recipientEthereum,
-        DummyTokenInstance.address,
-        amount,
-        `0x${secretHash}`,
-        1
-      )
+  it("should refuse the withdraw is the swap is already done", async () => {
+    const recipientEthereum = accounts[2]
 
-      await DummyTokenInstance.transfer(HTLCInstance.address, amount)
-      await increaseTime(2)
+    const amount = web3.utils.toWei('1')
+    const secret = randomBytes(32)
+    const secretHash = createHash("sha256")
+      .update(secret)
+      .digest("hex")
 
-      assert.ok(await HTLCInstance.canRefund())
+    const HTLCInstance = await HTLC.new(
+      recipientEthereum,
+      DummyTokenInstance.address,
+      amount,
+      `0x${secretHash}`,
+      60
+    )
 
+    await DummyTokenInstance.transfer(HTLCInstance.address, amount)
+
+    await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, { from: accounts[2] })
+    try {
+      await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, { from: accounts[2] })
+    }
+    catch(e) {
+      const interface = new ethers.Interface(HTLCInstance.abi);
+      assert.equal(interface.parseError(e.data.result).name, "AlreadyFinished")
+    }
+  })
+
+  it("should refuse the withdraw is secret is invalid", async () => {
+    const recipientEthereum = accounts[2]
+
+    const amount = web3.utils.toWei('1')
+    const secret = randomBytes(32)
+    const secretHash = createHash("sha256")
+      .update(secret)
+      .digest("hex")
+
+    const HTLCInstance = await HTLC.new(
+      recipientEthereum,
+      DummyTokenInstance.address,
+      amount,
+      `0x${secretHash}`,
+      60
+    )
+
+    await DummyTokenInstance.transfer(HTLCInstance.address, amount)
+
+    try {
+      await HTLCInstance.withdraw(`0x${randomBytes(32).toString('hex')}`, { from: accounts[2] })
+    }
+    catch(e) {
+      const interface = new ethers.Interface(HTLCInstance.abi);
+      assert.equal(interface.parseError(e.data.result).name, "InvalidSecret")
+    }
+  })
+
+  it("should refuse the withdraw if the contract doesn't get funds", async () => {
+    const recipientEthereum = accounts[2]
+
+    const amount = web3.utils.toWei('1')
+    const secret = randomBytes(32)
+    const secretHash = createHash("sha256")
+      .update(secret)
+      .digest("hex")
+
+    const HTLCInstance = await HTLC.new(
+      recipientEthereum,
+      DummyTokenInstance.address,
+      amount,
+      `0x${secretHash}`,
+      60
+    )
+
+    try {
+      await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, { from: accounts[2] })
+    }
+    catch(e) {
+      const interface = new ethers.Interface(HTLCInstance.abi);
+      assert.equal(interface.parseError(e.data.result).name, "InsufficientFunds")
+    }
+  })
+
+  it("should refuse the withdraw if the locktime passed", async () => {
+    const recipientEthereum = accounts[2]
+
+    const amount = web3.utils.toWei('1')
+    const secret = randomBytes(32)
+    const secretHash = createHash("sha256")
+      .update(secret)
+      .digest("hex")
+
+    const HTLCInstance = await HTLC.new(
+      recipientEthereum,
+      DummyTokenInstance.address,
+      amount,
+      `0x${secretHash}`,
+      1
+    )
+
+    await DummyTokenInstance.transfer(HTLCInstance.address, amount)
+
+    await increaseTime(2)
+    try {
+      await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, { from: accounts[2] })
+    }
+    catch(e) {
+      const interface = new ethers.Interface(HTLCInstance.abi);
+      assert.equal(interface.parseError(e.data.result).name, "TooLate")
+    }
+  })
+
+  it("should refund the owner after the lock time", async () => {
+    const recipientEthereum = accounts[2]
+
+    const amount = web3.utils.toWei('1')
+    const secret = randomBytes(32)
+    const secretHash = createHash("sha256")
+      .update(secret)
+      .digest("hex")
+
+    const balance1 = await DummyTokenInstance.balanceOf(accounts[0])
+
+    const HTLCInstance = await HTLC.new(
+      recipientEthereum,
+      DummyTokenInstance.address,
+      amount,
+      `0x${secretHash}`,
+      1
+    )
+
+    await DummyTokenInstance.transfer(HTLCInstance.address, amount)
+    await increaseTime(2)
+
+    assert.ok(await HTLCInstance.canRefund())
+
+    await HTLCInstance.refund()
+    const balance2 = await DummyTokenInstance.balanceOf(accounts[0])
+    assert.equal(web3.utils.fromWei(balance2), web3.utils.fromWei(balance1))
+
+    assert.equal(await HTLCInstance.finished(), true)
+  })
+
+  it ("should return an error if the swap is already finished", async() => {
+    const recipientEthereum = accounts[2]
+
+    const amount = web3.utils.toWei('1')
+    const secret = randomBytes(32)
+    const secretHash = createHash("sha256")
+      .update(secret)
+      .digest("hex")
+
+    const HTLCInstance = await HTLC.new(
+      recipientEthereum,
+      DummyTokenInstance.address,
+      amount,
+      `0x${secretHash}`,
+      1
+    )
+
+    await DummyTokenInstance.transfer(HTLCInstance.address, amount)
+
+    await increaseTime(2)
+    await HTLCInstance.refund()
+    assert.equal(false, await HTLCInstance.canRefund())
+
+    try {
       await HTLCInstance.refund()
-      const balance2 = await DummyTokenInstance.balanceOf(accounts[0])
-      assert.equal(web3.utils.fromWei(balance2), web3.utils.fromWei(balance1))
+    }
+    catch(e) {
+      const interface = new ethers.Interface(HTLCInstance.abi);
+      assert.equal(interface.parseError(e.data.result).name, "AlreadyFinished")
+    }
+  })
 
-      assert.equal(await HTLCInstance.finished(), true)
-    })
+  it ("should return an error if contract doesn't get funds", async() => {
+    const recipientEthereum = accounts[2]
 
-    it ("should return an error if the swap is already finished", async() => {
-      const recipientEthereum = accounts[2]
-  
-      const amount = web3.utils.toWei('1')
-      const secret = randomBytes(32)
-      const secretHash = createHash("sha256")
-        .update(secret)
-        .digest("hex")
-  
-      const HTLCInstance = await HTLC.new(
-        recipientEthereum,
-        DummyTokenInstance.address,
-        amount,
-        `0x${secretHash}`,
-        1
-      )
+    const amount = web3.utils.toWei('1')
+    const secret = randomBytes(32)
+    const secretHash = createHash("sha256")
+      .update(secret)
+      .digest("hex")
 
-      await DummyTokenInstance.transfer(HTLCInstance.address, amount)
+    const HTLCInstance = await HTLC.new(
+      recipientEthereum,
+      DummyTokenInstance.address,
+      amount,
+      `0x${secretHash}`,
+      1
+    )
 
-      await increaseTime(2)
+    try {
       await HTLCInstance.refund()
-      assert.equal(false, await HTLCInstance.canRefund())
+    }
+    catch(e) {
+      const interface = new ethers.Interface(HTLCInstance.abi);
+      assert.equal(interface.parseError(e.data.result).name, "InsufficientFunds")
+    }
+  })
 
-      try {
-        await HTLCInstance.refund()
-      }
-      catch(e) {
-        const interface = new ethers.Interface(HTLCInstance.abi);
-        assert.equal(interface.parseError(e.data.result).name, "AlreadyFinished")
-      }
-    })
+  it ("should return an error if the lock time is not reached", async() => {
+    const recipientEthereum = accounts[2]
 
-    it ("should return an error if contract doesn't get funds", async() => {
-      const recipientEthereum = accounts[2]
-  
-      const amount = web3.utils.toWei('1')
-      const secret = randomBytes(32)
-      const secretHash = createHash("sha256")
-        .update(secret)
-        .digest("hex")
-  
-      const HTLCInstance = await HTLC.new(
-        recipientEthereum,
-        DummyTokenInstance.address,
-        amount,
-        `0x${secretHash}`,
-        1
-      )
+    const amount = web3.utils.toWei('1')
+    const secret = randomBytes(32)
+    const secretHash = createHash("sha256")
+      .update(secret)
+      .digest("hex")
 
-      try {
-        await HTLCInstance.refund()
-      }
-      catch(e) {
-        const interface = new ethers.Interface(HTLCInstance.abi);
-        assert.equal(interface.parseError(e.data.result).name, "InsufficientFunds")
-      }
-    })
+    const HTLCInstance = await HTLC.new(
+      recipientEthereum,
+      DummyTokenInstance.address,
+      amount,
+      `0x${secretHash}`,
+      1
+    )
 
-    it ("should return an error if the lock time is not reached", async() => {
-      const recipientEthereum = accounts[2]
-  
-      const amount = web3.utils.toWei('1')
-      const secret = randomBytes(32)
-      const secretHash = createHash("sha256")
-        .update(secret)
-        .digest("hex")
-  
-      const HTLCInstance = await HTLC.new(
-        recipientEthereum,
-        DummyTokenInstance.address,
-        amount,
-        `0x${secretHash}`,
-        1
-      )
-
-      await DummyTokenInstance.transfer(HTLCInstance.address, amount)
-      try {
-        await HTLCInstance.refund()
-      }
-      catch(e) {
-        const interface = new ethers.Interface(HTLCInstance.abi);
-        assert.equal(interface.parseError(e.data.result).name, "TooEarly")
-      }
-    })
+    await DummyTokenInstance.transfer(HTLCInstance.address, amount)
+    try {
+      await HTLCInstance.refund()
+    }
+    catch(e) {
+      const interface = new ethers.Interface(HTLCInstance.abi);
+      assert.equal(interface.parseError(e.data.result).name, "TooEarly")
+    }
   })
 })

@@ -3,6 +3,7 @@ pragma solidity ^0.8.13;
 
 import "./LP.sol";
 import "./SignedHTLC_ETH.sol";
+import "./ChargeableHTLC_ETH.sol";
 
 contract LP_ETH is LP {
 
@@ -27,7 +28,17 @@ contract LP_ETH is LP {
 
         SignedHTLC_ETH htlcContract = new SignedHTLC_ETH(payable(msg.sender), _amount, _hash, _lockTime, this);
         (bool sent,) = address(htlcContract).call{value: _amount}("");
-        require(sent, "Cannot send ethers to the HTLC contract");
+        require(sent);
+        return address(htlcContract);
+    }
+
+    function _mintHTLC(bytes32 _hash, uint256 _amount, uint _lockTime) override internal returns (address) {
+         if (msg.sender.balance < _amount) {
+            revert InsufficientFunds();
+        } 
+        ChargeableHTLC_ETH htlcContract = new ChargeableHTLC_ETH(_amount, _hash, _lockTime, this);
+        (bool sent,) = address(htlcContract).call{value: _amount}("");
+        require(sent);
         return address(htlcContract);
     }
 }
