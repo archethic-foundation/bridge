@@ -22,27 +22,31 @@
                     secretDigest = new Uint8Array(secretDigest);
                     const secretDigestHex = uint8ArrayToHex(secretDigest)
 
-                    const contract = await getLPContract('0xcC1C489851cf2761bFC1F4192425C8d349fF119D', provider)
+                    const contract = await getLPContract('0x208a8D23e896d710e054ddf3Ee9F4D4626D5f0b0', provider)
                     const signer = provider.getSigner();
                     const signedContract = await contract.connect(signer)
 
                     const amount = ethers.utils.parseUnits("1.0", "ether");
                     const htlcTx = await signedContract.mintHTLC(`0x${secretDigestHex}`, amount, 60)
-                    console.log(htlcTx.hash, 'htlc tx')
+                    await htlcTx.wait()
+
                     const htlcAddress = await signedContract.mintedSwaps(`0x${secretDigestHex}`)
+                    console.log(htlcAddress)
 
                     const provisionTx = await signer.sendTransaction({
                         to: htlcAddress,
                         value: ethers.utils.parseEther("1.0")
                     });
+                    await provisionTx.wait()
 
                     console.log(provisionTx.hash, 'provision tx')
 
                     const htlcContract = await getHTLCContract(htlcAddress, provider)
                     const signedHtlcContract = await htlcContract.connect(signer)
 
-                    const withdrawdTx = await signedHtlcContract.withdraw(`0x${uint8ArrayToHex(secret)}`)
-                    console.log(withdrawdTx.hash, 'withdraw tx')
+                    const withdrawTx = await signedHtlcContract.withdraw(`0x${uint8ArrayToHex(secret)}`)
+                    await withdrawTx.wait()
+                    console.log(withdrawTx.hash, 'withdraw tx')
                 })
         }
 
