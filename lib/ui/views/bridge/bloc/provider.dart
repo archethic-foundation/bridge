@@ -5,7 +5,6 @@ import 'package:aebridge/model/bridge_blockchain.dart';
 import 'package:aebridge/model/bridge_token.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -83,12 +82,16 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   Future<void> setTokenToBridgeAmount(
     double tokenToBridgeAmount,
   ) async {
-    final oracleUcoPrice = await sl.get<OracleService>().getOracleData();
-
+    // TODO(reddwarf03): manage oracle
+    /*final oracleUcoPrice = await sl.get<OracleService>().getOracleData();
     state = state.copyWith(
       tokenToBridgeAmount: tokenToBridgeAmount,
       tokenToBridgeAmountFiat:
           tokenToBridgeAmount * (oracleUcoPrice.uco?.usd ?? 0),
+    );*/
+    state = state.copyWith(
+      tokenToBridgeAmount: tokenToBridgeAmount,
+      tokenToBridgeAmountFiat: 0,
     );
   }
 
@@ -127,10 +130,14 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   }
 
   Future<void> setNetworkFees(double networkFees) async {
-    final oracleUcoPrice = await sl.get<OracleService>().getOracleData();
+    /* final oracleUcoPrice = await sl.get<OracleService>().getOracleData();
     state = state.copyWith(
       networkFees: networkFees,
       networkFeesFiat: networkFees * (oracleUcoPrice.uco?.usd ?? 0),
+    );*/
+    state = state.copyWith(
+      networkFees: networkFees,
+      networkFeesFiat: 0,
     );
   }
 

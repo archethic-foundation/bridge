@@ -9,42 +9,58 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:webthree/crypto.dart';
 
-class BridgeseCase {
+class BridgeUseCase {
   Future<void> run(
     WidgetRef ref,
     BuildContext context,
   ) async {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
-
-    final secret = sha256.convert(
-      Uint8List.fromList(
-        List<int>.generate(
-          32,
-          (int i) => Random.secure().nextInt(256),
-        ),
+    final secret = Uint8List.fromList(
+      List<int>.generate(
+        32,
+        (int i) => Random.secure().nextInt(256),
       ),
     );
+    final secretHex = '0x${bytesToHex(secret)}';
+    final hash = sha256.convert(
+      secret,
+    );
+    debugPrint('secret: $secretHex');
+    debugPrint('type token: ${bridge.tokenToBridge!.type}');
+    debugPrint('poolAddress: ${bridge.tokenToBridge!.poolAddress}');
 
     switch (bridge.tokenToBridge!.type) {
       case 'ERC20':
-        final contractHTLC = await LPERCContract().deployHTLC(
+        final htlcContract = await LPERCContract().deployAndProvisionHTLC(
           bridge.tokenToBridge!.poolAddress,
-          '0x$secret',
+          hash.toString(),
           BigInt.from(bridge.tokenToBridgeAmount),
           chainId: bridge.blockchainFrom!.chainId,
         );
-        await LPERCContract().provisionHTLC(
-          contractHTLC,
-          BigInt.from(bridge.tokenToBridgeAmount),
+        if (htlcContract == null) {
+          return;
+        }
+        await LPERCContract().withdraw(
+          htlcContract,
+          secretHex,
           chainId: bridge.blockchainFrom!.chainId,
         );
         break;
       case 'Native':
-        await LPETHContract().deployAndProvisionHTLC(
+        final htlcContract = await LPETHContract().deployAndProvisionHTLC(
           bridge.tokenToBridge!.poolAddress,
-          '0x$secret',
+          hash.toString(),
           BigInt.from(bridge.tokenToBridgeAmount),
+          chainId: bridge.blockchainFrom!.chainId,
+        );
+        if (htlcContract == null) {
+          return;
+        }
+        await LPETHContract().withdraw(
+          htlcContract,
+          secretHex,
           chainId: bridge.blockchainFrom!.chainId,
         );
 

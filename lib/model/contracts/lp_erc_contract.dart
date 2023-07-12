@@ -10,7 +10,7 @@ import 'package:webthree/webthree.dart';
 class LPERCContract {
   final String apiUrl = 'http://127.0.0.1:7545';
 
-  Future<String> deployHTLC(
+  Future<String?> deployAndProvisionHTLC(
     String poolAddress,
     String hash,
     BigInt amount, {
@@ -20,52 +20,133 @@ class LPERCContract {
     final metaMaskProvider = sl.get<MetaMaskProvider>();
 
     final web3Client = Web3Client(apiUrl, Client());
+    late String htlcContractAddress;
 
-    final abiStringJson = jsonDecode(
-      await rootBundle.loadString('truffle/build/contracts/LP_ERC.json'),
-    );
+    try {
+      final abiLPERCStringJson = jsonDecode(
+        await rootBundle.loadString('truffle/build/contracts/LP_ERC.json'),
+      );
 
-    final contract = DeployedContract(
-      ContractAbi.fromJson(
-        jsonEncode(abiStringJson['abi']),
-        abiStringJson['contractName'] as String,
-      ),
-      EthereumAddress.fromHex(poolAddress),
-    );
+      final contractLPERC = DeployedContract(
+        ContractAbi.fromJson(
+          jsonEncode(abiLPERCStringJson['abi']),
+          abiLPERCStringJson['contractName'] as String,
+        ),
+        EthereumAddress.fromHex(poolAddress),
+      );
 
-    debugPrint('deployed contract ok');
+      debugPrint('contractLPERC ok');
 
-    final transaction = Transaction.callContract(
-      contract: contract,
-      function: contract.function('mintHTLC'),
-      parameters: [
-        hexToBytes(hash),
-        EtherAmount.inWei(amount).getInWei,
-        lockTime,
-      ],
-    );
+      final transactionMintHTLC = Transaction.callContract(
+        contract: contractLPERC,
+        function: contractLPERC.function('mintHTLC'),
+        parameters: [
+          hexToBytes(hash),
+          EtherAmount.fromUnitAndValue(EtherUnit.ether, amount).getInWei,
+          BigInt.from(lockTime),
+        ],
+      );
 
-    debugPrint('transaction ok');
+      debugPrint('contractLPERC mintHTLC ok');
 
-    final transactionHash = await web3Client.sendTransaction(
-      metaMaskProvider.credentials!,
-      transaction,
-      chainId: chainId,
-    );
+      await web3Client.sendTransaction(
+        metaMaskProvider.credentials!,
+        transactionMintHTLC,
+        chainId: chainId,
+      );
 
-    debugPrint('transaction sent ');
-    final receipt = await web3Client.getTransactionReceipt(transactionHash);
+      debugPrint('HTLC Contract deployed');
 
-    debugPrint('HTLC contract deployed at ${receipt!.contractAddress!.hex}');
+      // Get HTLC Contract address
+      final transactionMintedSwapsHashes = await web3Client.call(
+        contract: contractLPERC,
+        function: contractLPERC.function('mintedSwaps'),
+        params: [
+          hexToBytes(hash),
+        ],
+      );
 
-    return receipt.contractAddress!.hex;
+      htlcContractAddress = transactionMintedSwapsHashes[0].hex;
+      debugPrint('HTLC Contract address: $htlcContractAddress');
+
+      final abiDummyTokenStringJson = jsonDecode(
+        await rootBundle.loadString('truffle/build/contracts/DummyToken.json'),
+      );
+
+      final contractDummyToken = DeployedContract(
+        ContractAbi.fromJson(
+          jsonEncode(abiDummyTokenStringJson['abi']),
+          abiDummyTokenStringJson['contractName'] as String,
+        ),
+        EthereumAddress.fromHex('0x0DcB46d580b279D5E40a505148b1B1f4Af681717'),
+      );
+
+      final transactionTransfer = Transaction.callContract(
+        contract: contractDummyToken,
+        function: contractDummyToken.function('transfer'),
+        parameters: [
+          EthereumAddress.fromHex(htlcContractAddress),
+          EtherAmount.fromUnitAndValue(EtherUnit.ether, amount).getInWei,
+        ],
+      );
+
+      await web3Client.sendTransaction(
+        metaMaskProvider.credentials!,
+        transactionTransfer,
+        chainId: chainId,
+      );
+
+      debugPrint('Token provisionned');
+      return htlcContractAddress;
+    } catch (e) {
+      debugPrint('Error: $e');
+      return null;
+    }
   }
 
-  Future<void> provisionHTLC(
-    String contractAddress,
-    BigInt amount, {
+  Future<void> withdraw(
+    String htlcContractAddress,
+    String secret, {
     int chainId = 1337,
   }) async {
-    return;
+    final metaMaskProvider = sl.get<MetaMaskProvider>();
+
+    final web3Client = Web3Client(apiUrl, Client());
+
+    try {
+      final abiStringJson = jsonDecode(
+        await rootBundle.loadString('truffle/build/contracts/HTLC_ERC.json'),
+      );
+
+      debugPrint('widthdraw - htlcContractAddress: $htlcContractAddress');
+      debugPrint('widthdraw - secret: $secret');
+
+      final contractHTLCERC = DeployedContract(
+        ContractAbi.fromJson(
+          jsonEncode(abiStringJson['abi']),
+          abiStringJson['contractName'] as String,
+        ),
+        EthereumAddress.fromHex(htlcContractAddress),
+      );
+
+      final transactionMintHTLC = Transaction.callContract(
+        contract: contractHTLCERC,
+        function: contractHTLCERC.function('withdraw'),
+        parameters: [
+          hexToBytes(secret),
+        ],
+      );
+
+      final withdrawTx = await web3Client.sendTransaction(
+        metaMaskProvider.credentials!,
+        transactionMintHTLC,
+        chainId: chainId,
+      );
+
+      debugPrint('withdrawTx: $withdrawTx');
+    } catch (e, trace) {
+      debugPrint('Error: $e');
+      debugPrint('Trace: $trace');
+    }
   }
 }
