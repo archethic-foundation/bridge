@@ -141,7 +141,8 @@
                 "targetTokenName": "Universal Coin",
                 "targetTokenSymbol": "UCO",
                 "poolAddress": "",
-                "type": "ERC20"
+                "type": "ERC20",
+                "tokenAddress": ""
             }
         ],
         "137->-1": [
@@ -159,7 +160,8 @@
                 "targetTokenName": "Universal Coin",
                 "targetTokenSymbol": "UCO",
                 "poolAddress": "",
-                "type": "ERC20"
+                "type": "ERC20",
+                "tokenAddress": ""
             }
         ],
         "56->-1": [
@@ -177,7 +179,8 @@
                 "targetTokenName": "Universal Coin",
                 "targetTokenSymbol": "UCO",
                 "poolAddress": "",
-                "type": "ERC20"
+                "type": "ERC20",
+                "tokenAddress": ""
             }
         ],
         "5->-2": [
@@ -195,7 +198,8 @@
                 "targetTokenName": "Universal Coin",
                 "targetTokenSymbol": "UCO",
                 "poolAddress": "",
-                "type": "ERC20"
+                "type": "ERC20",
+                "tokenAddress": ""
             }
         ],
         "80001->-2": [
@@ -213,7 +217,8 @@
                 "targetTokenName": "Universal Coin",
                 "targetTokenSymbol": "UCO",
                 "poolAddress": "",
-                "type": "ERC20"
+                "type": "ERC20",
+                "tokenAddress": ""
             }
         ],
         "97->-2": [
@@ -231,7 +236,8 @@
                 "targetTokenName": "Universal Coin",
                 "targetTokenSymbol": "UCO",
                 "poolAddress": "",
-                "type": "ERC20"
+                "type": "ERC20",
+                "tokenAddress": ""
             }
         ],
         "1337->-3": [
@@ -249,7 +255,8 @@
                 "targetTokenName": "Universal Coin",
                 "targetTokenSymbol": "UCO",
                 "poolAddress": "0xc9F15BAc00004734DF1BacD9CfC3e6215C9dB770",
-                "type": "ERC20"
+                "type": "ERC20",
+                "tokenAddress": "0x0DcB46d580b279D5E40a505148b1B1f4Af681717"
             }
         ]
     }

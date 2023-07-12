@@ -26,48 +26,55 @@
             "chainId": 1,
             "env": "1-mainnet",
             "icon": "Ethereum.svg",
-            "urlExplorer": "https://etherscan.io/"
+            "urlExplorer": "https://etherscan.io/",
+            "providerEndpoint": "https://mainnet.infura.io/v3/3a7a2dbdbec046a4961550ddf8c7d78a"
         },
         {
             "name": "Goerli Ethereum Testnet",
             "chainId": 5,
             "env": "2-testnet",
             "icon": "Ethereum.svg",
-            "urlExplorer": "https://goerli.etherscan.io/"
+            "urlExplorer": "https://goerli.etherscan.io/",
+            "providerEndpoint": "https://goerli.infura.io/v3/3a7a2dbdbec046a4961550ddf8c7d78a"
         },
         {
             "name": "Ethereum Devnet",
             "chainId": 1337,
             "env": "3-devnet",
-            "icon": "Ethereum.svg"
+            "icon": "Ethereum.svg",
+            "providerEndpoint": "http://127.0.0.1:7545"
         },
         {
             "name": "Polygon",
             "chainId": 137,
             "env": "1-mainnet",
             "icon": "Polygon.svg",
-            "urlExplorer": "https://polygonscan.com"
+            "urlExplorer": "https://polygonscan.com",
+            "providerEndpoint": "https://polygon-mainnet.g.alchemy.com/v2/DynWKvz6PUFaeZNmlxPXNiV1nK4Ac_2D"
         },
         {
             "name": "Mumbai Polygon Testnet",
             "chainId": 80001,
             "env": "2-testnet",
             "icon": "Polygon.svg",
-            "urlExplorer": "https://mumbai.polygonscan.com"
+            "urlExplorer": "https://mumbai.polygonscan.com",
+            "providerEndpoint": "https://polygon-mumbai.g.alchemy.com/v2/-8zo2X19AmwNv7AGVIsGF5LWJQLc92Oj"
         },
         {
             "name": "Binance Smart Chain",
             "chainId": 56,
             "env": "1-mainnet",
             "icon": "BSC.svg",
-            "urlExplorer": "https://bscscan.com"
+            "urlExplorer": "https://bscscan.com",
+            "providerEndpoint": "https://bsc-dataseed1.binance.org/"
         },
         {
             "name": "Binance Smart Chain Testnet",
             "chainId": 97,
             "env": "2-testnet",
             "icon": "BSC.svg",
-            "urlExplorer": "https://testnet.bscscan.com"
+            "urlExplorer": "https://testnet.bscscan.com",
+            "providerEndpoint": "https://data-seed-prebsc-2-s3.binance.org:8545"
         }
     ]
 }

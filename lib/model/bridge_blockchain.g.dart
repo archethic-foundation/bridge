@@ -13,6 +13,7 @@ _$_BridgeBlockchain _$$_BridgeBlockchainFromJson(Map<String, dynamic> json) =>
       env: json['env'] as String? ?? '',
       icon: json['icon'] as String? ?? '',
       urlExplorer: json['urlExplorer'] as String? ?? '',
+      providerEndpoint: json['providerEndpoint'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$_BridgeBlockchainToJson(_$_BridgeBlockchain instance) =>
@@ -22,4 +23,5 @@ Map<String, dynamic> _$$_BridgeBlockchainToJson(_$_BridgeBlockchain instance) =>
       'env': instance.env,
       'icon': instance.icon,
       'urlExplorer': instance.urlExplorer,
+      'providerEndpoint': instance.providerEndpoint,
     };

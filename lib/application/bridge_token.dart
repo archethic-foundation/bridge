@@ -56,6 +56,7 @@ class BridgeTokensRepository {
               targetTokenSymbol: token.targetTokenSymbol,
               type: token.type,
               poolAddress: token.poolAddress,
+              tokenAddress: token.tokenAddress,
             ),
           );
         }

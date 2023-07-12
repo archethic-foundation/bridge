@@ -25,6 +25,7 @@ mixin _$BridgeBlockchain {
   String get env => throw _privateConstructorUsedError;
   String get icon => throw _privateConstructorUsedError;
   String get urlExplorer => throw _privateConstructorUsedError;
+  String get providerEndpoint => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -39,7 +40,12 @@ abstract class $BridgeBlockchainCopyWith<$Res> {
       _$BridgeBlockchainCopyWithImpl<$Res, BridgeBlockchain>;
   @useResult
   $Res call(
-      {String name, int chainId, String env, String icon, String urlExplorer});
+      {String name,
+      int chainId,
+      String env,
+      String icon,
+      String urlExplorer,
+      String providerEndpoint});
 }
 
 /// @nodoc
@@ -60,6 +66,7 @@ class _$BridgeBlockchainCopyWithImpl<$Res, $Val extends BridgeBlockchain>
     Object? env = null,
     Object? icon = null,
     Object? urlExplorer = null,
+    Object? providerEndpoint = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -82,6 +89,10 @@ class _$BridgeBlockchainCopyWithImpl<$Res, $Val extends BridgeBlockchain>
           ? _value.urlExplorer
           : urlExplorer // ignore: cast_nullable_to_non_nullable
               as String,
+      providerEndpoint: null == providerEndpoint
+          ? _value.providerEndpoint
+          : providerEndpoint // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -95,7 +106,12 @@ abstract class _$$_BridgeBlockchainCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String name, int chainId, String env, String icon, String urlExplorer});
+      {String name,
+      int chainId,
+      String env,
+      String icon,
+      String urlExplorer,
+      String providerEndpoint});
 }
 
 /// @nodoc
@@ -114,6 +130,7 @@ class __$$_BridgeBlockchainCopyWithImpl<$Res>
     Object? env = null,
     Object? icon = null,
     Object? urlExplorer = null,
+    Object? providerEndpoint = null,
   }) {
     return _then(_$_BridgeBlockchain(
       name: null == name
@@ -136,6 +153,10 @@ class __$$_BridgeBlockchainCopyWithImpl<$Res>
           ? _value.urlExplorer
           : urlExplorer // ignore: cast_nullable_to_non_nullable
               as String,
+      providerEndpoint: null == providerEndpoint
+          ? _value.providerEndpoint
+          : providerEndpoint // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -148,7 +169,8 @@ class _$_BridgeBlockchain implements _BridgeBlockchain {
       this.chainId = 0,
       this.env = '',
       this.icon = '',
-      this.urlExplorer = ''});
+      this.urlExplorer = '',
+      this.providerEndpoint = ''});
 
   factory _$_BridgeBlockchain.fromJson(Map<String, dynamic> json) =>
       _$$_BridgeBlockchainFromJson(json);
@@ -168,10 +190,13 @@ class _$_BridgeBlockchain implements _BridgeBlockchain {
   @override
   @JsonKey()
   final String urlExplorer;
+  @override
+  @JsonKey()
+  final String providerEndpoint;
 
   @override
   String toString() {
-    return 'BridgeBlockchain(name: $name, chainId: $chainId, env: $env, icon: $icon, urlExplorer: $urlExplorer)';
+    return 'BridgeBlockchain(name: $name, chainId: $chainId, env: $env, icon: $icon, urlExplorer: $urlExplorer, providerEndpoint: $providerEndpoint)';
   }
 
   @override
@@ -184,13 +209,15 @@ class _$_BridgeBlockchain implements _BridgeBlockchain {
             (identical(other.env, env) || other.env == env) &&
             (identical(other.icon, icon) || other.icon == icon) &&
             (identical(other.urlExplorer, urlExplorer) ||
-                other.urlExplorer == urlExplorer));
+                other.urlExplorer == urlExplorer) &&
+            (identical(other.providerEndpoint, providerEndpoint) ||
+                other.providerEndpoint == providerEndpoint));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, name, chainId, env, icon, urlExplorer);
+  int get hashCode => Object.hash(
+      runtimeType, name, chainId, env, icon, urlExplorer, providerEndpoint);
 
   @JsonKey(ignore: true)
   @override
@@ -212,7 +239,8 @@ abstract class _BridgeBlockchain implements BridgeBlockchain {
       final int chainId,
       final String env,
       final String icon,
-      final String urlExplorer}) = _$_BridgeBlockchain;
+      final String urlExplorer,
+      final String providerEndpoint}) = _$_BridgeBlockchain;
 
   factory _BridgeBlockchain.fromJson(Map<String, dynamic> json) =
       _$_BridgeBlockchain.fromJson;
@@ -227,6 +255,8 @@ abstract class _BridgeBlockchain implements BridgeBlockchain {
   String get icon;
   @override
   String get urlExplorer;
+  @override
+  String get providerEndpoint;
   @override
   @JsonKey(ignore: true)
   _$$_BridgeBlockchainCopyWith<_$_BridgeBlockchain> get copyWith =>

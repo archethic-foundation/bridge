@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$BridgeToken {
   String get name => throw _privateConstructorUsedError;
-  dynamic get tokenAddress => throw _privateConstructorUsedError;
+  String get tokenAddress => throw _privateConstructorUsedError;
   String get symbol => throw _privateConstructorUsedError;
   String get targetTokenName => throw _privateConstructorUsedError;
   String get targetTokenSymbol => throw _privateConstructorUsedError;
@@ -37,7 +37,7 @@ abstract class $BridgeTokenCopyWith<$Res> {
   @useResult
   $Res call(
       {String name,
-      dynamic tokenAddress,
+      String tokenAddress,
       String symbol,
       String targetTokenName,
       String targetTokenSymbol,
@@ -59,7 +59,7 @@ class _$BridgeTokenCopyWithImpl<$Res, $Val extends BridgeToken>
   @override
   $Res call({
     Object? name = null,
-    Object? tokenAddress = freezed,
+    Object? tokenAddress = null,
     Object? symbol = null,
     Object? targetTokenName = null,
     Object? targetTokenSymbol = null,
@@ -71,10 +71,10 @@ class _$BridgeTokenCopyWithImpl<$Res, $Val extends BridgeToken>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      tokenAddress: freezed == tokenAddress
+      tokenAddress: null == tokenAddress
           ? _value.tokenAddress
           : tokenAddress // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as String,
       symbol: null == symbol
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
@@ -109,7 +109,7 @@ abstract class _$$_BridgeTokenCopyWith<$Res>
   @useResult
   $Res call(
       {String name,
-      dynamic tokenAddress,
+      String tokenAddress,
       String symbol,
       String targetTokenName,
       String targetTokenSymbol,
@@ -129,7 +129,7 @@ class __$$_BridgeTokenCopyWithImpl<$Res>
   @override
   $Res call({
     Object? name = null,
-    Object? tokenAddress = freezed,
+    Object? tokenAddress = null,
     Object? symbol = null,
     Object? targetTokenName = null,
     Object? targetTokenSymbol = null,
@@ -141,8 +141,10 @@ class __$$_BridgeTokenCopyWithImpl<$Res>
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
               as String,
-      tokenAddress:
-          freezed == tokenAddress ? _value.tokenAddress! : tokenAddress,
+      tokenAddress: null == tokenAddress
+          ? _value.tokenAddress
+          : tokenAddress // ignore: cast_nullable_to_non_nullable
+              as String,
       symbol: null == symbol
           ? _value.symbol
           : symbol // ignore: cast_nullable_to_non_nullable
@@ -184,7 +186,7 @@ class _$_BridgeToken implements _BridgeToken {
   final String name;
   @override
   @JsonKey()
-  final dynamic tokenAddress;
+  final String tokenAddress;
   @override
   @JsonKey()
   final String symbol;
@@ -212,8 +214,8 @@ class _$_BridgeToken implements _BridgeToken {
         (other.runtimeType == runtimeType &&
             other is _$_BridgeToken &&
             (identical(other.name, name) || other.name == name) &&
-            const DeepCollectionEquality()
-                .equals(other.tokenAddress, tokenAddress) &&
+            (identical(other.tokenAddress, tokenAddress) ||
+                other.tokenAddress == tokenAddress) &&
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
             (identical(other.targetTokenName, targetTokenName) ||
                 other.targetTokenName == targetTokenName) &&
@@ -225,15 +227,8 @@ class _$_BridgeToken implements _BridgeToken {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      name,
-      const DeepCollectionEquality().hash(tokenAddress),
-      symbol,
-      targetTokenName,
-      targetTokenSymbol,
-      poolAddress,
-      type);
+  int get hashCode => Object.hash(runtimeType, name, tokenAddress, symbol,
+      targetTokenName, targetTokenSymbol, poolAddress, type);
 
   @JsonKey(ignore: true)
   @override
@@ -245,7 +240,7 @@ class _$_BridgeToken implements _BridgeToken {
 abstract class _BridgeToken implements BridgeToken {
   const factory _BridgeToken(
       {final String name,
-      final dynamic tokenAddress,
+      final String tokenAddress,
       final String symbol,
       final String targetTokenName,
       final String targetTokenSymbol,
@@ -255,7 +250,7 @@ abstract class _BridgeToken implements BridgeToken {
   @override
   String get name;
   @override
-  dynamic get tokenAddress;
+  String get tokenAddress;
   @override
   String get symbol;
   @override

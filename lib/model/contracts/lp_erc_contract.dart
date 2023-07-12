@@ -8,18 +8,21 @@ import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
 class LPERCContract {
-  final String apiUrl = 'http://127.0.0.1:7545';
+  LPERCContract(this.providerEndpoint);
+
+  String? providerEndpoint;
 
   Future<String?> deployAndProvisionHTLC(
     String poolAddress,
     String hash,
-    BigInt amount, {
+    BigInt amount,
+    String tokenAddress, {
     int lockTime = 720,
     int chainId = 1337,
   }) async {
     final metaMaskProvider = sl.get<MetaMaskProvider>();
-
-    final web3Client = Web3Client(apiUrl, Client());
+    debugPrint('providerEndpoint: $providerEndpoint');
+    final web3Client = Web3Client(providerEndpoint!, Client());
     late String htlcContractAddress;
 
     try {
@@ -78,7 +81,7 @@ class LPERCContract {
           jsonEncode(abiDummyTokenStringJson['abi']),
           abiDummyTokenStringJson['contractName'] as String,
         ),
-        EthereumAddress.fromHex('0x0DcB46d580b279D5E40a505148b1B1f4Af681717'),
+        EthereumAddress.fromHex(tokenAddress),
       );
 
       final transactionTransfer = Transaction.callContract(
@@ -111,7 +114,7 @@ class LPERCContract {
   }) async {
     final metaMaskProvider = sl.get<MetaMaskProvider>();
 
-    final web3Client = Web3Client(apiUrl, Client());
+    final web3Client = Web3Client(providerEndpoint!, Client());
 
     try {
       final abiStringJson = jsonDecode(

@@ -18,7 +18,6 @@ class BridgeTokenAddress extends ConsumerWidget {
 
     if (bridge.blockchainTo == null ||
         bridge.tokenToBridge == null ||
-        bridge.tokenToBridge!.tokenAddress == null ||
         bridge.tokenToBridge!.tokenAddress.isEmpty) {
       return const SizedBox();
     }

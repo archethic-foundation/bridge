@@ -33,23 +33,30 @@ class BridgeUseCase {
 
     switch (bridge.tokenToBridge!.type) {
       case 'ERC20':
-        final htlcContract = await LPERCContract().deployAndProvisionHTLC(
+        debugPrint('tokenAddress: ${bridge.tokenToBridge!.tokenAddress}');
+
+        final lpercContract =
+            LPERCContract(bridge.blockchainFrom!.providerEndpoint);
+        final htlcContract = await lpercContract.deployAndProvisionHTLC(
           bridge.tokenToBridge!.poolAddress,
           hash.toString(),
           BigInt.from(bridge.tokenToBridgeAmount),
+          bridge.tokenToBridge!.tokenAddress,
           chainId: bridge.blockchainFrom!.chainId,
         );
         if (htlcContract == null) {
           return;
         }
-        await LPERCContract().withdraw(
+        await lpercContract.withdraw(
           htlcContract,
           secretHex,
           chainId: bridge.blockchainFrom!.chainId,
         );
         break;
       case 'Native':
-        final htlcContract = await LPETHContract().deployAndProvisionHTLC(
+        final lpethContract =
+            LPETHContract(bridge.blockchainFrom!.providerEndpoint);
+        final htlcContract = await lpethContract.deployAndProvisionHTLC(
           bridge.tokenToBridge!.poolAddress,
           hash.toString(),
           BigInt.from(bridge.tokenToBridgeAmount),
@@ -58,7 +65,7 @@ class BridgeUseCase {
         if (htlcContract == null) {
           return;
         }
-        await LPETHContract().withdraw(
+        await lpethContract.withdraw(
           htlcContract,
           secretHex,
           chainId: bridge.blockchainFrom!.chainId,

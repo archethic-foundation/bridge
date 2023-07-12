@@ -12,6 +12,7 @@ class BridgeBlockchain with _$BridgeBlockchain {
     @Default('') String env,
     @Default('') String icon,
     @Default('') String urlExplorer,
+    @Default('') String providerEndpoint,
   }) = _BridgeBlockchain;
 
   factory BridgeBlockchain.fromJson(Map<String, dynamic> json) =>

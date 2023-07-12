@@ -8,7 +8,9 @@ import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
 class LPETHContract {
-  final String apiUrl = 'http://127.0.0.1:7545';
+  LPETHContract(this.providerEndpoint);
+
+  String? providerEndpoint;
 
   Future<String?> deployAndProvisionHTLC(
     String poolAddress,
@@ -18,8 +20,8 @@ class LPETHContract {
     int chainId = 1337,
   }) async {
     final metaMaskProvider = sl.get<MetaMaskProvider>();
-
-    final web3Client = Web3Client(apiUrl, Client());
+    debugPrint('providerEndpoint: $providerEndpoint');
+    final web3Client = Web3Client(providerEndpoint!, Client());
     late String htlcContractAddress;
 
     try {
@@ -91,7 +93,7 @@ class LPETHContract {
   }) async {
     final metaMaskProvider = sl.get<MetaMaskProvider>();
 
-    final web3Client = Web3Client(apiUrl, Client());
+    final web3Client = Web3Client(providerEndpoint!, Client());
 
     try {
       final abiHTLCETHStringJson = jsonDecode(
