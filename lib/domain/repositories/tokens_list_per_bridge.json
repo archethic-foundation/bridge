@@ -246,7 +246,7 @@
                 "symbol": "ETH",
                 "targetTokenName": "Wrapped Ether",
                 "targetTokenSymbol": "WETH",
-                "poolAddress": "0xf19E52C4614eA3623a0A6917711A95660d47fDD9",
+                "poolAddress": "0x6Cd3E52046b01E585AB55aDB3D8b85c7E85De4e7",
                 "type": "Native"
             },
             {
@@ -254,9 +254,9 @@
                 "symbol": "UCO",
                 "targetTokenName": "Universal Coin",
                 "targetTokenSymbol": "UCO",
-                "poolAddress": "0xc9F15BAc00004734DF1BacD9CfC3e6215C9dB770",
+                "poolAddress": "0x2e4Fb1F52Cb382691502fe7ab719eA32f0CE3d42",
                 "type": "ERC20",
-                "tokenAddress": "0x0DcB46d580b279D5E40a505148b1B1f4Af681717"
+                "tokenAddress": "0x56d7e23ca4bEDb66948c81Fa58161CbD8680656D"
             }
         ]
     }

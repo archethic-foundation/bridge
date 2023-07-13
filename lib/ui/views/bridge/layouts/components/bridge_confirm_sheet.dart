@@ -1,11 +1,12 @@
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_back_btn.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_btn.dart';
 import 'package:aebridge/ui/views/util/components/icon_button_animated.dart';
 import 'package:aebridge/ui/views/util/components/scrollbar.dart';
-import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -15,9 +16,6 @@ class BridgeConfirmSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
-    final textTheme = Theme.of(context)
-        .textTheme
-        .apply(displayColor: Theme.of(context).colorScheme.onSurface);
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -110,77 +108,144 @@ class BridgeConfirmSheet extends ConsumerWidget {
                       const SizedBox(
                         height: 5,
                       ),
-                      Align(
-                        child: Row(
-                          children: [
-                            Text(
-                              bridge.blockchainFrom!.name,
-                              style: textTheme.titleMedium,
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.only(
-                                left: 5,
-                                right: 5,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!
+                                .bridge_blockchain_from_lbl,
+                          ),
+                          Row(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/images/bc-logos/${bridge.blockchainFrom!.icon}',
+                                height: 15,
                               ),
-                              child: Icon(Iconsax.arrow_right),
-                            ),
-                            Text(
-                              bridge.blockchainTo!.name,
-                              style: textTheme.titleMedium,
-                            ),
-                          ],
-                        ),
-                      ),
-                      Text(
-                        '${bridge.tokenToBridgeAmount} ${bridge.tokenToBridge!.symbol}',
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                bridge.blockchainFrom!.name,
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
                       const SizedBox(
-                        height: 10,
+                        height: 20,
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text('Fees'),
+                          Text(
+                            AppLocalizations.of(context)!
+                                .bridge_blockchain_to_lbl,
+                          ),
                           Row(
                             children: [
-                              const Text('How does the bridge fee work?'),
-                              IconButtonAnimated(
-                                icon: const Icon(
-                                  Icons.help,
-                                ),
-                                onPressed: () {
-                                  launchUrl(
-                                    Uri.parse(
-                                      'https://wiki.archethic.net/FAQ/',
-                                    ),
-                                  );
-                                },
-                                color: Theme.of(context)
-                                    .colorScheme
-                                    .primaryContainer,
+                              SvgPicture.asset(
+                                'assets/images/bc-logos/${bridge.blockchainTo!.icon}',
+                                height: 15,
+                              ),
+                              const SizedBox(
+                                width: 5,
+                              ),
+                              Text(
+                                bridge.blockchainTo!.name,
                               ),
                             ],
-                          )
+                          ),
                         ],
                       ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            AppLocalizations.of(context)!
+                                .bridge_token_amount_lbl,
+                          ),
+                          Text(
+                            '${bridge.tokenToBridgeAmount} ${bridge.tokenToBridge!.symbol}',
+                          ),
+                        ],
+                      ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      if (bridge.targetAddress.isNotEmpty)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!
+                                  .bridge_target_address_lbl,
+                            ),
+                            Text(
+                              bridge.targetAddress,
+                              style: const TextStyle(
+                                fontFamily: 'Roboto',
+                              ),
+                            ),
+                          ],
+                        ),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      const Text('Fees'),
                       const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Bridge Fee'),
+                          Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text('Bridge Fee'),
+                          ),
                           Text('0.1 ETH'),
                         ],
                       ),
                       const Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('You will receive'),
+                          Padding(
+                            padding: EdgeInsets.only(left: 10),
+                            child: Text('You will receive'),
+                          ),
                           Text('0.9 ETH'),
                         ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10),
+                        child: Row(
+                          children: [
+                            const Text('How does the bridge fee work?'),
+                            IconButtonAnimated(
+                              icon: const Icon(
+                                Icons.help,
+                              ),
+                              onPressed: () {
+                                launchUrl(
+                                  Uri.parse(
+                                    'https://wiki.archethic.net/FAQ/',
+                                  ),
+                                );
+                              },
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primaryContainer,
+                            ),
+                          ],
+                        ),
                       ),
                       const SizedBox(
                         height: 20,
                       ),
                       const BridgeConfirmButton(),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const BridgeConfirmBackButton(),
                     ],
                   ),
                 ),

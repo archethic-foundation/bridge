@@ -27,7 +27,7 @@ class LPERCContract {
 
     try {
       final abiLPERCStringJson = jsonDecode(
-        await rootBundle.loadString('truffle/build/contracts/LP_ERC.json'),
+        await rootBundle.loadString('truffle/build/contracts/IPool.json'),
       );
 
       final contractLPERC = DeployedContract(
@@ -73,7 +73,7 @@ class LPERCContract {
       debugPrint('HTLC Contract address: $htlcContractAddress');
 
       final abiDummyTokenStringJson = jsonDecode(
-        await rootBundle.loadString('truffle/build/contracts/DummyToken.json'),
+        await rootBundle.loadString('truffle/build/contracts/IERC20.json'),
       );
 
       final contractDummyToken = DeployedContract(
@@ -118,7 +118,7 @@ class LPERCContract {
 
     try {
       final abiStringJson = jsonDecode(
-        await rootBundle.loadString('truffle/build/contracts/HTLC_ERC.json'),
+        await rootBundle.loadString('truffle/build/contracts/IHTLC.json'),
       );
 
       debugPrint('widthdraw - htlcContractAddress: $htlcContractAddress');

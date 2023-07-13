@@ -26,7 +26,7 @@ class LPETHContract {
 
     try {
       final abiLPETHStringJson = jsonDecode(
-        await rootBundle.loadString('truffle/build/contracts/LP_ETH.json'),
+        await rootBundle.loadString('truffle/build/contracts/IPool.json'),
       );
 
       final contractLPETH = DeployedContract(
@@ -97,7 +97,7 @@ class LPETHContract {
 
     try {
       final abiHTLCETHStringJson = jsonDecode(
-        await rootBundle.loadString('truffle/build/contracts/HTLC_ETH.json'),
+        await rootBundle.loadString('truffle/build/contracts/IHTLC.json'),
       );
 
       debugPrint('widthdraw - htlcContractAddress: $htlcContractAddress');

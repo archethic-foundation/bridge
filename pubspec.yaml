@@ -130,11 +130,9 @@ flutter:
     - assets/images/bc-logos/
     - lib/domain/repositories/blockchains_list.json
     - lib/domain/repositories/tokens_list_per_bridge.json
-    - truffle/build/contracts/LP_ETH.json
-    - truffle/build/contracts/LP_ERC.json
-    - truffle/build/contracts/HTLC_ETH.json
-    - truffle/build/contracts/HTLC_ERC.json
-    - truffle/build/contracts/DummyToken.json
+    - truffle/build/contracts/IPool.json
+    - truffle/build/contracts/IHTLC.json
+    - truffle/build/contracts/IERC20.json
 
   fonts:
     - family: Lato
