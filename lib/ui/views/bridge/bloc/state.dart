@@ -5,10 +5,12 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'state.freezed.dart';
 
+enum BridgeProcessStep { form, confirmation }
+
 @freezed
 class BridgeFormState with _$BridgeFormState {
   const factory BridgeFormState({
-    @Default(0) int step,
+    @Default(BridgeProcessStep.form) BridgeProcessStep bridgeProcessStep,
     @Default('') String stepError,
     BridgeBlockchain? blockchainFrom,
     BridgeBlockchain? blockchainTo,

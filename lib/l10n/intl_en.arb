@@ -41,6 +41,7 @@
   "btn_swap_insufficient_balance": "Insufficient %1 balance",
   "btn_max": "MAX",
   "bridgeFormTitle": "Bridge",
+  "bridgeConfirmTitle": "Confirmation",
   "bridge_token_address_lbl": "Token address: ",
   "bridge_blockchain_from_lbl": "From",
   "bridge_blockchain_to_lbl": "To",

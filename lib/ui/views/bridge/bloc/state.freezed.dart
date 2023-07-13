@@ -16,7 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$BridgeFormState {
-  int get step => throw _privateConstructorUsedError;
+  BridgeProcessStep get bridgeProcessStep => throw _privateConstructorUsedError;
   String get stepError => throw _privateConstructorUsedError;
   BridgeBlockchain? get blockchainFrom => throw _privateConstructorUsedError;
   BridgeBlockchain? get blockchainTo => throw _privateConstructorUsedError;
@@ -42,7 +42,7 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       _$BridgeFormStateCopyWithImpl<$Res, BridgeFormState>;
   @useResult
   $Res call(
-      {int step,
+      {BridgeProcessStep bridgeProcessStep,
       String stepError,
       BridgeBlockchain? blockchainFrom,
       BridgeBlockchain? blockchainTo,
@@ -74,7 +74,7 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? step = null,
+    Object? bridgeProcessStep = null,
     Object? stepError = null,
     Object? blockchainFrom = freezed,
     Object? blockchainTo = freezed,
@@ -89,10 +89,10 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? errorText = null,
   }) {
     return _then(_value.copyWith(
-      step: null == step
-          ? _value.step
-          : step // ignore: cast_nullable_to_non_nullable
-              as int,
+      bridgeProcessStep: null == bridgeProcessStep
+          ? _value.bridgeProcessStep
+          : bridgeProcessStep // ignore: cast_nullable_to_non_nullable
+              as BridgeProcessStep,
       stepError: null == stepError
           ? _value.stepError
           : stepError // ignore: cast_nullable_to_non_nullable
@@ -190,7 +190,7 @@ abstract class _$$_BridgeFormStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {int step,
+      {BridgeProcessStep bridgeProcessStep,
       String stepError,
       BridgeBlockchain? blockchainFrom,
       BridgeBlockchain? blockchainTo,
@@ -223,7 +223,7 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? step = null,
+    Object? bridgeProcessStep = null,
     Object? stepError = null,
     Object? blockchainFrom = freezed,
     Object? blockchainTo = freezed,
@@ -238,10 +238,10 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
     Object? errorText = null,
   }) {
     return _then(_$_BridgeFormState(
-      step: null == step
-          ? _value.step
-          : step // ignore: cast_nullable_to_non_nullable
-              as int,
+      bridgeProcessStep: null == bridgeProcessStep
+          ? _value.bridgeProcessStep
+          : bridgeProcessStep // ignore: cast_nullable_to_non_nullable
+              as BridgeProcessStep,
       stepError: null == stepError
           ? _value.stepError
           : stepError // ignore: cast_nullable_to_non_nullable
@@ -298,7 +298,7 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
 
 class _$_BridgeFormState extends _BridgeFormState {
   const _$_BridgeFormState(
-      {this.step = 0,
+      {this.bridgeProcessStep = BridgeProcessStep.form,
       this.stepError = '',
       this.blockchainFrom,
       this.blockchainTo,
@@ -315,7 +315,7 @@ class _$_BridgeFormState extends _BridgeFormState {
 
   @override
   @JsonKey()
-  final int step;
+  final BridgeProcessStep bridgeProcessStep;
   @override
   @JsonKey()
   final String stepError;
@@ -352,7 +352,7 @@ class _$_BridgeFormState extends _BridgeFormState {
 
   @override
   String toString() {
-    return 'BridgeFormState(step: $step, stepError: $stepError, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeAmountFiat: $tokenToBridgeAmountFiat, networkFees: $networkFees, networkFeesFiat: $networkFeesFiat, tokenToBridgeBalance: $tokenToBridgeBalance, controlInProgress: $controlInProgress, errorText: $errorText)';
+    return 'BridgeFormState(bridgeProcessStep: $bridgeProcessStep, stepError: $stepError, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeAmountFiat: $tokenToBridgeAmountFiat, networkFees: $networkFees, networkFeesFiat: $networkFeesFiat, tokenToBridgeBalance: $tokenToBridgeBalance, controlInProgress: $controlInProgress, errorText: $errorText)';
   }
 
   @override
@@ -360,7 +360,8 @@ class _$_BridgeFormState extends _BridgeFormState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_BridgeFormState &&
-            (identical(other.step, step) || other.step == step) &&
+            (identical(other.bridgeProcessStep, bridgeProcessStep) ||
+                other.bridgeProcessStep == bridgeProcessStep) &&
             (identical(other.stepError, stepError) ||
                 other.stepError == stepError) &&
             (identical(other.blockchainFrom, blockchainFrom) ||
@@ -391,7 +392,7 @@ class _$_BridgeFormState extends _BridgeFormState {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      step,
+      bridgeProcessStep,
       stepError,
       blockchainFrom,
       blockchainTo,
@@ -414,7 +415,7 @@ class _$_BridgeFormState extends _BridgeFormState {
 
 abstract class _BridgeFormState extends BridgeFormState {
   const factory _BridgeFormState(
-      {final int step,
+      {final BridgeProcessStep bridgeProcessStep,
       final String stepError,
       final BridgeBlockchain? blockchainFrom,
       final BridgeBlockchain? blockchainTo,
@@ -430,7 +431,7 @@ abstract class _BridgeFormState extends BridgeFormState {
   const _BridgeFormState._() : super._();
 
   @override
-  int get step;
+  BridgeProcessStep get bridgeProcessStep;
   @override
   String get stepError;
   @override

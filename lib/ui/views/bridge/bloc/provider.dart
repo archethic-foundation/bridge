@@ -111,9 +111,9 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     );
   }
 
-  void setStep(int step) {
+  void setBridgeProcessStep(BridgeProcessStep bridgeProcessStep) {
     state = state.copyWith(
-      step: step,
+      bridgeProcessStep: bridgeProcessStep,
     );
   }
 
