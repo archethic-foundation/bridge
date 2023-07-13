@@ -9,8 +9,9 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 class BlockchainSelectionPopup {
   static Future<BridgeBlockchain?> getDialog(
     BuildContext context,
-    List<String> blockchainsExcluded,
-  ) async {
+    List<String> blockchainsExcluded, {
+    String? env,
+  }) async {
     return showDialog<BridgeBlockchain>(
       context: context,
       builder: (context) {
@@ -76,6 +77,7 @@ class BlockchainSelectionPopup {
                         ),
                         BlockchainList(
                           blockchainsExcluded: blockchainsExcluded,
+                          env: env,
                         ),
                         const BlockchainSelectionCloseBtn(),
                       ],

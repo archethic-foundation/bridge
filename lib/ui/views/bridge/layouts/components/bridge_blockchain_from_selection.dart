@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/ui/views/blockchain_selection/bloc/provider.dart';
 import 'package:aebridge/ui/views/blockchain_selection/blockchain_selection_popup.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:flutter/material.dart';
@@ -94,12 +95,25 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
                               ),
                             ),
                             onTap: () async {
+                              final blockchainSelectionNotifier = ref.watch(
+                                BlockchainSelectionFormProvider
+                                    .blockchainSelectionForm.notifier,
+                              );
+                              if (bridge.blockchainTo != null &&
+                                  bridge.blockchainTo!.env != '1-mainnet') {
+                                blockchainSelectionNotifier
+                                    .setTestnetIncluded(true);
+                              }
+
                               final blockchain =
                                   await BlockchainSelectionPopup.getDialog(
                                 context,
                                 bridge.blockchainTo == null
                                     ? []
                                     : [bridge.blockchainTo!.name],
+                                env: bridge.blockchainTo == null
+                                    ? null
+                                    : bridge.blockchainTo!.env,
                               );
                               if (blockchain == null) return;
                               await ref

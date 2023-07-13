@@ -23,6 +23,7 @@ class _BlockchainTestnetIncludedSwitchState
     final blockchainSelectionNotifier = ref.watch(
       BlockchainSelectionFormProvider.blockchainSelectionForm.notifier,
     );
+
     final blockchainSelectionProvider =
         ref.watch(BlockchainSelectionFormProvider.blockchainSelectionForm);
     final thumbIcon = MaterialStateProperty.resolveWith<Icon?>(

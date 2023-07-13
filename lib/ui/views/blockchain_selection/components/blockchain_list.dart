@@ -7,9 +7,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 
 class BlockchainList extends ConsumerWidget {
-  const BlockchainList({required this.blockchainsExcluded, super.key});
+  const BlockchainList({
+    required this.blockchainsExcluded,
+    this.env,
+    super.key,
+  });
 
   final List<String> blockchainsExcluded;
+  final String? env;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,6 +26,11 @@ class BlockchainList extends ConsumerWidget {
       child: blockchains.map(
         data: (data) {
           if (blockchainsExcluded.isNotEmpty) {
+            if (env != null) {
+              data.value.removeWhere(
+                (element) => element.env != env,
+              );
+            }
             if (blockchainsExcluded.contains('Archethic') == false) {
               data.value.removeWhere(
                 (element) => element.name.contains('Archethic') == false,
