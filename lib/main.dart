@@ -70,12 +70,12 @@ class MyApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
-        fontFamily: 'Lato',
+        fontFamily: 'PPTelegraf',
         useMaterial3: true,
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
-        fontFamily: 'Lato',
+        fontFamily: 'PPTelegraf',
         useMaterial3: true,
       ),
       localizationsDelegates: const [

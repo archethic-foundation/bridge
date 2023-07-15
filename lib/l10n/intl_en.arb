@@ -53,5 +53,9 @@
   "bridge_token_amount_lbl": "Amount to send",
   "token_selection_title": "Select a token",
   "addressCopied": "Address copied",
-  "blockchain_selection_test_included_lbl": "Include testnet ?"
+  "blockchain_selection_test_included_lbl": "Include testnet ?",
+  "bridgeConfirm_fees_lbl": "Fees",
+  "bridgeConfirm_fees_bridge_fee_lbl": "Bridge Fee",
+  "bridgeConfirm_fees_receive_value_lbl": "You will receive",
+  "bridgeConfirm_fees_help_lbl": "How does the bridge fee work"
 }

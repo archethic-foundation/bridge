@@ -107,7 +107,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     String targetAddress,
   ) {
     state = state.copyWith(
-      targetAddress: targetAddress,
+      targetAddress: targetAddress.toUpperCase(),
     );
   }
 

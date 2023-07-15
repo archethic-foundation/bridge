@@ -1,3 +1,4 @@
+/// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/bridge_token.dart';
 import 'package:aebridge/model/bridge_token.dart';
 import 'package:flutter/material.dart';

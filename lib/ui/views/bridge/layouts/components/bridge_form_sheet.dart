@@ -1,3 +1,4 @@
+/// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_blockchain_from_selection.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_blockchain_to_selection.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_btn.dart';
@@ -8,6 +9,7 @@ import 'package:aebridge/ui/views/bridge/layouts/components/bridge_textfield_tok
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_address.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_bridged.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_selection.dart';
+import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:aebridge/ui/views/util/components/scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -87,16 +89,8 @@ class BridgeFormSheet extends ConsumerWidget {
                         child: Container(
                           width: 50,
                           height: 1,
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Color(0x003C89B9),
-                                Color(0xFFCC00FF),
-                              ],
-                              stops: [0, 1],
-                              begin: AlignmentDirectional.centerEnd,
-                              end: AlignmentDirectional.centerStart,
-                            ),
+                          decoration: BoxDecoration(
+                            gradient: ThemeBase.gradient,
                           ),
                         ),
                       ),

@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'dart:math';
+import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -50,13 +50,7 @@ class WelcomeBridgeBtnState extends ConsumerState<WelcomeBridgeBtn> {
                   alignment: Alignment.center,
                   height: 50,
                   decoration: ShapeDecoration(
-                    gradient: const LinearGradient(
-                      colors: <Color>[
-                        Color(0xFF00A4DB),
-                        Color(0xFFCC00FF),
-                      ],
-                      transform: GradientRotation(pi / 9),
-                    ),
+                    gradient: ThemeBase.gradientBtn,
                     shape: const StadiumBorder(),
                     shadows: [
                       BoxShadow(
@@ -80,7 +74,6 @@ class WelcomeBridgeBtnState extends ConsumerState<WelcomeBridgeBtn> {
                         AppLocalizations.of(context)!.btn_bridge,
                         style: TextStyle(
                           color: Theme.of(context).textTheme.labelMedium!.color,
-                          fontFamily: 'Equinox',
                           fontSize: 15,
                         ),
                       ),

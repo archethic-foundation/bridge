@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -110,7 +111,11 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.text,
                             inputFormatters: <TextInputFormatter>[
-                              LengthLimitingTextInputFormatter(40),
+                              UpperCaseTextFormatter(),
+                              if (bridge.blockchainTo!.chainId < 0)
+                                LengthLimitingTextInputFormatter(68)
+                              else
+                                LengthLimitingTextInputFormatter(42),
                             ],
                             decoration: const InputDecoration(
                               border: InputBorder.none,

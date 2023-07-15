@@ -1,6 +1,8 @@
+/// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_back_btn.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_btn.dart';
+import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:aebridge/ui/views/util/components/icon_button_animated.dart';
 import 'package:aebridge/ui/views/util/components/scrollbar.dart';
 import 'package:flutter/material.dart';
@@ -28,14 +30,8 @@ class BridgeConfirmSheet extends ConsumerWidget {
             right: 5,
           ),
           decoration: BoxDecoration(
-            border: const GradientBoxBorder(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0x003C89B9),
-                  Color(0xFFCC00FF),
-                ],
-                stops: [0, 1],
-              ),
+            border: GradientBoxBorder(
+              gradient: ThemeBase.gradient,
             ),
             borderRadius: BorderRadius.circular(16),
           ),
@@ -84,16 +80,8 @@ class BridgeConfirmSheet extends ConsumerWidget {
                         child: Container(
                           width: 50,
                           height: 1,
-                          decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                Color(0x003C89B9),
-                                Color(0xFFCC00FF),
-                              ],
-                              stops: [0, 1],
-                              begin: AlignmentDirectional.centerEnd,
-                              end: AlignmentDirectional.centerStart,
-                            ),
+                          decoration: BoxDecoration(
+                            gradient: ThemeBase.gradient,
                           ),
                         ),
                       ),
@@ -119,10 +107,10 @@ class BridgeConfirmSheet extends ConsumerWidget {
                             children: [
                               SvgPicture.asset(
                                 'assets/images/bc-logos/${bridge.blockchainFrom!.icon}',
-                                height: 15,
+                                width: 15,
                               ),
                               const SizedBox(
-                                width: 5,
+                                width: 8,
                               ),
                               Text(
                                 bridge.blockchainFrom!.name,
@@ -145,10 +133,10 @@ class BridgeConfirmSheet extends ConsumerWidget {
                             children: [
                               SvgPicture.asset(
                                 'assets/images/bc-logos/${bridge.blockchainTo!.icon}',
-                                height: 15,
+                                width: 15,
                               ),
                               const SizedBox(
-                                width: 5,
+                                width: 8,
                               ),
                               Text(
                                 bridge.blockchainTo!.name,
@@ -191,35 +179,45 @@ class BridgeConfirmSheet extends ConsumerWidget {
                             ),
                           ],
                         ),
-                      const SizedBox(
-                        height: 20,
+                      const Divider(),
+                      Text(
+                        AppLocalizations.of(context)!.bridgeConfirm_fees_lbl,
                       ),
-                      const Text('Fees'),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Text('Bridge Fee'),
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Text(
+                              AppLocalizations.of(context)!
+                                  .bridgeConfirm_fees_bridge_fee_lbl,
+                            ),
                           ),
-                          Text('0.1 ETH'),
+                          const Text('0.1 ETH'),
                         ],
                       ),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(left: 10),
-                            child: Text('You will receive'),
+                            padding: const EdgeInsets.only(left: 10),
+                            child: Text(
+                              AppLocalizations.of(context)!
+                                  .bridgeConfirm_fees_receive_value_lbl,
+                            ),
                           ),
-                          Text('0.9 ETH'),
+                          const Text('0.9 ETH'),
                         ],
                       ),
                       Padding(
                         padding: const EdgeInsets.only(left: 10),
                         child: Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
                           children: [
-                            const Text('How does the bridge fee work?'),
+                            Text(
+                              AppLocalizations.of(context)!
+                                  .bridgeConfirm_fees_help_lbl,
+                            ),
                             IconButtonAnimated(
                               icon: const Icon(
                                 Icons.help,
@@ -239,7 +237,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
                         ),
                       ),
                       const SizedBox(
-                        height: 20,
+                        height: 40,
                       ),
                       const BridgeConfirmButton(),
                       const SizedBox(

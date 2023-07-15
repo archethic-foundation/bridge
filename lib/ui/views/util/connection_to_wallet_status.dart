@@ -1,3 +1,4 @@
+/// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/util/components/icon_close_connection.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';

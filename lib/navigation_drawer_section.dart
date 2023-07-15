@@ -1,6 +1,7 @@
 import 'package:aebridge/application/main_screen_widget_displayed.dart';
 import 'package:aebridge/application/version.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
+import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:aebridge/ui/views/util/connection_to_wallet_status.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:aebridge/ui/views/util/header.dart';
@@ -94,7 +95,10 @@ class _NavigationDrawerSectionState
                                     ),
                                   ],
                                 )
-                              : Text(destination.label),
+                              : Text(
+                                  destination.label,
+                                  style: Theme.of(context).textTheme.labelLarge,
+                                ),
                           icon: destination.icon,
                           selectedIcon: destination.icon,
                         );
@@ -105,17 +109,7 @@ class _NavigationDrawerSectionState
                       Container(
                         width: 50,
                         height: 1,
-                        decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Color(0x003C89B9),
-                              Color(0xFFCC00FF),
-                            ],
-                            stops: [0, 1],
-                            begin: AlignmentDirectional.centerEnd,
-                            end: AlignmentDirectional.centerStart,
-                          ),
-                        ),
+                        decoration: BoxDecoration(gradient: ThemeBase.gradient),
                       ),
                       const SizedBox(
                         height: 5,
@@ -225,7 +219,7 @@ class _NavigationDrawerSectionState
                 SvgPicture.asset(
                   'assets/images/AELogo-Public Blockchain-White.svg',
                   semanticsLabel: 'AE Logo',
-                  height: 18,
+                  height: 22,
                 ),
                 const SizedBox(
                   height: 5,

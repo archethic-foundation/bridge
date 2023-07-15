@@ -81,7 +81,7 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
                                         children: [
                                           SvgPicture.asset(
                                             'assets/images/bc-logos/${bridge.blockchainTo!.icon}',
-                                            height: 20,
+                                            width: 20,
                                           ),
                                           const SizedBox(
                                             width: 10,
@@ -108,9 +108,7 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
                               final blockchain =
                                   await BlockchainSelectionPopup.getDialog(
                                 context,
-                                bridge.blockchainFrom == null
-                                    ? []
-                                    : [bridge.blockchainFrom!.name],
+                                ref,
                                 env: bridge.blockchainFrom == null
                                     ? null
                                     : bridge.blockchainFrom!.env,

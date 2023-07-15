@@ -1,3 +1,4 @@
+/// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/ui/views/blockchain_selection/bloc/state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

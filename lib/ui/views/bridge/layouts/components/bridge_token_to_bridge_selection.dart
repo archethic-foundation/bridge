@@ -152,6 +152,7 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
                                 final token =
                                     await TokenSelectionPopup.getDialog(
                                   context,
+                                  ref,
                                   direction,
                                 );
                                 if (token == null) return;

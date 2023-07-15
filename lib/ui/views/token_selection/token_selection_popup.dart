@@ -1,13 +1,17 @@
+/// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/model/bridge_token.dart';
+import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:aebridge/ui/views/token_selection/components/token_list.dart';
 import 'package:aebridge/ui/views/token_selection/components/token_selection_close_btn.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TokenSelectionPopup {
   static Future<BridgeToken?> getDialog(
     BuildContext context,
+    WidgetRef ref,
     String? direction,
   ) async {
     return showDialog<BridgeToken>(
@@ -53,16 +57,8 @@ class TokenSelectionPopup {
                                 child: Container(
                                   width: 50,
                                   height: 1,
-                                  decoration: const BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Color(0x003C89B9),
-                                        Color(0xFFCC00FF),
-                                      ],
-                                      stops: [0, 1],
-                                      begin: AlignmentDirectional.centerEnd,
-                                      end: AlignmentDirectional.centerStart,
-                                    ),
+                                  decoration: BoxDecoration(
+                                    gradient: ThemeBase.gradient,
                                   ),
                                 ),
                               ),

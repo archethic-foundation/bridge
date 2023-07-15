@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'dart:math';
+import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -80,13 +80,7 @@ class AppButtonState extends State<AppButton> {
       height: widget.height,
       padding: const EdgeInsets.only(left: 20, right: 20),
       decoration: ShapeDecoration(
-        gradient: const LinearGradient(
-          colors: <Color>[
-            Color(0xFF00A4DB),
-            Color(0xFFCC00FF),
-          ],
-          transform: GradientRotation(pi / 9),
-        ),
+        gradient: ThemeBase.gradientBtn,
         shape: const StadiumBorder(),
         shadows: [
           BoxShadow(
@@ -104,12 +98,8 @@ class AppButtonState extends State<AppButton> {
             Icon(
               widget.icon,
               color: widget.disabled
-                  ? Theme.of(context)
-                      .textTheme
-                      .labelMedium!
-                      .color!
-                      .withOpacity(0.3)
-                  : Theme.of(context).textTheme.labelMedium!.color,
+                  ? Colors.white.withOpacity(0.5)
+                  : Colors.white,
               size: 12,
             ),
           if (widget.icon != null) const SizedBox(width: 5),
@@ -117,13 +107,8 @@ class AppButtonState extends State<AppButton> {
             widget.labelBtn,
             style: TextStyle(
               color: widget.disabled
-                  ? Theme.of(context)
-                      .textTheme
-                      .labelMedium!
-                      .color!
-                      .withOpacity(0.3)
-                  : Theme.of(context).textTheme.labelMedium!.color,
-              fontFamily: 'Equinox',
+                  ? Colors.white.withOpacity(0.5)
+                  : Colors.white,
               fontSize: 12,
               fontWeight: FontWeight.w400,
             ),

@@ -27,9 +27,10 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     tokenAmountFocusNode = FocusNode();
     tokenAmountController = TextEditingController(
-        text: bridge.tokenToBridgeAmount == 0
-            ? ''
-            : bridge.tokenToBridgeAmount.toString());
+      text: bridge.tokenToBridgeAmount == 0
+          ? ''
+          : bridge.tokenToBridgeAmount.toString(),
+    );
   }
 
   @override

@@ -1,3 +1,4 @@
+/// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/model/bridge_blockchain.dart';
 import 'package:aebridge/ui/views/blockchain_selection/bloc/provider.dart';
@@ -8,12 +9,10 @@ import 'package:flutter_svg/svg.dart';
 
 class BlockchainList extends ConsumerWidget {
   const BlockchainList({
-    required this.blockchainsExcluded,
     this.env,
     super.key,
   });
 
-  final List<String> blockchainsExcluded;
   final String? env;
 
   @override
@@ -25,21 +24,10 @@ class BlockchainList extends ConsumerWidget {
     return SizedBox(
       child: blockchains.map(
         data: (data) {
-          if (blockchainsExcluded.isNotEmpty) {
-            if (env != null) {
-              data.value.removeWhere(
-                (element) => element.env != env,
-              );
-            }
-            if (blockchainsExcluded.contains('Archethic') == false) {
-              data.value.removeWhere(
-                (element) => element.name.contains('Archethic') == false,
-              );
-            } else {
-              data.value.removeWhere(
-                (element) => element.name.contains('Archethic'),
-              );
-            }
+          if (env != null) {
+            data.value.removeWhere(
+              (element) => element.env != env,
+            );
           }
 
           final blockchainSelectionProvider = ref
@@ -124,7 +112,7 @@ class _SingleBlockchain extends StatelessWidget {
             ),
             SvgPicture.asset(
               'assets/images/bc-logos/${blockchain.icon}',
-              height: 20,
+              width: 20,
             ),
             const SizedBox(
               width: 10,

@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -23,7 +24,7 @@ class BridgeBalanceMaxButton extends ConsumerWidget {
       onTap: () {},
       child: Text(
         AppLocalizations.of(context)!.btn_max,
-        style: const TextStyle(color: Color(0xFF00A4DB)),
+        style: TextStyle(color: ThemeBase.maxButtonColor),
       )
           .animate()
           .fade(

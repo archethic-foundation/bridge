@@ -1,3 +1,4 @@
+/// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/version.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -22,7 +23,7 @@ class WelcomeInfoVersion extends ConsumerWidget {
         SvgPicture.asset(
           'assets/images/AELogo-Public Blockchain-White.svg',
           semanticsLabel: 'AE Logo',
-          height: 30,
+          height: 22,
         ),
         const SizedBox(
           height: 5,
