@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -56,19 +57,7 @@ class BridgeTokenBridged extends ConsumerWidget {
                                     .primaryContainer,
                                 width: 0.5,
                               ),
-                              gradient: LinearGradient(
-                                colors: [
-                                  Theme.of(context)
-                                      .colorScheme
-                                      .background
-                                      .withOpacity(1),
-                                  Theme.of(context)
-                                      .colorScheme
-                                      .background
-                                      .withOpacity(0.3),
-                                ],
-                                stops: const [0, 1],
-                              ),
+                              gradient: ThemeBase.gradientInputFormBackground,
                             ),
                             child: SizedBox(
                               height: 45,

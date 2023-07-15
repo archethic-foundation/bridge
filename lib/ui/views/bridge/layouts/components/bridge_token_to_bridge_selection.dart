@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:aebridge/ui/views/token_selection/token_selection_popup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -60,19 +61,7 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
                                     .primaryContainer,
                                 width: 0.5,
                               ),
-                              gradient: LinearGradient(
-                                colors: [
-                                  Theme.of(context)
-                                      .colorScheme
-                                      .background
-                                      .withOpacity(1),
-                                  Theme.of(context)
-                                      .colorScheme
-                                      .background
-                                      .withOpacity(0.3),
-                                ],
-                                stops: const [0, 1],
-                              ),
+                              gradient: ThemeBase.gradientInputFormBackground,
                             ),
                             child: InkWell(
                               child: SizedBox(
@@ -156,7 +145,7 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
                                   direction,
                                 );
                                 if (token == null) return;
-                                ref
+                                await ref
                                     .watch(
                                       BridgeFormProvider.bridgeForm.notifier,
                                     )

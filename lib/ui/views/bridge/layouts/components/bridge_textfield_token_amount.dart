@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/ui/views/bridge/layouts/components/bridge_balance_max_btn.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_balance.dart';
+import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:aebridge/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,8 +25,12 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
   @override
   void initState() {
     super.initState();
-    final bridge = ref.read(BridgeFormProvider.bridgeForm);
     tokenAmountFocusNode = FocusNode();
+    _updateAmountTextController();
+  }
+
+  void _updateAmountTextController() {
+    final bridge = ref.read(BridgeFormProvider.bridgeForm);
     tokenAmountController = TextEditingController(
       text: bridge.tokenToBridgeAmount == 0
           ? ''
@@ -62,8 +67,14 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
       children: [
         Padding(
           padding: const EdgeInsets.only(bottom: 5),
-          child: Text(
-            AppLocalizations.of(context)!.bridge_token_amount_lbl,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.bridge_token_amount_lbl,
+              ),
+              const BridgeTokenToBridgeBalance(),
+            ],
           ),
         ),
         Stack(
@@ -92,19 +103,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                                       .primaryContainer,
                                   width: 0.5,
                                 ),
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Theme.of(context)
-                                        .colorScheme
-                                        .background
-                                        .withOpacity(1),
-                                    Theme.of(context)
-                                        .colorScheme
-                                        .background
-                                        .withOpacity(0.3),
-                                  ],
-                                  stops: const [0, 1],
-                                ),
+                                gradient: ThemeBase.gradientInputFormBackground,
                               ),
                               child: TextField(
                                 style: textTheme.titleLarge,
@@ -137,9 +136,28 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                 ],
               ),
             ),
-            const Padding(
-              padding: EdgeInsets.only(right: 10),
-              child: BridgeBalanceMaxButton(),
+            Padding(
+              padding: const EdgeInsets.only(right: 10),
+              child: InkWell(
+                onTap: () async {
+                  final bridgeNotifier =
+                      ref.watch(BridgeFormProvider.bridgeForm.notifier);
+                  await bridgeNotifier
+                      .setTokenToBridgeAmount(bridge.tokenToBridgeBalance);
+                  _updateAmountTextController();
+                },
+                child: Text(
+                  AppLocalizations.of(context)!.btn_max,
+                  style: TextStyle(color: ThemeBase.maxButtonColor),
+                )
+                    .animate()
+                    .fade(
+                      duration: const Duration(milliseconds: 500),
+                    )
+                    .scale(
+                      duration: const Duration(milliseconds: 500),
+                    ),
+              ),
             ),
           ],
         )

@@ -40,21 +40,9 @@ class BridgeConfirmSheet extends ConsumerWidget {
           width: 550,
           height: 550,
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Theme.of(context).colorScheme.background.withOpacity(0.9),
-                Theme.of(context).colorScheme.background.withOpacity(0.2),
-              ],
-              stops: const [0, 1],
-            ),
+            gradient: ThemeBase.gradientSheetBackground,
             border: GradientBoxBorder(
-              gradient: LinearGradient(
-                colors: [
-                  Theme.of(context).colorScheme.background.withOpacity(0.7),
-                  Theme.of(context).colorScheme.background.withOpacity(1),
-                ],
-                stops: const [0, 1],
-              ),
+              gradient: ThemeBase.gradientSheetBorder,
             ),
             borderRadius: BorderRadius.circular(12),
           ),
@@ -179,7 +167,18 @@ class BridgeConfirmSheet extends ConsumerWidget {
                             ),
                           ],
                         ),
-                      const Divider(),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                        child: SizedBox(
+                          width: MediaQuery.of(context).size.width,
+                          height: 1,
+                          child: Container(
+                            decoration: BoxDecoration(
+                              gradient: ThemeBase.gradient,
+                            ),
+                          ),
+                        ),
+                      ),
                       Text(
                         AppLocalizations.of(context)!.bridgeConfirm_fees_lbl,
                       ),

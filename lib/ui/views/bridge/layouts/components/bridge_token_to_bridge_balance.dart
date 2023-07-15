@@ -14,7 +14,7 @@ class BridgeTokenToBridgeBalance extends ConsumerWidget {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
 
     return Text(
-      '${AppLocalizations.of(context)!.balance_title_infos} ${bridge.tokenToBridgeBalance.toString().replaceAll(RegExp(r"0*$"), "").replaceAll(RegExp(r"\.$"), "")}',
+      '${AppLocalizations.of(context)!.balance_title_infos} ${bridge.tokenToBridgeBalance.toStringAsFixed(4).replaceAll(RegExp(r"0*$"), "").replaceAll(RegExp(r"\.$"), "")} ${bridge.tokenToBridge!.symbol}',
     );
   }
 }

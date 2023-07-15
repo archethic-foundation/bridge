@@ -1,7 +1,9 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:convert';
 import 'dart:html';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:js/js.dart';
 import 'package:webthree/browser.dart';
 import 'package:webthree/webthree.dart';
@@ -44,7 +46,7 @@ class MetaMaskProvider extends ChangeNotifier {
 
       try {
         credentials = await eth!.requestAccount();
-        currentAddress = credentials!.address.hex.toUpperCase();
+        currentAddress = credentials!.address.hex;
         walletConnected = true;
       } catch (e) {
         debugPrint(e.toString());
@@ -81,6 +83,55 @@ class MetaMaskProvider extends ChangeNotifier {
     walletConnected = false;
     currentAddress = null;
     notifyListeners();
+  }
+
+  Future<double> getBalance(
+    String typeToken, {
+    String erc20address = '',
+  }) async {
+    try {
+      if (web3Client == null || credentials == null) {
+        return 0.0;
+      }
+      switch (typeToken) {
+        case 'Native':
+          final balance = await web3Client!.getBalance(credentials!.address);
+          return balance.getValueInUnit(EtherUnit.ether);
+        case 'ERC20':
+          if (erc20address.isEmpty) {
+            return 0.0;
+          }
+
+          final abiTokenStringJson = jsonDecode(
+            await rootBundle.loadString('truffle/build/contracts/IERC20.json'),
+          );
+
+          final contractToken = DeployedContract(
+            ContractAbi.fromJson(
+              jsonEncode(abiTokenStringJson['abi']),
+              abiTokenStringJson['contractName'] as String,
+            ),
+            EthereumAddress.fromHex(erc20address),
+          );
+
+          debugPrint('currentAddress $currentAddress');
+          final balance = await web3Client!.call(
+            contract: contractToken,
+            function: contractToken.function('balanceOf'),
+            params: [
+              EthereumAddress.fromHex(
+                currentAddress!,
+              ),
+            ],
+          );
+          return balance[0].toDouble();
+        default:
+          return 0.0;
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return 0.0;
+    }
   }
 }
 

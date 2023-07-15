@@ -33,14 +33,8 @@ class BridgeFormSheet extends ConsumerWidget {
             right: 5,
           ),
           decoration: BoxDecoration(
-            border: const GradientBoxBorder(
-              gradient: LinearGradient(
-                colors: [
-                  Color(0x003C89B9),
-                  Color(0xFFCC00FF),
-                ],
-                stops: [0, 1],
-              ),
+            border: GradientBoxBorder(
+              gradient: ThemeBase.gradientMainScreen,
             ),
             borderRadius: BorderRadius.circular(16),
           ),
@@ -49,21 +43,9 @@ class BridgeFormSheet extends ConsumerWidget {
           width: 550,
           height: 550,
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                Theme.of(context).colorScheme.background.withOpacity(0.9),
-                Theme.of(context).colorScheme.background.withOpacity(0.2),
-              ],
-              stops: const [0, 1],
-            ),
+            gradient: ThemeBase.gradientSheetBackground,
             border: GradientBoxBorder(
-              gradient: LinearGradient(
-                colors: [
-                  Theme.of(context).colorScheme.background.withOpacity(0.7),
-                  Theme.of(context).colorScheme.background.withOpacity(1),
-                ],
-                stops: const [0, 1],
-              ),
+              gradient: ThemeBase.gradientSheetBorder,
             ),
             borderRadius: BorderRadius.circular(12),
           ),

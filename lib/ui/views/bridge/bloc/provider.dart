@@ -70,11 +70,28 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     state = state.copyWith(blockchainTo: blockchainTo);
   }
 
-  void setTokenToBridge(
+  Future<void> setTokenToBridge(
     BridgeToken tokenToBridge,
-  ) {
+  ) async {
+    var balance = 0.0;
+    switch (tokenToBridge.type) {
+      case 'Native':
+        balance = await sl.get<MetaMaskProvider>().getBalance(
+              tokenToBridge.type,
+            );
+        break;
+      case 'ERC20':
+        balance = await sl.get<MetaMaskProvider>().getBalance(
+              tokenToBridge.type,
+              erc20address: tokenToBridge.tokenAddress,
+            );
+        break;
+      default:
+    }
+
     state = state.copyWith(
       tokenToBridge: tokenToBridge,
+      tokenToBridgeBalance: balance,
     );
     return;
   }
@@ -89,6 +106,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       tokenToBridgeAmountFiat:
           tokenToBridgeAmount * (oracleUcoPrice.uco?.usd ?? 0),
     );*/
+
     state = state.copyWith(
       tokenToBridgeAmount: tokenToBridgeAmount,
       tokenToBridgeAmountFiat: 0,

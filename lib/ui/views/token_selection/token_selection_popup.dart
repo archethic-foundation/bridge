@@ -23,6 +23,7 @@ class TokenSelectionPopup {
               return Scaffold(
                 backgroundColor: Colors.transparent,
                 body: AlertDialog(
+                  backgroundColor: ThemeBase.backgroundPopupColor,
                   content: Container(
                     width: 600,
                     color: Colors.transparent,
