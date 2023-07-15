@@ -10,10 +10,12 @@ import 'package:flutter_svg/svg.dart';
 class BlockchainList extends ConsumerWidget {
   const BlockchainList({
     this.env,
+    this.shouldBeArchethic,
     super.key,
   });
 
   final String? env;
+  final bool? shouldBeArchethic;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,6 +39,13 @@ class BlockchainList extends ConsumerWidget {
               (element) => element.env != '1-mainnet',
             );
           }
+
+          if (shouldBeArchethic != null) {
+            data.value.removeWhere(
+              (element) => element.isArchethic != shouldBeArchethic,
+            );
+          }
+
           return _BlockchainsList(blockchains: data.value);
         },
         error: (error) => const SizedBox(

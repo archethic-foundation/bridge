@@ -5,21 +5,24 @@
             "chainId": -1,
             "env": "1-mainnet",
             "icon": "Archethic.svg",
-            "urlExplorer": "https://mainnet.archethic.net/explorer"
+            "urlExplorer": "https://mainnet.archethic.net/explorer",
+            "isArchethic": true
         },
         {
             "name": "Archethic Testnet",
             "chainId": -2,
             "env": "2-testnet",
             "icon": "Archethic.svg",
-            "urlExplorer": "https://testnet.archethic.net/explorer"
+            "urlExplorer": "https://testnet.archethic.net/explorer",
+            "isArchethic": true
         },
         {
             "name": "Archethic Devnet",
             "chainId": -3,
             "env": "3-devnet",
             "icon": "Archethic.svg",
-            "urlExplorer": "https://localhost:4000/explorer"
+            "urlExplorer": "https://localhost:4000/explorer",
+            "isArchethic": true
         },
         {
             "name": "Ethereum",
@@ -27,7 +30,8 @@
             "env": "1-mainnet",
             "icon": "Ethereum.svg",
             "urlExplorer": "https://etherscan.io/",
-            "providerEndpoint": "https://mainnet.infura.io/v3/3a7a2dbdbec046a4961550ddf8c7d78a"
+            "providerEndpoint": "https://mainnet.infura.io/v3/3a7a2dbdbec046a4961550ddf8c7d78a",
+            "isArchethic": false
         },
         {
             "name": "Goerli Ethereum Testnet",
@@ -35,14 +39,16 @@
             "env": "2-testnet",
             "icon": "Ethereum.svg",
             "urlExplorer": "https://goerli.etherscan.io/",
-            "providerEndpoint": "https://goerli.infura.io/v3/3a7a2dbdbec046a4961550ddf8c7d78a"
+            "providerEndpoint": "https://goerli.infura.io/v3/3a7a2dbdbec046a4961550ddf8c7d78a",
+            "isArchethic": false
         },
         {
             "name": "Ethereum Devnet",
             "chainId": 1337,
             "env": "3-devnet",
             "icon": "Ethereum.svg",
-            "providerEndpoint": "http://127.0.0.1:7545"
+            "providerEndpoint": "http://127.0.0.1:7545",
+            "isArchethic": false
         },
         {
             "name": "Polygon",
@@ -50,7 +56,8 @@
             "env": "1-mainnet",
             "icon": "Polygon.svg",
             "urlExplorer": "https://polygonscan.com",
-            "providerEndpoint": "https://polygon-mainnet.g.alchemy.com/v2/DynWKvz6PUFaeZNmlxPXNiV1nK4Ac_2D"
+            "providerEndpoint": "https://polygon-mainnet.g.alchemy.com/v2/DynWKvz6PUFaeZNmlxPXNiV1nK4Ac_2D",
+            "isArchethic": false
         },
         {
             "name": "Mumbai Polygon Testnet",
@@ -58,7 +65,8 @@
             "env": "2-testnet",
             "icon": "Polygon.svg",
             "urlExplorer": "https://mumbai.polygonscan.com",
-            "providerEndpoint": "https://polygon-mumbai.g.alchemy.com/v2/-8zo2X19AmwNv7AGVIsGF5LWJQLc92Oj"
+            "providerEndpoint": "https://polygon-mumbai.g.alchemy.com/v2/-8zo2X19AmwNv7AGVIsGF5LWJQLc92Oj",
+            "isArchethic": false
         },
         {
             "name": "Binance Smart Chain",
@@ -66,7 +74,8 @@
             "env": "1-mainnet",
             "icon": "BSC.svg",
             "urlExplorer": "https://bscscan.com",
-            "providerEndpoint": "https://bsc-dataseed1.binance.org/"
+            "providerEndpoint": "https://bsc-dataseed1.binance.org/",
+            "isArchethic": false
         },
         {
             "name": "Binance Smart Chain Testnet",
@@ -74,7 +83,8 @@
             "env": "2-testnet",
             "icon": "BSC.svg",
             "urlExplorer": "https://testnet.bscscan.com",
-            "providerEndpoint": "https://data-seed-prebsc-2-s3.binance.org:8545"
+            "providerEndpoint": "https://data-seed-prebsc-2-s3.binance.org:8545",
+            "isArchethic": false
         }
     ]
 }

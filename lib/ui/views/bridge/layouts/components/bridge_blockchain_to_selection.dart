@@ -112,6 +112,9 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
                                 env: bridge.blockchainFrom == null
                                     ? null
                                     : bridge.blockchainFrom!.env,
+                                shouldBeArchethic: bridge.blockchainFrom == null
+                                    ? null
+                                    : !bridge.blockchainFrom!.isArchethic,
                               );
                               if (blockchain == null) return;
                               ref

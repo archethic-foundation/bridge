@@ -14,6 +14,7 @@ class BlockchainSelectionPopup {
     BuildContext context,
     WidgetRef ref, {
     String? env,
+    bool? shouldBeArchethic,
   }) async {
     return showDialog<BridgeBlockchain>(
       context: context,
@@ -72,6 +73,7 @@ class BlockchainSelectionPopup {
                         ),
                         BlockchainList(
                           env: env,
+                          shouldBeArchethic: shouldBeArchethic,
                         ),
                         const BlockchainSelectionCloseBtn(),
                       ],
