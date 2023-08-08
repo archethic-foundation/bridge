@@ -222,12 +222,12 @@ export fun get_chargeable_htlc(end_time, user_address, pool_address, secret_hash
   if token == "UCO" do
     valid_transfer_code = """
     Contract.add_uco_transfer to: 0x#{user_address}, amount: #{user_amount}
-    #{fee_transfer_code}
+      #{fee_transfer_code}
     """
   else
     valid_transfer_code = """
     Contract.add_token_transfer to: 0x#{user_address}, amount: #{user_amount}, token_address: 0x#{token}"
-    #{fee_transfer_code}
+      #{fee_transfer_code}
     """
   end
 
@@ -291,14 +291,14 @@ export fun get_signed_htlc(end_time, user_address, pool_address, token, amount) 
   if token == "UCO" do
     # We don't burn UCO, we return them in pool contract
     valid_transfer_code = """
-    Contract.add_uco_transfer to: 0x#{pool_address}, amount: #{user_amount}
-    #{fee_transfer_code}
+        Contract.add_uco_transfer to: 0x#{pool_address}, amount: #{user_amount}
+        #{fee_transfer_code}
     """
   else
     burn_address = Chain.get_burn_address()
     valid_transfer_code = """
-    Contract.add_token_transfer to: 0x#{burn_address}, amount: #{user_amount}, token_address: 0x#{token}"
-    #{fee_transfer_code}
+        Contract.add_token_transfer to: 0x#{burn_address}, amount: #{user_amount}, token_address: 0x#{token}"
+        #{fee_transfer_code}
     """
   end
 
@@ -313,18 +313,18 @@ export fun get_signed_htlc(end_time, user_address, pool_address, token, amount) 
   """
 
   code_after_withdraw = """
-  @version 1
+      @version 1
 
-  export fun get_secret() do
-    Json.to_string([
-      secret: 0x\\\#{secret},
-      secret_signature: [
-        r: 0x\\\#{secret_signature.signature.r},
-        s: 0x\\\#{secret_signature.signature.s},
-        v: \\\#{secret_signature.recid}
-      ]
-    ])
-  end
+      export fun get_secret() do
+        Json.to_string([
+          secret: 0x\\\#{secret},
+          secret_signature: [
+            r: 0x\\\#{secret_signature.signature.r},
+            s: 0x\\\#{secret_signature.signature.s},
+            v: \\\#{secret_signature.recid}
+          ]
+        ])
+      end
   """
 
   after_secret_code = """
@@ -332,11 +332,11 @@ export fun get_signed_htlc(end_time, user_address, pool_address, token, amount) 
     #{date_time_trigger}
     condition transaction: [
       address: (
-				#Here we should ensure the transaction is comming from pool
-				#Chain.get_genesis_address() == 0x#{pool_address}
-				#is not working this the transaction is not validated so it return the same address
-				true
-			),
+			  #Here we should ensure the transaction is comming from pool
+			  #Chain.get_genesis_address() == 0x#{pool_address}
+			  #is not working this the transaction is not validated so it return the same address
+			  true
+		  ),
       timestamp: transaction.timestamp < #{end_time},
       content: valid_hash?()
     ]
@@ -349,11 +349,11 @@ export fun get_signed_htlc(end_time, user_address, pool_address, token, amount) 
       secret_signature = params[genesis_address].secret_signature
       
       next_code = """
-      #{code_after_withdraw}
+  #{code_after_withdraw}
       \\\"""
 
       Contract.set_type "transfer"
-      #{valid_transfer_code}
+  #{valid_transfer_code}
       Contract.set_code next_code
     end
 
@@ -382,11 +382,11 @@ export fun get_signed_htlc(end_time, user_address, pool_address, token, amount) 
   #{date_time_trigger}
   condition transaction: [
     address: (
-				#Here we should ensure the transaction is comming from pool
-				#Chain.get_genesis_address() == 0x#{pool_address}
-				#is not working this the transaction is not validated so it return the same address
-				true
-			),
+			#Here we should ensure the transaction is comming from pool
+			#Chain.get_genesis_address() == 0x#{pool_address}
+			#is not working this the transaction is not validated so it return the same address
+			true
+		),
     content: valid_content?()
   ]
 
@@ -398,7 +398,7 @@ export fun get_signed_htlc(end_time, user_address, pool_address, token, amount) 
     secret_hash_signature = params[genesis_address].secret_hash_signature
 
     next_code = \"""
-    #{after_secret_code}
+  #{after_secret_code}
     \"""
 
     Contract.set_code next_code
