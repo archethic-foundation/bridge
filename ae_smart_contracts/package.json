@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "archethic": "^1.17.0"
+  },
+  "type": "module"
+}
