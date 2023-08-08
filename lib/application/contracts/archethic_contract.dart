@@ -147,10 +147,10 @@ class ArchethicContract with TransactionBridgeMixin {
     double amount,
     String tokenAddress,
   ) async {
-    final code = await sl.get<ApiService>().callSMFunction(
-          jsonRPCRequest: SMCallFunctionRequest(
+    final code = await sl.get<ApiService>().callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
             method: 'contract_fun',
-            params: SMCallFunctionParams(
+            params: SCCallFunctionParams(
               contract: poolAddress.toUpperCase(),
               function: 'get_signed_htlc',
               args: [
@@ -174,10 +174,10 @@ class ArchethicContract with TransactionBridgeMixin {
     String tokenAddress,
     String secretHash,
   ) async {
-    final code = await sl.get<ApiService>().callSMFunction(
-          jsonRPCRequest: SMCallFunctionRequest(
+    final code = await sl.get<ApiService>().callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
             method: 'contract_fun',
-            params: SMCallFunctionParams(
+            params: SCCallFunctionParams(
               contract: poolAddress,
               function: 'get_chargeable_htlc',
               args: [

@@ -109,5 +109,5 @@ class BridgeTokensRepository {
 
 abstract class BridgeTokensProviders {
   static final getTokensList = _getTokensListProvider;
-  static final getTokensListPerBridge = _getTokensListPerBridgeProvider;
+  static const getTokensListPerBridge = _getTokensListPerBridgeProvider;
 }

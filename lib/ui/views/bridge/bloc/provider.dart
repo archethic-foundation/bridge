@@ -73,7 +73,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   Future<void> setTokenToBridge(
     BridgeToken tokenToBridge,
   ) async {
-    var balance = 0.0;
+    const balance = 0.0;
     /*switch (tokenToBridge.type) {
       case 'Native':
         balance = await sl.get<MetaMaskProvider>().getBalance(
