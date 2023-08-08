@@ -1,21 +1,16 @@
 import fs from "fs"
 import Archethic, { Crypto, Utils } from "archethic"
+import config from "./config.js"
 
-const args = []
-process.argv.forEach(function(val, index, _array) { if (index > 1) { args.push(val) } })
-
-if (args.length != 2) {
-  console.log("Missing arguments")
-  console.log("Usage: node deploy_pool.js [seed] [endpoint]")
+if (!config.poolSeed || !config.endpoint) {
+  console.log("Invalid config !")
+  console.log("Config needs poolSeed and endpoint")
   process.exit(1)
 }
 
-main(args)
+main(config.poolSeed, config.endpoint)
 
-async function main(args) {
-  const seed = args[0]
-  const endpoint = args[1]
-
+async function main(seed, endpoint) {
   const archethic = new Archethic(endpoint)
   await archethic.connect()
 

@@ -1,23 +1,30 @@
 import Archethic, { Crypto, Utils } from "archethic"
+import config from "./config.js"
+
+if (!config.poolSeed || !config.endpoint || !config.userSeed) {
+  console.log("Invalid config !")
+  console.log("Config needs poolSeed, endpoint and userSeed")
+  process.exit(1)
+}
 
 const args = []
 process.argv.forEach(function(val, index, _array) { if (index > 1) { args.push(val) } })
 
-if (args.length != 6) {
+if (args.length != 3) {
   console.log("Missing arguments")
-  console.log("Usage: node deploy_htlc.js [seed] [poolGenesisAddress] [userAddress] [endTime] [amount] [endpoint]")
+  console.log("Usage: node deploy_htlc.js [htlcSeed] [endTime] [amount]")
   process.exit(1)
 }
 
-main(args)
+main(config.poolSeed, config.endpoint, config.userSeed)
 
-async function main(args) {
+async function main(poolSeed, endpoint, userSeed) {
   const seed = args[0]
-  const poolGenesisAddress = args[1]
-  const userAddress = args[2]
-  const endTime = parseInt(args[3])
-  const amount = parseFloat(args[4])
-  const endpoint = args[5]
+  const endTime = parseInt(args[1])
+  const amount = parseFloat(args[2])
+
+  const poolGenesisAddress = Utils.uint8ArrayToHex(Crypto.deriveAddress(poolSeed, 0))
+  const userAddress = Utils.uint8ArrayToHex(Crypto.deriveAddress(userSeed, 0))
 
   const archethic = new Archethic(endpoint)
   await archethic.connect()
@@ -99,8 +106,6 @@ async function getHtlcCode(endpoint, poolAddress, userAddress, endTime, amount) 
 }
 
 function getHTLCContent(userAddress, endTime, amount) {
-  userAddress = userAddress.toUpperCase()
-
   return JSON.stringify({
     "action": "request_secret_hash",
     "endTime": endTime,

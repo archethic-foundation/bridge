@@ -1,21 +1,27 @@
 import Archethic, { Crypto, Utils } from "archethic"
+import config from "./config.js"
+
+if (!config.poolSeed || !config.endpoint || !config.userSeed) {
+  console.log("Invalid config !")
+  console.log("Config needs poolSeed, endpoint and userSeed")
+  process.exit(1)
+}
 
 const args = []
 process.argv.forEach(function(val, index, _array) { if (index > 1) { args.push(val) } })
 
-if (args.length != 4) {
+if (args.length != 1) {
   console.log("Missing arguments")
-  console.log("Usage: node deploy_htlc.js [seed] [poolGenesisAddress] [htlcGenesisAddress] [endpoint]")
+  console.log("Usage: node deploy_htlc.js [htlcGenesisAddress]")
   process.exit(1)
 }
 
-main(args)
+main(config.poolSeed, config.endpoint, config.userSeed)
 
-async function main(args) {
-  const seed = args[0]
-  const poolGenesisAddress = args[1]
-  const htlcGenesisAddress = args[2]
-  const endpoint = args[3]
+async function main(poolSeed, endpoint, seed) {
+  const htlcGenesisAddress = args[0]
+
+  const poolGenesisAddress = Utils.uint8ArrayToHex(Crypto.deriveAddress(poolSeed, 0))
 
   const archethic = new Archethic(endpoint)
   await archethic.connect()
@@ -23,6 +29,7 @@ async function main(args) {
   const htlcAddressBefore = await getLastAddress(archethic, htlcGenesisAddress)
 
   const genesisAddress = Utils.uint8ArrayToHex(Crypto.deriveAddress(seed, 0))
+  console.log("User genesis address:", genesisAddress)
   const index = await archethic.transaction.getTransactionIndex(genesisAddress)
 
   const content = getTxContent(htlcGenesisAddress)

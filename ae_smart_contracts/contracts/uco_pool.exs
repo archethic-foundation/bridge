@@ -51,7 +51,8 @@ actions triggered_by: transaction do
   end
 
   if params.action == "request_secret" do
-    htlc_map = Map.get(contract_content, params.htlcGenesisAddress)
+    htlcGenesisAddress = String.to_hex(params.htlcGenesisAddress)
+    htlc_map = Map.get(contract_content, htlcGenesisAddress)
     
     if htlc_map.end_time > Time.now() do
       # Here should decrypt secret and add it in recipient with named action
@@ -65,7 +66,7 @@ actions triggered_by: transaction do
         withdrawn?: true
       ]
 
-      contract_content = Map.set(contract_content, params.htlcGenesisAddress, new_htlc_map)
+      contract_content = Map.set(contract_content, htlcGenesisAddress, new_htlc_map)
 
       Contract.add_recipient params.htlcGenesisAddress
     end
@@ -108,7 +109,7 @@ fun valid_content?(content) do
 
   if action == "request_secret" do
     if Json.path_match?(content, "$.htlcGenesisAddress") do
-      htlc_genesis_address = Json.path_extract(content, "$.htlcGenesisAddress")
+      htlc_genesis_address = String.to_hex(Json.path_extract(content, "$.htlcGenesisAddress"))
       htlc_map = Map.get(Json.parse(contract.content), htlc_genesis_address)
       valid? = htlc_map != nil && !htlc_map.withdrawn?
     else
