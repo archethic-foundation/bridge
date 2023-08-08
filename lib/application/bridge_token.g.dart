@@ -6,7 +6,42 @@ part of 'bridge_token.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-// ignore_for_file: avoid_private_typedef_functions, non_constant_identifier_names, subtype_of_sealed_class, invalid_use_of_internal_member, unused_element, constant_identifier_names, unnecessary_raw_strings, library_private_types_in_public_api
+String _$bridgeTokensRepositoryHash() =>
+    r'12ebc18829ad73ffa1c0bfcbc09a9d49eb219bed';
+
+/// See also [_bridgeTokensRepository].
+@ProviderFor(_bridgeTokensRepository)
+final _bridgeTokensRepositoryProvider =
+    AutoDisposeProvider<BridgeTokensRepository>.internal(
+  _bridgeTokensRepository,
+  name: r'_bridgeTokensRepositoryProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$bridgeTokensRepositoryHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _BridgeTokensRepositoryRef
+    = AutoDisposeProviderRef<BridgeTokensRepository>;
+String _$getTokensListHash() => r'cd2f3ef071ba7abc34228aa001fc217ce2f2a99a';
+
+/// See also [_getTokensList].
+@ProviderFor(_getTokensList)
+final _getTokensListProvider =
+    AutoDisposeFutureProvider<List<BridgeToken>>.internal(
+  _getTokensList,
+  name: r'_getTokensListProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getTokensListHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _GetTokensListRef = AutoDisposeFutureProviderRef<List<BridgeToken>>;
+String _$getTokensListPerBridgeHash() =>
+    r'918b6b0c84ea079954c007ccf241c6526808a29e';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,40 +64,59 @@ class _SystemHash {
   }
 }
 
-String $_bridgeTokensRepositoryHash() =>
-    r'12ebc18829ad73ffa1c0bfcbc09a9d49eb219bed';
+typedef _GetTokensListPerBridgeRef
+    = AutoDisposeFutureProviderRef<List<BridgeToken>>;
 
-/// See also [_bridgeTokensRepository].
-final _bridgeTokensRepositoryProvider =
-    AutoDisposeProvider<BridgeTokensRepository>(
-  _bridgeTokensRepository,
-  name: r'_bridgeTokensRepositoryProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : $_bridgeTokensRepositoryHash,
-);
-typedef _BridgeTokensRepositoryRef
-    = AutoDisposeProviderRef<BridgeTokensRepository>;
-String $_getTokensListHash() => r'cd2f3ef071ba7abc34228aa001fc217ce2f2a99a';
+/// See also [_getTokensListPerBridge].
+@ProviderFor(_getTokensListPerBridge)
+const _getTokensListPerBridgeProvider = _GetTokensListPerBridgeFamily();
 
-/// See also [_getTokensList].
-final _getTokensListProvider = AutoDisposeFutureProvider<List<BridgeToken>>(
-  _getTokensList,
-  name: r'_getTokensListProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : $_getTokensListHash,
-);
-typedef _GetTokensListRef = AutoDisposeFutureProviderRef<List<BridgeToken>>;
-String $_getTokensListPerBridgeHash() =>
-    r'918b6b0c84ea079954c007ccf241c6526808a29e';
+/// See also [_getTokensListPerBridge].
+class _GetTokensListPerBridgeFamily
+    extends Family<AsyncValue<List<BridgeToken>>> {
+  /// See also [_getTokensListPerBridge].
+  const _GetTokensListPerBridgeFamily();
+
+  /// See also [_getTokensListPerBridge].
+  _GetTokensListPerBridgeProvider call(
+    String direction,
+  ) {
+    return _GetTokensListPerBridgeProvider(
+      direction,
+    );
+  }
+
+  @override
+  _GetTokensListPerBridgeProvider getProviderOverride(
+    covariant _GetTokensListPerBridgeProvider provider,
+  ) {
+    return call(
+      provider.direction,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_getTokensListPerBridgeProvider';
+}
 
 /// See also [_getTokensListPerBridge].
 class _GetTokensListPerBridgeProvider
     extends AutoDisposeFutureProvider<List<BridgeToken>> {
+  /// See also [_getTokensListPerBridge].
   _GetTokensListPerBridgeProvider(
     this.direction,
-  ) : super(
+  ) : super.internal(
           (ref) => _getTokensListPerBridge(
             ref,
             direction,
@@ -72,7 +126,10 @@ class _GetTokensListPerBridgeProvider
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : $_getTokensListPerBridgeHash,
+                  : _$getTokensListPerBridgeHash,
+          dependencies: _GetTokensListPerBridgeFamily._dependencies,
+          allTransitiveDependencies:
+              _GetTokensListPerBridgeFamily._allTransitiveDependencies,
         );
 
   final String direction;
@@ -91,40 +148,5 @@ class _GetTokensListPerBridgeProvider
     return _SystemHash.finish(hash);
   }
 }
-
-typedef _GetTokensListPerBridgeRef
-    = AutoDisposeFutureProviderRef<List<BridgeToken>>;
-
-/// See also [_getTokensListPerBridge].
-final _getTokensListPerBridgeProvider = _GetTokensListPerBridgeFamily();
-
-class _GetTokensListPerBridgeFamily
-    extends Family<AsyncValue<List<BridgeToken>>> {
-  _GetTokensListPerBridgeFamily();
-
-  _GetTokensListPerBridgeProvider call(
-    String direction,
-  ) {
-    return _GetTokensListPerBridgeProvider(
-      direction,
-    );
-  }
-
-  @override
-  AutoDisposeFutureProvider<List<BridgeToken>> getProviderOverride(
-    covariant _GetTokensListPerBridgeProvider provider,
-  ) {
-    return call(
-      provider.direction,
-    );
-  }
-
-  @override
-  List<ProviderOrFamily>? get allTransitiveDependencies => null;
-
-  @override
-  List<ProviderOrFamily>? get dependencies => null;
-
-  @override
-  String? get name => r'_getTokensListPerBridgeProvider';
-}
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
