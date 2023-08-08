@@ -42,8 +42,8 @@ class MyApp extends ConsumerWidget {
 
             if (session.isConnected) {
               return ref.read(
-                MainScreenWidgetDiplayedProviders
-                    .mainScreenWidgetDiplayedProvider,
+                MainScreenWidgetDisplayedProviders
+                    .mainScreenWidgetDisplayedProvider,
               );
             }
 

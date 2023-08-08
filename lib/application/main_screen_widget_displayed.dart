@@ -3,20 +3,20 @@ import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MainScreenWidgetDiplayed extends StateNotifier<Widget> {
-  MainScreenWidgetDiplayed() : super(const BridgeSheet());
+class MainScreenWidgetDisplayed extends StateNotifier<Widget> {
+  MainScreenWidgetDisplayed() : super(const BridgeSheet());
 
   void setWidget(Widget newWidget) {
     state = SizedBox(child: newWidget);
   }
 }
 
-final _mainScreenWidgetDiplayedProvider =
-    StateNotifierProvider<MainScreenWidgetDiplayed, Widget>(
-  (ref) => MainScreenWidgetDiplayed(),
+final _mainScreenWidgetDisplayedProvider =
+    StateNotifierProvider<MainScreenWidgetDisplayed, Widget>(
+  (ref) => MainScreenWidgetDisplayed(),
 );
 
-abstract class MainScreenWidgetDiplayedProviders {
-  static final mainScreenWidgetDiplayedProvider =
-      _mainScreenWidgetDiplayedProvider;
+abstract class MainScreenWidgetDisplayedProviders {
+  static final mainScreenWidgetDisplayedProvider =
+      _mainScreenWidgetDisplayedProvider;
 }

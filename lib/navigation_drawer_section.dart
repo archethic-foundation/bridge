@@ -253,8 +253,8 @@ class _NavigationDrawerSectionState
       case 0:
         ref
             .read(
-              MainScreenWidgetDiplayedProviders
-                  .mainScreenWidgetDiplayedProvider.notifier,
+              MainScreenWidgetDisplayedProviders
+                  .mainScreenWidgetDisplayedProvider.notifier,
             )
             .setWidget(const BridgeSheet());
 
@@ -262,8 +262,8 @@ class _NavigationDrawerSectionState
       case 1:
         ref
             .read(
-              MainScreenWidgetDiplayedProviders
-                  .mainScreenWidgetDiplayedProvider.notifier,
+              MainScreenWidgetDisplayedProviders
+                  .mainScreenWidgetDisplayedProvider.notifier,
             )
             .setWidget(const BridgeSheet());
 

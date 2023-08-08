@@ -50,8 +50,8 @@ class MainScreenState extends ConsumerState<MainScreen> {
                 ),
                 child: ref
                     .watch(
-                      MainScreenWidgetDiplayedProviders
-                          .mainScreenWidgetDiplayedProvider,
+                      MainScreenWidgetDisplayedProviders
+                          .mainScreenWidgetDisplayedProvider,
                     )
                     .animate()
                     .fade(
