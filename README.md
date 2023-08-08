@@ -112,6 +112,12 @@ It returns the code of a HTLC contract for fund going from Archehtic => EVM chai
     - `token`: the token address to swap or "UCO"
     - `amount`: the amount of token the user wants to receive on EVM chain
 
+- `get_protocol_fee`  
+It returns the protocol fees in percentage (0.3 => 0.3% = 0.003)
+
+- `get_protocol_fee_address`  
+It returns the address where the protocol fees are sent
+
 ### HTLC Contracts
 
 Those contracts implement the logic of atomic swap. There is two types of contracts:
