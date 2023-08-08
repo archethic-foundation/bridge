@@ -50,14 +50,8 @@ dependencies:
   # A declarative router for Flutter based on Navigation 2 supporting deep linking, data-driven routes and more
   go_router: ^7.0.0
 
-  # GraphQL tools for parsing, transforming and printing GraphQL documents.
-  gql: ^0.14.0
-
   # Gradient borders for inputs and containers. Borders package integrated with a basic flutter widgets as a container and input decorations. Easy in use, platform independent.
   gradient_borders: ^1.0.0
-
-  # A GraphQL client for Flutter, bringing all the features from a modern GraphQL client to one easy to use package
-  graphql_flutter: ^5.1.2
 
   # Hive is a lightweight and blazing fast key-value database written in pure Dart
   hive: ^2.2.3
@@ -83,9 +77,6 @@ dependencies:
 
   # Flutter plugin for getting commonly used locations on host platform file systems, such as the temp and app data directories.
   path_provider: ^2.0.15
-
-  # PhoenixSocket provides a feature-complete implementation of Phoenix Sockets, using a single API based on StreamChannels compatible with any deployment of Flutter
-  phoenix_socket: ^0.6.3
 
   # A package exposing annotations for riverpod_generator
   riverpod_annotation: 1.0.6
