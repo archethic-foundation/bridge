@@ -20,8 +20,8 @@ class ThemeBase {
       const Color(0xFF7F0AEE),
     ],
     stops: const [0, 1],
-    begin: AlignmentDirectional.centerEnd,
-    end: AlignmentDirectional.centerStart,
+    begin: Alignment.centerRight,
+    end: Alignment.centerLeft,
   );
 
   static Gradient gradientBtn = const LinearGradient(

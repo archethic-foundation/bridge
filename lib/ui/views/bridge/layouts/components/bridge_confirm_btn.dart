@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/session/provider.dart';
-import 'package:aebridge/domain/usecases/bridge.dart';
+import 'package:aebridge/domain/usecases/bridge_ae_to_evm.dart';
+import 'package:aebridge/domain/usecases/bridge_evm_to_ae.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/util/components/app_button.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
@@ -32,7 +33,11 @@ class BridgeConfirmButton extends ConsumerWidget {
       labelBtn: AppLocalizations.of(context)!.btn_confirm_bridge,
       icon: Iconsax.recovery_convert,
       onPressed: () async {
-        await BridgeUseCase().run(ref, context);
+        if (bridge.blockchainFrom!.isArchethic) {
+          await BridgeArchethicToEVMUseCase().run(ref, context);
+        } else {
+          await BridgeEVMToArchethicUseCase().run(ref, context);
+        }
       },
     );
   }

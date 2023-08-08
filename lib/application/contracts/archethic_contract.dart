@@ -1,0 +1,224 @@
+/// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:async';
+import 'dart:convert';
+import 'dart:math';
+import 'dart:typed_data';
+import 'package:aebridge/util/generic/get_it_instance.dart';
+import 'package:aebridge/util/transaction_bridge_util.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:flutter/material.dart';
+
+class ArchethicContract with TransactionBridgeMixin {
+  ArchethicContract();
+
+  Future<String?> deploySignedHTLC(
+    String poolAddress,
+    String userAddress,
+    int endTime,
+    double amount,
+    String tokenAddress,
+  ) async {
+    final (String code, String content) = await getSignedHTLC(
+      poolAddress,
+      userAddress,
+      endTime,
+      amount,
+      tokenAddress,
+    );
+
+    return _deployHTLC(poolAddress, code, content);
+  }
+
+  Future<String?> deployChargeableHTLC(
+    String poolAddress,
+    String userAddress,
+    int endTime,
+    double amount,
+    String tokenAddress,
+    String secretHash,
+  ) async {
+    final (String code, String content) = await getChargeableHTLC(
+      poolAddress,
+      userAddress,
+      endTime,
+      amount,
+      tokenAddress,
+      secretHash,
+    );
+
+    return _deployHTLC(poolAddress, code, content);
+  }
+
+  Future<String?> _deployHTLC(
+    String poolAddress,
+    String code,
+    String content,
+  ) async {
+    final apiService = sl.get<ApiService>();
+    var seedSC = '';
+    const chars = 'abcdef0123456789';
+    final rng = Random.secure();
+    for (var i = 0; i < 64; i++) {
+      // ignore: use_string_buffers
+      seedSC += chars[rng.nextInt(chars.length)];
+    }
+
+    final storageNoncePublicKey =
+        await sl.get<ApiService>().getStorageNoncePublicKey();
+    final aesKey = uint8ListToHex(
+      Uint8List.fromList(
+        List<int>.generate(32, (int i) => Random.secure().nextInt(256)),
+      ),
+    );
+    final scAuthorizedKey = AuthorizedKey(
+      encryptedSecretKey:
+          uint8ListToHex(ecEncrypt(aesKey, storageNoncePublicKey)),
+      publicKey: storageNoncePublicKey,
+    );
+    final htlcGenesisAddress = deriveAddress(seedSC, 0);
+
+    final indexMap = await apiService.getTransactionIndex([htlcGenesisAddress]);
+    final index = indexMap['htlcGenesisAddress'] ?? 0;
+    final originPrivateKey = sl.get<ApiService>().getOriginKey();
+    debugPrint('HTLC Genesis Address: $htlcGenesisAddress');
+    final transactionSC =
+        Transaction(type: 'contract', data: Transaction.initData())
+            .setCode(code)
+            .setContent(content)
+            .addRecipient(poolAddress)
+            .addOwnership(
+              uint8ListToHex(
+                aesEncrypt(seedSC, aesKey),
+              ),
+              [scAuthorizedKey],
+            )
+            .build(seedSC, index)
+            .originSign(originPrivateKey);
+
+    await sendTransactions(
+      <Transaction>[transactionSC],
+    );
+
+    return transactionSC.address!.address;
+  }
+
+  Future<(String, String)> getSignedHTLC(
+    String poolAddress,
+    String userAddress,
+    int endTime,
+    double amount,
+    String tokenAddress,
+  ) async {
+    final code = await _getSignedHTLCCode(
+      poolAddress,
+      userAddress,
+      endTime,
+      amount,
+      tokenAddress,
+    );
+    final content = _getSignedHTLCContent(userAddress, endTime, amount);
+    return (code, content);
+  }
+
+  Future<(String, String)> getChargeableHTLC(
+    String poolAddress,
+    String userAddress,
+    int endTime,
+    double amount,
+    String tokenAddress,
+    String secretHash,
+  ) async {
+    final code = await _getChargeableHTLCCode(
+      poolAddress,
+      userAddress,
+      endTime,
+      amount,
+      tokenAddress,
+      secretHash,
+    );
+    final content = _getChargeableHTLCContent(userAddress, endTime, amount);
+    return (code, content);
+  }
+
+  Future<String> _getSignedHTLCCode(
+    String poolAddress,
+    String userAddress,
+    int endTime,
+    double amount,
+    String tokenAddress,
+  ) async {
+    final code = await sl.get<ApiService>().callSMFunction(
+          jsonRPCRequest: SMCallFunctionRequest(
+            method: 'contract_fun',
+            params: SMCallFunctionParams(
+              contract: poolAddress.toUpperCase(),
+              function: 'get_signed_htlc',
+              args: [
+                endTime,
+                userAddress.toUpperCase(),
+                poolAddress.toUpperCase(),
+                if (tokenAddress.isEmpty) 'UCO' else tokenAddress.toUpperCase(),
+                amount
+              ],
+            ),
+          ),
+        );
+    return code;
+  }
+
+  Future<String> _getChargeableHTLCCode(
+    String poolAddress,
+    String userAddress,
+    int endTime,
+    double amount,
+    String tokenAddress,
+    String secretHash,
+  ) async {
+    final code = await sl.get<ApiService>().callSMFunction(
+          jsonRPCRequest: SMCallFunctionRequest(
+            method: 'contract_fun',
+            params: SMCallFunctionParams(
+              contract: poolAddress,
+              function: 'get_chargeable_htlc',
+              args: [
+                endTime,
+                userAddress.toUpperCase(),
+                poolAddress.toUpperCase(),
+                secretHash,
+                if (tokenAddress.isEmpty) 'UCO' else tokenAddress.toUpperCase(),
+                amount
+              ],
+            ),
+          ),
+        );
+    return code;
+  }
+
+  String _getSignedHTLCContent(
+    String userAddress,
+    int endTime,
+    double amount,
+  ) {
+    final contentMap = {
+      'action': 'request_secret_hash',
+      'endTime': endTime,
+      'userAddress': userAddress.toUpperCase(),
+      'amount': amount
+    };
+    return jsonEncode(contentMap);
+  }
+
+  String _getChargeableHTLCContent(
+    String userAddress,
+    int endTime,
+    double amount,
+  ) {
+    final contentMap = {
+      'action': 'request_secret_hash',
+      'endTime': endTime,
+      'userAddress': userAddress.toUpperCase(),
+      'amount': amount
+    };
+    return jsonEncode(contentMap);
+  }
+}

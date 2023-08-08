@@ -36,18 +36,20 @@ packages:
   archethic_lib_dart:
     dependency: transitive
     description:
-      name: archethic_lib_dart
-      sha256: c5ca74a94135fd443b512961669f950e30848010036bdd31c538e28c97b7b4b3
-      url: "https://pub.dev"
-    source: hosted
-    version: "3.2.0"
+      path: "."
+      ref: "84-add-a-method-for-calling-smart-contract-functions"
+      resolved-ref: "1e1a3820f0e2bd928dffa1494684a45dac3ef61a"
+      url: "https://github.com/archethic-foundation/libdart.git"
+    source: git
+    version: "3.3.0"
   archethic_wallet_client:
     dependency: "direct main"
     description:
-      name: archethic_wallet_client
-      sha256: "3a69b72a46d7ae02080bb3bdf14c892b9bc49ddb103d2cc40e77f60fbedba503"
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: libdart_calling_sm_function
+      resolved-ref: "9bb626e0fbcd7774f241dbbb9b43be5aecd1091c"
+      url: "https://github.com/archethic-foundation/archethic-wallet-client-dart.git"
+    source: git
     version: "1.0.6"
   archive:
     dependency: transitive

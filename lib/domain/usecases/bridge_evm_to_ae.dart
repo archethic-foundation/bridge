@@ -2,8 +2,8 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:aebridge/model/contracts/lp_erc_contract.dart';
-import 'package:aebridge/model/contracts/lp_eth_contract.dart';
+import 'package:aebridge/application/contracts/lp_erc_contract.dart';
+import 'package:aebridge/application/contracts/lp_eth_contract.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webthree/crypto.dart';
 
-class BridgeUseCase {
+class BridgeEVMToArchethicUseCase {
   Future<void> run(
     WidgetRef ref,
     BuildContext context,

@@ -9,7 +9,11 @@ environment:
 
 dependencies:
   # A client dart library to interact with Archethic Wallet RPC API.
-  archethic_wallet_client: ^1.0.6
+  #archethic_wallet_client: ^1.0.6
+  archethic_wallet_client:
+    git:
+      url: https://github.com/archethic-foundation/archethic-wallet-client-dart.git
+      ref: libdart_calling_sm_function
 
   # Collections and utilities functions and classes related to collections.
   collection: ^1.17.0

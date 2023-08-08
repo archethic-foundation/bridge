@@ -1,0 +1,2 @@
+node deploy_pool.js toto http://127.0.0.1:4000
+address seed toto : 0000c32fd6b33c9ff557ad8826f516c1c81d0242524be10891a009b77c50e252bcc5
