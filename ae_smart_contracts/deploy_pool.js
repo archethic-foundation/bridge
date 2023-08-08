@@ -2,24 +2,26 @@ import fs from "fs"
 import Archethic, { Crypto, Utils } from "archethic"
 import config from "./config.js"
 
-if (!config.poolSeed || !config.endpoint) {
+if (!config.poolSeed || !config.endpoint || !config.protocolFeeAddress) {
   console.log("Invalid config !")
-  console.log("Config needs poolSeed and endpoint")
+  console.log("Config needs poolSeed, endpoint and protocolFeeAddress")
   process.exit(1)
 }
 
-main(config.poolSeed, config.endpoint)
+main(config.poolSeed, config.endpoint, config.protocolFeeAddress)
 
-async function main(seed, endpoint) {
+async function main(seed, endpoint, protocolFeeAddress) {
   const archethic = new Archethic(endpoint)
   await archethic.connect()
 
-  // Replace genesis pool address
   const poolGenesisAddress = Utils.uint8ArrayToHex(Crypto.deriveAddress(seed, 0))
   console.log("Pool genesis address:", poolGenesisAddress)
 
   let poolCode = fs.readFileSync("./contracts/uco_pool.exs", "utf8")
+  // Replace genesis pool address
   poolCode = poolCode.replaceAll("#POOL_ADDRESS#", "0x" + poolGenesisAddress)
+  // Replace protocol fee address
+  poolCode = poolCode.replaceAll("#PROTOCOL_FEE_ADDRESS#", "0x" + protocolFeeAddress)
 
   const storageNonce = await archethic.network.getStorageNoncePublicKey()
   const { encryptedSeed, authorizedKeys } = encryptSeed(seed, storageNonce)

@@ -179,6 +179,14 @@ fun sign_for_evm(data) do
   res
 end
 
+export fun get_protocol_fee() do
+  0.3
+end
+
+export fun get_protocol_fee_address() do
+  #PROTOCOL_FEE_ADDRESS#
+end
+
 ###############################
 # External chain => Archethic #
 ###############################
@@ -193,16 +201,34 @@ export fun get_chargeable_htlc(end_time, user_address, pool_address, secret_hash
 
   return_transfer_code = ""
   if token == "UCO" do
+    # We don't burn UCO, we return them in pool contract
     return_transfer_code = "Contract.add_uco_transfer to: 0x#{pool_address}, amount: #{amount}"
   else
-    return_transfer_code = "Contract.add_token_transfer to: 0x#{pool_address}, amount: #{amount}, token_address: 0x#{token}"
+    burn_address = Chain.get_burn_address()
+    return_transfer_code = "Contract.add_token_transfer to: 0x#{burn_address}, amount: #{amount}, token_address: 0x#{token}"
+  end
+
+  fee_amount = amount * 0.003
+  user_amount = amount - fee_amount
+
+  fee_transfer_code = ""
+  if token == "UCO" do
+    fee_transfer_code = "Contract.add_uco_transfer to: #PROTOCOL_FEE_ADDRESS#, amount: #{fee_amount}"
+  else
+    fee_transfer_code = "Contract.add_token_transfer to: #PROTOCOL_FEE_ADDRESS#, amount: #{fee_amount}, token_address: 0x#{token}"
   end
 
   valid_transfer_code = ""
   if token == "UCO" do
-    valid_transfer_code = "Contract.add_uco_transfer to: 0x#{user_address}, amount: #{amount}"
+    valid_transfer_code = """
+    Contract.add_uco_transfer to: 0x#{user_address}, amount: #{user_amount}
+    #{fee_transfer_code}
+    """
   else
-    valid_transfer_code = "Contract.add_token_transfer to: 0x#{user_address}, amount: #{amount}, token_address: 0x#{token}"
+    valid_transfer_code = """
+    Contract.add_token_transfer to: 0x#{user_address}, amount: #{user_amount}, token_address: 0x#{token}"
+    #{fee_transfer_code}
+    """
   end
 
   """
@@ -251,13 +277,29 @@ export fun get_signed_htlc(end_time, user_address, pool_address, token, amount) 
     return_transfer_code = "Contract.add_token_transfer to: 0x#{user_address}, amount: #{amount}, token_address: 0x#{token}"
   end
 
+  fee_amount = amount * 0.003
+  user_amount = amount - fee_amount
+
+  fee_transfer_code = ""
+  if token == "UCO" do
+    fee_transfer_code = "Contract.add_uco_transfer to: #PROTOCOL_FEE_ADDRESS#, amount: #{fee_amount}"
+  else
+    fee_transfer_code = "Contract.add_token_transfer to: #PROTOCOL_FEE_ADDRESS#, amount: #{fee_amount}, token_address: 0x#{token}"
+  end
+
   valid_transfer_code = ""
   if token == "UCO" do
     # We don't burn UCO, we return them in pool contract
-    valid_transfer_code = "Contract.add_uco_transfer to: 0x#{pool_address}, amount: #{amount}"
+    valid_transfer_code = """
+    Contract.add_uco_transfer to: 0x#{pool_address}, amount: #{user_amount}
+    #{fee_transfer_code}
+    """
   else
     burn_address = Chain.get_burn_address()
-    valid_transfer_code = "Contract.add_token_transfer to: 0x#{burn_address}, amount: #{amount}, token_address: 0x#{token}"
+    valid_transfer_code = """
+    Contract.add_token_transfer to: 0x#{burn_address}, amount: #{user_amount}, token_address: 0x#{token}"
+    #{fee_transfer_code}
+    """
   end
 
   date_time_trigger = """
