@@ -1,7 +1,6 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/ui/views/util/components/scrollbar.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:aebridge/ui/views/util/header.dart';
-import 'package:aebridge/ui/views/welcome/components/welcome_advert.dart';
 import 'package:aebridge/ui/views/welcome/components/welcome_bridge_btn.dart';
 import 'package:aebridge/ui/views/welcome/components/welcome_info_version.dart';
 import 'package:aebridge/util/external/pageview_dot_indicator.dart';
@@ -9,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gradient_borders/gradient_borders.dart';
 
 class WelcomeScreen extends ConsumerStatefulWidget {
   const WelcomeScreen({
@@ -320,6 +320,65 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
             ],
           ),
         ],
+      ),
+    );
+  }
+}
+
+class WelcomeAdvert extends StatelessWidget {
+  const WelcomeAdvert({
+    required this.welcomeArgTitle,
+    required this.welcomeArgDesc,
+    super.key,
+  });
+
+  final String welcomeArgTitle;
+  final String welcomeArgDesc;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: MediaQuery.of(context).size.height * 0.5,
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            Theme.of(context).colorScheme.background.withOpacity(1),
+            Theme.of(context).colorScheme.background.withOpacity(0.3),
+          ],
+          stops: const [0, 1],
+          begin: Alignment.centerRight,
+          end: Alignment.centerLeft,
+        ),
+        border: const GradientBoxBorder(
+          gradient: LinearGradient(
+            colors: [
+              Color(0xFFCC00FF),
+              Color(0x003C89B9),
+            ],
+            stops: [0, 1],
+          ),
+        ),
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: ArchethicScrollbar(
+        child: SizedBox(
+          child: Column(
+            children: [
+              Text(
+                welcomeArgTitle,
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Text(
+                welcomeArgDesc,
+                style: Theme.of(context).textTheme.bodyMedium,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
