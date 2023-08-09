@@ -70,30 +70,12 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     state = state.copyWith(blockchainTo: blockchainTo);
   }
 
-  Future<void> setTokenToBridge(
+  void setTokenToBridge(
     BridgeToken tokenToBridge,
-  ) async {
-    const balance = 0.0;
-    /*switch (tokenToBridge.type) {
-      case 'Native':
-        balance = await sl.get<MetaMaskProvider>().getBalance(
-              tokenToBridge.type,
-            );
-        break;
-      case 'ERC20':
-        balance = await sl.get<MetaMaskProvider>().getBalance(
-              tokenToBridge.type,
-              erc20address: tokenToBridge.tokenAddress,
-            );
-        break;
-      default:
-    }*/
-
+  ) {
     state = state.copyWith(
       tokenToBridge: tokenToBridge,
-      tokenToBridgeBalance: balance,
     );
-    return;
   }
 
   Future<void> setTokenToBridgeAmount(

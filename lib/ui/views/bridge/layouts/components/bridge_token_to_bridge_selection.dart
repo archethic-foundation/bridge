@@ -145,7 +145,7 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
                                   direction,
                                 );
                                 if (token == null) return;
-                                await ref
+                                ref
                                     .watch(
                                       BridgeFormProvider.bridgeForm.notifier,
                                     )
