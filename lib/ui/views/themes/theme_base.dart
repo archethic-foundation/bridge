@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 
 class ThemeBase {
-  static String mainFont = 'PPTelegraf';
+  static String mainFont = 'Lato';
   static String adddressFont = 'Roboto';
 
   static Color primaryColor = const Color(0xFF4027A2);

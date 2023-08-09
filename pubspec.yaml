@@ -136,8 +136,8 @@ flutter:
     - family: Iconsax
       fonts:
         - asset: assets/fonts/Iconsax.ttf
-    - family: PPTelegraf
+    - family: Lato
       fonts:
-        - asset: assets/fonts/PPTelegraf-Regular.otf
-        - asset: assets/fonts/PPTelegraf-UltraBold.otf
-        - asset: assets/fonts/PPTelegraf-UltraLight.otf
+        - asset: assets/fonts/Lato-Regular.ttf
+        - asset: assets/fonts/Lato-Italic.ttf
+        - asset: assets/fonts/Lato-Bold.ttf
