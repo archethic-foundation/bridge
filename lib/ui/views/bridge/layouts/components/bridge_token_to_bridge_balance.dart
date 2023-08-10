@@ -21,7 +21,7 @@ class BridgeTokenToBridgeBalance extends ConsumerWidget {
         .watch(
       BalanceProviders.getBalance(
         bridge.blockchainFrom!.isArchethic,
-        session.genesisAddress,
+        session.walletFrom!.genesisAddress,
         bridge.tokenToBridge!.type,
         bridge.tokenToBridge!.tokenAddress,
       ),

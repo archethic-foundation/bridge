@@ -15,6 +15,7 @@ class BridgeArchethicToEVMUseCase {
   ) async {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
     final session = ref.read(SessionProviders.session);
+    final walletFrom = session.walletFrom;
     const poolAddress =
         '0000852ddc39fa27c7972c65f2d00de1de0b5fc225722d52d0708354c3fdea7b7fec';
     var endTime =
@@ -23,7 +24,7 @@ class BridgeArchethicToEVMUseCase {
 
     final htlcContract = await ArchethicContract().deploySignedHTLC(
       poolAddress,
-      session.genesisAddress,
+      walletFrom!.genesisAddress,
       endTime,
       bridge.tokenToBridgeAmount,
       bridge.tokenToBridge!.tokenAddress,

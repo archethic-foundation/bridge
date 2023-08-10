@@ -16,10 +16,10 @@ class BridgeConnectWalletButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
     final session = ref.watch(SessionProviders.session);
-    if (session.isConnected) {
+    if (session.allWalletsIsConnected) {
       return const SizedBox();
     }
-    if (bridge.blockchainFrom == null) {
+    if (bridge.blockchainFrom == null && bridge.blockchainTo == null) {
       return AppButton(
         labelBtn: AppLocalizations.of(context)!.btn_connect_wallet,
         icon: Iconsax.empty_wallet,
@@ -35,10 +35,14 @@ class BridgeConnectWalletButton extends ConsumerWidget {
         debugPrint('chainId ${bridge.blockchainFrom!.chainId}');
         if (bridge.blockchainFrom!.chainId < 0) {
           debugPrint('connect to Archethic Wallet');
-          await sessionNotifier.connectToArchethicWallet();
+          await sessionNotifier.connectToArchethicWallet(true);
+          debugPrint('connect to Metamask');
+          await sessionNotifier.connectToMetamask(bridge.blockchainTo!, false);
         } else {
           debugPrint('connect to Metamask');
-          await sessionNotifier.connectToMetamask(bridge.blockchainFrom!);
+          await sessionNotifier.connectToMetamask(bridge.blockchainFrom!, true);
+          debugPrint('connect to Archethic Wallet');
+          await sessionNotifier.connectToArchethicWallet(false);
           //debugPrint('connect to Wallet Connect');
           // await sessionNotifier.connectToMWalletConnect(bridge.blockchainFrom!);
         }

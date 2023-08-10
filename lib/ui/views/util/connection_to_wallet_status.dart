@@ -1,5 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/session/provider.dart';
+import 'package:aebridge/model/bridge_wallet.dart';
+import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:aebridge/ui/views/util/components/icon_close_connection.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:flutter/material.dart';
@@ -25,9 +27,19 @@ class _ConnectionToWalletStatusState
         .textTheme
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
     final session = ref.watch(SessionProviders.session);
+    BridgeWallet? walletArchethic;
+    if (session.walletFrom != null &&
+        session.walletFrom!.wallet == 'archethic') {
+      walletArchethic = session.walletFrom;
+    } else {
+      if (session.walletTo != null && session.walletTo!.wallet == 'archethic') {
+        walletArchethic = session.walletTo;
+      }
+    }
 
-    if (session.oldNameAccount.isNotEmpty &&
-        session.oldNameAccount != session.nameAccount) {
+    if (walletArchethic != null &&
+        walletArchethic.oldNameAccount.isNotEmpty &&
+        walletArchethic.oldNameAccount != walletArchethic.nameAccount) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -44,10 +56,11 @@ class _ConnectionToWalletStatusState
       });
     }
 
-    return session.isConnected
+    return (session.walletFrom != null && session.walletFrom!.isConnected) ||
+            (session.walletTo != null && session.walletTo!.isConnected)
         ? Responsive.isDesktop(context)
             ? Container(
-                height: 70,
+                height: 90,
                 padding: const EdgeInsets.only(left: 15),
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
@@ -74,32 +87,72 @@ class _ConnectionToWalletStatusState
                   ),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    if (session.walletFrom != null &&
+                        session.walletFrom!.isConnected)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            session.nameAccountDisplayed,
-                            style: textTheme.labelMedium,
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  session.walletFrom!.nameAccountDisplayed,
+                                  style: textTheme.labelMedium,
+                                ),
+                                Text(
+                                  session.walletFrom!.endpoint,
+                                  style: textTheme.labelSmall,
+                                ),
+                              ],
+                            ),
                           ),
-                          Text(
-                            session.endpoint,
-                            style: textTheme.labelSmall,
-                          ),
+                          IconCloseConnection(wallet: session.walletFrom!),
                         ],
                       ),
+                    const SizedBox(
+                      height: 2,
                     ),
-                    const IconCloseConnection(),
+                    Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 1,
+                      decoration: BoxDecoration(gradient: ThemeBase.gradient),
+                    ),
+                    const SizedBox(
+                      height: 2,
+                    ),
+                    if (session.walletTo != null &&
+                        session.walletTo!.isConnected)
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  session.walletTo!.nameAccountDisplayed,
+                                  style: textTheme.labelMedium,
+                                ),
+                                Text(
+                                  session.walletTo!.endpoint,
+                                  style: textTheme.labelSmall,
+                                ),
+                              ],
+                            ),
+                          ),
+                          IconCloseConnection(wallet: session.walletTo!),
+                        ],
+                      ),
                   ],
                 ),
               )
-            : const IconCloseConnection()
-        : const SizedBox(
-            height: 70,
-          );
+            : const SizedBox()
+        : const SizedBox();
   }
 }

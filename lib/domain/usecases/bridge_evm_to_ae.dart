@@ -2,9 +2,13 @@
 import 'dart:async';
 import 'dart:math';
 
+import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/application/contracts/lp_erc_contract.dart';
 import 'package:aebridge/application/contracts/lp_eth_contract.dart';
+import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/util/date_util.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -24,7 +28,7 @@ class BridgeEVMToArchethicUseCase {
       ),
     );
     final secretHex = '0x${bytesToHex(secret)}';
-    final hash = sha256.convert(
+    final secretHash = sha256.convert(
       secret,
     );
     debugPrint('secret: $secretHex');
@@ -35,6 +39,7 @@ class BridgeEVMToArchethicUseCase {
       case 'ERC20':
         debugPrint('tokenAddress: ${bridge.tokenToBridge!.tokenAddress}');
 
+        // 1) Deploy EVM HTLC contract + Provision
         final lpercContract =
             LPERCContract(bridge.blockchainFrom!.providerEndpoint);
         final htlcContract = await lpercContract.deployAndProvisionHTLC(
@@ -47,11 +52,44 @@ class BridgeEVMToArchethicUseCase {
         if (htlcContract == null) {
           return;
         }
+
+        // 2) Deploy Archethic HTLC contract
+        const poolAddress =
+            '0000852ddc39fa27c7972c65f2d00de1de0b5fc225722d52d0708354c3fdea7b7fec';
+        var endTime = DateTime.now()
+            .add(const Duration(minutes: 720))
+            .millisecondsSinceEpoch;
+        endTime = DateUtil().roundToNearestMinute(endTime) ~/ 1000;
+
+        final archethicHTLCAddress =
+            await ArchethicContract().deployChargeableHTLC(
+          poolAddress,
+          bridge.targetAddress,
+          endTime,
+          bridge.tokenToBridgeAmount,
+          '',
+          uint8ListToHex(
+            Uint8List.fromList(secretHash.bytes),
+          ),
+        );
+
+        // 3) Reveal secret + Send ETH to Reserve
         await lpercContract.withdraw(
           htlcContract,
           secretHex,
           chainId: bridge.blockchainFrom!.chainId,
         );
+
+        // 4) Reveal secret to Archethic HTLC
+        final session = ref.read(SessionProviders.session);
+        final walletTo = session.walletTo;
+        await ArchethicContract().revealSecretToChargeableHTLC(
+          walletTo!.genesisAddress,
+          walletTo.nameAccount,
+          archethicHTLCAddress!,
+          bytesToHex(secret),
+        );
+
         break;
       case 'Native':
         final lpethContract =

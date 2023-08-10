@@ -16,16 +16,8 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$Session {
-  String get wallet => throw _privateConstructorUsedError;
-  String get endpoint => throw _privateConstructorUsedError;
-  String get nameAccount => throw _privateConstructorUsedError;
-  String get oldNameAccount => throw _privateConstructorUsedError;
-  String get genesisAddress => throw _privateConstructorUsedError;
-  String get error => throw _privateConstructorUsedError;
-  bool get isConnected => throw _privateConstructorUsedError;
-  Subscription<Account>? get accountSub => throw _privateConstructorUsedError;
-  StreamSubscription<Account>? get accountStreamSub =>
-      throw _privateConstructorUsedError;
+  BridgeWallet? get walletFrom => throw _privateConstructorUsedError;
+  BridgeWallet? get walletTo => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $SessionCopyWith<Session> get copyWith => throw _privateConstructorUsedError;
@@ -36,18 +28,10 @@ abstract class $SessionCopyWith<$Res> {
   factory $SessionCopyWith(Session value, $Res Function(Session) then) =
       _$SessionCopyWithImpl<$Res, Session>;
   @useResult
-  $Res call(
-      {String wallet,
-      String endpoint,
-      String nameAccount,
-      String oldNameAccount,
-      String genesisAddress,
-      String error,
-      bool isConnected,
-      Subscription<Account>? accountSub,
-      StreamSubscription<Account>? accountStreamSub});
+  $Res call({BridgeWallet? walletFrom, BridgeWallet? walletTo});
 
-  $SubscriptionCopyWith<Account, $Res>? get accountSub;
+  $BridgeWalletCopyWith<$Res>? get walletFrom;
+  $BridgeWalletCopyWith<$Res>? get walletTo;
 }
 
 /// @nodoc
@@ -63,65 +47,42 @@ class _$SessionCopyWithImpl<$Res, $Val extends Session>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? wallet = null,
-    Object? endpoint = null,
-    Object? nameAccount = null,
-    Object? oldNameAccount = null,
-    Object? genesisAddress = null,
-    Object? error = null,
-    Object? isConnected = null,
-    Object? accountSub = freezed,
-    Object? accountStreamSub = freezed,
+    Object? walletFrom = freezed,
+    Object? walletTo = freezed,
   }) {
     return _then(_value.copyWith(
-      wallet: null == wallet
-          ? _value.wallet
-          : wallet // ignore: cast_nullable_to_non_nullable
-              as String,
-      endpoint: null == endpoint
-          ? _value.endpoint
-          : endpoint // ignore: cast_nullable_to_non_nullable
-              as String,
-      nameAccount: null == nameAccount
-          ? _value.nameAccount
-          : nameAccount // ignore: cast_nullable_to_non_nullable
-              as String,
-      oldNameAccount: null == oldNameAccount
-          ? _value.oldNameAccount
-          : oldNameAccount // ignore: cast_nullable_to_non_nullable
-              as String,
-      genesisAddress: null == genesisAddress
-          ? _value.genesisAddress
-          : genesisAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      error: null == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as String,
-      isConnected: null == isConnected
-          ? _value.isConnected
-          : isConnected // ignore: cast_nullable_to_non_nullable
-              as bool,
-      accountSub: freezed == accountSub
-          ? _value.accountSub
-          : accountSub // ignore: cast_nullable_to_non_nullable
-              as Subscription<Account>?,
-      accountStreamSub: freezed == accountStreamSub
-          ? _value.accountStreamSub
-          : accountStreamSub // ignore: cast_nullable_to_non_nullable
-              as StreamSubscription<Account>?,
+      walletFrom: freezed == walletFrom
+          ? _value.walletFrom
+          : walletFrom // ignore: cast_nullable_to_non_nullable
+              as BridgeWallet?,
+      walletTo: freezed == walletTo
+          ? _value.walletTo
+          : walletTo // ignore: cast_nullable_to_non_nullable
+              as BridgeWallet?,
     ) as $Val);
   }
 
   @override
   @pragma('vm:prefer-inline')
-  $SubscriptionCopyWith<Account, $Res>? get accountSub {
-    if (_value.accountSub == null) {
+  $BridgeWalletCopyWith<$Res>? get walletFrom {
+    if (_value.walletFrom == null) {
       return null;
     }
 
-    return $SubscriptionCopyWith<Account, $Res>(_value.accountSub!, (value) {
-      return _then(_value.copyWith(accountSub: value) as $Val);
+    return $BridgeWalletCopyWith<$Res>(_value.walletFrom!, (value) {
+      return _then(_value.copyWith(walletFrom: value) as $Val);
+    });
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BridgeWalletCopyWith<$Res>? get walletTo {
+    if (_value.walletTo == null) {
+      return null;
+    }
+
+    return $BridgeWalletCopyWith<$Res>(_value.walletTo!, (value) {
+      return _then(_value.copyWith(walletTo: value) as $Val);
     });
   }
 }
@@ -133,19 +94,12 @@ abstract class _$$_SessionCopyWith<$Res> implements $SessionCopyWith<$Res> {
       __$$_SessionCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {String wallet,
-      String endpoint,
-      String nameAccount,
-      String oldNameAccount,
-      String genesisAddress,
-      String error,
-      bool isConnected,
-      Subscription<Account>? accountSub,
-      StreamSubscription<Account>? accountStreamSub});
+  $Res call({BridgeWallet? walletFrom, BridgeWallet? walletTo});
 
   @override
-  $SubscriptionCopyWith<Account, $Res>? get accountSub;
+  $BridgeWalletCopyWith<$Res>? get walletFrom;
+  @override
+  $BridgeWalletCopyWith<$Res>? get walletTo;
 }
 
 /// @nodoc
@@ -158,53 +112,18 @@ class __$$_SessionCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? wallet = null,
-    Object? endpoint = null,
-    Object? nameAccount = null,
-    Object? oldNameAccount = null,
-    Object? genesisAddress = null,
-    Object? error = null,
-    Object? isConnected = null,
-    Object? accountSub = freezed,
-    Object? accountStreamSub = freezed,
+    Object? walletFrom = freezed,
+    Object? walletTo = freezed,
   }) {
     return _then(_$_Session(
-      wallet: null == wallet
-          ? _value.wallet
-          : wallet // ignore: cast_nullable_to_non_nullable
-              as String,
-      endpoint: null == endpoint
-          ? _value.endpoint
-          : endpoint // ignore: cast_nullable_to_non_nullable
-              as String,
-      nameAccount: null == nameAccount
-          ? _value.nameAccount
-          : nameAccount // ignore: cast_nullable_to_non_nullable
-              as String,
-      oldNameAccount: null == oldNameAccount
-          ? _value.oldNameAccount
-          : oldNameAccount // ignore: cast_nullable_to_non_nullable
-              as String,
-      genesisAddress: null == genesisAddress
-          ? _value.genesisAddress
-          : genesisAddress // ignore: cast_nullable_to_non_nullable
-              as String,
-      error: null == error
-          ? _value.error
-          : error // ignore: cast_nullable_to_non_nullable
-              as String,
-      isConnected: null == isConnected
-          ? _value.isConnected
-          : isConnected // ignore: cast_nullable_to_non_nullable
-              as bool,
-      accountSub: freezed == accountSub
-          ? _value.accountSub
-          : accountSub // ignore: cast_nullable_to_non_nullable
-              as Subscription<Account>?,
-      accountStreamSub: freezed == accountStreamSub
-          ? _value.accountStreamSub
-          : accountStreamSub // ignore: cast_nullable_to_non_nullable
-              as StreamSubscription<Account>?,
+      walletFrom: freezed == walletFrom
+          ? _value.walletFrom
+          : walletFrom // ignore: cast_nullable_to_non_nullable
+              as BridgeWallet?,
+      walletTo: freezed == walletTo
+          ? _value.walletTo
+          : walletTo // ignore: cast_nullable_to_non_nullable
+              as BridgeWallet?,
     ));
   }
 }
@@ -212,47 +131,16 @@ class __$$_SessionCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_Session extends _Session {
-  const _$_Session(
-      {this.wallet = '',
-      this.endpoint = '',
-      this.nameAccount = '',
-      this.oldNameAccount = '',
-      this.genesisAddress = '',
-      this.error = '',
-      this.isConnected = false,
-      this.accountSub,
-      this.accountStreamSub})
-      : super._();
+  const _$_Session({this.walletFrom, this.walletTo}) : super._();
 
   @override
-  @JsonKey()
-  final String wallet;
+  final BridgeWallet? walletFrom;
   @override
-  @JsonKey()
-  final String endpoint;
-  @override
-  @JsonKey()
-  final String nameAccount;
-  @override
-  @JsonKey()
-  final String oldNameAccount;
-  @override
-  @JsonKey()
-  final String genesisAddress;
-  @override
-  @JsonKey()
-  final String error;
-  @override
-  @JsonKey()
-  final bool isConnected;
-  @override
-  final Subscription<Account>? accountSub;
-  @override
-  final StreamSubscription<Account>? accountStreamSub;
+  final BridgeWallet? walletTo;
 
   @override
   String toString() {
-    return 'Session(wallet: $wallet, endpoint: $endpoint, nameAccount: $nameAccount, oldNameAccount: $oldNameAccount, genesisAddress: $genesisAddress, error: $error, isConnected: $isConnected, accountSub: $accountSub, accountStreamSub: $accountStreamSub)';
+    return 'Session(walletFrom: $walletFrom, walletTo: $walletTo)';
   }
 
   @override
@@ -260,36 +148,14 @@ class _$_Session extends _Session {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_Session &&
-            (identical(other.wallet, wallet) || other.wallet == wallet) &&
-            (identical(other.endpoint, endpoint) ||
-                other.endpoint == endpoint) &&
-            (identical(other.nameAccount, nameAccount) ||
-                other.nameAccount == nameAccount) &&
-            (identical(other.oldNameAccount, oldNameAccount) ||
-                other.oldNameAccount == oldNameAccount) &&
-            (identical(other.genesisAddress, genesisAddress) ||
-                other.genesisAddress == genesisAddress) &&
-            (identical(other.error, error) || other.error == error) &&
-            (identical(other.isConnected, isConnected) ||
-                other.isConnected == isConnected) &&
-            (identical(other.accountSub, accountSub) ||
-                other.accountSub == accountSub) &&
-            (identical(other.accountStreamSub, accountStreamSub) ||
-                other.accountStreamSub == accountStreamSub));
+            (identical(other.walletFrom, walletFrom) ||
+                other.walletFrom == walletFrom) &&
+            (identical(other.walletTo, walletTo) ||
+                other.walletTo == walletTo));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      wallet,
-      endpoint,
-      nameAccount,
-      oldNameAccount,
-      genesisAddress,
-      error,
-      isConnected,
-      accountSub,
-      accountStreamSub);
+  int get hashCode => Object.hash(runtimeType, walletFrom, walletTo);
 
   @JsonKey(ignore: true)
   @override
@@ -300,35 +166,14 @@ class _$_Session extends _Session {
 
 abstract class _Session extends Session {
   const factory _Session(
-      {final String wallet,
-      final String endpoint,
-      final String nameAccount,
-      final String oldNameAccount,
-      final String genesisAddress,
-      final String error,
-      final bool isConnected,
-      final Subscription<Account>? accountSub,
-      final StreamSubscription<Account>? accountStreamSub}) = _$_Session;
+      {final BridgeWallet? walletFrom,
+      final BridgeWallet? walletTo}) = _$_Session;
   const _Session._() : super._();
 
   @override
-  String get wallet;
+  BridgeWallet? get walletFrom;
   @override
-  String get endpoint;
-  @override
-  String get nameAccount;
-  @override
-  String get oldNameAccount;
-  @override
-  String get genesisAddress;
-  @override
-  String get error;
-  @override
-  bool get isConnected;
-  @override
-  Subscription<Account>? get accountSub;
-  @override
-  StreamSubscription<Account>? get accountStreamSub;
+  BridgeWallet? get walletTo;
   @override
   @JsonKey(ignore: true)
   _$$_SessionCopyWith<_$_Session> get copyWith =>

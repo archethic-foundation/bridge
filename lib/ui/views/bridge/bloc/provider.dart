@@ -41,7 +41,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
         blockchainFrom.chainId > 0) {
       debugPrint('connect to Metamask');
       final sessionNotifier = ref.read(SessionProviders.session.notifier);
-      await sessionNotifier.connectToMetamask(blockchainFrom);
+      await sessionNotifier.connectToMetamask(blockchainFrom, true);
     }
 
     // Switch metamask

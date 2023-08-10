@@ -63,8 +63,7 @@ class ArchethicContract with TransactionBridgeMixin {
       seedSC += chars[rng.nextInt(chars.length)];
     }
 
-    final storageNoncePublicKey =
-        await sl.get<ApiService>().getStorageNoncePublicKey();
+    final storageNoncePublicKey = await apiService.getStorageNoncePublicKey();
     final aesKey = uint8ListToHex(
       Uint8List.fromList(
         List<int>.generate(32, (int i) => Random.secure().nextInt(256)),
@@ -78,8 +77,8 @@ class ArchethicContract with TransactionBridgeMixin {
     final htlcGenesisAddress = deriveAddress(seedSC, 0);
 
     final indexMap = await apiService.getTransactionIndex([htlcGenesisAddress]);
-    final index = indexMap['htlcGenesisAddress'] ?? 0;
-    final originPrivateKey = sl.get<ApiService>().getOriginKey();
+    final index = indexMap[htlcGenesisAddress] ?? 0;
+    final originPrivateKey = apiService.getOriginKey();
     debugPrint('HTLC Genesis Address: $htlcGenesisAddress');
     final transactionSC =
         Transaction(type: 'contract', data: Transaction.initData())
@@ -220,5 +219,42 @@ class ArchethicContract with TransactionBridgeMixin {
       'amount': amount
     };
     return jsonEncode(contentMap);
+  }
+
+  Future<void> revealSecretToChargeableHTLC(
+    String userGenesisAddress,
+    String currentNameAccount,
+    String htlcAddress,
+    String secret,
+  ) async {
+    final apiService = sl.get<ApiService>();
+    // ignore: unused_local_variable
+    var htlcAddressBefore = htlcAddress;
+    final transactionMap =
+        await apiService.getLastTransaction([htlcAddress], request: 'address');
+    if (transactionMap[htlcAddress] != null &&
+        transactionMap[htlcAddress]!.address != null &&
+        transactionMap[htlcAddress]!.address!.address != null) {
+      htlcAddressBefore = transactionMap[htlcAddress]!.address!.address!;
+    }
+
+    var transaction = Transaction(type: 'data', data: Transaction.initData())
+        .setContent(secret)
+        .addRecipient(htlcAddress);
+
+    try {
+      transaction = (await signTx(
+        Uri.encodeFull('archethic-wallet-$currentNameAccount'),
+        '',
+        [transaction],
+      ))
+          .first;
+
+      await sendTransactions(
+        <Transaction>[transaction],
+      );
+    } catch (e) {
+      debugPrint('Signature failed');
+    }
   }
 }

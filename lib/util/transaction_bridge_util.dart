@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:archethic_wallet_client/archethic_wallet_client.dart';
 
 mixin TransactionBridgeMixin {
   Future<double> calculateFees(Transaction transaction) async {
@@ -100,5 +101,50 @@ mixin TransactionBridgeMixin {
     if (errorDetail.isNotEmpty) {
       throw Exception(errorDetail);
     }
+  }
+
+  Future<List<Transaction>> signTx(
+    String serviceName,
+    String pathSuffix,
+    List<Transaction> transactions,
+  ) async {
+    final newTransactions = <Transaction>[];
+
+    final payload = {
+      'serviceName': serviceName,
+      'pathSuffix': pathSuffix,
+      'transactions': List<dynamic>.from(
+        transactions.map((Transaction x) => x.toJson()),
+      ),
+    };
+    log(
+      payload.toString(),
+    );
+
+    final result =
+        await sl.get<ArchethicDAppClient>().signTransactions(payload);
+    result.when(
+      failure: (failure) {
+        log(
+          'Signature failed',
+          error: failure,
+        );
+        throw failure;
+      },
+      success: (result) {
+        for (var i = 0; i < transactions.length; i++) {
+          newTransactions.add(
+            transactions[i]
+                .setAddress(Address(address: result.signedTxs[i].address))
+                .setPreviousSignatureAndPreviousPublicKey(
+                  result.signedTxs[i].previousSignature,
+                  result.signedTxs[i].previousPublicKey,
+                )
+                .setOriginSignature(result.signedTxs[i].originSignature),
+          );
+        }
+      },
+    );
+    return newTransactions;
   }
 }

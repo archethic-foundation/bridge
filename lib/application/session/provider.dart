@@ -4,6 +4,7 @@ import 'package:aebridge/application/metamask.dart';
 import 'package:aebridge/application/session/state.dart';
 import 'package:aebridge/domain/repositories/features_flags.dart';
 import 'package:aebridge/model/bridge_blockchain.dart';
+import 'package:aebridge/model/bridge_wallet.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:aebridge/util/service_locator.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -59,7 +60,9 @@ class _SessionNotifier extends Notifier<Session> {
     }
   }
 */
-  Future<void> connectToMetamask(BridgeBlockchain blockchain) async {
+  Future<void> connectToMetamask(BridgeBlockchain blockchain, bool from) async {
+    var bridgeWallet = const BridgeWallet();
+
     try {
       final metamaskProvider = MetaMaskProvider();
 
@@ -67,7 +70,7 @@ class _SessionNotifier extends Notifier<Session> {
       if (metamaskProvider.walletConnected) {
         debugPrint('Connected to ${blockchain.name}');
 
-        state = state.copyWith(
+        bridgeWallet = bridgeWallet.copyWith(
           wallet: 'metamask',
           isConnected: true,
           error: '',
@@ -84,19 +87,23 @@ class _SessionNotifier extends Notifier<Session> {
       }
     } catch (e) {
       debugPrint(e.toString());
-      state = state.copyWith(
+      bridgeWallet = bridgeWallet.copyWith(
         isConnected: false,
         error: 'Please, open your Metamask.',
       );
     }
+    _fillState(bridgeWallet, from);
   }
 
-  Future<void> connectToArchethicWallet() async {
+  Future<void> connectToArchethicWallet(bool from) async {
+    var bridgeWallet = const BridgeWallet();
+
     try {
-      state = state.copyWith(
+      bridgeWallet = bridgeWallet.copyWith(
         isConnected: false,
         error: '',
       );
+      _fillState(bridgeWallet, from);
 
       final archethicDAppClient = ArchethicDAppClient.auto(
         origin: const RequestOrigin(
@@ -110,17 +117,19 @@ class _SessionNotifier extends Notifier<Session> {
         failure: (failure) {
           switch (failure.code) {
             case 4901:
-              state = state.copyWith(
+              bridgeWallet = bridgeWallet.copyWith(
                 isConnected: false,
                 error: 'Please, open your Archethic Wallet.',
               );
+              _fillState(bridgeWallet, from);
               break;
             default:
               debugPrint(failure.message ?? 'Connection failed');
-              state = state.copyWith(
+              bridgeWallet = bridgeWallet.copyWith(
                 isConnected: false,
                 error: 'Please, open your Archethic Wallet.',
               );
+              _fillState(bridgeWallet, from);
           }
         },
         success: (result) async {
@@ -128,21 +137,22 @@ class _SessionNotifier extends Notifier<Session> {
 
           if (FeatureFlags.mainnetActive == false &&
               result.endpointUrl == 'https://mainnet.archethic.net') {
-            state = state.copyWith(
+            bridgeWallet = bridgeWallet.copyWith(
               isConnected: false,
               error:
                   'aebridge is not currently available on the Archethic mainnet.',
             );
+            _fillState(bridgeWallet, from);
             return;
           }
 
-          state = state.copyWith(endpoint: result.endpointUrl);
+          bridgeWallet = bridgeWallet.copyWith(endpoint: result.endpointUrl);
           connectionStatusSubscription =
               archethicDAppClient.connectionStateStream.listen((event) {
             event.when(
               disconnected: () {
                 debugPrint('Disconnected');
-                state = state.copyWith(
+                bridgeWallet = bridgeWallet.copyWith(
                   wallet: '',
                   endpoint: '',
                   error: '',
@@ -151,18 +161,20 @@ class _SessionNotifier extends Notifier<Session> {
                   oldNameAccount: '',
                   isConnected: false,
                 );
+                _fillState(bridgeWallet, from);
               },
               connected: () async {
                 debugPrint('Connected');
-                state = state.copyWith(
+                bridgeWallet = bridgeWallet.copyWith(
                   wallet: 'archethic',
                   isConnected: true,
                   error: '',
                 );
+                _fillState(bridgeWallet, from);
               },
               connecting: () {
                 debugPrint('Connecting');
-                state = state.copyWith(
+                bridgeWallet = bridgeWallet.copyWith(
                   wallet: '',
                   endpoint: '',
                   error: '',
@@ -171,6 +183,7 @@ class _SessionNotifier extends Notifier<Session> {
                   oldNameAccount: '',
                   isConnected: false,
                 );
+                _fillState(bridgeWallet, from);
               },
             );
           });
@@ -192,14 +205,14 @@ class _SessionNotifier extends Notifier<Session> {
 
           subscription.when(
             success: (success) async {
-              state = state.copyWith(
+              bridgeWallet = bridgeWallet.copyWith(
                 accountSub: success,
                 error: '',
                 isConnected: true,
                 accountStreamSub: success.updates.listen((event) {
                   if (event.name.isEmpty && event.genesisAddress.isEmpty) {
-                    state = state.copyWith(
-                      oldNameAccount: state.nameAccount,
+                    bridgeWallet = bridgeWallet.copyWith(
+                      oldNameAccount: bridgeWallet.nameAccount,
                       genesisAddress: event.genesisAddress,
                       nameAccount: event.name,
                       error: 'Please, open your Archethic Wallet.',
@@ -207,34 +220,59 @@ class _SessionNotifier extends Notifier<Session> {
                     );
                     return;
                   }
-                  state = state.copyWith(
-                    oldNameAccount: state.nameAccount,
+                  bridgeWallet = bridgeWallet.copyWith(
+                    oldNameAccount: bridgeWallet.nameAccount,
                     genesisAddress: event.genesisAddress,
                     nameAccount: event.name,
                   );
+                  _fillState(bridgeWallet, from);
                 }),
               );
+              _fillState(bridgeWallet, from);
             },
             failure: (failure) {
-              state = state.copyWith(
+              bridgeWallet = bridgeWallet.copyWith(
                 isConnected: false,
                 error: failure.message ?? 'Connection failed',
               );
+              _fillState(bridgeWallet, from);
             },
           );
         },
       );
     } catch (e) {
       debugPrint(e.toString());
-      state = state.copyWith(
+      bridgeWallet = bridgeWallet.copyWith(
         isConnected: false,
         error: 'Please, open your Archethic Wallet.',
       );
+      _fillState(bridgeWallet, from);
+    }
+  }
+
+  void _fillState(BridgeWallet bridgeWallet, bool from) {
+    if (from) {
+      state = state.copyWith(walletFrom: bridgeWallet);
+    } else {
+      state = state.copyWith(walletTo: bridgeWallet);
     }
   }
 
   void setOldNameAccount() {
-    state = state.copyWith(oldNameAccount: state.nameAccount);
+    BridgeWallet? walletArchethic;
+    if (state.walletFrom != null && state.walletFrom!.wallet == 'archethic') {
+      walletArchethic = state.walletFrom;
+      walletArchethic = walletArchethic!
+          .copyWith(oldNameAccount: walletArchethic.nameAccount);
+      state = state.copyWith(walletFrom: walletArchethic);
+    } else {
+      if (state.walletTo != null && state.walletTo!.wallet == 'archethic') {
+        walletArchethic = state.walletTo;
+        walletArchethic = walletArchethic!
+            .copyWith(oldNameAccount: walletArchethic.nameAccount);
+        state = state.copyWith(walletTo: walletArchethic);
+      }
+    }
   }
 
   Future<void> cancelConnection() async {
@@ -243,12 +281,39 @@ class _SessionNotifier extends Notifier<Session> {
       sl.unregister<ApiService>();
     }
 
-    state = state.copyWith(
-      accountSub: null,
-      accountStreamSub: null,
-      nameAccount: '',
-      genesisAddress: '',
-    );
+    if (state.walletFrom != null && state.walletFrom!.wallet == 'archethic') {
+      var walletFrom = state.walletFrom;
+
+      walletFrom = walletFrom!.copyWith(
+        wallet: '',
+        error: '',
+        accountSub: null,
+        accountStreamSub: null,
+        nameAccount: '',
+        oldNameAccount: '',
+        isConnected: false,
+        endpoint: '',
+        genesisAddress: '',
+      );
+      state = state.copyWith(walletFrom: walletFrom);
+    } else {
+      if (state.walletTo != null && state.walletTo!.wallet == 'archethic') {
+        var walletTo = state.walletFrom;
+
+        walletTo = walletTo!.copyWith(
+          wallet: '',
+          error: '',
+          accountSub: null,
+          accountStreamSub: null,
+          nameAccount: '',
+          oldNameAccount: '',
+          isConnected: false,
+          endpoint: '',
+          genesisAddress: '',
+        );
+        state = state.copyWith(walletTo: walletTo);
+      }
+    }
   }
 }
 

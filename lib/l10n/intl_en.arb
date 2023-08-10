@@ -12,7 +12,7 @@
   "ok": "Ok",
   "connectionWalletDisconnect": "Disconnect wallet",
   "connectionWalletConnect": "Connect your wallet",
-  "btn_connect_wallet": "Connect wallet",
+  "btn_connect_wallet": "Connect wallets",
   "confirmationPopupTitle": "Confirmation Request",
   "connectionWalletDisconnectWarning": "Are you sure you want to disconnect your wallet\nand exit the application?",
   "changeCurrentAccountWarning": "Warning, your current account has been updated.",

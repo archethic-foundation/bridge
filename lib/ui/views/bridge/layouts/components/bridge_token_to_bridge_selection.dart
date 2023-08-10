@@ -23,7 +23,7 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
 
     if (bridge.blockchainFrom == null ||
         bridge.blockchainTo == null ||
-        session.isConnected == false) {
+        session.allWalletsIsConnected == false) {
       return const SizedBox();
     }
 
