@@ -15,13 +15,6 @@ BridgeTokensRepository _bridgeTokensRepository(
     BridgeTokensRepository();
 
 @riverpod
-Future<List<BridgeToken>> _getTokensList(
-  _GetTokensListRef ref,
-) async {
-  return ref.watch(_bridgeTokensRepositoryProvider).getTokensList();
-}
-
-@riverpod
 Future<List<BridgeToken>> _getTokensListPerBridge(
   _GetTokensListPerBridgeRef ref,
   String direction,
@@ -55,7 +48,8 @@ class BridgeTokensRepository {
               targetTokenName: token.targetTokenName,
               targetTokenSymbol: token.targetTokenSymbol,
               type: token.type,
-              poolAddress: token.poolAddress,
+              poolAddressFrom: token.poolAddressFrom,
+              poolAddressTo: token.poolAddressTo,
               tokenAddress: token.tokenAddress,
             ),
           );
@@ -65,49 +59,8 @@ class BridgeTokensRepository {
 
     return bridgeTokens;
   }
-
-  Future<List<BridgeToken>> getTokensList() async {
-    final tokensList = <BridgeToken>[
-      const BridgeToken(
-        name: 'Universal Coin',
-        symbol: 'UCO',
-      ),
-      const BridgeToken(
-        name: 'Ether',
-        symbol: 'ETH',
-        tokenAddress: '0x8a3d77e9d6968b780564936d15B09805827C21fa',
-      ),
-      const BridgeToken(
-        name: 'Wrapped Ether',
-        symbol: 'WETH',
-        tokenAddress: '0x8a3d77e9d6968b780564936d15B09805827C21fa',
-      ),
-      const BridgeToken(
-        name: 'Wrapped Binance',
-        symbol: 'WBNB',
-        tokenAddress: '0x8a3d77e9d6968b780564936d15B09805827C21fa',
-      ),
-      const BridgeToken(
-        name: 'Binance',
-        symbol: 'BNB',
-        tokenAddress: '0x8a3d77e9d6968b780564936d15B09805827C21fa',
-      ),
-      const BridgeToken(
-        name: 'Matic',
-        symbol: 'MATIC',
-        tokenAddress: '0x8a3d77e9d6968b780564936d15B09805827C21fa',
-      ),
-      const BridgeToken(
-        name: 'Wrapped Matic',
-        symbol: 'WMATIC',
-        tokenAddress: '0x8a3d77e9d6968b780564936d15B09805827C21fa',
-      ),
-    ];
-    return tokensList;
-  }
 }
 
 abstract class BridgeTokensProviders {
-  static final getTokensList = _getTokensListProvider;
   static const getTokensListPerBridge = _getTokensListPerBridgeProvider;
 }

@@ -16,14 +16,12 @@ class BridgeArchethicToEVMUseCase {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
     final session = ref.read(SessionProviders.session);
     final walletFrom = session.walletFrom;
-    const poolAddress =
-        '0000852ddc39fa27c7972c65f2d00de1de0b5fc225722d52d0708354c3fdea7b7fec';
     var endTime =
         DateTime.now().add(const Duration(minutes: 720)).millisecondsSinceEpoch;
     endTime = DateUtil().roundToNearestMinute(endTime) ~/ 1000;
 
     final htlcContract = await ArchethicContract().deploySignedHTLC(
-      poolAddress,
+      bridge.tokenToBridge!.poolAddressFrom,
       walletFrom!.genesisAddress,
       endTime,
       bridge.tokenToBridgeAmount,

@@ -33,7 +33,7 @@ class BridgeEVMToArchethicUseCase {
     );
     debugPrint('secret: $secretHex');
     debugPrint('type token: ${bridge.tokenToBridge!.type}');
-    debugPrint('poolAddress: ${bridge.tokenToBridge!.poolAddress}');
+    debugPrint('poolAddress: ${bridge.tokenToBridge!.poolAddressFrom}');
 
     switch (bridge.tokenToBridge!.type) {
       case 'ERC20':
@@ -43,8 +43,8 @@ class BridgeEVMToArchethicUseCase {
         final lpercContract =
             LPERCContract(bridge.blockchainFrom!.providerEndpoint);
         final htlcContract = await lpercContract.deployAndProvisionHTLC(
-          bridge.tokenToBridge!.poolAddress,
-          hash.toString(),
+          bridge.tokenToBridge!.poolAddressFrom,
+          secretHash.toString(),
           BigInt.from(bridge.tokenToBridgeAmount),
           bridge.tokenToBridge!.tokenAddress,
           chainId: bridge.blockchainFrom!.chainId,
@@ -54,8 +54,6 @@ class BridgeEVMToArchethicUseCase {
         }
 
         // 2) Deploy Archethic HTLC contract
-        const poolAddress =
-            '0000852ddc39fa27c7972c65f2d00de1de0b5fc225722d52d0708354c3fdea7b7fec';
         var endTime = DateTime.now()
             .add(const Duration(minutes: 720))
             .millisecondsSinceEpoch;
@@ -63,7 +61,7 @@ class BridgeEVMToArchethicUseCase {
 
         final archethicHTLCAddress =
             await ArchethicContract().deployChargeableHTLC(
-          poolAddress,
+          bridge.tokenToBridge!.poolAddressTo,
           bridge.targetAddress,
           endTime,
           bridge.tokenToBridgeAmount,
@@ -95,8 +93,8 @@ class BridgeEVMToArchethicUseCase {
         final lpethContract =
             LPETHContract(bridge.blockchainFrom!.providerEndpoint);
         final htlcContract = await lpethContract.deployAndProvisionHTLC(
-          bridge.tokenToBridge!.poolAddress,
-          hash.toString(),
+          bridge.tokenToBridge!.poolAddressFrom,
+          secretHash.toString(),
           BigInt.from(bridge.tokenToBridgeAmount),
           chainId: bridge.blockchainFrom!.chainId,
         );

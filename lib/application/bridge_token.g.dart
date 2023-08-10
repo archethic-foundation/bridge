@@ -24,22 +24,6 @@ final _bridgeTokensRepositoryProvider =
 
 typedef _BridgeTokensRepositoryRef
     = AutoDisposeProviderRef<BridgeTokensRepository>;
-String _$getTokensListHash() => r'cd2f3ef071ba7abc34228aa001fc217ce2f2a99a';
-
-/// See also [_getTokensList].
-@ProviderFor(_getTokensList)
-final _getTokensListProvider =
-    AutoDisposeFutureProvider<List<BridgeToken>>.internal(
-  _getTokensList,
-  name: r'_getTokensListProvider',
-  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-      ? null
-      : _$getTokensListHash,
-  dependencies: null,
-  allTransitiveDependencies: null,
-);
-
-typedef _GetTokensListRef = AutoDisposeFutureProviderRef<List<BridgeToken>>;
 String _$getTokensListPerBridgeHash() =>
     r'918b6b0c84ea079954c007ccf241c6526808a29e';
 

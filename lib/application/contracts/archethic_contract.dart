@@ -79,12 +79,16 @@ class ArchethicContract with TransactionBridgeMixin {
     final indexMap = await apiService.getTransactionIndex([htlcGenesisAddress]);
     final index = indexMap[htlcGenesisAddress] ?? 0;
     final originPrivateKey = apiService.getOriginKey();
+    debugPrint('Seed SC: $seedSC');
     debugPrint('HTLC Genesis Address: $htlcGenesisAddress');
+    debugPrint('Recipient: $poolAddress');
+    debugPrint('Code: $code');
+    debugPrint('Content: $content');
     final transactionSC =
         Transaction(type: 'contract', data: Transaction.initData())
             .setCode(code)
             .setContent(content)
-            .addRecipient(poolAddress)
+            .addRecipient(poolAddress.toUpperCase())
             .addOwnership(
               uint8ListToHex(
                 aesEncrypt(seedSC, aesKey),
@@ -127,6 +131,13 @@ class ArchethicContract with TransactionBridgeMixin {
     String tokenAddress,
     String secretHash,
   ) async {
+    debugPrint('poolAddress: $poolAddress');
+    debugPrint('userAddress: $userAddress');
+    debugPrint('endTime: $endTime');
+    debugPrint('amount: $amount');
+    debugPrint('tokenAddress: $tokenAddress');
+    debugPrint('secretHash: $secretHash');
+
     final code = await _getChargeableHTLCCode(
       poolAddress,
       userAddress,
@@ -135,7 +146,8 @@ class ArchethicContract with TransactionBridgeMixin {
       tokenAddress,
       secretHash,
     );
-    final content = _getChargeableHTLCContent(userAddress, endTime, amount);
+    final content =
+        _getChargeableHTLCContent(userAddress, endTime, amount, secretHash);
     return (code, content);
   }
 
@@ -211,11 +223,13 @@ class ArchethicContract with TransactionBridgeMixin {
     String userAddress,
     int endTime,
     double amount,
+    String secretHash,
   ) {
     final contentMap = {
-      'action': 'request_secret_hash',
+      'action': 'request_funds',
       'endTime': endTime,
       'userAddress': userAddress.toUpperCase(),
+      'secretHash': secretHash,
       'amount': amount
     };
     return jsonEncode(contentMap);
