@@ -106,7 +106,7 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
                                     : !bridge.blockchainFrom!.isArchethic,
                               );
                               if (blockchain == null) return;
-                              ref
+                              await ref
                                   .watch(BridgeFormProvider.bridgeForm.notifier)
                                   .setBlockchainTo(blockchain);
                             },

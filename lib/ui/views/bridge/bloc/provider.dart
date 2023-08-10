@@ -1,10 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/metamask.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/model/bridge_blockchain.dart';
 import 'package:aebridge/model/bridge_token.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,51 +20,26 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   BridgeFormState build() => const BridgeFormState();
 
   Future<void> setBlockchainFrom(BridgeBlockchain blockchainFrom) async {
-    final oldBlockchainFrom = state.blockchainFrom;
-    state = state.copyWith(blockchainFrom: blockchainFrom);
-
-    // Switch Metamask to Archethic
-    if (oldBlockchainFrom != null &&
-        oldBlockchainFrom.chainId > 0 &&
-        blockchainFrom.chainId < 0) {
-      if (sl.isRegistered<MetaMaskProvider>()) {
-        sl.get<MetaMaskProvider>().disconnect();
-        return;
-      }
-    }
-
-    // Switch Archethic to Metamask
-    if (oldBlockchainFrom != null &&
-        oldBlockchainFrom.chainId < 0 &&
-        blockchainFrom.chainId > 0) {
+    final sessionNotifier = ref.read(SessionProviders.session.notifier);
+    if (blockchainFrom.chainId < 0) {
+      debugPrint('connect to Archethic Wallet');
+      await sessionNotifier.connectToArchethicWallet(true);
+    } else {
       debugPrint('connect to Metamask');
-      final sessionNotifier = ref.read(SessionProviders.session.notifier);
       await sessionNotifier.connectToMetamask(blockchainFrom, true);
     }
-
-    // Switch metamask
-    if (oldBlockchainFrom != null &&
-        oldBlockchainFrom.chainId > 0 &&
-        blockchainFrom.chainId > 0) {
-      if (sl.isRegistered<MetaMaskProvider>()) {
-        final metaMaskProvider = sl.get<MetaMaskProvider>();
-        if (metaMaskProvider.walletConnected &&
-            metaMaskProvider.currentChain != blockchainFrom.chainId) {
-          if (blockchainFrom.chainId > 0) {
-            final changeIsOk =
-                await metaMaskProvider.changeChainId(blockchainFrom.chainId);
-            if (!changeIsOk) {
-              state = state.copyWith(blockchainFrom: oldBlockchainFrom);
-            }
-          } else {
-            metaMaskProvider.disconnect();
-          }
-        }
-      }
-    }
+    state = state.copyWith(blockchainFrom: blockchainFrom);
   }
 
-  void setBlockchainTo(BridgeBlockchain blockchainTo) {
+  Future<void> setBlockchainTo(BridgeBlockchain blockchainTo) async {
+    final sessionNotifier = ref.read(SessionProviders.session.notifier);
+    if (blockchainTo.chainId < 0) {
+      debugPrint('connect to Archethic Wallet');
+      await sessionNotifier.connectToArchethicWallet(false);
+    } else {
+      debugPrint('connect to Metamask');
+      await sessionNotifier.connectToMetamask(blockchainTo, false);
+    }
     state = state.copyWith(blockchainTo: blockchainTo);
   }
 

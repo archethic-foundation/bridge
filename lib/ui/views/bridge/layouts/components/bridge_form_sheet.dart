@@ -2,7 +2,6 @@
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_blockchain_from_selection.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_blockchain_to_selection.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_btn.dart';
-import 'package:aebridge/ui/views/bridge/layouts/components/bridge_connect_wallet_btn.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_icon_direction.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_textfield_target_address.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_textfield_token_amount.dart';
@@ -114,7 +113,6 @@ class BridgeFormSheet extends ConsumerWidget {
                       SizedBox(
                         height: 30,
                       ),
-                      BridgeConnectWalletButton(),
                       BridgeButton(),
                       SizedBox(
                         height: 30,

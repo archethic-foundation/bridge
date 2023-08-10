@@ -30,7 +30,7 @@ class BridgeBlockchainIconDirection extends ConsumerWidget {
         final blockchainFrom = bridge.blockchainFrom;
         final blockchainTo = bridge.blockchainTo;
         if (blockchainFrom != null) {
-          bridgeForm.setBlockchainTo(blockchainFrom);
+          await bridgeForm.setBlockchainTo(blockchainFrom);
         }
 
         if (blockchainTo != null) {
