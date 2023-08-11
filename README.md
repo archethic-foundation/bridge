@@ -3,21 +3,83 @@
 # AE Bridge
 
 ## Main features
-
+- Bridge native tokens and ERC20 from EVM Blockchain (Ethereum, BSC, Polygon) to Archethic blockchain
+- Bridge UCO and wrapped tokens from Archethic Blockchain to EVM Blockchain (Ethereum, BSC, Polygon)
+- Refund
 
 ## Security
-- Security access with your Archethic Wallet
+- Security access with your Archethic Wallet and EVM compatible wallet (Metamask, Brave, ...)
 
-## Application Initial Screen
+## Development
 
-## Pre-requisites
+In order to develop and test the application, you need to have some prerequisites:
 
-- Flutter 3.10+
-- Dart 3+
+- [Ganache](https://trufflesuite.com/ganache/) (Simulation of the Ethereum's node)
+- [Truffle](https://trufflesuite.com/docs/truffle/how-to/install/) (Tools for EVM smart contract development)
+- [Node.js](https://nodejs.org/)
+- [Flutter](https://flutter.dev/)
+  - Flutter 3.10+
+  - Dart 3+
+- [Archethic node](https://github.com/archethic-foundation/archethic-node#running-a-node-for-development-purpose) (running in devnet mode)
+- [Archethic Wallet](https://github.com/archethic-foundation/archethic-wallet) (Desktop version ie MacOS, Linux, Windows)
+- EVM wallet ie Metamask, Brave, ...
 
-# Note
+### Steps
+
+### Create an EVM Wallet
+  - Launch Ganache and create a new workspace with network id 1337 (Server tab) and generate 10 accounts (Accounts & Keys tab)
+  - Start your EVM wallet and import an account using the private key from the first workspace's account 
+  - Click on "Key" icon in the first row on the Accounts tab
+  - Copy the private key
+  - Paste the private key into your EVM wallet
+- Create an Archethic wallet
+  - Start Archethic Node in the devnet environnment (ie local environnment)
+  - Launch the Archethic Wallet
+  - Create a new account in the devnet environnment
+  - [Obtain UCO from the faucet for the account](http://localhost:4000/faucet)
+  
+### Deploy EVM Pools
+  - Execute the following commands to deploy the contracts:
+```bash
+cd truffle
+npm install -g truffle
+npm install
+truffle deploy
+```
+  - Configure the AEBridge project
+    - Put from terminal "info 2_deploy_eth_pool.js/TransparentUpgradeableProxy/contract address" value to "/lib/domain/repositories/tokens_list_per_bridge.json {-3->1337/ETH/poolAddressTo}"
+    - Put from terminal "info 2_deploy_eth_pool.js/TransparentUpgradeableProxy/contract address" value to "/lib/domain/repositories/tokens_list_per_bridge.json {1337->-3/ETH/poolAddressFrom}"
+    - Put from terminal "info 3_deploy_erc.pool.js/TransparentUpgradeableProxy/contract address" value to "/lib/domain/repositories/tokens_list_per_bridge.json {1337->-3/UCO/poolAddressFrom}"
+    - Put from terminal "info 3_deploy_erc.pool.js/TransparentUpgradeableProxy/contract address" value to "/lib/domain/repositories/tokens_list_per_bridge.json {-3->1337/UCO/poolAddressTo}"
+    - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to "/lib/domain/repositories/tokens_list_per_bridge.json {1337->-3/UCO/tokenAddress}"
+    - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to "/lib/domain/repositories/tokens_list_per_bridge.json {-3->1337/UCO/tokenAddress}"
+    - Add ERC Token in your EVM Wallet
+      - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to EVM Wallet
+  
+### Deploy Archethic Pools
+    - Execute the following commands to deploy the contracts
+```bash
+cd ae_smart_contracts
+npm install
+node deploy_pool.js
+```
+    - If you encounter an "Insufficient funds" error:
+      - [Obtain UCO tokens from the faucet for the Pool genesis address](http://localhost:4000/faucet) (with 300 UCO)
+      - Retry deploying the contracts.
+    - Put from terminal "Pool genesis address" value to "/lib/domain/repositories/tokens_list_per_bridge.json {1337->-3/UCO/poolAddressTo}"
+    - Put from terminal "Pool genesis address" value to "/lib/domain/repositories/tokens_list_per_bridge.json {-3->1337/UCO/poolAddressFrom}"
+    - [Obtain additional UCO tokens from the faucet for the Pool genesis address](http://localhost:4000/faucet)
+  - Run AEBridge
+    - Execute the following command at the project's root to launch the app with Chrome extension availability:
+```bash
+flutter run -d web-server 
+```  
+    - Copy/Paste the app URL (ex: http://localhost:49316/) into Chrome 
+## Note
 
 *** This Application is currently in active development so it might fail to build. Please refer to issues or create new issues if you find any. Contributions are welcomed.
+
+# Contracts management
 
 ## Truffle smart contracts
 
@@ -179,3 +241,4 @@ Parameters:
 ```bash
 node request_secret.js 0000ec9c3a34e791bda21bbcb69ea0eb875857497e0d48c75771b3d1adb5073ce791
 ```
+ use the mnemonic test
