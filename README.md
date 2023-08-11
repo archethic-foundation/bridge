@@ -26,7 +26,7 @@ In order to develop and test the application, you need to have some prerequisite
 
 ### Steps
 
-### Create an EVM Wallet
+#### 1) Create an EVM Wallet
   - Launch Ganache and create a new workspace with network id 1337 (Server tab) and generate 10 accounts (Accounts & Keys tab)
   - Start your EVM wallet and import an account using the private key from the first workspace's account 
   - Click on "Key" icon in the first row on the Accounts tab
@@ -38,7 +38,7 @@ In order to develop and test the application, you need to have some prerequisite
   - Create a new account in the devnet environnment
   - [Obtain UCO from the faucet for the account](http://localhost:4000/faucet)
   
-### Deploy EVM Pools
+#### 2) Deploy EVM Pools
   - Execute the following commands to deploy the contracts:
 ```bash
 cd truffle
@@ -46,17 +46,17 @@ npm install -g truffle
 npm install
 truffle deploy
 ```
-  - Configure the AEBridge project
-    - Put from terminal "info 2_deploy_eth_pool.js/TransparentUpgradeableProxy/contract address" value to "/lib/domain/repositories/tokens_list_per_bridge.json {-3->1337/ETH/poolAddressTo}"
-    - Put from terminal "info 2_deploy_eth_pool.js/TransparentUpgradeableProxy/contract address" value to "/lib/domain/repositories/tokens_list_per_bridge.json {1337->-3/ETH/poolAddressFrom}"
-    - Put from terminal "info 3_deploy_erc.pool.js/TransparentUpgradeableProxy/contract address" value to "/lib/domain/repositories/tokens_list_per_bridge.json {1337->-3/UCO/poolAddressFrom}"
-    - Put from terminal "info 3_deploy_erc.pool.js/TransparentUpgradeableProxy/contract address" value to "/lib/domain/repositories/tokens_list_per_bridge.json {-3->1337/UCO/poolAddressTo}"
-    - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to "/lib/domain/repositories/tokens_list_per_bridge.json {1337->-3/UCO/tokenAddress}"
-    - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to "/lib/domain/repositories/tokens_list_per_bridge.json {-3->1337/UCO/tokenAddress}"
+  - Configure the AEBridge project (/lib/domain/repositories/tokens_list_per_bridge.json file)
+    - Put from terminal "info 2_deploy_eth_pool.js/TransparentUpgradeableProxy/contract address" value to "{-3->1337/ETH/poolAddressTo}"
+    - Put from terminal "info 2_deploy_eth_pool.js/TransparentUpgradeableProxy/contract address" value to "{1337->-3/ETH/poolAddressFrom}"
+    - Put from terminal "info 3_deploy_erc.pool.js/TransparentUpgradeableProxy/contract address" value to " {1337->-3/UCO/poolAddressFrom}"
+    - Put from terminal "info 3_deploy_erc.pool.js/TransparentUpgradeableProxy/contract address" value to "{-3->1337/UCO/poolAddressTo}"
+    - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to "{1337->-3/UCO/tokenAddress}"
+    - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to "{-3->1337/UCO/tokenAddress}"
     - Add ERC Token in your EVM Wallet
       - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to EVM Wallet
   
-### Deploy Archethic Pools
+#### 3) Deploy Archethic Pools
     - Execute the following commands to deploy the contracts
 ```bash
 cd ae_smart_contracts
