@@ -38,7 +38,26 @@ In order to develop and test the application, you need to have some prerequisite
   - Create a new account in the devnet environnment
   - [Obtain UCO from the faucet for the account](http://localhost:4000/faucet)
   
-#### 2) Deploy EVM Pools
+#### 2) Deploy Archethic Pools
+  - Execute the following commands to deploy the contracts
+    ```bash
+    cd ae_smart_contracts
+    npm install
+    node deploy_pool.js
+    ```
+    - If you encounter an "Insufficient funds" error:
+      - [Obtain UCO tokens from the faucet for the Pool genesis address](http://localhost:4000/faucet) (with 300 UCO)
+      - Retry deploying the contracts.
+
+  - Configure the AEBridge project (`/lib/domain/repositories/tokens_list_per_bridge.json` file)
+    - Put from terminal "Pool genesis address" value to `1337->-3/UCO/poolAddressTo`
+    - Put from terminal "Pool genesis address" value to `-3->1337/UCO/poolAddressFrom`
+  - [Obtain additional UCO tokens from the faucet for the Pool genesis address](http://localhost:4000/faucet)
+
+#### 3) Deploy EVM Pools
+  - Configure archethicPoolSigner public key
+    - Get Archethic pool adress and find the previous public key of the first transaction
+    - Put the previous public key in `truffle/migrations/3_deploy_erc_pool.js` : `archethicPoolSigner = PREVIOUS_PUB_KEY`
   - Execute the following commands to deploy the contracts:
     ```bash
     cd truffle
@@ -55,23 +74,6 @@ In order to develop and test the application, you need to have some prerequisite
     - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to `-3->1337/UCO/tokenAddress`
     - Add ERC Token in your EVM Wallet
       - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to EVM Wallet
-  
-#### 3) Deploy Archethic Pools
-  - Execute the following commands to deploy the contracts
-    ```bash
-    cd ae_smart_contracts
-    npm install
-    node deploy_pool.js
-    ```
-    - If you encounter an "Insufficient funds" error:
-      - [Obtain UCO tokens from the faucet for the Pool genesis address](http://localhost:4000/faucet) (with 300 UCO)
-      - Retry deploying the contracts.
-
-  - Configure the AEBridge project (`/lib/domain/repositories/tokens_list_per_bridge.json` file)
-    - Put from terminal "Pool genesis address" value to `1337->-3/UCO/poolAddressTo`
-    - Put from terminal "Pool genesis address" value to `-3->1337/UCO/poolAddressFrom`
-  - [Obtain additional UCO tokens from the faucet for the Pool genesis address](http://localhost:4000/faucet)
-  
 #### 4) Run AEBridge
   - Execute the following command at the project's root to launch the app with Chrome extension availability:
     ```bash
