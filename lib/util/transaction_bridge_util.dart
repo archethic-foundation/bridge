@@ -147,4 +147,19 @@ mixin TransactionBridgeMixin {
     );
     return newTransactions;
   }
+
+  Future<String> getCurrentAccount() async {
+    var accountName = '';
+    final result = await sl.get<ArchethicDAppClient>().getCurrentAccount();
+
+    result.when(
+      failure: (failure) {
+        throw Exception('An error occurs');
+      },
+      success: (result) {
+        accountName = result.name;
+      },
+    );
+    return accountName;
+  }
 }
