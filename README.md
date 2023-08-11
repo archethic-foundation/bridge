@@ -40,41 +40,44 @@ In order to develop and test the application, you need to have some prerequisite
   
 #### 2) Deploy EVM Pools
   - Execute the following commands to deploy the contracts:
-```bash
-cd truffle
-npm install -g truffle
-npm install
-truffle deploy
-```
-  - Configure the AEBridge project (/lib/domain/repositories/tokens_list_per_bridge.json file)
-    - Put from terminal "info 2_deploy_eth_pool.js/TransparentUpgradeableProxy/contract address" value to "{-3->1337/ETH/poolAddressTo}"
-    - Put from terminal "info 2_deploy_eth_pool.js/TransparentUpgradeableProxy/contract address" value to "{1337->-3/ETH/poolAddressFrom}"
-    - Put from terminal "info 3_deploy_erc.pool.js/TransparentUpgradeableProxy/contract address" value to " {1337->-3/UCO/poolAddressFrom}"
-    - Put from terminal "info 3_deploy_erc.pool.js/TransparentUpgradeableProxy/contract address" value to "{-3->1337/UCO/poolAddressTo}"
-    - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to "{1337->-3/UCO/tokenAddress}"
-    - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to "{-3->1337/UCO/tokenAddress}"
+    ```bash
+    cd truffle
+    npm install -g truffle
+    npm install
+    truffle deploy
+    ```
+  - Configure the AEBridge project (`/lib/domain/repositories/tokens_list_per_bridge.json` file)
+    - Put from terminal "info 2_deploy_eth_pool.js/TransparentUpgradeableProxy/contract address" value to "`-3->1337/ETH/poolAddressTo`"
+    - Put from terminal "info 2_deploy_eth_pool.js/TransparentUpgradeableProxy/contract address" value to "`1337->-3/ETH/poolAddressFrom`"
+    - Put from terminal "info 3_deploy_erc.pool.js/TransparentUpgradeableProxy/contract address" value to " `1337->-3/UCO/poolAddressFrom`"
+    - Put from terminal "info 3_deploy_erc.pool.js/TransparentUpgradeableProxy/contract address" value to "`-3->1337/UCO/poolAddressTo}`"
+    - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to "`1337->-3/UCO/tokenAddress`"
+    - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to "`-3->1337/UCO/tokenAddress`"
     - Add ERC Token in your EVM Wallet
       - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to EVM Wallet
   
 #### 3) Deploy Archethic Pools
-    - Execute the following commands to deploy the contracts
-```bash
-cd ae_smart_contracts
-npm install
-node deploy_pool.js
-```
+  - Execute the following commands to deploy the contracts
+    ```bash
+    cd ae_smart_contracts
+    npm install
+    node deploy_pool.js
+    ```
     - If you encounter an "Insufficient funds" error:
       - [Obtain UCO tokens from the faucet for the Pool genesis address](http://localhost:4000/faucet) (with 300 UCO)
       - Retry deploying the contracts.
-    - Put from terminal "Pool genesis address" value to "/lib/domain/repositories/tokens_list_per_bridge.json {1337->-3/UCO/poolAddressTo}"
-    - Put from terminal "Pool genesis address" value to "/lib/domain/repositories/tokens_list_per_bridge.json {-3->1337/UCO/poolAddressFrom}"
-    - [Obtain additional UCO tokens from the faucet for the Pool genesis address](http://localhost:4000/faucet)
+
+  - Configure the AEBridge project (`/lib/domain/repositories/tokens_list_per_bridge.json` file)
+    - Put from terminal "Pool genesis address" value to `1337->-3/UCO/poolAddressTo`
+    - Put from terminal "Pool genesis address" value to `-3->1337/UCO/poolAddressFrom`
+  - [Obtain additional UCO tokens from the faucet for the Pool genesis address](http://localhost:4000/faucet)
   - Run AEBridge
     - Execute the following command at the project's root to launch the app with Chrome extension availability:
-```bash
-flutter run -d web-server 
-```  
-    - Copy/Paste the app URL (ex: http://localhost:49316/) into Chrome 
+    ```bash
+    flutter run -d web-server 
+    ```  
+  - Copy/Paste the app URL (ex: http://localhost:49316/) into Chrome 
+
 ## Note
 
 *** This Application is currently in active development so it might fail to build. Please refer to issues or create new issues if you find any. Contributions are welcomed.
