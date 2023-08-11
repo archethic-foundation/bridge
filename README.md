@@ -47,12 +47,12 @@ In order to develop and test the application, you need to have some prerequisite
     truffle deploy
     ```
   - Configure the AEBridge project (`/lib/domain/repositories/tokens_list_per_bridge.json` file)
-    - Put from terminal "info 2_deploy_eth_pool.js/TransparentUpgradeableProxy/contract address" value to "`-3->1337/ETH/poolAddressTo`"
-    - Put from terminal "info 2_deploy_eth_pool.js/TransparentUpgradeableProxy/contract address" value to "`1337->-3/ETH/poolAddressFrom`"
-    - Put from terminal "info 3_deploy_erc.pool.js/TransparentUpgradeableProxy/contract address" value to " `1337->-3/UCO/poolAddressFrom`"
-    - Put from terminal "info 3_deploy_erc.pool.js/TransparentUpgradeableProxy/contract address" value to "`-3->1337/UCO/poolAddressTo}`"
-    - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to "`1337->-3/UCO/tokenAddress`"
-    - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to "`-3->1337/UCO/tokenAddress`"
+    - Put from terminal "info 2_deploy_eth_pool.js/TransparentUpgradeableProxy/contract address" value to `-3->1337/ETH/poolAddressTo`
+    - Put from terminal "info 2_deploy_eth_pool.js/TransparentUpgradeableProxy/contract address" value to `1337->-3/ETH/poolAddressFrom`
+    - Put from terminal "info 3_deploy_erc.pool.js/TransparentUpgradeableProxy/contract address" value to `1337->-3/UCO/poolAddressFrom`
+    - Put from terminal "info 3_deploy_erc.pool.js/TransparentUpgradeableProxy/contract address" value to `-3->1337/UCO/poolAddressTo}`
+    - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to `1337->-3/UCO/tokenAddress`
+    - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to `-3->1337/UCO/tokenAddress`
     - Add ERC Token in your EVM Wallet
       - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to EVM Wallet
   
@@ -71,8 +71,9 @@ In order to develop and test the application, you need to have some prerequisite
     - Put from terminal "Pool genesis address" value to `1337->-3/UCO/poolAddressTo`
     - Put from terminal "Pool genesis address" value to `-3->1337/UCO/poolAddressFrom`
   - [Obtain additional UCO tokens from the faucet for the Pool genesis address](http://localhost:4000/faucet)
-  - Run AEBridge
-    - Execute the following command at the project's root to launch the app with Chrome extension availability:
+  
+#### 4) Run AEBridge
+  - Execute the following command at the project's root to launch the app with Chrome extension availability:
     ```bash
     flutter run -d web-server 
     ```  
