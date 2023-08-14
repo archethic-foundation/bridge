@@ -8,7 +8,7 @@ import 'package:js/js.dart';
 import 'package:webthree/browser.dart';
 import 'package:webthree/webthree.dart';
 
-class MetaMaskProvider extends ChangeNotifier {
+class EVMWalletProvider extends ChangeNotifier {
   String? currentAddress;
   String? get accountName => currentAddress;
   int? currentChain;
@@ -20,40 +20,41 @@ class MetaMaskProvider extends ChangeNotifier {
   Future<void> connect(int chainId) async {
     walletConnected = false;
     if (window.ethereum != null) {
-      eth = window.ethereum;
+      try {
+        eth = window.ethereum;
 
-      if (eth == null) {
-        debugPrint('MetaMask is not available');
-        return;
-      }
-
-      final ethRPC = eth!.asRpcService();
-
-      web3Client = Web3Client.custom(ethRPC);
-      if (web3Client == null) {
-        return;
-      }
-      final currentChain = await web3Client!.getChainId();
-      debugPrint(
-        'chainId: $chainId, currentChain: $currentChain',
-      );
-      if (currentChain.toInt() != chainId) {
-        final changeOk = await changeChainId(chainId);
-        if (changeOk == false) {
+        if (eth == null) {
+          debugPrint('EVM Wallet is not available');
           return;
         }
-      }
 
-      try {
+        final ethRPC = eth!.asRpcService();
+
+        web3Client = Web3Client.custom(ethRPC);
+        if (web3Client == null) {
+          return;
+        }
+        final currentChain = await web3Client!.getChainId();
+        debugPrint(
+          'chainId: $chainId, currentChain: $currentChain',
+        );
+        if (currentChain.toInt() != chainId) {
+          final changeOk = await changeChainId(chainId);
+          if (changeOk == false) {
+            return;
+          }
+        }
+
         credentials = await eth!.requestAccount();
         currentAddress = credentials!.address.hex;
         walletConnected = true;
       } catch (e) {
-        debugPrint(e.toString());
-        return;
+        throw Exception('Please, connect your EVM Wallet.');
       }
 
       notifyListeners();
+    } else {
+      throw Exception('No provider installed');
     }
   }
 

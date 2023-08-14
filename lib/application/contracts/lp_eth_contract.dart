@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:convert';
-import 'package:aebridge/application/metamask.dart';
+import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -20,7 +20,7 @@ class LPETHContract {
     int lockTime = 720,
     int chainId = 1337,
   }) async {
-    final metaMaskProvider = sl.get<MetaMaskProvider>();
+    final evmWalletProvider = sl.get<EVMWalletProvider>();
     debugPrint('providerEndpoint: $providerEndpoint');
     final web3Client = Web3Client(providerEndpoint!, Client());
     late String htlcContractAddress;
@@ -49,7 +49,7 @@ class LPETHContract {
       );
 
       await web3Client.sendTransaction(
-        metaMaskProvider.credentials!,
+        evmWalletProvider.credentials!,
         transactionMintHTLC,
         chainId: chainId,
       );
@@ -70,7 +70,7 @@ class LPETHContract {
 
       // Provisionning HTLC Contract
       await web3Client.sendTransaction(
-        metaMaskProvider.credentials!,
+        evmWalletProvider.credentials!,
         Transaction(
           to: EthereumAddress.fromHex(htlcContractAddress),
           gasPrice: EtherAmount.fromUnitAndValue(EtherUnit.gwei, 10),
@@ -92,7 +92,7 @@ class LPETHContract {
     String secret, {
     int chainId = 1337,
   }) async {
-    final metaMaskProvider = sl.get<MetaMaskProvider>();
+    final evmWalletProvider = sl.get<EVMWalletProvider>();
 
     final web3Client = Web3Client(providerEndpoint!, Client());
 
@@ -121,7 +121,7 @@ class LPETHContract {
       );
 
       final withdrawTx = await web3Client.sendTransaction(
-        metaMaskProvider.credentials!,
+        evmWalletProvider.credentials!,
         transactionMintHTLC,
         chainId: chainId,
       );

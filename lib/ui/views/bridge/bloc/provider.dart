@@ -3,8 +3,10 @@ import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/model/bridge_blockchain.dart';
 import 'package:aebridge/model/bridge_token.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:webthree/webthree.dart' as webthree;
 
 final _bridgeFormProvider =
     NotifierProvider.autoDispose<BridgeFormNotifier, BridgeFormState>(
@@ -25,8 +27,13 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       debugPrint('connect to Archethic Wallet');
       await sessionNotifier.connectToArchethicWallet(true);
     } else {
-      debugPrint('connect to Metamask');
-      await sessionNotifier.connectToMetamask(blockchainFrom, true);
+      debugPrint('connect to EVM Wallet');
+      final result =
+          await sessionNotifier.connectToEVMWallet(blockchainFrom, true);
+      if (result.isFailure) {
+        setError(result.failureOrNull!.cause.toString());
+        return;
+      }
     }
     state = state.copyWith(blockchainFrom: blockchainFrom);
   }
@@ -37,14 +44,19 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       debugPrint('connect to Archethic Wallet');
       await sessionNotifier.connectToArchethicWallet(false);
     } else {
-      debugPrint('connect to Metamask');
-      await sessionNotifier.connectToMetamask(blockchainTo, false);
+      debugPrint('connect to EVM Wallet');
+      final result =
+          await sessionNotifier.connectToEVMWallet(blockchainTo, false);
+      if (result.isFailure) {
+        setError(result.failureOrNull!.cause.toString());
+        return;
+      }
     }
     state = state.copyWith(blockchainTo: blockchainTo);
   }
 
   void setTokenToBridge(
-    BridgeToken tokenToBridge,
+    BridgeToken? tokenToBridge,
   ) {
     state = state.copyWith(
       tokenToBridge: tokenToBridge,
@@ -80,11 +92,15 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     String targetAddress,
   ) {
     state = state.copyWith(
-      targetAddress: targetAddress.toUpperCase(),
+      targetAddress: targetAddress,
     );
   }
 
   void setBridgeProcessStep(BridgeProcessStep bridgeProcessStep) {
+    if (bridgeProcessStep == BridgeProcessStep.confirmation &&
+        control() == false) {
+      return;
+    }
     state = state.copyWith(
       bridgeProcessStep: bridgeProcessStep,
     );
@@ -120,8 +136,66 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     );
   }
 
+  bool control() {
+    if (state.blockchainFrom == null && state.blockchainFrom!.name.isEmpty) {
+      state = state.copyWith(
+        errorText: 'Please select the issuing blockchain.',
+      );
+      return false;
+    }
+    if (state.blockchainTo == null && state.blockchainTo!.name.isEmpty) {
+      state = state.copyWith(
+        errorText: 'Please select the receiving blockchain.',
+      );
+      return false;
+    }
+    if (state.tokenToBridge == null && state.tokenToBridge!.name.isEmpty) {
+      state = state.copyWith(
+        errorText: 'Please select the token to transfer.',
+      );
+      return false;
+    }
+    if (state.targetAddress.isEmpty) {
+      state = state.copyWith(
+        errorText:
+            'Please enter your receiving address on the target blockchain.',
+      );
+      return false;
+    }
+    if (state.blockchainTo!.isArchethic) {
+      if (archethic.Address(address: state.targetAddress).isValid() == false) {
+        state = state.copyWith(
+          errorText: 'Please enter a valid Archethic address.',
+        );
+        return false;
+      }
+    } else {
+      try {
+        webthree.EthereumAddress.fromHex(
+          state.targetAddress,
+        );
+      } catch (e) {
+        state = state.copyWith(
+          errorText: 'Please enter a valid address.',
+        );
+        return false;
+      }
+    }
+
+    if (state.tokenToBridgeAmount.isNaN || state.tokenToBridgeAmount <= 0) {
+      state = state.copyWith(
+        errorText: 'Please enter the amount of tokens to transfer.',
+      );
+      return false;
+    }
+    return true;
+  }
+
   Future<void> bridge(BuildContext context, WidgetRef ref) async {
     //
+    if (control() == false) {
+      return;
+    }
   }
 }
 

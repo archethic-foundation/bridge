@@ -17,14 +17,14 @@ class BridgeSheet extends ConsumerWidget {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
     ref.listen<BridgeFormState>(
       BridgeFormProvider.bridgeForm,
-      (_, addWebsite) {
-        if (addWebsite.isControlsOk) return;
+      (_, bridge) {
+        if (bridge.isControlsOk) return;
 
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Theme.of(context).snackBarTheme.backgroundColor,
             content: Text(
-              addWebsite.errorText,
+              bridge.errorText,
               style: Theme.of(context).snackBarTheme.contentTextStyle,
             ),
             duration: const Duration(seconds: 3),

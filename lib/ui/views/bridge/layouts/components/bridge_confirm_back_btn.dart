@@ -17,7 +17,7 @@ class BridgeConfirmBackButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
     final session = ref.watch(SessionProviders.session);
-    if (session.allWalletsIsConnected) {
+    if (session.allWalletsIsConnected == false) {
       return const SizedBox();
     }
     if (bridge.tokenToBridge == null) {

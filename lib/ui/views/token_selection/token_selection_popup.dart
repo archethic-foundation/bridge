@@ -25,7 +25,7 @@ class TokenSelectionPopup {
                 body: AlertDialog(
                   backgroundColor: ThemeBase.backgroundPopupColor,
                   content: Container(
-                    width: 600,
+                    width: ThemeBase.sizeBoxComponentWidth,
                     color: Colors.transparent,
                     padding: const EdgeInsets.only(
                       top: 10,

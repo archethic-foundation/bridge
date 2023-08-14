@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'package:aebridge/application/metamask.dart';
+import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/state.dart';
 import 'package:aebridge/domain/repositories/features_flags.dart';
 import 'package:aebridge/model/bridge_blockchain.dart';
@@ -37,7 +37,7 @@ class _SessionNotifier extends Notifier<Session> {
         debugPrint('Connected to ${blockchain.name}');
 
         state = state.copyWith(
-          wallet: 'metamask',
+          wallet: 'evmWallet',
           isConnected: true,
           error: '',
           nameAccount: walletConnectProvider.session!.accounts[0],
@@ -60,39 +60,40 @@ class _SessionNotifier extends Notifier<Session> {
     }
   }
 */
-  Future<void> connectToMetamask(BridgeBlockchain blockchain, bool from) async {
+  Future<Result<void, Failure>> connectToEVMWallet(
+    BridgeBlockchain blockchain,
+    bool from,
+  ) async {
     var bridgeWallet = const BridgeWallet();
 
     try {
-      final metamaskProvider = MetaMaskProvider();
+      final evmWalletProvider = EVMWalletProvider();
 
-      await metamaskProvider.connect(blockchain.chainId);
-      if (metamaskProvider.walletConnected) {
+      await evmWalletProvider.connect(blockchain.chainId);
+      if (evmWalletProvider.walletConnected) {
         debugPrint('Connected to ${blockchain.name}');
 
         bridgeWallet = bridgeWallet.copyWith(
-          wallet: 'metamask',
+          wallet: 'evmWallet',
           isConnected: true,
           error: '',
-          nameAccount: metamaskProvider.accountName!,
-          genesisAddress: metamaskProvider.currentAddress!,
+          nameAccount: evmWalletProvider.accountName!,
+          genesisAddress: evmWalletProvider.currentAddress!,
           endpoint: blockchain.name,
         );
-        if (sl.isRegistered<MetaMaskProvider>()) {
-          sl.unregister<MetaMaskProvider>();
+        if (sl.isRegistered<EVMWalletProvider>()) {
+          sl.unregister<EVMWalletProvider>();
         }
-        sl.registerLazySingleton<MetaMaskProvider>(
-          () => metamaskProvider,
+        sl.registerLazySingleton<EVMWalletProvider>(
+          () => evmWalletProvider,
         );
       }
     } catch (e) {
-      debugPrint(e.toString());
-      bridgeWallet = bridgeWallet.copyWith(
-        isConnected: false,
-        error: 'Please, open your Metamask.',
-      );
+      return Result.failure(Failure.other(cause: e));
     }
     _fillState(bridgeWallet, from);
+
+    return const Result.success(null);
   }
 
   Future<void> connectToArchethicWallet(bool from) async {
@@ -275,7 +276,12 @@ class _SessionNotifier extends Notifier<Session> {
     }
   }
 
-  Future<void> cancelConnection() async {
+  Future<void> cancelAllWalletsConnection() async {
+    await cancelArchethicConnection();
+    await cancelEVMWalletConnection();
+  }
+
+  Future<void> cancelArchethicConnection() async {
     await sl.get<ArchethicDAppClient>().close();
     if (sl.isRegistered<ApiService>()) {
       sl.unregister<ApiService>();
@@ -298,6 +304,44 @@ class _SessionNotifier extends Notifier<Session> {
       state = state.copyWith(walletFrom: walletFrom);
     } else {
       if (state.walletTo != null && state.walletTo!.wallet == 'archethic') {
+        var walletTo = state.walletFrom;
+
+        walletTo = walletTo!.copyWith(
+          wallet: '',
+          error: '',
+          accountSub: null,
+          accountStreamSub: null,
+          nameAccount: '',
+          oldNameAccount: '',
+          isConnected: false,
+          endpoint: '',
+          genesisAddress: '',
+        );
+        state = state.copyWith(walletTo: walletTo);
+      }
+    }
+  }
+
+  Future<void> cancelEVMWalletConnection() async {
+    await sl.get<EVMWalletProvider>().disconnect();
+
+    if (state.walletFrom != null && state.walletFrom!.wallet == 'evmWallet') {
+      var walletFrom = state.walletFrom;
+
+      walletFrom = walletFrom!.copyWith(
+        wallet: '',
+        error: '',
+        accountSub: null,
+        accountStreamSub: null,
+        nameAccount: '',
+        oldNameAccount: '',
+        isConnected: false,
+        endpoint: '',
+        genesisAddress: '',
+      );
+      state = state.copyWith(walletFrom: walletFrom);
+    } else {
+      if (state.walletTo != null && state.walletTo!.wallet == 'evmWallet') {
         var walletTo = state.walletFrom;
 
         walletTo = walletTo!.copyWith(

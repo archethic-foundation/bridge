@@ -42,7 +42,8 @@ class BridgeEVMToArchethicUseCase {
         // 1) Deploy EVM HTLC contract + Provision
         final lpercContract =
             LPERCContract(bridge.blockchainFrom!.providerEndpoint);
-        final htlcContract = await lpercContract.deployAndProvisionHTLC(
+        final htlcContract =
+            await lpercContract.deployAndProvisionChargeableHTLC(
           bridge.tokenToBridge!.poolAddressFrom,
           secretHash.toString(),
           BigInt.from(bridge.tokenToBridgeAmount),

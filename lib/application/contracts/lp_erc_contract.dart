@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:convert';
-import 'package:aebridge/application/metamask.dart';
+import 'package:aebridge/application/evm_wallet.dart';
+import 'package:aebridge/model/secret_hash.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -13,7 +14,7 @@ class LPERCContract {
 
   String? providerEndpoint;
 
-  Future<String?> deployAndProvisionHTLC(
+  Future<String?> deployAndProvisionChargeableHTLC(
     String poolAddress,
     String hash,
     BigInt amount,
@@ -21,7 +22,7 @@ class LPERCContract {
     int lockTime = 720,
     int chainId = 1337,
   }) async {
-    final metaMaskProvider = sl.get<MetaMaskProvider>();
+    final evmWalletProvider = sl.get<EVMWalletProvider>();
     debugPrint('providerEndpoint: $providerEndpoint');
     final web3Client = Web3Client(providerEndpoint!, Client());
     late String htlcContractAddress;
@@ -54,7 +55,7 @@ class LPERCContract {
       debugPrint('contractLPERC mintHTLC ok');
 
       await web3Client.sendTransaction(
-        metaMaskProvider.credentials!,
+        evmWalletProvider.credentials!,
         transactionMintHTLC,
         chainId: chainId,
       );
@@ -95,7 +96,7 @@ class LPERCContract {
       );
 
       await web3Client.sendTransaction(
-        metaMaskProvider.credentials!,
+        evmWalletProvider.credentials!,
         transactionTransfer,
         chainId: chainId,
       );
@@ -108,12 +109,82 @@ class LPERCContract {
     }
   }
 
+  Future<String?> deployAndProvisionSignedHTLC(
+    String poolAddress,
+    SecretHash secretHash,
+    BigInt amount,
+    String tokenAddress, {
+    int lockTime = 720,
+    int chainId = 1337,
+  }) async {
+    final evmWalletProvider = sl.get<EVMWalletProvider>();
+    debugPrint('providerEndpoint: $providerEndpoint');
+    final web3Client = Web3Client(providerEndpoint!, Client());
+    late String htlcContractAddress;
+
+    try {
+      final abiLPERCStringJson = jsonDecode(
+        await rootBundle.loadString('truffle/build/contracts/IPool.json'),
+      );
+
+      final contractLPERC = DeployedContract(
+        ContractAbi.fromJson(
+          jsonEncode(abiLPERCStringJson['abi']),
+          abiLPERCStringJson['contractName'] as String,
+        ),
+        EthereumAddress.fromHex(poolAddress),
+      );
+
+      debugPrint('contractLPERC ok');
+
+      final transactionProvisionHTLC = Transaction.callContract(
+        contract: contractLPERC,
+        function: contractLPERC.function('provisionHTLC'),
+        parameters: [
+          hexToBytes(secretHash.secretHash!),
+          EtherAmount.fromUnitAndValue(EtherUnit.ether, amount).getInWei,
+          BigInt.from(lockTime),
+          hexToBytes(secretHash.secretHashSignature!.r!),
+          hexToBytes(secretHash.secretHashSignature!.s!),
+          BigInt.from(secretHash.secretHashSignature!.v!),
+        ],
+      );
+
+      debugPrint('contractLPERC provisionHTLC ok');
+
+      await web3Client.sendTransaction(
+        evmWalletProvider.credentials!,
+        transactionProvisionHTLC,
+        chainId: chainId,
+      );
+
+      debugPrint('HTLC Contract deployed');
+      debugPrint('secretHash : ${hexToBytes(secretHash.secretHash!)}');
+      // Get HTLC Contract address
+      final transactionProvisionedSwapsHashes = await web3Client.call(
+        contract: contractLPERC,
+        function: contractLPERC.function('provisionedSwaps'),
+        params: [
+          hexToBytes(secretHash.secretHash!),
+        ],
+      );
+
+      htlcContractAddress = transactionProvisionedSwapsHashes[0].hex;
+      debugPrint('HTLC Contract address: $htlcContractAddress');
+
+      return htlcContractAddress;
+    } catch (e) {
+      debugPrint('Error: $e');
+      return null;
+    }
+  }
+
   Future<void> withdraw(
     String htlcContractAddress,
     String secret, {
     int chainId = 1337,
   }) async {
-    final metaMaskProvider = sl.get<MetaMaskProvider>();
+    final evmWalletProvider = sl.get<EVMWalletProvider>();
 
     final web3Client = Web3Client(providerEndpoint!, Client());
 
@@ -142,7 +213,7 @@ class LPERCContract {
       );
 
       final withdrawTx = await web3Client.sendTransaction(
-        metaMaskProvider.credentials!,
+        evmWalletProvider.credentials!,
         transactionMintHTLC,
         chainId: chainId,
       );

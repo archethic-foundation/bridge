@@ -1,4 +1,4 @@
-import 'package:aebridge/application/metamask.dart';
+import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -48,13 +48,13 @@ class BalanceRepository {
     } else {
       switch (typeToken) {
         case 'Native':
-          final balance = await sl.get<MetaMaskProvider>().getBalance(
+          final balance = await sl.get<EVMWalletProvider>().getBalance(
                 typeToken,
               );
           return balance;
 
         case 'ERC20':
-          final balance = await sl.get<MetaMaskProvider>().getBalance(
+          final balance = await sl.get<EVMWalletProvider>().getBalance(
                 typeToken,
                 erc20address: tokenAddress,
               );

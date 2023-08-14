@@ -1,5 +1,4 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
@@ -35,10 +34,12 @@ class BridgeBlockchainIconDirection extends ConsumerWidget {
 
         if (blockchainTo != null) {
           await bridgeForm.setBlockchainFrom(blockchainTo);
-
-          final sessionNotifier = ref.read(SessionProviders.session.notifier);
-          await sessionNotifier.cancelConnection();
         }
+
+        bridgeForm
+          ..setTokenToBridge(null)
+          ..setTargetAddress('');
+        await bridgeForm.setTokenToBridgeAmount(0);
       },
       icon: const Icon(Iconsax.arrange_circle),
     );

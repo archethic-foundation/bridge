@@ -23,7 +23,7 @@ class BridgeWallet with _$BridgeWallet {
   const BridgeWallet._();
 
   String get nameAccountDisplayed {
-    if (wallet == 'metamask') {
+    if (wallet == 'evmWallet') {
       return '${nameAccount.substring(0, 7)}...${nameAccount.substring(nameAccount.length - 4, nameAccount.length)}';
     }
     return nameAccount;

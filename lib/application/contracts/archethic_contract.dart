@@ -29,6 +29,35 @@ class ArchethicContract with TransactionBridgeMixin {
     return _deployHTLC(poolAddress, code, content);
   }
 
+  Future<String> provisionSignedHTLC(
+    String htlcGenesisAddress,
+    double amount,
+  ) async {
+    var transactionTransfer =
+        Transaction(type: 'transfer', data: Transaction.initData())
+            .addUCOTransfer(htlcGenesisAddress, toBigInt(amount));
+    try {
+      final currentNameAccount = await getCurrentAccount();
+      transactionTransfer = (await signTx(
+        Uri.encodeFull('archethic-wallet-$currentNameAccount'),
+        '',
+        [transactionTransfer],
+      ))
+          .first;
+    } catch (e) {
+      debugPrint('provisionSignedHTLC signature failed');
+    }
+
+    await sendTransactions(
+      <Transaction>[transactionTransfer],
+    );
+
+    debugPrint(
+      'provisionSignedHTLC tx address ${transactionTransfer.address!.address!}',
+    );
+    return transactionTransfer.address!.address!;
+  }
+
   Future<String?> deployChargeableHTLC(
     String poolAddress,
     String userAddress,
@@ -79,7 +108,7 @@ class ArchethicContract with TransactionBridgeMixin {
     // Faucet poolAddress
     var transactionTransfer =
         Transaction(type: 'transfer', data: Transaction.initData())
-            .addUCOTransfer(htlcGenesisAddress, toBigInt(100));
+            .addUCOTransfer(htlcGenesisAddress, toBigInt(20));
     try {
       final currentNameAccount = await getCurrentAccount();
       transactionTransfer = (await signTx(
@@ -92,6 +121,9 @@ class ArchethicContract with TransactionBridgeMixin {
       debugPrint('TransactionTransfer signature failed');
     }
 
+    debugPrint(
+      'transactionTransfer address : ${transactionTransfer.address!.address!}',
+    );
     final indexMap = await apiService.getTransactionIndex([htlcGenesisAddress]);
     final index = indexMap[htlcGenesisAddress] ?? 0;
     final originPrivateKey = apiService.getOriginKey();
@@ -118,7 +150,7 @@ class ArchethicContract with TransactionBridgeMixin {
       <Transaction>[transactionTransfer, transactionSC],
     );
 
-    return transactionSC.address!.address;
+    return htlcGenesisAddress;
   }
 
   Future<(String, String)> getSignedHTLC(
@@ -289,5 +321,41 @@ class ArchethicContract with TransactionBridgeMixin {
     } catch (e) {
       debugPrint('Signature failed');
     }
+  }
+
+  Future<String> requestSecretFromSignedHTLC(
+    String currentNameAccount,
+    String htlcAddress,
+    String poolAddress,
+  ) async {
+    debugPrint('requestSecretFromSignedHTLC start');
+    debugPrint('poolAddress: $poolAddress');
+    debugPrint('htlcAddress: $htlcAddress');
+    var transaction = Transaction(type: 'data', data: Transaction.initData())
+        .setContent(
+          jsonEncode(
+            {'action': 'request_secret', 'htlcGenesisAddress': htlcAddress},
+          ),
+        )
+        .addRecipient(poolAddress);
+
+    try {
+      transaction = (await signTx(
+        Uri.encodeFull('archethic-wallet-$currentNameAccount'),
+        '',
+        [transaction],
+      ))
+          .first;
+
+      debugPrint('transaction: ${transaction.address!.address!}');
+      await sendTransactions(
+        <Transaction>[transaction],
+      );
+
+      debugPrint('requestSecretFromSignedHTLC finished');
+    } catch (e) {
+      debugPrint('Signature failed');
+    }
+    return transaction.address!.address!;
   }
 }

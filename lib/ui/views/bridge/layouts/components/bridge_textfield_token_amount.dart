@@ -81,7 +81,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
           alignment: Alignment.centerRight,
           children: [
             SizedBox(
-              width: 450,
+              width: ThemeBase.sizeBoxComponentWidth,
               child: Row(
                 children: [
                   Expanded(

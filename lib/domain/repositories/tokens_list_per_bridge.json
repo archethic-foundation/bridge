@@ -137,8 +137,7 @@
                 "targetTokenSymbol": "UCO",
                 "poolAddressFrom": "0000852ddc39fa27c7972c65f2d00de1de0b5fc225722d52d0708354c3fdea7b7fec",
                 "poolAddressTo": "0x78E2ca4c3846236c567658af4645AA7F8A9a2C81",
-                "type": "Native",
-                "tokenAddress": "0xc1DB74067bC1690e33d456722F2BCaBD22ACE4aA"
+                "type": "Native"
             }
         ],
         "1->-1": [

@@ -31,14 +31,14 @@ class BridgeConfirmSheet extends ConsumerWidget {
           ),
           decoration: BoxDecoration(
             border: GradientBoxBorder(
-              gradient: ThemeBase.gradient,
+              gradient: ThemeBase.gradientMainScreen,
             ),
             borderRadius: BorderRadius.circular(16),
           ),
         ),
         Container(
-          width: 550,
-          height: 550,
+          width: 650,
+          height: 650,
           decoration: BoxDecoration(
             gradient: ThemeBase.gradientSheetBackground,
             border: GradientBoxBorder(

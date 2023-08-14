@@ -63,4 +63,6 @@ class ThemeBase {
     ],
     stops: const [0, 1],
   );
+
+  static const sizeBoxComponentWidth = 600.0;
 }

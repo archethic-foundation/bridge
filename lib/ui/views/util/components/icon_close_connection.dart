@@ -80,7 +80,8 @@ class IconCloseConnection extends ConsumerWidget {
                                 AppButton(
                                   labelBtn: AppLocalizations.of(context)!.yes,
                                   onPressed: () async {
-                                    await sessionNotifier.cancelConnection();
+                                    await sessionNotifier
+                                        .cancelAllWalletsConnection();
                                     context.go('/welcome');
                                   },
                                 ),

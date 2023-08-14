@@ -39,8 +39,8 @@ class BridgeFormSheet extends ConsumerWidget {
           ),
         ),
         Container(
-          width: 550,
-          height: 550,
+          width: 650,
+          height: 650,
           decoration: BoxDecoration(
             gradient: ThemeBase.gradientSheetBackground,
             border: GradientBoxBorder(
