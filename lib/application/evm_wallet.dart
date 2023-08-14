@@ -49,7 +49,7 @@ class EVMWalletProvider extends ChangeNotifier {
         currentAddress = credentials!.address.hex;
         walletConnected = true;
       } catch (e) {
-        throw Exception('Please, connect your EVM Wallet.');
+        throw Exception('Please, connect your Wallet.');
       }
 
       notifyListeners();

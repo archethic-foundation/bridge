@@ -23,9 +23,6 @@ class _ConnectionToWalletStatusState
     extends ConsumerState<ConnectionToWalletStatus> {
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context)
-        .textTheme
-        .apply(displayColor: Theme.of(context).colorScheme.onSurface);
     final session = ref.watch(SessionProviders.session);
     BridgeWallet? walletArchethic;
     if (session.walletFrom != null &&
@@ -59,100 +56,108 @@ class _ConnectionToWalletStatusState
     return (session.walletFrom != null && session.walletFrom!.isConnected) ||
             (session.walletTo != null && session.walletTo!.isConnected)
         ? Responsive.isDesktop(context)
-            ? Container(
-                height: 90,
-                padding: const EdgeInsets.only(left: 15),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: [
-                      Theme.of(context).colorScheme.background.withOpacity(1),
-                      Theme.of(context).colorScheme.background.withOpacity(0.3),
-                    ],
-                    stops: const [0, 1],
-                  ),
-                  border: GradientBoxBorder(
-                    gradient: LinearGradient(
-                      colors: [
-                        Theme.of(context)
-                            .colorScheme
-                            .background
-                            .withOpacity(0.5),
-                        Theme.of(context)
-                            .colorScheme
-                            .background
-                            .withOpacity(0.7),
+            ? Stack(
+                alignment: Alignment.topRight,
+                children: [
+                  Container(
+                    height: 90,
+                    padding: const EdgeInsets.only(left: 15),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Theme.of(context)
+                              .colorScheme
+                              .background
+                              .withOpacity(1),
+                          Theme.of(context)
+                              .colorScheme
+                              .background
+                              .withOpacity(0.3),
+                        ],
+                        stops: const [0, 1],
+                      ),
+                      border: GradientBoxBorder(
+                        gradient: LinearGradient(
+                          colors: [
+                            Theme.of(context)
+                                .colorScheme
+                                .background
+                                .withOpacity(0.5),
+                            Theme.of(context)
+                                .colorScheme
+                                .background
+                                .withOpacity(0.7),
+                          ],
+                          stops: const [0, 1],
+                        ),
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (session.walletFrom != null &&
+                            session.walletFrom!.isConnected)
+                          _line(
+                            session.walletFrom!.nameAccountDisplayed,
+                            session.walletFrom!.endpoint,
+                          )
+                        else
+                          _line('', ''),
+                        const SizedBox(
+                          height: 2,
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 1,
+                          decoration:
+                              BoxDecoration(gradient: ThemeBase.gradient),
+                        ),
+                        const SizedBox(
+                          height: 2,
+                        ),
+                        if (session.walletTo != null &&
+                            session.walletTo!.isConnected)
+                          _line(
+                            session.walletTo!.nameAccountDisplayed,
+                            session.walletTo!.endpoint,
+                          )
+                        else
+                          _line('', '')
                       ],
-                      stops: const [0, 1],
                     ),
                   ),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    if (session.walletFrom != null &&
-                        session.walletFrom!.isConnected)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  session.walletFrom!.nameAccountDisplayed,
-                                  style: textTheme.labelMedium,
-                                ),
-                                Text(
-                                  session.walletFrom!.endpoint,
-                                  style: textTheme.labelSmall,
-                                ),
-                              ],
-                            ),
-                          ),
-                          IconCloseConnection(wallet: session.walletFrom!),
-                        ],
-                      ),
-                    const SizedBox(
-                      height: 2,
-                    ),
-                    Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 1,
-                      decoration: BoxDecoration(gradient: ThemeBase.gradient),
-                    ),
-                    const SizedBox(
-                      height: 2,
-                    ),
-                    if (session.walletTo != null &&
-                        session.walletTo!.isConnected)
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  session.walletTo!.nameAccountDisplayed,
-                                  style: textTheme.labelMedium,
-                                ),
-                                Text(
-                                  session.walletTo!.endpoint,
-                                  style: textTheme.labelSmall,
-                                ),
-                              ],
-                            ),
-                          ),
-                          IconCloseConnection(wallet: session.walletTo!),
-                        ],
-                      ),
-                  ],
-                ),
+                  const IconCloseConnection(),
+                ],
               )
             : const SizedBox()
         : const SizedBox();
+  }
+
+  Widget _line(String nameAccount, String endpoint) {
+    final textTheme = Theme.of(context)
+        .textTheme
+        .apply(displayColor: Theme.of(context).colorScheme.onSurface);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                nameAccount,
+                style: textTheme.labelMedium,
+              ),
+              Text(
+                endpoint,
+                style: textTheme.labelSmall,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

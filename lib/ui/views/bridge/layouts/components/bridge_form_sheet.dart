@@ -2,6 +2,7 @@
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_blockchain_from_selection.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_blockchain_to_selection.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_btn.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_error_message.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_icon_direction.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_textfield_target_address.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_textfield_token_amount.dart';
@@ -82,15 +83,17 @@ class BridgeFormSheet extends ConsumerWidget {
                   padding: EdgeInsets.only(top: 20, left: 50, right: 50),
                   child: Column(
                     children: [
-                      BridgeBlockchainFromSelection(),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          BridgeBlockchainFromSelection(),
+                          BridgeBlockchainIconDirection(),
+                          BridgeBlockchainToSelection(),
+                        ],
+                      ),
                       SizedBox(
                         height: 5,
                       ),
-                      BridgeBlockchainIconDirection(),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      BridgeBlockchainToSelection(),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -117,6 +120,7 @@ class BridgeFormSheet extends ConsumerWidget {
                       SizedBox(
                         height: 30,
                       ),
+                      BridgeErrorMessage(),
                     ],
                   ),
                 ),

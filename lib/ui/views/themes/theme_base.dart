@@ -64,5 +64,13 @@ class ThemeBase {
     stops: const [0, 1],
   );
 
+  static Gradient gradientErrorBackground = LinearGradient(
+    colors: [
+      const Color(0xFF111128).withOpacity(1),
+      const Color(0xFF111128).withOpacity(0.3),
+    ],
+    stops: const [0, 1],
+  );
+
   static const sizeBoxComponentWidth = 600.0;
 }

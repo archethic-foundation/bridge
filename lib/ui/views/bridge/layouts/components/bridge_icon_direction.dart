@@ -16,32 +16,35 @@ class BridgeBlockchainIconDirection extends ConsumerWidget {
 
     if (bridge.blockchainFrom == null || bridge.blockchainTo == null) {
       return Padding(
-        padding: const EdgeInsets.only(top: 5),
+        padding: const EdgeInsets.only(top: 25),
         child: Icon(
-          Iconsax.arrange_circle,
+          Iconsax.arrow_swap_horizontal,
           color: Colors.white.withOpacity(0.2),
         ),
       );
     }
 
-    return IconButton(
-      onPressed: () async {
-        final blockchainFrom = bridge.blockchainFrom;
-        final blockchainTo = bridge.blockchainTo;
-        if (blockchainFrom != null) {
-          await bridgeForm.setBlockchainTo(blockchainFrom);
-        }
+    return Padding(
+      padding: const EdgeInsets.only(top: 25),
+      child: IconButton(
+        onPressed: () async {
+          final blockchainFrom = bridge.blockchainFrom;
+          final blockchainTo = bridge.blockchainTo;
+          if (blockchainFrom != null) {
+            await bridgeForm.setBlockchainTo(blockchainFrom);
+          }
 
-        if (blockchainTo != null) {
-          await bridgeForm.setBlockchainFrom(blockchainTo);
-        }
+          if (blockchainTo != null) {
+            await bridgeForm.setBlockchainFrom(blockchainTo);
+          }
 
-        bridgeForm
-          ..setTokenToBridge(null)
-          ..setTargetAddress('');
-        await bridgeForm.setTokenToBridgeAmount(0);
-      },
-      icon: const Icon(Iconsax.arrange_circle),
+          bridgeForm
+            ..setTokenToBridge(null)
+            ..setTargetAddress('');
+          await bridgeForm.setTokenToBridgeAmount(0);
+        },
+        icon: const Icon(Iconsax.arrow_swap_horizontal),
+      ),
     );
   }
 }

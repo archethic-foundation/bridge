@@ -23,36 +23,40 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
 
   Future<void> setBlockchainFrom(BridgeBlockchain blockchainFrom) async {
     final sessionNotifier = ref.read(SessionProviders.session.notifier);
-    if (blockchainFrom.chainId < 0) {
-      debugPrint('connect to Archethic Wallet');
-      await sessionNotifier.connectToArchethicWallet(true);
-    } else {
-      debugPrint('connect to EVM Wallet');
-      final result =
-          await sessionNotifier.connectToEVMWallet(blockchainFrom, true);
-      if (result.isFailure) {
-        setError(result.failureOrNull!.cause.toString());
-        return;
+    state = state.copyWith(errorText: '');
+    try {
+      if (blockchainFrom.isArchethic) {
+        debugPrint('connect to Archethic Wallet');
+        await sessionNotifier.connectToArchethicWallet(true);
+      } else {
+        debugPrint('connect to EVM Wallet');
+        await sessionNotifier.connectToEVMWallet(blockchainFrom, true);
       }
+      state = state.copyWith(blockchainFrom: blockchainFrom);
+    } catch (e) {
+      setError(
+        e.toString().replaceFirst('Exception: ', ''),
+      );
     }
-    state = state.copyWith(blockchainFrom: blockchainFrom);
   }
 
   Future<void> setBlockchainTo(BridgeBlockchain blockchainTo) async {
     final sessionNotifier = ref.read(SessionProviders.session.notifier);
-    if (blockchainTo.chainId < 0) {
-      debugPrint('connect to Archethic Wallet');
-      await sessionNotifier.connectToArchethicWallet(false);
-    } else {
-      debugPrint('connect to EVM Wallet');
-      final result =
-          await sessionNotifier.connectToEVMWallet(blockchainTo, false);
-      if (result.isFailure) {
-        setError(result.failureOrNull!.cause.toString());
-        return;
+    state = state.copyWith(errorText: '');
+    try {
+      if (blockchainTo.isArchethic) {
+        debugPrint('connect to Archethic Wallet');
+        await sessionNotifier.connectToArchethicWallet(false);
+      } else {
+        debugPrint('connect to EVM Wallet');
+        await sessionNotifier.connectToEVMWallet(blockchainTo, false);
       }
+      state = state.copyWith(blockchainTo: blockchainTo);
+    } catch (e) {
+      setError(
+        e.toString().replaceFirst('Exception: ', ''),
+      );
     }
-    state = state.copyWith(blockchainTo: blockchainTo);
   }
 
   void setTokenToBridge(

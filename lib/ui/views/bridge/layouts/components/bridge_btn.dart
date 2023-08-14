@@ -22,11 +22,7 @@ class BridgeButton extends ConsumerWidget {
       return const SizedBox();
     }
     if (bridge.tokenToBridge == null) {
-      return AppButton(
-        labelBtn: AppLocalizations.of(context)!.btn_bridge,
-        icon: Iconsax.recovery_convert,
-        disabled: true,
-      );
+      return const SizedBox();
     }
 
     return AppButton(

@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/session/provider.dart';
-import 'package:aebridge/model/bridge_wallet.dart';
 import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:aebridge/ui/views/util/components/app_button.dart';
 import 'package:aebridge/ui/views/util/components/icon_button_animated.dart';
@@ -11,11 +10,8 @@ import 'package:go_router/go_router.dart';
 
 class IconCloseConnection extends ConsumerWidget {
   const IconCloseConnection({
-    required this.wallet,
     super.key,
   });
-
-  final BridgeWallet wallet;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

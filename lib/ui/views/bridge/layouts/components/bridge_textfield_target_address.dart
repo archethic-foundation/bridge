@@ -49,6 +49,7 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
       return const SizedBox();
     }
 
+    final maxLines = bridge.blockchainTo!.isArchethic == true ? 2 : 1;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -84,6 +85,7 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
                             gradient: ThemeBase.gradientInputFormBackground,
                           ),
                           child: TextField(
+                            maxLines: maxLines,
                             style: const TextStyle(
                               fontFamily: 'Roboto',
                             ),
@@ -99,7 +101,7 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.text,
                             inputFormatters: <TextInputFormatter>[
-                              if (bridge.blockchainTo!.chainId < 0)
+                              if (bridge.blockchainTo!.isArchethic)
                                 LengthLimitingTextInputFormatter(68)
                               else
                                 LengthLimitingTextInputFormatter(42),

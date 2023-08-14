@@ -14,7 +14,7 @@
   "connectionWalletConnect": "Connect your wallet",
   "btn_connect_wallet": "Connect wallets",
   "confirmationPopupTitle": "Confirmation Request",
-  "connectionWalletDisconnectWarning": "Are you sure you want to disconnect your wallet\nand exit the application?",
+  "connectionWalletDisconnectWarning": "Are you sure you want to disconnect your wallets\nand exit the application?",
   "changeCurrentAccountWarning": "Warning, your current account has been updated.",
   "welcomeArg1Title": "Multi-Chain Connectivity",
   "welcomeArg1Desc": "Archethic Bridge enables seamless and secure connectivity between different blockchains. It allows users to transfer digital assets, data, and information across different blockchains, regardless of their protocols or technologies. This multi-chain connectivity expands opportunities for collaboration, partnerships, and interoperability between different blockchain ecosystems.",
