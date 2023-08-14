@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/balance.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/model/bridge_blockchain.dart';
 import 'package:aebridge/model/bridge_token.dart';
@@ -192,7 +193,43 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       );
       return false;
     }
+    debugPrint('state.tokenToBridgeBalance $state.tokenToBridgeBalance');
+    if (state.tokenToBridgeBalance < state.tokenToBridgeAmount) {
+      state = state.copyWith(
+        errorText:
+            'Your amount exceeds your balance. Please adjust your amount.',
+      );
+      return false;
+    }
     return true;
+  }
+
+  Future<void> getBalance() async {
+    final session = ref.read(SessionProviders.session);
+    final balance = ref.watch(
+      BalanceProviders.getBalance(
+        state.blockchainFrom!.isArchethic,
+        session.walletFrom!.genesisAddress,
+        state.tokenToBridge!.type,
+        state.tokenToBridge!.tokenAddress,
+        providerEndpoint: state.blockchainFrom!.providerEndpoint,
+      ),
+    );
+    balance.when(
+      loading: () {
+        debugPrint('balance loading');
+        return balance;
+      },
+      error: (err, stack) {
+        debugPrint('balance error');
+        return balance;
+      },
+      data: (data) {
+        debugPrint('balance value prout $data');
+        setTokenToBridgeBalance(data);
+        return balance;
+      },
+    );
   }
 
   Future<void> bridge(BuildContext context, WidgetRef ref) async {

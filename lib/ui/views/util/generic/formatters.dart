@@ -136,13 +136,34 @@ class AmountTextInputFormatter extends TextInputFormatter {
   }
 }
 
-extension _StringNumberExt on String {
+extension StringNumberExt on String {
   static final illegalCharacters = RegExp('[^0-9.]');
   String removeIllegalNumberCharacters() => replaceAll(illegalCharacters, '');
 
   String unifyDecimalSeparator() => replaceAll(',', '.');
 
   bool isValidNumber() => double.tryParse(this) != null;
+
+  String formatNumber({
+    String thousandsSeparator = ' ',
+    String decimalSeparator = '.',
+    int? precision,
+  }) {
+    final formattedNumberBuilder = StringBuffer()
+      ..write(
+        integerPart(decimalSeparator).splitFromRight(3, thousandsSeparator),
+      );
+
+    if (hasDecimalPart(decimalSeparator)) {
+      formattedNumberBuilder
+        ..write(decimalSeparator)
+        ..write(decimalPart(decimalSeparator));
+      if (precision != null && precision > 0) {
+        return formattedNumberBuilder.toString().limitLength(precision);
+      }
+    }
+    return formattedNumberBuilder.toString();
+  }
 
   String integerPart(String separator) {
     final parts = split(separator);

@@ -22,7 +22,7 @@ final _balanceRepositoryProvider =
 );
 
 typedef _BalanceRepositoryRef = AutoDisposeProviderRef<BalanceRepository>;
-String _$getBalanceHash() => r'b24372213126a597583b0ea394279e83a95a7315';
+String _$getBalanceHash() => r'c078f1ae54f347bd3c8bceecc1687ac520434e02';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -61,13 +61,15 @@ class _GetBalanceFamily extends Family<AsyncValue<double>> {
     bool isArchethic,
     String address,
     String typeToken,
-    String tokenAddress,
-  ) {
+    String tokenAddress, {
+    String? providerEndpoint,
+  }) {
     return _GetBalanceProvider(
       isArchethic,
       address,
       typeToken,
       tokenAddress,
+      providerEndpoint: providerEndpoint,
     );
   }
 
@@ -80,6 +82,7 @@ class _GetBalanceFamily extends Family<AsyncValue<double>> {
       provider.address,
       provider.typeToken,
       provider.tokenAddress,
+      providerEndpoint: provider.providerEndpoint,
     );
   }
 
@@ -105,14 +108,16 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
     this.isArchethic,
     this.address,
     this.typeToken,
-    this.tokenAddress,
-  ) : super.internal(
+    this.tokenAddress, {
+    this.providerEndpoint,
+  }) : super.internal(
           (ref) => _getBalance(
             ref,
             isArchethic,
             address,
             typeToken,
             tokenAddress,
+            providerEndpoint: providerEndpoint,
           ),
           from: _getBalanceProvider,
           name: r'_getBalanceProvider',
@@ -129,6 +134,7 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
   final String address;
   final String typeToken;
   final String tokenAddress;
+  final String? providerEndpoint;
 
   @override
   bool operator ==(Object other) {
@@ -136,7 +142,8 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
         other.isArchethic == isArchethic &&
         other.address == address &&
         other.typeToken == typeToken &&
-        other.tokenAddress == tokenAddress;
+        other.tokenAddress == tokenAddress &&
+        other.providerEndpoint == providerEndpoint;
   }
 
   @override
@@ -146,6 +153,7 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
     hash = _SystemHash.combine(hash, address.hashCode);
     hash = _SystemHash.combine(hash, typeToken.hashCode);
     hash = _SystemHash.combine(hash, tokenAddress.hashCode);
+    hash = _SystemHash.combine(hash, providerEndpoint.hashCode);
 
     return _SystemHash.finish(hash);
   }

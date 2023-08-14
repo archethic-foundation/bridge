@@ -5,6 +5,7 @@ import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_btn.d
 import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:aebridge/ui/views/util/components/icon_button_animated.dart';
 import 'package:aebridge/ui/views/util/components/scrollbar.dart';
+import 'package:aebridge/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -144,7 +145,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
                                 .bridge_token_amount_lbl,
                           ),
                           Text(
-                            '${bridge.tokenToBridgeAmount} ${bridge.tokenToBridge!.symbol}',
+                            '${bridge.tokenToBridgeAmount.toString().formatNumber()} ${bridge.tokenToBridge!.symbol}',
                           ),
                         ],
                       ),

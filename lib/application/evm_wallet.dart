@@ -1,9 +1,8 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:convert';
 import 'dart:html';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart';
 import 'package:js/js.dart';
 import 'package:webthree/browser.dart';
 import 'package:webthree/webthree.dart';
@@ -87,6 +86,7 @@ class EVMWalletProvider extends ChangeNotifier {
   }
 
   Future<double> getBalance(
+    String providerEndpoint,
     String typeToken, {
     String erc20address = '',
   }) async {
@@ -102,6 +102,12 @@ class EVMWalletProvider extends ChangeNotifier {
           if (erc20address.isEmpty) {
             return 0.0;
           }
+          final client = Web3Client(
+            providerEndpoint,
+            Client(),
+          );
+
+          debugPrint('erc20address $erc20address');
 
           final abiTokenStringJson = jsonDecode(
             await rootBundle.loadString('truffle/build/contracts/IERC20.json'),
@@ -116,16 +122,19 @@ class EVMWalletProvider extends ChangeNotifier {
           );
 
           debugPrint('currentAddress $currentAddress');
-          final balance = await web3Client!.call(
+          final balanceResponse = await client.call(
             contract: contractToken,
             function: contractToken.function('balanceOf'),
             params: [
-              EthereumAddress.fromHex(
-                currentAddress!,
-              ),
+              credentials!.address,
             ],
           );
-          return balance[0].toDouble();
+
+          debugPrint(balanceResponse[0].toString());
+
+          return (BigInt.parse(balanceResponse[0].toString()) ~/
+                  BigInt.from(10).pow(18))
+              .toDouble();
         default:
           return 0.0;
       }

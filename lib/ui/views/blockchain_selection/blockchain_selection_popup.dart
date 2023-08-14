@@ -76,6 +76,9 @@ class BlockchainSelectionPopup {
                           env: env,
                           shouldBeArchethic: shouldBeArchethic,
                         ),
+                        const SizedBox(
+                          height: 30,
+                        ),
                         const BlockchainSelectionCloseBtn(),
                       ],
                     ),

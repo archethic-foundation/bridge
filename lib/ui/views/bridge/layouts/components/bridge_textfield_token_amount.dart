@@ -73,7 +73,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
               Text(
                 AppLocalizations.of(context)!.bridge_token_amount_lbl,
               ),
-              const BridgeTokenToBridgeBalance(),
+              //   const BridgeTokenToBridgeBalance(),
             ],
           ),
         ),
@@ -106,12 +106,13 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                                 gradient: ThemeBase.gradientInputFormBackground,
                               ),
                               child: TextField(
-                                style: textTheme.titleLarge,
+                                style: textTheme.titleMedium,
                                 autocorrect: false,
                                 controller: tokenAmountController,
                                 onChanged: (text) async {
                                   bridgeNotifier.setTokenToBridgeAmount(
-                                    double.tryParse(text) ?? 0,
+                                    double.tryParse(text.replaceAll(' ', '')) ??
+                                        0,
                                   );
                                 },
                                 focusNode: tokenAmountFocusNode,
@@ -120,7 +121,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                                 keyboardType: TextInputType.text,
                                 inputFormatters: <TextInputFormatter>[
                                   AmountTextInputFormatter(precision: 8),
-                                  LengthLimitingTextInputFormatter(10),
+                                  LengthLimitingTextInputFormatter(18),
                                 ],
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
