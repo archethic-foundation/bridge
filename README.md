@@ -32,13 +32,14 @@ In order to develop and test the application, you need to have some prerequisite
   - Click on "Key" icon in the first row on the Accounts tab
   - Copy the private key
   - Paste the private key into your EVM wallet
-- Create an Archethic wallet
+  
+#### 2) Create an Archethic Wallet
   - Start Archethic Node in the devnet environnment (ie local environnment)
   - Launch the Archethic Wallet
   - Create a new account in the devnet environnment
   - [Obtain UCO from the faucet for the account](http://localhost:4000/faucet)
   
-#### 2) Deploy Archethic Pools
+#### 3) Deploy Archethic Pools
   - Execute the following commands to deploy the contracts
     ```bash
     cd ae_smart_contracts
@@ -54,10 +55,8 @@ In order to develop and test the application, you need to have some prerequisite
     - Put from terminal "Pool genesis address" value to `-3->1337/UCO/poolAddressFrom`
   - [Obtain additional UCO tokens from the faucet for the Pool genesis address](http://localhost:4000/faucet)
 
-#### 3) Deploy EVM Pools
-  - Configure archethicPoolSigner public key
-    - Get Archethic pool adress and find the previous public key of the first transaction
-    - Put the previous public key in `truffle/migrations/3_deploy_erc_pool.js` : `archethicPoolSigner = PREVIOUS_PUB_KEY`
+#### 4) Deploy EVM Pools
+  - Configure archethicPoolSigner in `truffle/migrations/3_deploy_erc_pool.js`
   - Execute the following commands to deploy the contracts:
     ```bash
     cd truffle
@@ -74,7 +73,7 @@ In order to develop and test the application, you need to have some prerequisite
     - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to `-3->1337/UCO/tokenAddress`
     - Add ERC Token in your EVM Wallet
       - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to EVM Wallet
-#### 4) Run AEBridge
+#### 5) Run AEBridge
   - Execute the following command at the project's root to launch the app with Chrome extension availability:
     ```bash
     flutter run -d web-server 
