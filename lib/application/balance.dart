@@ -15,11 +15,16 @@ Future<double> _getBalance(
   bool isArchethic,
   String address,
   String typeToken,
-  String tokenAddress,
-) async {
-  return ref
-      .watch(_balanceRepositoryProvider)
-      .getBalance(isArchethic, address, typeToken, tokenAddress);
+  String tokenAddress, {
+  String? providerEndpoint,
+}) async {
+  return ref.watch(_balanceRepositoryProvider).getBalance(
+        isArchethic,
+        address,
+        typeToken,
+        tokenAddress,
+        providerEndpoint: providerEndpoint,
+      );
 }
 
 class BalanceRepository {
@@ -27,8 +32,9 @@ class BalanceRepository {
     bool isArchethic,
     String address,
     String typeToken,
-    String tokenAddress,
-  ) async {
+    String tokenAddress, {
+    String? providerEndpoint,
+  }) async {
     if (isArchethic) {
       final balanceGetResponseMap =
           await sl.get<ApiService>().fetchBalance([address]);
@@ -49,12 +55,14 @@ class BalanceRepository {
       switch (typeToken) {
         case 'Native':
           final balance = await sl.get<EVMWalletProvider>().getBalance(
+                providerEndpoint!,
                 typeToken,
               );
           return balance;
 
         case 'ERC20':
           final balance = await sl.get<EVMWalletProvider>().getBalance(
+                providerEndpoint!,
                 typeToken,
                 erc20address: tokenAddress,
               );
