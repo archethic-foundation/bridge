@@ -39,8 +39,8 @@ class BridgeBlockchainIconDirection extends ConsumerWidget {
           }
 
           bridgeForm
-            ..setTokenToBridge(null)
-            ..setTargetAddress('');
+            ..setTargetAddress('')
+            ..setTokenToBridge(null);
           await bridgeForm.setTokenToBridgeAmount(0);
         },
         icon: const Icon(Iconsax.arrow_swap_horizontal),

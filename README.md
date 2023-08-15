@@ -70,7 +70,6 @@ In order to develop and test the application, you need to have some prerequisite
     - Put from terminal "info 3_deploy_erc.pool.js/TransparentUpgradeableProxy/contract address" value to `1337->-3/UCO/poolAddressFrom`
     - Put from terminal "info 3_deploy_erc.pool.js/TransparentUpgradeableProxy/contract address" value to `-3->1337/UCO/poolAddressTo}`
     - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to `1337->-3/UCO/tokenAddress`
-    - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to `-3->1337/UCO/tokenAddress`
     - Add ERC Token in your EVM Wallet
       - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to EVM Wallet
 #### 5) Run AEBridge

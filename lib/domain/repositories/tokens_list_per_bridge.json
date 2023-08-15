@@ -128,7 +128,8 @@
                 "targetTokenSymbol": "ETH",
                 "poolAddressFrom": "",
                 "poolAddressTo": "0x5549fad75CCb2699C9aAbe2E3A70296f8D440d05",
-                "type": "Wrapped"
+                "type": "Wrapped",
+                "tokenAddress": "??????????"
             },
             {
                 "name": "Universal Coin",
@@ -137,8 +138,7 @@
                 "targetTokenSymbol": "UCO",
                 "poolAddressFrom": "0000852ddc39fa27c7972c65f2d00de1de0b5fc225722d52d0708354c3fdea7b7fec",
                 "poolAddressTo": "0xAa42c7d36A8c59Fd17E1c02276307BAeCc19DAF1",
-                "type": "Native",
-                "tokenAddress": "0x50A34ABEbf781FC9825AD72f13Bb496514ef6f41"
+                "type": "Native"
             }
         ],
         "1->-1": [

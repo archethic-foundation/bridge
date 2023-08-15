@@ -130,11 +130,14 @@ class EVMWalletProvider extends ChangeNotifier {
             ],
           );
 
-          debugPrint(balanceResponse[0].toString());
+          debugPrint(
+            EtherAmount.inWei(balanceResponse[0])
+                .getValueInUnit(EtherUnit.ether)
+                .toString(),
+          );
 
-          return (BigInt.parse(balanceResponse[0].toString()) ~/
-                  BigInt.from(10).pow(18))
-              .toDouble();
+          return EtherAmount.inWei(balanceResponse[0])
+              .getValueInUnit(EtherUnit.ether);
         default:
           return 0.0;
       }

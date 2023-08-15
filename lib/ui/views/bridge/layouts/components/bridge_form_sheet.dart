@@ -8,7 +8,6 @@ import 'package:aebridge/ui/views/bridge/layouts/components/bridge_textfield_tar
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_textfield_token_amount.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_address.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_bridged.dart';
-import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_balance.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_selection.dart';
 import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:aebridge/ui/views/util/components/scrollbar.dart';
@@ -114,7 +113,6 @@ class BridgeFormSheet extends ConsumerWidget {
                         height: 10,
                       ),
                       BridgeTokenAmount(),
-                      const BridgeTokenToBridgeBalance(),
                       SizedBox(
                         height: 30,
                       ),

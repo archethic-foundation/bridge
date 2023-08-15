@@ -73,7 +73,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
               Text(
                 AppLocalizations.of(context)!.bridge_token_amount_lbl,
               ),
-              //   const BridgeTokenToBridgeBalance(),
+              const BridgeTokenToBridgeBalance(),
             ],
           ),
         ),
@@ -141,10 +141,6 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
               padding: const EdgeInsets.only(right: 10),
               child: InkWell(
                 onTap: () async {
-                  final bridgeNotifier =
-                      ref.watch(BridgeFormProvider.bridgeForm.notifier);
-                  await bridgeNotifier
-                      .setTokenToBridgeAmount(bridge.tokenToBridgeBalance);
                   _updateAmountTextController();
                 },
                 child: Text(

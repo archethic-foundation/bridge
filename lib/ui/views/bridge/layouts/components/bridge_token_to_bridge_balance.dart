@@ -16,9 +16,7 @@ class BridgeTokenToBridgeBalance extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
 
-    if (bridge.blockchainFrom == null ||
-        bridge.tokenToBridge == null ||
-        bridge.tokenToBridge!.tokenAddress.isEmpty) {
+    if (bridge.blockchainFrom == null || bridge.tokenToBridge == null) {
       return const SizedBox();
     }
 
@@ -55,7 +53,6 @@ class BridgeTokenToBridgeBalance extends ConsumerWidget {
       },
       data: (data) {
         debugPrint('balance value $data');
-
         return Text(
           '${AppLocalizations.of(context)!.balance_title_infos} ${data.toStringAsFixed(4).replaceAll(RegExp(r"0*$"), "").replaceAll(RegExp(r"\.$"), "").formatNumber()} ${bridge.tokenToBridge!.symbol}',
         );

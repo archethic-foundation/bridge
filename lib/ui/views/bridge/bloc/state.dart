@@ -11,7 +11,6 @@ enum BridgeProcessStep { form, confirmation }
 class BridgeFormState with _$BridgeFormState {
   const factory BridgeFormState({
     @Default(BridgeProcessStep.form) BridgeProcessStep bridgeProcessStep,
-    @Default('') String stepError,
     BridgeBlockchain? blockchainFrom,
     BridgeBlockchain? blockchainTo,
     BridgeToken? tokenToBridge,
@@ -21,7 +20,6 @@ class BridgeFormState with _$BridgeFormState {
     @Default(0.0) double networkFees,
     @Default(0.0) double networkFeesFiat,
     @Default(0) double tokenToBridgeBalance,
-    @Default(false) bool? controlInProgress,
     @Default('') String errorText,
   }) = _BridgeFormState;
   const BridgeFormState._();
