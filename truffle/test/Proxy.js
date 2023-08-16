@@ -2,7 +2,6 @@ const LiquidityPool = artifacts.require("ETHPool")
 const LiquidityPoolV2 = artifacts.require("ETHPoolV2")
 const ChargeableHTLC = artifacts.require("ChargeableHTLC_ETH")
 const SignedHTLC = artifacts.require("SignedHTLC_ETH")
-const ITransparentUpgradeableProxy = artifacts.require("ITransparentUpgradeableProxy")
 
 const { deployProxy, upgradeProxy, admin } = require('@openzeppelin/truffle-upgrades');
 
@@ -31,7 +30,7 @@ contract("LP Proxy", (accounts) => {
         assert.equal(await proxiedPoolInstance.poolCap(), web3.utils.toWei('200'))
     })
 
-    it("delegate mint call", async() => {
+    it("delegate mint call", async () => {
         const satefyModuleAddress = accounts[3]
         const reserveAddress = accounts[4]
 
@@ -50,7 +49,7 @@ contract("LP Proxy", (accounts) => {
     })
 
 
-    it("delegate provision call", async() => {
+    it("delegate provision call", async () => {
         const satefyModuleAddress = accounts[3]
         const reserveAddress = accounts[4]
 
@@ -76,7 +75,7 @@ contract("LP Proxy", (accounts) => {
         assert.equal(await HTLCInstance.lockTime(), 60)
     })
 
-    it("change implementation", async() => {
+    it("change implementation", async () => {
         const satefyModuleAddress = accounts[3]
         const reserveAddress = accounts[4]
 
