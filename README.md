@@ -79,6 +79,12 @@ In order to develop and test the application, you need to have some prerequisite
     ```  
   - Copy/Paste the app URL (ex: http://localhost:49316/) into Chrome 
 
+If you want to debug the Flutter app, you should enable chrome extensions
+1- Go to `flutter\bin\cache` and remove a file named: `flutter_tools.stamp`
+2- Go to `flutter\packages\flutter_tools\lib\src\web` and open the file `chrome.dart`.
+3- Find `--disable-extensions` and `--disable-popup-blocking` and comment these lines
+Ref: https://stackoverflow.com/questions/67958169/how-chrome-extensions-be-enabled-when-flutter-web-debugging/71747975#71747975
+
 ## Note
 
 *** This Application is currently in active development so it might fail to build. Please refer to issues or create new issues if you find any. Contributions are welcomed.
