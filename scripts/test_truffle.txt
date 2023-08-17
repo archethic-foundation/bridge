@@ -1,5 +1,17 @@
 const tokenInstance = await DummyToken.deployed()
-const balance = await tokenInstance.balanceOf(accounts[4])
-web3.utils.fromWei(balance)
-const balance2 = await tokenInstance.balanceOf(accounts[5])
-web3.utils.fromWei(balance2)
+let balanceAccount4 = await tokenInstance.balanceOf(accounts[4])
+web3.utils.fromWei(balanceAccount4)
+let balanceAccount5 = await tokenInstance.balanceOf(accounts[5])
+web3.utils.fromWei(balanceAccount5)
+
+// Put some UCO in the ETH pool from account4
+const tokenInstance = await DummyToken.deployed()
+const recipientAddress = '0x3e63e14FE71903D5C30d086E7c187f7bd9C400bC'; // poolAddress
+const amountToSend = web3.utils.toWei('3000', 'ether');
+await tokenInstance.transfer(recipientAddress, amountToSend, { from: accounts[4] });
+const balancePool = await tokenInstance.balanceOf('0x3e63e14FE71903D5C30d086E7c187f7bd9C400bC')
+web3.utils.fromWei(balancePool)
+
+// Get HTLC Balance
+let balanceHTLC = await tokenInstance.balanceOf('0xa217ebe1563f759d54be660e6d51eb6233cbb7f4')
+web3.utils.fromWei(balanceHTLC)

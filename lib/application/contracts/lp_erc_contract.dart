@@ -1,7 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:convert';
 import 'package:aebridge/application/evm_wallet.dart';
-import 'package:aebridge/model/secret_hash.dart';
+import 'package:aebridge/model/secret.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -112,8 +112,7 @@ class LPERCContract {
   Future<String?> deployAndProvisionSignedHTLC(
     String poolAddress,
     SecretHash secretHash,
-    BigInt amount,
-    String tokenAddress, {
+    BigInt amount, {
     int lockTime = 720,
     int chainId = 1337,
   }) async {
@@ -136,7 +135,9 @@ class LPERCContract {
       );
 
       debugPrint('contractLPERC ok');
-
+      debugPrint(
+        'EtherAmount.fromUnitAndValue(EtherUnit.ether, amount).getInWei ${EtherAmount.fromUnitAndValue(EtherUnit.ether, amount).getInWei}',
+      );
       final transactionProvisionHTLC = Transaction.callContract(
         contract: contractLPERC,
         function: contractLPERC.function('provisionHTLC'),
@@ -179,7 +180,7 @@ class LPERCContract {
     }
   }
 
-  Future<void> withdraw(
+  Future<void> withdrawChargeableHTLC(
     String htlcContractAddress,
     String secret, {
     int chainId = 1337,
@@ -204,7 +205,7 @@ class LPERCContract {
         EthereumAddress.fromHex(htlcContractAddress),
       );
 
-      final transactionMintHTLC = Transaction.callContract(
+      final transactionWithdraw = Transaction.callContract(
         contract: contractHTLCERC,
         function: contractHTLCERC.function('withdraw'),
         parameters: [
@@ -214,7 +215,53 @@ class LPERCContract {
 
       final withdrawTx = await web3Client.sendTransaction(
         evmWalletProvider.credentials!,
-        transactionMintHTLC,
+        transactionWithdraw,
+        chainId: chainId,
+      );
+
+      debugPrint('withdrawTx: $withdrawTx');
+    } catch (e, trace) {
+      debugPrint('Error: $e');
+      debugPrint('Trace: $trace');
+    }
+  }
+
+  Future<void> withdrawSignedHTLC(
+    String htlcContractAddress,
+    Secret secret, {
+    int chainId = 1337,
+  }) async {
+    final evmWalletProvider = sl.get<EVMWalletProvider>();
+
+    final web3Client = Web3Client(providerEndpoint!, Client());
+
+    try {
+      final abiStringJson = jsonDecode(
+        await rootBundle.loadString('truffle/build/contracts/IHTLC.json'),
+      );
+
+      final contractHTLCERC = DeployedContract(
+        ContractAbi.fromJson(
+          jsonEncode(abiStringJson['abi']),
+          abiStringJson['contractName'] as String,
+        ),
+        EthereumAddress.fromHex(htlcContractAddress),
+      );
+
+      final transactionWithdraw = Transaction.callContract(
+        contract: contractHTLCERC,
+        function: contractHTLCERC.function('withdraw'),
+        parameters: [
+          hexToBytes(secret.secret!),
+          hexToBytes(secret.secretSignature!.r!),
+          hexToBytes(secret.secretSignature!.s!),
+          BigInt.from(secret.secretSignature!.v!),
+        ],
+      );
+
+      final withdrawTx = await web3Client.sendTransaction(
+        evmWalletProvider.credentials!,
+        transactionWithdraw,
         chainId: chainId,
       );
 

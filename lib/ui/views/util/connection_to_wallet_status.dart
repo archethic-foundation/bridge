@@ -123,7 +123,7 @@ class _ConnectionToWalletStatusState
                             session.walletTo!.endpoint,
                           )
                         else
-                          _line('', '')
+                          _line('', ''),
                       ],
                     ),
                   ),

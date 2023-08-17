@@ -63,7 +63,7 @@ class EVMWalletProvider extends ChangeNotifier {
         await eth!.rawRequest(
           'wallet_switchEthereumChain',
           params: [
-            JSrawRequestParams(chainId: '0x${chainId.toRadixString(16)}')
+            JSrawRequestParams(chainId: '0x${chainId.toRadixString(16)}'),
           ],
         );
 

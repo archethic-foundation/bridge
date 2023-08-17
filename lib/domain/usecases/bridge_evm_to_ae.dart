@@ -73,7 +73,7 @@ class BridgeEVMToArchethicUseCase {
         );
 
         // 3) Reveal secret + Send ETH to Reserve
-        await lpercContract.withdraw(
+        await lpercContract.withdrawChargeableHTLC(
           htlcContract,
           secretHex,
           chainId: bridge.blockchainFrom!.chainId,

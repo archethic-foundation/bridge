@@ -68,7 +68,7 @@ class MyApp extends ConsumerWidget {
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate
+        GlobalWidgetsLocalizations.delegate,
       ],
     );
   }

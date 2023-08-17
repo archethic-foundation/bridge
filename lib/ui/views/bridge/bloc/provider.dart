@@ -1,7 +1,12 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/session/provider.dart';
+import 'package:aebridge/domain/repositories/datasources/bridge_local_datasource.dart';
+import 'package:aebridge/domain/usecases/bridge_ae_to_evm.dart';
+import 'package:aebridge/domain/usecases/bridge_evm_to_ae.dart';
 import 'package:aebridge/model/bridge_blockchain.dart';
 import 'package:aebridge/model/bridge_token.dart';
+import 'package:aebridge/model/hive/bridge.dart' as hive;
+import 'package:aebridge/model/hive/bridge_token.dart' as hive;
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
@@ -51,7 +56,13 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
         debugPrint('connect to EVM Wallet');
         await sessionNotifier.connectToEVMWallet(blockchainTo, false);
       }
+
       state = state.copyWith(blockchainTo: blockchainTo);
+      final session = ref.read(SessionProviders.session);
+      if (session.walletTo != null &&
+          session.walletTo!.genesisAddress.isNotEmpty) {
+        state = state.copyWith(targetAddress: session.walletTo!.genesisAddress);
+      }
     } catch (e) {
       setError(
         e.toString().replaceFirst('Exception: ', ''),
@@ -198,6 +209,32 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     //
     if (control() == false) {
       return;
+    }
+
+    final bridgeHive = hive.Bridge(
+      blockchainChainIdFrom: state.blockchainFrom!.chainId,
+      blockchainChainIdTo: state.blockchainTo!.chainId,
+      targetAddress: state.targetAddress,
+      timestampExec: DateTime.now().millisecondsSinceEpoch,
+      tokenToBridge: hive.BridgeToken(
+        name: state.tokenToBridge!.name,
+        poolAddressFrom: state.tokenToBridge!.poolAddressFrom,
+        poolAddressTo: state.tokenToBridge!.poolAddressTo,
+        symbol: state.tokenToBridge!.symbol,
+        targetTokenName: state.tokenToBridge!.targetTokenName,
+        targetTokenSymbol: state.tokenToBridge!.targetTokenSymbol,
+        tokenAddress: state.tokenToBridge!.tokenAddress,
+        type: state.tokenToBridge!.name,
+      ),
+      tokenToBridgeAmount: state.tokenToBridgeAmount,
+    );
+    final hiveBridgeDatasource = await HiveBridgeDatasource.getInstance();
+    hiveBridgeDatasource.addBridge(bridge: bridgeHive);
+
+    if (state.blockchainFrom!.isArchethic) {
+      await BridgeArchethicToEVMUseCase().run(ref, context);
+    } else {
+      await BridgeEVMToArchethicUseCase().run(ref, context);
     }
   }
 }

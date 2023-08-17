@@ -108,7 +108,7 @@ class ArchethicContract with TransactionBridgeMixin {
     // Faucet poolAddress
     var transactionTransfer =
         Transaction(type: 'transfer', data: Transaction.initData())
-            .addUCOTransfer(htlcGenesisAddress, toBigInt(20));
+            .addUCOTransfer(htlcGenesisAddress, toBigInt(6));
     try {
       final currentNameAccount = await getCurrentAccount();
       transactionTransfer = (await signTx(
@@ -217,7 +217,7 @@ class ArchethicContract with TransactionBridgeMixin {
                 userAddress.toUpperCase(),
                 poolAddress.toUpperCase(),
                 if (tokenAddress.isEmpty) 'UCO' else tokenAddress.toUpperCase(),
-                amount
+                amount,
               ],
             ),
           ),
@@ -245,7 +245,7 @@ class ArchethicContract with TransactionBridgeMixin {
                 poolAddress.toUpperCase(),
                 secretHash,
                 if (tokenAddress.isEmpty) 'UCO' else tokenAddress.toUpperCase(),
-                amount
+                amount,
               ],
             ),
           ),
@@ -262,7 +262,7 @@ class ArchethicContract with TransactionBridgeMixin {
       'action': 'request_secret_hash',
       'endTime': endTime,
       'userAddress': userAddress.toUpperCase(),
-      'amount': amount
+      'amount': amount,
     };
     return jsonEncode(contentMap);
   }
@@ -278,7 +278,7 @@ class ArchethicContract with TransactionBridgeMixin {
       'endTime': endTime,
       'userAddress': userAddress.toUpperCase(),
       'secretHash': secretHash,
-      'amount': amount
+      'amount': amount,
     };
     return jsonEncode(contentMap);
   }

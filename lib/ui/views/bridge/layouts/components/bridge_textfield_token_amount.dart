@@ -157,7 +157,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
               ),
             ),
           ],
-        )
+        ),
       ],
     )
         .animate()
