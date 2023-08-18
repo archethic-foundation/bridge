@@ -34,13 +34,14 @@ class HiveBridgeDatasource with SecuredHiveMixin {
   Future<void> addBridge({
     required Bridge bridge,
   }) async {
-    final bridgeHistory = await getBridgeHistory();
+    var bridgeHistory = await getBridgeHistory();
     if (bridgeHistory != null) {
       if (bridgeHistory.bridgeList == null) {
         final bridgeList = <Bridge>[bridge];
         bridgeHistory.bridgeList!.addAll(bridgeList);
       } else {
-        bridgeHistory.bridgeList!.add(bridge);
+        bridgeHistory = bridgeHistory
+            .copyWith(bridgeList: [...bridgeHistory.bridgeList!, bridge]);
       }
       await _bridgeHistoryBox.put(
         bridgeHistoryKey,
@@ -50,6 +51,19 @@ class HiveBridgeDatasource with SecuredHiveMixin {
       await _bridgeHistoryBox.put(
         bridgeHistoryKey,
         BridgeHistory(bridgeList: <Bridge>[bridge]),
+      );
+    }
+  }
+
+  Future<void> clearBridgesList() async {
+    var bridgeHistory = await getBridgeHistory();
+    if (bridgeHistory != null) {
+      bridgeHistory = bridgeHistory.copyWith(
+        bridgeList: [],
+      );
+      await _bridgeHistoryBox.put(
+        bridgeHistoryKey,
+        bridgeHistory,
       );
     }
   }

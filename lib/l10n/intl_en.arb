@@ -28,6 +28,7 @@
   "menu_section_actions": "Actions",
   "menu_bridge": "Bridge",
   "menu_refund": "Refund",
+  "menu_local_history": "Local history",
   "menu_documentation": "Documentation",
   "menu_sourceCode": "Source code",
   "menu_faq": "FAQ",
@@ -57,5 +58,9 @@
   "bridgeConfirm_fees_lbl": "Fees",
   "bridgeConfirm_fees_bridge_fee_lbl": "Bridge Fee",
   "bridgeConfirm_fees_receive_value_lbl": "You will receive",
-  "bridgeConfirm_fees_help_lbl": "How does the bridge fee work"
+  "bridgeConfirm_fees_help_lbl": "How does the bridge fee work",
+  "bridgesListTitle": "List of local transactions",
+  "btn_clear_local_history": "Clear local informations",
+  "bridgesListClearConfirmed": "Local information has been cleared",
+  "bridgesListClearWarning": "Are you sure you want to clear local informations?"
 }

@@ -3,13 +3,13 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_back_btn.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_btn.dart';
 import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/util/components/blockchain_label.dart';
 import 'package:aebridge/ui/views/util/components/icon_button_animated.dart';
 import 'package:aebridge/ui/views/util/components/scrollbar.dart';
 import 'package:aebridge/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -92,19 +92,8 @@ class BridgeConfirmSheet extends ConsumerWidget {
                             AppLocalizations.of(context)!
                                 .bridge_blockchain_from_lbl,
                           ),
-                          Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/images/bc-logos/${bridge.blockchainFrom!.icon}',
-                                width: 15,
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                bridge.blockchainFrom!.name,
-                              ),
-                            ],
+                          BlockchainLabel(
+                            chainId: bridge.blockchainFrom!.chainId,
                           ),
                         ],
                       ),
@@ -118,19 +107,8 @@ class BridgeConfirmSheet extends ConsumerWidget {
                             AppLocalizations.of(context)!
                                 .bridge_blockchain_to_lbl,
                           ),
-                          Row(
-                            children: [
-                              SvgPicture.asset(
-                                'assets/images/bc-logos/${bridge.blockchainTo!.icon}',
-                                width: 15,
-                              ),
-                              const SizedBox(
-                                width: 8,
-                              ),
-                              Text(
-                                bridge.blockchainTo!.name,
-                              ),
-                            ],
+                          BlockchainLabel(
+                            chainId: bridge.blockchainTo!.chainId,
                           ),
                         ],
                       ),

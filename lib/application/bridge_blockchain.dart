@@ -9,7 +9,7 @@ part 'bridge_blockchain.g.dart';
 
 @riverpod
 Future<List<BridgeBlockchain>> _getBlockchainsListConf(
-  _GetBlockchainsListRef ref,
+  _GetBlockchainsListConfRef ref,
 ) async {
   return ref
       .watch(_bridgeBlockchainsRepositoryProvider)
@@ -32,6 +32,20 @@ Future<List<BridgeBlockchain>> _getBlockchainsList(
   return ref
       .watch(_bridgeBlockchainsRepositoryProvider)
       .getBlockchainsList(blockchainsList);
+}
+
+@riverpod
+Future<BridgeBlockchain?> _getBlockchainFromChainId(
+  _GetBlockchainFromChainIdRef ref,
+  int chainId,
+) async {
+  final blockchainsList = await ref
+      .watch(_bridgeBlockchainsRepositoryProvider)
+      .getBlockchainsListConf();
+
+  return ref
+      .watch(_bridgeBlockchainsRepositoryProvider)
+      .getBlockchainFromChainId(blockchainsList, chainId);
 }
 
 @riverpod
@@ -78,6 +92,13 @@ class BridgeBlockchainsRepository {
     return blockchainsList;
   }
 
+  Future<BridgeBlockchain?> getBlockchainFromChainId(
+    List<BridgeBlockchain> blockchainsList,
+    int chainId,
+  ) async {
+    return blockchainsList.singleWhere((element) => element.chainId == chainId);
+  }
+
   Future<BridgeBlockchain?> getArchethicBlockchainFromEVM(
     List<BridgeBlockchain> blockchainsList,
     BridgeBlockchain evmBlockchain,
@@ -97,6 +118,7 @@ class BridgeBlockchainsRepository {
 
 abstract class BridgeBlockchainsProviders {
   static final getBlockchainsList = _getBlockchainsListProvider;
+  static const getBlockchainFromChainId = _getBlockchainFromChainIdProvider;
   static final getBlockchainsListConf = _getBlockchainsListConfProvider;
   static const getArchethicBlockchainFromEVM =
       _getArchethicBlockchainFromEVMProvider;

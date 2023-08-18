@@ -1,6 +1,7 @@
 import 'package:aebridge/application/main_screen_widget_displayed.dart';
 import 'package:aebridge/application/version.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
+import 'package:aebridge/ui/views/local_history/local_history_sheet.dart';
 import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:aebridge/ui/views/util/connection_to_wallet_status.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
@@ -70,6 +71,11 @@ class _NavigationDrawerSectionState
                         MenuDestination(
                           AppLocalizations.of(context)!.menu_bridge,
                           const Icon(Iconsax.recovery_convert),
+                          false,
+                        ),
+                        MenuDestination(
+                          AppLocalizations.of(context)!.menu_local_history,
+                          const Icon(Iconsax.clock),
                           false,
                         ),
                         MenuDestination(
@@ -265,31 +271,40 @@ class _NavigationDrawerSectionState
               MainScreenWidgetDisplayedProviders
                   .mainScreenWidgetDisplayedProvider.notifier,
             )
-            .setWidget(const BridgeSheet());
+            .setWidget(const LocalHistorySheet());
 
         break;
       case 2:
+        ref
+            .read(
+              MainScreenWidgetDisplayedProviders
+                  .mainScreenWidgetDisplayedProvider.notifier,
+            )
+            .setWidget(const BridgeSheet());
+
+        break;
+      case 3:
         launchUrl(
           Uri.parse(
             'https://wiki.archethic.net',
           ),
         );
         break;
-      case 3:
+      case 4:
         launchUrl(
           Uri.parse(
             'https://github.com/archethic-foundation/bridge',
           ),
         );
         break;
-      case 4:
+      case 5:
         launchUrl(
           Uri.parse(
             'https://wiki.archethic.net/category/FAQ',
           ),
         );
         break;
-      case 5:
+      case 6:
         launchUrl(
           Uri.parse(
             'https://wiki.archethic.net/',

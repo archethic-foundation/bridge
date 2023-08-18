@@ -7,7 +7,7 @@ part of 'bridge_blockchain.dart';
 // **************************************************************************
 
 String _$getBlockchainsListConfHash() =>
-    r'4a1f82bc62aaad19c033160b46d718c7cda8df24';
+    r'5943f901b8dd8fc5620733d52ea679ffd74c0fd5';
 
 /// See also [_getBlockchainsListConf].
 @ProviderFor(_getBlockchainsListConf)
@@ -60,8 +60,8 @@ final _getBlockchainsListProvider =
 
 typedef _GetBlockchainsListRef
     = AutoDisposeFutureProviderRef<List<BridgeBlockchain>>;
-String _$getArchethicBlockchainFromEVMHash() =>
-    r'16c5426f497b35f222744e0c0c13cd8f94757b82';
+String _$getBlockchainFromChainIdHash() =>
+    r'08fc37cea8574434054a2fc60238cb69d5802948';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -84,6 +84,93 @@ class _SystemHash {
   }
 }
 
+typedef _GetBlockchainFromChainIdRef
+    = AutoDisposeFutureProviderRef<BridgeBlockchain?>;
+
+/// See also [_getBlockchainFromChainId].
+@ProviderFor(_getBlockchainFromChainId)
+const _getBlockchainFromChainIdProvider = _GetBlockchainFromChainIdFamily();
+
+/// See also [_getBlockchainFromChainId].
+class _GetBlockchainFromChainIdFamily
+    extends Family<AsyncValue<BridgeBlockchain?>> {
+  /// See also [_getBlockchainFromChainId].
+  const _GetBlockchainFromChainIdFamily();
+
+  /// See also [_getBlockchainFromChainId].
+  _GetBlockchainFromChainIdProvider call(
+    int chainId,
+  ) {
+    return _GetBlockchainFromChainIdProvider(
+      chainId,
+    );
+  }
+
+  @override
+  _GetBlockchainFromChainIdProvider getProviderOverride(
+    covariant _GetBlockchainFromChainIdProvider provider,
+  ) {
+    return call(
+      provider.chainId,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_getBlockchainFromChainIdProvider';
+}
+
+/// See also [_getBlockchainFromChainId].
+class _GetBlockchainFromChainIdProvider
+    extends AutoDisposeFutureProvider<BridgeBlockchain?> {
+  /// See also [_getBlockchainFromChainId].
+  _GetBlockchainFromChainIdProvider(
+    this.chainId,
+  ) : super.internal(
+          (ref) => _getBlockchainFromChainId(
+            ref,
+            chainId,
+          ),
+          from: _getBlockchainFromChainIdProvider,
+          name: r'_getBlockchainFromChainIdProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getBlockchainFromChainIdHash,
+          dependencies: _GetBlockchainFromChainIdFamily._dependencies,
+          allTransitiveDependencies:
+              _GetBlockchainFromChainIdFamily._allTransitiveDependencies,
+        );
+
+  final int chainId;
+
+  @override
+  bool operator ==(Object other) {
+    return other is _GetBlockchainFromChainIdProvider &&
+        other.chainId == chainId;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, chainId.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+String _$getArchethicBlockchainFromEVMHash() =>
+    r'16c5426f497b35f222744e0c0c13cd8f94757b82';
 typedef _GetArchethicBlockchainFromEVMRef
     = AutoDisposeFutureProviderRef<BridgeBlockchain?>;
 
