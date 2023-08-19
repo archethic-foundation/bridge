@@ -24,9 +24,8 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
   @override
   void initState() {
     super.initState();
-    final bridge = ref.read(BridgeFormProvider.bridgeForm);
     addressFocusNode = FocusNode();
-    addressController = TextEditingController(text: bridge.targetAddress);
+    _updateTextController();
   }
 
   @override
@@ -36,12 +35,24 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
     super.dispose();
   }
 
+  void _updateTextController() {
+    final bridge = ref.read(BridgeFormProvider.bridgeForm);
+    addressController = TextEditingController(text: bridge.targetAddress);
+  }
+
   @override
   Widget build(
     BuildContext context,
   ) {
     final bridgeNotifier = ref.watch(BridgeFormProvider.bridgeForm.notifier);
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+
+    debugPrint(
+      'bridge.targetAddress: ${bridge.targetAddress} - addressController.text: ${addressController.text}',
+    );
+    if (bridge.targetAddress != addressController.text) {
+      _updateTextController();
+    }
 
     if (bridge.blockchainFrom == null ||
         bridge.blockchainFrom == null ||
@@ -88,6 +99,7 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
                             maxLines: maxLines,
                             style: const TextStyle(
                               fontFamily: 'Roboto',
+                              fontSize: 14,
                             ),
                             autocorrect: false,
                             controller: addressController,

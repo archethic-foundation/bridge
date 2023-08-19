@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/balance.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/repositories/datasources/bridge_local_datasource.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_to_evm.dart';
@@ -52,6 +53,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       if (blockchainTo.isArchethic) {
         debugPrint('connect to Archethic Wallet');
         await sessionNotifier.connectToArchethicWallet(false);
+        await Future.delayed(const Duration(milliseconds: 500));
       } else {
         debugPrint('connect to EVM Wallet');
         await sessionNotifier.connectToEVMWallet(blockchainTo, false);
@@ -70,12 +72,24 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     }
   }
 
-  void setTokenToBridge(
+  Future<void> setTokenToBridge(
     BridgeToken? tokenToBridge,
-  ) {
+  ) async {
     state = state.copyWith(
       tokenToBridge: tokenToBridge,
     );
+    final session = ref.read(SessionProviders.session);
+
+    final balance = await ref.watch(
+      BalanceProviders.getBalance(
+        state.blockchainFrom!.isArchethic,
+        session.walletFrom!.genesisAddress,
+        state.tokenToBridge!.type,
+        state.tokenToBridge!.tokenAddress,
+        providerEndpoint: state.blockchainFrom!.providerEndpoint,
+      ).future,
+    );
+    setTokenToBridgeBalance(balance);
   }
 
   void setTokenToBridgeBalance(
@@ -116,6 +130,13 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   ) {
     state = state.copyWith(
       targetAddress: targetAddress,
+    );
+  }
+
+  void setMaxAmount() {
+    // TODO(redDwarf03): Manage fees
+    state = state.copyWith(
+      tokenToBridgeAmount: state.tokenToBridgeBalance,
     );
   }
 
@@ -193,15 +214,14 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       );
       return false;
     }
-    // TODO(reddwarf03): See Chralu...
-    /*debugPrint('state.tokenToBridgeBalance ${state.tokenToBridgeBalance}');
+    debugPrint('state.tokenToBridgeBalance ${state.tokenToBridgeBalance}');
     if (state.tokenToBridgeBalance < state.tokenToBridgeAmount) {
       state = state.copyWith(
         errorText:
             'Your amount exceeds your balance. Please adjust your amount.',
       );
       return false;
-    }*/
+    }
     return true;
   }
 

@@ -31,10 +31,15 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
 
   void _updateAmountTextController() {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
-    tokenAmountController = TextEditingController(
-      text: bridge.tokenToBridgeAmount == 0
-          ? ''
-          : bridge.tokenToBridgeAmount.toString(),
+    tokenAmountController = TextEditingController();
+    tokenAmountController.value =
+        AmountTextInputFormatter(precision: 8).formatEditUpdate(
+      TextEditingValue.empty,
+      TextEditingValue(
+        text: bridge.tokenToBridgeAmount == 0
+            ? ''
+            : bridge.tokenToBridgeAmount.toString(),
+      ),
     );
   }
 
@@ -141,6 +146,9 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
               padding: const EdgeInsets.only(right: 10),
               child: InkWell(
                 onTap: () async {
+                  ref
+                      .read(BridgeFormProvider.bridgeForm.notifier)
+                      .setMaxAmount();
                   _updateAmountTextController();
                 },
                 child: Text(

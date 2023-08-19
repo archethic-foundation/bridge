@@ -163,7 +163,7 @@ class _SessionNotifier extends Notifier<Session> {
                 );
                 _fillState(bridgeWallet, from);
               },
-              connected: () async {
+              connected: () {
                 debugPrint('Connected');
                 bridgeWallet = bridgeWallet.copyWith(
                   wallet: 'archethic',
@@ -191,10 +191,10 @@ class _SessionNotifier extends Notifier<Session> {
             sl.unregister<ApiService>();
           }
           if (sl.isRegistered<OracleService>()) {
-            sl.unregister<OracleService>();
+            await sl.unregister<OracleService>();
           }
           if (sl.isRegistered<awc.ArchethicDAppClient>()) {
-            sl.unregister<awc.ArchethicDAppClient>();
+            await sl.unregister<awc.ArchethicDAppClient>();
           }
           sl.registerLazySingleton<awc.ArchethicDAppClient>(
             () => archethicDAppClient,
@@ -218,8 +218,10 @@ class _SessionNotifier extends Notifier<Session> {
                       error: 'Please, open your Archethic Wallet.',
                       isConnected: false,
                     );
+                    _fillState(bridgeWallet, from);
                     return;
                   }
+                  debugPrint('event.genesisAddress ${event.genesisAddress}');
                   bridgeWallet = bridgeWallet.copyWith(
                     oldNameAccount: bridgeWallet.nameAccount,
                     genesisAddress: event.genesisAddress,
