@@ -5,11 +5,11 @@ let balanceAccount5 = await tokenInstance.balanceOf(accounts[5])
 web3.utils.fromWei(balanceAccount5)
 
 // Put some UCO in the ETH pool from account4
-const tokenInstance = await DummyToken.deployed()
-const recipientAddress = '0x3e63e14FE71903D5C30d086E7c187f7bd9C400bC'; // poolAddress
-const amountToSend = web3.utils.toWei('3000', 'ether');
+let tokenInstance = await DummyToken.deployed()
+let recipientAddress = '0xb349D5847034AA2e65908e7A4A9330B92e8Dd20A'; // TransparentUpgradeableProxy contract address 
+let amountToSend = web3.utils.toWei('3000', 'ether');
 await tokenInstance.transfer(recipientAddress, amountToSend, { from: accounts[4] });
-const balancePool = await tokenInstance.balanceOf('0x3e63e14FE71903D5C30d086E7c187f7bd9C400bC')
+let balancePool = await tokenInstance.balanceOf('0xb349D5847034AA2e65908e7A4A9330B92e8Dd20A')
 web3.utils.fromWei(balancePool)
 
 // Get HTLC Balance

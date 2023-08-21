@@ -27,6 +27,10 @@ mixin _$BridgeFormState {
   double get networkFeesFiat => throw _privateConstructorUsedError;
   double get tokenToBridgeBalance => throw _privateConstructorUsedError;
   String get errorText => throw _privateConstructorUsedError;
+  bool get isTransferInProgress => throw _privateConstructorUsedError;
+  WaitForWalletConfirmation? get waitForWalletConfirmation =>
+      throw _privateConstructorUsedError;
+  int get currentStep => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BridgeFormStateCopyWith<BridgeFormState> get copyWith =>
@@ -50,7 +54,10 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       double networkFees,
       double networkFeesFiat,
       double tokenToBridgeBalance,
-      String errorText});
+      String errorText,
+      bool isTransferInProgress,
+      WaitForWalletConfirmation? waitForWalletConfirmation,
+      int currentStep});
 
   $BridgeBlockchainCopyWith<$Res>? get blockchainFrom;
   $BridgeBlockchainCopyWith<$Res>? get blockchainTo;
@@ -81,6 +88,9 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? networkFeesFiat = null,
     Object? tokenToBridgeBalance = null,
     Object? errorText = null,
+    Object? isTransferInProgress = null,
+    Object? waitForWalletConfirmation = freezed,
+    Object? currentStep = null,
   }) {
     return _then(_value.copyWith(
       bridgeProcessStep: null == bridgeProcessStep
@@ -127,6 +137,18 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
           ? _value.errorText
           : errorText // ignore: cast_nullable_to_non_nullable
               as String,
+      isTransferInProgress: null == isTransferInProgress
+          ? _value.isTransferInProgress
+          : isTransferInProgress // ignore: cast_nullable_to_non_nullable
+              as bool,
+      waitForWalletConfirmation: freezed == waitForWalletConfirmation
+          ? _value.waitForWalletConfirmation
+          : waitForWalletConfirmation // ignore: cast_nullable_to_non_nullable
+              as WaitForWalletConfirmation?,
+      currentStep: null == currentStep
+          ? _value.currentStep
+          : currentStep // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 
@@ -186,7 +208,10 @@ abstract class _$$_BridgeFormStateCopyWith<$Res>
       double networkFees,
       double networkFeesFiat,
       double tokenToBridgeBalance,
-      String errorText});
+      String errorText,
+      bool isTransferInProgress,
+      WaitForWalletConfirmation? waitForWalletConfirmation,
+      int currentStep});
 
   @override
   $BridgeBlockchainCopyWith<$Res>? get blockchainFrom;
@@ -218,6 +243,9 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
     Object? networkFeesFiat = null,
     Object? tokenToBridgeBalance = null,
     Object? errorText = null,
+    Object? isTransferInProgress = null,
+    Object? waitForWalletConfirmation = freezed,
+    Object? currentStep = null,
   }) {
     return _then(_$_BridgeFormState(
       bridgeProcessStep: null == bridgeProcessStep
@@ -264,6 +292,18 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
           ? _value.errorText
           : errorText // ignore: cast_nullable_to_non_nullable
               as String,
+      isTransferInProgress: null == isTransferInProgress
+          ? _value.isTransferInProgress
+          : isTransferInProgress // ignore: cast_nullable_to_non_nullable
+              as bool,
+      waitForWalletConfirmation: freezed == waitForWalletConfirmation
+          ? _value.waitForWalletConfirmation
+          : waitForWalletConfirmation // ignore: cast_nullable_to_non_nullable
+              as WaitForWalletConfirmation?,
+      currentStep: null == currentStep
+          ? _value.currentStep
+          : currentStep // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -282,7 +322,10 @@ class _$_BridgeFormState extends _BridgeFormState {
       this.networkFees = 0.0,
       this.networkFeesFiat = 0.0,
       this.tokenToBridgeBalance = 0,
-      this.errorText = ''})
+      this.errorText = '',
+      this.isTransferInProgress = false,
+      this.waitForWalletConfirmation,
+      this.currentStep = 0})
       : super._();
 
   @override
@@ -315,10 +358,18 @@ class _$_BridgeFormState extends _BridgeFormState {
   @override
   @JsonKey()
   final String errorText;
+  @override
+  @JsonKey()
+  final bool isTransferInProgress;
+  @override
+  final WaitForWalletConfirmation? waitForWalletConfirmation;
+  @override
+  @JsonKey()
+  final int currentStep;
 
   @override
   String toString() {
-    return 'BridgeFormState(bridgeProcessStep: $bridgeProcessStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeAmountFiat: $tokenToBridgeAmountFiat, networkFees: $networkFees, networkFeesFiat: $networkFeesFiat, tokenToBridgeBalance: $tokenToBridgeBalance, errorText: $errorText)';
+    return 'BridgeFormState(bridgeProcessStep: $bridgeProcessStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeAmountFiat: $tokenToBridgeAmountFiat, networkFees: $networkFees, networkFeesFiat: $networkFeesFiat, tokenToBridgeBalance: $tokenToBridgeBalance, errorText: $errorText, isTransferInProgress: $isTransferInProgress, waitForWalletConfirmation: $waitForWalletConfirmation, currentStep: $currentStep)';
   }
 
   @override
@@ -348,7 +399,14 @@ class _$_BridgeFormState extends _BridgeFormState {
             (identical(other.tokenToBridgeBalance, tokenToBridgeBalance) ||
                 other.tokenToBridgeBalance == tokenToBridgeBalance) &&
             (identical(other.errorText, errorText) ||
-                other.errorText == errorText));
+                other.errorText == errorText) &&
+            (identical(other.isTransferInProgress, isTransferInProgress) ||
+                other.isTransferInProgress == isTransferInProgress) &&
+            (identical(other.waitForWalletConfirmation,
+                    waitForWalletConfirmation) ||
+                other.waitForWalletConfirmation == waitForWalletConfirmation) &&
+            (identical(other.currentStep, currentStep) ||
+                other.currentStep == currentStep));
   }
 
   @override
@@ -364,7 +422,10 @@ class _$_BridgeFormState extends _BridgeFormState {
       networkFees,
       networkFeesFiat,
       tokenToBridgeBalance,
-      errorText);
+      errorText,
+      isTransferInProgress,
+      waitForWalletConfirmation,
+      currentStep);
 
   @JsonKey(ignore: true)
   @override
@@ -385,7 +446,10 @@ abstract class _BridgeFormState extends BridgeFormState {
       final double networkFees,
       final double networkFeesFiat,
       final double tokenToBridgeBalance,
-      final String errorText}) = _$_BridgeFormState;
+      final String errorText,
+      final bool isTransferInProgress,
+      final WaitForWalletConfirmation? waitForWalletConfirmation,
+      final int currentStep}) = _$_BridgeFormState;
   const _BridgeFormState._() : super._();
 
   @override
@@ -410,6 +474,12 @@ abstract class _BridgeFormState extends BridgeFormState {
   double get tokenToBridgeBalance;
   @override
   String get errorText;
+  @override
+  bool get isTransferInProgress;
+  @override
+  WaitForWalletConfirmation? get waitForWalletConfirmation;
+  @override
+  int get currentStep;
   @override
   @JsonKey(ignore: true)
   _$$_BridgeFormStateCopyWith<_$_BridgeFormState> get copyWith =>

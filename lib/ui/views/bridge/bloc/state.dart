@@ -7,6 +7,8 @@ part 'state.freezed.dart';
 
 enum BridgeProcessStep { form, confirmation }
 
+enum WaitForWalletConfirmation { evm, archethic }
+
 @freezed
 class BridgeFormState with _$BridgeFormState {
   const factory BridgeFormState({
@@ -21,6 +23,9 @@ class BridgeFormState with _$BridgeFormState {
     @Default(0.0) double networkFeesFiat,
     @Default(0) double tokenToBridgeBalance,
     @Default('') String errorText,
+    @Default(false) bool isTransferInProgress,
+    WaitForWalletConfirmation? waitForWalletConfirmation,
+    @Default(0) int currentStep,
   }) = _BridgeFormState;
   const BridgeFormState._();
 

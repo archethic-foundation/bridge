@@ -56,7 +56,13 @@ In order to develop and test the application, you need to have some prerequisite
   - [Obtain additional UCO tokens from the faucet for the Pool genesis address](http://localhost:4000/faucet)
 
 #### 4) Deploy EVM Pools
-  - Configure archethicPoolSigner in `truffle/migrations/3_deploy_erc_pool.js`
+  - Configure archethicPoolSigner in `truffle/migrations/3_deploy_erc_pool.js` 
+    with the result of the execution of the command
+    ```bash 
+    cd ae_smart_contracts
+    npm install
+    node derive_eth_address.js seed // seed should be the seed of the Archethic Pool
+    ```
   - Execute the following commands to deploy the contracts:
     ```bash
     cd truffle

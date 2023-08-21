@@ -57,7 +57,7 @@ final _fetchBridgesListProvider =
 );
 
 typedef _FetchBridgesListRef = AutoDisposeFutureProviderRef<List<Bridge>>;
-String _$clearBridgesListHash() => r'ae2afe04c1b83f2f55de9de59ad6b550957766fa';
+String _$clearBridgesListHash() => r'0a10724deac74fb1f87eb8faf68725b5eedfde8e';
 
 /// See also [_clearBridgesList].
 @ProviderFor(_clearBridgesList)

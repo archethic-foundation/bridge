@@ -72,5 +72,31 @@ class ThemeBase {
     stops: const [0, 1],
   );
 
+  static Gradient gradientCircularStepProgressIndicator = const LinearGradient(
+    colors: [
+      Color(0xFF4027A2),
+      Color(0xFF7F0AEE),
+    ],
+    stops: [0, 1],
+  );
+
+  static Gradient gradientCircularStepProgressIndicatorFinished =
+      const LinearGradient(
+    colors: [
+      Color.fromARGB(255, 39, 162, 94),
+      Color.fromARGB(255, 144, 195, 138),
+    ],
+    stops: [0, 1],
+  );
+
+  static Gradient gradientCircularStepProgressIndicatorError =
+      const LinearGradient(
+    colors: [
+      Color.fromARGB(255, 162, 39, 39),
+      Color.fromARGB(255, 195, 138, 138),
+    ],
+    stops: [0, 1],
+  );
+
   static const sizeBoxComponentWidth = 600.0;
 }

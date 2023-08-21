@@ -101,8 +101,8 @@ class LPETHContract {
         await rootBundle.loadString('truffle/build/contracts/IHTLC.json'),
       );
 
-      debugPrint('widthdraw - htlcContractAddress: $htlcContractAddress');
-      debugPrint('widthdraw - secret: $secret');
+      debugPrint('withdraw - htlcContractAddress: $htlcContractAddress');
+      debugPrint('withdraw - secret: $secret');
 
       final contractHTLCETH = DeployedContract(
         ContractAbi.fromJson(

@@ -72,6 +72,10 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     }
   }
 
+  void setTransferInProgress(bool isTransferInProgress) {
+    state = state.copyWith(isTransferInProgress: isTransferInProgress);
+  }
+
   Future<void> setTokenToBridge(
     BridgeToken? tokenToBridge,
   ) async {
@@ -120,6 +124,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   void setError(
     String errorText,
   ) {
+    debugPrint(errorText);
     state = state.copyWith(
       errorText: errorText,
     );
@@ -140,6 +145,14 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     );
   }
 
+  void setWaitForWalletConfirmation(
+    WaitForWalletConfirmation? waitForWalletConfirmation,
+  ) {
+    state = state.copyWith(
+      waitForWalletConfirmation: waitForWalletConfirmation,
+    );
+  }
+
   void setBridgeProcessStep(BridgeProcessStep bridgeProcessStep) {
     if (bridgeProcessStep == BridgeProcessStep.confirmation &&
         control() == false) {
@@ -148,6 +161,29 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     state = state.copyWith(
       bridgeProcessStep: bridgeProcessStep,
     );
+  }
+
+  void initState() {
+    state = state.copyWith(
+      blockchainFrom: null,
+      blockchainTo: null,
+      bridgeProcessStep: BridgeProcessStep.form,
+      currentStep: 0,
+      errorText: '',
+      isTransferInProgress: false,
+      networkFees: 0,
+      networkFeesFiat: 0,
+      targetAddress: '',
+      tokenToBridge: null,
+      tokenToBridgeAmount: 0,
+      tokenToBridgeAmountFiat: 0,
+      tokenToBridgeBalance: 0,
+      waitForWalletConfirmation: null,
+    );
+  }
+
+  void setCurrentStep(int currentStep) {
+    state = state.copyWith(currentStep: currentStep);
   }
 
   Future<void> setNetworkFees(double networkFees) async {
@@ -251,11 +287,14 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     final hiveBridgeDatasource = await HiveBridgeDatasource.getInstance();
     hiveBridgeDatasource.addBridge(bridge: bridgeHive);
 
+    setTransferInProgress(true);
     if (state.blockchainFrom!.isArchethic) {
       await BridgeArchethicToEVMUseCase().run(ref, context);
     } else {
       await BridgeEVMToArchethicUseCase().run(ref, context);
     }
+    debugPrint('Bridge process finished');
+    setTransferInProgress(false);
   }
 }
 

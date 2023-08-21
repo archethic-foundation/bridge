@@ -62,5 +62,9 @@
   "bridgesListTitle": "List of local transactions",
   "btn_clear_local_history": "Clear local informations",
   "bridgesListClearConfirmed": "Local information has been cleared",
-  "bridgesListClearWarning": "Are you sure you want to clear local informations?"
+  "bridgesListClearWarning": "Are you sure you want to clear local informations?",
+  "bridgeInProgressInfo1": "The transfer process between the 2 blockchains is in progress.",
+  "bridgeInProgressInfo2": "This requires a few validations in your wallets to secure the transactions.",
+  "bridgeInProgressConfirmEVMWallet": "Please, confirm a transaction in your EVM Wallet",
+  "bridgeInProgressConfirmAEWallet": "Please, confirm a transaction in your Archethic Wallet"
 }
