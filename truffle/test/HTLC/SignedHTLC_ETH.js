@@ -40,7 +40,7 @@ contract("Signed ETH HTLC", (accounts) => {
         const { r: rSecret, s: sSecret, v: vSecret } = createEthSign(secret, archPoolSigner.privateKey)
 
         const balanceRecipientBefore = await web3.eth.getBalance(accounts[0])
-        await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, `0x${rSecret}`, `0x${sSecret}`, vSecret, { from: accounts[4] })
+        await HTLCInstance.signedWithdraw(`0x${secret.toString('hex')}`, `0x${rSecret}`, `0x${sSecret}`, vSecret, { from: accounts[4] })
 
         assert.ok(await HTLCInstance.finished())
 
@@ -72,7 +72,7 @@ contract("Signed ETH HTLC", (accounts) => {
         const { r: rSecret, s: sSecret, v: vSecret } = createEthSign(randomBytes(32), archPoolSigner.privateKey)
 
         try {
-            await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, `0x${rSecret}`, `0x${sSecret}`, vSecret, { from: accounts[3] })
+            await HTLCInstance.signedWithdraw(`0x${secret.toString('hex')}`, `0x${rSecret}`, `0x${sSecret}`, vSecret, { from: accounts[3] })
         }
         catch (e) {
             const interface = new ethers.Interface(HTLCInstance.abi);

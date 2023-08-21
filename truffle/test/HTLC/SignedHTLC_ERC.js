@@ -44,7 +44,7 @@ contract("Signed ERC HTLC", (accounts) => {
         const { r: rSecret, s: sSecret, v: vSecret } = createEthSign(secret, archPoolSigner.privateKey)
 
         const balance1 = await DummyTokenInstance.balanceOf(accounts[2])
-        await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, `0x${rSecret}`, `0x${sSecret}`, vSecret, { from: accounts[2] })
+        await HTLCInstance.signedWithdraw(`0x${secret.toString('hex')}`, `0x${rSecret}`, `0x${sSecret}`, vSecret, { from: accounts[2] })
 
         assert.ok(await HTLCInstance.finished())
 
@@ -77,7 +77,7 @@ contract("Signed ERC HTLC", (accounts) => {
         const { r: rSecret, s: sSecret } = createEthSign(randomBytes(32), archPoolSigner.privateKey)
 
         try {
-            await HTLCInstance.withdraw(`0x${secret.toString('hex')}`, `0x${rSecret}`, `0x${sSecret}`, v, { from: accounts[3] })
+            await HTLCInstance.signedWithdraw(`0x${secret.toString('hex')}`, `0x${rSecret}`, `0x${sSecret}`, v, { from: accounts[3] })
         }
         catch (e) {
             const interface = new ethers.Interface(HTLCInstance.abi);

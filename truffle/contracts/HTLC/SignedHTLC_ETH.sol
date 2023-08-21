@@ -23,7 +23,7 @@ contract SignedHTLC_ETH is HTLC_ETH {
         pool = _pool;
     }
 
-    function withdraw(bytes32 _secret, bytes32 _r, bytes32 _s, uint8 _v) external {
+    function signedWithdraw(bytes32 _secret, bytes32 _r, bytes32 _s, uint8 _v) external {
         bytes32 sigHash = ECDSA.toEthSignedMessageHash(_secret);
         address signer = ECDSA.recover(sigHash, _v, _r, _s);
 
