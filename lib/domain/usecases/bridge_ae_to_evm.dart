@@ -132,6 +132,7 @@ class BridgeArchethicToEVMUseCase {
     // 6) Reveal Secret
     // ignore: cascade_invocations
     bridgeNotifier.setCurrentStep(6);
+    debugPrint('archethicHTLCAddress get_secret $archethicHTLCAddress');
     final secretFromFct = await sl.get<archethic.ApiService>().callSCFunction(
           jsonRPCRequest: archethic.SCCallFunctionRequest(
             method: 'contract_fun',
@@ -145,10 +146,10 @@ class BridgeArchethicToEVMUseCase {
     debugPrint('secret: $secretFromFct');
     final secretMap = jsonDecode(secretFromFct);
     debugPrint(
-      'secret without archethic prefix ${secretMap["secret"].toString().substring(4)}',
+      'secret without archethic prefix ${secretMap["secret"]}',
     );
     final secret = Secret(
-      secret: '0x${secretMap['secret'].toString().substring(4)}',
+      secret: '0x${secretMap['secret']}',
       secretSignature: SecretSignature(
         r: '0x${secretMap["secret_signature"]["r"]}',
         s: '0x${secretMap["secret_signature"]["s"]}',

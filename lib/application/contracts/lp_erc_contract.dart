@@ -280,7 +280,7 @@ class LPERCContract {
           chainId: chainId,
         );
 
-        debugPrint('withdrawTx: $withdrawTx');
+        debugPrint('signedWithdrawTx: $withdrawTx');
         return withdrawTx;
       },
     );
