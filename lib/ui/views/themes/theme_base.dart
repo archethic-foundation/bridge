@@ -8,74 +8,64 @@ class ThemeBase {
   static String adddressFont = 'Roboto';
 
   static Color primaryColor = const Color(0xFF4027A2);
-  static Color secondaryColor = const Color(0xFFEED0C5);
-  static Color tertiaryColor = const Color(0xFF111128);
-  static Color backgroundColor = Colors.black;
-  static Color maxButtonColor = const Color(0xFFEED0C5);
-  static Color backgroundPopupColor = const Color(0xFF111128);
+  static Color backgroundColor = const Color(0xFF131313);
+  static Color maxButtonColor = const Color(0xFF9816C5);
+  static Color backgroundPopupColor = const Color(0xFF4027A2);
 
   static Gradient gradient = LinearGradient(
     colors: [
-      const Color(0xFF111128).withOpacity(0),
-      const Color(0xFF7F0AEE),
+      const Color(0xFFFFFFFF).withOpacity(0.2),
+      const Color(0xFFFFFFFF).withOpacity(0),
     ],
     stops: const [0, 1],
-    begin: Alignment.centerRight,
-    end: Alignment.centerLeft,
   );
 
   static Gradient gradientBtn = const LinearGradient(
     colors: <Color>[
-      Color(0xFF111128),
-      Color(0xFF7F0AEE),
+      Color(0xFF562FED),
+      Color(0xFFD55CFF),
     ],
     transform: GradientRotation(pi / 9),
   );
 
-  static Gradient gradientMainScreen = const LinearGradient(
-    colors: [
-      Color(0x003C89B9),
-      Color(0xFF7F0AEE),
-    ],
-    stops: [0, 1],
-  );
-
   static Gradient gradientSheetBackground = LinearGradient(
     colors: [
-      const Color(0xFF111128).withOpacity(0.9),
-      const Color(0xFF111128).withOpacity(0.2),
+      const Color(0xFF4027A2).withOpacity(1),
+      const Color(0xFF4027A2).withOpacity(1),
     ],
     stops: const [0, 1],
+    begin: Alignment.topLeft,
+    end: Alignment.center,
   );
 
   static Gradient gradientSheetBorder = LinearGradient(
     colors: [
-      const Color(0xFF111128).withOpacity(0.7),
-      const Color(0xFF111128).withOpacity(1),
+      const Color(0xFF131313).withOpacity(0.7),
+      const Color(0xFF131313).withOpacity(1),
     ],
     stops: const [0, 1],
   );
 
   static Gradient gradientInputFormBackground = LinearGradient(
     colors: [
-      const Color(0xFF111128).withOpacity(1),
-      const Color(0xFF111128).withOpacity(0.3),
+      const Color(0xFF131313).withOpacity(1),
+      const Color(0xFF131313).withOpacity(0.3),
     ],
     stops: const [0, 1],
   );
 
   static Gradient gradientErrorBackground = LinearGradient(
     colors: [
-      const Color(0xFF111128).withOpacity(1),
-      const Color(0xFF111128).withOpacity(0.3),
+      const Color(0xFF131313).withOpacity(1),
+      const Color(0xFF131313).withOpacity(0.3),
     ],
     stops: const [0, 1],
   );
 
   static Gradient gradientCircularStepProgressIndicator = const LinearGradient(
     colors: [
-      Color(0xFF4027A2),
-      Color(0xFF7F0AEE),
+      Color(0xFFD55CFF),
+      Color.fromARGB(255, 236, 205, 246),
     ],
     stops: [0, 1],
   );

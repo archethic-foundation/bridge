@@ -33,10 +33,13 @@ class BridgeFormSheet extends ConsumerWidget {
             right: 5,
           ),
           decoration: BoxDecoration(
-            border: GradientBoxBorder(
-              gradient: ThemeBase.gradientMainScreen,
+            borderRadius: BorderRadius.circular(24),
+            image: const DecorationImage(
+              image: AssetImage(
+                'assets/images/background-mainscreen.png',
+              ),
+              fit: BoxFit.cover,
             ),
-            borderRadius: BorderRadius.circular(16),
           ),
         ),
         Container(
@@ -47,7 +50,13 @@ class BridgeFormSheet extends ConsumerWidget {
             border: GradientBoxBorder(
               gradient: ThemeBase.gradientSheetBorder,
             ),
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(24),
+            image: const DecorationImage(
+              image: AssetImage(
+                'assets/images/background-sheet.png',
+              ),
+              fit: BoxFit.cover,
+            ),
           ),
           child: ArchethicScrollbar(
             child: Column(

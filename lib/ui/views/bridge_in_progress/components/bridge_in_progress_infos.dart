@@ -32,6 +32,16 @@ class BridgeInProgressInfos extends ConsumerWidget {
       );
     }
 
-    return const SizedBox();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          AppLocalizations.of(context)!.bridgeInProgressInfoFinished,
+        ),
+        Text(
+          AppLocalizations.of(context)!.bridgeInProgressTxLink,
+        ),
+      ],
+    );
   }
 }

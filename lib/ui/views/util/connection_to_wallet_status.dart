@@ -63,35 +63,17 @@ class _ConnectionToWalletStatusState
                     height: 90,
                     padding: const EdgeInsets.only(left: 15),
                     decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Theme.of(context)
-                              .colorScheme
-                              .background
-                              .withOpacity(1),
-                          Theme.of(context)
-                              .colorScheme
-                              .background
-                              .withOpacity(0.3),
-                        ],
-                        stops: const [0, 1],
-                      ),
+                      gradient: ThemeBase.gradientSheetBackground,
                       border: GradientBoxBorder(
-                        gradient: LinearGradient(
-                          colors: [
-                            Theme.of(context)
-                                .colorScheme
-                                .background
-                                .withOpacity(0.5),
-                            Theme.of(context)
-                                .colorScheme
-                                .background
-                                .withOpacity(0.7),
-                          ],
-                          stops: const [0, 1],
-                        ),
+                        gradient: ThemeBase.gradientSheetBorder,
                       ),
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(24),
+                      image: const DecorationImage(
+                        image: AssetImage(
+                          'assets/images/background-sheet.png',
+                        ),
+                        fit: BoxFit.cover,
+                      ),
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
