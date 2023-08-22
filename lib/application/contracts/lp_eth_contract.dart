@@ -56,7 +56,7 @@ class LPETHContract {
 
       debugPrint('HTLC Contract deployed');
 
-      // Get HTLC Contract address
+      // Get HTLC address
       final transactionMintedSwapsHashes = await web3Client.call(
         contract: contractLPETH,
         function: contractLPETH.function('mintedSwaps'),
@@ -66,7 +66,7 @@ class LPETHContract {
       );
 
       htlcContractAddress = transactionMintedSwapsHashes[0].hex;
-      debugPrint('HTLC Contract address: $htlcContractAddress');
+      debugPrint('HTLC address: $htlcContractAddress');
 
       // Provisionning HTLC Contract
       await web3Client.sendTransaction(

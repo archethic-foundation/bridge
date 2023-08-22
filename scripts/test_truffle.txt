@@ -11,7 +11,7 @@ let tokenInstance = await DummyToken.deployed()
 let recipientAddress = '0x61B194f227E3Dd312F0e4F1915004aCa143a360d'; // TransparentUpgradeableProxy contract address 
 let amountToSend = web3.utils.toWei('3000', 'ether');
 await tokenInstance.transfer(recipientAddress, amountToSend, { from: accounts[4] });
-let balancePool = await tokenInstance.balanceOf('0x61B194f227E3Dd312F0e4F1915004aCa143a360d')
+let balancePool = await tokenInstance.balanceOf(recipientAddress)
 web3.utils.fromWei(balancePool)
 
 // Get HTLC Balance

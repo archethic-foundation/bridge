@@ -63,7 +63,7 @@ class LPERCContract {
 
       debugPrint('HTLC Contract deployed');
 
-      // Get HTLC Contract address
+      // Get HTLC address
       final transactionMintedSwapsHashes = await web3Client.call(
         contract: contractLPERC,
         function: contractLPERC.function('mintedSwaps'),
@@ -73,7 +73,7 @@ class LPERCContract {
       );
 
       htlcContractAddress = transactionMintedSwapsHashes[0].hex;
-      debugPrint('HTLC Contract address: $htlcContractAddress');
+      debugPrint('HTLC address: $htlcContractAddress');
 
       return htlcContractAddress;
     });
@@ -176,7 +176,7 @@ class LPERCContract {
 
         debugPrint('HTLC Contract deployed');
         debugPrint('secretHash : ${hexToBytes(secretHash.secretHash!)}');
-        // Get HTLC Contract address
+        // Get HTLC address
         final transactionProvisionedSwapsHashes = await web3Client.call(
           contract: contractLPERC,
           function: contractLPERC.function('provisionedSwaps'),
@@ -186,7 +186,7 @@ class LPERCContract {
         );
 
         htlcContractAddress = transactionProvisionedSwapsHashes[0].hex;
-        debugPrint('HTLC Contract address: $htlcContractAddress');
+        debugPrint('HTLC address: $htlcContractAddress');
 
         return htlcContractAddress;
       },

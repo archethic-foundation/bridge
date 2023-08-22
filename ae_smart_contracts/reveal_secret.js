@@ -8,7 +8,7 @@ if (!config.endpoint || !config.userSeed) {
 }
 
 const args = []
-process.argv.forEach(function(val, index, _array) { if (index > 1) { args.push(val) } })
+process.argv.forEach(function (val, index, _array) { if (index > 1) { args.push(val) } })
 
 if (args.length != 2) {
   console.log("Missing arguments")
@@ -43,7 +43,7 @@ async function main(endpoint, seed) {
 
   tx.on("fullConfirmation", (_confirmations) => {
     console.log("Secret successfully sent !")
-    console.log("Waiting for HTLC contract to withdraw ...")
+    console.log("Waiting for HTLC to withdraw ...")
     wait(htlcAddressBefore, htlcGenesisAddress, endpoint, archethic)
   }).on("error", (context, reason) => {
     console.log("Error while sending transaction")

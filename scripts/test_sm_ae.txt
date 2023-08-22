@@ -1,2 +1,22 @@
 node deploy_pool.js toto http://127.0.0.1:4000
 address seed toto : 0000c32fd6b33c9ff557ad8826f516c1c81d0242524be10891a009b77c50e252bcc5
+
+conf node
+
+config :archethic, Archethic.Bootstrap.NetworkInit,
+  genesis_pools: [
+    %{
+      address:
+        "00001259AE51A6E63A1E04E308C5E769E0E9D15BFFE4E7880266C8FA10C3ADD7B7A2"
+        |> Base.decode16!(case: :mixed),
+      amount: 1_000_000_000_000_000
+    },
+    %{
+      address:
+        "0000852ddc39fa27c7972c65f2d00de1de0b5fc225722d52d0708354c3fdea7b7fec"
+        |> Base.decode16!(case: :mixed),
+      amount: 1_000_000_000_000_000
+    }
+  ]
+
+  

@@ -289,9 +289,9 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
 
     setTransferInProgress(true);
     if (state.blockchainFrom!.isArchethic) {
-      await BridgeArchethicToEVMUseCase().run(ref, context);
+      await BridgeArchethicToEVMUseCase().run(ref);
     } else {
-      await BridgeEVMToArchethicUseCase().run(ref, context);
+      await BridgeEVMToArchethicUseCase().run(ref);
     }
     debugPrint('Bridge process finished');
     setTransferInProgress(false);
