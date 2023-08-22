@@ -26,7 +26,7 @@ actions triggered_by: transaction do
 
   if params.action == "request_secret_hash" do
     # Find a way to generate a random secret
-    secret = transaction.address
+    secret = Crypto.hash(transaction.address)
     secret_hash = Crypto.hash(secret, "sha256")
 
     # Build signature for EVM decryption
@@ -37,7 +37,7 @@ actions triggered_by: transaction do
     # secret should be stored in State
     # secret_hash and signature should be sent in recipient parameter 
     htlc_map = [
-      secret: transaction.address,
+      secret: secret,
       secret_hash: secret_hash,
       secret_hash_signature: signature,
       end_time: params.endTime
