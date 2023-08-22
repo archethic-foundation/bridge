@@ -27,7 +27,10 @@ In order to develop and test the application, you need to have some prerequisite
 ### Steps
 
 #### 1) Create an EVM Wallet
-  - Launch Ganache and create a new workspace with network id 1337 (Server tab) and generate 10 accounts (Accounts & Keys tab)
+  - Launch Ganache and create a new workspace with 
+    - Network id 1337 (Server tab)
+    - Seed `inflict author desk anxiety music swear acquire achieve link young benefit biology` (Accounts & Keys tab)
+    - Generate 10 accounts (Accounts & Keys tab)
   - Start your EVM wallet and import an account using the private key from the first workspace's account 
   - Click on "Key" icon in the first row on the Accounts tab
   - Copy the private key
