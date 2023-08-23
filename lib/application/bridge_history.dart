@@ -1,5 +1,4 @@
 import 'package:aebridge/domain/repositories/datasources/bridge_local_datasource.dart';
-import 'package:aebridge/model/hive/bridge.dart';
 import 'package:aebridge/model/hive/bridge_history.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -17,10 +16,11 @@ Future<BridgeHistory?> _fetchBridgeHistory(_FetchBridgeHistoryRef ref) async {
 }
 
 @riverpod
-Future<List<Bridge>> _fetchBridgesList(
-  _FetchBridgesListRef ref,
-) async {
-  return ref.watch(_bridgeHistoryRepositoryProvider).fetchBridgesList();
+Future<List<Map<String, dynamic>>> _fetchBridgesList(
+  _FetchBridgesListRef ref, {
+  bool asc = true,
+}) async {
+  return ref.watch(_bridgeHistoryRepositoryProvider).fetchBridgesList(asc: asc);
 }
 
 @riverpod
@@ -36,9 +36,12 @@ class BridgeHistoryRepository {
     return hiveBridgeDatasource.getBridgeHistory();
   }
 
-  Future<List<Bridge>> fetchBridgesList() async {
+  Future<List<Map<String, dynamic>>> fetchBridgesList({bool asc = true}) async {
     final bridgeHistory = await fetchBridgeHistory();
     if (bridgeHistory == null || bridgeHistory.bridgeList == null) return [];
+    if (asc == false) {
+      return bridgeHistory.bridgeList!.reversed.toList();
+    }
     return bridgeHistory.bridgeList!;
   }
 
@@ -51,7 +54,7 @@ class BridgeHistoryRepository {
 
 abstract class BridgeHistoryProviders {
   static final fetchBridgeHistory = _fetchBridgeHistoryProvider;
-  static final fetchBridgesList = _fetchBridgesListProvider;
+  static const fetchBridgesList = _fetchBridgesListProvider;
   static final bridgeHistoryRepository = _bridgeHistoryRepositoryProvider;
   static final clearBridgesList = _clearBridgesListProvider;
 }

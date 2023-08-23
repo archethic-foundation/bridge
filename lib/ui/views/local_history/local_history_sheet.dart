@@ -1,16 +1,14 @@
+/// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:convert';
+
 import 'package:aebridge/application/bridge_history.dart';
-import 'package:aebridge/model/hive/bridge.dart';
+import 'package:aebridge/ui/views/bridge/bloc/state.dart';
+import 'package:aebridge/ui/views/local_history/components/local_history_card.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_clear_btn.dart';
-import 'package:aebridge/ui/views/util/components/blockchain_label.dart';
-import 'package:aebridge/ui/views/util/components/format_address_link_copy.dart';
-import 'package:aebridge/ui/views/util/generic/formatters.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
-import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gradient_borders/gradient_borders.dart';
-import 'package:intl/intl.dart';
 
 class LocalHistorySheet extends ConsumerWidget {
   const LocalHistorySheet({
@@ -19,7 +17,8 @@ class LocalHistorySheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bridgesList = ref.watch(BridgeHistoryProviders.fetchBridgesList);
+    final bridgesList =
+        ref.watch(BridgeHistoryProviders.fetchBridgesList(asc: false));
 
     return Container(
       padding: const EdgeInsets.only(
@@ -80,11 +79,13 @@ class LocalHistorySheet extends ConsumerWidget {
                     padding: const EdgeInsets.all(8),
                     itemCount: data.value.length,
                     itemBuilder: (context, index) {
-                      return _buildBridgeCard(
-                        context,
-                        ref,
-                        data.value[index],
+                      debugPrint(json.encode(data.value[index]));
+                      // Conversion LinkedMap to Map
+                      final bridge = BridgeFormState.fromJson(
+                        json.decode(json.encode(data.value[index]))
+                            as Map<String, dynamic>,
                       );
+                      return LocalHistoryCard(bridge: bridge);
                     },
                   ),
                 ),
@@ -106,105 +107,4 @@ class LocalHistorySheet extends ConsumerWidget {
       ),
     );
   }
-}
-
-Widget _buildBridgeCard(BuildContext context, WidgetRef ref, Bridge bridge) {
-  return Padding(
-    padding: const EdgeInsets.only(bottom: 10),
-    child: SizedBox(
-      height: 100,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Theme.of(context).colorScheme.background.withOpacity(1),
-              Theme.of(context).colorScheme.background.withOpacity(0.3),
-            ],
-            stops: const [0, 1],
-          ),
-          border: GradientBoxBorder(
-            gradient: LinearGradient(
-              colors: [
-                Theme.of(context).colorScheme.background.withOpacity(0.5),
-                Theme.of(context).colorScheme.background.withOpacity(0.7),
-              ],
-              stops: const [0, 1],
-            ),
-          ),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: _contentCard(context, ref, bridge),
-      ),
-    ),
-  );
-}
-
-Widget _contentCard(BuildContext context, WidgetRef ref, Bridge bridge) {
-  return InkWell(
-    customBorder: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10),
-    ),
-    onTap: () {
-      return;
-    },
-    child: Padding(
-      padding: const EdgeInsets.all(10),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    DateFormat.yMd(
-                      Localizations.localeOf(context).languageCode,
-                    ).add_Hms().format(
-                          DateTime.fromMillisecondsSinceEpoch(
-                            bridge.timestampExec!,
-                          ).toLocal(),
-                        ),
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Row(
-                    children: [
-                      BlockchainLabel(
-                        chainId: bridge.blockchainChainIdFrom!,
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(left: 10, right: 10),
-                        child: Icon(
-                          Iconsax.arrow_right,
-                          size: 16,
-                        ),
-                      ),
-                      BlockchainLabel(
-                        chainId: bridge.blockchainChainIdTo!,
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      SelectableText(
-                        '${bridge.tokenToBridgeAmount.toString().formatNumber()} ${bridge.tokenToBridge!.symbol} to ',
-                      ),
-                      FormatAddressLinkCopy(
-                        address: bridge.targetAddress!,
-                        chainId: bridge.blockchainChainIdTo!,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
 }

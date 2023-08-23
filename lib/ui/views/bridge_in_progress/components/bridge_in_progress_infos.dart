@@ -38,8 +38,8 @@ class BridgeInProgressInfos extends ConsumerWidget {
         Text(
           AppLocalizations.of(context)!.bridgeInProgressInfoFinished,
         ),
-        Text(
-          AppLocalizations.of(context)!.bridgeInProgressTxLink,
+        const Text(
+          '',
         ),
       ],
     );

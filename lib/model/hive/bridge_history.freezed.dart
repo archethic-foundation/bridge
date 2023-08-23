@@ -17,7 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$BridgeHistory {
   @HiveField(0)
-  List<Bridge>? get bridgeList => throw _privateConstructorUsedError;
+  List<Map<String, dynamic>>? get bridgeList =>
+      throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BridgeHistoryCopyWith<BridgeHistory> get copyWith =>
@@ -30,7 +31,7 @@ abstract class $BridgeHistoryCopyWith<$Res> {
           BridgeHistory value, $Res Function(BridgeHistory) then) =
       _$BridgeHistoryCopyWithImpl<$Res, BridgeHistory>;
   @useResult
-  $Res call({@HiveField(0) List<Bridge>? bridgeList});
+  $Res call({@HiveField(0) List<Map<String, dynamic>>? bridgeList});
 }
 
 /// @nodoc
@@ -52,7 +53,7 @@ class _$BridgeHistoryCopyWithImpl<$Res, $Val extends BridgeHistory>
       bridgeList: freezed == bridgeList
           ? _value.bridgeList
           : bridgeList // ignore: cast_nullable_to_non_nullable
-              as List<Bridge>?,
+              as List<Map<String, dynamic>>?,
     ) as $Val);
   }
 }
@@ -65,7 +66,7 @@ abstract class _$$_BridgeHistoryCopyWith<$Res>
       __$$_BridgeHistoryCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({@HiveField(0) List<Bridge>? bridgeList});
+  $Res call({@HiveField(0) List<Map<String, dynamic>>? bridgeList});
 }
 
 /// @nodoc
@@ -85,7 +86,7 @@ class __$$_BridgeHistoryCopyWithImpl<$Res>
       bridgeList: freezed == bridgeList
           ? _value._bridgeList
           : bridgeList // ignore: cast_nullable_to_non_nullable
-              as List<Bridge>?,
+              as List<Map<String, dynamic>>?,
     ));
   }
 }
@@ -94,14 +95,15 @@ class __$$_BridgeHistoryCopyWithImpl<$Res>
 
 @HiveType(typeId: HiveTypeIds.bridgeHistory)
 class _$_BridgeHistory extends _BridgeHistory {
-  const _$_BridgeHistory({@HiveField(0) final List<Bridge>? bridgeList})
+  const _$_BridgeHistory(
+      {@HiveField(0) final List<Map<String, dynamic>>? bridgeList})
       : _bridgeList = bridgeList,
         super._();
 
-  final List<Bridge>? _bridgeList;
+  final List<Map<String, dynamic>>? _bridgeList;
   @override
   @HiveField(0)
-  List<Bridge>? get bridgeList {
+  List<Map<String, dynamic>>? get bridgeList {
     final value = _bridgeList;
     if (value == null) return null;
     if (_bridgeList is EqualUnmodifiableListView) return _bridgeList;
@@ -135,13 +137,14 @@ class _$_BridgeHistory extends _BridgeHistory {
 }
 
 abstract class _BridgeHistory extends BridgeHistory {
-  const factory _BridgeHistory({@HiveField(0) final List<Bridge>? bridgeList}) =
+  const factory _BridgeHistory(
+          {@HiveField(0) final List<Map<String, dynamic>>? bridgeList}) =
       _$_BridgeHistory;
   const _BridgeHistory._() : super._();
 
   @override
   @HiveField(0)
-  List<Bridge>? get bridgeList;
+  List<Map<String, dynamic>>? get bridgeList;
   @override
   @JsonKey(ignore: true)
   _$$_BridgeHistoryCopyWith<_$_BridgeHistory> get copyWith =>

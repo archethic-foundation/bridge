@@ -114,7 +114,7 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
                               if (blockchain == null) return;
                               await ref
                                   .watch(BridgeFormProvider.bridgeForm.notifier)
-                                  .setBlockchainFrom(blockchain);
+                                  .setBlockchainFromWithConnection(blockchain);
                             },
                           ),
                         ),

@@ -15,7 +15,9 @@ class BridgeInProgressWalletConfirm extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
     if (bridge.isTransferInProgress == false) {
-      return const SizedBox();
+      return const SizedBox(
+        height: 50,
+      );
     }
 
     return SizedBox(

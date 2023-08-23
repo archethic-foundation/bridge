@@ -1,7 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/model/hive/bridge.dart';
 import 'package:aebridge/model/hive/bridge_history.dart';
-import 'package:aebridge/model/hive/bridge_token.dart';
 import 'package:flutter/foundation.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:path_provider/path_provider.dart';
@@ -21,9 +19,6 @@ class DBHelper {
       Hive.init(suppDir.path);
     }
 
-    Hive
-      ..registerAdapter(BridgeHistoryAdapter())
-      ..registerAdapter(BridgeAdapter())
-      ..registerAdapter(BridgeTokenAdapter());
+    Hive.registerAdapter(BridgeHistoryAdapter());
   }
 }

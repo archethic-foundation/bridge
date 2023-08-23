@@ -44,7 +44,6 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
   Widget build(
     BuildContext context,
   ) {
-    final bridgeNotifier = ref.watch(BridgeFormProvider.bridgeForm.notifier);
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
 
     if (bridge.targetAddress != addressController.text) {
@@ -101,7 +100,9 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
                             autocorrect: false,
                             controller: addressController,
                             onChanged: (text) async {
-                              bridgeNotifier.setTargetAddress(
+                              final bridgeNotifier = ref
+                                  .read(BridgeFormProvider.bridgeForm.notifier);
+                              await bridgeNotifier.setTargetAddress(
                                 text,
                               );
                             },

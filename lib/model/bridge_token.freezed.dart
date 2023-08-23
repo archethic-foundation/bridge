@@ -14,6 +14,10 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+BridgeToken _$BridgeTokenFromJson(Map<String, dynamic> json) {
+  return _BridgeToken.fromJson(json);
+}
+
 /// @nodoc
 mixin _$BridgeToken {
   String get name => throw _privateConstructorUsedError;
@@ -25,6 +29,7 @@ mixin _$BridgeToken {
   String get poolAddressTo => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $BridgeTokenCopyWith<BridgeToken> get copyWith =>
       throw _privateConstructorUsedError;
@@ -183,7 +188,7 @@ class __$$_BridgeTokenCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_BridgeToken implements _BridgeToken {
   const _$_BridgeToken(
       {this.name = '',
@@ -194,6 +199,9 @@ class _$_BridgeToken implements _BridgeToken {
       this.poolAddressFrom = '',
       this.poolAddressTo = '',
       this.type = ''});
+
+  factory _$_BridgeToken.fromJson(Map<String, dynamic> json) =>
+      _$$_BridgeTokenFromJson(json);
 
   @override
   @JsonKey()
@@ -245,6 +253,7 @@ class _$_BridgeToken implements _BridgeToken {
             (identical(other.type, type) || other.type == type));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, name, tokenAddress, symbol,
       targetTokenName, targetTokenSymbol, poolAddressFrom, poolAddressTo, type);
@@ -254,6 +263,13 @@ class _$_BridgeToken implements _BridgeToken {
   @pragma('vm:prefer-inline')
   _$$_BridgeTokenCopyWith<_$_BridgeToken> get copyWith =>
       __$$_BridgeTokenCopyWithImpl<_$_BridgeToken>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_BridgeTokenToJson(
+      this,
+    );
+  }
 }
 
 abstract class _BridgeToken implements BridgeToken {
@@ -266,6 +282,9 @@ abstract class _BridgeToken implements BridgeToken {
       final String poolAddressFrom,
       final String poolAddressTo,
       final String type}) = _$_BridgeToken;
+
+  factory _BridgeToken.fromJson(Map<String, dynamic> json) =
+      _$_BridgeToken.fromJson;
 
   @override
   String get name;

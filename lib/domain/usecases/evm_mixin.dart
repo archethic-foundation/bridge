@@ -12,17 +12,42 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webthree/crypto.dart';
 
+enum EVMBridgeProcessStep { none, deploy }
+
 mixin EVMBridgeProcessMixin {
+  String getEVMStepLabel(
+    BuildContext context,
+    int step,
+  ) {
+    switch (step) {
+      case 1:
+        return AppLocalizations.of(context)!.evmBridgeProcessStep1;
+      case 2:
+        return AppLocalizations.of(context)!.evmBridgeProcessStep2;
+      case 3:
+        return AppLocalizations.of(context)!.evmBridgeProcessStep3;
+      case 4:
+        return AppLocalizations.of(context)!.evmBridgeProcessStep4;
+      case 5:
+        return AppLocalizations.of(context)!.evmBridgeProcessStep5;
+      case 6:
+        return AppLocalizations.of(context)!.evmBridgeProcessStep6;
+      default:
+        return AppLocalizations.of(context)!.evmBridgeProcessStep0;
+    }
+  }
+
   Future<String> deployEVMHTCLAndProvision(
     WidgetRef ref,
     SecretHash secretHash,
   ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier)
-      ..setCurrentStep(4);
+    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+    await bridgeNotifier.setCurrentStep(4);
     final lpercContract = LPERCContract(bridge.blockchainTo!.providerEndpoint);
     debugPrint(
       'bridge.blockchainTo!.providerEndpoint ${bridge.blockchainTo!.providerEndpoint}',
@@ -32,7 +57,8 @@ mixin EVMBridgeProcessMixin {
     );
     debugPrint('bridge.blockchainTo!.chainId: ${bridge.blockchainTo!.chainId}');
 
-    bridgeNotifier.setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
+    await bridgeNotifier
+        .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
     final resultDeployAndProvisionSignedHTLC =
         await lpercContract.deployAndProvisionSignedHTLC(
       bridge.tokenToBridge!.poolAddressTo,
@@ -40,16 +66,15 @@ mixin EVMBridgeProcessMixin {
       BigInt.from(bridge.tokenToBridgeAmount),
       chainId: bridge.blockchainTo!.chainId,
     );
-    bridgeNotifier.setWaitForWalletConfirmation(null);
+    await bridgeNotifier.setWaitForWalletConfirmation(null);
     late String htlcAddress;
     resultDeployAndProvisionSignedHTLC.map(
       success: (success) {
         htlcAddress = success;
       },
-      failure: (failure) {
-        bridgeNotifier
-          ..setError(Failure.getErrorMessage(failure))
-          ..setTransferInProgress(false);
+      failure: (failure) async {
+        await bridgeNotifier.setError(Failure.getErrorMessage(failure));
+        await bridgeNotifier.setTransferInProgress(false);
         return;
       },
     );
@@ -72,9 +97,10 @@ mixin EVMBridgeProcessMixin {
 
   Future<String> deployEVMHTLC(WidgetRef ref, Digest secretHash) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier)
-      ..setCurrentStep(1)
-      ..setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
+    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+    await bridgeNotifier.setCurrentStep(1);
+    await bridgeNotifier
+        .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
     final lpercContract =
         LPERCContract(bridge.blockchainFrom!.providerEndpoint);
     final resultDeployChargeableHTLCEVM =
@@ -84,16 +110,15 @@ mixin EVMBridgeProcessMixin {
       BigInt.from(bridge.tokenToBridgeAmount),
       chainId: bridge.blockchainFrom!.chainId,
     );
-    bridgeNotifier.setWaitForWalletConfirmation(null);
+    await bridgeNotifier.setWaitForWalletConfirmation(null);
     late String htlcAddress;
     resultDeployChargeableHTLCEVM.map(
       success: (success) {
         htlcAddress = success;
       },
-      failure: (failure) {
-        bridgeNotifier
-          ..setError(Failure.getErrorMessage(failure))
-          ..setTransferInProgress(false);
+      failure: (failure) async {
+        await bridgeNotifier.setError(Failure.getErrorMessage(failure));
+        await bridgeNotifier.setTransferInProgress(false);
         return;
       },
     );
@@ -102,9 +127,10 @@ mixin EVMBridgeProcessMixin {
 
   Future<void> provisionEVMHTLC(WidgetRef ref, String htlcAddress) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier)
-      ..setCurrentStep(2)
-      ..setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
+    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+    await bridgeNotifier.setCurrentStep(2);
+    await bridgeNotifier
+        .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
     final lpercContract =
         LPERCContract(bridge.blockchainFrom!.providerEndpoint);
     final resultProvisionChargeableHTLC =
@@ -114,13 +140,12 @@ mixin EVMBridgeProcessMixin {
       bridge.tokenToBridge!.tokenAddress,
       chainId: bridge.blockchainFrom!.chainId,
     );
-    bridgeNotifier.setWaitForWalletConfirmation(null);
+    await bridgeNotifier.setWaitForWalletConfirmation(null);
     resultProvisionChargeableHTLC.map(
       success: (success) {},
-      failure: (failure) {
-        bridgeNotifier
-          ..setError(Failure.getErrorMessage(failure))
-          ..setTransferInProgress(false);
+      failure: (failure) async {
+        await bridgeNotifier.setError(Failure.getErrorMessage(failure));
+        await bridgeNotifier.setTransferInProgress(false);
         return;
       },
     );
@@ -132,9 +157,10 @@ mixin EVMBridgeProcessMixin {
     Uint8List secret,
   ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier)
-      ..setCurrentStep(4)
-      ..setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
+    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+    await bridgeNotifier.setCurrentStep(4);
+    await bridgeNotifier
+        .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
     final lpercContract =
         LPERCContract(bridge.blockchainFrom!.providerEndpoint);
 
@@ -143,15 +169,14 @@ mixin EVMBridgeProcessMixin {
       '0x${bytesToHex(secret)}',
       chainId: bridge.blockchainFrom!.chainId,
     );
-    bridgeNotifier.setWaitForWalletConfirmation(null);
+    await bridgeNotifier.setWaitForWalletConfirmation(null);
     resultWithdraw.map(
       success: (success) {
         return;
       },
-      failure: (failure) {
-        bridgeNotifier
-          ..setError(Failure.getErrorMessage(failure))
-          ..setTransferInProgress(false);
+      failure: (failure) async {
+        await bridgeNotifier.setError(Failure.getErrorMessage(failure));
+        await bridgeNotifier.setTransferInProgress(false);
         return;
       },
     );
@@ -162,9 +187,10 @@ mixin EVMBridgeProcessMixin {
     String htlcAddress,
     Uint8List secret,
   ) async {
-    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier)
-      ..setCurrentStep(5)
-      ..setWaitForWalletConfirmation(WaitForWalletConfirmation.archethic);
+    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+    await bridgeNotifier.setCurrentStep(5);
+    await bridgeNotifier
+        .setWaitForWalletConfirmation(WaitForWalletConfirmation.archethic);
     final session = ref.read(SessionProviders.session);
     final walletTo = session.walletTo;
     final resultRevealSecretToChargeableHTLC =
@@ -174,16 +200,15 @@ mixin EVMBridgeProcessMixin {
       htlcAddress,
       bytesToHex(secret),
     );
-    bridgeNotifier
-      ..setWaitForWalletConfirmation(null)
-      ..setTransferInProgress(false);
+    await bridgeNotifier.setWaitForWalletConfirmation(null);
+    await bridgeNotifier.setTransferInProgress(false);
     resultRevealSecretToChargeableHTLC.map(
-      success: (success) {
-        bridgeNotifier.setCurrentStep(6);
+      success: (success) async {
+        await bridgeNotifier.setCurrentStep(6);
         return;
       },
-      failure: (failure) {
-        bridgeNotifier.setError(Failure.getErrorMessage(failure));
+      failure: (failure) async {
+        await bridgeNotifier.setError(Failure.getErrorMessage(failure));
         return;
       },
     );

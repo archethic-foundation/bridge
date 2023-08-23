@@ -11,25 +11,34 @@ class FormatAddressLinkCopy extends ConsumerWidget {
   const FormatAddressLinkCopy({
     required this.address,
     required this.chainId,
+    this.expanded = true,
     super.key,
   });
 
   final int chainId;
   final String address;
+  final bool expanded;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    Widget _address() {
+      return SelectableText(
+        address,
+        style: TextStyle(
+          fontSize: 13,
+          fontFamily: ThemeBase.addressFont,
+        ),
+      );
+    }
+
     return Row(
       children: [
-        Expanded(
-          child: SelectableText(
-            address,
-            style: TextStyle(
-              fontSize: 13,
-              fontFamily: ThemeBase.addressFont,
-            ),
-          ),
-        ),
+        if (expanded)
+          Expanded(
+            child: _address(),
+          )
+        else
+          _address(),
         const SizedBox(width: 5),
         InkWell(
           onTap: () {

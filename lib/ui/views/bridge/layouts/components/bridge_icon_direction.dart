@@ -33,11 +33,11 @@ class BridgeBlockchainIconDirection extends ConsumerWidget {
           final blockchainTo = bridge.blockchainTo;
           bridgeForm.initState();
           if (blockchainFrom != null) {
-            await bridgeForm.setBlockchainTo(blockchainFrom);
+            await bridgeForm.setBlockchainToWithConnection(blockchainFrom);
           }
 
           if (blockchainTo != null) {
-            await bridgeForm.setBlockchainFrom(blockchainTo);
+            await bridgeForm.setBlockchainFromWithConnection(blockchainTo);
           }
 
           bridgeForm.setTokenToBridge(null);

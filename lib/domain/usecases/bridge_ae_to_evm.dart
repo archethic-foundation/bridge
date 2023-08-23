@@ -1,29 +1,29 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 
-import 'package:aebridge/domain/repositories/datasources/bridge_local_datasource.dart';
 import 'package:aebridge/domain/usecases/archethic_bridge_process_mixin.dart';
 import 'package:aebridge/domain/usecases/evm_mixin.dart';
-import 'package:aebridge/model/hive/bridge.dart';
 import 'package:aebridge/model/secret.dart';
+import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BridgeArchethicToEVMUseCase
     with ArchethicBridgeProcessMixin, EVMBridgeProcessMixin {
   Future<void> run(
-    WidgetRef ref,
-    Bridge bridgeHive, {
+    WidgetRef ref, {
     int recoveryStep = 0,
   }) async {
-    final hiveBridgeDatasource = await HiveBridgeDatasource.getInstance();
-    Bridge bridgeUpdated;
+    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
 
     // 1) Deploy Archethic HTLC
     late String htlcAEAddress;
     if (recoveryStep <= 1) {
       htlcAEAddress = await deployAESignedHTLC(ref);
-      bridgeUpdated = bridgeHive.copyWith(htlcAEAddress: htlcAEAddress);
-      hiveBridgeDatasource.setBridge(bridge: bridgeUpdated);
+      var blockchainFrom =
+          ref.read(BridgeFormProvider.bridgeForm).blockchainFrom;
+      blockchainFrom = blockchainFrom!.copyWith(htlcAddress: htlcAEAddress);
+      await bridgeNotifier.setBlockchainFrom(blockchainFrom);
     }
 
     // 2) Provision Archethic HTLC
@@ -39,8 +39,9 @@ class BridgeArchethicToEVMUseCase
     late String htlcEVMAddress;
     if (recoveryStep <= 4) {
       htlcEVMAddress = await deployEVMHTCLAndProvision(ref, secretHash);
-      bridgeUpdated = bridgeHive.copyWith(htlcEVMAddress: htlcEVMAddress);
-      hiveBridgeDatasource.setBridge(bridge: bridgeUpdated);
+      var blockchainTo = ref.read(BridgeFormProvider.bridgeForm).blockchainTo;
+      blockchainTo = blockchainTo!.copyWith(htlcAddress: htlcEVMAddress);
+      await bridgeNotifier.setBlockchainTo(blockchainTo);
     }
 
     // 5) Request Secret from Archethic LP
@@ -54,5 +55,12 @@ class BridgeArchethicToEVMUseCase
 
     // 7) Reveal Secret EVM (Withdraw)
     if (recoveryStep <= 7) await withdrawAE(ref, htlcEVMAddress, secret);
+  }
+
+  String getStepLabel(
+    BuildContext context,
+    int step,
+  ) {
+    return getAEStepLabel(context, step);
   }
 }

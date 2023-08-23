@@ -58,7 +58,6 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
         .textTheme
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
 
-    final bridgeNotifier = ref.watch(BridgeFormProvider.bridgeForm.notifier);
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
 
     if (bridge.blockchainFrom == null ||
@@ -115,7 +114,10 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                                 autocorrect: false,
                                 controller: tokenAmountController,
                                 onChanged: (text) async {
-                                  bridgeNotifier.setTokenToBridgeAmount(
+                                  final bridgeNotifier = ref.read(
+                                    BridgeFormProvider.bridgeForm.notifier,
+                                  );
+                                  await bridgeNotifier.setTokenToBridgeAmount(
                                     double.tryParse(text.replaceAll(' ', '')) ??
                                         0,
                                   );

@@ -14,7 +14,7 @@ class BridgeInProgressCloseBtn extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
-    final bridgeNotifier = ref.watch(BridgeFormProvider.bridgeForm.notifier);
+
     if (bridge.isTransferInProgress) {
       return const SizedBox();
     }
@@ -24,8 +24,10 @@ class BridgeInProgressCloseBtn extends ConsumerWidget {
       child: AppButton(
         labelBtn: AppLocalizations.of(context)!.btn_close,
         icon: Iconsax.close_square,
-        onPressed: () {
-          bridgeNotifier.initState();
+        onPressed: () async {
+          final bridgeNotifier =
+              ref.read(BridgeFormProvider.bridgeForm.notifier);
+          await bridgeNotifier.initState();
           Navigator.of(context).pop();
         },
       ),

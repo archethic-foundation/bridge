@@ -17,7 +17,9 @@ class BridgeHistoryAdapter extends TypeAdapter<_$_BridgeHistory> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return _$_BridgeHistory(
-      bridgeList: (fields[0] as List?)?.cast<Bridge>(),
+      bridgeList: (fields[0] as List?)
+          ?.map((dynamic e) => (e as Map).cast<String, dynamic>())
+          ?.toList(),
     );
   }
 

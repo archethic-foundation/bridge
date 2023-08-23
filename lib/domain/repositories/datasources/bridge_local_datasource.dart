@@ -1,5 +1,4 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/model/hive/bridge.dart';
 import 'package:aebridge/model/hive/bridge_history.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -30,12 +29,12 @@ class HiveBridgeDatasource {
   }
 
   Future<void> addBridge({
-    required Bridge bridge,
+    required Map<String, dynamic> bridge,
   }) async {
     var bridgeHistory = await getBridgeHistory();
     if (bridgeHistory != null) {
       if (bridgeHistory.bridgeList == null) {
-        final bridgeList = <Bridge>[bridge];
+        final bridgeList = <Map<String, dynamic>>[bridge];
         bridgeHistory.bridgeList!.addAll(bridgeList);
       } else {
         bridgeHistory = bridgeHistory
@@ -48,13 +47,13 @@ class HiveBridgeDatasource {
     } else {
       await _bridgeHistoryBox.put(
         bridgeHistoryKey,
-        BridgeHistory(bridgeList: <Bridge>[bridge]),
+        BridgeHistory(bridgeList: <Map<String, dynamic>>[bridge]),
       );
     }
   }
 
   Future<void> setBridge({
-    required Bridge bridge,
+    required Map<String, dynamic> bridge,
   }) async {
     var bridgeHistory = await getBridgeHistory();
     if (bridgeHistory == null ||
@@ -62,9 +61,10 @@ class HiveBridgeDatasource {
         bridgeHistory.bridgeList!.isEmpty) {
       throw Exception("Bridge can't be updated in the box");
     }
-    final bridgeList = bridgeHistory.bridgeList;
-    bridgeList!
-      ..removeWhere((element) => element.timestampExec == bridge.timestampExec)
+    final bridgeList = [...?bridgeHistory.bridgeList]
+      ..removeWhere(
+        (element) => element['timestampExec'] == bridge['timestampExec'],
+      )
       ..add(bridge);
     bridgeHistory = bridgeHistory.copyWith(bridgeList: bridgeList);
     await _bridgeHistoryBox.put(

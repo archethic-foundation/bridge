@@ -15,7 +15,7 @@ class LocalHistoryClearButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
-    return ref.watch(BridgeHistoryProviders.fetchBridgesList).map(
+    return ref.watch(BridgeHistoryProviders.fetchBridgesList()).map(
           data: (data) {
             return AppButton(
               labelBtn: AppLocalizations.of(context)!.btn_clear_local_history,
