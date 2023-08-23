@@ -28,6 +28,10 @@ mixin _$Bridge {
   String? get targetAddress => throw _privateConstructorUsedError;
   @HiveField(5)
   int? get timestampExec => throw _privateConstructorUsedError;
+  @HiveField(6)
+  String? get htlcAEAddress => throw _privateConstructorUsedError;
+  @HiveField(7)
+  String? get htlcEVMAddress => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BridgeCopyWith<Bridge> get copyWith => throw _privateConstructorUsedError;
@@ -44,7 +48,9 @@ abstract class $BridgeCopyWith<$Res> {
       @HiveField(2) BridgeToken? tokenToBridge,
       @HiveField(3) double? tokenToBridgeAmount,
       @HiveField(4) String? targetAddress,
-      @HiveField(5) int? timestampExec});
+      @HiveField(5) int? timestampExec,
+      @HiveField(6) String? htlcAEAddress,
+      @HiveField(7) String? htlcEVMAddress});
 
   $BridgeTokenCopyWith<$Res>? get tokenToBridge;
 }
@@ -68,6 +74,8 @@ class _$BridgeCopyWithImpl<$Res, $Val extends Bridge>
     Object? tokenToBridgeAmount = freezed,
     Object? targetAddress = freezed,
     Object? timestampExec = freezed,
+    Object? htlcAEAddress = freezed,
+    Object? htlcEVMAddress = freezed,
   }) {
     return _then(_value.copyWith(
       blockchainChainIdFrom: freezed == blockchainChainIdFrom
@@ -94,6 +102,14 @@ class _$BridgeCopyWithImpl<$Res, $Val extends Bridge>
           ? _value.timestampExec
           : timestampExec // ignore: cast_nullable_to_non_nullable
               as int?,
+      htlcAEAddress: freezed == htlcAEAddress
+          ? _value.htlcAEAddress
+          : htlcAEAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      htlcEVMAddress: freezed == htlcEVMAddress
+          ? _value.htlcEVMAddress
+          : htlcEVMAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
@@ -122,7 +138,9 @@ abstract class _$$_BridgeCopyWith<$Res> implements $BridgeCopyWith<$Res> {
       @HiveField(2) BridgeToken? tokenToBridge,
       @HiveField(3) double? tokenToBridgeAmount,
       @HiveField(4) String? targetAddress,
-      @HiveField(5) int? timestampExec});
+      @HiveField(5) int? timestampExec,
+      @HiveField(6) String? htlcAEAddress,
+      @HiveField(7) String? htlcEVMAddress});
 
   @override
   $BridgeTokenCopyWith<$Res>? get tokenToBridge;
@@ -144,6 +162,8 @@ class __$$_BridgeCopyWithImpl<$Res>
     Object? tokenToBridgeAmount = freezed,
     Object? targetAddress = freezed,
     Object? timestampExec = freezed,
+    Object? htlcAEAddress = freezed,
+    Object? htlcEVMAddress = freezed,
   }) {
     return _then(_$_Bridge(
       blockchainChainIdFrom: freezed == blockchainChainIdFrom
@@ -170,6 +190,14 @@ class __$$_BridgeCopyWithImpl<$Res>
           ? _value.timestampExec
           : timestampExec // ignore: cast_nullable_to_non_nullable
               as int?,
+      htlcAEAddress: freezed == htlcAEAddress
+          ? _value.htlcAEAddress
+          : htlcAEAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      htlcEVMAddress: freezed == htlcEVMAddress
+          ? _value.htlcEVMAddress
+          : htlcEVMAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -184,7 +212,9 @@ class _$_Bridge extends _Bridge {
       @HiveField(2) this.tokenToBridge,
       @HiveField(3) this.tokenToBridgeAmount,
       @HiveField(4) this.targetAddress,
-      @HiveField(5) this.timestampExec})
+      @HiveField(5) this.timestampExec,
+      @HiveField(6) this.htlcAEAddress,
+      @HiveField(7) this.htlcEVMAddress})
       : super._();
 
   @override
@@ -205,10 +235,16 @@ class _$_Bridge extends _Bridge {
   @override
   @HiveField(5)
   final int? timestampExec;
+  @override
+  @HiveField(6)
+  final String? htlcAEAddress;
+  @override
+  @HiveField(7)
+  final String? htlcEVMAddress;
 
   @override
   String toString() {
-    return 'Bridge(blockchainChainIdFrom: $blockchainChainIdFrom, blockchainChainIdTo: $blockchainChainIdTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, timestampExec: $timestampExec)';
+    return 'Bridge(blockchainChainIdFrom: $blockchainChainIdFrom, blockchainChainIdTo: $blockchainChainIdTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, timestampExec: $timestampExec, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress)';
   }
 
   @override
@@ -227,7 +263,11 @@ class _$_Bridge extends _Bridge {
             (identical(other.targetAddress, targetAddress) ||
                 other.targetAddress == targetAddress) &&
             (identical(other.timestampExec, timestampExec) ||
-                other.timestampExec == timestampExec));
+                other.timestampExec == timestampExec) &&
+            (identical(other.htlcAEAddress, htlcAEAddress) ||
+                other.htlcAEAddress == htlcAEAddress) &&
+            (identical(other.htlcEVMAddress, htlcEVMAddress) ||
+                other.htlcEVMAddress == htlcEVMAddress));
   }
 
   @override
@@ -238,7 +278,9 @@ class _$_Bridge extends _Bridge {
       tokenToBridge,
       tokenToBridgeAmount,
       targetAddress,
-      timestampExec);
+      timestampExec,
+      htlcAEAddress,
+      htlcEVMAddress);
 
   @JsonKey(ignore: true)
   @override
@@ -254,7 +296,9 @@ abstract class _Bridge extends Bridge {
       @HiveField(2) final BridgeToken? tokenToBridge,
       @HiveField(3) final double? tokenToBridgeAmount,
       @HiveField(4) final String? targetAddress,
-      @HiveField(5) final int? timestampExec}) = _$_Bridge;
+      @HiveField(5) final int? timestampExec,
+      @HiveField(6) final String? htlcAEAddress,
+      @HiveField(7) final String? htlcEVMAddress}) = _$_Bridge;
   const _Bridge._() : super._();
 
   @override
@@ -275,6 +319,12 @@ abstract class _Bridge extends Bridge {
   @override
   @HiveField(5)
   int? get timestampExec;
+  @override
+  @HiveField(6)
+  String? get htlcAEAddress;
+  @override
+  @HiveField(7)
+  String? get htlcEVMAddress;
   @override
   @JsonKey(ignore: true)
   _$$_BridgeCopyWith<_$_Bridge> get copyWith =>

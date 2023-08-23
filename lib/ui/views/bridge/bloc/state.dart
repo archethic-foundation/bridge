@@ -26,6 +26,7 @@ class BridgeFormState with _$BridgeFormState {
     @Default(false) bool isTransferInProgress,
     WaitForWalletConfirmation? waitForWalletConfirmation,
     @Default(0) int currentStep,
+    @Default(false) bool changeDirectionInProgress,
   }) = _BridgeFormState;
   const BridgeFormState._();
 

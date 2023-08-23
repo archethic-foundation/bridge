@@ -7,7 +7,7 @@ import 'package:hive/hive.dart';
 part 'bridge.freezed.dart';
 part 'bridge.g.dart';
 
-/// Next field available : 6
+/// Next field available : 8
 
 @freezed
 class Bridge with _$Bridge {
@@ -19,6 +19,8 @@ class Bridge with _$Bridge {
     @HiveField(3) double? tokenToBridgeAmount,
     @HiveField(4) String? targetAddress,
     @HiveField(5) int? timestampExec,
+    @HiveField(6) String? htlcAEAddress,
+    @HiveField(7) String? htlcEVMAddress,
   }) = _Bridge;
   const Bridge._();
 }

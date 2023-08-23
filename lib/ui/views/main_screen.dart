@@ -43,8 +43,6 @@ class MainScreenState extends ConsumerState<MainScreen> {
               flex: 4,
               child: Padding(
                 padding: const EdgeInsets.only(
-                  top: 30,
-                  bottom: 30,
                   left: 10,
                   right: 10,
                 ),

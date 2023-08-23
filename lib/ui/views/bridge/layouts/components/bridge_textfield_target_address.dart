@@ -47,15 +47,12 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
     final bridgeNotifier = ref.watch(BridgeFormProvider.bridgeForm.notifier);
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
 
-    debugPrint(
-      'bridge.targetAddress: ${bridge.targetAddress} - addressController.text: ${addressController.text}',
-    );
     if (bridge.targetAddress != addressController.text) {
       _updateTextController();
     }
 
     if (bridge.blockchainFrom == null ||
-        bridge.blockchainFrom == null ||
+        bridge.blockchainTo == null ||
         bridge.tokenToBridge == null) {
       return const SizedBox();
     }
@@ -97,8 +94,8 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
                           ),
                           child: TextField(
                             maxLines: maxLines,
-                            style: const TextStyle(
-                              fontFamily: 'Roboto',
+                            style: TextStyle(
+                              fontFamily: ThemeBase.addressFont,
                               fontSize: 14,
                             ),
                             autocorrect: false,

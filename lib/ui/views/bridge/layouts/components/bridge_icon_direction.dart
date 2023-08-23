@@ -28,8 +28,10 @@ class BridgeBlockchainIconDirection extends ConsumerWidget {
       padding: const EdgeInsets.only(top: 25),
       child: IconButton(
         onPressed: () async {
+          bridgeForm.setChangeDirectionInProgress(true);
           final blockchainFrom = bridge.blockchainFrom;
           final blockchainTo = bridge.blockchainTo;
+          bridgeForm.initState();
           if (blockchainFrom != null) {
             await bridgeForm.setBlockchainTo(blockchainFrom);
           }
@@ -38,10 +40,9 @@ class BridgeBlockchainIconDirection extends ConsumerWidget {
             await bridgeForm.setBlockchainFrom(blockchainTo);
           }
 
-          bridgeForm
-            ..setTargetAddress('')
-            ..setTokenToBridge(null);
+          bridgeForm.setTokenToBridge(null);
           await bridgeForm.setTokenToBridgeAmount(0);
+          bridgeForm.setChangeDirectionInProgress(false);
         },
         icon: const Icon(Iconsax.arrow_swap_horizontal),
       ),

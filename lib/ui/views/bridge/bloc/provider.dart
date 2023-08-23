@@ -186,6 +186,11 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     state = state.copyWith(currentStep: currentStep);
   }
 
+  void setChangeDirectionInProgress(bool changeDirectionInProgress) {
+    state =
+        state.copyWith(changeDirectionInProgress: changeDirectionInProgress);
+  }
+
   Future<void> setNetworkFees(double networkFees) async {
     /* final oracleUcoPrice = await sl.get<OracleService>().getOracleData();
     state = state.copyWith(
@@ -199,6 +204,10 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   }
 
   bool control() {
+    state = state.copyWith(
+      errorText: '',
+    );
+
     if (state.blockchainFrom == null && state.blockchainFrom!.name.isEmpty) {
       state = state.copyWith(
         errorText: 'Please select the issuing blockchain.',
@@ -289,9 +298,9 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
 
     setTransferInProgress(true);
     if (state.blockchainFrom!.isArchethic) {
-      await BridgeArchethicToEVMUseCase().run(ref);
+      await BridgeArchethicToEVMUseCase().run(ref, bridgeHive);
     } else {
-      await BridgeEVMToArchethicUseCase().run(ref);
+      await BridgeEVMToArchethicUseCase().run(ref, bridgeHive);
     }
     debugPrint('Bridge process finished');
     setTransferInProgress(false);

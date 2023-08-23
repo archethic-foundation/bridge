@@ -2,6 +2,7 @@ import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/model/hive/bridge.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_clear_btn.dart';
 import 'package:aebridge/ui/views/util/components/blockchain_label.dart';
+import 'package:aebridge/ui/views/util/components/format_address_link_copy.dart';
 import 'package:aebridge/ui/views/util/generic/formatters.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
@@ -26,18 +27,6 @@ class LocalHistorySheet extends ConsumerWidget {
         bottom: 10,
         left: 5,
         right: 5,
-      ),
-      decoration: BoxDecoration(
-        border: const GradientBoxBorder(
-          gradient: LinearGradient(
-            colors: [
-              Color(0xFFCC00FF),
-              Color(0x003C89B9),
-            ],
-            stops: [0, 1],
-          ),
-        ),
-        borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -202,7 +191,11 @@ Widget _contentCard(BuildContext context, WidgetRef ref, Bridge bridge) {
                   Row(
                     children: [
                       SelectableText(
-                        '${bridge.tokenToBridgeAmount.toString().formatNumber()} ${bridge.tokenToBridge!.symbol} to ${bridge.targetAddress}',
+                        '${bridge.tokenToBridgeAmount.toString().formatNumber()} ${bridge.tokenToBridge!.symbol} to ',
+                      ),
+                      FormatAddressLinkCopy(
+                        address: bridge.targetAddress!,
+                        chainId: bridge.blockchainChainIdTo!,
                       ),
                     ],
                   ),

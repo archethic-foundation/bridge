@@ -4,6 +4,7 @@ import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_back_
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_btn.dart';
 import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:aebridge/ui/views/util/components/blockchain_label.dart';
+import 'package:aebridge/ui/views/util/components/format_address_link_copy.dart';
 import 'package:aebridge/ui/views/util/components/icon_button_animated.dart';
 import 'package:aebridge/ui/views/util/components/scrollbar.dart';
 import 'package:aebridge/ui/views/util/generic/formatters.dart';
@@ -42,7 +43,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
         ),
         Container(
           width: 650,
-          height: 650,
+          height: 500,
           decoration: BoxDecoration(
             gradient: ThemeBase.gradientSheetBackground,
             border: GradientBoxBorder(
@@ -147,11 +148,9 @@ class BridgeConfirmSheet extends ConsumerWidget {
                               AppLocalizations.of(context)!
                                   .bridge_target_address_lbl,
                             ),
-                            Text(
-                              bridge.targetAddress,
-                              style: const TextStyle(
-                                fontFamily: 'Roboto',
-                              ),
+                            FormatAddressLinkCopy(
+                              address: bridge.targetAddress,
+                              chainId: bridge.blockchainTo!.chainId,
                             ),
                           ],
                         ),

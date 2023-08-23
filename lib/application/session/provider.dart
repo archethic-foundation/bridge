@@ -86,7 +86,7 @@ class _SessionNotifier extends Notifier<Session> {
         endpoint: blockchain.name,
       );
       if (sl.isRegistered<EVMWalletProvider>()) {
-        sl.unregister<EVMWalletProvider>();
+        await sl.unregister<EVMWalletProvider>();
       }
       sl.registerLazySingleton<EVMWalletProvider>(
         () => evmWalletProvider,
@@ -188,7 +188,7 @@ class _SessionNotifier extends Notifier<Session> {
             );
           });
           if (sl.isRegistered<ApiService>()) {
-            sl.unregister<ApiService>();
+            await sl.unregister<ApiService>();
           }
           if (sl.isRegistered<OracleService>()) {
             await sl.unregister<OracleService>();
@@ -285,9 +285,13 @@ class _SessionNotifier extends Notifier<Session> {
   }
 
   Future<void> cancelArchethicConnection() async {
-    await sl.get<awc.ArchethicDAppClient>().close();
+    if (sl.isRegistered<awc.ArchethicDAppClient>()) {
+      await sl.get<awc.ArchethicDAppClient>().close();
+      await sl.unregister<awc.ArchethicDAppClient>();
+    }
+
     if (sl.isRegistered<ApiService>()) {
-      sl.unregister<ApiService>();
+      await sl.unregister<ApiService>();
     }
 
     if (state.walletFrom != null && state.walletFrom!.wallet == 'archethic') {
@@ -326,8 +330,9 @@ class _SessionNotifier extends Notifier<Session> {
   }
 
   Future<void> cancelEVMWalletConnection() async {
-    await sl.get<EVMWalletProvider>().disconnect();
-
+    if (sl.isRegistered<EVMWalletProvider>()) {
+      await sl.get<EVMWalletProvider>().disconnect();
+    }
     if (state.walletFrom != null && state.walletFrom!.wallet == 'evmWallet') {
       var walletFrom = state.walletFrom;
 

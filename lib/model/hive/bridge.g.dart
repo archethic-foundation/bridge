@@ -23,13 +23,15 @@ class BridgeAdapter extends TypeAdapter<_$_Bridge> {
       tokenToBridgeAmount: fields[3] as double?,
       targetAddress: fields[4] as String?,
       timestampExec: fields[5] as int?,
+      htlcAEAddress: fields[6] as String?,
+      htlcEVMAddress: fields[7] as String?,
     );
   }
 
   @override
   void write(BinaryWriter writer, _$_Bridge obj) {
     writer
-      ..writeByte(6)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.blockchainChainIdFrom)
       ..writeByte(1)
@@ -41,7 +43,11 @@ class BridgeAdapter extends TypeAdapter<_$_Bridge> {
       ..writeByte(4)
       ..write(obj.targetAddress)
       ..writeByte(5)
-      ..write(obj.timestampExec);
+      ..write(obj.timestampExec)
+      ..writeByte(6)
+      ..write(obj.htlcAEAddress)
+      ..writeByte(7)
+      ..write(obj.htlcEVMAddress);
   }
 
   @override

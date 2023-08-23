@@ -60,27 +60,33 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
                               height: 45,
                               child: Align(
                                 alignment: Alignment.centerLeft,
-                                child: bridge.blockchainFrom == null
-                                    ? Text(
-                                        AppLocalizations.of(context)!
-                                            .btn_selectBlockchain,
-                                        style: textTheme.titleMedium,
-                                      )
-                                    : Row(
-                                        children: [
-                                          SvgPicture.asset(
-                                            'assets/images/bc-logos/${bridge.blockchainFrom!.icon}',
-                                            width: 20,
+                                child: bridge.changeDirectionInProgress == true
+                                    ? const Text('')
+                                    : bridge.blockchainFrom == null
+                                        ? Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 5),
+                                            child: Text(
+                                              AppLocalizations.of(context)!
+                                                  .btn_selectBlockchain,
+                                              style: textTheme.titleMedium,
+                                            ),
+                                          )
+                                        : Row(
+                                            children: [
+                                              SvgPicture.asset(
+                                                'assets/images/bc-logos/${bridge.blockchainFrom!.icon}',
+                                                width: 20,
+                                              ),
+                                              const SizedBox(
+                                                width: 10,
+                                              ),
+                                              Text(
+                                                bridge.blockchainFrom!.name,
+                                                style: textTheme.titleMedium,
+                                              ),
+                                            ],
                                           ),
-                                          const SizedBox(
-                                            width: 10,
-                                          ),
-                                          Text(
-                                            bridge.blockchainFrom!.name,
-                                            style: textTheme.titleMedium,
-                                          ),
-                                        ],
-                                      ),
                               ),
                             ),
                             onTap: () async {

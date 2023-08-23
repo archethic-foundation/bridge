@@ -28,7 +28,7 @@ class BridgeButton extends ConsumerWidget {
     return AppButton(
       labelBtn: AppLocalizations.of(context)!.btn_bridge,
       icon: Iconsax.recovery_convert,
-      onPressed: () async {
+      onPressed: () {
         bridgeNotifier.setBridgeProcessStep(
           BridgeProcessStep.confirmation,
         );

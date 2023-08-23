@@ -1,4 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/main_screen_widget_displayed.dart';
+import 'package:aebridge/application/session/provider.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_form_sheet.dart';
 import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +46,16 @@ class WelcomeBridgeBtnState extends ConsumerState<WelcomeBridgeBtn> {
                   side: MaterialStateProperty.all(BorderSide.none),
                   overlayColor: MaterialStateProperty.all(Colors.transparent),
                 ),
-                onPressed: () {
+                onPressed: () async {
+                  final sessionNotifier =
+                      ref.read(SessionProviders.session.notifier);
+                  await sessionNotifier.cancelAllWalletsConnection();
+                  ref
+                      .read(
+                        MainScreenWidgetDisplayedProviders
+                            .mainScreenWidgetDisplayedProvider.notifier,
+                      )
+                      .setWidget(const BridgeFormSheet());
                   context.go('/main');
                 },
                 child: Container(

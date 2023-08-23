@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 class ThemeBase {
   static String mainFont = 'Lato';
-  static String adddressFont = 'Roboto';
+  static String addressFont = 'Roboto';
 
   static Color primaryColor = const Color(0xFF4027A2);
   static Color backgroundColor = const Color(0xFF131313);

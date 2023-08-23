@@ -5,7 +5,7 @@
             "chainId": -1,
             "env": "1-mainnet",
             "icon": "Archethic.svg",
-            "urlExplorer": "https://mainnet.archethic.net/explorer",
+            "urlExplorer": "https://mainnet.archethic.net/explorer/transaction/",
             "isArchethic": true
         },
         {
@@ -13,7 +13,7 @@
             "chainId": -2,
             "env": "2-testnet",
             "icon": "Archethic.svg",
-            "urlExplorer": "https://testnet.archethic.net/explorer",
+            "urlExplorer": "https://testnet.archethic.net/explorer/transaction/",
             "isArchethic": true
         },
         {
@@ -21,7 +21,7 @@
             "chainId": -3,
             "env": "3-devnet",
             "icon": "Archethic.svg",
-            "urlExplorer": "https://localhost:4000/explorer",
+            "urlExplorer": "http://localhost:4000/explorer/transaction/",
             "isArchethic": true
         },
         {
