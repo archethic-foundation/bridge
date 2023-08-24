@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'dart:developer';
+import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:archethic_wallet_client/archethic_wallet_client.dart';
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
+import 'package:flutter/material.dart';
 
 mixin TransactionBridgeMixin {
   Future<double> calculateFees(Transaction transaction) async {
@@ -117,19 +119,23 @@ mixin TransactionBridgeMixin {
         transactions.map((Transaction x) => x.toJson()),
       ),
     };
-    log(
-      payload.toString(),
-    );
 
     final result =
-        await sl.get<ArchethicDAppClient>().signTransactions(payload);
+        await sl.get<awc.ArchethicDAppClient>().signTransactions(payload);
     result.when(
       failure: (failure) {
         log(
           'Signature failed',
           error: failure,
         );
-        throw failure;
+        debugPrint('signTx: $failure');
+        if (failure.code == 4001) {
+          throw const Failure.userRejected();
+        }
+        throw Failure.other(
+          cause: failure.cause,
+          stack: failure.stack.toString(),
+        );
       },
       success: (result) {
         for (var i = 0; i < transactions.length; i++) {
@@ -150,7 +156,7 @@ mixin TransactionBridgeMixin {
 
   Future<String> getCurrentAccount() async {
     var accountName = '';
-    final result = await sl.get<ArchethicDAppClient>().getCurrentAccount();
+    final result = await sl.get<awc.ArchethicDAppClient>().getCurrentAccount();
 
     result.when(
       failure: (failure) {

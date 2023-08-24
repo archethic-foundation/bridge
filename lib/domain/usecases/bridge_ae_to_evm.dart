@@ -19,7 +19,11 @@ class BridgeArchethicToEVMUseCase
     // 1) Deploy Archethic HTLC
     late String htlcAEAddress;
     if (recoveryStep <= 1) {
-      htlcAEAddress = await deployAESignedHTLC(ref);
+      try {
+        htlcAEAddress = await deployAESignedHTLC(ref);
+      } catch (e) {
+        return;
+      }
       var blockchainFrom =
           ref.read(BridgeFormProvider.bridgeForm).blockchainFrom;
       blockchainFrom = blockchainFrom!.copyWith(htlcAddress: htlcAEAddress);
@@ -27,34 +31,64 @@ class BridgeArchethicToEVMUseCase
     }
 
     // 2) Provision Archethic HTLC
-    if (recoveryStep <= 2) await provisionAEHTLC(ref, htlcAEAddress);
+    if (recoveryStep <= 2) {
+      try {
+        await provisionAEHTLC(ref, htlcAEAddress);
+      } catch (e) {
+        return;
+      }
+    }
 
     // 3) Get Secret Hash from API
     late SecretHash secretHash;
     if (recoveryStep <= 3) {
-      secretHash = await getAESecretHash(ref, htlcAEAddress);
+      try {
+        secretHash = await getAESecretHash(ref, htlcAEAddress);
+      } catch (e) {
+        return;
+      }
     }
 
     // 4) Deploy EVM HTLC + Provision
     late String htlcEVMAddress;
     if (recoveryStep <= 4) {
-      htlcEVMAddress = await deployEVMHTCLAndProvision(ref, secretHash);
+      try {
+        htlcEVMAddress = await deployEVMHTCLAndProvision(ref, secretHash);
+      } catch (e) {
+        return;
+      }
       var blockchainTo = ref.read(BridgeFormProvider.bridgeForm).blockchainTo;
       blockchainTo = blockchainTo!.copyWith(htlcAddress: htlcEVMAddress);
       await bridgeNotifier.setBlockchainTo(blockchainTo);
     }
 
     // 5) Request Secret from Archethic LP
-    if (recoveryStep <= 5) await requestAESecretFromLP(ref, htlcAEAddress);
+    if (recoveryStep <= 5) {
+      try {
+        await requestAESecretFromLP(ref, htlcAEAddress);
+      } catch (e) {
+        return;
+      }
+    }
 
     // 6) Reveal Secret
     late Secret secret;
     if (recoveryStep <= 6) {
-      secret = await revealAESecret(ref, htlcAEAddress);
+      try {
+        secret = await revealAESecret(ref, htlcAEAddress);
+      } catch (e) {
+        return;
+      }
     }
 
     // 7) Reveal Secret EVM (Withdraw)
-    if (recoveryStep <= 7) await withdrawAE(ref, htlcEVMAddress, secret);
+    if (recoveryStep <= 7) {
+      try {
+        await withdrawAE(ref, htlcEVMAddress, secret);
+      } catch (e) {
+        return;
+      }
+    }
   }
 
   String getStepLabel(

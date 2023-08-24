@@ -1,6 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/balance.dart';
+import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/session/provider.dart';
+import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/repositories/datasources/bridge_local_datasource.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_to_evm.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_to_ae.dart';
@@ -47,7 +49,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     BridgeBlockchain blockchainFrom,
   ) async {
     final sessionNotifier = ref.read(SessionProviders.session.notifier);
-    state = state.copyWith(errorText: '');
+    state = state.copyWith(failure: null);
     await storeBridge();
     try {
       if (blockchainFrom.isArchethic) {
@@ -56,12 +58,21 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       } else {
         debugPrint('connect to EVM Wallet');
         await sessionNotifier.connectToEVMWallet(blockchainFrom, true);
+
+        final blockchainTo = await ref.read(
+          BridgeBlockchainsProviders.getArchethicBlockchainFromEVM(
+            blockchainFrom,
+          ).future,
+        );
+        if (blockchainTo != null) {
+          await setBlockchainToWithConnection(blockchainTo);
+        }
       }
       state = state.copyWith(blockchainFrom: blockchainFrom);
       await storeBridge();
     } catch (e) {
-      setError(
-        e.toString().replaceFirst('Exception: ', ''),
+      setFailure(
+        e as Failure,
       );
     }
   }
@@ -77,7 +88,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     BridgeBlockchain blockchainTo,
   ) async {
     final sessionNotifier = ref.read(SessionProviders.session.notifier);
-    state = state.copyWith(errorText: '');
+    state = state.copyWith(failure: null);
     await storeBridge();
     try {
       if (blockchainTo.isArchethic) {
@@ -87,6 +98,14 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       } else {
         debugPrint('connect to EVM Wallet');
         await sessionNotifier.connectToEVMWallet(blockchainTo, false);
+
+        final blockchainFrom = await ref.read(
+          BridgeBlockchainsProviders.getArchethicBlockchainFromEVM(blockchainTo)
+              .future,
+        );
+        if (blockchainFrom != null) {
+          await setBlockchainFromWithConnection(blockchainFrom);
+        }
       }
 
       state = state.copyWith(blockchainTo: blockchainTo);
@@ -98,8 +117,8 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
         await storeBridge();
       }
     } catch (e) {
-      setError(
-        e.toString().replaceFirst('Exception: ', ''),
+      setFailure(
+        e as Failure,
       );
     }
   }
@@ -118,6 +137,8 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     await storeBridge();
     final session = ref.read(SessionProviders.session);
 
+    if (tokenToBridge == null) return;
+
     final balance = await ref.watch(
       BalanceProviders.getBalance(
         state.blockchainFrom!.isArchethic,
@@ -127,7 +148,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
         providerEndpoint: state.blockchainFrom!.providerEndpoint,
       ).future,
     );
-    setTokenToBridgeBalance(balance);
+    await setTokenToBridgeBalance(balance);
   }
 
   Future<void> setTokenToBridgeBalance(
@@ -157,12 +178,12 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     await storeBridge();
   }
 
-  Future<void> setError(
-    String errorText,
+  Future<void> setFailure(
+    Failure failure,
   ) async {
-    debugPrint(errorText);
+    debugPrint(failure.toString());
     state = state.copyWith(
-      errorText: errorText,
+      failure: failure,
     );
     await storeBridge();
   }
@@ -210,7 +231,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       blockchainTo: null,
       bridgeProcessStep: BridgeProcessStep.form,
       currentStep: 0,
-      errorText: '',
+      failure: null,
       isTransferInProgress: false,
       networkFees: 0,
       networkFeesFiat: 0,
@@ -254,40 +275,43 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
 
   Future<void> setTimestampExec(int timestampExec) async {
     state = state.copyWith(timestampExec: timestampExec);
-    await storeBridge();
   }
 
   Future<bool> control() async {
-    state = state.copyWith(
-      errorText: '',
-    );
+    state = state.copyWith(failure: null);
     await storeBridge();
 
     if (state.blockchainFrom == null && state.blockchainFrom!.name.isEmpty) {
       state = state.copyWith(
-        errorText: 'Please select the issuing blockchain.',
+        failure:
+            const Failure.other(cause: 'Please select the issuing blockchain.'),
       );
       await storeBridge();
       return false;
     }
     if (state.blockchainTo == null && state.blockchainTo!.name.isEmpty) {
       state = state.copyWith(
-        errorText: 'Please select the receiving blockchain.',
+        failure: const Failure.other(
+          cause: 'Please select the receiving blockchain.',
+        ),
       );
       await storeBridge();
       return false;
     }
     if (state.tokenToBridge == null && state.tokenToBridge!.name.isEmpty) {
       state = state.copyWith(
-        errorText: 'Please select the token to transfer.',
+        failure:
+            const Failure.other(cause: 'Please select the token to transfer.'),
       );
       await storeBridge();
       return false;
     }
     if (state.targetAddress.isEmpty) {
       state = state.copyWith(
-        errorText:
-            'Please enter your receiving address on the target blockchain.',
+        failure: const Failure.other(
+          cause:
+              'Please enter your receiving address on the target blockchain.',
+        ),
       );
       await storeBridge();
       return false;
@@ -295,7 +319,9 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     if (state.blockchainTo!.isArchethic) {
       if (archethic.Address(address: state.targetAddress).isValid() == false) {
         state = state.copyWith(
-          errorText: 'Please enter a valid Archethic address.',
+          failure: const Failure.other(
+            cause: 'Please enter a valid Archethic address.',
+          ),
         );
         await storeBridge();
         return false;
@@ -307,7 +333,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
         );
       } catch (e) {
         state = state.copyWith(
-          errorText: 'Please enter a valid address.',
+          failure: const Failure.other(cause: 'Please enter a valid address.'),
         );
         await storeBridge();
         return false;
@@ -316,7 +342,9 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
 
     if (state.tokenToBridgeAmount.isNaN || state.tokenToBridgeAmount <= 0) {
       state = state.copyWith(
-        errorText: 'Please enter the amount of tokens to transfer.',
+        failure: const Failure.other(
+          cause: 'Please enter the amount of tokens to transfer.',
+        ),
       );
       await storeBridge();
       return false;
@@ -326,8 +354,9 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
 
     if (state.tokenToBridgeBalance < state.tokenToBridgeAmount) {
       state = state.copyWith(
-        errorText:
-            'Your amount exceeds your balance. Please adjust your amount.',
+        failure: const Failure.other(
+          cause: 'Your amount exceeds your balance. Please adjust your amount.',
+        ),
       );
       await storeBridge();
       return false;
@@ -341,21 +370,19 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       return;
     }
 
+    await setTimestampExec(DateTime.now().millisecondsSinceEpoch);
+
     final hiveBridgeDatasource = await HiveBridgeDatasource.getInstance();
-    ref
-        .read(BridgeFormProvider.bridgeForm.notifier)
-        .setTimestampExec(DateTime.now().millisecondsSinceEpoch);
+    await hiveBridgeDatasource.addBridge(bridge: state.toJson());
 
-    hiveBridgeDatasource.addBridge(bridge: state.toJson());
-
-    setTransferInProgress(true);
+    await setTransferInProgress(true);
     if (state.blockchainFrom!.isArchethic) {
       await BridgeArchethicToEVMUseCase().run(ref);
     } else {
       await BridgeEVMToArchethicUseCase().run(ref);
     }
     debugPrint('Bridge process finished');
-    setTransferInProgress(false);
+    await setTransferInProgress(false);
   }
 }
 

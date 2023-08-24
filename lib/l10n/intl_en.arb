@@ -71,6 +71,8 @@
   "bridgeInProgressConfirmAEWallet": "Please, confirm a transaction in your Archethic Wallet",
   "localHistoryToLbl": "to",
   "localHistoryContractLbl": "Contract",
+  "localHistoryStatus": "Status",
+  "localHistoryCause": "Cause",
   "evmBridgeProcessStep0": "Process not started",
   "evmBridgeProcessStep1": "Deploy contract on EVM Blockchain",
   "evmBridgeProcessStep2": "Provision EVM contract",
@@ -85,5 +87,6 @@
   "aeBridgeProcessStep4": "Deploy contract on EVM Blockchain and provision",
   "aeBridgeProcessStep5": "Reveal secret from Archethic Pool",
   "aeBridgeProcessStep6": "Reveal secret to EVM Contract",
-  "aeBridgeProcessStep7": "Withdraw"
+  "aeBridgeProcessStep7": "Withdraw",
+  "failureUserRejected": "The request has been declined."
 }

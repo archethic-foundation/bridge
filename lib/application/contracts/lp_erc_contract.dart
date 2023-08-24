@@ -55,11 +55,15 @@ class LPERCContract {
 
       debugPrint('contractLPERC mintHTLC ok');
 
-      await web3Client.sendTransaction(
-        evmWalletProvider.credentials!,
-        transactionMintHTLC,
-        chainId: chainId,
-      );
+      try {
+        await web3Client.sendTransaction(
+          evmWalletProvider.credentials!,
+          transactionMintHTLC,
+          chainId: chainId,
+        );
+      } catch (e) {
+        throw const Failure.userRejected();
+      }
 
       debugPrint('HTLC Contract deployed');
 
@@ -111,14 +115,16 @@ class LPERCContract {
             EtherAmount.fromUnitAndValue(EtherUnit.ether, amount).getInWei,
           ],
         );
-
-        await web3Client.sendTransaction(
-          evmWalletProvider.credentials!,
-          transactionTransfer,
-          chainId: chainId,
-        );
-
-        debugPrint('Token provisionned');
+        try {
+          await web3Client.sendTransaction(
+            evmWalletProvider.credentials!,
+            transactionTransfer,
+            chainId: chainId,
+          );
+          debugPrint('Token provisionned');
+        } catch (e) {
+          throw const Failure.userRejected();
+        }
       },
     );
   }
@@ -168,11 +174,15 @@ class LPERCContract {
 
         debugPrint('contractLPERC provisionHTLC ok');
 
-        await web3Client.sendTransaction(
-          evmWalletProvider.credentials!,
-          transactionProvisionHTLC,
-          chainId: chainId,
-        );
+        try {
+          await web3Client.sendTransaction(
+            evmWalletProvider.credentials!,
+            transactionProvisionHTLC,
+            chainId: chainId,
+          );
+        } catch (e) {
+          throw const Failure.userRejected();
+        }
 
         debugPrint('HTLC Contract deployed');
         debugPrint('secretHash : ${hexToBytes(secretHash.secretHash!)}');
@@ -226,15 +236,17 @@ class LPERCContract {
             hexToBytes(secret),
           ],
         );
-
-        final withdrawTx = await web3Client.sendTransaction(
-          evmWalletProvider.credentials!,
-          transactionWithdraw,
-          chainId: chainId,
-        );
-
-        debugPrint('withdrawTx: $withdrawTx');
-        return withdrawTx;
+        try {
+          final withdrawTx = await web3Client.sendTransaction(
+            evmWalletProvider.credentials!,
+            transactionWithdraw,
+            chainId: chainId,
+          );
+          debugPrint('withdrawTx: $withdrawTx');
+          return withdrawTx;
+        } catch (e) {
+          throw const Failure.userRejected();
+        }
       },
     );
   }
@@ -274,14 +286,18 @@ class LPERCContract {
           ],
         );
 
-        final withdrawTx = await web3Client.sendTransaction(
-          evmWalletProvider.credentials!,
-          transactionWithdraw,
-          chainId: chainId,
-        );
+        try {
+          final withdrawTx = await web3Client.sendTransaction(
+            evmWalletProvider.credentials!,
+            transactionWithdraw,
+            chainId: chainId,
+          );
 
-        debugPrint('signedWithdrawTx: $withdrawTx');
-        return withdrawTx;
+          debugPrint('signedWithdrawTx: $withdrawTx');
+          return withdrawTx;
+        } catch (e) {
+          throw const Failure.userRejected();
+        }
       },
     );
   }

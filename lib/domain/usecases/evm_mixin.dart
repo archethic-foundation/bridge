@@ -6,7 +6,6 @@ import 'dart:typed_data';
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/application/contracts/lp_erc_contract.dart';
 import 'package:aebridge/application/session/provider.dart';
-import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/model/secret.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
@@ -68,14 +67,14 @@ mixin EVMBridgeProcessMixin {
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
     late String htlcAddress;
-    resultDeployAndProvisionSignedHTLC.map(
+    await resultDeployAndProvisionSignedHTLC.map(
       success: (success) {
         htlcAddress = success;
       },
       failure: (failure) async {
-        await bridgeNotifier.setError(Failure.getErrorMessage(failure));
+        await bridgeNotifier.setFailure(failure);
         await bridgeNotifier.setTransferInProgress(false);
-        return;
+        throw failure;
       },
     );
     return htlcAddress;
@@ -112,14 +111,14 @@ mixin EVMBridgeProcessMixin {
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
     late String htlcAddress;
-    resultDeployChargeableHTLCEVM.map(
+    await resultDeployChargeableHTLCEVM.map(
       success: (success) {
         htlcAddress = success;
       },
       failure: (failure) async {
-        await bridgeNotifier.setError(Failure.getErrorMessage(failure));
+        await bridgeNotifier.setFailure(failure);
         await bridgeNotifier.setTransferInProgress(false);
-        return;
+        throw failure;
       },
     );
     return htlcAddress;
@@ -141,12 +140,12 @@ mixin EVMBridgeProcessMixin {
       chainId: bridge.blockchainFrom!.chainId,
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
-    resultProvisionChargeableHTLC.map(
+    await resultProvisionChargeableHTLC.map(
       success: (success) {},
       failure: (failure) async {
-        await bridgeNotifier.setError(Failure.getErrorMessage(failure));
+        await bridgeNotifier.setFailure(failure);
         await bridgeNotifier.setTransferInProgress(false);
-        return;
+        throw failure;
       },
     );
   }
@@ -170,14 +169,14 @@ mixin EVMBridgeProcessMixin {
       chainId: bridge.blockchainFrom!.chainId,
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
-    resultWithdraw.map(
+    await resultWithdraw.map(
       success: (success) {
         return;
       },
       failure: (failure) async {
-        await bridgeNotifier.setError(Failure.getErrorMessage(failure));
+        await bridgeNotifier.setFailure(failure);
         await bridgeNotifier.setTransferInProgress(false);
-        return;
+        throw failure;
       },
     );
   }
@@ -202,14 +201,14 @@ mixin EVMBridgeProcessMixin {
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
     await bridgeNotifier.setTransferInProgress(false);
-    resultRevealSecretToChargeableHTLC.map(
+    await resultRevealSecretToChargeableHTLC.map(
       success: (success) async {
         await bridgeNotifier.setCurrentStep(6);
         return;
       },
       failure: (failure) async {
-        await bridgeNotifier.setError(Failure.getErrorMessage(failure));
-        return;
+        await bridgeNotifier.setFailure(failure);
+        throw failure;
       },
     );
   }

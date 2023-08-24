@@ -1,0 +1,24 @@
+/// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/domain/models/failures.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
+
+class FailureMessage {
+  const FailureMessage({
+    required this.context,
+    this.failure,
+  });
+
+  final Failure? failure;
+  final BuildContext context;
+
+  String getMessage() {
+    if (failure == null) return '';
+
+    if (failure is UserRejected) {
+      return AppLocalizations.of(context)!.failureUserRejected;
+    }
+
+    return failure.toString();
+  }
+}

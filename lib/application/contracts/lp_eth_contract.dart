@@ -25,29 +25,29 @@ class LPETHContract {
     final web3Client = Web3Client(providerEndpoint!, Client());
     late String htlcContractAddress;
 
+    final abiLPETHStringJson = jsonDecode(
+      await rootBundle.loadString('truffle/build/contracts/IPool.json'),
+    );
+
+    final contractLPETH = DeployedContract(
+      ContractAbi.fromJson(
+        jsonEncode(abiLPETHStringJson['abi']),
+        abiLPETHStringJson['contractName'] as String,
+      ),
+      EthereumAddress.fromHex(poolAddress),
+    );
+
+    final transactionMintHTLC = Transaction.callContract(
+      contract: contractLPETH,
+      function: contractLPETH.function('mintHTLC'),
+      parameters: [
+        hexToBytes(hash),
+        EtherAmount.fromUnitAndValue(EtherUnit.ether, amount).getInWei,
+        BigInt.from(lockTime),
+      ],
+    );
+
     try {
-      final abiLPETHStringJson = jsonDecode(
-        await rootBundle.loadString('truffle/build/contracts/IPool.json'),
-      );
-
-      final contractLPETH = DeployedContract(
-        ContractAbi.fromJson(
-          jsonEncode(abiLPETHStringJson['abi']),
-          abiLPETHStringJson['contractName'] as String,
-        ),
-        EthereumAddress.fromHex(poolAddress),
-      );
-
-      final transactionMintHTLC = Transaction.callContract(
-        contract: contractLPETH,
-        function: contractLPETH.function('mintHTLC'),
-        parameters: [
-          hexToBytes(hash),
-          EtherAmount.fromUnitAndValue(EtherUnit.ether, amount).getInWei,
-          BigInt.from(lockTime),
-        ],
-      );
-
       await web3Client.sendTransaction(
         evmWalletProvider.credentials!,
         transactionMintHTLC,
@@ -55,20 +55,24 @@ class LPETHContract {
       );
 
       debugPrint('HTLC Contract deployed');
+    } catch (e) {
+      throw Exception('You denied transaction signature');
+    }
 
-      // Get HTLC address
-      final transactionMintedSwapsHashes = await web3Client.call(
-        contract: contractLPETH,
-        function: contractLPETH.function('mintedSwaps'),
-        params: [
-          hexToBytes(hash),
-        ],
-      );
+    // Get HTLC address
+    final transactionMintedSwapsHashes = await web3Client.call(
+      contract: contractLPETH,
+      function: contractLPETH.function('mintedSwaps'),
+      params: [
+        hexToBytes(hash),
+      ],
+    );
 
-      htlcContractAddress = transactionMintedSwapsHashes[0].hex;
-      debugPrint('HTLC address: $htlcContractAddress');
+    htlcContractAddress = transactionMintedSwapsHashes[0].hex;
+    debugPrint('HTLC address: $htlcContractAddress');
 
-      // Provisionning HTLC Contract
+    // Provisionning HTLC Contract
+    try {
       await web3Client.sendTransaction(
         evmWalletProvider.credentials!,
         Transaction(
@@ -82,8 +86,7 @@ class LPETHContract {
       debugPrint('HTLC contract provisionned');
       return htlcContractAddress;
     } catch (e) {
-      debugPrint('Error: $e');
-      return null;
+      throw Exception('You denied transaction signature');
     }
   }
 
@@ -96,30 +99,30 @@ class LPETHContract {
 
     final web3Client = Web3Client(providerEndpoint!, Client());
 
+    final abiHTLCETHStringJson = jsonDecode(
+      await rootBundle.loadString('truffle/build/contracts/IHTLC.json'),
+    );
+
+    debugPrint('withdraw - htlcContractAddress: $htlcContractAddress');
+    debugPrint('withdraw - secret: $secret');
+
+    final contractHTLCETH = DeployedContract(
+      ContractAbi.fromJson(
+        jsonEncode(abiHTLCETHStringJson['abi']),
+        abiHTLCETHStringJson['contractName'] as String,
+      ),
+      EthereumAddress.fromHex(htlcContractAddress),
+    );
+
+    final transactionMintHTLC = Transaction.callContract(
+      contract: contractHTLCETH,
+      function: contractHTLCETH.function('withdraw'),
+      parameters: [
+        hexToBytes(secret),
+      ],
+    );
+
     try {
-      final abiHTLCETHStringJson = jsonDecode(
-        await rootBundle.loadString('truffle/build/contracts/IHTLC.json'),
-      );
-
-      debugPrint('withdraw - htlcContractAddress: $htlcContractAddress');
-      debugPrint('withdraw - secret: $secret');
-
-      final contractHTLCETH = DeployedContract(
-        ContractAbi.fromJson(
-          jsonEncode(abiHTLCETHStringJson['abi']),
-          abiHTLCETHStringJson['contractName'] as String,
-        ),
-        EthereumAddress.fromHex(htlcContractAddress),
-      );
-
-      final transactionMintHTLC = Transaction.callContract(
-        contract: contractHTLCETH,
-        function: contractHTLCETH.function('withdraw'),
-        parameters: [
-          hexToBytes(secret),
-        ],
-      );
-
       final withdrawTx = await web3Client.sendTransaction(
         evmWalletProvider.credentials!,
         transactionMintHTLC,
@@ -127,9 +130,8 @@ class LPETHContract {
       );
 
       debugPrint('withdrawTx: $withdrawTx');
-    } catch (e, trace) {
-      debugPrint('Error: $e');
-      debugPrint('Trace: $trace');
+    } catch (e) {
+      throw Exception('You denied transaction signature');
     }
   }
 }

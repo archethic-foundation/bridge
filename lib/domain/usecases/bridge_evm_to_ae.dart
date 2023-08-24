@@ -27,7 +27,11 @@ class BridgeEVMToArchethicUseCase
 
         // 1) Deploy EVM HTLC
         if (recoveryStep <= 1) {
-          htlcEVMAddress = await deployEVMHTLC(ref, secretHash);
+          try {
+            htlcEVMAddress = await deployEVMHTLC(ref, secretHash);
+          } catch (e) {
+            return;
+          }
           var blockchainFrom =
               ref.read(BridgeFormProvider.bridgeForm).blockchainFrom;
           blockchainFrom =
@@ -36,11 +40,21 @@ class BridgeEVMToArchethicUseCase
         }
 
         // 2) Provision HTLC
-        if (recoveryStep <= 2) await provisionEVMHTLC(ref, htlcEVMAddress!);
+        if (recoveryStep <= 2) {
+          try {
+            await provisionEVMHTLC(ref, htlcEVMAddress!);
+          } catch (e) {
+            return;
+          }
+        }
 
         // 3) Deploy Archethic HTLC
         if (recoveryStep <= 3) {
-          htlcAEAddress = await deployAEChargeableHTLC(ref, secretHash);
+          try {
+            htlcAEAddress = await deployAEChargeableHTLC(ref, secretHash);
+          } catch (e) {
+            return;
+          }
           var blockchainTo =
               ref.read(BridgeFormProvider.bridgeForm).blockchainTo;
           blockchainTo = blockchainTo!.copyWith(htlcAddress: htlcAEAddress);
@@ -48,11 +62,20 @@ class BridgeEVMToArchethicUseCase
         }
 
         // 4) Withwdraw
-        if (recoveryStep <= 4) await withdrawEVM(ref, htlcEVMAddress!, secret);
-
+        if (recoveryStep <= 4) {
+          try {
+            await withdrawEVM(ref, htlcEVMAddress!, secret);
+          } catch (e) {
+            return;
+          }
+        }
         // 5) Reveal secret to Archethic HTLC
         if (recoveryStep <= 5) {
-          await revealEVMSecret(ref, htlcAEAddress!, secret);
+          try {
+            await revealEVMSecret(ref, htlcAEAddress!, secret);
+          } catch (e) {
+            return;
+          }
         }
 
         break;

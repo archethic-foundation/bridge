@@ -2,6 +2,7 @@
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_circular_step_progress_indicator.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_close_btn.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_contracts.dart';
+import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_error.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_infos.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_wallet_confirm.dart';
 import 'package:aebridge/ui/views/themes/theme_base.dart';
@@ -24,7 +25,7 @@ class BridgeInProgressPopup {
                 body: AlertDialog(
                   backgroundColor: ThemeBase.backgroundPopupColor,
                   content: Container(
-                    height: 400,
+                    height: 450,
                     width: ThemeBase.sizeBoxComponentWidth,
                     color: Colors.transparent,
                     padding: const EdgeInsets.only(
@@ -38,6 +39,7 @@ class BridgeInProgressPopup {
                       children: <Widget>[
                         BridgeInProgressInfos(),
                         BridgeInProgressCircularStepProgressIndicator(),
+                        BridgeInProgressError(),
                         BridgeInProgressWalletConfirm(),
                         BridgeInProgressContracts(),
                         BridgeInProgressCloseBtn(),

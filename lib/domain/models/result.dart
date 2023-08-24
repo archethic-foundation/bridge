@@ -127,7 +127,7 @@ abstract class Result<ValueT, FailureT extends Exception> {
       return Result.failure(
         Failure.other(
           cause: e,
-          stack: stack,
+          stack: stack.toString(),
         ),
       );
     }

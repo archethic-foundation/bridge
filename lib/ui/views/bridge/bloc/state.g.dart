@@ -30,7 +30,8 @@ _$_BridgeFormState _$$_BridgeFormStateFromJson(Map<String, dynamic> json) =>
       networkFeesFiat: (json['networkFeesFiat'] as num?)?.toDouble() ?? 0.0,
       tokenToBridgeBalance:
           (json['tokenToBridgeBalance'] as num?)?.toDouble() ?? 0,
-      errorText: json['errorText'] as String? ?? '',
+      failure: _$JsonConverterFromJson<Map<String, dynamic>, Failure>(
+          json['failure'], const FailureJsonConverter().fromJson),
       isTransferInProgress: json['isTransferInProgress'] as bool? ?? false,
       waitForWalletConfirmation: $enumDecodeNullable(
           _$WaitForWalletConfirmationEnumMap,
@@ -61,7 +62,8 @@ Map<String, dynamic> _$$_BridgeFormStateToJson(_$_BridgeFormState instance) =>
       'networkFees': instance.networkFees,
       'networkFeesFiat': instance.networkFeesFiat,
       'tokenToBridgeBalance': instance.tokenToBridgeBalance,
-      'errorText': instance.errorText,
+      'failure': _$JsonConverterToJson<Map<String, dynamic>, Failure>(
+          instance.failure, const FailureJsonConverter().toJson),
       'isTransferInProgress': instance.isTransferInProgress,
       'waitForWalletConfirmation': _$WaitForWalletConfirmationEnumMap[
           instance.waitForWalletConfirmation],

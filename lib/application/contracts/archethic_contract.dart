@@ -38,7 +38,7 @@ class ArchethicContract with TransactionBridgeMixin {
             content = success.$2;
           },
           failure: (failure) {
-            throw Exception(failure);
+            throw failure;
           },
         );
 
@@ -50,7 +50,7 @@ class ArchethicContract with TransactionBridgeMixin {
             debugPrint('deploySignedHTLC - htlcAddress: $htlcAddress');
           },
           failure: (failure) {
-            throw Exception(failure);
+            throw failure;
           },
         );
         return htlcAddress;
@@ -109,6 +109,7 @@ class ArchethicContract with TransactionBridgeMixin {
           tokenAddress,
           secretHash,
         );
+
         late String htlcAddress;
         await result.map(
           success: (success) async {
@@ -117,15 +118,18 @@ class ArchethicContract with TransactionBridgeMixin {
             resultDeployHTLC.map(
               success: (success) {
                 htlcAddress = success;
-                debugPrint('deployChargeableHTLC - htlcAddress: $htlcAddress');
+                debugPrint(
+                  'deployChargeableHTLC - htlcAddress: $htlcAddress',
+                );
               },
               failure: (failure) {
-                throw Exception(failure);
+                debugPrint('deployChargeableHTLC - $failure');
+                throw failure;
               },
             );
           },
           failure: (failure) {
-            throw Exception(failure);
+            throw failure;
           },
         );
         return htlcAddress;
@@ -169,6 +173,7 @@ class ArchethicContract with TransactionBridgeMixin {
                 .addUCOTransfer(htlcGenesisAddress, toBigInt(6));
 
         final currentNameAccount = await getCurrentAccount();
+
         transactionTransfer = (await signTx(
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
@@ -232,7 +237,7 @@ class ArchethicContract with TransactionBridgeMixin {
             code = success;
           },
           failure: (failure) {
-            throw Exception(failure);
+            throw failure;
           },
         );
 
@@ -273,7 +278,7 @@ class ArchethicContract with TransactionBridgeMixin {
             code = success;
           },
           failure: (failure) {
-            throw Exception(failure);
+            throw failure;
           },
         );
 

@@ -6,7 +6,6 @@ import 'dart:typed_data';
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/application/contracts/lp_erc_contract.dart';
 import 'package:aebridge/application/session/provider.dart';
-import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/model/secret.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
@@ -66,15 +65,15 @@ mixin ArchethicBridgeProcessMixin {
       bridge.tokenToBridge!.tokenAddress,
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
-    resultDeploySignedHTLC.map(
+    await resultDeploySignedHTLC.map(
       success: (success) {
         archethicHTLCAddress = success;
         debugPrint('htlc: $archethicHTLCAddress');
       },
       failure: (failure) async {
-        await bridgeNotifier.setError(Failure.getErrorMessage(failure));
+        await bridgeNotifier.setFailure(failure);
         await bridgeNotifier.setTransferInProgress(false);
-        return;
+        throw failure;
       },
     );
     return archethicHTLCAddress;
@@ -106,14 +105,14 @@ mixin ArchethicBridgeProcessMixin {
       ),
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
-    resultDeployChargeableHTLCAE.map(
+    await resultDeployChargeableHTLCAE.map(
       success: (success) {
         htlcAddress = success;
       },
       failure: (failure) async {
-        await bridgeNotifier.setError(Failure.getErrorMessage(failure));
+        await bridgeNotifier.setFailure(failure);
         await bridgeNotifier.setTransferInProgress(false);
-        return;
+        throw failure;
       },
     );
     return htlcAddress;
@@ -135,14 +134,14 @@ mixin ArchethicBridgeProcessMixin {
       bridge.tokenToBridgeAmount,
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
-    resultProvisionSignedHTLC.map(
+    await resultProvisionSignedHTLC.map(
       success: (success) {
         txAddress = success;
       },
       failure: (failure) async {
-        await bridgeNotifier.setError(Failure.getErrorMessage(failure));
+        await bridgeNotifier.setFailure(failure);
         await bridgeNotifier.setTransferInProgress(false);
-        return;
+        throw failure;
       },
     );
     return txAddress;
@@ -196,12 +195,12 @@ mixin ArchethicBridgeProcessMixin {
       bridge.tokenToBridge!.poolAddressFrom,
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
-    resultRequestSecretFromSignedHTLC.map(
+    await resultRequestSecretFromSignedHTLC.map(
       success: (success) {},
       failure: (failure) async {
-        await bridgeNotifier.setError(Failure.getErrorMessage(failure));
+        await bridgeNotifier.setFailure(failure);
         await bridgeNotifier.setTransferInProgress(false);
-        return;
+        throw failure;
       },
     );
   }
@@ -248,7 +247,7 @@ mixin ArchethicBridgeProcessMixin {
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
     late String txAddress;
-    resultSignedWithdraw.map(
+    await resultSignedWithdraw.map(
       success: (success) async {
         await bridgeNotifier.setCurrentStep(8);
         await bridgeNotifier.setWaitForWalletConfirmation(null);
@@ -256,9 +255,9 @@ mixin ArchethicBridgeProcessMixin {
         txAddress = success;
       },
       failure: (failure) async {
-        await bridgeNotifier.setError(Failure.getErrorMessage(failure));
+        await bridgeNotifier.setFailure(failure);
         await bridgeNotifier.setTransferInProgress(false);
-        return;
+        throw failure;
       },
     );
     return txAddress;

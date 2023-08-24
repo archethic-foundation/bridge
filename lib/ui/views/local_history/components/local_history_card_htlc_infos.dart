@@ -1,0 +1,52 @@
+/// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/ui/views/bridge/bloc/state.dart';
+import 'package:aebridge/ui/views/util/components/format_address_link_copy.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
+
+class LocalHistoryCardHTLCInfos extends StatelessWidget {
+  const LocalHistoryCardHTLCInfos({
+    required this.bridge,
+    super.key,
+  });
+  final BridgeFormState bridge;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        if (bridge.blockchainFrom != null &&
+            bridge.blockchainFrom!.htlcAddress != null &&
+            bridge.blockchainFrom!.htlcAddress!.isNotEmpty)
+          Row(
+            children: [
+              SelectableText(
+                '${bridge.blockchainFrom!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
+              ),
+              FormatAddressLinkCopy(
+                address: bridge.blockchainFrom!.htlcAddress!,
+                chainId: bridge.blockchainFrom!.chainId,
+                expanded: false,
+              ),
+            ],
+          ),
+        if (bridge.blockchainTo != null &&
+            bridge.blockchainTo!.htlcAddress != null &&
+            bridge.blockchainTo!.htlcAddress!.isNotEmpty)
+          Row(
+            children: [
+              SelectableText(
+                '${bridge.blockchainTo!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
+              ),
+              FormatAddressLinkCopy(
+                address: bridge.blockchainTo!.htlcAddress!,
+                chainId: bridge.blockchainTo!.chainId,
+                expanded: false,
+              ),
+            ],
+          ),
+      ],
+    );
+  }
+}

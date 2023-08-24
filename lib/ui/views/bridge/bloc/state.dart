@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/model/bridge_blockchain.dart';
 import 'package:aebridge/model/bridge_token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -23,7 +24,7 @@ class BridgeFormState with _$BridgeFormState {
     @Default(0.0) double networkFees,
     @Default(0.0) double networkFeesFiat,
     @Default(0) double tokenToBridgeBalance,
-    @Default('') String errorText,
+    @FailureJsonConverter() Failure? failure,
     @Default(false) bool isTransferInProgress,
     WaitForWalletConfirmation? waitForWalletConfirmation,
     @Default(0) int currentStep,
@@ -35,7 +36,7 @@ class BridgeFormState with _$BridgeFormState {
   factory BridgeFormState.fromJson(Map<String, dynamic> json) =>
       _$BridgeFormStateFromJson(json);
 
-  bool get isControlsOk => errorText == '';
+  bool get isControlsOk => failure == null;
 
   bool get canBridge => isControlsOk;
 }

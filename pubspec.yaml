@@ -96,6 +96,8 @@ dev_dependencies:
   freezed: ^2.4.0
   # Extension for Hive. Automatically generates TypeAdapters to store any class.
   hive_generator: ^2.0.0
+  # Defines the annotations used by json_serializable to create code for JSON serialization and deserialization.
+  json_annotation: ^4.8.1
   # Automatically generate code for converting to and from JSON by annotating Dart classes.
   json_serializable: ^6.7.1
   # A code generator for Riverpod. This both simplifies the syntax empowers it, such as allowing stateful hot-reload.

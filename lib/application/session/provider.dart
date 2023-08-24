@@ -203,7 +203,7 @@ class _SessionNotifier extends Notifier<Session> {
           final subscription =
               await archethicDAppClient.subscribeCurrentAccount();
 
-          subscription.when(
+          await subscription.when(
             success: (success) async {
               bridgeWallet = bridgeWallet.copyWith(
                 accountSub: success,

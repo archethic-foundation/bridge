@@ -5,8 +5,8 @@ import 'package:aebridge/ui/views/util/failure_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class BridgeErrorMessage extends ConsumerWidget {
-  const BridgeErrorMessage({
+class BridgeInProgressError extends ConsumerWidget {
+  const BridgeInProgressError({
     super.key,
   });
 
@@ -14,7 +14,9 @@ class BridgeErrorMessage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
     if (bridge.failure == null) {
-      return const SizedBox();
+      return const SizedBox(
+        height: 40,
+      );
     }
 
     return InfoBanner(
@@ -22,6 +24,7 @@ class BridgeErrorMessage extends ConsumerWidget {
         context: context,
         failure: bridge.failure,
       ).getMessage(),
+      width: MediaQuery.of(context).size.width * 0.9,
       error: true,
     );
   }

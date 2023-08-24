@@ -33,7 +33,8 @@ mixin _$BridgeFormState {
   double get networkFees => throw _privateConstructorUsedError;
   double get networkFeesFiat => throw _privateConstructorUsedError;
   double get tokenToBridgeBalance => throw _privateConstructorUsedError;
-  String get errorText => throw _privateConstructorUsedError;
+  @FailureJsonConverter()
+  Failure? get failure => throw _privateConstructorUsedError;
   bool get isTransferInProgress => throw _privateConstructorUsedError;
   WaitForWalletConfirmation? get waitForWalletConfirmation =>
       throw _privateConstructorUsedError;
@@ -64,7 +65,7 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       double networkFees,
       double networkFeesFiat,
       double tokenToBridgeBalance,
-      String errorText,
+      @FailureJsonConverter() Failure? failure,
       bool isTransferInProgress,
       WaitForWalletConfirmation? waitForWalletConfirmation,
       int currentStep,
@@ -74,6 +75,7 @@ abstract class $BridgeFormStateCopyWith<$Res> {
   $BridgeBlockchainCopyWith<$Res>? get blockchainFrom;
   $BridgeBlockchainCopyWith<$Res>? get blockchainTo;
   $BridgeTokenCopyWith<$Res>? get tokenToBridge;
+  $FailureCopyWith<$Res>? get failure;
 }
 
 /// @nodoc
@@ -99,7 +101,7 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? networkFees = null,
     Object? networkFeesFiat = null,
     Object? tokenToBridgeBalance = null,
-    Object? errorText = null,
+    Object? failure = freezed,
     Object? isTransferInProgress = null,
     Object? waitForWalletConfirmation = freezed,
     Object? currentStep = null,
@@ -147,10 +149,10 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
           ? _value.tokenToBridgeBalance
           : tokenToBridgeBalance // ignore: cast_nullable_to_non_nullable
               as double,
-      errorText: null == errorText
-          ? _value.errorText
-          : errorText // ignore: cast_nullable_to_non_nullable
-              as String,
+      failure: freezed == failure
+          ? _value.failure
+          : failure // ignore: cast_nullable_to_non_nullable
+              as Failure?,
       isTransferInProgress: null == isTransferInProgress
           ? _value.isTransferInProgress
           : isTransferInProgress // ignore: cast_nullable_to_non_nullable
@@ -209,6 +211,18 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
       return _then(_value.copyWith(tokenToBridge: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $FailureCopyWith<$Res>? get failure {
+    if (_value.failure == null) {
+      return null;
+    }
+
+    return $FailureCopyWith<$Res>(_value.failure!, (value) {
+      return _then(_value.copyWith(failure: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -230,7 +244,7 @@ abstract class _$$_BridgeFormStateCopyWith<$Res>
       double networkFees,
       double networkFeesFiat,
       double tokenToBridgeBalance,
-      String errorText,
+      @FailureJsonConverter() Failure? failure,
       bool isTransferInProgress,
       WaitForWalletConfirmation? waitForWalletConfirmation,
       int currentStep,
@@ -243,6 +257,8 @@ abstract class _$$_BridgeFormStateCopyWith<$Res>
   $BridgeBlockchainCopyWith<$Res>? get blockchainTo;
   @override
   $BridgeTokenCopyWith<$Res>? get tokenToBridge;
+  @override
+  $FailureCopyWith<$Res>? get failure;
 }
 
 /// @nodoc
@@ -266,7 +282,7 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
     Object? networkFees = null,
     Object? networkFeesFiat = null,
     Object? tokenToBridgeBalance = null,
-    Object? errorText = null,
+    Object? failure = freezed,
     Object? isTransferInProgress = null,
     Object? waitForWalletConfirmation = freezed,
     Object? currentStep = null,
@@ -314,10 +330,10 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
           ? _value.tokenToBridgeBalance
           : tokenToBridgeBalance // ignore: cast_nullable_to_non_nullable
               as double,
-      errorText: null == errorText
-          ? _value.errorText
-          : errorText // ignore: cast_nullable_to_non_nullable
-              as String,
+      failure: freezed == failure
+          ? _value.failure
+          : failure // ignore: cast_nullable_to_non_nullable
+              as Failure?,
       isTransferInProgress: null == isTransferInProgress
           ? _value.isTransferInProgress
           : isTransferInProgress // ignore: cast_nullable_to_non_nullable
@@ -356,7 +372,7 @@ class _$_BridgeFormState extends _BridgeFormState {
       this.networkFees = 0.0,
       this.networkFeesFiat = 0.0,
       this.tokenToBridgeBalance = 0,
-      this.errorText = '',
+      @FailureJsonConverter() this.failure,
       this.isTransferInProgress = false,
       this.waitForWalletConfirmation,
       this.currentStep = 0,
@@ -398,8 +414,8 @@ class _$_BridgeFormState extends _BridgeFormState {
   @JsonKey()
   final double tokenToBridgeBalance;
   @override
-  @JsonKey()
-  final String errorText;
+  @FailureJsonConverter()
+  final Failure? failure;
   @override
   @JsonKey()
   final bool isTransferInProgress;
@@ -416,7 +432,7 @@ class _$_BridgeFormState extends _BridgeFormState {
 
   @override
   String toString() {
-    return 'BridgeFormState(bridgeProcessStep: $bridgeProcessStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeAmountFiat: $tokenToBridgeAmountFiat, networkFees: $networkFees, networkFeesFiat: $networkFeesFiat, tokenToBridgeBalance: $tokenToBridgeBalance, errorText: $errorText, isTransferInProgress: $isTransferInProgress, waitForWalletConfirmation: $waitForWalletConfirmation, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec)';
+    return 'BridgeFormState(bridgeProcessStep: $bridgeProcessStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeAmountFiat: $tokenToBridgeAmountFiat, networkFees: $networkFees, networkFeesFiat: $networkFeesFiat, tokenToBridgeBalance: $tokenToBridgeBalance, failure: $failure, isTransferInProgress: $isTransferInProgress, waitForWalletConfirmation: $waitForWalletConfirmation, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec)';
   }
 
   @override
@@ -445,8 +461,7 @@ class _$_BridgeFormState extends _BridgeFormState {
                 other.networkFeesFiat == networkFeesFiat) &&
             (identical(other.tokenToBridgeBalance, tokenToBridgeBalance) ||
                 other.tokenToBridgeBalance == tokenToBridgeBalance) &&
-            (identical(other.errorText, errorText) ||
-                other.errorText == errorText) &&
+            (identical(other.failure, failure) || other.failure == failure) &&
             (identical(other.isTransferInProgress, isTransferInProgress) ||
                 other.isTransferInProgress == isTransferInProgress) &&
             (identical(other.waitForWalletConfirmation,
@@ -475,7 +490,7 @@ class _$_BridgeFormState extends _BridgeFormState {
       networkFees,
       networkFeesFiat,
       tokenToBridgeBalance,
-      errorText,
+      failure,
       isTransferInProgress,
       waitForWalletConfirmation,
       currentStep,
@@ -508,7 +523,7 @@ abstract class _BridgeFormState extends BridgeFormState {
       final double networkFees,
       final double networkFeesFiat,
       final double tokenToBridgeBalance,
-      final String errorText,
+      @FailureJsonConverter() final Failure? failure,
       final bool isTransferInProgress,
       final WaitForWalletConfirmation? waitForWalletConfirmation,
       final int currentStep,
@@ -543,7 +558,8 @@ abstract class _BridgeFormState extends BridgeFormState {
   @override
   double get tokenToBridgeBalance;
   @override
-  String get errorText;
+  @FailureJsonConverter()
+  Failure? get failure;
   @override
   bool get isTransferInProgress;
   @override

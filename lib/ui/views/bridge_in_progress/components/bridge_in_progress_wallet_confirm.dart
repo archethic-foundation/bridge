@@ -1,10 +1,10 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
+import 'package:aebridge/ui/views/util/components/info_banner.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class BridgeInProgressWalletConfirm extends ConsumerWidget {
   const BridgeInProgressWalletConfirm({
@@ -16,36 +16,26 @@ class BridgeInProgressWalletConfirm extends ConsumerWidget {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
     if (bridge.isTransferInProgress == false) {
       return const SizedBox(
-        height: 50,
+        height: 40,
       );
     }
 
-    return SizedBox(
-      height: 50,
-      child: Row(
-        children: [
-          if (bridge.waitForWalletConfirmation ==
-              WaitForWalletConfirmation.archethic)
-            Text(
-              AppLocalizations.of(context)!.bridgeInProgressConfirmAEWallet,
-            ),
-          if (bridge.waitForWalletConfirmation == WaitForWalletConfirmation.evm)
-            Text(
-              AppLocalizations.of(context)!.bridgeInProgressConfirmEVMWallet,
-            ),
-          if (bridge.waitForWalletConfirmation != null)
-            Padding(
-              padding: const EdgeInsets.only(
-                left: 3,
-                top: 10,
-              ),
-              child: LoadingAnimationWidget.prograssiveDots(
-                color: Theme.of(context).colorScheme.primary,
-                size: 12,
-              ),
-            ),
-        ],
-      ),
+    if (bridge.waitForWalletConfirmation ==
+        WaitForWalletConfirmation.archethic) {
+      return InfoBanner(
+        AppLocalizations.of(context)!.bridgeInProgressConfirmAEWallet,
+        width: MediaQuery.of(context).size.width * 0.9,
+      );
+    }
+    if (bridge.waitForWalletConfirmation == WaitForWalletConfirmation.evm) {
+      return InfoBanner(
+        AppLocalizations.of(context)!.bridgeInProgressConfirmEVMWallet,
+        width: MediaQuery.of(context).size.width * 0.9,
+      );
+    }
+
+    return const SizedBox(
+      height: 40,
     );
   }
 }

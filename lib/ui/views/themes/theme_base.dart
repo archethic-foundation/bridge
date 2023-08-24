@@ -12,9 +12,9 @@ class ThemeBase {
   static Color maxButtonColor = const Color(0xFF9816C5);
   static Color backgroundPopupColor = const Color(0xFF4027A2);
 
-  static Color statutOK = const Color.fromARGB(255, 39, 162, 94);
-  static Color statutKO = const Color.fromARGB(255, 162, 39, 39);
-  static Color statutInProgress = const Color(0xFFD55CFF);
+  static Color statusOK = const Color.fromARGB(255, 39, 162, 94);
+  static Color statusKO = const Color.fromARGB(255, 195, 138, 138);
+  static Color statusInProgress = const Color(0xFFD55CFF);
 
   static Gradient gradient = LinearGradient(
     colors: [
@@ -58,7 +58,7 @@ class ThemeBase {
     stops: const [0, 1],
   );
 
-  static Gradient gradientErrorBackground = LinearGradient(
+  static Gradient gradientInfoBannerBackground = LinearGradient(
     colors: [
       const Color(0xFF131313).withOpacity(1),
       const Color(0xFF131313).withOpacity(0.3),
@@ -68,7 +68,7 @@ class ThemeBase {
 
   static Gradient gradientCircularStepProgressIndicator = LinearGradient(
     colors: [
-      statutInProgress,
+      statusInProgress,
       const Color.fromARGB(255, 236, 205, 246),
     ],
     stops: const [0, 1],
@@ -77,7 +77,7 @@ class ThemeBase {
   static Gradient gradientCircularStepProgressIndicatorFinished =
       LinearGradient(
     colors: [
-      statutOK,
+      statusOK,
       const Color.fromARGB(255, 144, 195, 138),
     ],
     stops: const [0, 1],
@@ -85,8 +85,8 @@ class ThemeBase {
 
   static Gradient gradientCircularStepProgressIndicatorError = LinearGradient(
     colors: [
-      statutKO,
-      const Color.fromARGB(255, 195, 138, 138),
+      const Color.fromARGB(255, 162, 39, 39),
+      statusKO,
     ],
     stops: const [0, 1],
   );

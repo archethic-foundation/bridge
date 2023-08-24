@@ -14,6 +14,35 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+Failure _$FailureFromJson(Map<String, dynamic> json) {
+  switch (json['runtimeType']) {
+    case 'loggedOut':
+      return LoggedOut.fromJson(json);
+    case 'network':
+      return NetworkFailure.fromJson(json);
+    case 'quotaExceeded':
+      return QuotaExceededFailure.fromJson(json);
+    case 'serviceNotFound':
+      return ServiceNotFound.fromJson(json);
+    case 'serviceAlreadyExists':
+      return _ServiceAlreadyExists.fromJson(json);
+    case 'insufficientFunds':
+      return InsuffientFunds.fromJson(json);
+    case 'unauthorized':
+      return Inauthorized.fromJson(json);
+    case 'invalidValue':
+      return InvalidValue.fromJson(json);
+    case 'userRejected':
+      return UserRejected.fromJson(json);
+    case 'other':
+      return OtherFailure.fromJson(json);
+
+    default:
+      throw CheckedFromJsonException(json, 'runtimeType', 'Failure',
+          'Invalid union type "${json['runtimeType']}"!');
+  }
+}
+
 /// @nodoc
 mixin _$Failure {
   @optionalTypeArgs
@@ -26,7 +55,8 @@ mixin _$Failure {
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
-    required TResult Function(Object? cause, StackTrace? stack) other,
+    required TResult Function() userRejected,
+    required TResult Function(Object? cause, Object? stack) other,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -39,7 +69,8 @@ mixin _$Failure {
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
-    TResult? Function(Object? cause, StackTrace? stack)? other,
+    TResult? Function()? userRejected,
+    TResult? Function(Object? cause, Object? stack)? other,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -52,50 +83,55 @@ mixin _$Failure {
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
-    TResult Function(Object? cause, StackTrace? stack)? other,
+    TResult Function()? userRejected,
+    TResult Function(Object? cause, Object? stack)? other,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoggedOut value) loggedOut,
-    required TResult Function(_NetworkFailure value) network,
-    required TResult Function(_QuotaExceededFailure value) quotaExceeded,
-    required TResult Function(_ServiceNotFound value) serviceNotFound,
+    required TResult Function(LoggedOut value) loggedOut,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(QuotaExceededFailure value) quotaExceeded,
+    required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(_InsuffientFunds value) insufficientFunds,
-    required TResult Function(_Inauthorized value) unauthorized,
-    required TResult Function(_InvalidValue value) invalidValue,
+    required TResult Function(InsuffientFunds value) insufficientFunds,
+    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(UserRejected value) userRejected,
     required TResult Function(OtherFailure value) other,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoggedOut value)? loggedOut,
-    TResult? Function(_NetworkFailure value)? network,
-    TResult? Function(_QuotaExceededFailure value)? quotaExceeded,
-    TResult? Function(_ServiceNotFound value)? serviceNotFound,
+    TResult? Function(LoggedOut value)? loggedOut,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(_InsuffientFunds value)? insufficientFunds,
-    TResult? Function(_Inauthorized value)? unauthorized,
-    TResult? Function(_InvalidValue value)? invalidValue,
+    TResult? Function(InsuffientFunds value)? insufficientFunds,
+    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(UserRejected value)? userRejected,
     TResult? Function(OtherFailure value)? other,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoggedOut value)? loggedOut,
-    TResult Function(_NetworkFailure value)? network,
-    TResult Function(_QuotaExceededFailure value)? quotaExceeded,
-    TResult Function(_ServiceNotFound value)? serviceNotFound,
+    TResult Function(LoggedOut value)? loggedOut,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(_InsuffientFunds value)? insufficientFunds,
-    TResult Function(_Inauthorized value)? unauthorized,
-    TResult Function(_InvalidValue value)? invalidValue,
+    TResult Function(InsuffientFunds value)? insufficientFunds,
+    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(UserRejected value)? userRejected,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -116,25 +152,33 @@ class _$FailureCopyWithImpl<$Res, $Val extends Failure>
 }
 
 /// @nodoc
-abstract class _$$_LoggedOutCopyWith<$Res> {
-  factory _$$_LoggedOutCopyWith(
-          _$_LoggedOut value, $Res Function(_$_LoggedOut) then) =
-      __$$_LoggedOutCopyWithImpl<$Res>;
+abstract class _$$LoggedOutCopyWith<$Res> {
+  factory _$$LoggedOutCopyWith(
+          _$LoggedOut value, $Res Function(_$LoggedOut) then) =
+      __$$LoggedOutCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_LoggedOutCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$_LoggedOut>
-    implements _$$_LoggedOutCopyWith<$Res> {
-  __$$_LoggedOutCopyWithImpl(
-      _$_LoggedOut _value, $Res Function(_$_LoggedOut) _then)
+class __$$LoggedOutCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$LoggedOut>
+    implements _$$LoggedOutCopyWith<$Res> {
+  __$$LoggedOutCopyWithImpl(
+      _$LoggedOut _value, $Res Function(_$LoggedOut) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
+@JsonSerializable()
+class _$LoggedOut extends LoggedOut {
+  const _$LoggedOut({final String? $type})
+      : $type = $type ?? 'loggedOut',
+        super._();
 
-class _$_LoggedOut extends _LoggedOut {
-  const _$_LoggedOut() : super._();
+  factory _$LoggedOut.fromJson(Map<String, dynamic> json) =>
+      _$$LoggedOutFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -144,9 +188,10 @@ class _$_LoggedOut extends _LoggedOut {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_LoggedOut);
+        (other.runtimeType == runtimeType && other is _$LoggedOut);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -161,7 +206,8 @@ class _$_LoggedOut extends _LoggedOut {
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
-    required TResult Function(Object? cause, StackTrace? stack) other,
+    required TResult Function() userRejected,
+    required TResult Function(Object? cause, Object? stack) other,
   }) {
     return loggedOut();
   }
@@ -177,7 +223,8 @@ class _$_LoggedOut extends _LoggedOut {
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
-    TResult? Function(Object? cause, StackTrace? stack)? other,
+    TResult? Function()? userRejected,
+    TResult? Function(Object? cause, Object? stack)? other,
   }) {
     return loggedOut?.call();
   }
@@ -193,7 +240,8 @@ class _$_LoggedOut extends _LoggedOut {
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
-    TResult Function(Object? cause, StackTrace? stack)? other,
+    TResult Function()? userRejected,
+    TResult Function(Object? cause, Object? stack)? other,
     required TResult orElse(),
   }) {
     if (loggedOut != null) {
@@ -205,14 +253,15 @@ class _$_LoggedOut extends _LoggedOut {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoggedOut value) loggedOut,
-    required TResult Function(_NetworkFailure value) network,
-    required TResult Function(_QuotaExceededFailure value) quotaExceeded,
-    required TResult Function(_ServiceNotFound value) serviceNotFound,
+    required TResult Function(LoggedOut value) loggedOut,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(QuotaExceededFailure value) quotaExceeded,
+    required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(_InsuffientFunds value) insufficientFunds,
-    required TResult Function(_Inauthorized value) unauthorized,
-    required TResult Function(_InvalidValue value) invalidValue,
+    required TResult Function(InsuffientFunds value) insufficientFunds,
+    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(UserRejected value) userRejected,
     required TResult Function(OtherFailure value) other,
   }) {
     return loggedOut(this);
@@ -221,14 +270,15 @@ class _$_LoggedOut extends _LoggedOut {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoggedOut value)? loggedOut,
-    TResult? Function(_NetworkFailure value)? network,
-    TResult? Function(_QuotaExceededFailure value)? quotaExceeded,
-    TResult? Function(_ServiceNotFound value)? serviceNotFound,
+    TResult? Function(LoggedOut value)? loggedOut,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(_InsuffientFunds value)? insufficientFunds,
-    TResult? Function(_Inauthorized value)? unauthorized,
-    TResult? Function(_InvalidValue value)? invalidValue,
+    TResult? Function(InsuffientFunds value)? insufficientFunds,
+    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(UserRejected value)? userRejected,
     TResult? Function(OtherFailure value)? other,
   }) {
     return loggedOut?.call(this);
@@ -237,14 +287,15 @@ class _$_LoggedOut extends _LoggedOut {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoggedOut value)? loggedOut,
-    TResult Function(_NetworkFailure value)? network,
-    TResult Function(_QuotaExceededFailure value)? quotaExceeded,
-    TResult Function(_ServiceNotFound value)? serviceNotFound,
+    TResult Function(LoggedOut value)? loggedOut,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(_InsuffientFunds value)? insufficientFunds,
-    TResult Function(_Inauthorized value)? unauthorized,
-    TResult Function(_InvalidValue value)? invalidValue,
+    TResult Function(InsuffientFunds value)? insufficientFunds,
+    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(UserRejected value)? userRejected,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -253,33 +304,50 @@ class _$_LoggedOut extends _LoggedOut {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$LoggedOutToJson(
+      this,
+    );
+  }
 }
 
-abstract class _LoggedOut extends Failure {
-  const factory _LoggedOut() = _$_LoggedOut;
-  const _LoggedOut._() : super._();
+abstract class LoggedOut extends Failure {
+  const factory LoggedOut() = _$LoggedOut;
+  const LoggedOut._() : super._();
+
+  factory LoggedOut.fromJson(Map<String, dynamic> json) = _$LoggedOut.fromJson;
 }
 
 /// @nodoc
-abstract class _$$_NetworkFailureCopyWith<$Res> {
-  factory _$$_NetworkFailureCopyWith(
-          _$_NetworkFailure value, $Res Function(_$_NetworkFailure) then) =
-      __$$_NetworkFailureCopyWithImpl<$Res>;
+abstract class _$$NetworkFailureCopyWith<$Res> {
+  factory _$$NetworkFailureCopyWith(
+          _$NetworkFailure value, $Res Function(_$NetworkFailure) then) =
+      __$$NetworkFailureCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_NetworkFailureCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$_NetworkFailure>
-    implements _$$_NetworkFailureCopyWith<$Res> {
-  __$$_NetworkFailureCopyWithImpl(
-      _$_NetworkFailure _value, $Res Function(_$_NetworkFailure) _then)
+class __$$NetworkFailureCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$NetworkFailure>
+    implements _$$NetworkFailureCopyWith<$Res> {
+  __$$NetworkFailureCopyWithImpl(
+      _$NetworkFailure _value, $Res Function(_$NetworkFailure) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
+@JsonSerializable()
+class _$NetworkFailure extends NetworkFailure {
+  const _$NetworkFailure({final String? $type})
+      : $type = $type ?? 'network',
+        super._();
 
-class _$_NetworkFailure extends _NetworkFailure {
-  const _$_NetworkFailure() : super._();
+  factory _$NetworkFailure.fromJson(Map<String, dynamic> json) =>
+      _$$NetworkFailureFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -289,9 +357,10 @@ class _$_NetworkFailure extends _NetworkFailure {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_NetworkFailure);
+        (other.runtimeType == runtimeType && other is _$NetworkFailure);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -306,7 +375,8 @@ class _$_NetworkFailure extends _NetworkFailure {
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
-    required TResult Function(Object? cause, StackTrace? stack) other,
+    required TResult Function() userRejected,
+    required TResult Function(Object? cause, Object? stack) other,
   }) {
     return network();
   }
@@ -322,7 +392,8 @@ class _$_NetworkFailure extends _NetworkFailure {
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
-    TResult? Function(Object? cause, StackTrace? stack)? other,
+    TResult? Function()? userRejected,
+    TResult? Function(Object? cause, Object? stack)? other,
   }) {
     return network?.call();
   }
@@ -338,7 +409,8 @@ class _$_NetworkFailure extends _NetworkFailure {
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
-    TResult Function(Object? cause, StackTrace? stack)? other,
+    TResult Function()? userRejected,
+    TResult Function(Object? cause, Object? stack)? other,
     required TResult orElse(),
   }) {
     if (network != null) {
@@ -350,14 +422,15 @@ class _$_NetworkFailure extends _NetworkFailure {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoggedOut value) loggedOut,
-    required TResult Function(_NetworkFailure value) network,
-    required TResult Function(_QuotaExceededFailure value) quotaExceeded,
-    required TResult Function(_ServiceNotFound value) serviceNotFound,
+    required TResult Function(LoggedOut value) loggedOut,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(QuotaExceededFailure value) quotaExceeded,
+    required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(_InsuffientFunds value) insufficientFunds,
-    required TResult Function(_Inauthorized value) unauthorized,
-    required TResult Function(_InvalidValue value) invalidValue,
+    required TResult Function(InsuffientFunds value) insufficientFunds,
+    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(UserRejected value) userRejected,
     required TResult Function(OtherFailure value) other,
   }) {
     return network(this);
@@ -366,14 +439,15 @@ class _$_NetworkFailure extends _NetworkFailure {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoggedOut value)? loggedOut,
-    TResult? Function(_NetworkFailure value)? network,
-    TResult? Function(_QuotaExceededFailure value)? quotaExceeded,
-    TResult? Function(_ServiceNotFound value)? serviceNotFound,
+    TResult? Function(LoggedOut value)? loggedOut,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(_InsuffientFunds value)? insufficientFunds,
-    TResult? Function(_Inauthorized value)? unauthorized,
-    TResult? Function(_InvalidValue value)? invalidValue,
+    TResult? Function(InsuffientFunds value)? insufficientFunds,
+    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(UserRejected value)? userRejected,
     TResult? Function(OtherFailure value)? other,
   }) {
     return network?.call(this);
@@ -382,14 +456,15 @@ class _$_NetworkFailure extends _NetworkFailure {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoggedOut value)? loggedOut,
-    TResult Function(_NetworkFailure value)? network,
-    TResult Function(_QuotaExceededFailure value)? quotaExceeded,
-    TResult Function(_ServiceNotFound value)? serviceNotFound,
+    TResult Function(LoggedOut value)? loggedOut,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(_InsuffientFunds value)? insufficientFunds,
-    TResult Function(_Inauthorized value)? unauthorized,
-    TResult Function(_InvalidValue value)? invalidValue,
+    TResult Function(InsuffientFunds value)? insufficientFunds,
+    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(UserRejected value)? userRejected,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -398,28 +473,38 @@ class _$_NetworkFailure extends _NetworkFailure {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$NetworkFailureToJson(
+      this,
+    );
+  }
 }
 
-abstract class _NetworkFailure extends Failure {
-  const factory _NetworkFailure() = _$_NetworkFailure;
-  const _NetworkFailure._() : super._();
+abstract class NetworkFailure extends Failure {
+  const factory NetworkFailure() = _$NetworkFailure;
+  const NetworkFailure._() : super._();
+
+  factory NetworkFailure.fromJson(Map<String, dynamic> json) =
+      _$NetworkFailure.fromJson;
 }
 
 /// @nodoc
-abstract class _$$_QuotaExceededFailureCopyWith<$Res> {
-  factory _$$_QuotaExceededFailureCopyWith(_$_QuotaExceededFailure value,
-          $Res Function(_$_QuotaExceededFailure) then) =
-      __$$_QuotaExceededFailureCopyWithImpl<$Res>;
+abstract class _$$QuotaExceededFailureCopyWith<$Res> {
+  factory _$$QuotaExceededFailureCopyWith(_$QuotaExceededFailure value,
+          $Res Function(_$QuotaExceededFailure) then) =
+      __$$QuotaExceededFailureCopyWithImpl<$Res>;
   @useResult
   $Res call({DateTime? cooldownEndDate});
 }
 
 /// @nodoc
-class __$$_QuotaExceededFailureCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$_QuotaExceededFailure>
-    implements _$$_QuotaExceededFailureCopyWith<$Res> {
-  __$$_QuotaExceededFailureCopyWithImpl(_$_QuotaExceededFailure _value,
-      $Res Function(_$_QuotaExceededFailure) _then)
+class __$$QuotaExceededFailureCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$QuotaExceededFailure>
+    implements _$$QuotaExceededFailureCopyWith<$Res> {
+  __$$QuotaExceededFailureCopyWithImpl(_$QuotaExceededFailure _value,
+      $Res Function(_$QuotaExceededFailure) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -427,7 +512,7 @@ class __$$_QuotaExceededFailureCopyWithImpl<$Res>
   $Res call({
     Object? cooldownEndDate = freezed,
   }) {
-    return _then(_$_QuotaExceededFailure(
+    return _then(_$QuotaExceededFailure(
       cooldownEndDate: freezed == cooldownEndDate
           ? _value.cooldownEndDate
           : cooldownEndDate // ignore: cast_nullable_to_non_nullable
@@ -437,12 +522,20 @@ class __$$_QuotaExceededFailureCopyWithImpl<$Res>
 }
 
 /// @nodoc
+@JsonSerializable()
+class _$QuotaExceededFailure extends QuotaExceededFailure {
+  const _$QuotaExceededFailure({this.cooldownEndDate, final String? $type})
+      : $type = $type ?? 'quotaExceeded',
+        super._();
 
-class _$_QuotaExceededFailure extends _QuotaExceededFailure {
-  const _$_QuotaExceededFailure({this.cooldownEndDate}) : super._();
+  factory _$QuotaExceededFailure.fromJson(Map<String, dynamic> json) =>
+      _$$QuotaExceededFailureFromJson(json);
 
   @override
   final DateTime? cooldownEndDate;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -453,19 +546,20 @@ class _$_QuotaExceededFailure extends _QuotaExceededFailure {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_QuotaExceededFailure &&
+            other is _$QuotaExceededFailure &&
             (identical(other.cooldownEndDate, cooldownEndDate) ||
                 other.cooldownEndDate == cooldownEndDate));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, cooldownEndDate);
 
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_QuotaExceededFailureCopyWith<_$_QuotaExceededFailure> get copyWith =>
-      __$$_QuotaExceededFailureCopyWithImpl<_$_QuotaExceededFailure>(
+  _$$QuotaExceededFailureCopyWith<_$QuotaExceededFailure> get copyWith =>
+      __$$QuotaExceededFailureCopyWithImpl<_$QuotaExceededFailure>(
           this, _$identity);
 
   @override
@@ -479,7 +573,8 @@ class _$_QuotaExceededFailure extends _QuotaExceededFailure {
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
-    required TResult Function(Object? cause, StackTrace? stack) other,
+    required TResult Function() userRejected,
+    required TResult Function(Object? cause, Object? stack) other,
   }) {
     return quotaExceeded(cooldownEndDate);
   }
@@ -495,7 +590,8 @@ class _$_QuotaExceededFailure extends _QuotaExceededFailure {
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
-    TResult? Function(Object? cause, StackTrace? stack)? other,
+    TResult? Function()? userRejected,
+    TResult? Function(Object? cause, Object? stack)? other,
   }) {
     return quotaExceeded?.call(cooldownEndDate);
   }
@@ -511,7 +607,8 @@ class _$_QuotaExceededFailure extends _QuotaExceededFailure {
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
-    TResult Function(Object? cause, StackTrace? stack)? other,
+    TResult Function()? userRejected,
+    TResult Function(Object? cause, Object? stack)? other,
     required TResult orElse(),
   }) {
     if (quotaExceeded != null) {
@@ -523,14 +620,15 @@ class _$_QuotaExceededFailure extends _QuotaExceededFailure {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoggedOut value) loggedOut,
-    required TResult Function(_NetworkFailure value) network,
-    required TResult Function(_QuotaExceededFailure value) quotaExceeded,
-    required TResult Function(_ServiceNotFound value) serviceNotFound,
+    required TResult Function(LoggedOut value) loggedOut,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(QuotaExceededFailure value) quotaExceeded,
+    required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(_InsuffientFunds value) insufficientFunds,
-    required TResult Function(_Inauthorized value) unauthorized,
-    required TResult Function(_InvalidValue value) invalidValue,
+    required TResult Function(InsuffientFunds value) insufficientFunds,
+    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(UserRejected value) userRejected,
     required TResult Function(OtherFailure value) other,
   }) {
     return quotaExceeded(this);
@@ -539,14 +637,15 @@ class _$_QuotaExceededFailure extends _QuotaExceededFailure {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoggedOut value)? loggedOut,
-    TResult? Function(_NetworkFailure value)? network,
-    TResult? Function(_QuotaExceededFailure value)? quotaExceeded,
-    TResult? Function(_ServiceNotFound value)? serviceNotFound,
+    TResult? Function(LoggedOut value)? loggedOut,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(_InsuffientFunds value)? insufficientFunds,
-    TResult? Function(_Inauthorized value)? unauthorized,
-    TResult? Function(_InvalidValue value)? invalidValue,
+    TResult? Function(InsuffientFunds value)? insufficientFunds,
+    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(UserRejected value)? userRejected,
     TResult? Function(OtherFailure value)? other,
   }) {
     return quotaExceeded?.call(this);
@@ -555,14 +654,15 @@ class _$_QuotaExceededFailure extends _QuotaExceededFailure {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoggedOut value)? loggedOut,
-    TResult Function(_NetworkFailure value)? network,
-    TResult Function(_QuotaExceededFailure value)? quotaExceeded,
-    TResult Function(_ServiceNotFound value)? serviceNotFound,
+    TResult Function(LoggedOut value)? loggedOut,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(_InsuffientFunds value)? insufficientFunds,
-    TResult Function(_Inauthorized value)? unauthorized,
-    TResult Function(_InvalidValue value)? invalidValue,
+    TResult Function(InsuffientFunds value)? insufficientFunds,
+    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(UserRejected value)? userRejected,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -571,39 +671,57 @@ class _$_QuotaExceededFailure extends _QuotaExceededFailure {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$QuotaExceededFailureToJson(
+      this,
+    );
+  }
 }
 
-abstract class _QuotaExceededFailure extends Failure {
-  const factory _QuotaExceededFailure({final DateTime? cooldownEndDate}) =
-      _$_QuotaExceededFailure;
-  const _QuotaExceededFailure._() : super._();
+abstract class QuotaExceededFailure extends Failure {
+  const factory QuotaExceededFailure({final DateTime? cooldownEndDate}) =
+      _$QuotaExceededFailure;
+  const QuotaExceededFailure._() : super._();
+
+  factory QuotaExceededFailure.fromJson(Map<String, dynamic> json) =
+      _$QuotaExceededFailure.fromJson;
 
   DateTime? get cooldownEndDate;
   @JsonKey(ignore: true)
-  _$$_QuotaExceededFailureCopyWith<_$_QuotaExceededFailure> get copyWith =>
+  _$$QuotaExceededFailureCopyWith<_$QuotaExceededFailure> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$_ServiceNotFoundCopyWith<$Res> {
-  factory _$$_ServiceNotFoundCopyWith(
-          _$_ServiceNotFound value, $Res Function(_$_ServiceNotFound) then) =
-      __$$_ServiceNotFoundCopyWithImpl<$Res>;
+abstract class _$$ServiceNotFoundCopyWith<$Res> {
+  factory _$$ServiceNotFoundCopyWith(
+          _$ServiceNotFound value, $Res Function(_$ServiceNotFound) then) =
+      __$$ServiceNotFoundCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_ServiceNotFoundCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$_ServiceNotFound>
-    implements _$$_ServiceNotFoundCopyWith<$Res> {
-  __$$_ServiceNotFoundCopyWithImpl(
-      _$_ServiceNotFound _value, $Res Function(_$_ServiceNotFound) _then)
+class __$$ServiceNotFoundCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$ServiceNotFound>
+    implements _$$ServiceNotFoundCopyWith<$Res> {
+  __$$ServiceNotFoundCopyWithImpl(
+      _$ServiceNotFound _value, $Res Function(_$ServiceNotFound) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
+@JsonSerializable()
+class _$ServiceNotFound extends ServiceNotFound {
+  const _$ServiceNotFound({final String? $type})
+      : $type = $type ?? 'serviceNotFound',
+        super._();
 
-class _$_ServiceNotFound extends _ServiceNotFound {
-  const _$_ServiceNotFound() : super._();
+  factory _$ServiceNotFound.fromJson(Map<String, dynamic> json) =>
+      _$$ServiceNotFoundFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -613,9 +731,10 @@ class _$_ServiceNotFound extends _ServiceNotFound {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_ServiceNotFound);
+        (other.runtimeType == runtimeType && other is _$ServiceNotFound);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -630,7 +749,8 @@ class _$_ServiceNotFound extends _ServiceNotFound {
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
-    required TResult Function(Object? cause, StackTrace? stack) other,
+    required TResult Function() userRejected,
+    required TResult Function(Object? cause, Object? stack) other,
   }) {
     return serviceNotFound();
   }
@@ -646,7 +766,8 @@ class _$_ServiceNotFound extends _ServiceNotFound {
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
-    TResult? Function(Object? cause, StackTrace? stack)? other,
+    TResult? Function()? userRejected,
+    TResult? Function(Object? cause, Object? stack)? other,
   }) {
     return serviceNotFound?.call();
   }
@@ -662,7 +783,8 @@ class _$_ServiceNotFound extends _ServiceNotFound {
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
-    TResult Function(Object? cause, StackTrace? stack)? other,
+    TResult Function()? userRejected,
+    TResult Function(Object? cause, Object? stack)? other,
     required TResult orElse(),
   }) {
     if (serviceNotFound != null) {
@@ -674,14 +796,15 @@ class _$_ServiceNotFound extends _ServiceNotFound {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoggedOut value) loggedOut,
-    required TResult Function(_NetworkFailure value) network,
-    required TResult Function(_QuotaExceededFailure value) quotaExceeded,
-    required TResult Function(_ServiceNotFound value) serviceNotFound,
+    required TResult Function(LoggedOut value) loggedOut,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(QuotaExceededFailure value) quotaExceeded,
+    required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(_InsuffientFunds value) insufficientFunds,
-    required TResult Function(_Inauthorized value) unauthorized,
-    required TResult Function(_InvalidValue value) invalidValue,
+    required TResult Function(InsuffientFunds value) insufficientFunds,
+    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(UserRejected value) userRejected,
     required TResult Function(OtherFailure value) other,
   }) {
     return serviceNotFound(this);
@@ -690,14 +813,15 @@ class _$_ServiceNotFound extends _ServiceNotFound {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoggedOut value)? loggedOut,
-    TResult? Function(_NetworkFailure value)? network,
-    TResult? Function(_QuotaExceededFailure value)? quotaExceeded,
-    TResult? Function(_ServiceNotFound value)? serviceNotFound,
+    TResult? Function(LoggedOut value)? loggedOut,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(_InsuffientFunds value)? insufficientFunds,
-    TResult? Function(_Inauthorized value)? unauthorized,
-    TResult? Function(_InvalidValue value)? invalidValue,
+    TResult? Function(InsuffientFunds value)? insufficientFunds,
+    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(UserRejected value)? userRejected,
     TResult? Function(OtherFailure value)? other,
   }) {
     return serviceNotFound?.call(this);
@@ -706,14 +830,15 @@ class _$_ServiceNotFound extends _ServiceNotFound {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoggedOut value)? loggedOut,
-    TResult Function(_NetworkFailure value)? network,
-    TResult Function(_QuotaExceededFailure value)? quotaExceeded,
-    TResult Function(_ServiceNotFound value)? serviceNotFound,
+    TResult Function(LoggedOut value)? loggedOut,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(_InsuffientFunds value)? insufficientFunds,
-    TResult Function(_Inauthorized value)? unauthorized,
-    TResult Function(_InvalidValue value)? invalidValue,
+    TResult Function(InsuffientFunds value)? insufficientFunds,
+    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(UserRejected value)? userRejected,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -722,11 +847,21 @@ class _$_ServiceNotFound extends _ServiceNotFound {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ServiceNotFoundToJson(
+      this,
+    );
+  }
 }
 
-abstract class _ServiceNotFound extends Failure {
-  const factory _ServiceNotFound() = _$_ServiceNotFound;
-  const _ServiceNotFound._() : super._();
+abstract class ServiceNotFound extends Failure {
+  const factory ServiceNotFound() = _$ServiceNotFound;
+  const ServiceNotFound._() : super._();
+
+  factory ServiceNotFound.fromJson(Map<String, dynamic> json) =
+      _$ServiceNotFound.fromJson;
 }
 
 /// @nodoc
@@ -746,9 +881,17 @@ class __$$_ServiceAlreadyExistsCopyWithImpl<$Res>
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_ServiceAlreadyExists extends _ServiceAlreadyExists {
-  const _$_ServiceAlreadyExists() : super._();
+  const _$_ServiceAlreadyExists({final String? $type})
+      : $type = $type ?? 'serviceAlreadyExists',
+        super._();
+
+  factory _$_ServiceAlreadyExists.fromJson(Map<String, dynamic> json) =>
+      _$$_ServiceAlreadyExistsFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -761,6 +904,7 @@ class _$_ServiceAlreadyExists extends _ServiceAlreadyExists {
         (other.runtimeType == runtimeType && other is _$_ServiceAlreadyExists);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -775,7 +919,8 @@ class _$_ServiceAlreadyExists extends _ServiceAlreadyExists {
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
-    required TResult Function(Object? cause, StackTrace? stack) other,
+    required TResult Function() userRejected,
+    required TResult Function(Object? cause, Object? stack) other,
   }) {
     return serviceAlreadyExists();
   }
@@ -791,7 +936,8 @@ class _$_ServiceAlreadyExists extends _ServiceAlreadyExists {
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
-    TResult? Function(Object? cause, StackTrace? stack)? other,
+    TResult? Function()? userRejected,
+    TResult? Function(Object? cause, Object? stack)? other,
   }) {
     return serviceAlreadyExists?.call();
   }
@@ -807,7 +953,8 @@ class _$_ServiceAlreadyExists extends _ServiceAlreadyExists {
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
-    TResult Function(Object? cause, StackTrace? stack)? other,
+    TResult Function()? userRejected,
+    TResult Function(Object? cause, Object? stack)? other,
     required TResult orElse(),
   }) {
     if (serviceAlreadyExists != null) {
@@ -819,14 +966,15 @@ class _$_ServiceAlreadyExists extends _ServiceAlreadyExists {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoggedOut value) loggedOut,
-    required TResult Function(_NetworkFailure value) network,
-    required TResult Function(_QuotaExceededFailure value) quotaExceeded,
-    required TResult Function(_ServiceNotFound value) serviceNotFound,
+    required TResult Function(LoggedOut value) loggedOut,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(QuotaExceededFailure value) quotaExceeded,
+    required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(_InsuffientFunds value) insufficientFunds,
-    required TResult Function(_Inauthorized value) unauthorized,
-    required TResult Function(_InvalidValue value) invalidValue,
+    required TResult Function(InsuffientFunds value) insufficientFunds,
+    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(UserRejected value) userRejected,
     required TResult Function(OtherFailure value) other,
   }) {
     return serviceAlreadyExists(this);
@@ -835,14 +983,15 @@ class _$_ServiceAlreadyExists extends _ServiceAlreadyExists {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoggedOut value)? loggedOut,
-    TResult? Function(_NetworkFailure value)? network,
-    TResult? Function(_QuotaExceededFailure value)? quotaExceeded,
-    TResult? Function(_ServiceNotFound value)? serviceNotFound,
+    TResult? Function(LoggedOut value)? loggedOut,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(_InsuffientFunds value)? insufficientFunds,
-    TResult? Function(_Inauthorized value)? unauthorized,
-    TResult? Function(_InvalidValue value)? invalidValue,
+    TResult? Function(InsuffientFunds value)? insufficientFunds,
+    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(UserRejected value)? userRejected,
     TResult? Function(OtherFailure value)? other,
   }) {
     return serviceAlreadyExists?.call(this);
@@ -851,14 +1000,15 @@ class _$_ServiceAlreadyExists extends _ServiceAlreadyExists {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoggedOut value)? loggedOut,
-    TResult Function(_NetworkFailure value)? network,
-    TResult Function(_QuotaExceededFailure value)? quotaExceeded,
-    TResult Function(_ServiceNotFound value)? serviceNotFound,
+    TResult Function(LoggedOut value)? loggedOut,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(_InsuffientFunds value)? insufficientFunds,
-    TResult Function(_Inauthorized value)? unauthorized,
-    TResult Function(_InvalidValue value)? invalidValue,
+    TResult Function(InsuffientFunds value)? insufficientFunds,
+    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(UserRejected value)? userRejected,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -867,33 +1017,51 @@ class _$_ServiceAlreadyExists extends _ServiceAlreadyExists {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_ServiceAlreadyExistsToJson(
+      this,
+    );
+  }
 }
 
 abstract class _ServiceAlreadyExists extends Failure {
   const factory _ServiceAlreadyExists() = _$_ServiceAlreadyExists;
   const _ServiceAlreadyExists._() : super._();
+
+  factory _ServiceAlreadyExists.fromJson(Map<String, dynamic> json) =
+      _$_ServiceAlreadyExists.fromJson;
 }
 
 /// @nodoc
-abstract class _$$_InsuffientFundsCopyWith<$Res> {
-  factory _$$_InsuffientFundsCopyWith(
-          _$_InsuffientFunds value, $Res Function(_$_InsuffientFunds) then) =
-      __$$_InsuffientFundsCopyWithImpl<$Res>;
+abstract class _$$InsuffientFundsCopyWith<$Res> {
+  factory _$$InsuffientFundsCopyWith(
+          _$InsuffientFunds value, $Res Function(_$InsuffientFunds) then) =
+      __$$InsuffientFundsCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_InsuffientFundsCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$_InsuffientFunds>
-    implements _$$_InsuffientFundsCopyWith<$Res> {
-  __$$_InsuffientFundsCopyWithImpl(
-      _$_InsuffientFunds _value, $Res Function(_$_InsuffientFunds) _then)
+class __$$InsuffientFundsCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$InsuffientFunds>
+    implements _$$InsuffientFundsCopyWith<$Res> {
+  __$$InsuffientFundsCopyWithImpl(
+      _$InsuffientFunds _value, $Res Function(_$InsuffientFunds) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
+@JsonSerializable()
+class _$InsuffientFunds extends InsuffientFunds {
+  const _$InsuffientFunds({final String? $type})
+      : $type = $type ?? 'insufficientFunds',
+        super._();
 
-class _$_InsuffientFunds extends _InsuffientFunds {
-  const _$_InsuffientFunds() : super._();
+  factory _$InsuffientFunds.fromJson(Map<String, dynamic> json) =>
+      _$$InsuffientFundsFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -903,9 +1071,10 @@ class _$_InsuffientFunds extends _InsuffientFunds {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_InsuffientFunds);
+        (other.runtimeType == runtimeType && other is _$InsuffientFunds);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -920,7 +1089,8 @@ class _$_InsuffientFunds extends _InsuffientFunds {
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
-    required TResult Function(Object? cause, StackTrace? stack) other,
+    required TResult Function() userRejected,
+    required TResult Function(Object? cause, Object? stack) other,
   }) {
     return insufficientFunds();
   }
@@ -936,7 +1106,8 @@ class _$_InsuffientFunds extends _InsuffientFunds {
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
-    TResult? Function(Object? cause, StackTrace? stack)? other,
+    TResult? Function()? userRejected,
+    TResult? Function(Object? cause, Object? stack)? other,
   }) {
     return insufficientFunds?.call();
   }
@@ -952,7 +1123,8 @@ class _$_InsuffientFunds extends _InsuffientFunds {
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
-    TResult Function(Object? cause, StackTrace? stack)? other,
+    TResult Function()? userRejected,
+    TResult Function(Object? cause, Object? stack)? other,
     required TResult orElse(),
   }) {
     if (insufficientFunds != null) {
@@ -964,14 +1136,15 @@ class _$_InsuffientFunds extends _InsuffientFunds {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoggedOut value) loggedOut,
-    required TResult Function(_NetworkFailure value) network,
-    required TResult Function(_QuotaExceededFailure value) quotaExceeded,
-    required TResult Function(_ServiceNotFound value) serviceNotFound,
+    required TResult Function(LoggedOut value) loggedOut,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(QuotaExceededFailure value) quotaExceeded,
+    required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(_InsuffientFunds value) insufficientFunds,
-    required TResult Function(_Inauthorized value) unauthorized,
-    required TResult Function(_InvalidValue value) invalidValue,
+    required TResult Function(InsuffientFunds value) insufficientFunds,
+    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(UserRejected value) userRejected,
     required TResult Function(OtherFailure value) other,
   }) {
     return insufficientFunds(this);
@@ -980,14 +1153,15 @@ class _$_InsuffientFunds extends _InsuffientFunds {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoggedOut value)? loggedOut,
-    TResult? Function(_NetworkFailure value)? network,
-    TResult? Function(_QuotaExceededFailure value)? quotaExceeded,
-    TResult? Function(_ServiceNotFound value)? serviceNotFound,
+    TResult? Function(LoggedOut value)? loggedOut,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(_InsuffientFunds value)? insufficientFunds,
-    TResult? Function(_Inauthorized value)? unauthorized,
-    TResult? Function(_InvalidValue value)? invalidValue,
+    TResult? Function(InsuffientFunds value)? insufficientFunds,
+    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(UserRejected value)? userRejected,
     TResult? Function(OtherFailure value)? other,
   }) {
     return insufficientFunds?.call(this);
@@ -996,14 +1170,15 @@ class _$_InsuffientFunds extends _InsuffientFunds {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoggedOut value)? loggedOut,
-    TResult Function(_NetworkFailure value)? network,
-    TResult Function(_QuotaExceededFailure value)? quotaExceeded,
-    TResult Function(_ServiceNotFound value)? serviceNotFound,
+    TResult Function(LoggedOut value)? loggedOut,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(_InsuffientFunds value)? insufficientFunds,
-    TResult Function(_Inauthorized value)? unauthorized,
-    TResult Function(_InvalidValue value)? invalidValue,
+    TResult Function(InsuffientFunds value)? insufficientFunds,
+    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(UserRejected value)? userRejected,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -1012,33 +1187,51 @@ class _$_InsuffientFunds extends _InsuffientFunds {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$InsuffientFundsToJson(
+      this,
+    );
+  }
 }
 
-abstract class _InsuffientFunds extends Failure {
-  const factory _InsuffientFunds() = _$_InsuffientFunds;
-  const _InsuffientFunds._() : super._();
+abstract class InsuffientFunds extends Failure {
+  const factory InsuffientFunds() = _$InsuffientFunds;
+  const InsuffientFunds._() : super._();
+
+  factory InsuffientFunds.fromJson(Map<String, dynamic> json) =
+      _$InsuffientFunds.fromJson;
 }
 
 /// @nodoc
-abstract class _$$_InauthorizedCopyWith<$Res> {
-  factory _$$_InauthorizedCopyWith(
-          _$_Inauthorized value, $Res Function(_$_Inauthorized) then) =
-      __$$_InauthorizedCopyWithImpl<$Res>;
+abstract class _$$InauthorizedCopyWith<$Res> {
+  factory _$$InauthorizedCopyWith(
+          _$Inauthorized value, $Res Function(_$Inauthorized) then) =
+      __$$InauthorizedCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_InauthorizedCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$_Inauthorized>
-    implements _$$_InauthorizedCopyWith<$Res> {
-  __$$_InauthorizedCopyWithImpl(
-      _$_Inauthorized _value, $Res Function(_$_Inauthorized) _then)
+class __$$InauthorizedCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$Inauthorized>
+    implements _$$InauthorizedCopyWith<$Res> {
+  __$$InauthorizedCopyWithImpl(
+      _$Inauthorized _value, $Res Function(_$Inauthorized) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
+@JsonSerializable()
+class _$Inauthorized extends Inauthorized {
+  const _$Inauthorized({final String? $type})
+      : $type = $type ?? 'unauthorized',
+        super._();
 
-class _$_Inauthorized extends _Inauthorized {
-  const _$_Inauthorized() : super._();
+  factory _$Inauthorized.fromJson(Map<String, dynamic> json) =>
+      _$$InauthorizedFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -1048,9 +1241,10 @@ class _$_Inauthorized extends _Inauthorized {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Inauthorized);
+        (other.runtimeType == runtimeType && other is _$Inauthorized);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -1065,7 +1259,8 @@ class _$_Inauthorized extends _Inauthorized {
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
-    required TResult Function(Object? cause, StackTrace? stack) other,
+    required TResult Function() userRejected,
+    required TResult Function(Object? cause, Object? stack) other,
   }) {
     return unauthorized();
   }
@@ -1081,7 +1276,8 @@ class _$_Inauthorized extends _Inauthorized {
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
-    TResult? Function(Object? cause, StackTrace? stack)? other,
+    TResult? Function()? userRejected,
+    TResult? Function(Object? cause, Object? stack)? other,
   }) {
     return unauthorized?.call();
   }
@@ -1097,7 +1293,8 @@ class _$_Inauthorized extends _Inauthorized {
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
-    TResult Function(Object? cause, StackTrace? stack)? other,
+    TResult Function()? userRejected,
+    TResult Function(Object? cause, Object? stack)? other,
     required TResult orElse(),
   }) {
     if (unauthorized != null) {
@@ -1109,14 +1306,15 @@ class _$_Inauthorized extends _Inauthorized {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoggedOut value) loggedOut,
-    required TResult Function(_NetworkFailure value) network,
-    required TResult Function(_QuotaExceededFailure value) quotaExceeded,
-    required TResult Function(_ServiceNotFound value) serviceNotFound,
+    required TResult Function(LoggedOut value) loggedOut,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(QuotaExceededFailure value) quotaExceeded,
+    required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(_InsuffientFunds value) insufficientFunds,
-    required TResult Function(_Inauthorized value) unauthorized,
-    required TResult Function(_InvalidValue value) invalidValue,
+    required TResult Function(InsuffientFunds value) insufficientFunds,
+    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(UserRejected value) userRejected,
     required TResult Function(OtherFailure value) other,
   }) {
     return unauthorized(this);
@@ -1125,14 +1323,15 @@ class _$_Inauthorized extends _Inauthorized {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoggedOut value)? loggedOut,
-    TResult? Function(_NetworkFailure value)? network,
-    TResult? Function(_QuotaExceededFailure value)? quotaExceeded,
-    TResult? Function(_ServiceNotFound value)? serviceNotFound,
+    TResult? Function(LoggedOut value)? loggedOut,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(_InsuffientFunds value)? insufficientFunds,
-    TResult? Function(_Inauthorized value)? unauthorized,
-    TResult? Function(_InvalidValue value)? invalidValue,
+    TResult? Function(InsuffientFunds value)? insufficientFunds,
+    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(UserRejected value)? userRejected,
     TResult? Function(OtherFailure value)? other,
   }) {
     return unauthorized?.call(this);
@@ -1141,14 +1340,15 @@ class _$_Inauthorized extends _Inauthorized {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoggedOut value)? loggedOut,
-    TResult Function(_NetworkFailure value)? network,
-    TResult Function(_QuotaExceededFailure value)? quotaExceeded,
-    TResult Function(_ServiceNotFound value)? serviceNotFound,
+    TResult Function(LoggedOut value)? loggedOut,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(_InsuffientFunds value)? insufficientFunds,
-    TResult Function(_Inauthorized value)? unauthorized,
-    TResult Function(_InvalidValue value)? invalidValue,
+    TResult Function(InsuffientFunds value)? insufficientFunds,
+    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(UserRejected value)? userRejected,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -1157,33 +1357,51 @@ class _$_Inauthorized extends _Inauthorized {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$InauthorizedToJson(
+      this,
+    );
+  }
 }
 
-abstract class _Inauthorized extends Failure {
-  const factory _Inauthorized() = _$_Inauthorized;
-  const _Inauthorized._() : super._();
+abstract class Inauthorized extends Failure {
+  const factory Inauthorized() = _$Inauthorized;
+  const Inauthorized._() : super._();
+
+  factory Inauthorized.fromJson(Map<String, dynamic> json) =
+      _$Inauthorized.fromJson;
 }
 
 /// @nodoc
-abstract class _$$_InvalidValueCopyWith<$Res> {
-  factory _$$_InvalidValueCopyWith(
-          _$_InvalidValue value, $Res Function(_$_InvalidValue) then) =
-      __$$_InvalidValueCopyWithImpl<$Res>;
+abstract class _$$InvalidValueCopyWith<$Res> {
+  factory _$$InvalidValueCopyWith(
+          _$InvalidValue value, $Res Function(_$InvalidValue) then) =
+      __$$InvalidValueCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_InvalidValueCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$_InvalidValue>
-    implements _$$_InvalidValueCopyWith<$Res> {
-  __$$_InvalidValueCopyWithImpl(
-      _$_InvalidValue _value, $Res Function(_$_InvalidValue) _then)
+class __$$InvalidValueCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$InvalidValue>
+    implements _$$InvalidValueCopyWith<$Res> {
+  __$$InvalidValueCopyWithImpl(
+      _$InvalidValue _value, $Res Function(_$InvalidValue) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
+@JsonSerializable()
+class _$InvalidValue extends InvalidValue {
+  const _$InvalidValue({final String? $type})
+      : $type = $type ?? 'invalidValue',
+        super._();
 
-class _$_InvalidValue extends _InvalidValue {
-  const _$_InvalidValue() : super._();
+  factory _$InvalidValue.fromJson(Map<String, dynamic> json) =>
+      _$$InvalidValueFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -1193,9 +1411,10 @@ class _$_InvalidValue extends _InvalidValue {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_InvalidValue);
+        (other.runtimeType == runtimeType && other is _$InvalidValue);
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => runtimeType.hashCode;
 
@@ -1210,7 +1429,8 @@ class _$_InvalidValue extends _InvalidValue {
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
-    required TResult Function(Object? cause, StackTrace? stack) other,
+    required TResult Function() userRejected,
+    required TResult Function(Object? cause, Object? stack) other,
   }) {
     return invalidValue();
   }
@@ -1226,7 +1446,8 @@ class _$_InvalidValue extends _InvalidValue {
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
-    TResult? Function(Object? cause, StackTrace? stack)? other,
+    TResult? Function()? userRejected,
+    TResult? Function(Object? cause, Object? stack)? other,
   }) {
     return invalidValue?.call();
   }
@@ -1242,7 +1463,8 @@ class _$_InvalidValue extends _InvalidValue {
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
-    TResult Function(Object? cause, StackTrace? stack)? other,
+    TResult Function()? userRejected,
+    TResult Function(Object? cause, Object? stack)? other,
     required TResult orElse(),
   }) {
     if (invalidValue != null) {
@@ -1254,14 +1476,15 @@ class _$_InvalidValue extends _InvalidValue {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoggedOut value) loggedOut,
-    required TResult Function(_NetworkFailure value) network,
-    required TResult Function(_QuotaExceededFailure value) quotaExceeded,
-    required TResult Function(_ServiceNotFound value) serviceNotFound,
+    required TResult Function(LoggedOut value) loggedOut,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(QuotaExceededFailure value) quotaExceeded,
+    required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(_InsuffientFunds value) insufficientFunds,
-    required TResult Function(_Inauthorized value) unauthorized,
-    required TResult Function(_InvalidValue value) invalidValue,
+    required TResult Function(InsuffientFunds value) insufficientFunds,
+    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(UserRejected value) userRejected,
     required TResult Function(OtherFailure value) other,
   }) {
     return invalidValue(this);
@@ -1270,14 +1493,15 @@ class _$_InvalidValue extends _InvalidValue {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoggedOut value)? loggedOut,
-    TResult? Function(_NetworkFailure value)? network,
-    TResult? Function(_QuotaExceededFailure value)? quotaExceeded,
-    TResult? Function(_ServiceNotFound value)? serviceNotFound,
+    TResult? Function(LoggedOut value)? loggedOut,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(_InsuffientFunds value)? insufficientFunds,
-    TResult? Function(_Inauthorized value)? unauthorized,
-    TResult? Function(_InvalidValue value)? invalidValue,
+    TResult? Function(InsuffientFunds value)? insufficientFunds,
+    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(UserRejected value)? userRejected,
     TResult? Function(OtherFailure value)? other,
   }) {
     return invalidValue?.call(this);
@@ -1286,14 +1510,15 @@ class _$_InvalidValue extends _InvalidValue {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoggedOut value)? loggedOut,
-    TResult Function(_NetworkFailure value)? network,
-    TResult Function(_QuotaExceededFailure value)? quotaExceeded,
-    TResult Function(_ServiceNotFound value)? serviceNotFound,
+    TResult Function(LoggedOut value)? loggedOut,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(_InsuffientFunds value)? insufficientFunds,
-    TResult Function(_Inauthorized value)? unauthorized,
-    TResult Function(_InvalidValue value)? invalidValue,
+    TResult Function(InsuffientFunds value)? insufficientFunds,
+    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(UserRejected value)? userRejected,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -1302,11 +1527,191 @@ class _$_InvalidValue extends _InvalidValue {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$InvalidValueToJson(
+      this,
+    );
+  }
 }
 
-abstract class _InvalidValue extends Failure {
-  const factory _InvalidValue() = _$_InvalidValue;
-  const _InvalidValue._() : super._();
+abstract class InvalidValue extends Failure {
+  const factory InvalidValue() = _$InvalidValue;
+  const InvalidValue._() : super._();
+
+  factory InvalidValue.fromJson(Map<String, dynamic> json) =
+      _$InvalidValue.fromJson;
+}
+
+/// @nodoc
+abstract class _$$UserRejectedCopyWith<$Res> {
+  factory _$$UserRejectedCopyWith(
+          _$UserRejected value, $Res Function(_$UserRejected) then) =
+      __$$UserRejectedCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$UserRejectedCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$UserRejected>
+    implements _$$UserRejectedCopyWith<$Res> {
+  __$$UserRejectedCopyWithImpl(
+      _$UserRejected _value, $Res Function(_$UserRejected) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UserRejected extends UserRejected {
+  const _$UserRejected({final String? $type})
+      : $type = $type ?? 'userRejected',
+        super._();
+
+  factory _$UserRejected.fromJson(Map<String, dynamic> json) =>
+      _$$UserRejectedFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'Failure.userRejected()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$UserRejected);
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loggedOut,
+    required TResult Function() network,
+    required TResult Function(DateTime? cooldownEndDate) quotaExceeded,
+    required TResult Function() serviceNotFound,
+    required TResult Function() serviceAlreadyExists,
+    required TResult Function() insufficientFunds,
+    required TResult Function() unauthorized,
+    required TResult Function() invalidValue,
+    required TResult Function() userRejected,
+    required TResult Function(Object? cause, Object? stack) other,
+  }) {
+    return userRejected();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loggedOut,
+    TResult? Function()? network,
+    TResult? Function(DateTime? cooldownEndDate)? quotaExceeded,
+    TResult? Function()? serviceNotFound,
+    TResult? Function()? serviceAlreadyExists,
+    TResult? Function()? insufficientFunds,
+    TResult? Function()? unauthorized,
+    TResult? Function()? invalidValue,
+    TResult? Function()? userRejected,
+    TResult? Function(Object? cause, Object? stack)? other,
+  }) {
+    return userRejected?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loggedOut,
+    TResult Function()? network,
+    TResult Function(DateTime? cooldownEndDate)? quotaExceeded,
+    TResult Function()? serviceNotFound,
+    TResult Function()? serviceAlreadyExists,
+    TResult Function()? insufficientFunds,
+    TResult Function()? unauthorized,
+    TResult Function()? invalidValue,
+    TResult Function()? userRejected,
+    TResult Function(Object? cause, Object? stack)? other,
+    required TResult orElse(),
+  }) {
+    if (userRejected != null) {
+      return userRejected();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoggedOut value) loggedOut,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(QuotaExceededFailure value) quotaExceeded,
+    required TResult Function(ServiceNotFound value) serviceNotFound,
+    required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(InsuffientFunds value) insufficientFunds,
+    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(UserRejected value) userRejected,
+    required TResult Function(OtherFailure value) other,
+  }) {
+    return userRejected(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoggedOut value)? loggedOut,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult? Function(ServiceNotFound value)? serviceNotFound,
+    TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(InsuffientFunds value)? insufficientFunds,
+    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(OtherFailure value)? other,
+  }) {
+    return userRejected?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoggedOut value)? loggedOut,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult Function(ServiceNotFound value)? serviceNotFound,
+    TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(InsuffientFunds value)? insufficientFunds,
+    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(UserRejected value)? userRejected,
+    TResult Function(OtherFailure value)? other,
+    required TResult orElse(),
+  }) {
+    if (userRejected != null) {
+      return userRejected(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UserRejectedToJson(
+      this,
+    );
+  }
+}
+
+abstract class UserRejected extends Failure {
+  const factory UserRejected() = _$UserRejected;
+  const UserRejected._() : super._();
+
+  factory UserRejected.fromJson(Map<String, dynamic> json) =
+      _$UserRejected.fromJson;
 }
 
 /// @nodoc
@@ -1315,7 +1720,7 @@ abstract class _$$OtherFailureCopyWith<$Res> {
           _$OtherFailure value, $Res Function(_$OtherFailure) then) =
       __$$OtherFailureCopyWithImpl<$Res>;
   @useResult
-  $Res call({Object? cause, StackTrace? stack});
+  $Res call({Object? cause, Object? stack});
 }
 
 /// @nodoc
@@ -1334,23 +1739,28 @@ class __$$OtherFailureCopyWithImpl<$Res>
   }) {
     return _then(_$OtherFailure(
       cause: freezed == cause ? _value.cause : cause,
-      stack: freezed == stack
-          ? _value.stack
-          : stack // ignore: cast_nullable_to_non_nullable
-              as StackTrace?,
+      stack: freezed == stack ? _value.stack : stack,
     ));
   }
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$OtherFailure extends OtherFailure {
-  const _$OtherFailure({this.cause, this.stack}) : super._();
+  const _$OtherFailure({this.cause, this.stack, final String? $type})
+      : $type = $type ?? 'other',
+        super._();
+
+  factory _$OtherFailure.fromJson(Map<String, dynamic> json) =>
+      _$$OtherFailureFromJson(json);
 
   @override
   final Object? cause;
   @override
-  final StackTrace? stack;
+  final Object? stack;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
 
   @override
   String toString() {
@@ -1363,12 +1773,15 @@ class _$OtherFailure extends OtherFailure {
         (other.runtimeType == runtimeType &&
             other is _$OtherFailure &&
             const DeepCollectionEquality().equals(other.cause, cause) &&
-            (identical(other.stack, stack) || other.stack == stack));
+            const DeepCollectionEquality().equals(other.stack, stack));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
-      runtimeType, const DeepCollectionEquality().hash(cause), stack);
+      runtimeType,
+      const DeepCollectionEquality().hash(cause),
+      const DeepCollectionEquality().hash(stack));
 
   @JsonKey(ignore: true)
   @override
@@ -1387,7 +1800,8 @@ class _$OtherFailure extends OtherFailure {
     required TResult Function() insufficientFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
-    required TResult Function(Object? cause, StackTrace? stack) other,
+    required TResult Function() userRejected,
+    required TResult Function(Object? cause, Object? stack) other,
   }) {
     return other(cause, stack);
   }
@@ -1403,7 +1817,8 @@ class _$OtherFailure extends OtherFailure {
     TResult? Function()? insufficientFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
-    TResult? Function(Object? cause, StackTrace? stack)? other,
+    TResult? Function()? userRejected,
+    TResult? Function(Object? cause, Object? stack)? other,
   }) {
     return other?.call(cause, stack);
   }
@@ -1419,7 +1834,8 @@ class _$OtherFailure extends OtherFailure {
     TResult Function()? insufficientFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
-    TResult Function(Object? cause, StackTrace? stack)? other,
+    TResult Function()? userRejected,
+    TResult Function(Object? cause, Object? stack)? other,
     required TResult orElse(),
   }) {
     if (other != null) {
@@ -1431,14 +1847,15 @@ class _$OtherFailure extends OtherFailure {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_LoggedOut value) loggedOut,
-    required TResult Function(_NetworkFailure value) network,
-    required TResult Function(_QuotaExceededFailure value) quotaExceeded,
-    required TResult Function(_ServiceNotFound value) serviceNotFound,
+    required TResult Function(LoggedOut value) loggedOut,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(QuotaExceededFailure value) quotaExceeded,
+    required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(_InsuffientFunds value) insufficientFunds,
-    required TResult Function(_Inauthorized value) unauthorized,
-    required TResult Function(_InvalidValue value) invalidValue,
+    required TResult Function(InsuffientFunds value) insufficientFunds,
+    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(UserRejected value) userRejected,
     required TResult Function(OtherFailure value) other,
   }) {
     return other(this);
@@ -1447,14 +1864,15 @@ class _$OtherFailure extends OtherFailure {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_LoggedOut value)? loggedOut,
-    TResult? Function(_NetworkFailure value)? network,
-    TResult? Function(_QuotaExceededFailure value)? quotaExceeded,
-    TResult? Function(_ServiceNotFound value)? serviceNotFound,
+    TResult? Function(LoggedOut value)? loggedOut,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(_InsuffientFunds value)? insufficientFunds,
-    TResult? Function(_Inauthorized value)? unauthorized,
-    TResult? Function(_InvalidValue value)? invalidValue,
+    TResult? Function(InsuffientFunds value)? insufficientFunds,
+    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(UserRejected value)? userRejected,
     TResult? Function(OtherFailure value)? other,
   }) {
     return other?.call(this);
@@ -1463,14 +1881,15 @@ class _$OtherFailure extends OtherFailure {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_LoggedOut value)? loggedOut,
-    TResult Function(_NetworkFailure value)? network,
-    TResult Function(_QuotaExceededFailure value)? quotaExceeded,
-    TResult Function(_ServiceNotFound value)? serviceNotFound,
+    TResult Function(LoggedOut value)? loggedOut,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(_InsuffientFunds value)? insufficientFunds,
-    TResult Function(_Inauthorized value)? unauthorized,
-    TResult Function(_InvalidValue value)? invalidValue,
+    TResult Function(InsuffientFunds value)? insufficientFunds,
+    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(UserRejected value)? userRejected,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -1479,15 +1898,25 @@ class _$OtherFailure extends OtherFailure {
     }
     return orElse();
   }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$OtherFailureToJson(
+      this,
+    );
+  }
 }
 
 abstract class OtherFailure extends Failure {
-  const factory OtherFailure({final Object? cause, final StackTrace? stack}) =
+  const factory OtherFailure({final Object? cause, final Object? stack}) =
       _$OtherFailure;
   const OtherFailure._() : super._();
 
+  factory OtherFailure.fromJson(Map<String, dynamic> json) =
+      _$OtherFailure.fromJson;
+
   Object? get cause;
-  StackTrace? get stack;
+  Object? get stack;
   @JsonKey(ignore: true)
   _$$OtherFailureCopyWith<_$OtherFailure> get copyWith =>
       throw _privateConstructorUsedError;
