@@ -190,9 +190,6 @@ class _SessionNotifier extends Notifier<Session> {
           if (sl.isRegistered<ApiService>()) {
             await sl.unregister<ApiService>();
           }
-          if (sl.isRegistered<OracleService>()) {
-            await sl.unregister<OracleService>();
-          }
           if (sl.isRegistered<awc.ArchethicDAppClient>()) {
             await sl.unregister<awc.ArchethicDAppClient>();
           }

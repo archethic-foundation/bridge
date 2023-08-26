@@ -16,17 +16,20 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (bridge.failure == null)
-          _transferCompleted(context)
-        else if (bridge.failure != null &&
-            bridge.failure is UserRejected == false)
-          _transferInterrupted(context)
-        else
-          _transferError(context),
-      ],
+    return Padding(
+      padding: const EdgeInsets.only(top: 5, bottom: 5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (bridge.failure == null)
+            _transferCompleted(context)
+          else if (bridge.failure != null &&
+              bridge.failure is UserRejected == true)
+            _transferInterrupted(context)
+          else
+            _transferError(context),
+        ],
+      ),
     );
   }
 
@@ -43,17 +46,28 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
   }
 
   Widget _transferInterrupted(BuildContext context) {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('${AppLocalizations.of(context)!.localHistoryStatus}: '),
-        Text(
-          'Transfer interrupted at step ${bridge.currentStep}',
-          style: TextStyle(
-            color: ThemeBase.statusInProgress,
-          ),
+        Row(
+          children: [
+            Text('${AppLocalizations.of(context)!.localHistoryStatus}: '),
+            Text(
+              'Transfer interrupted at step ${bridge.currentStep}',
+              style: TextStyle(
+                color: ThemeBase.statusInProgress,
+              ),
+            ),
+            Text(
+              ' (${BridgeArchethicToEVMUseCase().getStepLabel(context, bridge.currentStep)})',
+            ),
+          ],
         ),
         Text(
-          ' (${BridgeArchethicToEVMUseCase().getStepLabel(context, bridge.currentStep)})',
+          '${AppLocalizations.of(context)!.localHistoryCause}: ${FailureMessage(
+            context: context,
+            failure: bridge.failure,
+          ).getMessage()}',
         ),
       ],
     );

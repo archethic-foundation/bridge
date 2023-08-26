@@ -40,6 +40,10 @@ _$_BridgeFormState _$$_BridgeFormStateFromJson(Map<String, dynamic> json) =>
       changeDirectionInProgress:
           json['changeDirectionInProgress'] as bool? ?? false,
       timestampExec: json['timestampExec'] as int?,
+      archethicOracleUCO:
+          _$JsonConverterFromJson<Map<String, dynamic>, ArchethicOracleUCO>(
+              json['archethicOracleUCO'],
+              const ArchethicOracleUCOJsonConverter().fromJson),
     );
 
 Map<String, dynamic> _$$_BridgeFormStateToJson(_$_BridgeFormState instance) =>
@@ -70,6 +74,10 @@ Map<String, dynamic> _$$_BridgeFormStateToJson(_$_BridgeFormState instance) =>
       'currentStep': instance.currentStep,
       'changeDirectionInProgress': instance.changeDirectionInProgress,
       'timestampExec': instance.timestampExec,
+      'archethicOracleUCO':
+          _$JsonConverterToJson<Map<String, dynamic>, ArchethicOracleUCO>(
+              instance.archethicOracleUCO,
+              const ArchethicOracleUCOJsonConverter().toJson),
     };
 
 const _$BridgeProcessStepEnumMap = {

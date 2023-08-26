@@ -12,41 +12,48 @@ class LocalHistoryCardHTLCInfos extends StatelessWidget {
   final BridgeFormState bridge;
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        if (bridge.blockchainFrom != null &&
-            bridge.blockchainFrom!.htlcAddress != null &&
-            bridge.blockchainFrom!.htlcAddress!.isNotEmpty)
-          Row(
-            children: [
-              SelectableText(
-                '${bridge.blockchainFrom!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
-              ),
-              FormatAddressLinkCopy(
-                address: bridge.blockchainFrom!.htlcAddress!,
-                chainId: bridge.blockchainFrom!.chainId,
-                expanded: false,
-              ),
-            ],
-          ),
-        if (bridge.blockchainTo != null &&
-            bridge.blockchainTo!.htlcAddress != null &&
-            bridge.blockchainTo!.htlcAddress!.isNotEmpty)
-          Row(
-            children: [
-              SelectableText(
-                '${bridge.blockchainTo!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
-              ),
-              FormatAddressLinkCopy(
-                address: bridge.blockchainTo!.htlcAddress!,
-                chainId: bridge.blockchainTo!.chainId,
-                expanded: false,
-              ),
-            ],
-          ),
-      ],
+    if (bridge.blockchainFrom == null || bridge.blockchainTo == null) {
+      return const SizedBox();
+    }
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (bridge.blockchainFrom != null &&
+              bridge.blockchainFrom!.htlcAddress != null &&
+              bridge.blockchainFrom!.htlcAddress!.isNotEmpty)
+            Row(
+              children: [
+                SelectableText(
+                  '${bridge.blockchainFrom!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
+                ),
+                FormatAddressLinkCopy(
+                  address: bridge.blockchainFrom!.htlcAddress!,
+                  chainId: bridge.blockchainFrom!.chainId,
+                  expanded: false,
+                ),
+              ],
+            ),
+          if (bridge.blockchainTo != null &&
+              bridge.blockchainTo!.htlcAddress != null &&
+              bridge.blockchainTo!.htlcAddress!.isNotEmpty)
+            Row(
+              children: [
+                SelectableText(
+                  '${bridge.blockchainTo!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
+                ),
+                FormatAddressLinkCopy(
+                  address: bridge.blockchainTo!.htlcAddress!,
+                  chainId: bridge.blockchainTo!.chainId,
+                  expanded: false,
+                ),
+              ],
+            ),
+        ],
+      ),
     );
   }
 }

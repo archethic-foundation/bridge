@@ -17,6 +17,9 @@ class LocalHistoryClearButton extends ConsumerWidget {
 
     return ref.watch(BridgeHistoryProviders.fetchBridgesList()).map(
           data: (data) {
+            if (data.value.isEmpty) {
+              return const SizedBox();
+            }
             return AppButton(
               labelBtn: AppLocalizations.of(context)!.btn_clear_local_history,
               icon: Iconsax.eraser,
@@ -112,16 +115,8 @@ class LocalHistoryClearButton extends ConsumerWidget {
               },
             );
           },
-          error: (error) => AppButton(
-            labelBtn: AppLocalizations.of(context)!.btn_clear_local_history,
-            icon: Iconsax.eraser,
-            disabled: true,
-          ),
-          loading: (loading) => AppButton(
-            labelBtn: AppLocalizations.of(context)!.btn_clear_local_history,
-            icon: Iconsax.eraser,
-            disabled: true,
-          ),
+          error: (error) => const SizedBox(),
+          loading: (loading) => const SizedBox(),
         );
   }
 }

@@ -41,6 +41,9 @@ mixin _$BridgeFormState {
   int get currentStep => throw _privateConstructorUsedError;
   bool get changeDirectionInProgress => throw _privateConstructorUsedError;
   int? get timestampExec => throw _privateConstructorUsedError;
+  @ArchethicOracleUCOJsonConverter()
+  ArchethicOracleUCO? get archethicOracleUCO =>
+      throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -70,12 +73,15 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       WaitForWalletConfirmation? waitForWalletConfirmation,
       int currentStep,
       bool changeDirectionInProgress,
-      int? timestampExec});
+      int? timestampExec,
+      @ArchethicOracleUCOJsonConverter()
+      ArchethicOracleUCO? archethicOracleUCO});
 
   $BridgeBlockchainCopyWith<$Res>? get blockchainFrom;
   $BridgeBlockchainCopyWith<$Res>? get blockchainTo;
   $BridgeTokenCopyWith<$Res>? get tokenToBridge;
   $FailureCopyWith<$Res>? get failure;
+  $ArchethicOracleUCOCopyWith<$Res>? get archethicOracleUCO;
 }
 
 /// @nodoc
@@ -107,6 +113,7 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? currentStep = null,
     Object? changeDirectionInProgress = null,
     Object? timestampExec = freezed,
+    Object? archethicOracleUCO = freezed,
   }) {
     return _then(_value.copyWith(
       bridgeProcessStep: null == bridgeProcessStep
@@ -173,6 +180,10 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
           ? _value.timestampExec
           : timestampExec // ignore: cast_nullable_to_non_nullable
               as int?,
+      archethicOracleUCO: freezed == archethicOracleUCO
+          ? _value.archethicOracleUCO
+          : archethicOracleUCO // ignore: cast_nullable_to_non_nullable
+              as ArchethicOracleUCO?,
     ) as $Val);
   }
 
@@ -223,6 +234,19 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
       return _then(_value.copyWith(failure: value) as $Val);
     });
   }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $ArchethicOracleUCOCopyWith<$Res>? get archethicOracleUCO {
+    if (_value.archethicOracleUCO == null) {
+      return null;
+    }
+
+    return $ArchethicOracleUCOCopyWith<$Res>(_value.archethicOracleUCO!,
+        (value) {
+      return _then(_value.copyWith(archethicOracleUCO: value) as $Val);
+    });
+  }
 }
 
 /// @nodoc
@@ -249,7 +273,9 @@ abstract class _$$_BridgeFormStateCopyWith<$Res>
       WaitForWalletConfirmation? waitForWalletConfirmation,
       int currentStep,
       bool changeDirectionInProgress,
-      int? timestampExec});
+      int? timestampExec,
+      @ArchethicOracleUCOJsonConverter()
+      ArchethicOracleUCO? archethicOracleUCO});
 
   @override
   $BridgeBlockchainCopyWith<$Res>? get blockchainFrom;
@@ -259,6 +285,8 @@ abstract class _$$_BridgeFormStateCopyWith<$Res>
   $BridgeTokenCopyWith<$Res>? get tokenToBridge;
   @override
   $FailureCopyWith<$Res>? get failure;
+  @override
+  $ArchethicOracleUCOCopyWith<$Res>? get archethicOracleUCO;
 }
 
 /// @nodoc
@@ -288,6 +316,7 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
     Object? currentStep = null,
     Object? changeDirectionInProgress = null,
     Object? timestampExec = freezed,
+    Object? archethicOracleUCO = freezed,
   }) {
     return _then(_$_BridgeFormState(
       bridgeProcessStep: null == bridgeProcessStep
@@ -354,6 +383,10 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
           ? _value.timestampExec
           : timestampExec // ignore: cast_nullable_to_non_nullable
               as int?,
+      archethicOracleUCO: freezed == archethicOracleUCO
+          ? _value.archethicOracleUCO
+          : archethicOracleUCO // ignore: cast_nullable_to_non_nullable
+              as ArchethicOracleUCO?,
     ));
   }
 }
@@ -377,7 +410,8 @@ class _$_BridgeFormState extends _BridgeFormState {
       this.waitForWalletConfirmation,
       this.currentStep = 0,
       this.changeDirectionInProgress = false,
-      this.timestampExec})
+      this.timestampExec,
+      @ArchethicOracleUCOJsonConverter() this.archethicOracleUCO})
       : super._();
 
   factory _$_BridgeFormState.fromJson(Map<String, dynamic> json) =>
@@ -429,10 +463,13 @@ class _$_BridgeFormState extends _BridgeFormState {
   final bool changeDirectionInProgress;
   @override
   final int? timestampExec;
+  @override
+  @ArchethicOracleUCOJsonConverter()
+  final ArchethicOracleUCO? archethicOracleUCO;
 
   @override
   String toString() {
-    return 'BridgeFormState(bridgeProcessStep: $bridgeProcessStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeAmountFiat: $tokenToBridgeAmountFiat, networkFees: $networkFees, networkFeesFiat: $networkFeesFiat, tokenToBridgeBalance: $tokenToBridgeBalance, failure: $failure, isTransferInProgress: $isTransferInProgress, waitForWalletConfirmation: $waitForWalletConfirmation, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec)';
+    return 'BridgeFormState(bridgeProcessStep: $bridgeProcessStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeAmountFiat: $tokenToBridgeAmountFiat, networkFees: $networkFees, networkFeesFiat: $networkFeesFiat, tokenToBridgeBalance: $tokenToBridgeBalance, failure: $failure, isTransferInProgress: $isTransferInProgress, waitForWalletConfirmation: $waitForWalletConfirmation, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO)';
   }
 
   @override
@@ -473,7 +510,9 @@ class _$_BridgeFormState extends _BridgeFormState {
                     changeDirectionInProgress) ||
                 other.changeDirectionInProgress == changeDirectionInProgress) &&
             (identical(other.timestampExec, timestampExec) ||
-                other.timestampExec == timestampExec));
+                other.timestampExec == timestampExec) &&
+            (identical(other.archethicOracleUCO, archethicOracleUCO) ||
+                other.archethicOracleUCO == archethicOracleUCO));
   }
 
   @JsonKey(ignore: true)
@@ -495,7 +534,8 @@ class _$_BridgeFormState extends _BridgeFormState {
       waitForWalletConfirmation,
       currentStep,
       changeDirectionInProgress,
-      timestampExec);
+      timestampExec,
+      archethicOracleUCO);
 
   @JsonKey(ignore: true)
   @override
@@ -528,7 +568,9 @@ abstract class _BridgeFormState extends BridgeFormState {
       final WaitForWalletConfirmation? waitForWalletConfirmation,
       final int currentStep,
       final bool changeDirectionInProgress,
-      final int? timestampExec}) = _$_BridgeFormState;
+      final int? timestampExec,
+      @ArchethicOracleUCOJsonConverter()
+      final ArchethicOracleUCO? archethicOracleUCO}) = _$_BridgeFormState;
   const _BridgeFormState._() : super._();
 
   factory _BridgeFormState.fromJson(Map<String, dynamic> json) =
@@ -570,6 +612,9 @@ abstract class _BridgeFormState extends BridgeFormState {
   bool get changeDirectionInProgress;
   @override
   int? get timestampExec;
+  @override
+  @ArchethicOracleUCOJsonConverter()
+  ArchethicOracleUCO? get archethicOracleUCO;
   @override
   @JsonKey(ignore: true)
   _$$_BridgeFormStateCopyWith<_$_BridgeFormState> get copyWith =>

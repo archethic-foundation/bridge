@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/balance.dart';
 import 'package:aebridge/application/bridge_blockchain.dart';
+import 'package:aebridge/application/oracle/state.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/repositories/datasources/bridge_local_datasource.dart';
@@ -163,14 +164,6 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   Future<void> setTokenToBridgeAmount(
     double tokenToBridgeAmount,
   ) async {
-    // TODO(reddwarf03): manage oracle
-    /*final oracleUcoPrice = await sl.get<OracleService>().getOracleData();
-    state = state.copyWith(
-      tokenToBridgeAmount: tokenToBridgeAmount,
-      tokenToBridgeAmountFiat:
-          tokenToBridgeAmount * (oracleUcoPrice.uco?.usd ?? 0),
-    );*/
-
     state = state.copyWith(
       tokenToBridgeAmount: tokenToBridgeAmount,
       tokenToBridgeAmountFiat: 0,
@@ -198,7 +191,6 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   }
 
   Future<void> setMaxAmount() async {
-    // TODO(redDwarf03): Manage fees
     state = state.copyWith(
       tokenToBridgeAmount: state.tokenToBridgeBalance,
     );
@@ -261,11 +253,6 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   }
 
   Future<void> setNetworkFees(double networkFees) async {
-    /* final oracleUcoPrice = await sl.get<OracleService>().getOracleData();
-    state = state.copyWith(
-      networkFees: networkFees,
-      networkFeesFiat: networkFees * (oracleUcoPrice.uco?.usd ?? 0),
-    );*/
     state = state.copyWith(
       networkFees: networkFees,
       networkFeesFiat: 0,
@@ -275,6 +262,21 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
 
   Future<void> setTimestampExec(int timestampExec) async {
     state = state.copyWith(timestampExec: timestampExec);
+  }
+
+  Future<void> setArchethicOracleUCO(
+    int timestamp,
+    double eur,
+    double usd,
+  ) async {
+    state = state.copyWith(
+      archethicOracleUCO: ArchethicOracleUCO(
+        timestamp: timestamp,
+        eur: eur,
+        usd: usd,
+      ),
+    );
+    await storeBridge();
   }
 
   Future<bool> control() async {

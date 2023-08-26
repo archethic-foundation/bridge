@@ -14,17 +14,20 @@ class LocalHistoryCardTrfInfos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (bridge.tokenToBridge != null && bridge.blockchainTo != null) {
-      return Row(
-        children: [
-          SelectableText(
-            '${bridge.tokenToBridgeAmount.toString().formatNumber()} ${bridge.tokenToBridge!.symbol} ${AppLocalizations.of(context)!.localHistoryToLbl} ',
-          ),
-          FormatAddressLinkCopy(
-            address: bridge.targetAddress,
-            chainId: bridge.blockchainTo!.chainId,
-            expanded: false,
-          ),
-        ],
+      return Padding(
+        padding: const EdgeInsets.only(top: 5),
+        child: Row(
+          children: [
+            SelectableText(
+              '${bridge.tokenToBridgeAmount.toString().formatNumber()} ${bridge.tokenToBridge!.symbol} ${AppLocalizations.of(context)!.localHistoryToLbl} ',
+            ),
+            FormatAddressLinkCopy(
+              address: bridge.targetAddress,
+              chainId: bridge.blockchainTo!.chainId,
+              expanded: false,
+            ),
+          ],
+        ),
       );
     }
 

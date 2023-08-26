@@ -6,7 +6,12 @@ import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
 void setupServiceLocator() {
-  sl.registerLazySingleton<DBHelper>(DBHelper.new);
+  sl
+    ..registerLazySingleton<DBHelper>(DBHelper.new)
+    ..registerLazySingleton<OracleService>(
+      () => OracleService('https://mainnet.archethic.net'),
+    );
+  log('Register', name: 'OracleService');
 }
 
 void setupServiceLocatorApiService(String endpoint) {
@@ -14,8 +19,4 @@ void setupServiceLocatorApiService(String endpoint) {
     () => ApiService(endpoint),
   );
   log('Register', name: 'ApiService');
-  sl.registerLazySingleton<OracleService>(
-    () => OracleService(endpoint),
-  );
-  log('Register', name: 'OracleService');
 }

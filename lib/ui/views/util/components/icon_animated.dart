@@ -37,6 +37,7 @@ class IconAnimatedState extends ConsumerState<IconAnimated> {
       },
       child: Icon(
         widget.icon,
+        size: widget.iconSize,
         color: widget.color,
       ).animate(target: _over ? 1 : 0).scaleXY(end: 1.3),
     );

@@ -37,8 +37,8 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: "84-add-a-method-for-calling-smart-contract-functions"
-      resolved-ref: "51a281b264b8d0b53012b776c227257cc268f31e"
+      ref: dev
+      resolved-ref: "08f5acdf581bbe3966fd6396ecad604ca2baf0fd"
       url: "https://github.com/archethic-foundation/libdart.git"
     source: git
     version: "3.3.0"
@@ -47,7 +47,7 @@ packages:
     description:
       path: "."
       ref: libdart_calling_sm_function
-      resolved-ref: fe25ecf6d19ce03ccab128f7996b5ae821403211
+      resolved-ref: "663563297a993b9e4dd492b7ddc3c45f1ee8b7c1"
       url: "https://github.com/archethic-foundation/archethic-wallet-client-dart.git"
     source: git
     version: "1.0.6"
@@ -143,10 +143,10 @@ packages:
     dependency: transitive
     description:
       name: built_value
-      sha256: "598a2a682e2a7a90f08ba39c0aaa9374c5112340f0a2e275f61b59389543d166"
+      sha256: ff627b645b28fb8bdb69e645f910c2458fd6b65f6585c3a53e0626024897dedf
       url: "https://pub.dev"
     source: hosted
-    version: "8.6.1"
+    version: "8.6.2"
   characters:
     dependency: transitive
     description:
@@ -651,7 +651,7 @@ packages:
     source: hosted
     version: "0.6.7"
   json_annotation:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: json_annotation
       sha256: b10a7b2ff83d83c777edba3c6a0f97045ddadd56c944e1a23a3fdf43a1bf4467
@@ -970,14 +970,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
-  secp256k1:
-    dependency: transitive
-    description:
-      name: secp256k1
-      sha256: "66310c1fce68d0c3cfae61f9f23aba11f459fb8c84a50bdc6520548c62a4828a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.3.0"
   shelf:
     dependency: transitive
     description:
@@ -1275,10 +1267,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: "0fae432c85c4ea880b33b497d32824b97795b04cdaa74d270219572a1f50268d"
+      sha256: c538be99af830f478718b51630ec1b6bee5e74e52c8a802d328d9e71d35d2583
       url: "https://pub.dev"
     source: hosted
-    version: "11.9.0"
+    version: "11.10.0"
   walletconnect_dart:
     dependency: "direct main"
     description:
@@ -1340,10 +1332,10 @@ packages:
     dependency: transitive
     description:
       name: win32
-      sha256: f2add6fa510d3ae152903412227bda57d0d5a8da61d2c39c1fb022c9429a41c0
+      sha256: "9e82a402b7f3d518fb9c02d0e9ae45952df31b9bf34d77baf19da2de03fc2aaa"
       url: "https://pub.dev"
     source: hosted
-    version: "5.0.6"
+    version: "5.0.7"
   x25519:
     dependency: transitive
     description:

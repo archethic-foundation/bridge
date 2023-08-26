@@ -106,7 +106,7 @@ Map<String, dynamic> _$$UserRejectedToJson(_$UserRejected instance) =>
 _$OtherFailure _$$OtherFailureFromJson(Map<String, dynamic> json) =>
     _$OtherFailure(
       cause: json['cause'],
-      stack: json['stack'],
+      stack: json['stack'] as String?,
       $type: json['runtimeType'] as String?,
     );
 

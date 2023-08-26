@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/oracle/provider.dart';
 import 'package:aebridge/model/hive/db_helper.dart';
 import 'package:aebridge/ui/views/main_screen.dart';
 import 'package:aebridge/ui/views/welcome/welcome_screen.dart';
@@ -31,6 +32,8 @@ class MyApp extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.read(ArchethicOracleUCOProviders.archethicOracleUCO.notifier).init();
+
     // GoRouter configuration
     final _router = GoRouter(
       routes: [

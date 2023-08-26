@@ -8,6 +8,7 @@ import 'package:aebridge/ui/views/bridge/layouts/components/bridge_textfield_tar
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_textfield_token_amount.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_address.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_bridged.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_archethic_oracle_uco.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_selection.dart';
 import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:aebridge/ui/views/util/components/scrollbar.dart';
@@ -42,100 +43,109 @@ class BridgeFormSheet extends ConsumerWidget {
             ),
           ),
         ),
-        Container(
-          width: 650,
-          height: 600,
-          decoration: BoxDecoration(
-            gradient: ThemeBase.gradientSheetBackground,
-            border: GradientBoxBorder(
-              gradient: ThemeBase.gradientSheetBorder,
-            ),
-            borderRadius: BorderRadius.circular(24),
-            image: const DecorationImage(
-              image: AssetImage(
-                'assets/images/background-sheet.png',
+        Stack(
+          alignment: Alignment.bottomRight,
+          children: [
+            Container(
+              width: 650,
+              height: 600,
+              decoration: BoxDecoration(
+                gradient: ThemeBase.gradientSheetBackground,
+                border: GradientBoxBorder(
+                  gradient: ThemeBase.gradientSheetBorder,
+                ),
+                borderRadius: BorderRadius.circular(24),
+                image: const DecorationImage(
+                  image: AssetImage(
+                    'assets/images/background-sheet.png',
+                  ),
+                  fit: BoxFit.cover,
+                ),
               ),
-              fit: BoxFit.cover,
-            ),
-          ),
-          child: ArchethicScrollbar(
-            child: Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 10,
-                  ),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 15),
-                        child: SelectionArea(
-                          child: Text(
-                            AppLocalizations.of(context)!.bridgeFormTitle,
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
-                        ),
+              child: ArchethicScrollbar(
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(
+                        top: 10,
                       ),
-                      Expanded(
-                        child: Container(
-                          width: 50,
-                          height: 1,
-                          decoration: BoxDecoration(
-                            gradient: ThemeBase.gradient,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.only(top: 20, left: 30, right: 30),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Row(
                         children: [
-                          BridgeBlockchainFromSelection(),
-                          BridgeBlockchainIconDirection(),
-                          BridgeBlockchainToSelection(),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 15, right: 15),
+                            child: SelectionArea(
+                              child: Text(
+                                AppLocalizations.of(context)!.bridgeFormTitle,
+                                style: Theme.of(context).textTheme.titleSmall,
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: Container(
+                              width: 50,
+                              height: 1,
+                              decoration: BoxDecoration(
+                                gradient: ThemeBase.gradient,
+                              ),
+                            ),
+                          ),
                         ],
                       ),
-                      SizedBox(
-                        height: 5,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    ),
+                    const Padding(
+                      padding: EdgeInsets.only(top: 20, left: 30, right: 30),
+                      child: Column(
                         children: [
-                          BridgeTokenToBridgeSelection(),
-                          BridgeTokenBridged(),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              BridgeBlockchainFromSelection(),
+                              BridgeBlockchainIconDirection(),
+                              BridgeBlockchainToSelection(),
+                            ],
+                          ),
+                          SizedBox(
+                            height: 5,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              BridgeTokenToBridgeSelection(),
+                              BridgeTokenBridged(),
+                            ],
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: BridgeTokenAddress(),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          BridgeTargetAddress(),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          BridgeTokenAmount(),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          BridgeButton(),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          BridgeErrorMessage(),
                         ],
                       ),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: BridgeTokenAddress(),
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      BridgeTargetAddress(),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      BridgeTokenAmount(),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      BridgeButton(),
-                      SizedBox(
-                        height: 30,
-                      ),
-                      BridgeErrorMessage(),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
+            const Padding(
+              padding: EdgeInsets.only(bottom: 10, right: 20),
+              child: BridgeTokenToBridgeArchethicOracleUco(),
+            ),
+          ],
         ),
       ],
     );

@@ -19,6 +19,10 @@ class FailureMessage {
       return AppLocalizations.of(context)!.failureUserRejected;
     }
 
+    if (failure is OtherFailure) {
+      return (failure! as OtherFailure).cause.toString();
+    }
+
     return failure.toString();
   }
 }

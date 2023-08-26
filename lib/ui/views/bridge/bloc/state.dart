@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/domain/models/failures.dart';
+import 'package:aebridge/application/oracle/state.dart';
 import 'package:aebridge/model/bridge_blockchain.dart';
 import 'package:aebridge/model/bridge_token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -30,6 +31,7 @@ class BridgeFormState with _$BridgeFormState {
     @Default(0) int currentStep,
     @Default(false) bool changeDirectionInProgress,
     int? timestampExec,
+    @ArchethicOracleUCOJsonConverter() ArchethicOracleUCO? archethicOracleUCO,
   }) = _BridgeFormState;
   const BridgeFormState._();
 

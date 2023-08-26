@@ -6,21 +6,22 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sessionNotifierHash() => r'8c2a42baa48d6722b97e6eb010868667e8cc0a69';
+String _$archethicOracleUCONotifierHash() =>
+    r'4f7801494d729c7be781758ab03c04bd97e8e9ad';
 
-/// See also [_SessionNotifier].
-@ProviderFor(_SessionNotifier)
-final _sessionNotifierProvider =
-    NotifierProvider<_SessionNotifier, Session>.internal(
-  _SessionNotifier.new,
-  name: r'_sessionNotifierProvider',
+/// See also [_ArchethicOracleUCONotifier].
+@ProviderFor(_ArchethicOracleUCONotifier)
+final _archethicOracleUCONotifierProvider =
+    NotifierProvider<_ArchethicOracleUCONotifier, ArchethicOracleUCO>.internal(
+  _ArchethicOracleUCONotifier.new,
+  name: r'_archethicOracleUCONotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$sessionNotifierHash,
+      : _$archethicOracleUCONotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$SessionNotifier = Notifier<Session>;
+typedef _$ArchethicOracleUCONotifier = Notifier<ArchethicOracleUCO>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
