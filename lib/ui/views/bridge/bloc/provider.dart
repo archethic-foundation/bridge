@@ -166,7 +166,6 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   ) async {
     state = state.copyWith(
       tokenToBridgeAmount: tokenToBridgeAmount,
-      tokenToBridgeAmountFiat: 0,
     );
     await storeBridge();
   }
@@ -226,11 +225,9 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       failure: null,
       isTransferInProgress: false,
       networkFees: 0,
-      networkFeesFiat: 0,
       targetAddress: '',
       tokenToBridge: null,
       tokenToBridgeAmount: 0,
-      tokenToBridgeAmountFiat: 0,
       tokenToBridgeBalance: 0,
       waitForWalletConfirmation: null,
       timestampExec: null,
@@ -255,7 +252,6 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   Future<void> setNetworkFees(double networkFees) async {
     state = state.copyWith(
       networkFees: networkFees,
-      networkFeesFiat: 0,
     );
     await storeBridge();
   }

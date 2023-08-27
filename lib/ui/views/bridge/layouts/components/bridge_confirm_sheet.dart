@@ -1,7 +1,9 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/oracle/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_back_btn.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_btn.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_archethic_oracle_uco.dart';
 import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:aebridge/ui/views/util/components/blockchain_label.dart';
 import 'package:aebridge/ui/views/util/components/format_address_link_copy.dart';
@@ -20,9 +22,20 @@ class BridgeConfirmSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+
+    final archethicOracleUCO =
+        ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
+
+    final tokenToBridgeAmountFiat =
+        archethicOracleUCO.usd * bridge.tokenToBridgeAmount;
+
     return Stack(
       alignment: Alignment.center,
       children: [
+        const Padding(
+          padding: EdgeInsets.only(left: 350, top: 630),
+          child: BridgeTokenToBridgeArchethicOracleUco(),
+        ),
         Container(
           height: MediaQuery.of(context).size.height,
           padding: const EdgeInsets.only(
@@ -43,7 +56,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
         ),
         Container(
           width: 650,
-          height: 500,
+          height: 600,
           decoration: BoxDecoration(
             gradient: ThemeBase.gradientSheetBackground,
             border: GradientBoxBorder(
@@ -133,7 +146,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
                                 .bridge_token_amount_lbl,
                           ),
                           Text(
-                            '${bridge.tokenToBridgeAmount.toString().formatNumber()} ${bridge.tokenToBridge!.symbol}',
+                            '${bridge.tokenToBridgeAmount.toString().formatNumber()} ${bridge.tokenToBridge!.symbol} (\$${tokenToBridgeAmountFiat.toStringAsFixed(2).formatNumber()})',
                           ),
                         ],
                       ),

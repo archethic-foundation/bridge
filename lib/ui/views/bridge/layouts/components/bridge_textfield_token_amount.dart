@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/oracle/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_balance.dart';
 import 'package:aebridge/ui/views/themes/theme_base.dart';
@@ -65,6 +66,12 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
         bridge.tokenToBridge == null) {
       return const SizedBox();
     }
+
+    final archethicOracleUCO =
+        ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
+
+    final tokenToBridgeAmountFiat =
+        archethicOracleUCO.usd * bridge.tokenToBridgeAmount;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -167,6 +174,12 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
               ),
             ),
           ],
+        ),
+        Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            '\$${tokenToBridgeAmountFiat.toStringAsFixed(2).formatNumber()}',
+          ),
         ),
       ],
     )

@@ -25,6 +25,10 @@ class BridgeFormSheet extends ConsumerWidget {
     return Stack(
       alignment: Alignment.center,
       children: [
+        const Padding(
+          padding: EdgeInsets.only(left: 350, top: 630),
+          child: BridgeTokenToBridgeArchethicOracleUco(),
+        ),
         Container(
           height: MediaQuery.of(context).size.height,
           padding: const EdgeInsets.only(
@@ -43,109 +47,100 @@ class BridgeFormSheet extends ConsumerWidget {
             ),
           ),
         ),
-        Stack(
-          alignment: Alignment.bottomRight,
-          children: [
-            Container(
-              width: 650,
-              height: 600,
-              decoration: BoxDecoration(
-                gradient: ThemeBase.gradientSheetBackground,
-                border: GradientBoxBorder(
-                  gradient: ThemeBase.gradientSheetBorder,
-                ),
-                borderRadius: BorderRadius.circular(24),
-                image: const DecorationImage(
-                  image: AssetImage(
-                    'assets/images/background-sheet.png',
+        Container(
+          width: 650,
+          height: 600,
+          decoration: BoxDecoration(
+            gradient: ThemeBase.gradientSheetBackground,
+            border: GradientBoxBorder(
+              gradient: ThemeBase.gradientSheetBorder,
+            ),
+            borderRadius: BorderRadius.circular(24),
+            image: const DecorationImage(
+              image: AssetImage(
+                'assets/images/background-sheet.png',
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+          child: ArchethicScrollbar(
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: 10,
                   ),
-                  fit: BoxFit.cover,
-                ),
-              ),
-              child: ArchethicScrollbar(
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(
-                        top: 10,
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 15, right: 15),
+                        child: SelectionArea(
+                          child: Text(
+                            AppLocalizations.of(context)!.bridgeFormTitle,
+                            style: Theme.of(context).textTheme.titleSmall,
+                          ),
+                        ),
                       ),
-                      child: Row(
+                      Expanded(
+                        child: Container(
+                          width: 50,
+                          height: 1,
+                          decoration: BoxDecoration(
+                            gradient: ThemeBase.gradient,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 20, left: 30, right: 30),
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.only(left: 15, right: 15),
-                            child: SelectionArea(
-                              child: Text(
-                                AppLocalizations.of(context)!.bridgeFormTitle,
-                                style: Theme.of(context).textTheme.titleSmall,
-                              ),
-                            ),
-                          ),
-                          Expanded(
-                            child: Container(
-                              width: 50,
-                              height: 1,
-                              decoration: BoxDecoration(
-                                gradient: ThemeBase.gradient,
-                              ),
-                            ),
-                          ),
+                          BridgeBlockchainFromSelection(),
+                          BridgeBlockchainIconDirection(),
+                          BridgeBlockchainToSelection(),
                         ],
                       ),
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.only(top: 20, left: 30, right: 30),
-                      child: Column(
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              BridgeBlockchainFromSelection(),
-                              BridgeBlockchainIconDirection(),
-                              BridgeBlockchainToSelection(),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              BridgeTokenToBridgeSelection(),
-                              BridgeTokenBridged(),
-                            ],
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: BridgeTokenAddress(),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          BridgeTargetAddress(),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          BridgeTokenAmount(),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          BridgeButton(),
-                          SizedBox(
-                            height: 30,
-                          ),
-                          BridgeErrorMessage(),
+                          BridgeTokenToBridgeSelection(),
+                          BridgeTokenBridged(),
                         ],
                       ),
-                    ),
-                  ],
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: BridgeTokenAddress(),
+                      ),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      BridgeTargetAddress(),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      BridgeTokenAmount(),
+                      SizedBox(
+                        height: 10,
+                      ),
+                      BridgeButton(),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      BridgeErrorMessage(),
+                    ],
+                  ),
                 ),
-              ),
+              ],
             ),
-            const Padding(
-              padding: EdgeInsets.only(bottom: 10, right: 20),
-              child: BridgeTokenToBridgeArchethicOracleUco(),
-            ),
-          ],
+          ),
         ),
       ],
     );

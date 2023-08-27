@@ -133,7 +133,7 @@ mixin TransactionBridgeMixin {
           throw const Failure.userRejected();
         }
         throw Failure.other(
-          cause: failure.cause,
+          cause: failure.message,
           stack: failure.stack.toString(),
         );
       },

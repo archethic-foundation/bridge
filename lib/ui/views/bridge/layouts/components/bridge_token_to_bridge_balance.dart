@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/oracle/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
@@ -17,8 +18,13 @@ class BridgeTokenToBridgeBalance extends ConsumerWidget {
     if (bridge.blockchainFrom == null || bridge.tokenToBridge == null) {
       return const SizedBox();
     }
+
+    final archethicOracleUCO =
+        ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
+
+    final balanceFiat = archethicOracleUCO.usd * bridge.tokenToBridgeBalance;
     return Text(
-      '${AppLocalizations.of(context)!.balance_title_infos} ${bridge.tokenToBridgeBalance.toStringAsFixed(4).replaceAll(RegExp(r"0*$"), "").replaceAll(RegExp(r"\.$"), "").formatNumber()} ${bridge.tokenToBridge!.symbol}',
+      '${AppLocalizations.of(context)!.balance_title_infos} ${bridge.tokenToBridgeBalance.toStringAsFixed(4).replaceAll(RegExp(r"0*$"), "").replaceAll(RegExp(r"\.$"), "").formatNumber()} ${bridge.tokenToBridge!.symbol} (\$${balanceFiat.toStringAsFixed(2)})',
     );
   }
 }

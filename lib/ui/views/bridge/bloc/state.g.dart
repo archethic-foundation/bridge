@@ -24,10 +24,7 @@ _$_BridgeFormState _$$_BridgeFormStateFromJson(Map<String, dynamic> json) =>
       tokenToBridgeAmount:
           (json['tokenToBridgeAmount'] as num?)?.toDouble() ?? 0,
       targetAddress: json['targetAddress'] as String? ?? '',
-      tokenToBridgeAmountFiat:
-          (json['tokenToBridgeAmountFiat'] as num?)?.toDouble() ?? 0,
       networkFees: (json['networkFees'] as num?)?.toDouble() ?? 0.0,
-      networkFeesFiat: (json['networkFeesFiat'] as num?)?.toDouble() ?? 0.0,
       tokenToBridgeBalance:
           (json['tokenToBridgeBalance'] as num?)?.toDouble() ?? 0,
       failure: _$JsonConverterFromJson<Map<String, dynamic>, Failure>(
@@ -62,9 +59,7 @@ Map<String, dynamic> _$$_BridgeFormStateToJson(_$_BridgeFormState instance) =>
           instance.tokenToBridge, const BridgeTokenJsonConverter().toJson),
       'tokenToBridgeAmount': instance.tokenToBridgeAmount,
       'targetAddress': instance.targetAddress,
-      'tokenToBridgeAmountFiat': instance.tokenToBridgeAmountFiat,
       'networkFees': instance.networkFees,
-      'networkFeesFiat': instance.networkFeesFiat,
       'tokenToBridgeBalance': instance.tokenToBridgeBalance,
       'failure': _$JsonConverterToJson<Map<String, dynamic>, Failure>(
           instance.failure, const FailureJsonConverter().toJson),

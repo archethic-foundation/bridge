@@ -29,9 +29,7 @@ mixin _$BridgeFormState {
   BridgeToken? get tokenToBridge => throw _privateConstructorUsedError;
   double get tokenToBridgeAmount => throw _privateConstructorUsedError;
   String get targetAddress => throw _privateConstructorUsedError;
-  double get tokenToBridgeAmountFiat => throw _privateConstructorUsedError;
   double get networkFees => throw _privateConstructorUsedError;
-  double get networkFeesFiat => throw _privateConstructorUsedError;
   double get tokenToBridgeBalance => throw _privateConstructorUsedError;
   @FailureJsonConverter()
   Failure? get failure => throw _privateConstructorUsedError;
@@ -64,9 +62,7 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       @BridgeTokenJsonConverter() BridgeToken? tokenToBridge,
       double tokenToBridgeAmount,
       String targetAddress,
-      double tokenToBridgeAmountFiat,
       double networkFees,
-      double networkFeesFiat,
       double tokenToBridgeBalance,
       @FailureJsonConverter() Failure? failure,
       bool isTransferInProgress,
@@ -103,9 +99,7 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? tokenToBridge = freezed,
     Object? tokenToBridgeAmount = null,
     Object? targetAddress = null,
-    Object? tokenToBridgeAmountFiat = null,
     Object? networkFees = null,
-    Object? networkFeesFiat = null,
     Object? tokenToBridgeBalance = null,
     Object? failure = freezed,
     Object? isTransferInProgress = null,
@@ -140,17 +134,9 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
           ? _value.targetAddress
           : targetAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      tokenToBridgeAmountFiat: null == tokenToBridgeAmountFiat
-          ? _value.tokenToBridgeAmountFiat
-          : tokenToBridgeAmountFiat // ignore: cast_nullable_to_non_nullable
-              as double,
       networkFees: null == networkFees
           ? _value.networkFees
           : networkFees // ignore: cast_nullable_to_non_nullable
-              as double,
-      networkFeesFiat: null == networkFeesFiat
-          ? _value.networkFeesFiat
-          : networkFeesFiat // ignore: cast_nullable_to_non_nullable
               as double,
       tokenToBridgeBalance: null == tokenToBridgeBalance
           ? _value.tokenToBridgeBalance
@@ -264,9 +250,7 @@ abstract class _$$_BridgeFormStateCopyWith<$Res>
       @BridgeTokenJsonConverter() BridgeToken? tokenToBridge,
       double tokenToBridgeAmount,
       String targetAddress,
-      double tokenToBridgeAmountFiat,
       double networkFees,
-      double networkFeesFiat,
       double tokenToBridgeBalance,
       @FailureJsonConverter() Failure? failure,
       bool isTransferInProgress,
@@ -306,9 +290,7 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
     Object? tokenToBridge = freezed,
     Object? tokenToBridgeAmount = null,
     Object? targetAddress = null,
-    Object? tokenToBridgeAmountFiat = null,
     Object? networkFees = null,
-    Object? networkFeesFiat = null,
     Object? tokenToBridgeBalance = null,
     Object? failure = freezed,
     Object? isTransferInProgress = null,
@@ -343,17 +325,9 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
           ? _value.targetAddress
           : targetAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      tokenToBridgeAmountFiat: null == tokenToBridgeAmountFiat
-          ? _value.tokenToBridgeAmountFiat
-          : tokenToBridgeAmountFiat // ignore: cast_nullable_to_non_nullable
-              as double,
       networkFees: null == networkFees
           ? _value.networkFees
           : networkFees // ignore: cast_nullable_to_non_nullable
-              as double,
-      networkFeesFiat: null == networkFeesFiat
-          ? _value.networkFeesFiat
-          : networkFeesFiat // ignore: cast_nullable_to_non_nullable
               as double,
       tokenToBridgeBalance: null == tokenToBridgeBalance
           ? _value.tokenToBridgeBalance
@@ -401,9 +375,7 @@ class _$_BridgeFormState extends _BridgeFormState {
       @BridgeTokenJsonConverter() this.tokenToBridge,
       this.tokenToBridgeAmount = 0,
       this.targetAddress = '',
-      this.tokenToBridgeAmountFiat = 0,
       this.networkFees = 0.0,
-      this.networkFeesFiat = 0.0,
       this.tokenToBridgeBalance = 0,
       @FailureJsonConverter() this.failure,
       this.isTransferInProgress = false,
@@ -437,13 +409,7 @@ class _$_BridgeFormState extends _BridgeFormState {
   final String targetAddress;
   @override
   @JsonKey()
-  final double tokenToBridgeAmountFiat;
-  @override
-  @JsonKey()
   final double networkFees;
-  @override
-  @JsonKey()
-  final double networkFeesFiat;
   @override
   @JsonKey()
   final double tokenToBridgeBalance;
@@ -469,7 +435,7 @@ class _$_BridgeFormState extends _BridgeFormState {
 
   @override
   String toString() {
-    return 'BridgeFormState(bridgeProcessStep: $bridgeProcessStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeAmountFiat: $tokenToBridgeAmountFiat, networkFees: $networkFees, networkFeesFiat: $networkFeesFiat, tokenToBridgeBalance: $tokenToBridgeBalance, failure: $failure, isTransferInProgress: $isTransferInProgress, waitForWalletConfirmation: $waitForWalletConfirmation, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO)';
+    return 'BridgeFormState(bridgeProcessStep: $bridgeProcessStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, networkFees: $networkFees, tokenToBridgeBalance: $tokenToBridgeBalance, failure: $failure, isTransferInProgress: $isTransferInProgress, waitForWalletConfirmation: $waitForWalletConfirmation, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO)';
   }
 
   @override
@@ -489,13 +455,8 @@ class _$_BridgeFormState extends _BridgeFormState {
                 other.tokenToBridgeAmount == tokenToBridgeAmount) &&
             (identical(other.targetAddress, targetAddress) ||
                 other.targetAddress == targetAddress) &&
-            (identical(
-                    other.tokenToBridgeAmountFiat, tokenToBridgeAmountFiat) ||
-                other.tokenToBridgeAmountFiat == tokenToBridgeAmountFiat) &&
             (identical(other.networkFees, networkFees) ||
                 other.networkFees == networkFees) &&
-            (identical(other.networkFeesFiat, networkFeesFiat) ||
-                other.networkFeesFiat == networkFeesFiat) &&
             (identical(other.tokenToBridgeBalance, tokenToBridgeBalance) ||
                 other.tokenToBridgeBalance == tokenToBridgeBalance) &&
             (identical(other.failure, failure) || other.failure == failure) &&
@@ -525,9 +486,7 @@ class _$_BridgeFormState extends _BridgeFormState {
       tokenToBridge,
       tokenToBridgeAmount,
       targetAddress,
-      tokenToBridgeAmountFiat,
       networkFees,
-      networkFeesFiat,
       tokenToBridgeBalance,
       failure,
       isTransferInProgress,
@@ -559,9 +518,7 @@ abstract class _BridgeFormState extends BridgeFormState {
       @BridgeTokenJsonConverter() final BridgeToken? tokenToBridge,
       final double tokenToBridgeAmount,
       final String targetAddress,
-      final double tokenToBridgeAmountFiat,
       final double networkFees,
-      final double networkFeesFiat,
       final double tokenToBridgeBalance,
       @FailureJsonConverter() final Failure? failure,
       final bool isTransferInProgress,
@@ -592,11 +549,7 @@ abstract class _BridgeFormState extends BridgeFormState {
   @override
   String get targetAddress;
   @override
-  double get tokenToBridgeAmountFiat;
-  @override
   double get networkFees;
-  @override
-  double get networkFeesFiat;
   @override
   double get tokenToBridgeBalance;
   @override
