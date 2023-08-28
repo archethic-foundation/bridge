@@ -29,23 +29,6 @@ class BridgeInProgressInfos extends ConsumerWidget {
       );
     }
 
-    if (bridge.failure != null) {
-      return const SizedBox(height: 40);
-    }
-
-    return SizedBox(
-      height: 40,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            AppLocalizations.of(context)!.bridgeInProgressInfoFinished,
-          ),
-          const Text(
-            '',
-          ),
-        ],
-      ),
-    );
+    return const SizedBox(height: 40);
   }
 }

@@ -140,7 +140,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
 
     if (tokenToBridge == null) return;
 
-    final balance = await ref.watch(
+    final balance = await ref.read(
       BalanceProviders.getBalance(
         state.blockchainFrom!.isArchethic,
         session.walletFrom!.genesisAddress,

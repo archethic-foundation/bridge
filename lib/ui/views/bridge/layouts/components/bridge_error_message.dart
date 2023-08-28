@@ -24,7 +24,7 @@ class BridgeErrorMessage extends ConsumerWidget {
           context: context,
           failure: bridge.failure,
         ).getMessage(),
-        error: true,
+        InfoBannerType.error,
       ),
     );
   }

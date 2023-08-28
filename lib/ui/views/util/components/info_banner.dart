@@ -4,17 +4,19 @@ import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
+enum InfoBannerType { error, success, request }
+
 class InfoBanner extends StatelessWidget {
   const InfoBanner(
-    this.message, {
-    this.error = false,
+    this.message,
+    this.infoBannerType, {
     this.height = 40,
     this.width = ThemeBase.sizeBoxComponentWidth,
     super.key,
   });
 
   final String message;
-  final bool error;
+  final InfoBannerType infoBannerType;
   final double height;
   final double width;
 
@@ -46,10 +48,17 @@ class InfoBanner extends StatelessWidget {
                           10,
                         ),
                         border: Border.all(
-                          color: Theme.of(context)
-                              .colorScheme
-                              .error
-                              .withOpacity(0.6),
+                          color: infoBannerType == InfoBannerType.error
+                              ? Theme.of(context)
+                                  .colorScheme
+                                  .error
+                                  .withOpacity(0.6)
+                              : infoBannerType == InfoBannerType.request
+                                  ? Theme.of(context)
+                                      .colorScheme
+                                      .primary
+                                      .withOpacity(0.6)
+                                  : ThemeBase.statusOK.withOpacity(0.6),
                           width: 0.5,
                         ),
                         gradient: ThemeBase.gradientInfoBannerBackground,
@@ -60,19 +69,24 @@ class InfoBanner extends StatelessWidget {
                         alignment: Alignment.centerLeft,
                         child: Row(
                           children: [
-                            if (error)
+                            if (infoBannerType == InfoBannerType.error)
                               Icon(
                                 Iconsax.warning_2,
                                 color: Theme.of(context).colorScheme.error,
                               ),
-                            if (error) const SizedBox(width: 5),
+                            if (infoBannerType == InfoBannerType.error)
+                              const SizedBox(width: 5),
                             Expanded(
                               child: Text(
                                 message,
                                 style: TextStyle(
-                                  color: error
+                                  color: infoBannerType == InfoBannerType.error
                                       ? Theme.of(context).colorScheme.error
-                                      : Theme.of(context).colorScheme.primary,
+                                      : infoBannerType == InfoBannerType.request
+                                          ? Theme.of(context)
+                                              .colorScheme
+                                              .primary
+                                          : ThemeBase.statusOK,
                                 ),
                               ),
                             ),

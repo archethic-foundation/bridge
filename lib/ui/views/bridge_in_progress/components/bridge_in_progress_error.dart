@@ -20,6 +20,7 @@ class BridgeInProgressError extends ConsumerWidget {
         WaitForWalletConfirmation.archethic) {
       return InfoBanner(
         AppLocalizations.of(context)!.bridgeInProgressConfirmAEWallet,
+        InfoBannerType.request,
         width: MediaQuery.of(context).size.width * 0.9,
       );
     }
@@ -27,11 +28,19 @@ class BridgeInProgressError extends ConsumerWidget {
     if (bridge.waitForWalletConfirmation == WaitForWalletConfirmation.evm) {
       return InfoBanner(
         AppLocalizations.of(context)!.bridgeInProgressConfirmEVMWallet,
+        InfoBannerType.request,
         width: MediaQuery.of(context).size.width * 0.9,
       );
     }
 
     if (bridge.failure == null) {
+      if (bridge.isTransferInProgress == false) {
+        return InfoBanner(
+          AppLocalizations.of(context)!.bridgeInProgressInfoFinished,
+          InfoBannerType.success,
+          width: MediaQuery.of(context).size.width * 0.9,
+        );
+      }
       return const SizedBox(
         height: 40,
       );
@@ -42,8 +51,8 @@ class BridgeInProgressError extends ConsumerWidget {
         context: context,
         failure: bridge.failure,
       ).getMessage(),
+      InfoBannerType.error,
       width: MediaQuery.of(context).size.width * 0.9,
-      error: true,
     );
   }
 }
