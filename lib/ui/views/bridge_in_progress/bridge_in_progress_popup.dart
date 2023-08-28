@@ -2,9 +2,9 @@
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_circular_step_progress_indicator.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_close_btn.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_contracts.dart';
+import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_current_step.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_error.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_infos.dart';
-import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_wallet_confirm.dart';
 import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -39,9 +39,10 @@ class BridgeInProgressPopup {
                       children: <Widget>[
                         BridgeInProgressInfos(),
                         BridgeInProgressCircularStepProgressIndicator(),
+                        BridgeInProgressCurrentStep(),
                         BridgeInProgressError(),
-                        BridgeInProgressWalletConfirm(),
                         BridgeInProgressContracts(),
+                        Spacer(),
                         BridgeInProgressCloseBtn(),
                       ],
                     ),

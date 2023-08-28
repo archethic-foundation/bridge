@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_to_evm.dart';
+import 'package:aebridge/domain/usecases/bridge_evm_to_ae.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/themes/theme_base.dart';
 import 'package:aebridge/ui/views/util/failure_message.dart';
@@ -58,9 +59,15 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
                 color: ThemeBase.statusInProgress,
               ),
             ),
-            Text(
-              ' (${BridgeArchethicToEVMUseCase().getStepLabel(context, bridge.currentStep)})',
-            ),
+            if (bridge.blockchainFrom != null &&
+                bridge.blockchainFrom!.isArchethic)
+              Text(
+                ' (${BridgeArchethicToEVMUseCase().getStepLabel(context, bridge.currentStep)})',
+              )
+            else
+              Text(
+                ' (${BridgeEVMToArchethicUseCase().getStepLabel(context, bridge.currentStep)})',
+              ),
           ],
         ),
         Text(

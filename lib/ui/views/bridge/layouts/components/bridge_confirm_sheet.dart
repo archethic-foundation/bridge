@@ -72,6 +72,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
           ),
           child: ArchethicScrollbar(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Padding(
                   padding: const EdgeInsets.only(

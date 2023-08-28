@@ -14,15 +14,18 @@ class BridgeErrorMessage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
     if (bridge.failure == null) {
-      return const SizedBox();
+      return const SizedBox(height: 40);
     }
 
-    return InfoBanner(
-      FailureMessage(
-        context: context,
-        failure: bridge.failure,
-      ).getMessage(),
-      error: true,
+    return SizedBox(
+      height: 40,
+      child: InfoBanner(
+        FailureMessage(
+          context: context,
+          failure: bridge.failure,
+        ).getMessage(),
+        error: true,
+      ),
     );
   }
 }
