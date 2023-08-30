@@ -88,5 +88,7 @@
   "aeBridgeProcessStep5": "Reveal secret from Archethic Pool",
   "aeBridgeProcessStep6": "Reveal secret to EVM Contract",
   "aeBridgeProcessStep7": "Withdraw",
-  "failureUserRejected": "The request has been declined."
+  "failureUserRejected": "The request has been declined.",
+  "failureConnectivityArchethic": "Please, open your Archethic Wallet and allow DApps connection.",
+  "failureConnectivityEVM": "Please, open your EVM Wallet."
 }

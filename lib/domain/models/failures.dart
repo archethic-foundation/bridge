@@ -25,11 +25,13 @@ class Failure with _$Failure implements Exception {
     DateTime? cooldownEndDate,
   }) = QuotaExceededFailure;
   const factory Failure.serviceNotFound() = ServiceNotFound;
-  const factory Failure.serviceAlreadyExists() = _ServiceAlreadyExists;
+  const factory Failure.serviceAlreadyExists() = ServiceAlreadyExists;
   const factory Failure.insufficientFunds() = InsuffientFunds;
   const factory Failure.unauthorized() = Inauthorized;
   const factory Failure.invalidValue() = InvalidValue;
   const factory Failure.userRejected() = UserRejected;
+  const factory Failure.connectivityArchethic() = ConnectivityArchethic;
+  const factory Failure.connectivityEVM() = ConnectivityEVM;
   const factory Failure.other({
     Object? cause,
     String? stack,

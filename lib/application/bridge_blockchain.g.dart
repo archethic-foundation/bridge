@@ -84,9 +84,6 @@ class _SystemHash {
   }
 }
 
-typedef _GetBlockchainFromChainIdRef
-    = AutoDisposeFutureProviderRef<BridgeBlockchain?>;
-
 /// See also [_getBlockchainFromChainId].
 @ProviderFor(_getBlockchainFromChainId)
 const _getBlockchainFromChainIdProvider = _GetBlockchainFromChainIdFamily();
@@ -135,10 +132,10 @@ class _GetBlockchainFromChainIdProvider
     extends AutoDisposeFutureProvider<BridgeBlockchain?> {
   /// See also [_getBlockchainFromChainId].
   _GetBlockchainFromChainIdProvider(
-    this.chainId,
-  ) : super.internal(
+    int chainId,
+  ) : this._internal(
           (ref) => _getBlockchainFromChainId(
-            ref,
+            ref as _GetBlockchainFromChainIdRef,
             chainId,
           ),
           from: _getBlockchainFromChainIdProvider,
@@ -150,9 +147,44 @@ class _GetBlockchainFromChainIdProvider
           dependencies: _GetBlockchainFromChainIdFamily._dependencies,
           allTransitiveDependencies:
               _GetBlockchainFromChainIdFamily._allTransitiveDependencies,
+          chainId: chainId,
         );
 
+  _GetBlockchainFromChainIdProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.chainId,
+  }) : super.internal();
+
   final int chainId;
+
+  @override
+  Override overrideWith(
+    FutureOr<BridgeBlockchain?> Function(_GetBlockchainFromChainIdRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _GetBlockchainFromChainIdProvider._internal(
+        (ref) => create(ref as _GetBlockchainFromChainIdRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        chainId: chainId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<BridgeBlockchain?> createElement() {
+    return _GetBlockchainFromChainIdProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -169,10 +201,23 @@ class _GetBlockchainFromChainIdProvider
   }
 }
 
+mixin _GetBlockchainFromChainIdRef
+    on AutoDisposeFutureProviderRef<BridgeBlockchain?> {
+  /// The parameter `chainId` of this provider.
+  int get chainId;
+}
+
+class _GetBlockchainFromChainIdProviderElement
+    extends AutoDisposeFutureProviderElement<BridgeBlockchain?>
+    with _GetBlockchainFromChainIdRef {
+  _GetBlockchainFromChainIdProviderElement(super.provider);
+
+  @override
+  int get chainId => (origin as _GetBlockchainFromChainIdProvider).chainId;
+}
+
 String _$getArchethicBlockchainFromEVMHash() =>
     r'16c5426f497b35f222744e0c0c13cd8f94757b82';
-typedef _GetArchethicBlockchainFromEVMRef
-    = AutoDisposeFutureProviderRef<BridgeBlockchain?>;
 
 /// See also [_getArchethicBlockchainFromEVM].
 @ProviderFor(_getArchethicBlockchainFromEVM)
@@ -223,10 +268,10 @@ class _GetArchethicBlockchainFromEVMProvider
     extends AutoDisposeFutureProvider<BridgeBlockchain?> {
   /// See also [_getArchethicBlockchainFromEVM].
   _GetArchethicBlockchainFromEVMProvider(
-    this.evmBlockchain,
-  ) : super.internal(
+    BridgeBlockchain? evmBlockchain,
+  ) : this._internal(
           (ref) => _getArchethicBlockchainFromEVM(
-            ref,
+            ref as _GetArchethicBlockchainFromEVMRef,
             evmBlockchain,
           ),
           from: _getArchethicBlockchainFromEVMProvider,
@@ -238,9 +283,45 @@ class _GetArchethicBlockchainFromEVMProvider
           dependencies: _GetArchethicBlockchainFromEVMFamily._dependencies,
           allTransitiveDependencies:
               _GetArchethicBlockchainFromEVMFamily._allTransitiveDependencies,
+          evmBlockchain: evmBlockchain,
         );
 
+  _GetArchethicBlockchainFromEVMProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.evmBlockchain,
+  }) : super.internal();
+
   final BridgeBlockchain? evmBlockchain;
+
+  @override
+  Override overrideWith(
+    FutureOr<BridgeBlockchain?> Function(
+            _GetArchethicBlockchainFromEVMRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _GetArchethicBlockchainFromEVMProvider._internal(
+        (ref) => create(ref as _GetArchethicBlockchainFromEVMRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        evmBlockchain: evmBlockchain,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<BridgeBlockchain?> createElement() {
+    return _GetArchethicBlockchainFromEVMProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -255,6 +336,22 @@ class _GetArchethicBlockchainFromEVMProvider
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin _GetArchethicBlockchainFromEVMRef
+    on AutoDisposeFutureProviderRef<BridgeBlockchain?> {
+  /// The parameter `evmBlockchain` of this provider.
+  BridgeBlockchain? get evmBlockchain;
+}
+
+class _GetArchethicBlockchainFromEVMProviderElement
+    extends AutoDisposeFutureProviderElement<BridgeBlockchain?>
+    with _GetArchethicBlockchainFromEVMRef {
+  _GetArchethicBlockchainFromEVMProviderElement(super.provider);
+
+  @override
+  BridgeBlockchain? get evmBlockchain =>
+      (origin as _GetArchethicBlockchainFromEVMProvider).evmBlockchain;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

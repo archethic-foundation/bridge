@@ -19,6 +19,14 @@ class FailureMessage {
       return AppLocalizations.of(context)!.failureUserRejected;
     }
 
+    if (failure is ConnectivityArchethic) {
+      return AppLocalizations.of(context)!.failureConnectivityArchethic;
+    }
+
+    if (failure is ConnectivityEVM) {
+      return AppLocalizations.of(context)!.failureConnectivityEVM;
+    }
+
     if (failure is OtherFailure) {
       return (failure! as OtherFailure).cause.toString();
     }

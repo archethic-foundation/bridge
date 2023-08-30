@@ -51,14 +51,14 @@ Map<String, dynamic> _$$ServiceNotFoundToJson(_$ServiceNotFound instance) =>
       'runtimeType': instance.$type,
     };
 
-_$_ServiceAlreadyExists _$$_ServiceAlreadyExistsFromJson(
+_$ServiceAlreadyExists _$$ServiceAlreadyExistsFromJson(
         Map<String, dynamic> json) =>
-    _$_ServiceAlreadyExists(
+    _$ServiceAlreadyExists(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$_ServiceAlreadyExistsToJson(
-        _$_ServiceAlreadyExists instance) =>
+Map<String, dynamic> _$$ServiceAlreadyExistsToJson(
+        _$ServiceAlreadyExists instance) =>
     <String, dynamic>{
       'runtimeType': instance.$type,
     };
@@ -99,6 +99,28 @@ _$UserRejected _$$UserRejectedFromJson(Map<String, dynamic> json) =>
     );
 
 Map<String, dynamic> _$$UserRejectedToJson(_$UserRejected instance) =>
+    <String, dynamic>{
+      'runtimeType': instance.$type,
+    };
+
+_$ConnectivityArchethic _$$ConnectivityArchethicFromJson(
+        Map<String, dynamic> json) =>
+    _$ConnectivityArchethic(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$ConnectivityArchethicToJson(
+        _$ConnectivityArchethic instance) =>
+    <String, dynamic>{
+      'runtimeType': instance.$type,
+    };
+
+_$ConnectivityEVM _$$ConnectivityEVMFromJson(Map<String, dynamic> json) =>
+    _$ConnectivityEVM(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$ConnectivityEVMToJson(_$ConnectivityEVM instance) =>
     <String, dynamic>{
       'runtimeType': instance.$type,
     };

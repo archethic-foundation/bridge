@@ -369,10 +369,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_riverpod
-      sha256: "4615271bb6c1302d41cf4daff689d39a87045137986eb71de154e6f99ff18139"
+      sha256: b04d4e9435a563673746ccb328d22018c6c9496bb547e11dd56c1b0cc9829fe5
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.9"
+    version: "2.3.10"
   flutter_secure_storage:
     dependency: transitive
     description:
@@ -478,10 +478,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: "2aa884667eeda3a1c461f31e72af1f77984ab0f29450d8fb12ec1f7bc53eea14"
+      sha256: "694cb219d9bb7c9d30efce3d8c6ef3782d8ad00ff14e6772a499a860b3c59ccb"
       url: "https://pub.dev"
     source: hosted
-    version: "10.1.0"
+    version: "10.1.1"
   gql:
     dependency: transitive
     description:
@@ -934,10 +934,10 @@ packages:
     dependency: transitive
     description:
       name: riverpod
-      sha256: "52b2937f5b9552987f35419f1deef22474d7fc609aea2f4c5b6c11b4449a287c"
+      sha256: "6c0a2c30c04206ac05494bcccd8148b76866e1a9248a5a8c84ca7b16fbcb3f6a"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.9"
+    version: "2.3.10"
   riverpod_analyzer_utils:
     dependency: transitive
     description:
@@ -950,18 +950,18 @@ packages:
     dependency: "direct main"
     description:
       name: riverpod_annotation
-      sha256: "714a4562fb626cdaf2138b3dfff56bc03c34ff496e5ca8c4cc02a6c323deba4b"
+      sha256: fefc51f8888839a597abe3c813c764404c85c0100a0676d242f358cc92bf5e23
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.3"
+    version: "2.1.4"
   riverpod_generator:
     dependency: "direct dev"
     description:
       name: riverpod_generator
-      sha256: "2fa6b974a816dec1e1bcb819ced8cfb6a6104a27a624c0abcbb23c0ea64d50eb"
+      sha256: "3cbeb22926bb70c9c250fd0ed061b3086729404b0e4e89e209f46ef5393ccba4"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.0"
+    version: "2.3.1"
   rxdart:
     dependency: transitive
     description:
@@ -1324,10 +1324,10 @@ packages:
     description:
       path: "."
       ref: master
-      resolved-ref: "1913797d43a6a82d933a30bfb2f2b42df862858c"
+      resolved-ref: f5fb7acf373d81a1d78156d1d14e166f73936939
       url: "https://github.com/redDwarf03/webthree.git"
     source: git
-    version: "2.5.7"
+    version: "2.5.8"
   win32:
     dependency: transitive
     description:

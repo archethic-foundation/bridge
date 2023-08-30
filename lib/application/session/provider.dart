@@ -2,6 +2,8 @@
 import 'dart:async';
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/state.dart';
+import 'package:aebridge/domain/models/failures.dart';
+import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/domain/repositories/features_flags.dart';
 import 'package:aebridge/model/bridge_blockchain.dart';
 import 'package:aebridge/model/bridge_wallet.dart';
@@ -60,50 +62,61 @@ class _SessionNotifier extends Notifier<Session> {
     }
   }
 */
-  Future<void> connectToEVMWallet(
+  Future<Result<void, Failure>> connectToEVMWallet(
     BridgeBlockchain blockchain,
     bool from,
   ) async {
-    var bridgeWallet = const BridgeWallet();
-    bridgeWallet = bridgeWallet.copyWith(
-      isConnected: false,
-      error: '',
+    return Result.guard(
+      () async {
+        var bridgeWallet = const BridgeWallet();
+        bridgeWallet = bridgeWallet.copyWith(
+          isConnected: false,
+          error: '',
+        );
+        _fillState(bridgeWallet, from);
+
+        final evmWalletProvider = EVMWalletProvider();
+
+        try {
+          await evmWalletProvider.connect(blockchain.chainId);
+          if (evmWalletProvider.walletConnected) {
+            debugPrint('Connected to ${blockchain.name}');
+
+            bridgeWallet = bridgeWallet.copyWith(
+              wallet: 'evmWallet',
+              isConnected: true,
+              error: '',
+              nameAccount: evmWalletProvider.accountName!,
+              genesisAddress: evmWalletProvider.currentAddress!,
+              endpoint: blockchain.name,
+            );
+            if (sl.isRegistered<EVMWalletProvider>()) {
+              await sl.unregister<EVMWalletProvider>();
+            }
+            sl.registerLazySingleton<EVMWalletProvider>(
+              () => evmWalletProvider,
+            );
+          }
+
+          _fillState(bridgeWallet, from);
+        } catch (e) {
+          throw const Failure.connectivityEVM();
+        }
+      },
     );
-    _fillState(bridgeWallet, from);
-
-    final evmWalletProvider = EVMWalletProvider();
-
-    await evmWalletProvider.connect(blockchain.chainId);
-    if (evmWalletProvider.walletConnected) {
-      debugPrint('Connected to ${blockchain.name}');
-
-      bridgeWallet = bridgeWallet.copyWith(
-        wallet: 'evmWallet',
-        isConnected: true,
-        error: '',
-        nameAccount: evmWalletProvider.accountName!,
-        genesisAddress: evmWalletProvider.currentAddress!,
-        endpoint: blockchain.name,
-      );
-      if (sl.isRegistered<EVMWalletProvider>()) {
-        await sl.unregister<EVMWalletProvider>();
-      }
-      sl.registerLazySingleton<EVMWalletProvider>(
-        () => evmWalletProvider,
-      );
-    }
-
-    _fillState(bridgeWallet, from);
   }
 
-  Future<void> connectToArchethicWallet(bool from) async {
-    var bridgeWallet = const BridgeWallet();
-    bridgeWallet = bridgeWallet.copyWith(
-      isConnected: false,
-      error: '',
-    );
-    _fillState(bridgeWallet, from);
-    try {
+  Future<Result<void, Failure>> connectToArchethicWallet(
+    bool from,
+  ) async {
+    return Result.guard(() async {
+      var bridgeWallet = const BridgeWallet();
+      bridgeWallet = bridgeWallet.copyWith(
+        isConnected: false,
+        error: '',
+      );
+      _fillState(bridgeWallet, from);
+
       final archethicDAppClient = awc.ArchethicDAppClient.auto(
         origin: const awc.RequestOrigin(
           name: 'aebridge',
@@ -114,23 +127,13 @@ class _SessionNotifier extends Notifier<Session> {
       final endpointResponse = await archethicDAppClient.getEndpoint();
       endpointResponse.when(
         failure: (failure) {
-          switch (failure.code) {
-            case 4901:
-              bridgeWallet = bridgeWallet.copyWith(
-                isConnected: false,
-                error: 'Please, open your Archethic Wallet.',
-              );
-              _fillState(bridgeWallet, from);
-              break;
-            default:
-              debugPrint(failure.message ?? 'Connection failed');
-              bridgeWallet = bridgeWallet.copyWith(
-                isConnected: false,
-                error: 'Please, open your Archethic Wallet.',
-              );
-              _fillState(bridgeWallet, from);
-          }
-          throw Exception(bridgeWallet.error);
+          debugPrint(failure.message ?? 'Connection failed');
+          bridgeWallet = bridgeWallet.copyWith(
+            isConnected: false,
+            error: 'Please, open your Archethic Wallet.',
+          );
+          _fillState(bridgeWallet, from);
+          throw const Failure.connectivityArchethic();
         },
         success: (result) async {
           debugPrint('DApp is connected to archethic wallet.');
@@ -140,10 +143,10 @@ class _SessionNotifier extends Notifier<Session> {
             bridgeWallet = bridgeWallet.copyWith(
               isConnected: false,
               error:
-                  'aebridge is not currently available on the Archethic mainnet.',
+                  'AEBridge is not currently available on the Archethic mainnet.',
             );
             _fillState(bridgeWallet, from);
-            throw Exception(bridgeWallet.error);
+            throw Failure.other(cause: bridgeWallet.error);
           }
 
           bridgeWallet = bridgeWallet.copyWith(endpoint: result.endpointUrl);
@@ -200,8 +203,8 @@ class _SessionNotifier extends Notifier<Session> {
           final subscription =
               await archethicDAppClient.subscribeCurrentAccount();
 
-          await subscription.when(
-            success: (success) async {
+          subscription.when(
+            success: (success) {
               bridgeWallet = bridgeWallet.copyWith(
                 accountSub: success,
                 error: '',
@@ -224,7 +227,6 @@ class _SessionNotifier extends Notifier<Session> {
                     genesisAddress: event.genesisAddress,
                     nameAccount: event.name,
                   );
-                  _fillState(bridgeWallet, from);
                 }),
               );
               _fillState(bridgeWallet, from);
@@ -235,20 +237,12 @@ class _SessionNotifier extends Notifier<Session> {
                 error: failure.message ?? 'Connection failed',
               );
               _fillState(bridgeWallet, from);
-              throw Exception(bridgeWallet.error);
+              throw Failure.other(cause: bridgeWallet.error);
             },
           );
         },
       );
-    } catch (e) {
-      debugPrint(e.toString());
-      bridgeWallet = bridgeWallet.copyWith(
-        isConnected: false,
-        error: 'Please, open your Archethic Wallet.',
-      );
-      _fillState(bridgeWallet, from);
-      throw Exception(bridgeWallet.error);
-    }
+    });
   }
 
   void _fillState(BridgeWallet bridgeWallet, bool from) {
@@ -308,7 +302,7 @@ class _SessionNotifier extends Notifier<Session> {
       state = state.copyWith(walletFrom: walletFrom);
     } else {
       if (state.walletTo != null && state.walletTo!.wallet == 'archethic') {
-        var walletTo = state.walletFrom;
+        var walletTo = state.walletTo;
 
         walletTo = walletTo!.copyWith(
           wallet: '',

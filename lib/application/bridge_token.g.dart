@@ -48,9 +48,6 @@ class _SystemHash {
   }
 }
 
-typedef _GetTokensListPerBridgeRef
-    = AutoDisposeFutureProviderRef<List<BridgeToken>>;
-
 /// See also [_getTokensListPerBridge].
 @ProviderFor(_getTokensListPerBridge)
 const _getTokensListPerBridgeProvider = _GetTokensListPerBridgeFamily();
@@ -99,10 +96,10 @@ class _GetTokensListPerBridgeProvider
     extends AutoDisposeFutureProvider<List<BridgeToken>> {
   /// See also [_getTokensListPerBridge].
   _GetTokensListPerBridgeProvider(
-    this.direction,
-  ) : super.internal(
+    String direction,
+  ) : this._internal(
           (ref) => _getTokensListPerBridge(
-            ref,
+            ref as _GetTokensListPerBridgeRef,
             direction,
           ),
           from: _getTokensListPerBridgeProvider,
@@ -114,9 +111,44 @@ class _GetTokensListPerBridgeProvider
           dependencies: _GetTokensListPerBridgeFamily._dependencies,
           allTransitiveDependencies:
               _GetTokensListPerBridgeFamily._allTransitiveDependencies,
+          direction: direction,
         );
 
+  _GetTokensListPerBridgeProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.direction,
+  }) : super.internal();
+
   final String direction;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<BridgeToken>> Function(_GetTokensListPerBridgeRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _GetTokensListPerBridgeProvider._internal(
+        (ref) => create(ref as _GetTokensListPerBridgeRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        direction: direction,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<BridgeToken>> createElement() {
+    return _GetTokensListPerBridgeProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -131,6 +163,21 @@ class _GetTokensListPerBridgeProvider
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin _GetTokensListPerBridgeRef
+    on AutoDisposeFutureProviderRef<List<BridgeToken>> {
+  /// The parameter `direction` of this provider.
+  String get direction;
+}
+
+class _GetTokensListPerBridgeProviderElement
+    extends AutoDisposeFutureProviderElement<List<BridgeToken>>
+    with _GetTokensListPerBridgeRef {
+  _GetTokensListPerBridgeProviderElement(super.provider);
+
+  @override
+  String get direction => (origin as _GetTokensListPerBridgeProvider).direction;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

@@ -40,7 +40,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   }
 
   Future<void> setBlockchainFrom(
-    BridgeBlockchain blockchainFrom,
+    BridgeBlockchain? blockchainFrom,
   ) async {
     state = state.copyWith(blockchainFrom: blockchainFrom);
     await storeBridge();
@@ -52,34 +52,45 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     final sessionNotifier = ref.read(SessionProviders.session.notifier);
     state = state.copyWith(failure: null);
     await storeBridge();
-    try {
-      if (blockchainFrom.isArchethic) {
-        debugPrint('connect to Archethic Wallet');
-        await sessionNotifier.connectToArchethicWallet(true);
-      } else {
-        debugPrint('connect to EVM Wallet');
-        await sessionNotifier.connectToEVMWallet(blockchainFrom, true);
 
-        final blockchainTo = await ref.read(
-          BridgeBlockchainsProviders.getArchethicBlockchainFromEVM(
-            blockchainFrom,
-          ).future,
-        );
-        if (blockchainTo != null) {
-          await setBlockchainToWithConnection(blockchainTo);
-        }
-      }
-      state = state.copyWith(blockchainFrom: blockchainFrom);
-      await storeBridge();
-    } catch (e) {
-      setFailure(
-        e as Failure,
+    if (blockchainFrom.isArchethic) {
+      debugPrint('connect to Archethic Wallet');
+      final connection = await sessionNotifier.connectToArchethicWallet(true);
+      connection.map(
+        success: (success) async {
+          await setBlockchainFrom(blockchainFrom);
+        },
+        failure: (failure) async {
+          await setBlockchainFrom(null);
+          await setFailure(failure);
+        },
+      );
+    } else {
+      debugPrint('connect to EVM Wallet');
+      final connection =
+          await sessionNotifier.connectToEVMWallet(blockchainFrom, true);
+      connection.map(
+        success: (success) async {
+          await setBlockchainFrom(blockchainFrom);
+          final blockchainTo = await ref.read(
+            BridgeBlockchainsProviders.getArchethicBlockchainFromEVM(
+              blockchainFrom,
+            ).future,
+          );
+          if (blockchainTo != null && state.failure == null) {
+            await setBlockchainToWithConnection(blockchainTo);
+          }
+        },
+        failure: (failure) async {
+          await setBlockchainFrom(null);
+          await setFailure(failure);
+        },
       );
     }
   }
 
   Future<void> setBlockchainTo(
-    BridgeBlockchain blockchainTo,
+    BridgeBlockchain? blockchainTo,
   ) async {
     state = state.copyWith(blockchainTo: blockchainTo);
     await storeBridge();
@@ -91,36 +102,46 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     final sessionNotifier = ref.read(SessionProviders.session.notifier);
     state = state.copyWith(failure: null);
     await storeBridge();
-    try {
-      if (blockchainTo.isArchethic) {
-        debugPrint('connect to Archethic Wallet');
-        await sessionNotifier.connectToArchethicWallet(false);
-        await Future.delayed(const Duration(milliseconds: 500));
-      } else {
-        debugPrint('connect to EVM Wallet');
-        await sessionNotifier.connectToEVMWallet(blockchainTo, false);
-
-        final blockchainFrom = await ref.read(
-          BridgeBlockchainsProviders.getArchethicBlockchainFromEVM(blockchainTo)
-              .future,
-        );
-        if (blockchainFrom != null) {
-          await setBlockchainFromWithConnection(blockchainFrom);
-        }
-      }
-
-      state = state.copyWith(blockchainTo: blockchainTo);
-      await storeBridge();
-      final session = ref.read(SessionProviders.session);
-      if (session.walletTo != null &&
-          session.walletTo!.genesisAddress.isNotEmpty) {
-        state = state.copyWith(targetAddress: session.walletTo!.genesisAddress);
-        await storeBridge();
-      }
-    } catch (e) {
-      setFailure(
-        e as Failure,
+    if (blockchainTo.isArchethic) {
+      debugPrint('connect to Archethic Wallet');
+      final connection = await sessionNotifier.connectToArchethicWallet(false);
+      connection.map(
+        success: (success) async {
+          await setBlockchainTo(blockchainTo);
+        },
+        failure: (failure) async {
+          await setBlockchainTo(null);
+          await setFailure(failure);
+        },
       );
+    } else {
+      debugPrint('connect to EVM Wallet');
+      final connection =
+          await sessionNotifier.connectToEVMWallet(blockchainTo, false);
+      connection.map(
+        success: (success) async {
+          await setBlockchainTo(blockchainTo);
+          final blockchainFrom = await ref.read(
+            BridgeBlockchainsProviders.getArchethicBlockchainFromEVM(
+              blockchainTo,
+            ).future,
+          );
+          if (blockchainFrom != null && state.failure == null) {
+            await setBlockchainFromWithConnection(blockchainFrom);
+          }
+        },
+        failure: (failure) async {
+          await setBlockchainTo(null);
+          await setFailure(failure);
+        },
+      );
+    }
+
+    final session = ref.read(SessionProviders.session);
+    if (session.walletTo != null &&
+        session.walletTo!.genesisAddress.isNotEmpty) {
+      state = state.copyWith(targetAddress: session.walletTo!.genesisAddress);
+      await storeBridge();
     }
   }
 

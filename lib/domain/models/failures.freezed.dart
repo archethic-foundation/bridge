@@ -25,7 +25,7 @@ Failure _$FailureFromJson(Map<String, dynamic> json) {
     case 'serviceNotFound':
       return ServiceNotFound.fromJson(json);
     case 'serviceAlreadyExists':
-      return _ServiceAlreadyExists.fromJson(json);
+      return ServiceAlreadyExists.fromJson(json);
     case 'insufficientFunds':
       return InsuffientFunds.fromJson(json);
     case 'unauthorized':
@@ -34,6 +34,10 @@ Failure _$FailureFromJson(Map<String, dynamic> json) {
       return InvalidValue.fromJson(json);
     case 'userRejected':
       return UserRejected.fromJson(json);
+    case 'connectivityArchethic':
+      return ConnectivityArchethic.fromJson(json);
+    case 'connectivityEVM':
+      return ConnectivityEVM.fromJson(json);
     case 'other':
       return OtherFailure.fromJson(json);
 
@@ -56,6 +60,8 @@ mixin _$Failure {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function() userRejected,
+    required TResult Function() connectivityArchethic,
+    required TResult Function() connectivityEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) =>
       throw _privateConstructorUsedError;
@@ -70,6 +76,8 @@ mixin _$Failure {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function()? userRejected,
+    TResult? Function()? connectivityArchethic,
+    TResult? Function()? connectivityEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) =>
       throw _privateConstructorUsedError;
@@ -84,6 +92,8 @@ mixin _$Failure {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function()? userRejected,
+    TResult Function()? connectivityArchethic,
+    TResult Function()? connectivityEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) =>
@@ -94,11 +104,14 @@ mixin _$Failure {
     required TResult Function(NetworkFailure value) network,
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
-    required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(InsuffientFunds value) insufficientFunds,
     required TResult Function(Inauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ConnectivityArchethic value)
+        connectivityArchethic,
+    required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(OtherFailure value) other,
   }) =>
       throw _privateConstructorUsedError;
@@ -108,11 +121,13 @@ mixin _$Failure {
     TResult? Function(NetworkFailure value)? network,
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
-    TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(InsuffientFunds value)? insufficientFunds,
     TResult? Function(Inauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(OtherFailure value)? other,
   }) =>
       throw _privateConstructorUsedError;
@@ -122,11 +137,13 @@ mixin _$Failure {
     TResult Function(NetworkFailure value)? network,
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
-    TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(InsuffientFunds value)? insufficientFunds,
     TResult Function(Inauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) =>
@@ -207,6 +224,8 @@ class _$LoggedOut extends LoggedOut {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function() userRejected,
+    required TResult Function() connectivityArchethic,
+    required TResult Function() connectivityEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return loggedOut();
@@ -224,6 +243,8 @@ class _$LoggedOut extends LoggedOut {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function()? userRejected,
+    TResult? Function()? connectivityArchethic,
+    TResult? Function()? connectivityEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return loggedOut?.call();
@@ -241,6 +262,8 @@ class _$LoggedOut extends LoggedOut {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function()? userRejected,
+    TResult Function()? connectivityArchethic,
+    TResult Function()? connectivityEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -257,11 +280,14 @@ class _$LoggedOut extends LoggedOut {
     required TResult Function(NetworkFailure value) network,
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
-    required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(InsuffientFunds value) insufficientFunds,
     required TResult Function(Inauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ConnectivityArchethic value)
+        connectivityArchethic,
+    required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return loggedOut(this);
@@ -274,11 +300,13 @@ class _$LoggedOut extends LoggedOut {
     TResult? Function(NetworkFailure value)? network,
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
-    TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(InsuffientFunds value)? insufficientFunds,
     TResult? Function(Inauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return loggedOut?.call(this);
@@ -291,11 +319,13 @@ class _$LoggedOut extends LoggedOut {
     TResult Function(NetworkFailure value)? network,
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
-    TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(InsuffientFunds value)? insufficientFunds,
     TResult Function(Inauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -376,6 +406,8 @@ class _$NetworkFailure extends NetworkFailure {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function() userRejected,
+    required TResult Function() connectivityArchethic,
+    required TResult Function() connectivityEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return network();
@@ -393,6 +425,8 @@ class _$NetworkFailure extends NetworkFailure {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function()? userRejected,
+    TResult? Function()? connectivityArchethic,
+    TResult? Function()? connectivityEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return network?.call();
@@ -410,6 +444,8 @@ class _$NetworkFailure extends NetworkFailure {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function()? userRejected,
+    TResult Function()? connectivityArchethic,
+    TResult Function()? connectivityEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -426,11 +462,14 @@ class _$NetworkFailure extends NetworkFailure {
     required TResult Function(NetworkFailure value) network,
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
-    required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(InsuffientFunds value) insufficientFunds,
     required TResult Function(Inauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ConnectivityArchethic value)
+        connectivityArchethic,
+    required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return network(this);
@@ -443,11 +482,13 @@ class _$NetworkFailure extends NetworkFailure {
     TResult? Function(NetworkFailure value)? network,
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
-    TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(InsuffientFunds value)? insufficientFunds,
     TResult? Function(Inauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return network?.call(this);
@@ -460,11 +501,13 @@ class _$NetworkFailure extends NetworkFailure {
     TResult Function(NetworkFailure value)? network,
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
-    TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(InsuffientFunds value)? insufficientFunds,
     TResult Function(Inauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -574,6 +617,8 @@ class _$QuotaExceededFailure extends QuotaExceededFailure {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function() userRejected,
+    required TResult Function() connectivityArchethic,
+    required TResult Function() connectivityEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return quotaExceeded(cooldownEndDate);
@@ -591,6 +636,8 @@ class _$QuotaExceededFailure extends QuotaExceededFailure {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function()? userRejected,
+    TResult? Function()? connectivityArchethic,
+    TResult? Function()? connectivityEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return quotaExceeded?.call(cooldownEndDate);
@@ -608,6 +655,8 @@ class _$QuotaExceededFailure extends QuotaExceededFailure {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function()? userRejected,
+    TResult Function()? connectivityArchethic,
+    TResult Function()? connectivityEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -624,11 +673,14 @@ class _$QuotaExceededFailure extends QuotaExceededFailure {
     required TResult Function(NetworkFailure value) network,
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
-    required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(InsuffientFunds value) insufficientFunds,
     required TResult Function(Inauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ConnectivityArchethic value)
+        connectivityArchethic,
+    required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return quotaExceeded(this);
@@ -641,11 +693,13 @@ class _$QuotaExceededFailure extends QuotaExceededFailure {
     TResult? Function(NetworkFailure value)? network,
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
-    TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(InsuffientFunds value)? insufficientFunds,
     TResult? Function(Inauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return quotaExceeded?.call(this);
@@ -658,11 +712,13 @@ class _$QuotaExceededFailure extends QuotaExceededFailure {
     TResult Function(NetworkFailure value)? network,
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
-    TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(InsuffientFunds value)? insufficientFunds,
     TResult Function(Inauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -750,6 +806,8 @@ class _$ServiceNotFound extends ServiceNotFound {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function() userRejected,
+    required TResult Function() connectivityArchethic,
+    required TResult Function() connectivityEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return serviceNotFound();
@@ -767,6 +825,8 @@ class _$ServiceNotFound extends ServiceNotFound {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function()? userRejected,
+    TResult? Function()? connectivityArchethic,
+    TResult? Function()? connectivityEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return serviceNotFound?.call();
@@ -784,6 +844,8 @@ class _$ServiceNotFound extends ServiceNotFound {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function()? userRejected,
+    TResult Function()? connectivityArchethic,
+    TResult Function()? connectivityEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -800,11 +862,14 @@ class _$ServiceNotFound extends ServiceNotFound {
     required TResult Function(NetworkFailure value) network,
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
-    required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(InsuffientFunds value) insufficientFunds,
     required TResult Function(Inauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ConnectivityArchethic value)
+        connectivityArchethic,
+    required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return serviceNotFound(this);
@@ -817,11 +882,13 @@ class _$ServiceNotFound extends ServiceNotFound {
     TResult? Function(NetworkFailure value)? network,
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
-    TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(InsuffientFunds value)? insufficientFunds,
     TResult? Function(Inauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return serviceNotFound?.call(this);
@@ -834,11 +901,13 @@ class _$ServiceNotFound extends ServiceNotFound {
     TResult Function(NetworkFailure value)? network,
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
-    TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(InsuffientFunds value)? insufficientFunds,
     TResult Function(Inauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -865,30 +934,30 @@ abstract class ServiceNotFound extends Failure {
 }
 
 /// @nodoc
-abstract class _$$_ServiceAlreadyExistsCopyWith<$Res> {
-  factory _$$_ServiceAlreadyExistsCopyWith(_$_ServiceAlreadyExists value,
-          $Res Function(_$_ServiceAlreadyExists) then) =
-      __$$_ServiceAlreadyExistsCopyWithImpl<$Res>;
+abstract class _$$ServiceAlreadyExistsCopyWith<$Res> {
+  factory _$$ServiceAlreadyExistsCopyWith(_$ServiceAlreadyExists value,
+          $Res Function(_$ServiceAlreadyExists) then) =
+      __$$ServiceAlreadyExistsCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_ServiceAlreadyExistsCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$_ServiceAlreadyExists>
-    implements _$$_ServiceAlreadyExistsCopyWith<$Res> {
-  __$$_ServiceAlreadyExistsCopyWithImpl(_$_ServiceAlreadyExists _value,
-      $Res Function(_$_ServiceAlreadyExists) _then)
+class __$$ServiceAlreadyExistsCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$ServiceAlreadyExists>
+    implements _$$ServiceAlreadyExistsCopyWith<$Res> {
+  __$$ServiceAlreadyExistsCopyWithImpl(_$ServiceAlreadyExists _value,
+      $Res Function(_$ServiceAlreadyExists) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$_ServiceAlreadyExists extends _ServiceAlreadyExists {
-  const _$_ServiceAlreadyExists({final String? $type})
+class _$ServiceAlreadyExists extends ServiceAlreadyExists {
+  const _$ServiceAlreadyExists({final String? $type})
       : $type = $type ?? 'serviceAlreadyExists',
         super._();
 
-  factory _$_ServiceAlreadyExists.fromJson(Map<String, dynamic> json) =>
-      _$$_ServiceAlreadyExistsFromJson(json);
+  factory _$ServiceAlreadyExists.fromJson(Map<String, dynamic> json) =>
+      _$$ServiceAlreadyExistsFromJson(json);
 
   @JsonKey(name: 'runtimeType')
   final String $type;
@@ -901,7 +970,7 @@ class _$_ServiceAlreadyExists extends _ServiceAlreadyExists {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_ServiceAlreadyExists);
+        (other.runtimeType == runtimeType && other is _$ServiceAlreadyExists);
   }
 
   @JsonKey(ignore: true)
@@ -920,6 +989,8 @@ class _$_ServiceAlreadyExists extends _ServiceAlreadyExists {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function() userRejected,
+    required TResult Function() connectivityArchethic,
+    required TResult Function() connectivityEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return serviceAlreadyExists();
@@ -937,6 +1008,8 @@ class _$_ServiceAlreadyExists extends _ServiceAlreadyExists {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function()? userRejected,
+    TResult? Function()? connectivityArchethic,
+    TResult? Function()? connectivityEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return serviceAlreadyExists?.call();
@@ -954,6 +1027,8 @@ class _$_ServiceAlreadyExists extends _ServiceAlreadyExists {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function()? userRejected,
+    TResult Function()? connectivityArchethic,
+    TResult Function()? connectivityEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -970,11 +1045,14 @@ class _$_ServiceAlreadyExists extends _ServiceAlreadyExists {
     required TResult Function(NetworkFailure value) network,
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
-    required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(InsuffientFunds value) insufficientFunds,
     required TResult Function(Inauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ConnectivityArchethic value)
+        connectivityArchethic,
+    required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return serviceAlreadyExists(this);
@@ -987,11 +1065,13 @@ class _$_ServiceAlreadyExists extends _ServiceAlreadyExists {
     TResult? Function(NetworkFailure value)? network,
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
-    TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(InsuffientFunds value)? insufficientFunds,
     TResult? Function(Inauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return serviceAlreadyExists?.call(this);
@@ -1004,11 +1084,13 @@ class _$_ServiceAlreadyExists extends _ServiceAlreadyExists {
     TResult Function(NetworkFailure value)? network,
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
-    TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(InsuffientFunds value)? insufficientFunds,
     TResult Function(Inauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -1020,18 +1102,18 @@ class _$_ServiceAlreadyExists extends _ServiceAlreadyExists {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_ServiceAlreadyExistsToJson(
+    return _$$ServiceAlreadyExistsToJson(
       this,
     );
   }
 }
 
-abstract class _ServiceAlreadyExists extends Failure {
-  const factory _ServiceAlreadyExists() = _$_ServiceAlreadyExists;
-  const _ServiceAlreadyExists._() : super._();
+abstract class ServiceAlreadyExists extends Failure {
+  const factory ServiceAlreadyExists() = _$ServiceAlreadyExists;
+  const ServiceAlreadyExists._() : super._();
 
-  factory _ServiceAlreadyExists.fromJson(Map<String, dynamic> json) =
-      _$_ServiceAlreadyExists.fromJson;
+  factory ServiceAlreadyExists.fromJson(Map<String, dynamic> json) =
+      _$ServiceAlreadyExists.fromJson;
 }
 
 /// @nodoc
@@ -1090,6 +1172,8 @@ class _$InsuffientFunds extends InsuffientFunds {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function() userRejected,
+    required TResult Function() connectivityArchethic,
+    required TResult Function() connectivityEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return insufficientFunds();
@@ -1107,6 +1191,8 @@ class _$InsuffientFunds extends InsuffientFunds {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function()? userRejected,
+    TResult? Function()? connectivityArchethic,
+    TResult? Function()? connectivityEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return insufficientFunds?.call();
@@ -1124,6 +1210,8 @@ class _$InsuffientFunds extends InsuffientFunds {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function()? userRejected,
+    TResult Function()? connectivityArchethic,
+    TResult Function()? connectivityEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -1140,11 +1228,14 @@ class _$InsuffientFunds extends InsuffientFunds {
     required TResult Function(NetworkFailure value) network,
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
-    required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(InsuffientFunds value) insufficientFunds,
     required TResult Function(Inauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ConnectivityArchethic value)
+        connectivityArchethic,
+    required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return insufficientFunds(this);
@@ -1157,11 +1248,13 @@ class _$InsuffientFunds extends InsuffientFunds {
     TResult? Function(NetworkFailure value)? network,
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
-    TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(InsuffientFunds value)? insufficientFunds,
     TResult? Function(Inauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return insufficientFunds?.call(this);
@@ -1174,11 +1267,13 @@ class _$InsuffientFunds extends InsuffientFunds {
     TResult Function(NetworkFailure value)? network,
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
-    TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(InsuffientFunds value)? insufficientFunds,
     TResult Function(Inauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -1260,6 +1355,8 @@ class _$Inauthorized extends Inauthorized {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function() userRejected,
+    required TResult Function() connectivityArchethic,
+    required TResult Function() connectivityEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return unauthorized();
@@ -1277,6 +1374,8 @@ class _$Inauthorized extends Inauthorized {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function()? userRejected,
+    TResult? Function()? connectivityArchethic,
+    TResult? Function()? connectivityEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return unauthorized?.call();
@@ -1294,6 +1393,8 @@ class _$Inauthorized extends Inauthorized {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function()? userRejected,
+    TResult Function()? connectivityArchethic,
+    TResult Function()? connectivityEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -1310,11 +1411,14 @@ class _$Inauthorized extends Inauthorized {
     required TResult Function(NetworkFailure value) network,
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
-    required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(InsuffientFunds value) insufficientFunds,
     required TResult Function(Inauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ConnectivityArchethic value)
+        connectivityArchethic,
+    required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return unauthorized(this);
@@ -1327,11 +1431,13 @@ class _$Inauthorized extends Inauthorized {
     TResult? Function(NetworkFailure value)? network,
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
-    TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(InsuffientFunds value)? insufficientFunds,
     TResult? Function(Inauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return unauthorized?.call(this);
@@ -1344,11 +1450,13 @@ class _$Inauthorized extends Inauthorized {
     TResult Function(NetworkFailure value)? network,
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
-    TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(InsuffientFunds value)? insufficientFunds,
     TResult Function(Inauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -1430,6 +1538,8 @@ class _$InvalidValue extends InvalidValue {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function() userRejected,
+    required TResult Function() connectivityArchethic,
+    required TResult Function() connectivityEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return invalidValue();
@@ -1447,6 +1557,8 @@ class _$InvalidValue extends InvalidValue {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function()? userRejected,
+    TResult? Function()? connectivityArchethic,
+    TResult? Function()? connectivityEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return invalidValue?.call();
@@ -1464,6 +1576,8 @@ class _$InvalidValue extends InvalidValue {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function()? userRejected,
+    TResult Function()? connectivityArchethic,
+    TResult Function()? connectivityEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -1480,11 +1594,14 @@ class _$InvalidValue extends InvalidValue {
     required TResult Function(NetworkFailure value) network,
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
-    required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(InsuffientFunds value) insufficientFunds,
     required TResult Function(Inauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ConnectivityArchethic value)
+        connectivityArchethic,
+    required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return invalidValue(this);
@@ -1497,11 +1614,13 @@ class _$InvalidValue extends InvalidValue {
     TResult? Function(NetworkFailure value)? network,
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
-    TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(InsuffientFunds value)? insufficientFunds,
     TResult? Function(Inauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return invalidValue?.call(this);
@@ -1514,11 +1633,13 @@ class _$InvalidValue extends InvalidValue {
     TResult Function(NetworkFailure value)? network,
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
-    TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(InsuffientFunds value)? insufficientFunds,
     TResult Function(Inauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -1600,6 +1721,8 @@ class _$UserRejected extends UserRejected {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function() userRejected,
+    required TResult Function() connectivityArchethic,
+    required TResult Function() connectivityEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return userRejected();
@@ -1617,6 +1740,8 @@ class _$UserRejected extends UserRejected {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function()? userRejected,
+    TResult? Function()? connectivityArchethic,
+    TResult? Function()? connectivityEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return userRejected?.call();
@@ -1634,6 +1759,8 @@ class _$UserRejected extends UserRejected {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function()? userRejected,
+    TResult Function()? connectivityArchethic,
+    TResult Function()? connectivityEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -1650,11 +1777,14 @@ class _$UserRejected extends UserRejected {
     required TResult Function(NetworkFailure value) network,
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
-    required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(InsuffientFunds value) insufficientFunds,
     required TResult Function(Inauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ConnectivityArchethic value)
+        connectivityArchethic,
+    required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return userRejected(this);
@@ -1667,11 +1797,13 @@ class _$UserRejected extends UserRejected {
     TResult? Function(NetworkFailure value)? network,
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
-    TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(InsuffientFunds value)? insufficientFunds,
     TResult? Function(Inauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return userRejected?.call(this);
@@ -1684,11 +1816,13 @@ class _$UserRejected extends UserRejected {
     TResult Function(NetworkFailure value)? network,
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
-    TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(InsuffientFunds value)? insufficientFunds,
     TResult Function(Inauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -1712,6 +1846,372 @@ abstract class UserRejected extends Failure {
 
   factory UserRejected.fromJson(Map<String, dynamic> json) =
       _$UserRejected.fromJson;
+}
+
+/// @nodoc
+abstract class _$$ConnectivityArchethicCopyWith<$Res> {
+  factory _$$ConnectivityArchethicCopyWith(_$ConnectivityArchethic value,
+          $Res Function(_$ConnectivityArchethic) then) =
+      __$$ConnectivityArchethicCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$ConnectivityArchethicCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$ConnectivityArchethic>
+    implements _$$ConnectivityArchethicCopyWith<$Res> {
+  __$$ConnectivityArchethicCopyWithImpl(_$ConnectivityArchethic _value,
+      $Res Function(_$ConnectivityArchethic) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ConnectivityArchethic extends ConnectivityArchethic {
+  const _$ConnectivityArchethic({final String? $type})
+      : $type = $type ?? 'connectivityArchethic',
+        super._();
+
+  factory _$ConnectivityArchethic.fromJson(Map<String, dynamic> json) =>
+      _$$ConnectivityArchethicFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'Failure.connectivityArchethic()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$ConnectivityArchethic);
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loggedOut,
+    required TResult Function() network,
+    required TResult Function(DateTime? cooldownEndDate) quotaExceeded,
+    required TResult Function() serviceNotFound,
+    required TResult Function() serviceAlreadyExists,
+    required TResult Function() insufficientFunds,
+    required TResult Function() unauthorized,
+    required TResult Function() invalidValue,
+    required TResult Function() userRejected,
+    required TResult Function() connectivityArchethic,
+    required TResult Function() connectivityEVM,
+    required TResult Function(Object? cause, String? stack) other,
+  }) {
+    return connectivityArchethic();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loggedOut,
+    TResult? Function()? network,
+    TResult? Function(DateTime? cooldownEndDate)? quotaExceeded,
+    TResult? Function()? serviceNotFound,
+    TResult? Function()? serviceAlreadyExists,
+    TResult? Function()? insufficientFunds,
+    TResult? Function()? unauthorized,
+    TResult? Function()? invalidValue,
+    TResult? Function()? userRejected,
+    TResult? Function()? connectivityArchethic,
+    TResult? Function()? connectivityEVM,
+    TResult? Function(Object? cause, String? stack)? other,
+  }) {
+    return connectivityArchethic?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loggedOut,
+    TResult Function()? network,
+    TResult Function(DateTime? cooldownEndDate)? quotaExceeded,
+    TResult Function()? serviceNotFound,
+    TResult Function()? serviceAlreadyExists,
+    TResult Function()? insufficientFunds,
+    TResult Function()? unauthorized,
+    TResult Function()? invalidValue,
+    TResult Function()? userRejected,
+    TResult Function()? connectivityArchethic,
+    TResult Function()? connectivityEVM,
+    TResult Function(Object? cause, String? stack)? other,
+    required TResult orElse(),
+  }) {
+    if (connectivityArchethic != null) {
+      return connectivityArchethic();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoggedOut value) loggedOut,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(QuotaExceededFailure value) quotaExceeded,
+    required TResult Function(ServiceNotFound value) serviceNotFound,
+    required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(InsuffientFunds value) insufficientFunds,
+    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ConnectivityArchethic value)
+        connectivityArchethic,
+    required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(OtherFailure value) other,
+  }) {
+    return connectivityArchethic(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoggedOut value)? loggedOut,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult? Function(ServiceNotFound value)? serviceNotFound,
+    TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(InsuffientFunds value)? insufficientFunds,
+    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(OtherFailure value)? other,
+  }) {
+    return connectivityArchethic?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoggedOut value)? loggedOut,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult Function(ServiceNotFound value)? serviceNotFound,
+    TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(InsuffientFunds value)? insufficientFunds,
+    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(UserRejected value)? userRejected,
+    TResult Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(OtherFailure value)? other,
+    required TResult orElse(),
+  }) {
+    if (connectivityArchethic != null) {
+      return connectivityArchethic(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ConnectivityArchethicToJson(
+      this,
+    );
+  }
+}
+
+abstract class ConnectivityArchethic extends Failure {
+  const factory ConnectivityArchethic() = _$ConnectivityArchethic;
+  const ConnectivityArchethic._() : super._();
+
+  factory ConnectivityArchethic.fromJson(Map<String, dynamic> json) =
+      _$ConnectivityArchethic.fromJson;
+}
+
+/// @nodoc
+abstract class _$$ConnectivityEVMCopyWith<$Res> {
+  factory _$$ConnectivityEVMCopyWith(
+          _$ConnectivityEVM value, $Res Function(_$ConnectivityEVM) then) =
+      __$$ConnectivityEVMCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$ConnectivityEVMCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$ConnectivityEVM>
+    implements _$$ConnectivityEVMCopyWith<$Res> {
+  __$$ConnectivityEVMCopyWithImpl(
+      _$ConnectivityEVM _value, $Res Function(_$ConnectivityEVM) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ConnectivityEVM extends ConnectivityEVM {
+  const _$ConnectivityEVM({final String? $type})
+      : $type = $type ?? 'connectivityEVM',
+        super._();
+
+  factory _$ConnectivityEVM.fromJson(Map<String, dynamic> json) =>
+      _$$ConnectivityEVMFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'Failure.connectivityEVM()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$ConnectivityEVM);
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loggedOut,
+    required TResult Function() network,
+    required TResult Function(DateTime? cooldownEndDate) quotaExceeded,
+    required TResult Function() serviceNotFound,
+    required TResult Function() serviceAlreadyExists,
+    required TResult Function() insufficientFunds,
+    required TResult Function() unauthorized,
+    required TResult Function() invalidValue,
+    required TResult Function() userRejected,
+    required TResult Function() connectivityArchethic,
+    required TResult Function() connectivityEVM,
+    required TResult Function(Object? cause, String? stack) other,
+  }) {
+    return connectivityEVM();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loggedOut,
+    TResult? Function()? network,
+    TResult? Function(DateTime? cooldownEndDate)? quotaExceeded,
+    TResult? Function()? serviceNotFound,
+    TResult? Function()? serviceAlreadyExists,
+    TResult? Function()? insufficientFunds,
+    TResult? Function()? unauthorized,
+    TResult? Function()? invalidValue,
+    TResult? Function()? userRejected,
+    TResult? Function()? connectivityArchethic,
+    TResult? Function()? connectivityEVM,
+    TResult? Function(Object? cause, String? stack)? other,
+  }) {
+    return connectivityEVM?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loggedOut,
+    TResult Function()? network,
+    TResult Function(DateTime? cooldownEndDate)? quotaExceeded,
+    TResult Function()? serviceNotFound,
+    TResult Function()? serviceAlreadyExists,
+    TResult Function()? insufficientFunds,
+    TResult Function()? unauthorized,
+    TResult Function()? invalidValue,
+    TResult Function()? userRejected,
+    TResult Function()? connectivityArchethic,
+    TResult Function()? connectivityEVM,
+    TResult Function(Object? cause, String? stack)? other,
+    required TResult orElse(),
+  }) {
+    if (connectivityEVM != null) {
+      return connectivityEVM();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoggedOut value) loggedOut,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(QuotaExceededFailure value) quotaExceeded,
+    required TResult Function(ServiceNotFound value) serviceNotFound,
+    required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(InsuffientFunds value) insufficientFunds,
+    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ConnectivityArchethic value)
+        connectivityArchethic,
+    required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(OtherFailure value) other,
+  }) {
+    return connectivityEVM(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoggedOut value)? loggedOut,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult? Function(ServiceNotFound value)? serviceNotFound,
+    TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(InsuffientFunds value)? insufficientFunds,
+    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(OtherFailure value)? other,
+  }) {
+    return connectivityEVM?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoggedOut value)? loggedOut,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult Function(ServiceNotFound value)? serviceNotFound,
+    TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(InsuffientFunds value)? insufficientFunds,
+    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(UserRejected value)? userRejected,
+    TResult Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(OtherFailure value)? other,
+    required TResult orElse(),
+  }) {
+    if (connectivityEVM != null) {
+      return connectivityEVM(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ConnectivityEVMToJson(
+      this,
+    );
+  }
+}
+
+abstract class ConnectivityEVM extends Failure {
+  const factory ConnectivityEVM() = _$ConnectivityEVM;
+  const ConnectivityEVM._() : super._();
+
+  factory ConnectivityEVM.fromJson(Map<String, dynamic> json) =
+      _$ConnectivityEVM.fromJson;
 }
 
 /// @nodoc
@@ -1802,6 +2302,8 @@ class _$OtherFailure extends OtherFailure {
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
     required TResult Function() userRejected,
+    required TResult Function() connectivityArchethic,
+    required TResult Function() connectivityEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return other(cause, stack);
@@ -1819,6 +2321,8 @@ class _$OtherFailure extends OtherFailure {
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
     TResult? Function()? userRejected,
+    TResult? Function()? connectivityArchethic,
+    TResult? Function()? connectivityEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return other?.call(cause, stack);
@@ -1836,6 +2340,8 @@ class _$OtherFailure extends OtherFailure {
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
     TResult Function()? userRejected,
+    TResult Function()? connectivityArchethic,
+    TResult Function()? connectivityEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -1852,11 +2358,14 @@ class _$OtherFailure extends OtherFailure {
     required TResult Function(NetworkFailure value) network,
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
-    required TResult Function(_ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
     required TResult Function(InsuffientFunds value) insufficientFunds,
     required TResult Function(Inauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ConnectivityArchethic value)
+        connectivityArchethic,
+    required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return other(this);
@@ -1869,11 +2378,13 @@ class _$OtherFailure extends OtherFailure {
     TResult? Function(NetworkFailure value)? network,
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
-    TResult? Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult? Function(InsuffientFunds value)? insufficientFunds,
     TResult? Function(Inauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return other?.call(this);
@@ -1886,11 +2397,13 @@ class _$OtherFailure extends OtherFailure {
     TResult Function(NetworkFailure value)? network,
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
-    TResult Function(_ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
     TResult Function(InsuffientFunds value)? insufficientFunds,
     TResult Function(Inauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {

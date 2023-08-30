@@ -64,9 +64,6 @@ class _SystemHash {
   }
 }
 
-typedef _FetchBridgesListRef
-    = AutoDisposeFutureProviderRef<List<Map<String, dynamic>>>;
-
 /// See also [_fetchBridgesList].
 @ProviderFor(_fetchBridgesList)
 const _fetchBridgesListProvider = _FetchBridgesListFamily();
@@ -115,10 +112,10 @@ class _FetchBridgesListProvider
     extends AutoDisposeFutureProvider<List<Map<String, dynamic>>> {
   /// See also [_fetchBridgesList].
   _FetchBridgesListProvider({
-    this.asc = true,
-  }) : super.internal(
+    bool asc = true,
+  }) : this._internal(
           (ref) => _fetchBridgesList(
-            ref,
+            ref as _FetchBridgesListRef,
             asc: asc,
           ),
           from: _fetchBridgesListProvider,
@@ -130,9 +127,44 @@ class _FetchBridgesListProvider
           dependencies: _FetchBridgesListFamily._dependencies,
           allTransitiveDependencies:
               _FetchBridgesListFamily._allTransitiveDependencies,
+          asc: asc,
         );
 
+  _FetchBridgesListProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.asc,
+  }) : super.internal();
+
   final bool asc;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<Map<String, dynamic>>> Function(_FetchBridgesListRef provider)
+        create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _FetchBridgesListProvider._internal(
+        (ref) => create(ref as _FetchBridgesListRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        asc: asc,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<Map<String, dynamic>>> createElement() {
+    return _FetchBridgesListProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -146,6 +178,21 @@ class _FetchBridgesListProvider
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin _FetchBridgesListRef
+    on AutoDisposeFutureProviderRef<List<Map<String, dynamic>>> {
+  /// The parameter `asc` of this provider.
+  bool get asc;
+}
+
+class _FetchBridgesListProviderElement
+    extends AutoDisposeFutureProviderElement<List<Map<String, dynamic>>>
+    with _FetchBridgesListRef {
+  _FetchBridgesListProviderElement(super.provider);
+
+  @override
+  bool get asc => (origin as _FetchBridgesListProvider).asc;
 }
 
 String _$clearBridgesListHash() => r'0a10724deac74fb1f87eb8faf68725b5eedfde8e';

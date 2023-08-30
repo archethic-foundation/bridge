@@ -45,8 +45,6 @@ class _SystemHash {
   }
 }
 
-typedef _GetBalanceRef = AutoDisposeFutureProviderRef<double>;
-
 /// See also [_getBalance].
 @ProviderFor(_getBalance)
 const _getBalanceProvider = _GetBalanceFamily();
@@ -105,14 +103,14 @@ class _GetBalanceFamily extends Family<AsyncValue<double>> {
 class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
   /// See also [_getBalance].
   _GetBalanceProvider(
-    this.isArchethic,
-    this.address,
-    this.typeToken,
-    this.tokenAddress, {
-    this.providerEndpoint,
-  }) : super.internal(
+    bool isArchethic,
+    String address,
+    String typeToken,
+    String tokenAddress, {
+    String? providerEndpoint,
+  }) : this._internal(
           (ref) => _getBalance(
-            ref,
+            ref as _GetBalanceRef,
             isArchethic,
             address,
             typeToken,
@@ -128,13 +126,59 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
           dependencies: _GetBalanceFamily._dependencies,
           allTransitiveDependencies:
               _GetBalanceFamily._allTransitiveDependencies,
+          isArchethic: isArchethic,
+          address: address,
+          typeToken: typeToken,
+          tokenAddress: tokenAddress,
+          providerEndpoint: providerEndpoint,
         );
+
+  _GetBalanceProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.isArchethic,
+    required this.address,
+    required this.typeToken,
+    required this.tokenAddress,
+    required this.providerEndpoint,
+  }) : super.internal();
 
   final bool isArchethic;
   final String address;
   final String typeToken;
   final String tokenAddress;
   final String? providerEndpoint;
+
+  @override
+  Override overrideWith(
+    FutureOr<double> Function(_GetBalanceRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _GetBalanceProvider._internal(
+        (ref) => create(ref as _GetBalanceRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        isArchethic: isArchethic,
+        address: address,
+        typeToken: typeToken,
+        tokenAddress: tokenAddress,
+        providerEndpoint: providerEndpoint,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<double> createElement() {
+    return _GetBalanceProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -157,6 +201,40 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin _GetBalanceRef on AutoDisposeFutureProviderRef<double> {
+  /// The parameter `isArchethic` of this provider.
+  bool get isArchethic;
+
+  /// The parameter `address` of this provider.
+  String get address;
+
+  /// The parameter `typeToken` of this provider.
+  String get typeToken;
+
+  /// The parameter `tokenAddress` of this provider.
+  String get tokenAddress;
+
+  /// The parameter `providerEndpoint` of this provider.
+  String? get providerEndpoint;
+}
+
+class _GetBalanceProviderElement
+    extends AutoDisposeFutureProviderElement<double> with _GetBalanceRef {
+  _GetBalanceProviderElement(super.provider);
+
+  @override
+  bool get isArchethic => (origin as _GetBalanceProvider).isArchethic;
+  @override
+  String get address => (origin as _GetBalanceProvider).address;
+  @override
+  String get typeToken => (origin as _GetBalanceProvider).typeToken;
+  @override
+  String get tokenAddress => (origin as _GetBalanceProvider).tokenAddress;
+  @override
+  String? get providerEndpoint =>
+      (origin as _GetBalanceProvider).providerEndpoint;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
