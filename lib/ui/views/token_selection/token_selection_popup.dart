@@ -44,7 +44,7 @@ class TokenSelectionPopup {
                             children: [
                               Padding(
                                 padding:
-                                    const EdgeInsets.only(left: 15, right: 15),
+                                    const EdgeInsets.symmetric(horizontal: 15),
                                 child: SelectionArea(
                                   child: Text(
                                     AppLocalizations.of(context)!

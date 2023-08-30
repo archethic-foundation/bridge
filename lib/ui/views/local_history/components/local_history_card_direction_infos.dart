@@ -23,7 +23,7 @@ class LocalHistoryCardDirectionInfos extends StatelessWidget {
           ),
         if (bridge.blockchainFrom != null)
           Padding(
-            padding: const EdgeInsets.only(left: 10, right: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Stack(
               alignment: Alignment.center,
               children: [

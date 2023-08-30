@@ -32,9 +32,8 @@ class IconCloseConnection extends ConsumerWidget {
                     ),
                     content: Container(
                       color: Colors.transparent,
-                      padding: const EdgeInsets.only(
-                        left: 10,
-                        right: 10,
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 10,
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

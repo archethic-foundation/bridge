@@ -46,7 +46,7 @@ class _NavigationDrawerSectionState
         const Header(),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.only(left: 2, right: 2),
+            padding: const EdgeInsets.symmetric(horizontal: 2),
             child: Responsive.isDesktop(context)
                 ? NavigationDrawer(
                     elevation: 0,

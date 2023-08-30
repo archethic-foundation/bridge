@@ -26,8 +26,7 @@ class BridgeInProgressCircularStepProgressIndicator extends ConsumerWidget {
             chainId: bridge.blockchainFrom!.chainId,
           ),
         Padding(
-          padding:
-              const EdgeInsets.only(left: 10, right: 10, top: 20, bottom: 20),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
           child: Align(
             child: Stack(
               alignment: Alignment.center,

@@ -15,16 +15,13 @@ class LocalHistoryCardOptions extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 5, bottom: 5),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       child: Row(
         children: [
-          const Padding(
-            padding: EdgeInsets.zero,
-            child: IconAnimated(
-              icon: Iconsax.trash,
-              iconSize: 16,
-              color: Colors.white,
-            ),
+          const IconAnimated(
+            icon: Iconsax.trash,
+            iconSize: 16,
+            color: Colors.white,
           ),
           if (bridge.failure != null && bridge.failure is UserRejected)
             const Padding(

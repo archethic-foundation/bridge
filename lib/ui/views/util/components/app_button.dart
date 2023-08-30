@@ -78,7 +78,9 @@ class AppButtonState extends State<AppButton> {
     return Container(
       alignment: Alignment.center,
       height: widget.height,
-      padding: const EdgeInsets.only(left: 20, right: 20),
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+      ),
       decoration: ShapeDecoration(
         gradient: ThemeBase.gradientBtn,
         shape: const StadiumBorder(),

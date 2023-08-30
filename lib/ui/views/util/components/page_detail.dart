@@ -25,7 +25,7 @@ class PageDetail extends ConsumerWidget {
       backgroundColor: ThemeBase.backgroundColor,
       resizeToAvoidBottomInset: false,
       body: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Responsive(
           mobile: Column(
             mainAxisAlignment: MainAxisAlignment.center,

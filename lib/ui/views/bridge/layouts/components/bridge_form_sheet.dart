@@ -31,11 +31,9 @@ class BridgeFormSheet extends ConsumerWidget {
         ),
         Container(
           height: MediaQuery.of(context).size.height,
-          padding: const EdgeInsets.only(
-            top: 10,
-            bottom: 10,
-            left: 5,
-            right: 5,
+          padding: const EdgeInsets.symmetric(
+            vertical: 10,
+            horizontal: 5,
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(24),
@@ -73,7 +71,9 @@ class BridgeFormSheet extends ConsumerWidget {
                   child: Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 15),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 15,
+                        ),
                         child: SelectionArea(
                           child: Text(
                             AppLocalizations.of(context)!.bridgeFormTitle,

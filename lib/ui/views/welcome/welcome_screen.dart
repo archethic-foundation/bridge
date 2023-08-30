@@ -74,7 +74,7 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                        padding: const EdgeInsets.only(left: 20, right: 20),
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
                         child: PageView(
                           controller: pageController,
                           onPageChanged: (page) {

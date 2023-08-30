@@ -38,11 +38,9 @@ class BridgeConfirmSheet extends ConsumerWidget {
         ),
         Container(
           height: MediaQuery.of(context).size.height,
-          padding: const EdgeInsets.only(
-            top: 10,
-            bottom: 10,
-            left: 5,
-            right: 5,
+          padding: const EdgeInsets.symmetric(
+            horizontal: 5,
+            vertical: 10,
           ),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(24),
@@ -81,7 +79,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
                   child: Row(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(left: 15, right: 15),
+                        padding: const EdgeInsets.symmetric(horizontal: 15),
                         child: SelectionArea(
                           child: Text(
                             AppLocalizations.of(context)!.bridgeConfirmTitle,
@@ -169,7 +167,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
                           ],
                         ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 10, bottom: 10),
+                        padding: const EdgeInsets.symmetric(vertical: 10),
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width,
                           height: 1,
