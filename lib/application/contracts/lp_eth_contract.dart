@@ -26,7 +26,7 @@ class LPETHContract {
     late String htlcContractAddress;
 
     final abiLPETHStringJson = jsonDecode(
-      await rootBundle.loadString('truffle/build/contracts/IPool.json'),
+      await rootBundle.loadString('contracts/evm/build/contracts/IPool.json'),
     );
 
     final contractLPETH = DeployedContract(
@@ -100,7 +100,7 @@ class LPETHContract {
     final web3Client = Web3Client(providerEndpoint!, Client());
 
     final abiHTLCETHStringJson = jsonDecode(
-      await rootBundle.loadString('truffle/build/contracts/IHTLC.json'),
+      await rootBundle.loadString('contracts/evm/build/contracts/IHTLC.json'),
     );
 
     debugPrint('withdraw - htlcContractAddress: $htlcContractAddress');

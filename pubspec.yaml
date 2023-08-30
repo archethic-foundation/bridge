@@ -2,7 +2,7 @@ name: aebridge
 description: Enable interoperability and facilitate the transfer of data and assets between the two blockchains.
 publish_to: "none"
 
-version: 0.0.9+2
+version: 0.0.9+3
 
 environment:
   sdk: ">=3.0.5 <4.0.0"
@@ -88,7 +88,7 @@ dependencies:
   webthree:
     git:
       url: https://github.com/redDwarf03/webthree.git
-      ref: master
+      ref: Handle_send_tx_errors
 
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.
@@ -114,10 +114,10 @@ flutter:
     - assets/images/bc-logos/
     - lib/domain/repositories/blockchains_list.json
     - lib/domain/repositories/tokens_list_per_bridge.json
-    - truffle/build/contracts/IPool.json
-    - truffle/build/contracts/IHTLC.json
-    - truffle/build/contracts/IERC20.json
-    - truffle/build/contracts/SignedHTLC_ERC.json
+    - contracts/evm/build/contracts/IPool.json
+    - contracts/evm/build/contracts/IHTLC.json
+    - contracts/evm/build/contracts/IERC20.json
+    - contracts/evm/build/contracts/SignedHTLC_ERC.json
 
   fonts:
     - family: Caveat

@@ -227,6 +227,7 @@ class _SessionNotifier extends Notifier<Session> {
                     genesisAddress: event.genesisAddress,
                     nameAccount: event.name,
                   );
+                  _fillState(bridgeWallet, from);
                 }),
               );
               _fillState(bridgeWallet, from);

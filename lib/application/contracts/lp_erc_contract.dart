@@ -30,7 +30,7 @@ class LPERCContract {
       late String htlcContractAddress;
 
       final abiLPERCStringJson = jsonDecode(
-        await rootBundle.loadString('truffle/build/contracts/IPool.json'),
+        await rootBundle.loadString('contracts/evm/build/contracts/IPool.json'),
       );
 
       final contractLPERC = DeployedContract(
@@ -96,7 +96,8 @@ class LPERCContract {
         final web3Client = Web3Client(providerEndpoint!, Client());
 
         final abiDummyTokenStringJson = jsonDecode(
-          await rootBundle.loadString('truffle/build/contracts/IERC20.json'),
+          await rootBundle
+              .loadString('contracts/evm/build/contracts/IERC20.json'),
         );
 
         final contractDummyToken = DeployedContract(
@@ -123,6 +124,7 @@ class LPERCContract {
           );
           debugPrint('Token provisionned');
         } catch (e) {
+          debugPrint('error provisionChargeableHTLC $e');
           throw const Failure.userRejected();
         }
       },
@@ -144,7 +146,8 @@ class LPERCContract {
         late String htlcContractAddress;
 
         final abiLPERCStringJson = jsonDecode(
-          await rootBundle.loadString('truffle/build/contracts/IPool.json'),
+          await rootBundle
+              .loadString('contracts/evm/build/contracts/IPool.json'),
         );
 
         final contractLPERC = DeployedContract(
@@ -215,7 +218,8 @@ class LPERCContract {
         final web3Client = Web3Client(providerEndpoint!, Client());
 
         final abiStringJson = jsonDecode(
-          await rootBundle.loadString('truffle/build/contracts/IHTLC.json'),
+          await rootBundle
+              .loadString('contracts/evm/build/contracts/IHTLC.json'),
         );
 
         debugPrint('withdraw - htlcContractAddress: $htlcContractAddress');
@@ -264,7 +268,7 @@ class LPERCContract {
 
         final abiStringJson = jsonDecode(
           await rootBundle
-              .loadString('truffle/build/contracts/SignedHTLC_ERC.json'),
+              .loadString('contracts/evm/build/contracts/SignedHTLC_ERC.json'),
         );
 
         final contractHTLCERC = DeployedContract(

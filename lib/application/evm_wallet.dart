@@ -110,7 +110,8 @@ class EVMWalletProvider extends ChangeNotifier {
           debugPrint('erc20address $erc20address');
 
           final abiTokenStringJson = jsonDecode(
-            await rootBundle.loadString('truffle/build/contracts/IERC20.json'),
+            await rootBundle
+                .loadString('contracts/evm/build/contracts/IERC20.json'),
           );
 
           final contractToken = DeployedContract(

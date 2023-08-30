@@ -46,5 +46,3 @@ app.*.map.json
 .firebase/hosting.YnVpbGQvd2Vi.cache
 .firebaserc
 firebase.json
-truffle/.openzeppelin/
-truffle/test/.openzeppelin/
