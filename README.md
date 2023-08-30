@@ -45,7 +45,7 @@ In order to develop and test the application, you need to have some prerequisite
 #### 3) Deploy Archethic Pools
   - Execute the following commands to deploy the contracts
     ```bash
-    cd ae_smart_contracts
+    cd contracts/archethic
     npm install
     node deploy_pool.js
     ```
@@ -56,7 +56,7 @@ In order to develop and test the application, you need to have some prerequisite
 #### 4) Deploy EVM Pools
   - Execute the following commands to deploy the contracts:
     ```bash
-    cd truffle
+    cd contracts/evm
     npm install -g truffle
     npm install
     truffle deploy
@@ -124,7 +124,7 @@ You need to have [Truffle](https://trufflesuite.com/docs/truffle/) installed
 
 To contribute, you need to go on the truffle directory 
 ```bash
-cd truffle
+cd contracts/evm
 ```
 
 For tests you can use unit tests:
