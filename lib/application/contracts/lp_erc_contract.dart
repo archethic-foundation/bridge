@@ -49,7 +49,7 @@ class LPERCContract with EVMBridgeProcessMixin {
         function: contractLPERC.function('mintHTLC'),
         parameters: [
           hexToBytes(hash),
-          EtherAmount.fromUnitAndValue(EtherUnit.ether, amount).getInWei,
+          EtherAmount.fromBigInt(EtherUnit.ether, amount).getInWei,
           BigInt.from(lockTime),
         ],
       );
@@ -111,7 +111,7 @@ class LPERCContract with EVMBridgeProcessMixin {
           function: contractDummyToken.function('transfer'),
           parameters: [
             EthereumAddress.fromHex(htlcContractAddress),
-            EtherAmount.fromUnitAndValue(EtherUnit.ether, amount).getInWei,
+            EtherAmount.fromBigInt(EtherUnit.ether, amount).getInWei,
           ],
         );
 
@@ -154,14 +154,14 @@ class LPERCContract with EVMBridgeProcessMixin {
 
         debugPrint('contractLPERC ok');
         debugPrint(
-          'EtherAmount.fromUnitAndValue(EtherUnit.ether, amount).getInWei ${EtherAmount.fromUnitAndValue(EtherUnit.ether, amount).getInWei}',
+          'EtherAmount.fromUnitAndValue(EtherUnit.ether, amount).getInWei ${EtherAmount.fromBigInt(EtherUnit.ether, amount).getInWei}',
         );
         final transactionProvisionHTLC = Transaction.callContract(
           contract: contractLPERC,
           function: contractLPERC.function('provisionHTLC'),
           parameters: [
             hexToBytes(secretHash.secretHash!),
-            EtherAmount.fromUnitAndValue(EtherUnit.ether, amount).getInWei,
+            EtherAmount.fromBigInt(EtherUnit.ether, amount).getInWei,
             BigInt.from(lockTime),
             hexToBytes(secretHash.secretHashSignature!.r!),
             hexToBytes(secretHash.secretHashSignature!.s!),

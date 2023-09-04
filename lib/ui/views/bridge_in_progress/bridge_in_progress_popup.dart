@@ -5,6 +5,7 @@ import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progre
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_current_step.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_error.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_infos.dart';
+import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_resume_btn.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,7 +26,7 @@ class BridgeInProgressPopup {
                 body: AlertDialog(
                   backgroundColor: BridgeThemeBase.backgroundPopupColor,
                   content: Container(
-                    height: 450,
+                    height: 500,
                     width: BridgeThemeBase.sizeBoxComponentWidth,
                     color: Colors.transparent,
                     padding: const EdgeInsets.only(
@@ -43,6 +44,7 @@ class BridgeInProgressPopup {
                         BridgeInProgressError(),
                         BridgeInProgressContracts(),
                         Spacer(),
+                        BridgeInProgressResumeBtn(),
                         BridgeInProgressCloseBtn(),
                       ],
                     ),

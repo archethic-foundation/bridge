@@ -20,6 +20,7 @@ BridgeFormState _$BridgeFormStateFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$BridgeFormState {
+  bool get resumeProcess => throw _privateConstructorUsedError;
   BridgeProcessStep get bridgeProcessStep => throw _privateConstructorUsedError;
   @BridgeBlockchainJsonConverter()
   BridgeBlockchain? get blockchainFrom => throw _privateConstructorUsedError;
@@ -42,6 +43,9 @@ mixin _$BridgeFormState {
   @ArchethicOracleUCOJsonConverter()
   ArchethicOracleUCO? get archethicOracleUCO =>
       throw _privateConstructorUsedError;
+  String? get htlcAEAddress => throw _privateConstructorUsedError;
+  String? get htlcEVMAddress => throw _privateConstructorUsedError;
+  List<int>? get secret => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -56,7 +60,8 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       _$BridgeFormStateCopyWithImpl<$Res, BridgeFormState>;
   @useResult
   $Res call(
-      {BridgeProcessStep bridgeProcessStep,
+      {bool resumeProcess,
+      BridgeProcessStep bridgeProcessStep,
       @BridgeBlockchainJsonConverter() BridgeBlockchain? blockchainFrom,
       @BridgeBlockchainJsonConverter() BridgeBlockchain? blockchainTo,
       @BridgeTokenJsonConverter() BridgeToken? tokenToBridge,
@@ -70,8 +75,10 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       int currentStep,
       bool changeDirectionInProgress,
       int? timestampExec,
-      @ArchethicOracleUCOJsonConverter()
-      ArchethicOracleUCO? archethicOracleUCO});
+      @ArchethicOracleUCOJsonConverter() ArchethicOracleUCO? archethicOracleUCO,
+      String? htlcAEAddress,
+      String? htlcEVMAddress,
+      List<int>? secret});
 
   $BridgeBlockchainCopyWith<$Res>? get blockchainFrom;
   $BridgeBlockchainCopyWith<$Res>? get blockchainTo;
@@ -93,6 +100,7 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? resumeProcess = null,
     Object? bridgeProcessStep = null,
     Object? blockchainFrom = freezed,
     Object? blockchainTo = freezed,
@@ -108,8 +116,15 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? changeDirectionInProgress = null,
     Object? timestampExec = freezed,
     Object? archethicOracleUCO = freezed,
+    Object? htlcAEAddress = freezed,
+    Object? htlcEVMAddress = freezed,
+    Object? secret = freezed,
   }) {
     return _then(_value.copyWith(
+      resumeProcess: null == resumeProcess
+          ? _value.resumeProcess
+          : resumeProcess // ignore: cast_nullable_to_non_nullable
+              as bool,
       bridgeProcessStep: null == bridgeProcessStep
           ? _value.bridgeProcessStep
           : bridgeProcessStep // ignore: cast_nullable_to_non_nullable
@@ -170,6 +185,18 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
           ? _value.archethicOracleUCO
           : archethicOracleUCO // ignore: cast_nullable_to_non_nullable
               as ArchethicOracleUCO?,
+      htlcAEAddress: freezed == htlcAEAddress
+          ? _value.htlcAEAddress
+          : htlcAEAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      htlcEVMAddress: freezed == htlcEVMAddress
+          ? _value.htlcEVMAddress
+          : htlcEVMAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      secret: freezed == secret
+          ? _value.secret
+          : secret // ignore: cast_nullable_to_non_nullable
+              as List<int>?,
     ) as $Val);
   }
 
@@ -244,7 +271,8 @@ abstract class _$$_BridgeFormStateCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {BridgeProcessStep bridgeProcessStep,
+      {bool resumeProcess,
+      BridgeProcessStep bridgeProcessStep,
       @BridgeBlockchainJsonConverter() BridgeBlockchain? blockchainFrom,
       @BridgeBlockchainJsonConverter() BridgeBlockchain? blockchainTo,
       @BridgeTokenJsonConverter() BridgeToken? tokenToBridge,
@@ -258,8 +286,10 @@ abstract class _$$_BridgeFormStateCopyWith<$Res>
       int currentStep,
       bool changeDirectionInProgress,
       int? timestampExec,
-      @ArchethicOracleUCOJsonConverter()
-      ArchethicOracleUCO? archethicOracleUCO});
+      @ArchethicOracleUCOJsonConverter() ArchethicOracleUCO? archethicOracleUCO,
+      String? htlcAEAddress,
+      String? htlcEVMAddress,
+      List<int>? secret});
 
   @override
   $BridgeBlockchainCopyWith<$Res>? get blockchainFrom;
@@ -284,6 +314,7 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? resumeProcess = null,
     Object? bridgeProcessStep = null,
     Object? blockchainFrom = freezed,
     Object? blockchainTo = freezed,
@@ -299,8 +330,15 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
     Object? changeDirectionInProgress = null,
     Object? timestampExec = freezed,
     Object? archethicOracleUCO = freezed,
+    Object? htlcAEAddress = freezed,
+    Object? htlcEVMAddress = freezed,
+    Object? secret = freezed,
   }) {
     return _then(_$_BridgeFormState(
+      resumeProcess: null == resumeProcess
+          ? _value.resumeProcess
+          : resumeProcess // ignore: cast_nullable_to_non_nullable
+              as bool,
       bridgeProcessStep: null == bridgeProcessStep
           ? _value.bridgeProcessStep
           : bridgeProcessStep // ignore: cast_nullable_to_non_nullable
@@ -361,6 +399,18 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
           ? _value.archethicOracleUCO
           : archethicOracleUCO // ignore: cast_nullable_to_non_nullable
               as ArchethicOracleUCO?,
+      htlcAEAddress: freezed == htlcAEAddress
+          ? _value.htlcAEAddress
+          : htlcAEAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      htlcEVMAddress: freezed == htlcEVMAddress
+          ? _value.htlcEVMAddress
+          : htlcEVMAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      secret: freezed == secret
+          ? _value._secret
+          : secret // ignore: cast_nullable_to_non_nullable
+              as List<int>?,
     ));
   }
 }
@@ -369,7 +419,8 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_BridgeFormState extends _BridgeFormState {
   const _$_BridgeFormState(
-      {this.bridgeProcessStep = BridgeProcessStep.form,
+      {this.resumeProcess = false,
+      this.bridgeProcessStep = BridgeProcessStep.form,
       @BridgeBlockchainJsonConverter() this.blockchainFrom,
       @BridgeBlockchainJsonConverter() this.blockchainTo,
       @BridgeTokenJsonConverter() this.tokenToBridge,
@@ -383,12 +434,19 @@ class _$_BridgeFormState extends _BridgeFormState {
       this.currentStep = 0,
       this.changeDirectionInProgress = false,
       this.timestampExec,
-      @ArchethicOracleUCOJsonConverter() this.archethicOracleUCO})
-      : super._();
+      @ArchethicOracleUCOJsonConverter() this.archethicOracleUCO,
+      this.htlcAEAddress,
+      this.htlcEVMAddress,
+      final List<int>? secret})
+      : _secret = secret,
+        super._();
 
   factory _$_BridgeFormState.fromJson(Map<String, dynamic> json) =>
       _$$_BridgeFormStateFromJson(json);
 
+  @override
+  @JsonKey()
+  final bool resumeProcess;
   @override
   @JsonKey()
   final BridgeProcessStep bridgeProcessStep;
@@ -432,10 +490,23 @@ class _$_BridgeFormState extends _BridgeFormState {
   @override
   @ArchethicOracleUCOJsonConverter()
   final ArchethicOracleUCO? archethicOracleUCO;
+  @override
+  final String? htlcAEAddress;
+  @override
+  final String? htlcEVMAddress;
+  final List<int>? _secret;
+  @override
+  List<int>? get secret {
+    final value = _secret;
+    if (value == null) return null;
+    if (_secret is EqualUnmodifiableListView) return _secret;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
 
   @override
   String toString() {
-    return 'BridgeFormState(bridgeProcessStep: $bridgeProcessStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, networkFees: $networkFees, tokenToBridgeBalance: $tokenToBridgeBalance, failure: $failure, isTransferInProgress: $isTransferInProgress, waitForWalletConfirmation: $waitForWalletConfirmation, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO)';
+    return 'BridgeFormState(resumeProcess: $resumeProcess, bridgeProcessStep: $bridgeProcessStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, networkFees: $networkFees, tokenToBridgeBalance: $tokenToBridgeBalance, failure: $failure, isTransferInProgress: $isTransferInProgress, waitForWalletConfirmation: $waitForWalletConfirmation, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, secret: $secret)';
   }
 
   @override
@@ -443,6 +514,8 @@ class _$_BridgeFormState extends _BridgeFormState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_BridgeFormState &&
+            (identical(other.resumeProcess, resumeProcess) ||
+                other.resumeProcess == resumeProcess) &&
             (identical(other.bridgeProcessStep, bridgeProcessStep) ||
                 other.bridgeProcessStep == bridgeProcessStep) &&
             (identical(other.blockchainFrom, blockchainFrom) ||
@@ -473,28 +546,38 @@ class _$_BridgeFormState extends _BridgeFormState {
             (identical(other.timestampExec, timestampExec) ||
                 other.timestampExec == timestampExec) &&
             (identical(other.archethicOracleUCO, archethicOracleUCO) ||
-                other.archethicOracleUCO == archethicOracleUCO));
+                other.archethicOracleUCO == archethicOracleUCO) &&
+            (identical(other.htlcAEAddress, htlcAEAddress) ||
+                other.htlcAEAddress == htlcAEAddress) &&
+            (identical(other.htlcEVMAddress, htlcEVMAddress) ||
+                other.htlcEVMAddress == htlcEVMAddress) &&
+            const DeepCollectionEquality().equals(other._secret, _secret));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      bridgeProcessStep,
-      blockchainFrom,
-      blockchainTo,
-      tokenToBridge,
-      tokenToBridgeAmount,
-      targetAddress,
-      networkFees,
-      tokenToBridgeBalance,
-      failure,
-      isTransferInProgress,
-      waitForWalletConfirmation,
-      currentStep,
-      changeDirectionInProgress,
-      timestampExec,
-      archethicOracleUCO);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        resumeProcess,
+        bridgeProcessStep,
+        blockchainFrom,
+        blockchainTo,
+        tokenToBridge,
+        tokenToBridgeAmount,
+        targetAddress,
+        networkFees,
+        tokenToBridgeBalance,
+        failure,
+        isTransferInProgress,
+        waitForWalletConfirmation,
+        currentStep,
+        changeDirectionInProgress,
+        timestampExec,
+        archethicOracleUCO,
+        htlcAEAddress,
+        htlcEVMAddress,
+        const DeepCollectionEquality().hash(_secret)
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -512,7 +595,8 @@ class _$_BridgeFormState extends _BridgeFormState {
 
 abstract class _BridgeFormState extends BridgeFormState {
   const factory _BridgeFormState(
-      {final BridgeProcessStep bridgeProcessStep,
+      {final bool resumeProcess,
+      final BridgeProcessStep bridgeProcessStep,
       @BridgeBlockchainJsonConverter() final BridgeBlockchain? blockchainFrom,
       @BridgeBlockchainJsonConverter() final BridgeBlockchain? blockchainTo,
       @BridgeTokenJsonConverter() final BridgeToken? tokenToBridge,
@@ -527,12 +611,17 @@ abstract class _BridgeFormState extends BridgeFormState {
       final bool changeDirectionInProgress,
       final int? timestampExec,
       @ArchethicOracleUCOJsonConverter()
-      final ArchethicOracleUCO? archethicOracleUCO}) = _$_BridgeFormState;
+      final ArchethicOracleUCO? archethicOracleUCO,
+      final String? htlcAEAddress,
+      final String? htlcEVMAddress,
+      final List<int>? secret}) = _$_BridgeFormState;
   const _BridgeFormState._() : super._();
 
   factory _BridgeFormState.fromJson(Map<String, dynamic> json) =
       _$_BridgeFormState.fromJson;
 
+  @override
+  bool get resumeProcess;
   @override
   BridgeProcessStep get bridgeProcessStep;
   @override
@@ -568,6 +657,12 @@ abstract class _BridgeFormState extends BridgeFormState {
   @override
   @ArchethicOracleUCOJsonConverter()
   ArchethicOracleUCO? get archethicOracleUCO;
+  @override
+  String? get htlcAEAddress;
+  @override
+  String? get htlcEVMAddress;
+  @override
+  List<int>? get secret;
   @override
   @JsonKey(ignore: true)
   _$$_BridgeFormStateCopyWith<_$_BridgeFormState> get copyWith =>

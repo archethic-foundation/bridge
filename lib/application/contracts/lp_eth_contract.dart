@@ -43,7 +43,7 @@ class LPETHContract with EVMBridgeProcessMixin {
       function: contractLPETH.function('mintHTLC'),
       parameters: [
         hexToBytes(hash),
-        EtherAmount.fromUnitAndValue(EtherUnit.ether, amount).getInWei,
+        EtherAmount.fromBigInt(EtherUnit.ether, amount).getInWei,
         BigInt.from(lockTime),
       ],
     );
@@ -73,9 +73,9 @@ class LPETHContract with EVMBridgeProcessMixin {
       evmWalletProvider.credentials!,
       Transaction(
         to: EthereumAddress.fromHex(htlcContractAddress),
-        gasPrice: EtherAmount.fromUnitAndValue(EtherUnit.gwei, 10),
+        gasPrice: EtherAmount.fromInt(EtherUnit.gwei, 10),
         maxGas: 500000,
-        value: EtherAmount.fromUnitAndValue(EtherUnit.ether, amount),
+        value: EtherAmount.fromBigInt(EtherUnit.ether, amount),
       ),
       chainId,
     );

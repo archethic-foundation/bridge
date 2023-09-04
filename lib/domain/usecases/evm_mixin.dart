@@ -84,18 +84,14 @@ mixin EVMBridgeProcessMixin {
     return htlcAddress;
   }
 
-  (Uint8List secret, Digest secretHash) generateRandomSecret() {
+  Uint8List generateRandomSecret() {
     final secret = Uint8List.fromList(
       List<int>.generate(
         32,
         (int i) => Random.secure().nextInt(256),
       ),
     );
-
-    final secretHash = sha256.convert(
-      secret,
-    );
-    return (secret, secretHash);
+    return secret;
   }
 
   Future<String> deployEVMHTLC(WidgetRef ref, Digest secretHash) async {

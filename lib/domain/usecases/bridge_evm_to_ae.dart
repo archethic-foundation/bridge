@@ -1,9 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:aebridge/domain/usecases/archethic_bridge_process_mixin.dart';
 import 'package:aebridge/domain/usecases/evm_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -12,15 +14,34 @@ class BridgeEVMToArchethicUseCase
   Future<void> run(
     WidgetRef ref, {
     int recoveryStep = 0,
+    List<int>? recoverySecret,
+    String? recoveryHTLCEVMAddress,
+    String? recoveryHTLCAEAddress,
   }) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-    final secretInfos = generateRandomSecret();
-    final secret = secretInfos.$1;
-    final secretHash = secretInfos.$2;
+
+    Uint8List? secret;
+    if (recoverySecret != null) {
+      secret = Uint8List.fromList(recoverySecret);
+    } else {
+      secret = generateRandomSecret();
+      await bridgeNotifier.setSecret(secret.toList());
+    }
+
+    final secretHash = sha256.convert(
+      secret,
+    );
 
     String? htlcEVMAddress;
     String? htlcAEAddress;
+
+    if (recoveryHTLCEVMAddress != null) {
+      htlcEVMAddress = recoveryHTLCEVMAddress;
+    }
+    if (recoveryHTLCAEAddress != null) {
+      htlcAEAddress = recoveryHTLCAEAddress;
+    }
 
     switch (bridge.tokenToBridge!.type) {
       case 'ERC20':
@@ -29,6 +50,7 @@ class BridgeEVMToArchethicUseCase
         if (recoveryStep <= 1) {
           try {
             htlcEVMAddress = await deployEVMHTLC(ref, secretHash);
+            await bridgeNotifier.setHTLCEVMAddress(htlcEVMAddress);
           } catch (e) {
             return;
           }
@@ -52,6 +74,7 @@ class BridgeEVMToArchethicUseCase
         if (recoveryStep <= 3) {
           try {
             htlcAEAddress = await deployAEChargeableHTLC(ref, secretHash);
+            await bridgeNotifier.setHTLCAEAddress(htlcAEAddress);
           } catch (e) {
             return;
           }

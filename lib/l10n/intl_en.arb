@@ -39,6 +39,7 @@
   "btn_selectToken": "Select token",
   "btn_bridge": "Bridge",
   "btn_confirm_bridge": "Confirm",
+  "btn_resume_bridge": "Resume",
   "btn_back": "Back",
   "btn_swap_insufficient_balance": "Insufficient %1 balance",
   "btn_max": "MAX",

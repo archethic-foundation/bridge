@@ -28,6 +28,30 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   @override
   BridgeFormState build() => const BridgeFormState();
 
+  Future<void> resume(BridgeFormState bridgeFormState) async {
+    await setBlockchainFromWithConnection(bridgeFormState.blockchainFrom!);
+    await setBlockchainToWithConnection(bridgeFormState.blockchainTo!);
+    state = state.copyWith(
+      archethicOracleUCO: bridgeFormState.archethicOracleUCO,
+      blockchainTo: bridgeFormState.blockchainTo,
+      bridgeProcessStep: bridgeFormState.bridgeProcessStep,
+      changeDirectionInProgress: bridgeFormState.isControlsOk,
+      currentStep: bridgeFormState.currentStep,
+      failure: null,
+      isTransferInProgress: bridgeFormState.isTransferInProgress,
+      networkFees: bridgeFormState.networkFees,
+      targetAddress: bridgeFormState.targetAddress,
+      timestampExec: bridgeFormState.timestampExec,
+      tokenToBridge: bridgeFormState.tokenToBridge,
+      tokenToBridgeAmount: bridgeFormState.tokenToBridgeAmount,
+      tokenToBridgeBalance: bridgeFormState.tokenToBridgeBalance,
+      waitForWalletConfirmation: bridgeFormState.waitForWalletConfirmation,
+      htlcAEAddress: bridgeFormState.htlcAEAddress,
+      htlcEVMAddress: bridgeFormState.htlcEVMAddress,
+      secret: bridgeFormState.secret,
+    );
+  }
+
   Future<void> storeBridge() async {
     // We store infos only if timestampExec is initialized
     if (state.timestampExec == null) {
@@ -37,6 +61,10 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     await hiveBridgeDatasource.setBridge(
       bridge: state.toJson(),
     );
+  }
+
+  void setResumeProcess(bool resumeProcess) {
+    state = state.copyWith(resumeProcess: resumeProcess);
   }
 
   Future<void> setBlockchainFrom(
@@ -279,8 +307,29 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     await storeBridge();
   }
 
-  Future<void> setTimestampExec(int timestampExec) async {
+  void setTimestampExec(int timestampExec) {
     state = state.copyWith(timestampExec: timestampExec);
+  }
+
+  Future<void> setHTLCAEAddress(String htlcAEAddress) async {
+    state = state.copyWith(
+      htlcAEAddress: htlcAEAddress,
+    );
+    await storeBridge();
+  }
+
+  Future<void> setHTLCEVMAddress(String htlcEVMAddress) async {
+    state = state.copyWith(
+      htlcEVMAddress: htlcEVMAddress,
+    );
+    await storeBridge();
+  }
+
+  Future<void> setSecret(List<int> secret) async {
+    state = state.copyWith(
+      secret: secret,
+    );
+    await storeBridge();
   }
 
   Future<void> setArchethicOracleUCO(
@@ -391,17 +440,29 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       return;
     }
 
-    await setTimestampExec(DateTime.now().millisecondsSinceEpoch);
+    setTimestampExec(DateTime.now().millisecondsSinceEpoch);
 
     final hiveBridgeDatasource = await HiveBridgeDatasource.getInstance();
     await hiveBridgeDatasource.addBridge(bridge: state.toJson());
 
     await setTransferInProgress(true);
     if (state.blockchainFrom!.isArchethic) {
-      await BridgeArchethicToEVMUseCase().run(ref);
+      await BridgeArchethicToEVMUseCase().run(
+        ref,
+        recoveryStep: state.currentStep,
+        recoveryHTLCAEAddress: state.htlcAEAddress,
+        recoveryHTLCEVMAddress: state.htlcEVMAddress,
+      );
     } else {
-      await BridgeEVMToArchethicUseCase().run(ref);
+      await BridgeEVMToArchethicUseCase().run(
+        ref,
+        recoveryStep: state.currentStep,
+        recoverySecret: state.secret,
+        recoveryHTLCAEAddress: state.htlcAEAddress,
+        recoveryHTLCEVMAddress: state.htlcEVMAddress,
+      );
     }
+    setResumeProcess(false);
     debugPrint('Bridge process finished');
     await setTransferInProgress(false);
   }

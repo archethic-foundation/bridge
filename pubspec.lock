@@ -37,8 +37,8 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: Remove-RPC-Feature-Flags
-      resolved-ref: "8b9e7eb076ba37b86438d4043a76866bd14090f2"
+      ref: dev
+      resolved-ref: af12635e9e0a9eb507e4979b35f46d019a1f3fe5
       url: "https://github.com/archethic-foundation/libdart.git"
     source: git
     version: "3.3.0"
@@ -47,7 +47,7 @@ packages:
     description:
       path: "."
       ref: libdart_calling_sm_function
-      resolved-ref: "00473a462a406c37c9d4ab65ff935448562de08f"
+      resolved-ref: "78232d34c7a5c88a40f42583894cf65ab9496ef6"
       url: "https://github.com/archethic-foundation/archethic-wallet-client-dart.git"
     source: git
     version: "1.0.6"
@@ -562,14 +562,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.1"
-  hex:
-    dependency: transitive
-    description:
-      name: hex
-      sha256: "4e7cd54e4b59ba026432a6be2dd9d96e4c5205725194997193bf871703b82c4a"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.2.0"
   hive:
     dependency: "direct main"
     description:
@@ -1324,7 +1316,7 @@ packages:
     description:
       path: "."
       ref: Handle_rawRequest_errors
-      resolved-ref: b72786dc33f520d323dfded5621da7fc6d67b609
+      resolved-ref: "5cd6b559d3749252b7914c306fbee631b3311ba8"
       url: "https://github.com/redDwarf03/webthree.git"
     source: git
     version: "2.5.8"

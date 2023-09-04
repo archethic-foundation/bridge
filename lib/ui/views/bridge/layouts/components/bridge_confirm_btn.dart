@@ -28,6 +28,23 @@ class BridgeConfirmButton extends ConsumerWidget {
       );
     }
 
+    if (bridge.currentStep > 0) {
+      return AppButton(
+        labelBtn: AppLocalizations.of(context)!.btn_resume_bridge,
+        icon: Iconsax.recovery_convert,
+        onPressed: () async {
+          final bridgeNotifier = ref
+              .read(BridgeFormProvider.bridgeForm.notifier)
+            ..setResumeProcess(true);
+          await bridgeNotifier.bridge(context, ref);
+          await BridgeInProgressPopup.getDialog(
+            context,
+            ref,
+          );
+        },
+      );
+    }
+
     return AppButton(
       labelBtn: AppLocalizations.of(context)!.btn_confirm_bridge,
       icon: Iconsax.recovery_convert,

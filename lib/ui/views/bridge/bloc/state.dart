@@ -15,6 +15,7 @@ enum WaitForWalletConfirmation { evm, archethic }
 @freezed
 class BridgeFormState with _$BridgeFormState {
   const factory BridgeFormState({
+    @Default(false) bool resumeProcess,
     @Default(BridgeProcessStep.form) BridgeProcessStep bridgeProcessStep,
     @BridgeBlockchainJsonConverter() BridgeBlockchain? blockchainFrom,
     @BridgeBlockchainJsonConverter() BridgeBlockchain? blockchainTo,
@@ -30,6 +31,9 @@ class BridgeFormState with _$BridgeFormState {
     @Default(false) bool changeDirectionInProgress,
     int? timestampExec,
     @ArchethicOracleUCOJsonConverter() ArchethicOracleUCO? archethicOracleUCO,
+    String? htlcAEAddress,
+    String? htlcEVMAddress,
+    List<int>? secret,
   }) = _BridgeFormState;
   const BridgeFormState._();
 

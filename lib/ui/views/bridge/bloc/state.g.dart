@@ -8,6 +8,7 @@ part of 'state.dart';
 
 _$_BridgeFormState _$$_BridgeFormStateFromJson(Map<String, dynamic> json) =>
     _$_BridgeFormState(
+      resumeProcess: json['resumeProcess'] as bool? ?? false,
       bridgeProcessStep: $enumDecodeNullable(
               _$BridgeProcessStepEnumMap, json['bridgeProcessStep']) ??
           BridgeProcessStep.form,
@@ -41,10 +42,14 @@ _$_BridgeFormState _$$_BridgeFormStateFromJson(Map<String, dynamic> json) =>
           _$JsonConverterFromJson<Map<String, dynamic>, ArchethicOracleUCO>(
               json['archethicOracleUCO'],
               const ArchethicOracleUCOJsonConverter().fromJson),
+      htlcAEAddress: json['htlcAEAddress'] as String?,
+      htlcEVMAddress: json['htlcEVMAddress'] as String?,
+      secret: (json['secret'] as List<dynamic>?)?.map((e) => e as int).toList(),
     );
 
 Map<String, dynamic> _$$_BridgeFormStateToJson(_$_BridgeFormState instance) =>
     <String, dynamic>{
+      'resumeProcess': instance.resumeProcess,
       'bridgeProcessStep':
           _$BridgeProcessStepEnumMap[instance.bridgeProcessStep]!,
       'blockchainFrom':
@@ -73,6 +78,9 @@ Map<String, dynamic> _$$_BridgeFormStateToJson(_$_BridgeFormState instance) =>
           _$JsonConverterToJson<Map<String, dynamic>, ArchethicOracleUCO>(
               instance.archethicOracleUCO,
               const ArchethicOracleUCOJsonConverter().toJson),
+      'htlcAEAddress': instance.htlcAEAddress,
+      'htlcEVMAddress': instance.htlcEVMAddress,
+      'secret': instance.secret,
     };
 
 const _$BridgeProcessStepEnumMap = {

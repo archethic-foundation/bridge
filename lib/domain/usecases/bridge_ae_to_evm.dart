@@ -13,11 +13,21 @@ class BridgeArchethicToEVMUseCase
   Future<void> run(
     WidgetRef ref, {
     int recoveryStep = 0,
+    String? recoveryHTLCEVMAddress,
+    String? recoveryHTLCAEAddress,
   }) async {
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
 
+    String? htlcEVMAddress;
+    String? htlcAEAddress;
+    if (recoveryHTLCEVMAddress != null) {
+      htlcEVMAddress = recoveryHTLCEVMAddress;
+    }
+    if (recoveryHTLCAEAddress != null) {
+      htlcAEAddress = recoveryHTLCAEAddress;
+    }
+
     // 1) Deploy Archethic HTLC
-    late String htlcAEAddress;
     if (recoveryStep <= 1) {
       try {
         htlcAEAddress = await deployAESignedHTLC(ref);
@@ -33,7 +43,7 @@ class BridgeArchethicToEVMUseCase
     // 2) Provision Archethic HTLC
     if (recoveryStep <= 2) {
       try {
-        await provisionAEHTLC(ref, htlcAEAddress);
+        await provisionAEHTLC(ref, htlcAEAddress!);
       } catch (e) {
         return;
       }
@@ -43,14 +53,13 @@ class BridgeArchethicToEVMUseCase
     late SecretHash secretHash;
     if (recoveryStep <= 3) {
       try {
-        secretHash = await getAESecretHash(ref, htlcAEAddress);
+        secretHash = await getAESecretHash(ref, htlcAEAddress!);
       } catch (e) {
         return;
       }
     }
 
     // 4) Deploy EVM HTLC + Provision
-    late String htlcEVMAddress;
     if (recoveryStep <= 4) {
       try {
         htlcEVMAddress = await deployEVMHTCLAndProvision(ref, secretHash);
@@ -65,7 +74,7 @@ class BridgeArchethicToEVMUseCase
     // 5) Request Secret from Archethic LP
     if (recoveryStep <= 5) {
       try {
-        await requestAESecretFromLP(ref, htlcAEAddress);
+        await requestAESecretFromLP(ref, htlcAEAddress!);
       } catch (e) {
         return;
       }
@@ -75,7 +84,7 @@ class BridgeArchethicToEVMUseCase
     late Secret secret;
     if (recoveryStep <= 6) {
       try {
-        secret = await revealAESecret(ref, htlcAEAddress);
+        secret = await revealAESecret(ref, htlcAEAddress!);
       } catch (e) {
         return;
       }
@@ -84,7 +93,7 @@ class BridgeArchethicToEVMUseCase
     // 7) Reveal Secret EVM (Withdraw)
     if (recoveryStep <= 7) {
       try {
-        await withdrawAE(ref, htlcEVMAddress, secret);
+        await withdrawAE(ref, htlcEVMAddress!, secret);
       } catch (e) {
         return;
       }
