@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "archethic": "^1.17.0",
+    "archethic": "../../../libjs",
     "keccak256": "^1.0.6"
   },
   "type": "module"

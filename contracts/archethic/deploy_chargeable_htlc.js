@@ -39,15 +39,13 @@ async function main(poolSeed, endpoint, userSeed) {
   console.log("Chargeable HTLC genesis address:", htlcGenesisAddress)
   const index = await archethic.transaction.getTransactionIndex(htlcGenesisAddress)
 
-  const content = getHTLCContent(userAddress, secretHash, endTime, amount)
   // Get faucet before sending transaction
   // await requestFaucet(endpoint, poolGenesisAddress)
 
   const tx = archethic.transaction.new()
     .setType("contract")
     .setCode(htlcCode)
-    .setContent(content)
-    .addRecipient(poolGenesisAddress)
+    .addRecipient(poolGenesisAddress, "request_funds", [endTime, amount, userAddress, secretHash])
     .addOwnership(encryptedSeed, authorizedKeys)
     .build(seed, index)
     .originSign(Utils.originPrivateKey)
@@ -106,17 +104,5 @@ async function getHtlcCode(endpoint, poolAddress, userAddress, secretHash, endTi
         console.log(err)
         reject(err)
       });
-  })
-}
-
-function getHTLCContent(userAddress, secretHash, endTime, amount) {
-  userAddress = userAddress.toUpperCase()
-
-  return JSON.stringify({
-    "action": "request_funds",
-    "endTime": endTime,
-    "userAddress": userAddress,
-    "secretHash": secretHash,
-    "amount": amount
   })
 }

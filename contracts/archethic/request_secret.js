@@ -8,7 +8,7 @@ if (!config.poolSeed || !config.endpoint || !config.userSeed) {
 }
 
 const args = []
-process.argv.forEach(function (val, index, _array) { if (index > 1) { args.push(val) } })
+process.argv.forEach(function(val, index, _array) { if (index > 1) { args.push(val) } })
 
 if (args.length != 1) {
   console.log("Missing arguments")
@@ -32,15 +32,12 @@ async function main(poolSeed, endpoint, seed) {
   console.log("User genesis address:", genesisAddress)
   const index = await archethic.transaction.getTransactionIndex(genesisAddress)
 
-  const content = getTxContent(htlcGenesisAddress)
-
   // Get faucet before sending transaction
   // await requestFaucet(endpoint, poolGenesisAddress)
 
   const tx = archethic.transaction.new()
-    .setType("data")
-    .setContent(content)
-    .addRecipient(poolGenesisAddress)
+    .setType("transfer")
+    .addRecipient(poolGenesisAddress, "reveal_secret", [htlcGenesisAddress])
     .build(seed, index)
     .originSign(Utils.originPrivateKey)
 
@@ -54,13 +51,6 @@ async function main(poolSeed, endpoint, seed) {
     console.log("Reason:", reason)
     process.exit(1)
   }).send()
-}
-
-function getTxContent(htlcGenesisAddress) {
-  return JSON.stringify({
-    "action": "request_secret",
-    "htlcGenesisAddress": htlcGenesisAddress
-  })
 }
 
 async function getLastAddress(archethic, address) {

@@ -1,9 +1,13 @@
 @version 1
 
-condition transaction: [
-  type: List.in?(["contract", "data"], transaction.type),
-  content: valid_content?(),
-  code: valid_code?(),
+####################################
+# EVM => Archethic : Request funds #
+####################################
+
+condition transaction, on: request_funds(end_time, amount, user_address, secret_hash), as: [
+  type: "contract",
+  code: valid_chargeable_code?(end_time, amount, user_address, secret_hash),
+  timestamp: end_time > Time.now(),
   address: (
     # Here ensure Ethereum contract exists and check rules
     # How to ensure Ethereum contract is a valid one ?
@@ -13,155 +17,134 @@ condition transaction: [
   )
 ]
 
-actions triggered_by: transaction do
-  # Replace by named action
-  params = Json.parse(transaction.content)
+actions triggered_by: transaction, on: request_funds(_end_time, amount, user_address, secret_hash) do
+  Contract.set_type "transfer"
+  Contract.add_uco_transfer to: transaction.address, amount: amount
+end
 
-  contract_content = Json.parse(contract.content)
+##########################################
+# Archethic => EVM : Request secret hash #
+##########################################
 
-  if params.action == "request_funds" do
-    Contract.set_type "transfer"
-    Contract.add_uco_transfer to: transaction.address, amount: params.amount
-  end
+condition transaction, on: request_secret_hash(end_time, amount, user_address), as: [
+  type: "contract",
+  code: valid_signed_code?(end_time, amount, user_address),
+  timestamp: end_time > Time.now()
+]
 
-  if params.action == "request_secret_hash" do
-    # Find a way to generate a random secret
-    secret = Crypto.hash(transaction.address)
-    secret_hash = Crypto.hash(secret, "sha256")
-
-    # Build signature for EVM decryption
-    signature = sign_for_evm(secret_hash)
-
-    # Add secret and signature in content
-    # secret should be encrypted (Not possible with ec_encrypt for now)
-    # secret should be stored in State
-    # secret_hash and signature should be sent in recipient parameter 
-    htlc_map = [
-      secret: secret,
-      secret_hash: secret_hash,
-      secret_hash_signature: signature,
-      end_time: params.endTime
-    ]
-
-    htlc_genesis_address = Chain.get_genesis_address(transaction.address)
-    
-    contract_content = Map.set(contract_content, htlc_genesis_address, htlc_map)
-
-    Contract.add_recipient transaction.address
-  end
-
-  if params.action == "request_secret" do
-    htlcGenesisAddress = String.to_hex(params.htlcGenesisAddress)
-    htlc_map = Map.get(contract_content, htlcGenesisAddress)
-    
-    if htlc_map.end_time > Time.now() do
-      # Here should decrypt secret and add it in recipient with named action
-      # But for now we just sign secret and let it in contract content
-      signature = sign_for_evm(htlc_map.secret)
-      
-      new_htlc_map = [
-        secret: htlc_map.secret,
-        secret_signature: signature,
-        end_time: htlc_map.end_time,
-        withdrawn?: true
-      ]
-
-      contract_content = Map.set(contract_content, htlcGenesisAddress, new_htlc_map)
-
-      Contract.add_recipient params.htlcGenesisAddress
-    end
-  end
-
+actions triggered_by: transaction, on: request_secret_hash(end_time, amount, user_address) do
   # Here delete old secret that hasn't been used before endTime
-  new_content = Map.new()
+  contract_content = Map.new()
+  if Json.is_valid?(contract.content) do
+    contract_content = Json.parse(contract.content)
+  end
 
   for key in Map.keys(contract_content) do
     htlc_map = Map.get(contract_content, key)
     if htlc_map.end_time > Time.now() do
-      new_content = Map.set(new_content, key, htlc_map)
+      contract_content = Map.delete(contract_content, key)
     end
   end
+  
+  # Find a way to generate a random secret
+  secret = Crypto.hash(transaction.address)
+  secret_hash = Crypto.hash(secret, "sha256")
 
-  Contract.set_content Json.to_string(new_content)
+  # Build signature for EVM decryption
+  signature = sign_for_evm(secret_hash)
+
+  # Add secret and signature in content
+  # secret should be encrypted (Not possible with ec_encrypt for now)
+  # secret should be stored in State
+  htlc_map = [secret: secret, end_time: end_time]
+
+  htlc_genesis_address = Chain.get_genesis_address(transaction.address)
+
+  contract_content = Map.set(contract_content, htlc_genesis_address, htlc_map)
+
+  Contract.set_content Json.to_string(contract_content)
+  Contract.add_recipient address: transaction.address, action: "set_secret_hash", args: [secret_hash, signature]
 end
 
-fun valid_content?(content) do
-  # Replace content JSON by named action params
-  valid? = false
-  action = nil
+####################################
+# Archethic => EVM : Reveal secret #
+####################################
 
-  if Json.is_valid?(content) && Json.path_match?(content, "$.action") do
-    action = Json.path_extract(content, "$.action")
-  end
+condition transaction, on: reveal_secret(htlc_genesis_address), as: [
+  type: "transfer",
+  content: (
+    # Ensure htlc_genesis_address exists in pool state
+    # and end_time has not been reached
+    valid? = false
 
-  if action == "request_funds" do
-    valid? = Json.path_match?(content, "$.endTime") &&
-      Json.path_match?(content, "$.amount") &&
-      Json.path_match?(content, "$.userAddress") &&
-      Json.path_match?(content, "$.secretHash")
-  end
-
-  if action == "request_secret_hash" do
-    valid? = Json.path_match?(content, "$.endTime") &&
-      Json.path_match?(content, "$.amount") &&
-      Json.path_match?(content, "$.userAddress")
-  end
-
-  if action == "request_secret" do
-    if Json.path_match?(content, "$.htlcGenesisAddress") do
-      htlc_genesis_address = String.to_hex(Json.path_extract(content, "$.htlcGenesisAddress"))
+    if Json.is_valid?(contract.content) do
+      htlc_genesis_address = String.to_hex(htlc_genesis_address)
       htlc_map = Map.get(Json.parse(contract.content), htlc_genesis_address)
-      valid? = htlc_map != nil && !htlc_map.withdrawn?
-    else
-      valid? = false
-    end
-  end
 
-  valid?
+      if htlc_map != nil do
+        valid? = htlc_map.end_time > Time.now()
+      end
+    end
+
+    valid?
+  ),
+  address: (
+    # Here ensure Ethereum contract exists and check rules
+    # How to ensure Ethereum contract is a valid one ?
+    # Maybe get the ABI of HTLC on github and compare it to the one on Ethereum
+    # Then control rules
+    true
+  )
+]
+
+actions triggered_by: transaction, on: reveal_secret(htlc_genesis_address) do
+  contract_content = Json.parse(contract.content)
+
+  htlc_genesis_address = String.to_hex(htlc_genesis_address)
+  htlc_map = Map.get(contract_content, htlc_genesis_address)
+
+  contract_content = Map.delete(contract_content, htlc_genesis_address)
+  
+  # Here should decrypt secret
+  signature = sign_for_evm(htlc_map.secret)
+
+
+  Contract.set_content Json.to_string(contract_content)
+  Contract.add_recipient address: htlc_genesis_address, action: "reveal_secret", args: [htlc_map.secret, signature]
 end
 
-fun valid_code?() do
-  valid_code? = false
+#####################
+# Private functions #
+#####################
 
-  # Get params from named action params
-  params = Json.parse(transaction.content)
+fun valid_chargeable_code?(end_time, amount, user_address, secret_hash) do
+  log("VALID CHARGEABLE ?")
+  log(end_time)
+  log(amount)
+  log(user_address)
+  log(secret_hash)
+  expected_code = get_chargeable_htlc(
+    end_time,
+    user_address,
+    #POOL_ADDRESS#, # Replace by pool address
+    secret_hash,
+    "UCO", # Replace by token address if pool manage token
+    amount
+  )
 
-  htlc_factory = 0x1234 # Replace by HTLC factory address
-  expected_code = ""
+  Code.is_same?(expected_code, transaction.code)
+end
 
-  if params.action == "request_funds" do
-    # Here we should ensure that the htlc will have enough UCO to pay the trigger datetime
-    # if the htlc is not used util end time
+fun valid_signed_code?(end_time, amount, user_address) do
+  expected_code = get_signed_htlc(
+    end_time,
+    user_address,
+    #POOL_ADDRESS#, # Replace by pool address
+    "UCO", # Replace by token address if pool manage token
+    amount
+  )
 
-    expected_code = get_chargeable_htlc(
-      params.endTime,
-      params.userAddress,
-      #POOL_ADDRESS#, # Replace by pool address
-      params.secretHash,
-      "UCO", # Replace by token address if pool manage token
-      params.amount
-    )
-  end
-
-  if params.action == "request_secret_hash" do
-    # Here we should ensure the htlc has enough fund than the amount it is supposed to send
-
-    expected_code = get_signed_htlc(
-      params.endTime,
-      params.userAddress,
-      #POOL_ADDRESS#, # Replace by pool address
-      "UCO", # Replace by token address if pool manage token
-      params.amount
-    )
-  end
-
-  if expected_code != "" do
-    # Here we should have more control on endTime to not accept contract 
-    # that almost reached endTime or where endTime is to far from now
-    Code.is_same?(expected_code, transaction.code) && params.endTime > Time.now()
-  else
-    true
-  end
+  Code.is_same?(expected_code, transaction.code)
 end
 
 fun sign_for_evm(data) do
@@ -178,6 +161,10 @@ fun sign_for_evm(data) do
 
   res
 end
+
+####################
+# Public functions #
+####################
 
 export fun get_protocol_fee() do
   0.3
@@ -242,16 +229,16 @@ export fun get_chargeable_htlc(end_time, user_address, pool_address, secret_hash
     Contract.set_code ""
   end
 
-  condition transaction: [
+  condition transaction, on: reveal_secret(secret), as: [
     timestamp: transaction.timestamp < #{end_time},
-    content: Crypto.hash() == 0x#{secret_hash},
+    content: Crypto.hash(String.to_hex(secret)) == 0x#{secret_hash},
     address: (
       # Here ensure withdraw is done on ethereum
       true
     )
   ]
 
-  actions triggered_by: transaction do
+  actions triggered_by: transaction, on: reveal_secret(secret) do
     Contract.set_type "transfer"
     #{valid_transfer_code}
     Contract.set_code ""
@@ -330,7 +317,7 @@ export fun get_signed_htlc(end_time, user_address, pool_address, token, amount) 
   after_secret_code = """
     @version 1
     #{date_time_trigger}
-    condition transaction: [
+    condition transaction, on: reveal_secret(secret, secret_signature), as: [
       address: (
 			  #Here we should ensure the transaction is comming from pool
 			  #Chain.get_genesis_address() == 0x#{pool_address}
@@ -338,16 +325,10 @@ export fun get_signed_htlc(end_time, user_address, pool_address, token, amount) 
 			  true
 		  ),
       timestamp: transaction.timestamp < #{end_time},
-      content: valid_hash?()
+      content: Crypto.hash(String.to_hex(secret)) == 0x\#{secret_hash}
     ]
 
-    actions triggered_by: transaction do
-      params = Json.parse(transaction.content)
-
-      genesis_address = Chain.get_genesis_address(contract.address)
-      secret = params[genesis_address].secret
-      secret_signature = params[genesis_address].secret_signature
-      
+    actions triggered_by: transaction, on: reveal_secret(secret, secret_signature) do
       next_code = """
   #{code_after_withdraw}
       \\\"""
@@ -367,48 +348,27 @@ export fun get_signed_htlc(end_time, user_address, pool_address, token, amount) 
         ]
       ])
     end
-
-    fun valid_hash?(content) do
-      params = Json.parse(content)
-
-      genesis_address = Chain.get_genesis_address(contract.address)
-      secret = params[genesis_address].secret
-      Crypto.hash(secret) == 0x\#{secret_hash}
-    end
   """
 
   """
   @version 1
   #{date_time_trigger}
-  condition transaction: [
+  condition transaction, on: set_secret_hash(secret_hash, secret_hash_signature), as: [
     address: (
 			#Here we should ensure the transaction is comming from pool
 			#Chain.get_genesis_address() == 0x#{pool_address}
 			#is not working this the transaction is not validated so it return the same address
 			true
-		),
-    content: valid_content?()
+		)
   ]
 
-  actions triggered_by: transaction do
-    params = Json.parse(transaction.content)
-
-    genesis_address = Chain.get_genesis_address(contract.address)
-    secret_hash = params[genesis_address].secret_hash
-    secret_hash_signature = params[genesis_address].secret_hash_signature
-
+  actions triggered_by: transaction, on: set_secret_hash(secret_hash, secret_hash_signature) do
     next_code = \"""
   #{after_secret_code}
     \"""
 
     Contract.set_code next_code
   end
-
-  fun valid_content?(content) do
-    genesis_address = Chain.get_genesis_address(contract.address)
-    params = Json.parse(content)
-
-    params[genesis_address].secret_hash != nil && params[genesis_address].secret_hash_signature != nil
-  end
   """
 end
+

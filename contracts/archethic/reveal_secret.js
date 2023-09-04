@@ -8,7 +8,7 @@ if (!config.endpoint || !config.userSeed) {
 }
 
 const args = []
-process.argv.forEach(function (val, index, _array) { if (index > 1) { args.push(val) } })
+process.argv.forEach(function(val, index, _array) { if (index > 1) { args.push(val) } })
 
 if (args.length != 2) {
   console.log("Missing arguments")
@@ -35,9 +35,8 @@ async function main(endpoint, seed) {
   // await requestFaucet(endpoint, poolGenesisAddress)
 
   const tx = archethic.transaction.new()
-    .setType("data")
-    .setContent(secret)
-    .addRecipient(htlcGenesisAddress)
+    .setType("transfer")
+    .addRecipient(htlcGenesisAddress, "reveal_secret", [secret])
     .build(seed, index)
     .originSign(Utils.originPrivateKey)
 
