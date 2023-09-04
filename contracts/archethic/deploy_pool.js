@@ -2,15 +2,15 @@ import fs from "fs"
 import Archethic, { Crypto, Utils } from "archethic"
 import config from "./config.js"
 
-if (!config.poolSeed || !config.endpoint || !config.protocolFeeAddress) {
+if (!config.poolSeed || !config.endpoint || !config.factorySeed) {
   console.log("Invalid config !")
-  console.log("Config needs poolSeed, endpoint and protocolFeeAddress")
+  console.log("Config needs poolSeed, endpoint and factorySeed")
   process.exit(1)
 }
 
-main(config.poolSeed, config.endpoint, config.protocolFeeAddress)
+main(config.poolSeed, config.endpoint, config.factorySeed)
 
-async function main(seed, endpoint, protocolFeeAddress) {
+async function main(seed, endpoint, factorySeed) {
   const archethic = new Archethic(endpoint)
   await archethic.connect()
 
@@ -21,7 +21,8 @@ async function main(seed, endpoint, protocolFeeAddress) {
   // Replace genesis pool address
   poolCode = poolCode.replaceAll("#POOL_ADDRESS#", "0x" + poolGenesisAddress)
   // Replace protocol fee address
-  poolCode = poolCode.replaceAll("#PROTOCOL_FEE_ADDRESS#", "0x" + protocolFeeAddress)
+  const factoryAddress = Utils.uint8ArrayToHex(Crypto.deriveAddress(factorySeed, 0))
+  poolCode = poolCode.replaceAll("#FACTORY_ADDRESS#", "0x" + factoryAddress)
 
   const storageNonce = await archethic.network.getStorageNoncePublicKey()
   const { encryptedSeed, authorizedKeys } = encryptSeed(seed, storageNonce)

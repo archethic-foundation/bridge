@@ -1,9 +1,9 @@
 import Archethic, { Crypto, Utils } from "archethic"
 import config from "./config.js"
 
-if (!config.poolSeed || !config.endpoint || !config.userSeed) {
+if (!config.poolSeed || !config.endpoint || !config.userSeed || !config.factorySeed) {
   console.log("Invalid config !")
-  console.log("Config needs poolSeed, endpoint and userSeed")
+  console.log("Config needs poolSeed, endpoint, userSeed and factorySeed")
   process.exit(1)
 }
 
@@ -16,21 +16,23 @@ if (args.length != 4) {
   process.exit(1)
 }
 
-main(config.poolSeed, config.endpoint, config.userSeed)
+main(config.poolSeed, config.endpoint, config.userSeed, config.factorySeed)
 
-async function main(poolSeed, endpoint, userSeed) {
+async function main(poolSeed, endpoint, userSeed, factorySeed) {
   const seed = args[0]
   const endTime = parseInt(args[1])
   const amount = parseFloat(args[2])
   const secretHash = args[3]
 
   const poolGenesisAddress = Utils.uint8ArrayToHex(Crypto.deriveAddress(poolSeed, 0))
+  const factoryGenesisAddress = Utils.uint8ArrayToHex(Crypto.deriveAddress(factorySeed, 0))
   const userAddress = Utils.uint8ArrayToHex(Crypto.deriveAddress(userSeed, 0))
 
   const archethic = new Archethic(endpoint)
   await archethic.connect()
 
-  const htlcCode = await getHtlcCode(endpoint, poolGenesisAddress, userAddress, secretHash, endTime, amount)
+  const params = [endTime, userAddress, poolGenesisAddress, secretHash, "UCO", amount]
+  const htlcCode = await archethic.network.callFunction(factoryGenesisAddress, "get_chargeable_htlc", params)
 
   const storageNonce = await archethic.network.getStorageNoncePublicKey()
   const { encryptedSeed, authorizedKeys } = encryptSeed(seed, storageNonce)
@@ -70,39 +72,4 @@ function encryptSeed(seed, storageNonce) {
   const encryptedAesKey = Crypto.ecEncrypt(aesKey, storageNonce)
   const authorizedKeys = [{ encryptedSecretKey: encryptedAesKey, publicKey: storageNonce }]
   return { encryptedSeed, authorizedKeys }
-}
-
-async function getHtlcCode(endpoint, poolAddress, userAddress, secretHash, endTime, amount) {
-  return new Promise((resolve, reject) => {
-    poolAddress = poolAddress.toUpperCase()
-    userAddress = userAddress.toUpperCase()
-
-    const body = {
-      "jsonrpc": "2.0",
-      "id": 1,
-      "method": "contract_fun",
-      "params": {
-        "contract": poolAddress,
-        "function": "get_chargeable_htlc",
-        "args": [endTime, userAddress, poolAddress, secretHash, "UCO", amount]
-      }
-    }
-
-    fetch(endpoint + "/api/rpc", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json",
-      },
-      body: JSON.stringify(body),
-    })
-      .then(async (response) => {
-        const res = await response.json()
-        resolve(res.result)
-      })
-      .catch((err) => {
-        console.log(err)
-        reject(err)
-      });
-  })
 }

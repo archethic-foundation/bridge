@@ -1,9 +1,9 @@
 import Archethic, { Crypto, Utils } from "archethic"
 import config from "./config.js"
 
-if (!config.poolSeed || !config.endpoint || !config.userSeed) {
+if (!config.poolSeed || !config.endpoint || !config.userSeed || !config.factorySeed) {
   console.log("Invalid config !")
-  console.log("Config needs poolSeed, endpoint and userSeed")
+  console.log("Config needs poolSeed, endpoint, userSeed and factorySeed")
   process.exit(1)
 }
 
@@ -16,20 +16,22 @@ if (args.length != 3) {
   process.exit(1)
 }
 
-main(config.poolSeed, config.endpoint, config.userSeed)
+main(config.poolSeed, config.endpoint, config.userSeed, config.factorySeed)
 
-async function main(poolSeed, endpoint, userSeed) {
+async function main(poolSeed, endpoint, userSeed, factorySeed) {
   const seed = args[0]
   const endTime = parseInt(args[1])
   const amount = parseFloat(args[2])
 
   const poolGenesisAddress = Utils.uint8ArrayToHex(Crypto.deriveAddress(poolSeed, 0))
+  const factoryGenesisAddress = Utils.uint8ArrayToHex(Crypto.deriveAddress(factorySeed, 0))
   const userAddress = Utils.uint8ArrayToHex(Crypto.deriveAddress(userSeed, 0))
 
   const archethic = new Archethic(endpoint)
   await archethic.connect()
 
-  const htlcCode = await getHtlcCode(endpoint, poolGenesisAddress, userAddress, endTime, amount)
+  const params = [endTime, userAddress, poolGenesisAddress, "UCO", amount]
+  const htlcCode = await archethic.network.callFunction(factoryGenesisAddress, "get_signed_htlc", params)
 
   const storageNonce = await archethic.network.getStorageNoncePublicKey()
   const { encryptedSeed, authorizedKeys } = encryptSeed(seed, storageNonce)
