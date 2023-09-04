@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -67,7 +67,7 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
           ),
         ),
         SizedBox(
-          width: ThemeBase.sizeBoxComponentWidth,
+          width: BridgeThemeBase.sizeBoxComponentWidth,
           child: Row(
             children: [
               Expanded(
@@ -89,12 +89,13 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
                                   .primaryContainer,
                               width: 0.5,
                             ),
-                            gradient: ThemeBase.gradientInputFormBackground,
+                            gradient:
+                                BridgeThemeBase.gradientInputFormBackground,
                           ),
                           child: TextField(
                             maxLines: maxLines,
                             style: TextStyle(
-                              fontFamily: ThemeBase.addressFont,
+                              fontFamily: BridgeThemeBase.addressFont,
                               fontSize: 14,
                             ),
                             autocorrect: false,

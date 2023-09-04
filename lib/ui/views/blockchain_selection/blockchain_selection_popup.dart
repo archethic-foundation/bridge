@@ -3,7 +3,7 @@ import 'package:aebridge/model/bridge_blockchain.dart';
 import 'package:aebridge/ui/views/blockchain_selection/components/blockchain_list.dart';
 import 'package:aebridge/ui/views/blockchain_selection/components/blockchain_selection_close_btn.dart';
 import 'package:aebridge/ui/views/blockchain_selection/components/blockchain_testnet_included_switch.dart';
-import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -25,9 +25,9 @@ class BlockchainSelectionPopup {
               return Scaffold(
                 backgroundColor: Colors.transparent,
                 body: AlertDialog(
-                  backgroundColor: ThemeBase.backgroundPopupColor,
+                  backgroundColor: BridgeThemeBase.backgroundPopupColor,
                   content: Container(
-                    width: ThemeBase.sizeBoxComponentWidth,
+                    width: BridgeThemeBase.sizeBoxComponentWidth,
                     color: Colors.transparent,
                     padding: const EdgeInsets.only(
                       top: 10,
@@ -61,7 +61,7 @@ class BlockchainSelectionPopup {
                                   width: 50,
                                   height: 1,
                                   decoration: BoxDecoration(
-                                    gradient: ThemeBase.gradient,
+                                    gradient: BridgeThemeBase.gradient,
                                   ),
                                 ),
                               ),

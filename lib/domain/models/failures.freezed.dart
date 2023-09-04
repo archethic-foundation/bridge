@@ -38,6 +38,8 @@ Failure _$FailureFromJson(Map<String, dynamic> json) {
       return ConnectivityArchethic.fromJson(json);
     case 'connectivityEVM':
       return ConnectivityEVM.fromJson(json);
+    case 'rpcErrorEVM':
+      return RPCErrorEVM.fromJson(json);
     case 'other':
       return OtherFailure.fromJson(json);
 
@@ -62,6 +64,9 @@ mixin _$Failure {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)
+        rpcErrorEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) =>
       throw _privateConstructorUsedError;
@@ -78,6 +83,9 @@ mixin _$Failure {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) =>
       throw _privateConstructorUsedError;
@@ -94,6 +102,9 @@ mixin _$Failure {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) =>
@@ -112,6 +123,7 @@ mixin _$Failure {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) =>
       throw _privateConstructorUsedError;
@@ -128,6 +140,7 @@ mixin _$Failure {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) =>
       throw _privateConstructorUsedError;
@@ -144,6 +157,7 @@ mixin _$Failure {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) =>
@@ -226,6 +240,9 @@ class _$LoggedOut extends LoggedOut {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)
+        rpcErrorEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return loggedOut();
@@ -245,6 +262,9 @@ class _$LoggedOut extends LoggedOut {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return loggedOut?.call();
@@ -264,6 +284,9 @@ class _$LoggedOut extends LoggedOut {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -288,6 +311,7 @@ class _$LoggedOut extends LoggedOut {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return loggedOut(this);
@@ -307,6 +331,7 @@ class _$LoggedOut extends LoggedOut {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return loggedOut?.call(this);
@@ -326,6 +351,7 @@ class _$LoggedOut extends LoggedOut {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -408,6 +434,9 @@ class _$NetworkFailure extends NetworkFailure {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)
+        rpcErrorEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return network();
@@ -427,6 +456,9 @@ class _$NetworkFailure extends NetworkFailure {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return network?.call();
@@ -446,6 +478,9 @@ class _$NetworkFailure extends NetworkFailure {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -470,6 +505,7 @@ class _$NetworkFailure extends NetworkFailure {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return network(this);
@@ -489,6 +525,7 @@ class _$NetworkFailure extends NetworkFailure {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return network?.call(this);
@@ -508,6 +545,7 @@ class _$NetworkFailure extends NetworkFailure {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -619,6 +657,9 @@ class _$QuotaExceededFailure extends QuotaExceededFailure {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)
+        rpcErrorEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return quotaExceeded(cooldownEndDate);
@@ -638,6 +679,9 @@ class _$QuotaExceededFailure extends QuotaExceededFailure {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return quotaExceeded?.call(cooldownEndDate);
@@ -657,6 +701,9 @@ class _$QuotaExceededFailure extends QuotaExceededFailure {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -681,6 +728,7 @@ class _$QuotaExceededFailure extends QuotaExceededFailure {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return quotaExceeded(this);
@@ -700,6 +748,7 @@ class _$QuotaExceededFailure extends QuotaExceededFailure {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return quotaExceeded?.call(this);
@@ -719,6 +768,7 @@ class _$QuotaExceededFailure extends QuotaExceededFailure {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -808,6 +858,9 @@ class _$ServiceNotFound extends ServiceNotFound {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)
+        rpcErrorEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return serviceNotFound();
@@ -827,6 +880,9 @@ class _$ServiceNotFound extends ServiceNotFound {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return serviceNotFound?.call();
@@ -846,6 +902,9 @@ class _$ServiceNotFound extends ServiceNotFound {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -870,6 +929,7 @@ class _$ServiceNotFound extends ServiceNotFound {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return serviceNotFound(this);
@@ -889,6 +949,7 @@ class _$ServiceNotFound extends ServiceNotFound {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return serviceNotFound?.call(this);
@@ -908,6 +969,7 @@ class _$ServiceNotFound extends ServiceNotFound {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -991,6 +1053,9 @@ class _$ServiceAlreadyExists extends ServiceAlreadyExists {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)
+        rpcErrorEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return serviceAlreadyExists();
@@ -1010,6 +1075,9 @@ class _$ServiceAlreadyExists extends ServiceAlreadyExists {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return serviceAlreadyExists?.call();
@@ -1029,6 +1097,9 @@ class _$ServiceAlreadyExists extends ServiceAlreadyExists {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -1053,6 +1124,7 @@ class _$ServiceAlreadyExists extends ServiceAlreadyExists {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return serviceAlreadyExists(this);
@@ -1072,6 +1144,7 @@ class _$ServiceAlreadyExists extends ServiceAlreadyExists {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return serviceAlreadyExists?.call(this);
@@ -1091,6 +1164,7 @@ class _$ServiceAlreadyExists extends ServiceAlreadyExists {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -1174,6 +1248,9 @@ class _$InsuffientFunds extends InsuffientFunds {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)
+        rpcErrorEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return insufficientFunds();
@@ -1193,6 +1270,9 @@ class _$InsuffientFunds extends InsuffientFunds {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return insufficientFunds?.call();
@@ -1212,6 +1292,9 @@ class _$InsuffientFunds extends InsuffientFunds {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -1236,6 +1319,7 @@ class _$InsuffientFunds extends InsuffientFunds {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return insufficientFunds(this);
@@ -1255,6 +1339,7 @@ class _$InsuffientFunds extends InsuffientFunds {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return insufficientFunds?.call(this);
@@ -1274,6 +1359,7 @@ class _$InsuffientFunds extends InsuffientFunds {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -1357,6 +1443,9 @@ class _$Inauthorized extends Inauthorized {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)
+        rpcErrorEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return unauthorized();
@@ -1376,6 +1465,9 @@ class _$Inauthorized extends Inauthorized {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return unauthorized?.call();
@@ -1395,6 +1487,9 @@ class _$Inauthorized extends Inauthorized {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -1419,6 +1514,7 @@ class _$Inauthorized extends Inauthorized {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return unauthorized(this);
@@ -1438,6 +1534,7 @@ class _$Inauthorized extends Inauthorized {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return unauthorized?.call(this);
@@ -1457,6 +1554,7 @@ class _$Inauthorized extends Inauthorized {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -1540,6 +1638,9 @@ class _$InvalidValue extends InvalidValue {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)
+        rpcErrorEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return invalidValue();
@@ -1559,6 +1660,9 @@ class _$InvalidValue extends InvalidValue {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return invalidValue?.call();
@@ -1578,6 +1682,9 @@ class _$InvalidValue extends InvalidValue {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -1602,6 +1709,7 @@ class _$InvalidValue extends InvalidValue {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return invalidValue(this);
@@ -1621,6 +1729,7 @@ class _$InvalidValue extends InvalidValue {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return invalidValue?.call(this);
@@ -1640,6 +1749,7 @@ class _$InvalidValue extends InvalidValue {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -1723,6 +1833,9 @@ class _$UserRejected extends UserRejected {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)
+        rpcErrorEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return userRejected();
@@ -1742,6 +1855,9 @@ class _$UserRejected extends UserRejected {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return userRejected?.call();
@@ -1761,6 +1877,9 @@ class _$UserRejected extends UserRejected {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -1785,6 +1904,7 @@ class _$UserRejected extends UserRejected {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return userRejected(this);
@@ -1804,6 +1924,7 @@ class _$UserRejected extends UserRejected {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return userRejected?.call(this);
@@ -1823,6 +1944,7 @@ class _$UserRejected extends UserRejected {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -1906,6 +2028,9 @@ class _$ConnectivityArchethic extends ConnectivityArchethic {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)
+        rpcErrorEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return connectivityArchethic();
@@ -1925,6 +2050,9 @@ class _$ConnectivityArchethic extends ConnectivityArchethic {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return connectivityArchethic?.call();
@@ -1944,6 +2072,9 @@ class _$ConnectivityArchethic extends ConnectivityArchethic {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -1968,6 +2099,7 @@ class _$ConnectivityArchethic extends ConnectivityArchethic {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return connectivityArchethic(this);
@@ -1987,6 +2119,7 @@ class _$ConnectivityArchethic extends ConnectivityArchethic {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return connectivityArchethic?.call(this);
@@ -2006,6 +2139,7 @@ class _$ConnectivityArchethic extends ConnectivityArchethic {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -2089,6 +2223,9 @@ class _$ConnectivityEVM extends ConnectivityEVM {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)
+        rpcErrorEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return connectivityEVM();
@@ -2108,6 +2245,9 @@ class _$ConnectivityEVM extends ConnectivityEVM {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return connectivityEVM?.call();
@@ -2127,6 +2267,9 @@ class _$ConnectivityEVM extends ConnectivityEVM {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -2151,6 +2294,7 @@ class _$ConnectivityEVM extends ConnectivityEVM {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return connectivityEVM(this);
@@ -2170,6 +2314,7 @@ class _$ConnectivityEVM extends ConnectivityEVM {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return connectivityEVM?.call(this);
@@ -2189,6 +2334,7 @@ class _$ConnectivityEVM extends ConnectivityEVM {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -2212,6 +2358,267 @@ abstract class ConnectivityEVM extends Failure {
 
   factory ConnectivityEVM.fromJson(Map<String, dynamic> json) =
       _$ConnectivityEVM.fromJson;
+}
+
+/// @nodoc
+abstract class _$$RPCErrorEVMCopyWith<$Res> {
+  factory _$$RPCErrorEVMCopyWith(
+          _$RPCErrorEVM value, $Res Function(_$RPCErrorEVM) then) =
+      __$$RPCErrorEVMCopyWithImpl<$Res>;
+  @useResult
+  $Res call({Map<String, RPCErrorEVMData>? data, String? stack, String? name});
+}
+
+/// @nodoc
+class __$$RPCErrorEVMCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$RPCErrorEVM>
+    implements _$$RPCErrorEVMCopyWith<$Res> {
+  __$$RPCErrorEVMCopyWithImpl(
+      _$RPCErrorEVM _value, $Res Function(_$RPCErrorEVM) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? data = freezed,
+    Object? stack = freezed,
+    Object? name = freezed,
+  }) {
+    return _then(_$RPCErrorEVM(
+      data: freezed == data
+          ? _value._data
+          : data // ignore: cast_nullable_to_non_nullable
+              as Map<String, RPCErrorEVMData>?,
+      stack: freezed == stack
+          ? _value.stack
+          : stack // ignore: cast_nullable_to_non_nullable
+              as String?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$RPCErrorEVM extends RPCErrorEVM {
+  const _$RPCErrorEVM(
+      {final Map<String, RPCErrorEVMData>? data,
+      this.stack,
+      this.name,
+      final String? $type})
+      : _data = data,
+        $type = $type ?? 'rpcErrorEVM',
+        super._();
+
+  factory _$RPCErrorEVM.fromJson(Map<String, dynamic> json) =>
+      _$$RPCErrorEVMFromJson(json);
+
+  final Map<String, RPCErrorEVMData>? _data;
+  @override
+  Map<String, RPCErrorEVMData>? get data {
+    final value = _data;
+    if (value == null) return null;
+    if (_data is EqualUnmodifiableMapView) return _data;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(value);
+  }
+
+  @override
+  final String? stack;
+  @override
+  final String? name;
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'Failure.rpcErrorEVM(data: $data, stack: $stack, name: $name)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RPCErrorEVM &&
+            const DeepCollectionEquality().equals(other._data, _data) &&
+            (identical(other.stack, stack) || other.stack == stack) &&
+            (identical(other.name, name) || other.name == name));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_data), stack, name);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$RPCErrorEVMCopyWith<_$RPCErrorEVM> get copyWith =>
+      __$$RPCErrorEVMCopyWithImpl<_$RPCErrorEVM>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loggedOut,
+    required TResult Function() network,
+    required TResult Function(DateTime? cooldownEndDate) quotaExceeded,
+    required TResult Function() serviceNotFound,
+    required TResult Function() serviceAlreadyExists,
+    required TResult Function() insufficientFunds,
+    required TResult Function() unauthorized,
+    required TResult Function() invalidValue,
+    required TResult Function() userRejected,
+    required TResult Function() connectivityArchethic,
+    required TResult Function() connectivityEVM,
+    required TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)
+        rpcErrorEVM,
+    required TResult Function(Object? cause, String? stack) other,
+  }) {
+    return rpcErrorEVM(data, stack, name);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loggedOut,
+    TResult? Function()? network,
+    TResult? Function(DateTime? cooldownEndDate)? quotaExceeded,
+    TResult? Function()? serviceNotFound,
+    TResult? Function()? serviceAlreadyExists,
+    TResult? Function()? insufficientFunds,
+    TResult? Function()? unauthorized,
+    TResult? Function()? invalidValue,
+    TResult? Function()? userRejected,
+    TResult? Function()? connectivityArchethic,
+    TResult? Function()? connectivityEVM,
+    TResult? Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
+    TResult? Function(Object? cause, String? stack)? other,
+  }) {
+    return rpcErrorEVM?.call(data, stack, name);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loggedOut,
+    TResult Function()? network,
+    TResult Function(DateTime? cooldownEndDate)? quotaExceeded,
+    TResult Function()? serviceNotFound,
+    TResult Function()? serviceAlreadyExists,
+    TResult Function()? insufficientFunds,
+    TResult Function()? unauthorized,
+    TResult Function()? invalidValue,
+    TResult Function()? userRejected,
+    TResult Function()? connectivityArchethic,
+    TResult Function()? connectivityEVM,
+    TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
+    TResult Function(Object? cause, String? stack)? other,
+    required TResult orElse(),
+  }) {
+    if (rpcErrorEVM != null) {
+      return rpcErrorEVM(data, stack, name);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoggedOut value) loggedOut,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(QuotaExceededFailure value) quotaExceeded,
+    required TResult Function(ServiceNotFound value) serviceNotFound,
+    required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(InsuffientFunds value) insufficientFunds,
+    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ConnectivityArchethic value)
+        connectivityArchethic,
+    required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(RPCErrorEVM value) rpcErrorEVM,
+    required TResult Function(OtherFailure value) other,
+  }) {
+    return rpcErrorEVM(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoggedOut value)? loggedOut,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult? Function(ServiceNotFound value)? serviceNotFound,
+    TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(InsuffientFunds value)? insufficientFunds,
+    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
+    TResult? Function(OtherFailure value)? other,
+  }) {
+    return rpcErrorEVM?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoggedOut value)? loggedOut,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult Function(ServiceNotFound value)? serviceNotFound,
+    TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(InsuffientFunds value)? insufficientFunds,
+    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(UserRejected value)? userRejected,
+    TResult Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(RPCErrorEVM value)? rpcErrorEVM,
+    TResult Function(OtherFailure value)? other,
+    required TResult orElse(),
+  }) {
+    if (rpcErrorEVM != null) {
+      return rpcErrorEVM(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$RPCErrorEVMToJson(
+      this,
+    );
+  }
+}
+
+abstract class RPCErrorEVM extends Failure {
+  const factory RPCErrorEVM(
+      {final Map<String, RPCErrorEVMData>? data,
+      final String? stack,
+      final String? name}) = _$RPCErrorEVM;
+  const RPCErrorEVM._() : super._();
+
+  factory RPCErrorEVM.fromJson(Map<String, dynamic> json) =
+      _$RPCErrorEVM.fromJson;
+
+  Map<String, RPCErrorEVMData>? get data;
+  String? get stack;
+  String? get name;
+  @JsonKey(ignore: true)
+  _$$RPCErrorEVMCopyWith<_$RPCErrorEVM> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -2304,6 +2711,9 @@ class _$OtherFailure extends OtherFailure {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)
+        rpcErrorEVM,
     required TResult Function(Object? cause, String? stack) other,
   }) {
     return other(cause, stack);
@@ -2323,6 +2733,9 @@ class _$OtherFailure extends OtherFailure {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult? Function(Object? cause, String? stack)? other,
   }) {
     return other?.call(cause, stack);
@@ -2342,6 +2755,9 @@ class _$OtherFailure extends OtherFailure {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function(
+            Map<String, RPCErrorEVMData>? data, String? stack, String? name)?
+        rpcErrorEVM,
     TResult Function(Object? cause, String? stack)? other,
     required TResult orElse(),
   }) {
@@ -2366,6 +2782,7 @@ class _$OtherFailure extends OtherFailure {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
     return other(this);
@@ -2385,6 +2802,7 @@ class _$OtherFailure extends OtherFailure {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
     return other?.call(this);
@@ -2404,6 +2822,7 @@ class _$OtherFailure extends OtherFailure {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
   }) {
@@ -2433,5 +2852,215 @@ abstract class OtherFailure extends Failure {
   String? get stack;
   @JsonKey(ignore: true)
   _$$OtherFailureCopyWith<_$OtherFailure> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+RPCErrorEVMData _$RPCErrorEVMDataFromJson(Map<String, dynamic> json) {
+  return _RPCErrorEVMData.fromJson(json);
+}
+
+/// @nodoc
+mixin _$RPCErrorEVMData {
+  String get error =>
+      throw _privateConstructorUsedError; // ignore: non_constant_identifier_names
+  int get program_counter =>
+      throw _privateConstructorUsedError; // ignore: invalid_annotation_target
+  @JsonKey(name: 'return')
+  String get returnValue => throw _privateConstructorUsedError;
+  String get reason => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $RPCErrorEVMDataCopyWith<RPCErrorEVMData> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $RPCErrorEVMDataCopyWith<$Res> {
+  factory $RPCErrorEVMDataCopyWith(
+          RPCErrorEVMData value, $Res Function(RPCErrorEVMData) then) =
+      _$RPCErrorEVMDataCopyWithImpl<$Res, RPCErrorEVMData>;
+  @useResult
+  $Res call(
+      {String error,
+      int program_counter,
+      @JsonKey(name: 'return') String returnValue,
+      String reason});
+}
+
+/// @nodoc
+class _$RPCErrorEVMDataCopyWithImpl<$Res, $Val extends RPCErrorEVMData>
+    implements $RPCErrorEVMDataCopyWith<$Res> {
+  _$RPCErrorEVMDataCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? error = null,
+    Object? program_counter = null,
+    Object? returnValue = null,
+    Object? reason = null,
+  }) {
+    return _then(_value.copyWith(
+      error: null == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String,
+      program_counter: null == program_counter
+          ? _value.program_counter
+          : program_counter // ignore: cast_nullable_to_non_nullable
+              as int,
+      returnValue: null == returnValue
+          ? _value.returnValue
+          : returnValue // ignore: cast_nullable_to_non_nullable
+              as String,
+      reason: null == reason
+          ? _value.reason
+          : reason // ignore: cast_nullable_to_non_nullable
+              as String,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_RPCErrorEVMDataCopyWith<$Res>
+    implements $RPCErrorEVMDataCopyWith<$Res> {
+  factory _$$_RPCErrorEVMDataCopyWith(
+          _$_RPCErrorEVMData value, $Res Function(_$_RPCErrorEVMData) then) =
+      __$$_RPCErrorEVMDataCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String error,
+      int program_counter,
+      @JsonKey(name: 'return') String returnValue,
+      String reason});
+}
+
+/// @nodoc
+class __$$_RPCErrorEVMDataCopyWithImpl<$Res>
+    extends _$RPCErrorEVMDataCopyWithImpl<$Res, _$_RPCErrorEVMData>
+    implements _$$_RPCErrorEVMDataCopyWith<$Res> {
+  __$$_RPCErrorEVMDataCopyWithImpl(
+      _$_RPCErrorEVMData _value, $Res Function(_$_RPCErrorEVMData) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? error = null,
+    Object? program_counter = null,
+    Object? returnValue = null,
+    Object? reason = null,
+  }) {
+    return _then(_$_RPCErrorEVMData(
+      error: null == error
+          ? _value.error
+          : error // ignore: cast_nullable_to_non_nullable
+              as String,
+      program_counter: null == program_counter
+          ? _value.program_counter
+          : program_counter // ignore: cast_nullable_to_non_nullable
+              as int,
+      returnValue: null == returnValue
+          ? _value.returnValue
+          : returnValue // ignore: cast_nullable_to_non_nullable
+              as String,
+      reason: null == reason
+          ? _value.reason
+          : reason // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_RPCErrorEVMData implements _RPCErrorEVMData {
+  const _$_RPCErrorEVMData(
+      {required this.error,
+      required this.program_counter,
+      @JsonKey(name: 'return') required this.returnValue,
+      required this.reason});
+
+  factory _$_RPCErrorEVMData.fromJson(Map<String, dynamic> json) =>
+      _$$_RPCErrorEVMDataFromJson(json);
+
+  @override
+  final String error;
+// ignore: non_constant_identifier_names
+  @override
+  final int program_counter;
+// ignore: invalid_annotation_target
+  @override
+  @JsonKey(name: 'return')
+  final String returnValue;
+  @override
+  final String reason;
+
+  @override
+  String toString() {
+    return 'RPCErrorEVMData(error: $error, program_counter: $program_counter, returnValue: $returnValue, reason: $reason)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_RPCErrorEVMData &&
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.program_counter, program_counter) ||
+                other.program_counter == program_counter) &&
+            (identical(other.returnValue, returnValue) ||
+                other.returnValue == returnValue) &&
+            (identical(other.reason, reason) || other.reason == reason));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, error, program_counter, returnValue, reason);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_RPCErrorEVMDataCopyWith<_$_RPCErrorEVMData> get copyWith =>
+      __$$_RPCErrorEVMDataCopyWithImpl<_$_RPCErrorEVMData>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_RPCErrorEVMDataToJson(
+      this,
+    );
+  }
+}
+
+abstract class _RPCErrorEVMData implements RPCErrorEVMData {
+  const factory _RPCErrorEVMData(
+      {required final String error,
+      required final int program_counter,
+      @JsonKey(name: 'return') required final String returnValue,
+      required final String reason}) = _$_RPCErrorEVMData;
+
+  factory _RPCErrorEVMData.fromJson(Map<String, dynamic> json) =
+      _$_RPCErrorEVMData.fromJson;
+
+  @override
+  String get error;
+  @override // ignore: non_constant_identifier_names
+  int get program_counter;
+  @override // ignore: invalid_annotation_target
+  @JsonKey(name: 'return')
+  String get returnValue;
+  @override
+  String get reason;
+  @override
+  @JsonKey(ignore: true)
+  _$$_RPCErrorEVMDataCopyWith<_$_RPCErrorEVMData> get copyWith =>
       throw _privateConstructorUsedError;
 }

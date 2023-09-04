@@ -1,5 +1,5 @@
 import 'package:aebridge/application/bridge_blockchain.dart';
-import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -26,7 +26,7 @@ class FormatAddressLinkCopy extends ConsumerWidget {
         address,
         style: TextStyle(
           fontSize: 13,
-          fontFamily: ThemeBase.addressFont,
+          fontFamily: BridgeThemeBase.addressFont,
         ),
       );
     }

@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -82,7 +82,7 @@ class AppButtonState extends State<AppButton> {
         horizontal: 20,
       ),
       decoration: ShapeDecoration(
-        gradient: ThemeBase.gradientBtn,
+        gradient: BridgeThemeBase.gradientBtn,
         shape: const StadiumBorder(),
         shadows: [
           BoxShadow(

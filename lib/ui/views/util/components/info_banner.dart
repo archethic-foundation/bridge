@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -11,7 +11,7 @@ class InfoBanner extends StatelessWidget {
     this.message,
     this.infoBannerType, {
     this.height = 40,
-    this.width = ThemeBase.sizeBoxComponentWidth,
+    this.width = BridgeThemeBase.sizeBoxComponentWidth,
     super.key,
   });
 
@@ -58,10 +58,10 @@ class InfoBanner extends StatelessWidget {
                                       .colorScheme
                                       .primary
                                       .withOpacity(0.6)
-                                  : ThemeBase.statusOK.withOpacity(0.6),
+                                  : BridgeThemeBase.statusOK.withOpacity(0.6),
                           width: 0.5,
                         ),
-                        gradient: ThemeBase.gradientInfoBannerBackground,
+                        gradient: BridgeThemeBase.gradientInfoBannerBackground,
                       ),
                       child: Container(
                         padding: const EdgeInsets.only(left: 10),
@@ -86,7 +86,7 @@ class InfoBanner extends StatelessWidget {
                                           ? Theme.of(context)
                                               .colorScheme
                                               .primary
-                                          : ThemeBase.statusOK,
+                                          : BridgeThemeBase.statusOK,
                                 ),
                               ),
                             ),

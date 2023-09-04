@@ -4,7 +4,7 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_back_btn.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_btn.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_archethic_oracle_uco.dart';
-import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/components/blockchain_label.dart';
 import 'package:aebridge/ui/views/util/components/format_address_link_copy.dart';
 import 'package:aebridge/ui/views/util/components/icon_button_animated.dart';
@@ -56,9 +56,9 @@ class BridgeConfirmSheet extends ConsumerWidget {
           width: 650,
           height: 600,
           decoration: BoxDecoration(
-            gradient: ThemeBase.gradientSheetBackground,
+            gradient: BridgeThemeBase.gradientSheetBackground,
             border: GradientBoxBorder(
-              gradient: ThemeBase.gradientSheetBorder,
+              gradient: BridgeThemeBase.gradientSheetBorder,
             ),
             borderRadius: BorderRadius.circular(24),
             image: const DecorationImage(
@@ -92,7 +92,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
                           width: 50,
                           height: 1,
                           decoration: BoxDecoration(
-                            gradient: ThemeBase.gradient,
+                            gradient: BridgeThemeBase.gradient,
                           ),
                         ),
                       ),
@@ -173,7 +173,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
                           height: 1,
                           child: Container(
                             decoration: BoxDecoration(
-                              gradient: ThemeBase.gradient,
+                              gradient: BridgeThemeBase.gradient,
                             ),
                           ),
                         ),

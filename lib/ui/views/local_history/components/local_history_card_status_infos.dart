@@ -3,7 +3,7 @@ import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_to_evm.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_to_ae.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
-import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/failure_message.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -42,7 +42,7 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
         Text('${AppLocalizations.of(context)!.localHistoryStatus}: '),
         Text(
           'Transfer completed',
-          style: TextStyle(color: ThemeBase.statusOK),
+          style: TextStyle(color: BridgeThemeBase.statusOK),
         ),
       ],
     );
@@ -58,7 +58,7 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
             Text(
               'Transfer interrupted at step ${bridge.currentStep}',
               style: TextStyle(
-                color: ThemeBase.statusInProgress,
+                color: BridgeThemeBase.statusInProgress,
               ),
             ),
             if (bridge.blockchainFrom != null &&
@@ -92,7 +92,7 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
             Text(
               'Transfer stopped at step ${bridge.currentStep}',
               style: TextStyle(
-                color: ThemeBase.statusInProgress,
+                color: BridgeThemeBase.statusInProgress,
               ),
             ),
             Text(

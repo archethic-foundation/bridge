@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/session/provider.dart';
-import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/components/app_button.dart';
 import 'package:aebridge/ui/views/util/components/icon_button_animated.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +26,7 @@ class IconCloseConnection extends ConsumerWidget {
               child: Builder(
                 builder: (context) {
                   return AlertDialog(
-                    backgroundColor: ThemeBase.backgroundPopupColor,
+                    backgroundColor: BridgeThemeBase.backgroundPopupColor,
                     contentPadding: const EdgeInsets.only(
                       top: 10,
                     ),

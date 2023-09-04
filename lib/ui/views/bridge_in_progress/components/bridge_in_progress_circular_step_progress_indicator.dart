@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/components/blockchain_label.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
@@ -40,10 +40,11 @@ class BridgeInProgressCircularStepProgressIndicator extends ConsumerWidget {
                   roundedCap: (_, isSelected) => isSelected,
                   gradientColor: bridge.isTransferInProgress == false
                       ? bridge.failure == null
-                          ? ThemeBase
+                          ? BridgeThemeBase
                               .gradientCircularStepProgressIndicatorFinished
-                          : ThemeBase.gradientCircularStepProgressIndicatorError
-                      : ThemeBase.gradientCircularStepProgressIndicator,
+                          : BridgeThemeBase
+                              .gradientCircularStepProgressIndicatorError
+                      : BridgeThemeBase.gradientCircularStepProgressIndicator,
                   selectedColor: Colors.white,
                   unselectedColor: Colors.white.withOpacity(0.2),
                   removeRoundedCapExtraAngle: true,

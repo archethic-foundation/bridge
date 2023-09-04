@@ -37,6 +37,4 @@ class BridgeFormState with _$BridgeFormState {
       _$BridgeFormStateFromJson(json);
 
   bool get isControlsOk => failure == null;
-
-  bool get canBridge => isControlsOk;
 }

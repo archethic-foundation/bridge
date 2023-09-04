@@ -125,6 +125,25 @@ Map<String, dynamic> _$$ConnectivityEVMToJson(_$ConnectivityEVM instance) =>
       'runtimeType': instance.$type,
     };
 
+_$RPCErrorEVM _$$RPCErrorEVMFromJson(Map<String, dynamic> json) =>
+    _$RPCErrorEVM(
+      data: (json['data'] as Map<String, dynamic>?)?.map(
+        (k, e) =>
+            MapEntry(k, RPCErrorEVMData.fromJson(e as Map<String, dynamic>)),
+      ),
+      stack: json['stack'] as String?,
+      name: json['name'] as String?,
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$RPCErrorEVMToJson(_$RPCErrorEVM instance) =>
+    <String, dynamic>{
+      'data': instance.data,
+      'stack': instance.stack,
+      'name': instance.name,
+      'runtimeType': instance.$type,
+    };
+
 _$OtherFailure _$$OtherFailureFromJson(Map<String, dynamic> json) =>
     _$OtherFailure(
       cause: json['cause'],
@@ -137,4 +156,20 @@ Map<String, dynamic> _$$OtherFailureToJson(_$OtherFailure instance) =>
       'cause': instance.cause,
       'stack': instance.stack,
       'runtimeType': instance.$type,
+    };
+
+_$_RPCErrorEVMData _$$_RPCErrorEVMDataFromJson(Map<String, dynamic> json) =>
+    _$_RPCErrorEVMData(
+      error: json['error'] as String,
+      program_counter: json['program_counter'] as int,
+      returnValue: json['return'] as String,
+      reason: json['reason'] as String,
+    );
+
+Map<String, dynamic> _$$_RPCErrorEVMDataToJson(_$_RPCErrorEVMData instance) =>
+    <String, dynamic>{
+      'error': instance.error,
+      'program_counter': instance.program_counter,
+      'return': instance.returnValue,
+      'reason': instance.reason,
     };

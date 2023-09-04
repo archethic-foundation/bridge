@@ -2,7 +2,7 @@
 import 'package:aebridge/ui/views/blockchain_selection/bloc/provider.dart';
 import 'package:aebridge/ui/views/blockchain_selection/blockchain_selection_popup.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -30,7 +30,7 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
           ),
         ),
         SizedBox(
-          width: ThemeBase.sizeBoxComponentWidth / 2 - 40,
+          width: BridgeThemeBase.sizeBoxComponentWidth / 2 - 40,
           child: Row(
             children: [
               Expanded(
@@ -52,7 +52,8 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
                                   .primaryContainer,
                               width: 0.5,
                             ),
-                            gradient: ThemeBase.gradientInputFormBackground,
+                            gradient:
+                                BridgeThemeBase.gradientInputFormBackground,
                           ),
                           child: InkWell(
                             child: Container(

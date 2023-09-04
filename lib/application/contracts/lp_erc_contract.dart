@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
+import 'package:aebridge/domain/usecases/evm_mixin.dart';
 import 'package:aebridge/model/secret.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:flutter/material.dart';
@@ -11,7 +12,7 @@ import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
-class LPERCContract {
+class LPERCContract with EVMBridgeProcessMixin {
   LPERCContract(this.providerEndpoint);
 
   String? providerEndpoint;
@@ -55,15 +56,12 @@ class LPERCContract {
 
       debugPrint('contractLPERC mintHTLC ok');
 
-      try {
-        await web3Client.sendTransaction(
-          evmWalletProvider.credentials!,
-          transactionMintHTLC,
-          chainId: chainId,
-        );
-      } catch (e) {
-        throw const Failure.userRejected();
-      }
+      await sendTransactionWithErrorManagement(
+        web3Client,
+        evmWalletProvider.credentials!,
+        transactionMintHTLC,
+        chainId,
+      );
 
       debugPrint('HTLC Contract deployed');
 
@@ -116,17 +114,13 @@ class LPERCContract {
             EtherAmount.fromUnitAndValue(EtherUnit.ether, amount).getInWei,
           ],
         );
-        try {
-          await web3Client.sendTransaction(
-            evmWalletProvider.credentials!,
-            transactionTransfer,
-            chainId: chainId,
-          );
-          debugPrint('Token provisionned');
-        } catch (e) {
-          debugPrint('error provisionChargeableHTLC $e');
-          throw const Failure.userRejected();
-        }
+
+        await sendTransactionWithErrorManagement(
+          web3Client,
+          evmWalletProvider.credentials!,
+          transactionTransfer,
+          chainId,
+        );
       },
     );
   }
@@ -177,15 +171,12 @@ class LPERCContract {
 
         debugPrint('contractLPERC provisionHTLC ok');
 
-        try {
-          await web3Client.sendTransaction(
-            evmWalletProvider.credentials!,
-            transactionProvisionHTLC,
-            chainId: chainId,
-          );
-        } catch (e) {
-          throw const Failure.userRejected();
-        }
+        await sendTransactionWithErrorManagement(
+          web3Client,
+          evmWalletProvider.credentials!,
+          transactionProvisionHTLC,
+          chainId,
+        );
 
         debugPrint('HTLC Contract deployed');
         debugPrint('secretHash : ${hexToBytes(secretHash.secretHash!)}');
@@ -240,17 +231,15 @@ class LPERCContract {
             hexToBytes(secret),
           ],
         );
-        try {
-          final withdrawTx = await web3Client.sendTransaction(
-            evmWalletProvider.credentials!,
-            transactionWithdraw,
-            chainId: chainId,
-          );
-          debugPrint('withdrawTx: $withdrawTx');
-          return withdrawTx;
-        } catch (e) {
-          throw const Failure.userRejected();
-        }
+
+        final withdrawTx = await sendTransactionWithErrorManagement(
+          web3Client,
+          evmWalletProvider.credentials!,
+          transactionWithdraw,
+          chainId,
+        );
+        debugPrint('withdrawTx: $withdrawTx');
+        return withdrawTx;
       },
     );
   }
@@ -290,18 +279,14 @@ class LPERCContract {
           ],
         );
 
-        try {
-          final withdrawTx = await web3Client.sendTransaction(
-            evmWalletProvider.credentials!,
-            transactionWithdraw,
-            chainId: chainId,
-          );
-
-          debugPrint('signedWithdrawTx: $withdrawTx');
-          return withdrawTx;
-        } catch (e) {
-          throw const Failure.userRejected();
-        }
+        final withdrawTx = await sendTransactionWithErrorManagement(
+          web3Client,
+          evmWalletProvider.credentials!,
+          transactionWithdraw,
+          chainId,
+        );
+        debugPrint('signedWithdrawTx: $withdrawTx');
+        return withdrawTx;
       },
     );
   }

@@ -3,39 +3,41 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-class ThemeBase {
+part 'archethic_theme_base.dart';
+
+class BridgeThemeBase {
   static String mainFont = 'Lato';
   static String addressFont = 'Roboto';
 
-  static Color primaryColor = const Color(0xFF4027A2);
-  static Color backgroundColor = const Color(0xFF131313);
-  static Color maxButtonColor = const Color(0xFF9816C5);
-  static Color backgroundPopupColor = const Color(0xFF4027A2);
+  static Color primaryColor = ArchethicThemeBase.purple500;
+  static Color backgroundColor = ArchethicThemeBase.neutral900;
+  static Color maxButtonColor = ArchethicThemeBase.raspberry500;
+  static Color backgroundPopupColor = ArchethicThemeBase.purple500;
 
-  static Color statusOK = const Color.fromARGB(255, 39, 162, 94);
-  static Color statusKO = const Color.fromARGB(255, 195, 138, 138);
-  static Color statusInProgress = const Color(0xFFD55CFF);
+  static Color statusOK = ArchethicThemeBase.systemPositive800;
+  static Color statusKO = ArchethicThemeBase.systemDanger800;
+  static Color statusInProgress = ArchethicThemeBase.raspberry300;
 
   static Gradient gradient = LinearGradient(
     colors: [
-      const Color(0xFFFFFFFF).withOpacity(0.2),
-      const Color(0xFFFFFFFF).withOpacity(0),
+      ArchethicThemeBase.neutral0.withOpacity(0.2),
+      ArchethicThemeBase.neutral0.withOpacity(0),
     ],
     stops: const [0, 1],
   );
 
-  static Gradient gradientBtn = const LinearGradient(
+  static Gradient gradientBtn = LinearGradient(
     colors: <Color>[
-      Color(0xFF562FED),
-      Color(0xFFD55CFF),
+      ArchethicThemeBase.blue500,
+      ArchethicThemeBase.raspberry300,
     ],
-    transform: GradientRotation(pi / 9),
+    transform: const GradientRotation(pi / 9),
   );
 
   static Gradient gradientSheetBackground = LinearGradient(
     colors: [
-      const Color(0xFF4027A2).withOpacity(1),
-      const Color(0xFF4027A2).withOpacity(1),
+      ArchethicThemeBase.purple500.withOpacity(1),
+      ArchethicThemeBase.purple500.withOpacity(1),
     ],
     stops: const [0, 1],
     begin: Alignment.topLeft,
@@ -44,24 +46,24 @@ class ThemeBase {
 
   static Gradient gradientSheetBorder = LinearGradient(
     colors: [
-      const Color(0xFF131313).withOpacity(0.7),
-      const Color(0xFF131313).withOpacity(1),
+      ArchethicThemeBase.neutral900.withOpacity(0.7),
+      ArchethicThemeBase.neutral900.withOpacity(1),
     ],
     stops: const [0, 1],
   );
 
   static Gradient gradientInputFormBackground = LinearGradient(
     colors: [
-      const Color(0xFF131313).withOpacity(1),
-      const Color(0xFF131313).withOpacity(0.3),
+      ArchethicThemeBase.neutral900.withOpacity(1),
+      ArchethicThemeBase.neutral900.withOpacity(0.3),
     ],
     stops: const [0, 1],
   );
 
   static Gradient gradientInfoBannerBackground = LinearGradient(
     colors: [
-      const Color(0xFF131313).withOpacity(1),
-      const Color(0xFF131313).withOpacity(0.3),
+      ArchethicThemeBase.neutral900.withOpacity(1),
+      ArchethicThemeBase.neutral900.withOpacity(0.3),
     ],
     stops: const [0, 1],
   );
@@ -69,7 +71,7 @@ class ThemeBase {
   static Gradient gradientCircularStepProgressIndicator = LinearGradient(
     colors: [
       statusInProgress,
-      const Color.fromARGB(255, 236, 205, 246),
+      ArchethicThemeBase.systemWarning800,
     ],
     stops: const [0, 1],
   );
@@ -78,14 +80,14 @@ class ThemeBase {
       LinearGradient(
     colors: [
       statusOK,
-      const Color.fromARGB(255, 144, 195, 138),
+      ArchethicThemeBase.systemPositive800,
     ],
     stops: const [0, 1],
   );
 
   static Gradient gradientCircularStepProgressIndicatorError = LinearGradient(
     colors: [
-      const Color.fromARGB(255, 162, 39, 39),
+      ArchethicThemeBase.systemDanger800,
       statusKO,
     ],
     stops: const [0, 1],

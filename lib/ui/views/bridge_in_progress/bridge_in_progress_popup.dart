@@ -5,7 +5,7 @@ import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progre
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_current_step.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_error.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_infos.dart';
-import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,10 +23,10 @@ class BridgeInProgressPopup {
               return Scaffold(
                 backgroundColor: Colors.transparent,
                 body: AlertDialog(
-                  backgroundColor: ThemeBase.backgroundPopupColor,
+                  backgroundColor: BridgeThemeBase.backgroundPopupColor,
                   content: Container(
                     height: 450,
-                    width: ThemeBase.sizeBoxComponentWidth,
+                    width: BridgeThemeBase.sizeBoxComponentWidth,
                     color: Colors.transparent,
                     padding: const EdgeInsets.only(
                       top: 10,

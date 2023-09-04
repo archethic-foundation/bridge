@@ -2,7 +2,7 @@ import 'package:aebridge/application/main_screen_widget_displayed.dart';
 import 'package:aebridge/application/version.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/local_history/local_history_sheet.dart';
-import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/connection_to_wallet_status.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:aebridge/ui/views/util/header.dart';
@@ -115,7 +115,9 @@ class _NavigationDrawerSectionState
                       Container(
                         width: 50,
                         height: 1,
-                        decoration: BoxDecoration(gradient: ThemeBase.gradient),
+                        decoration: BoxDecoration(
+                          gradient: BridgeThemeBase.gradient,
+                        ),
                       ),
                       const SizedBox(
                         height: 5,

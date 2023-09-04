@@ -1,11 +1,13 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
+import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/application/contracts/lp_erc_contract.dart';
 import 'package:aebridge/application/session/provider.dart';
+import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/model/secret.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
@@ -14,6 +16,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webthree/crypto.dart';
+import 'package:webthree/json_rpc.dart';
+import 'package:webthree/webthree.dart';
 
 enum EVMBridgeProcessStep { none, deploy }
 
@@ -211,5 +215,43 @@ mixin EVMBridgeProcessMixin {
         throw failure;
       },
     );
+  }
+
+  Future<String> sendTransactionWithErrorManagement(
+    Web3Client web3Client,
+    CredentialsWithKnownAddress credentials,
+    Transaction transaction,
+    int chainId,
+  ) async {
+    try {
+      return await web3Client.sendTransaction(
+        credentials,
+        transaction,
+        chainId: chainId,
+      );
+    } catch (e) {
+      debugPrint('error provisionChargeableHTLC $e');
+
+      if (e is EthereumUserRejected) {
+        throw const Failure.userRejected();
+      }
+      if (e is EthereumException) {
+        throw Failure.other(cause: e.data, stack: e.message);
+      }
+      if (e is EthersException) {
+        throw Failure.other(cause: e.rawError, stack: e.reason);
+      }
+      if (e is RPCError) {
+        const encoder = JsonEncoder.withIndent('  ');
+        final validJson = encoder.convert(e.data);
+        final Map<String, dynamic> jsonMap = json.decode(validJson);
+        final rpcErrorEVMData =
+            RPCErrorEVMData.fromJson(jsonMap.entries.first.value);
+
+        // Utiliser cette instance pour créer une instance de Failure.rpcErrorEVM
+        throw Failure.rpcErrorEVM(data: {'Some_Key': rpcErrorEVMData});
+      }
+      throw Failure.other(cause: e.toString());
+    }
   }
 }

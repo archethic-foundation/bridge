@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/model/bridge_token.dart';
-import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/token_selection/components/token_list.dart';
 import 'package:aebridge/ui/views/token_selection/components/token_selection_close_btn.dart';
 import 'package:flutter/material.dart';
@@ -23,9 +23,9 @@ class TokenSelectionPopup {
               return Scaffold(
                 backgroundColor: Colors.transparent,
                 body: AlertDialog(
-                  backgroundColor: ThemeBase.backgroundPopupColor,
+                  backgroundColor: BridgeThemeBase.backgroundPopupColor,
                   content: Container(
-                    width: ThemeBase.sizeBoxComponentWidth,
+                    width: BridgeThemeBase.sizeBoxComponentWidth,
                     color: Colors.transparent,
                     padding: const EdgeInsets.only(
                       top: 10,
@@ -59,7 +59,7 @@ class TokenSelectionPopup {
                                   width: 50,
                                   height: 1,
                                   decoration: BoxDecoration(
-                                    gradient: ThemeBase.gradient,
+                                    gradient: BridgeThemeBase.gradient,
                                   ),
                                 ),
                               ),

@@ -373,7 +373,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     debugPrint('state.tokenToBridgeBalance ${state.tokenToBridgeBalance}');
     debugPrint('state.bridgeProcessStep ${state.bridgeProcessStep.name}');
 
-    /* if (state.tokenToBridgeBalance < state.tokenToBridgeAmount) {
+    if (state.tokenToBridgeBalance < state.tokenToBridgeAmount) {
       state = state.copyWith(
         failure: const Failure.other(
           cause: 'Your amount exceeds your balance. Please adjust your amount.',
@@ -381,7 +381,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       );
       await storeBridge();
       return false;
-    }*/
+    }
     return true;
   }
 

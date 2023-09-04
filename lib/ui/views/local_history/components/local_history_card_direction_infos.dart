@@ -1,7 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
-import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/components/blockchain_label.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
@@ -36,13 +36,14 @@ class LocalHistoryCardDirectionInfos extends StatelessWidget {
                   roundedCap: (_, isSelected) => isSelected,
                   gradientColor: bridge.isTransferInProgress == false
                       ? bridge.failure == null
-                          ? ThemeBase
+                          ? BridgeThemeBase
                               .gradientCircularStepProgressIndicatorFinished
                           : bridge.failure is UserRejected
-                              ? ThemeBase.gradientCircularStepProgressIndicator
-                              : ThemeBase
+                              ? BridgeThemeBase
+                                  .gradientCircularStepProgressIndicator
+                              : BridgeThemeBase
                                   .gradientCircularStepProgressIndicatorError
-                      : ThemeBase.gradientCircularStepProgressIndicator,
+                      : BridgeThemeBase.gradientCircularStepProgressIndicator,
                   selectedColor: Colors.white,
                   unselectedColor: Colors.white.withOpacity(0.3),
                   removeRoundedCapExtraAngle: true,

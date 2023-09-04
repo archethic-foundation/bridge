@@ -4,7 +4,7 @@ import 'package:aebridge/ui/views/local_history/components/local_history_card_ht
 import 'package:aebridge/ui/views/local_history/components/local_history_card_options.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_status_infos.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_trf_infos.dart';
-import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 import 'package:intl/intl.dart';
@@ -22,9 +22,9 @@ class LocalHistoryCard extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 10),
       child: DecoratedBox(
         decoration: BoxDecoration(
-          gradient: ThemeBase.gradientSheetBackground,
+          gradient: BridgeThemeBase.gradientSheetBackground,
           border: GradientBoxBorder(
-            gradient: ThemeBase.gradientSheetBorder,
+            gradient: BridgeThemeBase.gradientSheetBorder,
           ),
           borderRadius: BorderRadius.circular(24),
           image: const DecorationImage(

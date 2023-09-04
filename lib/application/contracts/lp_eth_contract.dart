@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:convert';
 import 'package:aebridge/application/evm_wallet.dart';
+import 'package:aebridge/domain/usecases/evm_mixin.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,7 +9,7 @@ import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
-class LPETHContract {
+class LPETHContract with EVMBridgeProcessMixin {
   LPETHContract(this.providerEndpoint);
 
   String? providerEndpoint;
@@ -47,17 +48,12 @@ class LPETHContract {
       ],
     );
 
-    try {
-      await web3Client.sendTransaction(
-        evmWalletProvider.credentials!,
-        transactionMintHTLC,
-        chainId: chainId,
-      );
-
-      debugPrint('HTLC Contract deployed');
-    } catch (e) {
-      throw Exception('You denied transaction signature');
-    }
+    await sendTransactionWithErrorManagement(
+      web3Client,
+      evmWalletProvider.credentials!,
+      transactionMintHTLC,
+      chainId,
+    );
 
     // Get HTLC address
     final transactionMintedSwapsHashes = await web3Client.call(
@@ -72,22 +68,19 @@ class LPETHContract {
     debugPrint('HTLC address: $htlcContractAddress');
 
     // Provisionning HTLC Contract
-    try {
-      await web3Client.sendTransaction(
-        evmWalletProvider.credentials!,
-        Transaction(
-          to: EthereumAddress.fromHex(htlcContractAddress),
-          gasPrice: EtherAmount.fromUnitAndValue(EtherUnit.gwei, 10),
-          maxGas: 500000,
-          value: EtherAmount.fromUnitAndValue(EtherUnit.ether, amount),
-        ),
-        chainId: chainId,
-      );
-      debugPrint('HTLC contract provisionned');
-      return htlcContractAddress;
-    } catch (e) {
-      throw Exception('You denied transaction signature');
-    }
+    await sendTransactionWithErrorManagement(
+      web3Client,
+      evmWalletProvider.credentials!,
+      Transaction(
+        to: EthereumAddress.fromHex(htlcContractAddress),
+        gasPrice: EtherAmount.fromUnitAndValue(EtherUnit.gwei, 10),
+        maxGas: 500000,
+        value: EtherAmount.fromUnitAndValue(EtherUnit.ether, amount),
+      ),
+      chainId,
+    );
+    debugPrint('HTLC contract provisionned');
+    return htlcContractAddress;
   }
 
   Future<void> withdraw(
@@ -121,17 +114,12 @@ class LPETHContract {
         hexToBytes(secret),
       ],
     );
-
-    try {
-      final withdrawTx = await web3Client.sendTransaction(
-        evmWalletProvider.credentials!,
-        transactionMintHTLC,
-        chainId: chainId,
-      );
-
-      debugPrint('withdrawTx: $withdrawTx');
-    } catch (e) {
-      throw Exception('You denied transaction signature');
-    }
+    final withdrawTx = await sendTransactionWithErrorManagement(
+      web3Client,
+      evmWalletProvider.credentials!,
+      transactionMintHTLC,
+      chainId,
+    );
+    debugPrint('withdrawTx: $withdrawTx');
   }
 }

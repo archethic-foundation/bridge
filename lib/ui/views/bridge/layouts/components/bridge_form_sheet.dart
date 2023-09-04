@@ -10,7 +10,7 @@ import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_address
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_bridged.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_archethic_oracle_uco.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_selection.dart';
-import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/components/scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -49,9 +49,9 @@ class BridgeFormSheet extends ConsumerWidget {
           width: 650,
           height: 600,
           decoration: BoxDecoration(
-            gradient: ThemeBase.gradientSheetBackground,
+            gradient: BridgeThemeBase.gradientSheetBackground,
             border: GradientBoxBorder(
-              gradient: ThemeBase.gradientSheetBorder,
+              gradient: BridgeThemeBase.gradientSheetBorder,
             ),
             borderRadius: BorderRadius.circular(24),
             image: const DecorationImage(
@@ -86,7 +86,7 @@ class BridgeFormSheet extends ConsumerWidget {
                           width: 50,
                           height: 1,
                           decoration: BoxDecoration(
-                            gradient: ThemeBase.gradient,
+                            gradient: BridgeThemeBase.gradient,
                           ),
                         ),
                       ),

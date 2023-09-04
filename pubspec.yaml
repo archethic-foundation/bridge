@@ -88,7 +88,7 @@ dependencies:
   webthree:
     git:
       url: https://github.com/redDwarf03/webthree.git
-      ref: Handle_send_tx_errors
+      ref: Handle_rawRequest_errors
 
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.

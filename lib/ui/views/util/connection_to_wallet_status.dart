@@ -1,7 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/model/bridge_wallet.dart';
-import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/components/icon_close_connection.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:flutter/material.dart';
@@ -63,9 +63,9 @@ class _ConnectionToWalletStatusState
                     height: 90,
                     padding: const EdgeInsets.only(left: 15),
                     decoration: BoxDecoration(
-                      gradient: ThemeBase.gradientSheetBackground,
+                      gradient: BridgeThemeBase.gradientSheetBackground,
                       border: GradientBoxBorder(
-                        gradient: ThemeBase.gradientSheetBorder,
+                        gradient: BridgeThemeBase.gradientSheetBorder,
                       ),
                       borderRadius: BorderRadius.circular(24),
                       image: const DecorationImage(
@@ -92,8 +92,9 @@ class _ConnectionToWalletStatusState
                         Container(
                           width: MediaQuery.of(context).size.width,
                           height: 1,
-                          decoration:
-                              BoxDecoration(gradient: ThemeBase.gradient),
+                          decoration: BoxDecoration(
+                            gradient: BridgeThemeBase.gradient,
+                          ),
                         ),
                         const SizedBox(
                           height: 2,

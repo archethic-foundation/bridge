@@ -2,7 +2,7 @@
 import 'package:aebridge/application/main_screen_widget_displayed.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_form_sheet.dart';
-import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -62,7 +62,7 @@ class WelcomeBridgeBtnState extends ConsumerState<WelcomeBridgeBtn> {
                   alignment: Alignment.center,
                   height: 50,
                   decoration: ShapeDecoration(
-                    gradient: ThemeBase.gradientBtn,
+                    gradient: BridgeThemeBase.gradientBtn,
                     shape: const StadiumBorder(),
                     shadows: [
                       BoxShadow(

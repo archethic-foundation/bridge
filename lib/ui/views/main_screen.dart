@@ -1,7 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/main_screen_widget_displayed.dart';
 import 'package:aebridge/navigation_drawer_section.dart';
-import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -18,7 +18,7 @@ class MainScreenState extends ConsumerState<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ThemeBase.backgroundColor,
+      backgroundColor: BridgeThemeBase.backgroundColor,
       body: Responsive(
         mobile: const SizedBox(),
         tablet: const SizedBox(),

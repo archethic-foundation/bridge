@@ -2,7 +2,7 @@
 import 'package:aebridge/application/oracle/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_balance.dart';
-import 'package:aebridge/ui/views/themes/theme_base.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -92,7 +92,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
           alignment: Alignment.centerRight,
           children: [
             SizedBox(
-              width: ThemeBase.sizeBoxComponentWidth,
+              width: BridgeThemeBase.sizeBoxComponentWidth,
               child: Row(
                 children: [
                   Expanded(
@@ -114,7 +114,8 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                                       .primaryContainer,
                                   width: 0.5,
                                 ),
-                                gradient: ThemeBase.gradientInputFormBackground,
+                                gradient:
+                                    BridgeThemeBase.gradientInputFormBackground,
                               ),
                               child: TextField(
                                 style: textTheme.titleMedium,
@@ -162,7 +163,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                 },
                 child: Text(
                   AppLocalizations.of(context)!.btn_max,
-                  style: TextStyle(color: ThemeBase.maxButtonColor),
+                  style: TextStyle(color: BridgeThemeBase.maxButtonColor),
                 )
                     .animate()
                     .fade(
