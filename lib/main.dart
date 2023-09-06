@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/oracle/provider.dart';
-import 'package:aebridge/infrastructure/hive/db_helper.dart';
+import 'package:aebridge/infrastructure/hive/db_helper.hive.dart';
 import 'package:aebridge/ui/views/main_screen.dart';
 import 'package:aebridge/ui/views/welcome/welcome_screen.dart';
 import 'package:aebridge/util/generic/providers_observer.dart';

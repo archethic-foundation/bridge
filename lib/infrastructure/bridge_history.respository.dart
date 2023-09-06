@@ -1,13 +1,15 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/domain/models/bridge_history.dart';
 import 'package:aebridge/domain/repositories/bridge_history.repository.dart';
-import 'package:aebridge/infrastructure/hive/local.bridge.datasource.dart';
+import 'package:aebridge/infrastructure/bridge_history.hive.dto.dart';
+import 'package:aebridge/infrastructure/hive/bridge.hive.datasource.dart';
 
 class BridgeHistoryRepositoryImpl implements BridgeHistoryRepository {
   @override
   Future<BridgeHistory?> fetchBridgeHistory() async {
     final hiveBridgeDatasource = await HiveBridgeDatasource.getInstance();
-    return hiveBridgeDatasource.getBridgeHistory();
+    final dto = await hiveBridgeDatasource.getBridgeHistory();
+    return dto?.toModel;
   }
 
   @override
@@ -47,7 +49,7 @@ class BridgeHistoryRepositoryImpl implements BridgeHistoryRepository {
       await hiveBridgeDatasource.setBridgeHistory(
         bridgeHistory: BridgeHistory(
           bridgeList: <Map<String, dynamic>>[bridge],
-        ),
+        ).toDTO,
       );
     }
   }
@@ -56,7 +58,7 @@ class BridgeHistoryRepositoryImpl implements BridgeHistoryRepository {
   Future<void> setBridge({required Map<String, dynamic> bridge}) async {
     final hiveBridgeDatasource = await HiveBridgeDatasource.getInstance();
 
-    var bridgeHistory = await hiveBridgeDatasource.getBridgeHistory();
+    final bridgeHistory = await hiveBridgeDatasource.getBridgeHistory();
     if (bridgeHistory == null ||
         bridgeHistory.bridgeList == null ||
         bridgeHistory.bridgeList!.isEmpty) {
@@ -67,9 +69,8 @@ class BridgeHistoryRepositoryImpl implements BridgeHistoryRepository {
         (element) => element['timestampExec'] == bridge['timestampExec'],
       )
       ..add(bridge);
-    bridgeHistory = bridgeHistory.copyWith(bridgeList: bridgeList);
     await hiveBridgeDatasource.setBridgeHistory(
-      bridgeHistory: bridgeHistory,
+      bridgeHistory: bridgeHistory.copyWith(bridgeList: bridgeList),
     );
   }
 }

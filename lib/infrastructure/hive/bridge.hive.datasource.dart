@@ -1,26 +1,26 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/domain/models/bridge_history.dart';
+import 'package:aebridge/infrastructure/bridge_history.hive.dto.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class HiveBridgeDatasource {
   HiveBridgeDatasource._(this._bridgeHistoryBox);
 
-  final LazyBox<BridgeHistory> _bridgeHistoryBox;
+  final LazyBox<BridgeHistoryHiveDTO> _bridgeHistoryBox;
   static const bridgeHistoryKey = 'bridgeHistory';
   static const bridgeHistoryBoxName = 'bridgeHistory';
 
   static Future<HiveBridgeDatasource> getInstance() async {
-    final box = await Hive.openLazyBox<BridgeHistory>(
+    final box = await Hive.openLazyBox<BridgeHistoryHiveDTO>(
       bridgeHistoryBoxName,
     );
     return HiveBridgeDatasource._(box);
   }
 
-  Future<BridgeHistory?> getBridgeHistory() async =>
+  Future<BridgeHistoryHiveDTO?> getBridgeHistory() async =>
       _bridgeHistoryBox.get(bridgeHistoryKey);
 
   Future<void> setBridgeHistory({
-    required BridgeHistory bridgeHistory,
+    required BridgeHistoryHiveDTO bridgeHistory,
   }) async {
     await _bridgeHistoryBox.put(
       bridgeHistoryKey,

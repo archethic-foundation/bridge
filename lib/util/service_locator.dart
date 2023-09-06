@@ -1,7 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:developer';
 
-import 'package:aebridge/infrastructure/hive/db_helper.dart';
+import 'package:aebridge/infrastructure/hive/db_helper.hive.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
