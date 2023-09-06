@@ -1,14 +1,14 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/balance.dart';
 import 'package:aebridge/application/bridge_blockchain.dart';
+import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/application/oracle/state.dart';
 import 'package:aebridge/application/session/provider.dart';
+import 'package:aebridge/domain/models/bridge_blockchain.dart';
+import 'package:aebridge/domain/models/bridge_token.dart';
 import 'package:aebridge/domain/models/failures.dart';
-import 'package:aebridge/domain/repositories/datasources/bridge_local_datasource.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_to_evm.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_to_ae.dart';
-import 'package:aebridge/model/bridge_blockchain.dart';
-import 'package:aebridge/model/bridge_token.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
@@ -57,10 +57,9 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     if (state.timestampExec == null) {
       return;
     }
-    final hiveBridgeDatasource = await HiveBridgeDatasource.getInstance();
-    await hiveBridgeDatasource.setBridge(
-      bridge: state.toJson(),
-    );
+    await ref.read(BridgeHistoryProviders.bridgeHistoryRepository).setBridge(
+          bridge: state.toJson(),
+        );
   }
 
   void setResumeProcess(bool resumeProcess) {
@@ -442,8 +441,9 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
 
     setTimestampExec(DateTime.now().millisecondsSinceEpoch);
 
-    final hiveBridgeDatasource = await HiveBridgeDatasource.getInstance();
-    await hiveBridgeDatasource.addBridge(bridge: state.toJson());
+    await ref
+        .read(BridgeHistoryProviders.bridgeHistoryRepository)
+        .addBridge(bridge: state.toJson());
 
     await setTransferInProgress(true);
     if (state.blockchainFrom!.isArchethic) {

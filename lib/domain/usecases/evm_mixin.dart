@@ -8,7 +8,7 @@ import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/application/contracts/lp_erc_contract.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/failures.dart';
-import 'package:aebridge/model/secret.dart';
+import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:crypto/crypto.dart';

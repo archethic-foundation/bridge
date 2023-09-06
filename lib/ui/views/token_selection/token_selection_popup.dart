@@ -1,10 +1,9 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/model/bridge_token.dart';
+import 'package:aebridge/domain/models/bridge_token.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/token_selection/components/token_list.dart';
 import 'package:aebridge/ui/views/token_selection/components/token_selection_close_btn.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

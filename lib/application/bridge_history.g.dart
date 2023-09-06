@@ -7,7 +7,7 @@ part of 'bridge_history.dart';
 // **************************************************************************
 
 String _$bridgeHistoryRepositoryHash() =>
-    r'f638a989ca80cd6927e4f9ddbad932a0cff6d6fb';
+    r'd7580b6d32e4bdc92352952502c944e6188da53b';
 
 /// See also [_bridgeHistoryRepository].
 @ProviderFor(_bridgeHistoryRepository)

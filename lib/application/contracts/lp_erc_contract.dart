@@ -1,10 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:convert';
+
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
+import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/evm_mixin.dart';
-import 'package:aebridge/model/secret.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

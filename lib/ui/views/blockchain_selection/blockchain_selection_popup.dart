@@ -1,11 +1,10 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/model/bridge_blockchain.dart';
+import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/ui/views/blockchain_selection/components/blockchain_list.dart';
 import 'package:aebridge/ui/views/blockchain_selection/components/blockchain_selection_close_btn.dart';
 import 'package:aebridge/ui/views/blockchain_selection/components/blockchain_testnet_included_switch.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:flutter/material.dart';
-
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

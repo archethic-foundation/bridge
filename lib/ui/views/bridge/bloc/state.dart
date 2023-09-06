@@ -1,8 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/oracle/state.dart';
+import 'package:aebridge/domain/models/bridge_blockchain.dart';
+import 'package:aebridge/domain/models/bridge_token.dart';
 import 'package:aebridge/domain/models/failures.dart';
-import 'package:aebridge/model/bridge_blockchain.dart';
-import 'package:aebridge/model/bridge_token.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'state.freezed.dart';
