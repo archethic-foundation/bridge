@@ -195,7 +195,7 @@ class _FetchBridgesListProviderElement
   bool get asc => (origin as _FetchBridgesListProvider).asc;
 }
 
-String _$clearBridgesListHash() => r'0a10724deac74fb1f87eb8faf68725b5eedfde8e';
+String _$clearBridgesListHash() => r'781a7283eb1f4ecfb88491460e5aace9fc66ecee';
 
 /// See also [_clearBridgesList].
 @ProviderFor(_clearBridgesList)
