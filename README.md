@@ -15,7 +15,6 @@
 In order to develop and test the application, you need to have some prerequisites:
 
 - [Ganache](https://trufflesuite.com/ganache/) (Simulation of the Ethereum's node)
-- [Truffle](https://trufflesuite.com/docs/truffle/how-to/install/) (Tools for EVM smart contract development)
 - [Node.js](https://nodejs.org/)
 - [Flutter](https://flutter.dev/)
   - Flutter 3.13+
@@ -31,7 +30,13 @@ In order to develop and test the application, you need to have some prerequisite
     - Network id 1337 (Server tab)
     - Seed `inflict author desk anxiety music swear acquire achieve link young benefit biology` (Accounts & Keys tab)
     - Generate 10 accounts (Accounts & Keys tab)
-  - Start your EVM wallet and import an account using the private key from the first workspace's account 
+  - Start your EVM wallet :
+    - Add Ganache network with these properties
+      - Network name: Ganache
+      - RPC Url: http://127.0.0.1:7545
+      - Chain Id: 1337
+      - Symbol: ETH
+    - Import an account using the private key from the first workspace's account 
   - Click on "Key" icon in the first row on the Accounts tab
   - Copy the private key
   - Paste the private key into your EVM wallet
@@ -52,25 +57,23 @@ In order to develop and test the application, you need to have some prerequisite
       - Retry deploying the contracts.
 
 #### 4) Deploy EVM Pools
-  - Execute the following commands to deploy the contracts:
+  - Execute the following commands to install truffle and to deploy the contracts:
 
-    Review : Installation de Truffle a ce moment la. Il faudrait préciser dans les prérequis qu'il ne faut pas l'installer avant.
     ```bash
     cd contracts/evm;npm install -g truffle;npm install;truffle deploy;cd -
     ```
+  More infos: [Truffle](https://trufflesuite.com/docs/truffle/how-to/install/) (Tools for EVM smart contract development)
 
-  Review : Commande info non trouvée.
   - Add ERC Token in your EVM Wallet
-    - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to EVM Wallet
+    - Search in terminal "info 3_deploy_erc.pool.js/Deployed token" and put the value to EVM Wallet
 
 #### 5) Run AEBridge
   - Execute the following command at the project's root to launch the app with Chrome extension availability:
     ```bash
     flutter run -d web-server 
     ```  
-
-  Review : Le port n'est pas forcément celui-ci. Utiliser le chemin des logs
   - Copy/Paste the app URL (ex: http://localhost:49316/) into Chrome 
+  NB: The port number could be different
 
 If you want to debug the Flutter app, you should enable chrome extensions
 1- Go to `flutter\bin\cache` and remove a file named: `flutter_tools.stamp`
