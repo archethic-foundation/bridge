@@ -47,6 +47,7 @@ In order to develop and test the application, you need to have some prerequisite
     ```bash
     cd contracts/archethic
     npm install
+    node deploy_factory.js
     node deploy_pool.js
     ```
     - If you encounter an "Insufficient funds" error:
