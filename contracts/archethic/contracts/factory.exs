@@ -67,7 +67,7 @@ export fun get_chargeable_htlc(end_time, user_address, pool_address, secret_hash
     Contract.set_code ""
   end
 
-  condition transaction, on: reveal_secret(secret), as: [
+  condition triggered_by: transaction, on: reveal_secret(secret), as: [
     timestamp: transaction.timestamp < #{end_time},
     content: Crypto.hash(String.to_hex(secret)) == 0x#{secret_hash},
     address: (
@@ -155,7 +155,7 @@ export fun get_signed_htlc(end_time, user_address, pool_address, token, amount) 
   after_secret_code = """
     @version 1
     #{date_time_trigger}
-    condition transaction, on: reveal_secret(secret, secret_signature), as: [
+    condition triggered_by: transaction, on: reveal_secret(secret, secret_signature), as: [
       address: (
 			  #Here we should ensure the transaction is comming from pool
 			  #Chain.get_genesis_address() == 0x#{pool_address}
@@ -191,7 +191,7 @@ export fun get_signed_htlc(end_time, user_address, pool_address, token, amount) 
   """
   @version 1
   #{date_time_trigger}
-  condition transaction, on: set_secret_hash(secret_hash, secret_hash_signature), as: [
+  condition triggered_by: transaction, on: set_secret_hash(secret_hash, secret_hash_signature), as: [
     address: (
 			#Here we should ensure the transaction is comming from pool
 			#Chain.get_genesis_address() == 0x#{pool_address}
