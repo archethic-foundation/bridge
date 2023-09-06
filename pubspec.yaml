@@ -5,7 +5,7 @@ publish_to: "none"
 version: 0.0.9+3
 
 environment:
-  sdk: ">=3.0.5 <4.0.0"
+  sdk: ">=3.1.0 <4.0.0"
 
 dependencies:
   # A client dart library to interact with Archethic Wallet RPC API.
@@ -84,11 +84,11 @@ dependencies:
   walletconnect_secure_storage: ^1.0.0
 
   # Dart library to connect to Ethereum clients. Send transactions and interact with smart contracts!
-  #webthree: ^2.5.7+2
-  webthree:
-    git:
-      url: https://github.com/redDwarf03/webthree.git
-      ref: Handle_rawRequest_errors
+  webthree: ^2.5.9
+  #webthree:
+  #  git:
+  #    url: https://github.com/redDwarf03/webthree.git
+  #    ref: Handle_rawRequest_errors
 
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.

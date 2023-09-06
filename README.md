@@ -18,8 +18,8 @@ In order to develop and test the application, you need to have some prerequisite
 - [Truffle](https://trufflesuite.com/docs/truffle/how-to/install/) (Tools for EVM smart contract development)
 - [Node.js](https://nodejs.org/)
 - [Flutter](https://flutter.dev/)
-  - Flutter 3.10+
-  - Dart 3+
+  - Flutter 3.13+
+  - Dart 3.1+
 - [Archethic node](https://github.com/archethic-foundation/archethic-node#running-a-node-for-development-purpose) (running in devnet mode)
 - [Archethic Wallet](https://github.com/archethic-foundation/archethic-wallet) (Desktop version ie MacOS, Linux, Windows)
 - EVM wallet ie Metamask, Brave, ...

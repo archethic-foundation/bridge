@@ -1314,12 +1314,11 @@ packages:
   webthree:
     dependency: "direct main"
     description:
-      path: "."
-      ref: Handle_rawRequest_errors
-      resolved-ref: "5cd6b559d3749252b7914c306fbee631b3311ba8"
-      url: "https://github.com/redDwarf03/webthree.git"
-    source: git
-    version: "2.5.8"
+      name: webthree
+      sha256: d34c20b20b8383dbce0cedc2fde0839efef31d2ccd3843207a4f2bc6625917d9
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.5.9"
   win32:
     dependency: transitive
     description:
