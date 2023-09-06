@@ -4,7 +4,7 @@
 # EVM => Archethic : Request funds #
 ####################################
 
-condition transaction, on: request_funds(end_time, amount, user_address, secret_hash), as: [
+condition triggered_by: transaction, on: request_funds(end_time, amount, user_address, secret_hash), as: [
   type: "contract",
   code: valid_chargeable_code?(end_time, amount, user_address, secret_hash),
   timestamp: end_time > Time.now(),
@@ -26,7 +26,7 @@ end
 # Archethic => EVM : Request secret hash #
 ##########################################
 
-condition transaction, on: request_secret_hash(end_time, amount, user_address), as: [
+condition triggered_by: transaction, on: request_secret_hash(end_time, amount, user_address), as: [
   type: "contract",
   code: valid_signed_code?(end_time, amount, user_address),
   timestamp: end_time > Time.now()
@@ -45,7 +45,7 @@ actions triggered_by: transaction, on: request_secret_hash(end_time, amount, use
       contract_content = Map.delete(contract_content, key)
     end
   end
-  
+
   # Find a way to generate a random secret
   secret = Crypto.hash(transaction.address)
   secret_hash = Crypto.hash(secret, "sha256")
@@ -70,7 +70,7 @@ end
 # Archethic => EVM : Reveal secret #
 ####################################
 
-condition transaction, on: reveal_secret(htlc_genesis_address), as: [
+condition triggered_by: transaction, on: reveal_secret(htlc_genesis_address), as: [
   type: "transfer",
   content: (
     # Ensure htlc_genesis_address exists in pool state
@@ -104,7 +104,7 @@ actions triggered_by: transaction, on: reveal_secret(htlc_genesis_address) do
   htlc_map = Map.get(contract_content, htlc_genesis_address)
 
   contract_content = Map.delete(contract_content, htlc_genesis_address)
-  
+
   # Here should decrypt secret
   signature = sign_for_evm(htlc_map.secret)
 
