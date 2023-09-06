@@ -47,7 +47,7 @@ packages:
     description:
       path: "."
       ref: libdart_calling_sm_function
-      resolved-ref: "78232d34c7a5c88a40f42583894cf65ab9496ef6"
+      resolved-ref: "8e9beebacb52b01eaf514a87dca1e3f94c5fd4d7"
       url: "https://github.com/archethic-foundation/archethic-wallet-client-dart.git"
     source: git
     version: "1.0.6"
