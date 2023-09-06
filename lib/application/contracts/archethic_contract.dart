@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'dart:convert';
 import 'dart:math';
 import 'dart:typed_data';
 import 'package:aebridge/domain/models/failures.dart';
@@ -14,6 +13,7 @@ class ArchethicContract with TransactionBridgeMixin {
   ArchethicContract();
 
   Future<Result<String, Failure>> deploySignedHTLC(
+    String factoryAddress,
     String poolAddress,
     String userAddress,
     int endTime,
@@ -23,6 +23,7 @@ class ArchethicContract with TransactionBridgeMixin {
     return Result.guard(
       () async {
         final resultSigned = await getSignedHTLC(
+          factoryAddress,
           poolAddress,
           userAddress,
           endTime,
@@ -31,18 +32,25 @@ class ArchethicContract with TransactionBridgeMixin {
         );
 
         late String code;
-        late String content;
         resultSigned.map(
           success: (success) {
-            code = success.$1;
-            content = success.$2;
+            code = success;
           },
           failure: (failure) {
             throw failure;
           },
         );
 
-        final resultDeploy = await _deployHTLC(poolAddress, code, content);
+        final recipient = Recipient(
+          address: poolAddress.toUpperCase(),
+          action: 'request_secret_hash',
+          args: [endTime, amount, userAddress],
+        );
+
+        final resultDeploy = await _deployHTLC(
+          recipient,
+          code,
+        );
         late String htlcAddress;
         resultDeploy.map(
           success: (success) {
@@ -92,6 +100,7 @@ class ArchethicContract with TransactionBridgeMixin {
   }
 
   Future<Result<String, Failure>> deployChargeableHTLC(
+    String factoryAddress,
     String poolAddress,
     String userAddress,
     int endTime,
@@ -102,6 +111,7 @@ class ArchethicContract with TransactionBridgeMixin {
     return Result.guard(
       () async {
         final result = await getChargeableHTLC(
+          factoryAddress,
           poolAddress,
           userAddress,
           endTime,
@@ -112,9 +122,22 @@ class ArchethicContract with TransactionBridgeMixin {
 
         late String htlcAddress;
         await result.map(
-          success: (success) async {
-            final resultDeployHTLC =
-                await _deployHTLC(poolAddress, success.$1, success.$2);
+          success: (code) async {
+            final recipient = Recipient(
+              address: poolAddress.toUpperCase(),
+              action: 'request_funds',
+              args: [
+                endTime,
+                amount,
+                userAddress,
+                secretHash,
+              ],
+            );
+
+            final resultDeployHTLC = await _deployHTLC(
+              recipient,
+              code,
+            );
             resultDeployHTLC.map(
               success: (success) {
                 htlcAddress = success;
@@ -138,9 +161,8 @@ class ArchethicContract with TransactionBridgeMixin {
   }
 
   Future<Result<String, Failure>> _deployHTLC(
-    String poolAddress,
+    Recipient recipient,
     String code,
-    String content,
   ) async {
     return Result.guard(
       () async {
@@ -190,12 +212,15 @@ class ArchethicContract with TransactionBridgeMixin {
         final originPrivateKey = apiService.getOriginKey();
         debugPrint('_deployHTLC - Seed SC: $seedSC');
         debugPrint('_deployHTLC - HTLC Genesis Address: $htlcGenesisAddress');
-        debugPrint('_deployHTLC - Recipient: $poolAddress');
+
         final transactionSC =
             Transaction(type: 'contract', data: Transaction.initData())
                 .setCode(code)
-                .setContent(content)
-                .addRecipient(poolAddress.toUpperCase())
+                .addRecipient(
+                  recipient.address!,
+                  action: recipient.action,
+                  args: recipient.args,
+                )
                 .addOwnership(
                   uint8ListToHex(
                     aesEncrypt(seedSC, aesKey),
@@ -214,7 +239,8 @@ class ArchethicContract with TransactionBridgeMixin {
     );
   }
 
-  Future<Result<(String, String), Failure>> getSignedHTLC(
+  Future<Result<String, Failure>> getSignedHTLC(
+    String factoryAddress,
     String poolAddress,
     String userAddress,
     int endTime,
@@ -226,6 +252,7 @@ class ArchethicContract with TransactionBridgeMixin {
         late String code;
 
         final result = await _getSignedHTLCCode(
+          factoryAddress,
           poolAddress,
           userAddress,
           endTime,
@@ -240,14 +267,13 @@ class ArchethicContract with TransactionBridgeMixin {
             throw failure;
           },
         );
-
-        final content = _getSignedHTLCContent(userAddress, endTime, amount);
-        return (code, content);
+        return code;
       },
     );
   }
 
-  Future<Result<(String, String), Failure>> getChargeableHTLC(
+  Future<Result<String, Failure>> getChargeableHTLC(
+    String factoryAddress,
     String poolAddress,
     String userAddress,
     int endTime,
@@ -257,6 +283,7 @@ class ArchethicContract with TransactionBridgeMixin {
   ) async {
     return Result.guard(
       () async {
+        debugPrint('getChargeableHTLC - FactoryAddress: $factoryAddress');
         debugPrint('getChargeableHTLC - PoolAddress: $poolAddress');
         debugPrint('getChargeableHTLC - UserAddress: $userAddress');
         debugPrint('getChargeableHTLC - EndTime: $endTime');
@@ -266,6 +293,7 @@ class ArchethicContract with TransactionBridgeMixin {
 
         late String code;
         final result = await _getChargeableHTLCCode(
+          factoryAddress,
           poolAddress,
           userAddress,
           endTime,
@@ -282,14 +310,13 @@ class ArchethicContract with TransactionBridgeMixin {
           },
         );
 
-        final content =
-            _getChargeableHTLCContent(userAddress, endTime, amount, secretHash);
-        return (code, content);
+        return code;
       },
     );
   }
 
   Future<Result<String, Failure>> _getSignedHTLCCode(
+    String factoryAddress,
     String poolAddress,
     String userAddress,
     int endTime,
@@ -302,7 +329,7 @@ class ArchethicContract with TransactionBridgeMixin {
               jsonRPCRequest: SCCallFunctionRequest(
                 method: 'contract_fun',
                 params: SCCallFunctionParams(
-                  contract: poolAddress.toUpperCase(),
+                  contract: factoryAddress.toUpperCase(),
                   function: 'get_signed_htlc',
                   args: [
                     endTime,
@@ -323,6 +350,7 @@ class ArchethicContract with TransactionBridgeMixin {
   }
 
   Future<Result<String, Failure>> _getChargeableHTLCCode(
+    String factoryAddress,
     String poolAddress,
     String userAddress,
     int endTime,
@@ -336,7 +364,7 @@ class ArchethicContract with TransactionBridgeMixin {
               jsonRPCRequest: SCCallFunctionRequest(
                 method: 'contract_fun',
                 params: SCCallFunctionParams(
-                  contract: poolAddress,
+                  contract: factoryAddress.toUpperCase(),
                   function: 'get_chargeable_htlc',
                   args: [
                     endTime,
@@ -355,36 +383,6 @@ class ArchethicContract with TransactionBridgeMixin {
         return code;
       },
     );
-  }
-
-  String _getSignedHTLCContent(
-    String userAddress,
-    int endTime,
-    double amount,
-  ) {
-    final contentMap = {
-      'action': 'request_secret_hash',
-      'endTime': endTime,
-      'userAddress': userAddress.toUpperCase(),
-      'amount': amount,
-    };
-    return jsonEncode(contentMap);
-  }
-
-  String _getChargeableHTLCContent(
-    String userAddress,
-    int endTime,
-    double amount,
-    String secretHash,
-  ) {
-    final contentMap = {
-      'action': 'request_funds',
-      'endTime': endTime,
-      'userAddress': userAddress.toUpperCase(),
-      'secretHash': secretHash,
-      'amount': amount,
-    };
-    return jsonEncode(contentMap);
   }
 
   Future<Result<String, Failure>> revealSecretToChargeableHTLC(
@@ -407,10 +405,10 @@ class ArchethicContract with TransactionBridgeMixin {
           htlcAddressBefore = transactionMap[htlcAddress]!.address!.address!;
         }
 
-        var transaction =
-            Transaction(type: 'data', data: Transaction.initData())
-                .setContent(secret)
-                .addRecipient(htlcAddress);
+        var transaction = Transaction(
+          type: 'transfer',
+          data: Transaction.initData(),
+        ).addRecipient(htlcAddress, action: 'reveal_secret', args: [secret]);
 
         transaction = (await signTx(
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
@@ -442,16 +440,12 @@ class ArchethicContract with TransactionBridgeMixin {
         debugPrint('requestSecretFromSignedHTLC - PoolAddress: $poolAddress');
         debugPrint('requestSecretFromSignedHTLC - HTLCAddress: $htlcAddress');
         var transaction =
-            Transaction(type: 'data', data: Transaction.initData())
-                .setContent(
-                  jsonEncode(
-                    {
-                      'action': 'request_secret',
-                      'htlcGenesisAddress': htlcAddress,
-                    },
-                  ),
-                )
-                .addRecipient(poolAddress);
+            Transaction(type: 'transfer', data: Transaction.initData())
+                .addRecipient(
+          poolAddress,
+          action: 'reveal_secret',
+          args: [htlcAddress],
+        );
 
         transaction = (await signTx(
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),

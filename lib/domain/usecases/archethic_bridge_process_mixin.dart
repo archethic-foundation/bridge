@@ -58,6 +58,7 @@ mixin ArchethicBridgeProcessMixin {
 
     late String archethicHTLCAddress;
     final resultDeploySignedHTLC = await ArchethicContract().deploySignedHTLC(
+      bridge.blockchainFrom!.archethicFactoryAddress!,
       bridge.tokenToBridge!.poolAddressFrom,
       walletFrom!.genesisAddress,
       endTime,
@@ -95,6 +96,7 @@ mixin ArchethicBridgeProcessMixin {
     late String htlcAddress;
     final resultDeployChargeableHTLCAE =
         await ArchethicContract().deployChargeableHTLC(
+      bridge.blockchainTo!.archethicFactoryAddress!,
       bridge.tokenToBridge!.poolAddressTo,
       bridge.targetAddress,
       endTime,

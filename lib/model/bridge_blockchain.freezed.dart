@@ -26,7 +26,9 @@ mixin _$BridgeBlockchain {
   String get icon => throw _privateConstructorUsedError;
   String get urlExplorer => throw _privateConstructorUsedError;
   String get providerEndpoint => throw _privateConstructorUsedError;
+  bool get isArchethic => throw _privateConstructorUsedError;
   String? get htlcAddress => throw _privateConstructorUsedError;
+  String? get archethicFactoryAddress => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -47,7 +49,9 @@ abstract class $BridgeBlockchainCopyWith<$Res> {
       String icon,
       String urlExplorer,
       String providerEndpoint,
-      String? htlcAddress});
+      bool isArchethic,
+      String? htlcAddress,
+      String? archethicFactoryAddress});
 }
 
 /// @nodoc
@@ -69,7 +73,9 @@ class _$BridgeBlockchainCopyWithImpl<$Res, $Val extends BridgeBlockchain>
     Object? icon = null,
     Object? urlExplorer = null,
     Object? providerEndpoint = null,
+    Object? isArchethic = null,
     Object? htlcAddress = freezed,
+    Object? archethicFactoryAddress = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -96,9 +102,17 @@ class _$BridgeBlockchainCopyWithImpl<$Res, $Val extends BridgeBlockchain>
           ? _value.providerEndpoint
           : providerEndpoint // ignore: cast_nullable_to_non_nullable
               as String,
+      isArchethic: null == isArchethic
+          ? _value.isArchethic
+          : isArchethic // ignore: cast_nullable_to_non_nullable
+              as bool,
       htlcAddress: freezed == htlcAddress
           ? _value.htlcAddress
           : htlcAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      archethicFactoryAddress: freezed == archethicFactoryAddress
+          ? _value.archethicFactoryAddress
+          : archethicFactoryAddress // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -119,7 +133,9 @@ abstract class _$$_BridgeBlockchainCopyWith<$Res>
       String icon,
       String urlExplorer,
       String providerEndpoint,
-      String? htlcAddress});
+      bool isArchethic,
+      String? htlcAddress,
+      String? archethicFactoryAddress});
 }
 
 /// @nodoc
@@ -139,7 +155,9 @@ class __$$_BridgeBlockchainCopyWithImpl<$Res>
     Object? icon = null,
     Object? urlExplorer = null,
     Object? providerEndpoint = null,
+    Object? isArchethic = null,
     Object? htlcAddress = freezed,
+    Object? archethicFactoryAddress = freezed,
   }) {
     return _then(_$_BridgeBlockchain(
       name: null == name
@@ -166,9 +184,17 @@ class __$$_BridgeBlockchainCopyWithImpl<$Res>
           ? _value.providerEndpoint
           : providerEndpoint // ignore: cast_nullable_to_non_nullable
               as String,
+      isArchethic: null == isArchethic
+          ? _value.isArchethic
+          : isArchethic // ignore: cast_nullable_to_non_nullable
+              as bool,
       htlcAddress: freezed == htlcAddress
           ? _value.htlcAddress
           : htlcAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      archethicFactoryAddress: freezed == archethicFactoryAddress
+          ? _value.archethicFactoryAddress
+          : archethicFactoryAddress // ignore: cast_nullable_to_non_nullable
               as String?,
     ));
   }
@@ -184,7 +210,9 @@ class _$_BridgeBlockchain extends _BridgeBlockchain {
       this.icon = '',
       this.urlExplorer = '',
       this.providerEndpoint = '',
-      this.htlcAddress})
+      this.isArchethic = false,
+      this.htlcAddress,
+      this.archethicFactoryAddress})
       : super._();
 
   factory _$_BridgeBlockchain.fromJson(Map<String, dynamic> json) =>
@@ -209,11 +237,16 @@ class _$_BridgeBlockchain extends _BridgeBlockchain {
   @JsonKey()
   final String providerEndpoint;
   @override
+  @JsonKey()
+  final bool isArchethic;
+  @override
   final String? htlcAddress;
+  @override
+  final String? archethicFactoryAddress;
 
   @override
   String toString() {
-    return 'BridgeBlockchain(name: $name, chainId: $chainId, env: $env, icon: $icon, urlExplorer: $urlExplorer, providerEndpoint: $providerEndpoint, htlcAddress: $htlcAddress)';
+    return 'BridgeBlockchain(name: $name, chainId: $chainId, env: $env, icon: $icon, urlExplorer: $urlExplorer, providerEndpoint: $providerEndpoint, isArchethic: $isArchethic, htlcAddress: $htlcAddress, archethicFactoryAddress: $archethicFactoryAddress)';
   }
 
   @override
@@ -229,14 +262,28 @@ class _$_BridgeBlockchain extends _BridgeBlockchain {
                 other.urlExplorer == urlExplorer) &&
             (identical(other.providerEndpoint, providerEndpoint) ||
                 other.providerEndpoint == providerEndpoint) &&
+            (identical(other.isArchethic, isArchethic) ||
+                other.isArchethic == isArchethic) &&
             (identical(other.htlcAddress, htlcAddress) ||
-                other.htlcAddress == htlcAddress));
+                other.htlcAddress == htlcAddress) &&
+            (identical(
+                    other.archethicFactoryAddress, archethicFactoryAddress) ||
+                other.archethicFactoryAddress == archethicFactoryAddress));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, chainId, env, icon,
-      urlExplorer, providerEndpoint, htlcAddress);
+  int get hashCode => Object.hash(
+      runtimeType,
+      name,
+      chainId,
+      env,
+      icon,
+      urlExplorer,
+      providerEndpoint,
+      isArchethic,
+      htlcAddress,
+      archethicFactoryAddress);
 
   @JsonKey(ignore: true)
   @override
@@ -260,7 +307,9 @@ abstract class _BridgeBlockchain extends BridgeBlockchain {
       final String icon,
       final String urlExplorer,
       final String providerEndpoint,
-      final String? htlcAddress}) = _$_BridgeBlockchain;
+      final bool isArchethic,
+      final String? htlcAddress,
+      final String? archethicFactoryAddress}) = _$_BridgeBlockchain;
   const _BridgeBlockchain._() : super._();
 
   factory _BridgeBlockchain.fromJson(Map<String, dynamic> json) =
@@ -279,7 +328,11 @@ abstract class _BridgeBlockchain extends BridgeBlockchain {
   @override
   String get providerEndpoint;
   @override
+  bool get isArchethic;
+  @override
   String? get htlcAddress;
+  @override
+  String? get archethicFactoryAddress;
   @override
   @JsonKey(ignore: true)
   _$$_BridgeBlockchainCopyWith<_$_BridgeBlockchain> get copyWith =>

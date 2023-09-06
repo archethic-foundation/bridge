@@ -14,7 +14,9 @@ _$_BridgeBlockchain _$$_BridgeBlockchainFromJson(Map<String, dynamic> json) =>
       icon: json['icon'] as String? ?? '',
       urlExplorer: json['urlExplorer'] as String? ?? '',
       providerEndpoint: json['providerEndpoint'] as String? ?? '',
+      isArchethic: json['isArchethic'] as bool? ?? false,
       htlcAddress: json['htlcAddress'] as String?,
+      archethicFactoryAddress: json['archethicFactoryAddress'] as String?,
     );
 
 Map<String, dynamic> _$$_BridgeBlockchainToJson(_$_BridgeBlockchain instance) =>
@@ -25,5 +27,7 @@ Map<String, dynamic> _$$_BridgeBlockchainToJson(_$_BridgeBlockchain instance) =>
       'icon': instance.icon,
       'urlExplorer': instance.urlExplorer,
       'providerEndpoint': instance.providerEndpoint,
+      'isArchethic': instance.isArchethic,
       'htlcAddress': instance.htlcAddress,
+      'archethicFactoryAddress': instance.archethicFactoryAddress,
     };

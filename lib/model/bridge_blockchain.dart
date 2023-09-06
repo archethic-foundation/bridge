@@ -26,13 +26,13 @@ class BridgeBlockchain with _$BridgeBlockchain {
     @Default('') String icon,
     @Default('') String urlExplorer,
     @Default('') String providerEndpoint,
+    @Default(false) bool isArchethic,
     String? htlcAddress,
+    String? archethicFactoryAddress,
   }) = _BridgeBlockchain;
 
   const BridgeBlockchain._();
 
   factory BridgeBlockchain.fromJson(Map<String, dynamic> json) =>
       _$BridgeBlockchainFromJson(json);
-
-  bool get isArchethic => chainId < 0;
 }
