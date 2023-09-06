@@ -45,10 +45,7 @@ In order to develop and test the application, you need to have some prerequisite
 #### 3) Deploy Archethic Pools
   - Execute the following commands to deploy the contracts
     ```bash
-    cd contracts/archethic
-    npm install
-    node deploy_factory.js
-    node deploy_pool.js
+    cd contracts/archethic;npm install;node deploy_factory.js;node deploy_pool.js;cd -
     ```
     - If you encounter an "Insufficient funds" error:
       - [Obtain UCO tokens from the faucet for the Pool genesis address](http://localhost:4000/faucet) (with 300 UCO)
@@ -56,12 +53,13 @@ In order to develop and test the application, you need to have some prerequisite
 
 #### 4) Deploy EVM Pools
   - Execute the following commands to deploy the contracts:
+
+    Review : Installation de Truffle a ce moment la. Il faudrait préciser dans les prérequis qu'il ne faut pas l'installer avant.
     ```bash
-    cd contracts/evm
-    npm install -g truffle
-    npm install
-    truffle deploy
+    cd contracts/evm;npm install -g truffle;npm install;truffle deploy;cd -
     ```
+
+  Review : Commande info non trouvée.
   - Add ERC Token in your EVM Wallet
     - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to EVM Wallet
 
@@ -70,6 +68,8 @@ In order to develop and test the application, you need to have some prerequisite
     ```bash
     flutter run -d web-server 
     ```  
+
+  Review : Le port n'est pas forcément celui-ci. Utiliser le chemin des logs
   - Copy/Paste the app URL (ex: http://localhost:49316/) into Chrome 
 
 If you want to debug the Flutter app, you should enable chrome extensions
