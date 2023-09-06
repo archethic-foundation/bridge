@@ -83,7 +83,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     if (blockchainFrom.isArchethic) {
       debugPrint('connect to Archethic Wallet');
       final connection = await sessionNotifier.connectToArchethicWallet(true);
-      connection.map(
+      await connection.map(
         success: (success) async {
           await setBlockchainFrom(blockchainFrom);
         },
@@ -96,7 +96,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       debugPrint('connect to EVM Wallet');
       final connection =
           await sessionNotifier.connectToEVMWallet(blockchainFrom, true);
-      connection.map(
+      await connection.map(
         success: (success) async {
           await setBlockchainFrom(blockchainFrom);
           final blockchainTo = await ref.read(
@@ -133,7 +133,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       debugPrint('connect to Archethic Wallet');
       final connection = await sessionNotifier.connectToArchethicWallet(false);
       await Future.delayed(const Duration(milliseconds: 500));
-      connection.map(
+      await connection.map(
         success: (success) async {
           await setBlockchainTo(blockchainTo);
         },
@@ -146,7 +146,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       debugPrint('connect to EVM Wallet');
       final connection =
           await sessionNotifier.connectToEVMWallet(blockchainTo, false);
-      connection.map(
+      await connection.map(
         success: (success) async {
           await setBlockchainTo(blockchainTo);
           final blockchainFrom = await ref.read(

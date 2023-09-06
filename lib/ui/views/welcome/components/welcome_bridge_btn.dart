@@ -56,6 +56,8 @@ class WelcomeBridgeBtnState extends ConsumerState<WelcomeBridgeBtn> {
                             .mainScreenWidgetDisplayedProvider.notifier,
                       )
                       .setWidget(const BridgeFormSheet());
+
+                  if (!context.mounted) return;
                   context.go('/main');
                 },
                 child: Container(

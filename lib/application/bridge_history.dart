@@ -26,7 +26,7 @@ Future<List<Map<String, dynamic>>> _fetchBridgesList(
 
 @riverpod
 Future<void> _clearBridgesList(_ClearBridgesListRef ref) async {
-  ref.watch(_bridgeHistoryRepositoryProvider).clearBridgesList();
+  await ref.watch(_bridgeHistoryRepositoryProvider).clearBridgesList();
   ref.invalidate(BridgeHistoryProviders.fetchBridgesList);
   return;
 }

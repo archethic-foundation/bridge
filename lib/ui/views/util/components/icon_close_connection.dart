@@ -77,6 +77,8 @@ class IconCloseConnection extends ConsumerWidget {
                                   onPressed: () async {
                                     await sessionNotifier
                                         .cancelAllWalletsConnection();
+
+                                    if (!context.mounted) return;
                                     context.go('/welcome');
                                   },
                                 ),

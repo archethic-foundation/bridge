@@ -25,6 +25,8 @@ class BridgeInProgressResumeBtn extends ConsumerWidget {
           await ref
               .read(BridgeFormProvider.bridgeForm.notifier)
               .bridge(context, ref);
+
+          if (!context.mounted) return;
           await BridgeInProgressPopup.getDialog(
             context,
             ref,

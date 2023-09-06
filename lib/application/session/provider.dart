@@ -126,7 +126,7 @@ class _SessionNotifier extends Notifier<Session> {
       );
 
       final endpointResponse = await archethicDAppClient.getEndpoint();
-      endpointResponse.when(
+      await endpointResponse.when(
         failure: (failure) {
           debugPrint(failure.message ?? 'Connection failed');
           bridgeWallet = bridgeWallet.copyWith(
