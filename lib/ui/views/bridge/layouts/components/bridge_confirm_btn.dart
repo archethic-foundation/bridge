@@ -1,4 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:async';
+
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/bridge_in_progress_popup.dart';
@@ -51,9 +53,9 @@ class BridgeConfirmButton extends ConsumerWidget {
       labelBtn: AppLocalizations.of(context)!.btn_confirm_bridge,
       icon: Iconsax.recovery_convert,
       onPressed: () async {
-        await ref
-            .read(BridgeFormProvider.bridgeForm.notifier)
-            .bridge(context, ref);
+        unawaited(
+          ref.read(BridgeFormProvider.bridgeForm.notifier).bridge(context, ref),
+        );
 
         if (!context.mounted) return;
         await BridgeInProgressPopup.getDialog(
