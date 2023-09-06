@@ -25,7 +25,7 @@ final _getBlockchainsListConfProvider =
 typedef _GetBlockchainsListConfRef
     = AutoDisposeFutureProviderRef<List<BridgeBlockchain>>;
 String _$bridgeBlockchainsRepositoryHash() =>
-    r'67771710151e43e7b614a1b9226730df6d753f17';
+    r'6e22621652320b8ad5335aeb43584f34078d5eeb';
 
 /// See also [_bridgeBlockchainsRepository].
 @ProviderFor(_bridgeBlockchainsRepository)

@@ -1,8 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'dart:convert';
-
-import 'package:aebridge/model/bridge_blockchain.dart';
-import 'package:flutter/services.dart';
+import 'package:aebridge/domain/models/bridge_blockchain.dart';
+import 'package:aebridge/domain/repositories/bridge_blockchain.repository.dart';
+import 'package:aebridge/infrastructure/bridge_blockchain.repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'bridge_blockchain.g.dart';
@@ -20,7 +19,7 @@ Future<List<BridgeBlockchain>> _getBlockchainsListConf(
 BridgeBlockchainsRepository _bridgeBlockchainsRepository(
   _BridgeBlockchainsRepositoryRef ref,
 ) =>
-    BridgeBlockchainsRepository();
+    BridgeBlockchainsRepositoryImpl();
 
 @riverpod
 Future<List<BridgeBlockchain>> _getBlockchainsList(
@@ -63,57 +62,6 @@ Future<BridgeBlockchain?> _getArchethicBlockchainFromEVM(
         blockchainsList,
         evmBlockchain,
       );
-}
-
-class BridgeBlockchainsRepository {
-  Future<List<BridgeBlockchain>> getBlockchainsListConf() async {
-    final jsonContent = await rootBundle
-        .loadString('lib/domain/repositories/blockchains_list.json');
-
-    final jsonData = jsonDecode(jsonContent);
-
-    final blockchainsList =
-        List<Map<String, dynamic>>.from(jsonData['blockchains']);
-
-    return blockchainsList.map(BridgeBlockchain.fromJson).toList();
-  }
-
-  List<BridgeBlockchain> getBlockchainsList(
-    List<BridgeBlockchain> blockchainsList,
-  ) {
-    blockchainsList.sort((a, b) {
-      final compareEnv = a.env.compareTo(b.env);
-      if (compareEnv != 0) {
-        return compareEnv;
-      } else {
-        return a.name.compareTo(b.name);
-      }
-    });
-    return blockchainsList;
-  }
-
-  Future<BridgeBlockchain?> getBlockchainFromChainId(
-    List<BridgeBlockchain> blockchainsList,
-    int chainId,
-  ) async {
-    return blockchainsList.singleWhere((element) => element.chainId == chainId);
-  }
-
-  Future<BridgeBlockchain?> getArchethicBlockchainFromEVM(
-    List<BridgeBlockchain> blockchainsList,
-    BridgeBlockchain evmBlockchain,
-  ) async {
-    blockchainsList
-      ..removeWhere(
-        (element) => element.env != evmBlockchain.env,
-      )
-      ..removeWhere((element) => element.isArchethic == false);
-    if (blockchainsList.length == 1) {
-      return blockchainsList[0];
-    }
-
-    return null;
-  }
 }
 
 abstract class BridgeBlockchainsProviders {

@@ -28,6 +28,9 @@ class BridgeInProgressCloseBtn extends ConsumerWidget {
           final bridgeNotifier =
               ref.read(BridgeFormProvider.bridgeForm.notifier);
           await bridgeNotifier.initState();
+
+          if (!context.mounted) return;
+
           Navigator.of(context).pop();
           if (bridge.resumeProcess) {
             Navigator.of(context).pop();

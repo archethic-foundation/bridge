@@ -7,7 +7,7 @@ part of 'bridge_token.dart';
 // **************************************************************************
 
 String _$bridgeTokensRepositoryHash() =>
-    r'12ebc18829ad73ffa1c0bfcbc09a9d49eb219bed';
+    r'988cc3d03376b3bab084a9e5ebe54f30072ff377';
 
 /// See also [_bridgeTokensRepository].
 @ProviderFor(_bridgeTokensRepository)

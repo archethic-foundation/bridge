@@ -75,7 +75,7 @@ class FormatAddressLinkCopy extends ConsumerWidget {
               ).future,
             );
 
-            launchUrl(
+            await launchUrl(
               Uri.parse(
                 '${blockchain!.urlExplorer}$address',
               ),

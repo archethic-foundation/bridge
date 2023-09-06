@@ -1,13 +1,12 @@
-import 'package:aebridge/application/evm_wallet.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:aebridge/domain/repositories/balance.repository.dart';
+import 'package:aebridge/infrastructure/balance.repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'balance.g.dart';
 
 @riverpod
 BalanceRepository _balanceRepository(_BalanceRepositoryRef ref) =>
-    BalanceRepository();
+    BalanceRepositoryImpl();
 
 @riverpod
 Future<double> _getBalance(
@@ -25,53 +24,6 @@ Future<double> _getBalance(
         tokenAddress,
         providerEndpoint: providerEndpoint,
       );
-}
-
-class BalanceRepository {
-  Future<double> getBalance(
-    bool isArchethic,
-    String address,
-    String typeToken,
-    String tokenAddress, {
-    String? providerEndpoint,
-  }) async {
-    if (isArchethic) {
-      final balanceGetResponseMap =
-          await sl.get<ApiService>().fetchBalance([address]);
-      if (balanceGetResponseMap[address] == null) {
-        return 0.0;
-      }
-      final balanceGetResponse = balanceGetResponseMap[address];
-      if (tokenAddress.isEmpty) {
-        return fromBigInt(balanceGetResponse!.uco).toDouble();
-      }
-
-      for (final balanceToken in balanceGetResponse!.token) {
-        if (balanceToken.address == tokenAddress) {
-          return fromBigInt(balanceToken.amount).toDouble();
-        }
-      }
-    } else {
-      switch (typeToken) {
-        case 'Native':
-          final balance = await sl.get<EVMWalletProvider>().getBalance(
-                providerEndpoint!,
-                typeToken,
-              );
-          return balance;
-
-        case 'ERC20':
-          final balance = await sl.get<EVMWalletProvider>().getBalance(
-                providerEndpoint!,
-                typeToken,
-                erc20address: tokenAddress,
-              );
-          return balance;
-        default:
-      }
-    }
-    return 0.0;
-  }
 }
 
 abstract class BalanceProviders {

@@ -156,7 +156,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
               padding: const EdgeInsets.only(right: 10),
               child: InkWell(
                 onTap: () async {
-                  ref
+                  await ref
                       .read(BridgeFormProvider.bridgeForm.notifier)
                       .setMaxAmount();
                   _updateAmountTextController();

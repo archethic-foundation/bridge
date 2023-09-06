@@ -1,9 +1,9 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 
+import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/archethic_bridge_process_mixin.dart';
 import 'package:aebridge/domain/usecases/evm_mixin.dart';
-import 'package:aebridge/model/secret.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
