@@ -282,6 +282,11 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       waitForWalletConfirmation: null,
       timestampExec: null,
       changeDirectionInProgress: false,
+      htlcAEAddress: null,
+      htlcEVMAddress: null,
+      resumeProcess: false,
+      secret: null,
+      archethicOracleUCO: null,
     );
     await storeBridge();
   }
