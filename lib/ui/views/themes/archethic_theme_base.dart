@@ -69,8 +69,8 @@ class ArchethicThemeBase {
   static Color systemWarning50 = const Color(0xFFFFF9DB);
 
   static Color systemPositive800 = const Color(0xFF3C8550);
-  static Color systemWPositive500 = const Color(0xFF4EB46A);
+  static Color systemPositive500 = const Color(0xFF4EB46A);
   static Color systemPositive300 = const Color(0xFFCAE8D2);
   static Color systemPositive200 = const Color(0xFFDDEEE2);
-  static Color systemWPositive50 = const Color(0xFFEDF7F0);
+  static Color systemPositive50 = const Color(0xFFEDF7F0);
 }

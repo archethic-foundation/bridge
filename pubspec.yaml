@@ -129,8 +129,21 @@ flutter:
     - family: Iconsax
       fonts:
         - asset: assets/fonts/Iconsax.ttf
-    - family: Lato
+    - family: Telegraf
       fonts:
-        - asset: assets/fonts/Lato-Regular.ttf
-        - asset: assets/fonts/Lato-Italic.ttf
-        - asset: assets/fonts/Lato-Bold.ttf
+        - asset: assets/fonts/Telegraf-Black.woff
+        - asset: assets/fonts/Telegraf-Black.woff2
+        - asset: assets/fonts/Telegraf-Bold.woff
+        - asset: assets/fonts/Telegraf-Bold.woff2
+        - asset: assets/fonts/Telegraf-Light.woff
+        - asset: assets/fonts/Telegraf-Light.woff2
+        - asset: assets/fonts/Telegraf-Medium.woff
+        - asset: assets/fonts/Telegraf-Medium.woff2
+        - asset: assets/fonts/Telegraf-Regular.woff
+        - asset: assets/fonts/Telegraf-Regular.woff2
+        - asset: assets/fonts/Telegraf-SemiBold.woff
+        - asset: assets/fonts/Telegraf-SemiBold.woff2
+        - asset: assets/fonts/Telegraf-UltraBold.woff
+        - asset: assets/fonts/Telegraf-UltraBold.woff2
+        - asset: assets/fonts/Telegraf-UltraLight.woff
+        - asset: assets/fonts/Telegraf-UltraLight.woff2

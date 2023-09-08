@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/connection_to_wallet_status.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,13 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final linearGradient = LinearGradient(
+      colors: <Color>[
+        ArchethicThemeBase.raspberry300,
+        ArchethicThemeBase.blue500,
+      ],
+    ).createShader(const Rect.fromLTWH(0, 0, 200, 45));
+
     if (forceAELogo == false &&
         (Responsive.isMobile(context) || Responsive.isTablet(context))) {
       return Row(
@@ -38,15 +46,16 @@ class Header extends StatelessWidget {
               'assets/images/AELogo.png',
               width: 60,
             ),
-            const Text(
+            Text(
               'Bridge',
               style: TextStyle(
-                fontFamily: 'Caveat',
-                fontSize: 50,
+                fontSize: 45,
+                fontWeight: FontWeight.w600,
+                foreground: Paint()..shader = linearGradient,
               ),
             ),
             const SizedBox(
-              width: 20,
+              width: 5,
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 30),

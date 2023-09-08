@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 part 'archethic_theme_base.dart';
 
 class BridgeThemeBase {
-  static String mainFont = 'Lato';
+  static String mainFont = 'Telegraf';
   static String addressFont = 'Roboto';
 
   static Color primaryColor = ArchethicThemeBase.purple500;
