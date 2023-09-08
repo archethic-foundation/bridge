@@ -55,6 +55,24 @@ class BridgeHistoryRepositoryImpl implements BridgeHistoryRepository {
   }
 
   @override
+  Future<void> removeBridge({required int timestampExec}) async {
+    final hiveBridgeDatasource = await HiveBridgeDatasource.getInstance();
+
+    final bridgeHistory = await hiveBridgeDatasource.getBridgeHistory();
+    if (bridgeHistory == null ||
+        bridgeHistory.bridgeList == null ||
+        bridgeHistory.bridgeList!.isEmpty) {
+      throw Exception("Bridge can't be removed in the box");
+    }
+    final bridgeList = [...?bridgeHistory.bridgeList]..removeWhere(
+        (element) => element['timestampExec'] == timestampExec,
+      );
+    await hiveBridgeDatasource.setBridgeHistory(
+      bridgeHistory: bridgeHistory.copyWith(bridgeList: bridgeList),
+    );
+  }
+
+  @override
   Future<void> setBridge({required Map<String, dynamic> bridge}) async {
     final hiveBridgeDatasource = await HiveBridgeDatasource.getInstance();
 

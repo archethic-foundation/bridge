@@ -64,6 +64,7 @@
   "btn_clear_local_history": "Clear local informations",
   "bridgesListClearConfirmed": "Local information has been cleared",
   "bridgesListClearWarning": "Are you sure you want to clear local informations?",
+  "bridgeClearWarning": "Are you sure you want to remove this process from your local informations?",
   "bridgeInProgressInfo1": "The transfer process between the 2 blockchains is in progress.",
   "bridgeInProgressInfo2": "This requires a few validations in your wallets to secure the transactions.",
   "bridgeInProgressContractsLink": "Contracts",

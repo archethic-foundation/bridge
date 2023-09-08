@@ -12,6 +12,8 @@ abstract class BridgeHistoryRepository {
     required Map<String, dynamic> bridge,
   });
 
+  Future<void> removeBridge({required int timestampExec});
+
   Future<void> setBridge({
     required Map<String, dynamic> bridge,
   });
