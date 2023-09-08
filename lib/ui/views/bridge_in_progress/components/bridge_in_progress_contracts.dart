@@ -19,28 +19,35 @@ class BridgeInProgressContracts extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(right: 15),
-                child: SelectionArea(
-                  child: Text(
-                    AppLocalizations.of(context)!.bridgeInProgressContractsLink,
-                    style: Theme.of(context).textTheme.titleSmall,
+          if ((bridge.blockchainFrom != null &&
+                  bridge.blockchainFrom!.htlcAddress != null &&
+                  bridge.blockchainFrom!.htlcAddress!.isNotEmpty) ||
+              bridge.blockchainTo != null &&
+                  bridge.blockchainTo!.htlcAddress != null &&
+                  bridge.blockchainTo!.htlcAddress!.isNotEmpty)
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(right: 15),
+                  child: SelectionArea(
+                    child: Text(
+                      AppLocalizations.of(context)!
+                          .bridgeInProgressContractsLink,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: Container(
-                  width: 50,
-                  height: 1,
-                  decoration: BoxDecoration(
-                    gradient: BridgeThemeBase.gradient,
+                Expanded(
+                  child: Container(
+                    width: 50,
+                    height: 1,
+                    decoration: BoxDecoration(
+                      gradient: BridgeThemeBase.gradient,
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
           const SizedBox(height: 10),
           if (bridge.blockchainFrom != null &&
               bridge.blockchainFrom!.htlcAddress != null &&

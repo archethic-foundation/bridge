@@ -38,7 +38,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       changeDirectionInProgress: bridgeFormState.isControlsOk,
       currentStep: bridgeFormState.currentStep,
       failure: null,
-      isTransferInProgress: bridgeFormState.isTransferInProgress,
+      isTransferInProgress: true,
       networkFees: bridgeFormState.networkFees,
       targetAddress: bridgeFormState.targetAddress,
       timestampExec: bridgeFormState.timestampExec,
@@ -444,11 +444,12 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       return;
     }
 
-    setTimestampExec(DateTime.now().millisecondsSinceEpoch);
-
-    await ref
-        .read(BridgeHistoryProviders.bridgeHistoryRepository)
-        .addBridge(bridge: state.toJson());
+    if (state.resumeProcess == false) {
+      setTimestampExec(DateTime.now().millisecondsSinceEpoch);
+      await ref
+          .read(BridgeHistoryProviders.bridgeHistoryRepository)
+          .addBridge(bridge: state.toJson());
+    }
 
     await setTransferInProgress(true);
     if (state.blockchainFrom!.isArchethic) {

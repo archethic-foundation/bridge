@@ -5,6 +5,7 @@ import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
+import 'package:aebridge/ui/views/bridge_in_progress/bridge_in_progress_popup.dart';
 import 'package:aebridge/ui/views/util/components/app_button.dart';
 import 'package:aebridge/ui/views/util/components/icon_animated.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
@@ -136,7 +137,7 @@ class LocalHistoryCardOptions extends ConsumerWidget {
               child: InkWell(
                 onTap: () async {
                   await ref
-                      .watch(BridgeFormProvider.bridgeForm.notifier)
+                      .read(BridgeFormProvider.bridgeForm.notifier)
                       .resume(bridge);
                   ref
                       .read(
@@ -144,6 +145,11 @@ class LocalHistoryCardOptions extends ConsumerWidget {
                             .mainScreenWidgetDisplayedProvider.notifier,
                       )
                       .setWidget(const BridgeSheet());
+                  if (!context.mounted) return;
+                  await BridgeInProgressPopup.getDialog(
+                    context,
+                    ref,
+                  );
                 },
                 child: const IconAnimated(
                   icon: Iconsax.play_circle,

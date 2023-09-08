@@ -38,9 +38,11 @@ class BridgeEVMToArchethicUseCase
 
     if (recoveryHTLCEVMAddress != null) {
       htlcEVMAddress = recoveryHTLCEVMAddress;
+      await bridgeNotifier.setHTLCEVMAddress(htlcEVMAddress);
     }
     if (recoveryHTLCAEAddress != null) {
       htlcAEAddress = recoveryHTLCAEAddress;
+      await bridgeNotifier.setHTLCAEAddress(recoveryHTLCAEAddress);
     }
 
     switch (bridge.tokenToBridge!.type) {

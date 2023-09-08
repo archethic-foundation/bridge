@@ -53,6 +53,9 @@ class BridgeConfirmButton extends ConsumerWidget {
       labelBtn: AppLocalizations.of(context)!.btn_confirm_bridge,
       icon: Iconsax.recovery_convert,
       onPressed: () async {
+        ref
+            .read(BridgeFormProvider.bridgeForm.notifier)
+            .setResumeProcess(false);
         unawaited(
           ref.read(BridgeFormProvider.bridgeForm.notifier).bridge(context, ref),
         );

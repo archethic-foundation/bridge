@@ -22,9 +22,11 @@ class BridgeArchethicToEVMUseCase
     String? htlcAEAddress;
     if (recoveryHTLCEVMAddress != null) {
       htlcEVMAddress = recoveryHTLCEVMAddress;
+      await bridgeNotifier.setHTLCEVMAddress(recoveryHTLCEVMAddress);
     }
     if (recoveryHTLCAEAddress != null) {
       htlcAEAddress = recoveryHTLCAEAddress;
+      await bridgeNotifier.setHTLCAEAddress(recoveryHTLCAEAddress);
     }
 
     // 1) Deploy Archethic HTLC

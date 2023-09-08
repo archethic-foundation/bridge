@@ -1,3 +1,4 @@
+/// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_direction_infos.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_htlc_infos.dart';
