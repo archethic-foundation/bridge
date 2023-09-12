@@ -6,6 +6,7 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/bridge_in_progress_popup.dart';
+import 'package:aebridge/ui/views/refund/layouts/refund_sheet.dart';
 import 'package:aebridge/ui/views/util/components/app_button.dart';
 import 'package:aebridge/ui/views/util/components/icon_animated.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
@@ -153,6 +154,27 @@ class LocalHistoryCardOptions extends ConsumerWidget {
                 },
                 child: const IconAnimated(
                   icon: Iconsax.play_circle,
+                  iconSize: 16,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          if (bridge.htlcEVMAddress != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 10),
+              child: InkWell(
+                onTap: () async {
+                  ref
+                      .read(
+                        MainScreenWidgetDisplayedProviders
+                            .mainScreenWidgetDisplayedProvider.notifier,
+                      )
+                      .setWidget(
+                        RefundSheet(contractAddress: bridge.htlcEVMAddress),
+                      );
+                },
+                child: const IconAnimated(
+                  icon: Iconsax.empty_wallet_change,
                   iconSize: 16,
                   color: Colors.white,
                 ),

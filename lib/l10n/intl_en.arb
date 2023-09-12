@@ -92,5 +92,15 @@
   "aeBridgeProcessStep7": "Withdraw",
   "failureUserRejected": "The request has been declined.",
   "failureConnectivityArchethic": "Please, open your Archethic Wallet and allow DApps connection.",
-  "failureConnectivityEVM": "Please, open your EVM Wallet."
+  "failureConnectivityEVM": "Please, open your EVM Wallet.",
+  "refundFormTitle": "Refund",
+  "btn_refund": "Refund",
+  "refundInfo": "Please, fill your Archethic or EVM address to refund",
+  "refund_contract_address_lbl": "Address of the HTLC contract containing the bridged funds",
+  "refundTypeAddressArchethicAddress": "Archethic address",
+  "refundTypeAddressEVMAddress": "EVM address",
+  "refundTypeAddressMalformatedAddress": "Malformated address",
+  "refundCanRefundYes": "You can refund",
+  "refundCanRefundDateLock": "You can refund after %1",
+  "refundTxAddressLbl": "Transaction"
 }

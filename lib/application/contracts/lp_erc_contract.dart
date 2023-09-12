@@ -22,7 +22,7 @@ class LPERCContract with EVMBridgeProcessMixin {
     String poolAddress,
     String hash,
     BigInt amount, {
-    int lockTime = 720,
+    int lockTime = 1,
     int chainId = 1337,
   }) async {
     return Result.guard(() async {
@@ -130,7 +130,7 @@ class LPERCContract with EVMBridgeProcessMixin {
     String poolAddress,
     SecretHash secretHash,
     BigInt amount, {
-    int lockTime = 720,
+    int lockTime = 1,
     int chainId = 1337,
   }) async {
     return Result.guard(
@@ -288,6 +288,46 @@ class LPERCContract with EVMBridgeProcessMixin {
         );
         debugPrint('signedWithdrawTx: $withdrawTx');
         return withdrawTx;
+      },
+    );
+  }
+
+  Future<Result<double, Failure>> getFee(
+    String htlcContractAddress,
+  ) async {
+    return Result.guard(
+      () async {
+        final web3Client = Web3Client(providerEndpoint!, Client());
+
+        final abiStringJson = jsonDecode(
+          await rootBundle.loadString(
+            'contracts/evm/build/contracts/ChargeableHTLC_ERC.json',
+          ),
+        );
+
+        debugPrint(
+          'getFee - htlcContractAddress: $htlcContractAddress',
+        );
+
+        final contractHTLC = DeployedContract(
+          ContractAbi.fromJson(
+            jsonEncode(abiStringJson['abi']),
+            abiStringJson['contractName'] as String,
+          ),
+          EthereumAddress.fromHex(htlcContractAddress),
+        );
+
+        final feeMap = await web3Client.call(
+          contract: contractHTLC,
+          function: contractHTLC.function('fee'),
+          params: [],
+        );
+
+        final BigInt fee = feeMap[0];
+        debugPrint('HTLC fee: $fee');
+
+        final etherAmount = EtherAmount.fromBigInt(EtherUnit.wei, fee);
+        return etherAmount.getValueInUnit(EtherUnit.ether);
       },
     );
   }

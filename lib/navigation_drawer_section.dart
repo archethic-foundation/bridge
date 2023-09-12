@@ -2,6 +2,7 @@ import 'package:aebridge/application/main_screen_widget_displayed.dart';
 import 'package:aebridge/application/version.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/local_history/local_history_sheet.dart';
+import 'package:aebridge/ui/views/refund/layouts/refund_sheet.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/connection_to_wallet_status.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
@@ -282,7 +283,7 @@ class _NavigationDrawerSectionState
               MainScreenWidgetDisplayedProviders
                   .mainScreenWidgetDisplayedProvider.notifier,
             )
-            .setWidget(const BridgeSheet());
+            .setWidget(const RefundSheet());
 
         break;
       case 3:

@@ -16,45 +16,54 @@ class EVMWalletProvider extends ChangeNotifier {
   Web3Client? web3Client;
   CredentialsWithKnownAddress? credentials;
 
-  Future<void> connect(int chainId) async {
-    walletConnected = false;
+  Future<int> getChainId() async {
     if (window.ethereum != null) {
       try {
         eth = window.ethereum;
 
         if (eth == null) {
           debugPrint('EVM Wallet is not available');
-          return;
+          throw Exception('EVM Wallet is not available');
         }
 
         final ethRPC = eth!.asRpcService();
 
         web3Client = Web3Client.custom(ethRPC);
         if (web3Client == null) {
-          return;
+          throw Exception('EVM Wallet is not available');
         }
         final currentChain = await web3Client!.getChainId();
         debugPrint(
-          'chainId: $chainId, currentChain: $currentChain',
+          'currentChain: $currentChain',
         );
-        if (currentChain.toInt() != chainId) {
-          final changeOk = await changeChainId(chainId);
-          if (changeOk == false) {
-            return;
-          }
-        }
-
-        credentials = await eth!.requestAccount();
-        currentAddress = credentials!.address.hex;
-        walletConnected = true;
+        return currentChain.toInt();
       } catch (e) {
         throw Exception('Please, connect your Wallet.');
       }
-
-      notifyListeners();
     } else {
       throw Exception('No provider installed');
     }
+  }
+
+  Future<void> connect(int chainId) async {
+    walletConnected = false;
+    try {
+      final currentChain = await getChainId();
+      if (currentChain != chainId) {
+        final changeOk = await changeChainId(chainId);
+        if (changeOk == false) {
+          return;
+        }
+      }
+
+      credentials = await eth!.requestAccount();
+      currentAddress = credentials!.address.hex;
+      walletConnected = true;
+    } catch (e) {
+      throw Exception(e);
+    }
+
+    notifyListeners();
   }
 
   Future<bool> changeChainId(int chainId) async {
