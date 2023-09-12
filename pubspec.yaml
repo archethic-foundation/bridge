@@ -122,9 +122,6 @@ flutter:
     - contracts/evm/build/contracts/ChargeableHTLC_ERC.json
 
   fonts:
-    - family: Caveat
-      fonts:
-        - asset: assets/fonts/Caveat-Regular.ttf
     - family: Roboto
       fonts:
         - asset: assets/fonts/RobotoMono-Regular.ttf
