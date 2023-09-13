@@ -144,9 +144,9 @@ export fun get_signed_htlc(end_time, user_address, pool_address, token, amount) 
         Json.to_string([
           secret: 0x\\\#{secret},
           secret_signature: [
-            r: 0x\\\#{secret_signature.signature.r},
-            s: 0x\\\#{secret_signature.signature.s},
-            v: \\\#{secret_signature.recid}
+            r: 0x\\\#{secret_signature.r},
+            s: 0x\\\#{secret_signature.s},
+            v: \\\#{secret_signature.v}
           ]
         ])
       end
@@ -180,9 +180,9 @@ export fun get_signed_htlc(end_time, user_address, pool_address, token, amount) 
       Json.to_string([
         secret_hash: 0x\#{secret_hash},
         secret_hash_signature: [
-          r: 0x\#{secret_hash_signature.signature.r},
-          s: 0x\#{secret_hash_signature.signature.s},
-          v: \#{secret_hash_signature.recid}
+          r: 0x\#{secret_hash_signature.r},
+          s: 0x\#{secret_hash_signature.s},
+          v: \#{secret_hash_signature.v}
         ]
       ])
     end

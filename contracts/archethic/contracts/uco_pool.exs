@@ -150,13 +150,13 @@ fun sign_for_evm(data) do
   prefix = String.to_hex("\x19Ethereum Signed Message:\n32")
   signature_payload = Crypto.hash("#{prefix}#{data}", "keccak256")
 
-  res = Crypto.sign(signature_payload)
+  sig = Crypto.sign(signature_payload)
 
-  if res.recid == 0 do
-    res = Map.set(res, "recid", 27)
+  if sig.v == 0 do
+    sig = Map.set(sig, "v", 27)
   else
-    res = Map.set(res, "recid", 28)
+    sig = Map.set(sig, "v", 28)
   end
 
-  res
+  sig
 end
