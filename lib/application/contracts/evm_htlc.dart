@@ -9,10 +9,11 @@ import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
+import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
-class HTLCUtil with EVMBridgeProcessMixin {
-  HTLCUtil(this.providerEndpoint);
+class EVMHTLC with EVMBridgeProcessMixin {
+  EVMHTLC(this.providerEndpoint);
 
   String? providerEndpoint;
 
@@ -261,5 +262,52 @@ class HTLCUtil with EVMBridgeProcessMixin {
     }
 
     return events[0].address!.hex;
+  }
+
+  Future<Result<String, Failure>> withdraw(
+    String htlcContractAddress,
+    String secret, {
+    int chainId = 1337,
+  }) async {
+    return Result.guard(
+      () async {
+        final evmWalletProvider = sl.get<EVMWalletProvider>();
+
+        final web3Client = Web3Client(providerEndpoint!, Client());
+
+        final abiStringJson = jsonDecode(
+          await rootBundle
+              .loadString('contracts/evm/build/contracts/IHTLC.json'),
+        );
+
+        debugPrint('withdraw - htlcContractAddress: $htlcContractAddress');
+        debugPrint('withdraw - secret: $secret');
+
+        final contractHTLCERC = DeployedContract(
+          ContractAbi.fromJson(
+            jsonEncode(abiStringJson['abi']),
+            abiStringJson['contractName'] as String,
+          ),
+          EthereumAddress.fromHex(htlcContractAddress),
+        );
+
+        final transactionWithdraw = Transaction.callContract(
+          contract: contractHTLCERC,
+          function: contractHTLCERC.function('withdraw'),
+          parameters: [
+            hexToBytes(secret),
+          ],
+        );
+
+        final withdrawTx = await sendTransactionWithErrorManagement(
+          web3Client,
+          evmWalletProvider.credentials!,
+          transactionWithdraw,
+          chainId,
+        );
+        debugPrint('withdrawTx: $withdrawTx');
+        return withdrawTx;
+      },
+    );
   }
 }

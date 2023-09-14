@@ -1,7 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/main_screen_widget_displayed.dart';
 import 'package:aebridge/application/session/provider.dart';
-import 'package:aebridge/ui/views/bridge/layouts/components/bridge_form_sheet.dart';
+import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
@@ -55,7 +55,7 @@ class WelcomeBridgeBtnState extends ConsumerState<WelcomeBridgeBtn> {
                         MainScreenWidgetDisplayedProviders
                             .mainScreenWidgetDisplayedProvider.notifier,
                       )
-                      .setWidget(const BridgeFormSheet());
+                      .setWidget(const BridgeSheet());
 
                   if (!context.mounted) return;
                   context.go('/main');

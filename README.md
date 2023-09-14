@@ -43,6 +43,32 @@ In order to develop and test the application, you need to have some prerequisite
   
 #### 2) Create an Archethic Wallet
   - Start Archethic Node in the devnet environnment (ie local environnment)
+    If you want to fill Pool and Factory chains with faucet, you can ,before start the node, update the `Archethic.Bootstrap.NetworkInit` section in `config/dev.exs` Node's file
+    ```elixir
+
+    config :archethic, Archethic.Bootstrap.NetworkInit,
+    genesis_pools: [
+    %{
+      address:
+        "00001259AE51A6E63A1E04E308C5E769E0E9D15BFFE4E7880266C8FA10C3ADD7B7A2"
+        |> Base.decode16!(case: :mixed),
+      amount: 1_000_000_000_000_000
+    },
+    %{
+      address:
+        "0000852ddc39fa27c7972c65f2d00de1de0b5fc225722d52d0708354c3fdea7b7fec"
+        |> Base.decode16!(case: :mixed),
+      amount: 1_000_000_000_000_000_000_000
+    },
+    %{
+      address:
+        "00006e985f953bba22776b1ce8202789002447f8129a8837db811e5438e5450d0584"
+        |> Base.decode16!(case: :mixed),
+      amount: 1_000_000_000_000_000_000_000
+    }
+  ]
+  ```
+
   - Launch the Archethic Wallet
   - Create a new account in the devnet environnment
   - [Obtain UCO from the faucet for the account](http://localhost:4000/faucet)

@@ -2,6 +2,7 @@
 import 'package:aebridge/application/balance.dart';
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/bridge_history.dart';
+import 'package:aebridge/application/contracts/evm_lp.dart';
 import 'package:aebridge/application/oracle/state.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
@@ -18,6 +19,7 @@ import 'package:webthree/webthree.dart' as webthree;
 final _bridgeFormProvider =
     NotifierProvider.autoDispose<BridgeFormNotifier, BridgeFormState>(
   () {
+    debugPrint('_bridgeFormProvider');
     return BridgeFormNotifier();
   },
 );
@@ -26,7 +28,10 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   BridgeFormNotifier();
 
   @override
-  BridgeFormState build() => const BridgeFormState();
+  BridgeFormState build() {
+    debugPrint('BridgeFormState build');
+    return const BridgeFormState();
+  }
 
   Future<void> resume(BridgeFormState bridgeFormState) async {
     await setBlockchainFromWithConnection(bridgeFormState.blockchainFrom!);
@@ -39,7 +44,9 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       currentStep: bridgeFormState.currentStep,
       failure: null,
       isTransferInProgress: true,
-      networkFees: bridgeFormState.networkFees,
+      safetyModuleFees: bridgeFormState.safetyModuleFees,
+      archethicProtocolFees: bridgeFormState.archethicProtocolFees,
+      archethicTransactionFees: bridgeFormState.archethicTransactionFees,
       targetAddress: bridgeFormState.targetAddress,
       timestampExec: bridgeFormState.timestampExec,
       tokenToBridge: bridgeFormState.tokenToBridge,
@@ -70,6 +77,27 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     BridgeBlockchain? blockchainFrom,
   ) async {
     state = state.copyWith(blockchainFrom: blockchainFrom);
+
+    if (blockchainFrom!.isArchethic == false) {
+      final evmLP = EVMLP(blockchainFrom.providerEndpoint);
+      final resultSafetyModuleFeeRate = await evmLP
+          .getSafetyModuleFeeRate(blockchainFrom.archethicFactoryAddress!);
+      await resultSafetyModuleFeeRate.map(
+        success: (safetyModuleFeeRate) async {
+          await setSafetyModuleFeesRate(safetyModuleFeeRate);
+        },
+        failure: (failure) {},
+      );
+      final resultSafetyModuleFeeAddress = await evmLP
+          .getSafetyModuleAddress(blockchainFrom.archethicFactoryAddress!);
+      await resultSafetyModuleFeeAddress.map(
+        success: (safetyModuleFeeAddress) async {
+          await setSafetyModuleFeesAddress(safetyModuleFeeAddress);
+        },
+        failure: (failure) {},
+      );
+    }
+
     await storeBridge();
   }
 
@@ -274,7 +302,11 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       currentStep: 0,
       failure: null,
       isTransferInProgress: false,
-      networkFees: 0,
+      safetyModuleFees: 0,
+      safetyModuleFeesRate: 0,
+      archethicProtocolFees: 0,
+      archethicProtocolFeesRate: 0,
+      archethicTransactionFees: 0,
       targetAddress: '',
       tokenToBridge: null,
       tokenToBridgeAmount: 0,
@@ -304,9 +336,44 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     await storeBridge();
   }
 
-  Future<void> setNetworkFees(double networkFees) async {
+  Future<void> setSafetyModuleFees(double fees) async {
     state = state.copyWith(
-      networkFees: networkFees,
+      safetyModuleFees: fees,
+    );
+    await storeBridge();
+  }
+
+  Future<void> setSafetyModuleFeesRate(double rate) async {
+    state = state.copyWith(
+      safetyModuleFeesRate: rate,
+    );
+    await storeBridge();
+  }
+
+  Future<void> setSafetyModuleFeesAddress(String address) async {
+    state = state.copyWith(
+      safetyModuleFeesAddress: address,
+    );
+    await storeBridge();
+  }
+
+  Future<void> setArchethicProtocolFees(double fees) async {
+    state = state.copyWith(
+      archethicProtocolFees: fees,
+    );
+    await storeBridge();
+  }
+
+  Future<void> setArchethicProtocolFeesRate(double rate) async {
+    state = state.copyWith(
+      archethicProtocolFeesRate: rate,
+    );
+    await storeBridge();
+  }
+
+  Future<void> setArchethicTransactionFees(double fees) async {
+    state = state.copyWith(
+      archethicTransactionFees: fees,
     );
     await storeBridge();
   }

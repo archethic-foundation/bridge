@@ -1,5 +1,5 @@
-import 'package:aebridge/application/contracts/evm_contract.dart';
-import 'package:aebridge/application/contracts/lp_erc_contract.dart';
+import 'package:aebridge/application/contracts/evm_htlc.dart';
+import 'package:aebridge/application/contracts/evm_lp_erc.dart';
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/usecases/refund_evm.dart';
@@ -45,7 +45,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     await control();
     if (state.isControlsOk) {
       if (state.isArchethic == false) {
-        final resultLockTime = await HTLCUtil('http://127.0.0.1:7545')
+        final resultLockTime = await EVMHTLC('http://127.0.0.1:7545')
             .getHTLCLockTime(state.contractAddress);
         resultLockTime.map(
           success: (locktime) {
@@ -56,7 +56,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
           },
           failure: setFailure,
         );
-        final resultAmount = await HTLCUtil('http://127.0.0.1:7545')
+        final resultAmount = await EVMHTLC('http://127.0.0.1:7545')
             .getAmount(state.contractAddress);
         resultAmount.map(
           success: (amount) {
@@ -64,7 +64,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
           },
           failure: setFailure,
         );
-        final resultFee = await LPERCContract('http://127.0.0.1:7545')
+        final resultFee = await EVMLPERC('http://127.0.0.1:7545')
             .getFee(state.contractAddress);
         resultFee.map(
           success: (fee) {
@@ -72,7 +72,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
           },
           failure: setFailure,
         );
-        final refundTxAddress = await HTLCUtil('http://127.0.0.1:7545')
+        final refundTxAddress = await EVMHTLC('http://127.0.0.1:7545')
             .getTxRefund(state.contractAddress);
         if (refundTxAddress.isNotEmpty) {
           state = state.copyWith(

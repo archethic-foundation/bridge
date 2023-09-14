@@ -5,7 +5,9 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:aebridge/application/contracts/archethic_contract.dart';
-import 'package:aebridge/application/contracts/lp_erc_contract.dart';
+import 'package:aebridge/application/contracts/evm_htlc.dart';
+import 'package:aebridge/application/contracts/evm_lp.dart';
+import 'package:aebridge/application/contracts/evm_lp_erc.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/secret.dart';
@@ -51,7 +53,7 @@ mixin EVMBridgeProcessMixin {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(4);
-    final lpercContract = LPERCContract(bridge.blockchainTo!.providerEndpoint);
+    final evmLP = EVMLP(bridge.blockchainTo!.providerEndpoint);
     debugPrint(
       'bridge.blockchainTo!.providerEndpoint ${bridge.blockchainTo!.providerEndpoint}',
     );
@@ -63,7 +65,7 @@ mixin EVMBridgeProcessMixin {
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
     final resultDeployAndProvisionSignedHTLC =
-        await lpercContract.deployAndProvisionSignedHTLC(
+        await evmLP.deployAndProvisionSignedHTLC(
       bridge.tokenToBridge!.poolAddressTo,
       secretHash,
       BigInt.from(bridge.tokenToBridgeAmount),
@@ -100,10 +102,8 @@ mixin EVMBridgeProcessMixin {
     await bridgeNotifier.setCurrentStep(1);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
-    final lpercContract =
-        LPERCContract(bridge.blockchainFrom!.providerEndpoint);
-    final resultDeployChargeableHTLCEVM =
-        await lpercContract.deployChargeableHTLC(
+    final evmLP = EVMLP(bridge.blockchainFrom!.providerEndpoint);
+    final resultDeployChargeableHTLCEVM = await evmLP.deployChargeableHTLC(
       bridge.tokenToBridge!.poolAddressFrom,
       secretHash.toString(),
       BigInt.from(bridge.tokenToBridgeAmount),
@@ -130,10 +130,9 @@ mixin EVMBridgeProcessMixin {
     await bridgeNotifier.setCurrentStep(2);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
-    final lpercContract =
-        LPERCContract(bridge.blockchainFrom!.providerEndpoint);
+    final evmLPERC = EVMLPERC(bridge.blockchainFrom!.providerEndpoint);
     final resultProvisionChargeableHTLC =
-        await lpercContract.provisionChargeableHTLC(
+        await evmLPERC.provisionChargeableHTLC(
       BigInt.from(bridge.tokenToBridgeAmount),
       htlcAddress,
       bridge.tokenToBridge!.tokenAddress,
@@ -160,10 +159,9 @@ mixin EVMBridgeProcessMixin {
     await bridgeNotifier.setCurrentStep(4);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
-    final lpercContract =
-        LPERCContract(bridge.blockchainFrom!.providerEndpoint);
+    final htlc = EVMHTLC(bridge.blockchainFrom!.providerEndpoint);
 
-    final resultWithdraw = await lpercContract.withdraw(
+    final resultWithdraw = await htlc.withdraw(
       htlcAddress,
       '0x${bytesToHex(secret)}',
       chainId: bridge.blockchainFrom!.chainId,

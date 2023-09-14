@@ -25,7 +25,6 @@ _$_BridgeFormState _$$_BridgeFormStateFromJson(Map<String, dynamic> json) =>
       tokenToBridgeAmount:
           (json['tokenToBridgeAmount'] as num?)?.toDouble() ?? 0,
       targetAddress: json['targetAddress'] as String? ?? '',
-      networkFees: (json['networkFees'] as num?)?.toDouble() ?? 0.0,
       tokenToBridgeBalance:
           (json['tokenToBridgeBalance'] as num?)?.toDouble() ?? 0,
       failure: _$JsonConverterFromJson<Map<String, dynamic>, Failure>(
@@ -45,6 +44,16 @@ _$_BridgeFormState _$$_BridgeFormStateFromJson(Map<String, dynamic> json) =>
       htlcAEAddress: json['htlcAEAddress'] as String?,
       htlcEVMAddress: json['htlcEVMAddress'] as String?,
       secret: (json['secret'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      safetyModuleFeesRate:
+          (json['safetyModuleFeesRate'] as num?)?.toDouble() ?? 0.0,
+      safetyModuleFeesAddress: json['safetyModuleFeesAddress'] as String? ?? '',
+      safetyModuleFees: (json['safetyModuleFees'] as num?)?.toDouble() ?? 0.0,
+      archethicProtocolFeesRate:
+          (json['archethicProtocolFeesRate'] as num?)?.toDouble() ?? 0.0,
+      archethicProtocolFees:
+          (json['archethicProtocolFees'] as num?)?.toDouble() ?? 0.0,
+      archethicTransactionFees:
+          (json['archethicTransactionFees'] as num?)?.toDouble() ?? 0.0,
     );
 
 Map<String, dynamic> _$$_BridgeFormStateToJson(_$_BridgeFormState instance) =>
@@ -64,7 +73,6 @@ Map<String, dynamic> _$$_BridgeFormStateToJson(_$_BridgeFormState instance) =>
           instance.tokenToBridge, const BridgeTokenJsonConverter().toJson),
       'tokenToBridgeAmount': instance.tokenToBridgeAmount,
       'targetAddress': instance.targetAddress,
-      'networkFees': instance.networkFees,
       'tokenToBridgeBalance': instance.tokenToBridgeBalance,
       'failure': _$JsonConverterToJson<Map<String, dynamic>, Failure>(
           instance.failure, const FailureJsonConverter().toJson),
@@ -81,6 +89,12 @@ Map<String, dynamic> _$$_BridgeFormStateToJson(_$_BridgeFormState instance) =>
       'htlcAEAddress': instance.htlcAEAddress,
       'htlcEVMAddress': instance.htlcEVMAddress,
       'secret': instance.secret,
+      'safetyModuleFeesRate': instance.safetyModuleFeesRate,
+      'safetyModuleFeesAddress': instance.safetyModuleFeesAddress,
+      'safetyModuleFees': instance.safetyModuleFees,
+      'archethicProtocolFeesRate': instance.archethicProtocolFeesRate,
+      'archethicProtocolFees': instance.archethicProtocolFees,
+      'archethicTransactionFees': instance.archethicTransactionFees,
     };
 
 const _$BridgeProcessStepEnumMap = {

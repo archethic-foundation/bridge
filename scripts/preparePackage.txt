@@ -3,6 +3,5 @@ flutter pub get
 dart fix --dry-run
 flutter pub run flutter_native_splash:create --path=flutter_native_splash.yaml 
 flutter run -d web-server
-# https://github.com/microsoft/fluentui-system-icons/issues/628
-flutter build web --web-renderer canvaskit --release --no-tree-shake-icons
+flutter build web --web-renderer canvaskit --release
 firebase deploy

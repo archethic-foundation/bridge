@@ -22,7 +22,6 @@ class BridgeFormState with _$BridgeFormState {
     @BridgeTokenJsonConverter() BridgeToken? tokenToBridge,
     @Default(0) double tokenToBridgeAmount,
     @Default('') String targetAddress,
-    @Default(0.0) double networkFees,
     @Default(0) double tokenToBridgeBalance,
     @FailureJsonConverter() Failure? failure,
     @Default(false) bool isTransferInProgress,
@@ -34,6 +33,12 @@ class BridgeFormState with _$BridgeFormState {
     String? htlcAEAddress,
     String? htlcEVMAddress,
     List<int>? secret,
+    @Default(0.0) double safetyModuleFeesRate,
+    @Default('') String safetyModuleFeesAddress,
+    @Default(0.0) double safetyModuleFees,
+    @Default(0.0) double archethicProtocolFeesRate,
+    @Default(0.0) double archethicProtocolFees,
+    @Default(0.0) double archethicTransactionFees,
   }) = _BridgeFormState;
   const BridgeFormState._();
 

@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:aebridge/application/contracts/archethic_contract.dart';
-import 'package:aebridge/application/contracts/lp_erc_contract.dart';
+import 'package:aebridge/application/contracts/evm_lp_erc.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
@@ -241,8 +241,8 @@ mixin ArchethicBridgeProcessMixin {
     await bridgeNotifier.setCurrentStep(7);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
-    final lpercContract = LPERCContract(bridge.blockchainTo!.providerEndpoint);
-    final resultSignedWithdraw = await lpercContract.signedWithdraw(
+    final evmLPERC = EVMLPERC(bridge.blockchainTo!.providerEndpoint);
+    final resultSignedWithdraw = await evmLPERC.signedWithdraw(
       htlc,
       secret,
       chainId: bridge.blockchainFrom!.chainId,

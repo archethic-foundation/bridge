@@ -465,4 +465,51 @@ class ArchethicContract with TransactionBridgeMixin {
       },
     );
   }
+
+  Future<Result<double, Failure>> getProtocolFee(
+    String factoryAddress,
+  ) async {
+    return Result.guard(
+      () async {
+        final protocolFee = await sl.get<ApiService>().callSCFunction(
+              jsonRPCRequest: SCCallFunctionRequest(
+                method: 'contract_fun',
+                params: SCCallFunctionParams(
+                  contract: factoryAddress.toUpperCase(),
+                  function: 'get_protocol_fee',
+                  args: [],
+                ),
+              ),
+            );
+        try {
+          final protocolFeeValue = double.parse(protocolFee);
+          return protocolFeeValue;
+        } catch (e) {
+          throw const Failure.other(
+            cause: 'Protocol fees could not be recovered',
+          );
+        }
+      },
+    );
+  }
+
+  Future<Result<String, Failure>> getProtcolAddress(
+    String factoryAddress,
+  ) async {
+    return Result.guard(
+      () async {
+        final protocolAddress = await sl.get<ApiService>().callSCFunction(
+              jsonRPCRequest: SCCallFunctionRequest(
+                method: 'contract_fun',
+                params: SCCallFunctionParams(
+                  contract: factoryAddress.toUpperCase(),
+                  function: 'get_protocol_fee_address',
+                  args: [],
+                ),
+              ),
+            );
+        return protocolAddress;
+      },
+    );
+  }
 }

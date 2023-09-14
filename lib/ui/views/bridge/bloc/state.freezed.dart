@@ -30,7 +30,6 @@ mixin _$BridgeFormState {
   BridgeToken? get tokenToBridge => throw _privateConstructorUsedError;
   double get tokenToBridgeAmount => throw _privateConstructorUsedError;
   String get targetAddress => throw _privateConstructorUsedError;
-  double get networkFees => throw _privateConstructorUsedError;
   double get tokenToBridgeBalance => throw _privateConstructorUsedError;
   @FailureJsonConverter()
   Failure? get failure => throw _privateConstructorUsedError;
@@ -46,6 +45,12 @@ mixin _$BridgeFormState {
   String? get htlcAEAddress => throw _privateConstructorUsedError;
   String? get htlcEVMAddress => throw _privateConstructorUsedError;
   List<int>? get secret => throw _privateConstructorUsedError;
+  double get safetyModuleFeesRate => throw _privateConstructorUsedError;
+  String get safetyModuleFeesAddress => throw _privateConstructorUsedError;
+  double get safetyModuleFees => throw _privateConstructorUsedError;
+  double get archethicProtocolFeesRate => throw _privateConstructorUsedError;
+  double get archethicProtocolFees => throw _privateConstructorUsedError;
+  double get archethicTransactionFees => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -67,7 +72,6 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       @BridgeTokenJsonConverter() BridgeToken? tokenToBridge,
       double tokenToBridgeAmount,
       String targetAddress,
-      double networkFees,
       double tokenToBridgeBalance,
       @FailureJsonConverter() Failure? failure,
       bool isTransferInProgress,
@@ -78,7 +82,13 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       @ArchethicOracleUCOJsonConverter() ArchethicOracleUCO? archethicOracleUCO,
       String? htlcAEAddress,
       String? htlcEVMAddress,
-      List<int>? secret});
+      List<int>? secret,
+      double safetyModuleFeesRate,
+      String safetyModuleFeesAddress,
+      double safetyModuleFees,
+      double archethicProtocolFeesRate,
+      double archethicProtocolFees,
+      double archethicTransactionFees});
 
   $BridgeBlockchainCopyWith<$Res>? get blockchainFrom;
   $BridgeBlockchainCopyWith<$Res>? get blockchainTo;
@@ -107,7 +117,6 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? tokenToBridge = freezed,
     Object? tokenToBridgeAmount = null,
     Object? targetAddress = null,
-    Object? networkFees = null,
     Object? tokenToBridgeBalance = null,
     Object? failure = freezed,
     Object? isTransferInProgress = null,
@@ -119,6 +128,12 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? htlcAEAddress = freezed,
     Object? htlcEVMAddress = freezed,
     Object? secret = freezed,
+    Object? safetyModuleFeesRate = null,
+    Object? safetyModuleFeesAddress = null,
+    Object? safetyModuleFees = null,
+    Object? archethicProtocolFeesRate = null,
+    Object? archethicProtocolFees = null,
+    Object? archethicTransactionFees = null,
   }) {
     return _then(_value.copyWith(
       resumeProcess: null == resumeProcess
@@ -149,10 +164,6 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
           ? _value.targetAddress
           : targetAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      networkFees: null == networkFees
-          ? _value.networkFees
-          : networkFees // ignore: cast_nullable_to_non_nullable
-              as double,
       tokenToBridgeBalance: null == tokenToBridgeBalance
           ? _value.tokenToBridgeBalance
           : tokenToBridgeBalance // ignore: cast_nullable_to_non_nullable
@@ -197,6 +208,30 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
           ? _value.secret
           : secret // ignore: cast_nullable_to_non_nullable
               as List<int>?,
+      safetyModuleFeesRate: null == safetyModuleFeesRate
+          ? _value.safetyModuleFeesRate
+          : safetyModuleFeesRate // ignore: cast_nullable_to_non_nullable
+              as double,
+      safetyModuleFeesAddress: null == safetyModuleFeesAddress
+          ? _value.safetyModuleFeesAddress
+          : safetyModuleFeesAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      safetyModuleFees: null == safetyModuleFees
+          ? _value.safetyModuleFees
+          : safetyModuleFees // ignore: cast_nullable_to_non_nullable
+              as double,
+      archethicProtocolFeesRate: null == archethicProtocolFeesRate
+          ? _value.archethicProtocolFeesRate
+          : archethicProtocolFeesRate // ignore: cast_nullable_to_non_nullable
+              as double,
+      archethicProtocolFees: null == archethicProtocolFees
+          ? _value.archethicProtocolFees
+          : archethicProtocolFees // ignore: cast_nullable_to_non_nullable
+              as double,
+      archethicTransactionFees: null == archethicTransactionFees
+          ? _value.archethicTransactionFees
+          : archethicTransactionFees // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 
@@ -278,7 +313,6 @@ abstract class _$$_BridgeFormStateCopyWith<$Res>
       @BridgeTokenJsonConverter() BridgeToken? tokenToBridge,
       double tokenToBridgeAmount,
       String targetAddress,
-      double networkFees,
       double tokenToBridgeBalance,
       @FailureJsonConverter() Failure? failure,
       bool isTransferInProgress,
@@ -289,7 +323,13 @@ abstract class _$$_BridgeFormStateCopyWith<$Res>
       @ArchethicOracleUCOJsonConverter() ArchethicOracleUCO? archethicOracleUCO,
       String? htlcAEAddress,
       String? htlcEVMAddress,
-      List<int>? secret});
+      List<int>? secret,
+      double safetyModuleFeesRate,
+      String safetyModuleFeesAddress,
+      double safetyModuleFees,
+      double archethicProtocolFeesRate,
+      double archethicProtocolFees,
+      double archethicTransactionFees});
 
   @override
   $BridgeBlockchainCopyWith<$Res>? get blockchainFrom;
@@ -321,7 +361,6 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
     Object? tokenToBridge = freezed,
     Object? tokenToBridgeAmount = null,
     Object? targetAddress = null,
-    Object? networkFees = null,
     Object? tokenToBridgeBalance = null,
     Object? failure = freezed,
     Object? isTransferInProgress = null,
@@ -333,6 +372,12 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
     Object? htlcAEAddress = freezed,
     Object? htlcEVMAddress = freezed,
     Object? secret = freezed,
+    Object? safetyModuleFeesRate = null,
+    Object? safetyModuleFeesAddress = null,
+    Object? safetyModuleFees = null,
+    Object? archethicProtocolFeesRate = null,
+    Object? archethicProtocolFees = null,
+    Object? archethicTransactionFees = null,
   }) {
     return _then(_$_BridgeFormState(
       resumeProcess: null == resumeProcess
@@ -363,10 +408,6 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
           ? _value.targetAddress
           : targetAddress // ignore: cast_nullable_to_non_nullable
               as String,
-      networkFees: null == networkFees
-          ? _value.networkFees
-          : networkFees // ignore: cast_nullable_to_non_nullable
-              as double,
       tokenToBridgeBalance: null == tokenToBridgeBalance
           ? _value.tokenToBridgeBalance
           : tokenToBridgeBalance // ignore: cast_nullable_to_non_nullable
@@ -411,6 +452,30 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
           ? _value._secret
           : secret // ignore: cast_nullable_to_non_nullable
               as List<int>?,
+      safetyModuleFeesRate: null == safetyModuleFeesRate
+          ? _value.safetyModuleFeesRate
+          : safetyModuleFeesRate // ignore: cast_nullable_to_non_nullable
+              as double,
+      safetyModuleFeesAddress: null == safetyModuleFeesAddress
+          ? _value.safetyModuleFeesAddress
+          : safetyModuleFeesAddress // ignore: cast_nullable_to_non_nullable
+              as String,
+      safetyModuleFees: null == safetyModuleFees
+          ? _value.safetyModuleFees
+          : safetyModuleFees // ignore: cast_nullable_to_non_nullable
+              as double,
+      archethicProtocolFeesRate: null == archethicProtocolFeesRate
+          ? _value.archethicProtocolFeesRate
+          : archethicProtocolFeesRate // ignore: cast_nullable_to_non_nullable
+              as double,
+      archethicProtocolFees: null == archethicProtocolFees
+          ? _value.archethicProtocolFees
+          : archethicProtocolFees // ignore: cast_nullable_to_non_nullable
+              as double,
+      archethicTransactionFees: null == archethicTransactionFees
+          ? _value.archethicTransactionFees
+          : archethicTransactionFees // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -426,7 +491,6 @@ class _$_BridgeFormState extends _BridgeFormState {
       @BridgeTokenJsonConverter() this.tokenToBridge,
       this.tokenToBridgeAmount = 0,
       this.targetAddress = '',
-      this.networkFees = 0.0,
       this.tokenToBridgeBalance = 0,
       @FailureJsonConverter() this.failure,
       this.isTransferInProgress = false,
@@ -437,7 +501,13 @@ class _$_BridgeFormState extends _BridgeFormState {
       @ArchethicOracleUCOJsonConverter() this.archethicOracleUCO,
       this.htlcAEAddress,
       this.htlcEVMAddress,
-      final List<int>? secret})
+      final List<int>? secret,
+      this.safetyModuleFeesRate = 0.0,
+      this.safetyModuleFeesAddress = '',
+      this.safetyModuleFees = 0.0,
+      this.archethicProtocolFeesRate = 0.0,
+      this.archethicProtocolFees = 0.0,
+      this.archethicTransactionFees = 0.0})
       : _secret = secret,
         super._();
 
@@ -465,9 +535,6 @@ class _$_BridgeFormState extends _BridgeFormState {
   @override
   @JsonKey()
   final String targetAddress;
-  @override
-  @JsonKey()
-  final double networkFees;
   @override
   @JsonKey()
   final double tokenToBridgeBalance;
@@ -505,8 +572,27 @@ class _$_BridgeFormState extends _BridgeFormState {
   }
 
   @override
+  @JsonKey()
+  final double safetyModuleFeesRate;
+  @override
+  @JsonKey()
+  final String safetyModuleFeesAddress;
+  @override
+  @JsonKey()
+  final double safetyModuleFees;
+  @override
+  @JsonKey()
+  final double archethicProtocolFeesRate;
+  @override
+  @JsonKey()
+  final double archethicProtocolFees;
+  @override
+  @JsonKey()
+  final double archethicTransactionFees;
+
+  @override
   String toString() {
-    return 'BridgeFormState(resumeProcess: $resumeProcess, bridgeProcessStep: $bridgeProcessStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, networkFees: $networkFees, tokenToBridgeBalance: $tokenToBridgeBalance, failure: $failure, isTransferInProgress: $isTransferInProgress, waitForWalletConfirmation: $waitForWalletConfirmation, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, secret: $secret)';
+    return 'BridgeFormState(resumeProcess: $resumeProcess, bridgeProcessStep: $bridgeProcessStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, failure: $failure, isTransferInProgress: $isTransferInProgress, waitForWalletConfirmation: $waitForWalletConfirmation, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, secret: $secret, safetyModuleFeesRate: $safetyModuleFeesRate, safetyModuleFeesAddress: $safetyModuleFeesAddress, safetyModuleFees: $safetyModuleFees, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFees: $archethicProtocolFees, archethicTransactionFees: $archethicTransactionFees)';
   }
 
   @override
@@ -528,8 +614,6 @@ class _$_BridgeFormState extends _BridgeFormState {
                 other.tokenToBridgeAmount == tokenToBridgeAmount) &&
             (identical(other.targetAddress, targetAddress) ||
                 other.targetAddress == targetAddress) &&
-            (identical(other.networkFees, networkFees) ||
-                other.networkFees == networkFees) &&
             (identical(other.tokenToBridgeBalance, tokenToBridgeBalance) ||
                 other.tokenToBridgeBalance == tokenToBridgeBalance) &&
             (identical(other.failure, failure) || other.failure == failure) &&
@@ -551,7 +635,22 @@ class _$_BridgeFormState extends _BridgeFormState {
                 other.htlcAEAddress == htlcAEAddress) &&
             (identical(other.htlcEVMAddress, htlcEVMAddress) ||
                 other.htlcEVMAddress == htlcEVMAddress) &&
-            const DeepCollectionEquality().equals(other._secret, _secret));
+            const DeepCollectionEquality().equals(other._secret, _secret) &&
+            (identical(other.safetyModuleFeesRate, safetyModuleFeesRate) ||
+                other.safetyModuleFeesRate == safetyModuleFeesRate) &&
+            (identical(
+                    other.safetyModuleFeesAddress, safetyModuleFeesAddress) ||
+                other.safetyModuleFeesAddress == safetyModuleFeesAddress) &&
+            (identical(other.safetyModuleFees, safetyModuleFees) ||
+                other.safetyModuleFees == safetyModuleFees) &&
+            (identical(other.archethicProtocolFeesRate,
+                    archethicProtocolFeesRate) ||
+                other.archethicProtocolFeesRate == archethicProtocolFeesRate) &&
+            (identical(other.archethicProtocolFees, archethicProtocolFees) ||
+                other.archethicProtocolFees == archethicProtocolFees) &&
+            (identical(
+                    other.archethicTransactionFees, archethicTransactionFees) ||
+                other.archethicTransactionFees == archethicTransactionFees));
   }
 
   @JsonKey(ignore: true)
@@ -565,7 +664,6 @@ class _$_BridgeFormState extends _BridgeFormState {
         tokenToBridge,
         tokenToBridgeAmount,
         targetAddress,
-        networkFees,
         tokenToBridgeBalance,
         failure,
         isTransferInProgress,
@@ -576,7 +674,13 @@ class _$_BridgeFormState extends _BridgeFormState {
         archethicOracleUCO,
         htlcAEAddress,
         htlcEVMAddress,
-        const DeepCollectionEquality().hash(_secret)
+        const DeepCollectionEquality().hash(_secret),
+        safetyModuleFeesRate,
+        safetyModuleFeesAddress,
+        safetyModuleFees,
+        archethicProtocolFeesRate,
+        archethicProtocolFees,
+        archethicTransactionFees
       ]);
 
   @JsonKey(ignore: true)
@@ -602,7 +706,6 @@ abstract class _BridgeFormState extends BridgeFormState {
       @BridgeTokenJsonConverter() final BridgeToken? tokenToBridge,
       final double tokenToBridgeAmount,
       final String targetAddress,
-      final double networkFees,
       final double tokenToBridgeBalance,
       @FailureJsonConverter() final Failure? failure,
       final bool isTransferInProgress,
@@ -614,7 +717,13 @@ abstract class _BridgeFormState extends BridgeFormState {
       final ArchethicOracleUCO? archethicOracleUCO,
       final String? htlcAEAddress,
       final String? htlcEVMAddress,
-      final List<int>? secret}) = _$_BridgeFormState;
+      final List<int>? secret,
+      final double safetyModuleFeesRate,
+      final String safetyModuleFeesAddress,
+      final double safetyModuleFees,
+      final double archethicProtocolFeesRate,
+      final double archethicProtocolFees,
+      final double archethicTransactionFees}) = _$_BridgeFormState;
   const _BridgeFormState._() : super._();
 
   factory _BridgeFormState.fromJson(Map<String, dynamic> json) =
@@ -637,8 +746,6 @@ abstract class _BridgeFormState extends BridgeFormState {
   double get tokenToBridgeAmount;
   @override
   String get targetAddress;
-  @override
-  double get networkFees;
   @override
   double get tokenToBridgeBalance;
   @override
@@ -663,6 +770,18 @@ abstract class _BridgeFormState extends BridgeFormState {
   String? get htlcEVMAddress;
   @override
   List<int>? get secret;
+  @override
+  double get safetyModuleFeesRate;
+  @override
+  String get safetyModuleFeesAddress;
+  @override
+  double get safetyModuleFees;
+  @override
+  double get archethicProtocolFeesRate;
+  @override
+  double get archethicProtocolFees;
+  @override
+  double get archethicTransactionFees;
   @override
   @JsonKey(ignore: true)
   _$$_BridgeFormStateCopyWith<_$_BridgeFormState> get copyWith =>

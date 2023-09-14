@@ -14,6 +14,7 @@ class BridgeSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    debugPrint('bridgeSheet: ${bridge.bridgeProcessStep}');
     if (bridge.bridgeProcessStep == BridgeProcessStep.form) {
       return const BridgeFormSheet();
     } else {

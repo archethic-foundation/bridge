@@ -13,8 +13,8 @@ import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
-class LPERCContract with EVMBridgeProcessMixin {
-  LPERCContract(this.providerEndpoint);
+class EVMLP with EVMBridgeProcessMixin {
+  EVMLP(this.providerEndpoint);
 
   String? providerEndpoint;
 
@@ -22,7 +22,7 @@ class LPERCContract with EVMBridgeProcessMixin {
     String poolAddress,
     String hash,
     BigInt amount, {
-    int lockTime = 1,
+    int lockTime = 720,
     int chainId = 1337,
   }) async {
     return Result.guard(() async {
@@ -82,55 +82,11 @@ class LPERCContract with EVMBridgeProcessMixin {
     });
   }
 
-  Future<Result<void, Failure>> provisionChargeableHTLC(
-    BigInt amount,
-    String htlcContractAddress,
-    String tokenAddress, {
-    int chainId = 1337,
-  }) async {
-    return Result.guard(
-      () async {
-        final evmWalletProvider = sl.get<EVMWalletProvider>();
-        debugPrint('providerEndpoint: $providerEndpoint');
-        final web3Client = Web3Client(providerEndpoint!, Client());
-
-        final abiDummyTokenStringJson = jsonDecode(
-          await rootBundle
-              .loadString('contracts/evm/build/contracts/IERC20.json'),
-        );
-
-        final contractDummyToken = DeployedContract(
-          ContractAbi.fromJson(
-            jsonEncode(abiDummyTokenStringJson['abi']),
-            abiDummyTokenStringJson['contractName'] as String,
-          ),
-          EthereumAddress.fromHex(tokenAddress),
-        );
-
-        final transactionTransfer = Transaction.callContract(
-          contract: contractDummyToken,
-          function: contractDummyToken.function('transfer'),
-          parameters: [
-            EthereumAddress.fromHex(htlcContractAddress),
-            EtherAmount.fromBigInt(EtherUnit.ether, amount).getInWei,
-          ],
-        );
-
-        await sendTransactionWithErrorManagement(
-          web3Client,
-          evmWalletProvider.credentials!,
-          transactionTransfer,
-          chainId,
-        );
-      },
-    );
-  }
-
   Future<Result<String, Failure>> deployAndProvisionSignedHTLC(
     String poolAddress,
     SecretHash secretHash,
     BigInt amount, {
-    int lockTime = 1,
+    int lockTime = 720,
     int chainId = 1337,
   }) async {
     return Result.guard(
@@ -198,136 +154,149 @@ class LPERCContract with EVMBridgeProcessMixin {
     );
   }
 
-  Future<Result<String, Failure>> withdraw(
-    String htlcContractAddress,
-    String secret, {
+  Future<String?> deployAndProvisionHTLC(
+    String poolAddress,
+    String hash,
+    BigInt amount, {
+    int lockTime = 720,
     int chainId = 1337,
   }) async {
-    return Result.guard(
-      () async {
-        final evmWalletProvider = sl.get<EVMWalletProvider>();
+    final evmWalletProvider = sl.get<EVMWalletProvider>();
+    debugPrint('providerEndpoint: $providerEndpoint');
+    final web3Client = Web3Client(providerEndpoint!, Client());
+    late String htlcContractAddress;
 
-        final web3Client = Web3Client(providerEndpoint!, Client());
-
-        final abiStringJson = jsonDecode(
-          await rootBundle
-              .loadString('contracts/evm/build/contracts/IHTLC.json'),
-        );
-
-        debugPrint('withdraw - htlcContractAddress: $htlcContractAddress');
-        debugPrint('withdraw - secret: $secret');
-
-        final contractHTLCERC = DeployedContract(
-          ContractAbi.fromJson(
-            jsonEncode(abiStringJson['abi']),
-            abiStringJson['contractName'] as String,
-          ),
-          EthereumAddress.fromHex(htlcContractAddress),
-        );
-
-        final transactionWithdraw = Transaction.callContract(
-          contract: contractHTLCERC,
-          function: contractHTLCERC.function('withdraw'),
-          parameters: [
-            hexToBytes(secret),
-          ],
-        );
-
-        final withdrawTx = await sendTransactionWithErrorManagement(
-          web3Client,
-          evmWalletProvider.credentials!,
-          transactionWithdraw,
-          chainId,
-        );
-        debugPrint('withdrawTx: $withdrawTx');
-        return withdrawTx;
-      },
+    final abiLPETHStringJson = jsonDecode(
+      await rootBundle.loadString('contracts/evm/build/contracts/IPool.json'),
     );
+
+    final contractLPETH = DeployedContract(
+      ContractAbi.fromJson(
+        jsonEncode(abiLPETHStringJson['abi']),
+        abiLPETHStringJson['contractName'] as String,
+      ),
+      EthereumAddress.fromHex(poolAddress),
+    );
+
+    final transactionMintHTLC = Transaction.callContract(
+      contract: contractLPETH,
+      function: contractLPETH.function('mintHTLC'),
+      parameters: [
+        hexToBytes(hash),
+        EtherAmount.fromBigInt(EtherUnit.ether, amount).getInWei,
+        BigInt.from(lockTime),
+      ],
+    );
+
+    await sendTransactionWithErrorManagement(
+      web3Client,
+      evmWalletProvider.credentials!,
+      transactionMintHTLC,
+      chainId,
+    );
+
+    // Get HTLC address
+    final transactionMintedSwapsHashes = await web3Client.call(
+      contract: contractLPETH,
+      function: contractLPETH.function('mintedSwaps'),
+      params: [
+        hexToBytes(hash),
+      ],
+    );
+
+    htlcContractAddress = transactionMintedSwapsHashes[0].hex;
+    debugPrint('HTLC address: $htlcContractAddress');
+
+    // Provisionning HTLC Contract
+    await sendTransactionWithErrorManagement(
+      web3Client,
+      evmWalletProvider.credentials!,
+      Transaction(
+        to: EthereumAddress.fromHex(htlcContractAddress),
+        gasPrice: EtherAmount.fromInt(EtherUnit.gwei, 10),
+        maxGas: 500000,
+        value: EtherAmount.fromBigInt(EtherUnit.ether, amount),
+      ),
+      chainId,
+    );
+    debugPrint('HTLC contract provisionned');
+    return htlcContractAddress;
   }
 
-  Future<Result<String, Failure>> signedWithdraw(
-    String htlcContractAddress,
-    Secret secret, {
-    int chainId = 1337,
-  }) async {
-    return Result.guard(
-      () async {
-        final evmWalletProvider = sl.get<EVMWalletProvider>();
-
-        final web3Client = Web3Client(providerEndpoint!, Client());
-
-        final abiStringJson = jsonDecode(
-          await rootBundle
-              .loadString('contracts/evm/build/contracts/SignedHTLC_ERC.json'),
-        );
-
-        final contractHTLCERC = DeployedContract(
-          ContractAbi.fromJson(
-            jsonEncode(abiStringJson['abi']),
-            abiStringJson['contractName'] as String,
-          ),
-          EthereumAddress.fromHex(htlcContractAddress),
-        );
-
-        final transactionWithdraw = Transaction.callContract(
-          contract: contractHTLCERC,
-          function: contractHTLCERC.function('signedWithdraw'),
-          parameters: [
-            hexToBytes(secret.secret!),
-            hexToBytes(secret.secretSignature!.r!),
-            hexToBytes(secret.secretSignature!.s!),
-            BigInt.from(secret.secretSignature!.v!),
-          ],
-        );
-
-        final withdrawTx = await sendTransactionWithErrorManagement(
-          web3Client,
-          evmWalletProvider.credentials!,
-          transactionWithdraw,
-          chainId,
-        );
-        debugPrint('signedWithdrawTx: $withdrawTx');
-        return withdrawTx;
-      },
-    );
-  }
-
-  Future<Result<double, Failure>> getFee(
-    String htlcContractAddress,
+  Future<Result<double, Failure>> getSafetyModuleFeeRate(
+    String poolAddress,
   ) async {
     return Result.guard(
       () async {
         final web3Client = Web3Client(providerEndpoint!, Client());
 
         final abiStringJson = jsonDecode(
-          await rootBundle.loadString(
-            'contracts/evm/build/contracts/ChargeableHTLC_ERC.json',
-          ),
+          await rootBundle
+              .loadString('contracts/evm/build/contracts/IPool.json'),
         );
 
         debugPrint(
-          'getFee - htlcContractAddress: $htlcContractAddress',
+          'getSafetyModuleFeeRate - poolAddress: $poolAddress',
         );
 
-        final contractHTLC = DeployedContract(
+        final contractLP = DeployedContract(
           ContractAbi.fromJson(
             jsonEncode(abiStringJson['abi']),
             abiStringJson['contractName'] as String,
           ),
-          EthereumAddress.fromHex(htlcContractAddress),
+          EthereumAddress.fromHex(poolAddress),
         );
 
-        final feeMap = await web3Client.call(
-          contract: contractHTLC,
-          function: contractHTLC.function('fee'),
+        final safetyModuleFeeRateMap = await web3Client.call(
+          contract: contractLP,
+          function: contractLP.function('safetyModuleFeeRate'),
           params: [],
         );
 
-        final BigInt fee = feeMap[0];
-        debugPrint('HTLC fee: $fee');
+        final BigInt safetyModuleFeeRate = safetyModuleFeeRateMap[0];
+        debugPrint('HTLC safetyModuleFeeRate: $safetyModuleFeeRate');
 
-        final etherAmount = EtherAmount.fromBigInt(EtherUnit.wei, fee);
+        final etherAmount =
+            EtherAmount.fromBigInt(EtherUnit.wei, safetyModuleFeeRate);
         return etherAmount.getValueInUnit(EtherUnit.ether);
+      },
+    );
+  }
+
+  Future<Result<String, Failure>> getSafetyModuleAddress(
+    String poolAddress,
+  ) async {
+    return Result.guard(
+      () async {
+        final web3Client = Web3Client(providerEndpoint!, Client());
+
+        final abiStringJson = jsonDecode(
+          await rootBundle
+              .loadString('contracts/evm/build/contracts/IPool.json'),
+        );
+
+        debugPrint(
+          'getSafetyModuleAddress - poolAddress: $poolAddress',
+        );
+
+        final contractLP = DeployedContract(
+          ContractAbi.fromJson(
+            jsonEncode(abiStringJson['abi']),
+            abiStringJson['contractName'] as String,
+          ),
+          EthereumAddress.fromHex(poolAddress),
+        );
+
+        final safetyModuleAddressMap = await web3Client.call(
+          contract: contractLP,
+          function: contractLP.function('safetyModuleAddress'),
+          params: [],
+        );
+
+        final safetyModuleAddress = safetyModuleAddressMap[0];
+        debugPrint('HTLC safetyModuleAddress: $safetyModuleAddress');
+
+        return safetyModuleAddress;
       },
     );
   }

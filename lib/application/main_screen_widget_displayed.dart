@@ -6,8 +6,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class MainScreenWidgetDisplayed extends StateNotifier<Widget> {
   MainScreenWidgetDisplayed() : super(const BridgeSheet());
 
+  // ignore: use_setters_to_change_properties
   void setWidget(Widget newWidget) {
-    state = SizedBox(child: newWidget);
+    state = newWidget;
   }
 }
 
