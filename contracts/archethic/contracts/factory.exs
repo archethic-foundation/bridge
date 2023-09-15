@@ -12,6 +12,20 @@ export fun get_protocol_fee_address() do
   #PROTOCOL_FEE_ADDRESS#
 end
 
+export fun get_token_resupply_definition(token_address, amount, htlc_address) do
+  big_int_amount = amount * 100_000_000
+  Json.to_string(
+    [
+      aeip: [8, 18, 19],
+      supply: big_int_amount,
+      token_reference: token_address,
+      recipients: [
+        [to: htlc_address, amount: big_int_amount]
+      ]
+    ]
+  )
+end
+
 ###############################
 # External chain => Archethic #
 ###############################
@@ -51,7 +65,7 @@ export fun get_chargeable_htlc(end_time, user_address, pool_address, secret_hash
     """
   else
     valid_transfer_code = """
-    Contract.add_token_transfer to: 0x#{user_address}, amount: #{user_amount}, token_address: 0x#{token}"
+    Contract.add_token_transfer to: 0x#{user_address}, amount: #{user_amount}, token_address: 0x#{token}
       #{fee_transfer_code}
     """
   end
@@ -122,7 +136,7 @@ export fun get_signed_htlc(end_time, user_address, pool_address, token, amount) 
   else
     burn_address = Chain.get_burn_address()
     valid_transfer_code = """
-        Contract.add_token_transfer to: 0x#{burn_address}, amount: #{user_amount}, token_address: 0x#{token}"
+        Contract.add_token_transfer to: 0x#{burn_address}, amount: #{user_amount}, token_address: 0x#{token}
         #{fee_transfer_code}
     """
   end
@@ -141,14 +155,14 @@ export fun get_signed_htlc(end_time, user_address, pool_address, token, amount) 
       @version 1
 
       export fun get_secret() do
-        Json.to_string([
+        [
           secret: 0x\\\#{secret},
           secret_signature: [
             r: 0x\\\#{secret_signature.r},
             s: 0x\\\#{secret_signature.s},
             v: \\\#{secret_signature.v}
           ]
-        ])
+        ]
       end
   """
 
@@ -177,14 +191,14 @@ export fun get_signed_htlc(end_time, user_address, pool_address, token, amount) 
     end
 
     export fun get_secret_hash() do
-      Json.to_string([
+      [
         secret_hash: 0x\#{secret_hash},
         secret_hash_signature: [
           r: 0x\#{secret_hash_signature.r},
           s: 0x\#{secret_hash_signature.s},
           v: \#{secret_hash_signature.v}
         ]
-      ])
+      ]
     end
   """
 

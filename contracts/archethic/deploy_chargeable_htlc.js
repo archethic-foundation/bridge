@@ -1,7 +1,7 @@
 import Archethic, { Crypto, Utils } from "archethic"
 import config from "./config.js"
 
-if (!config.poolSeed || !config.endpoint || !config.userSeed || !config.factorySeed) {
+if (!config.endpoint || !config.userSeed || !config.factorySeed) {
   console.log("Invalid config !")
   console.log("Config needs poolSeed, endpoint, userSeed and factorySeed")
   process.exit(1)
@@ -10,19 +10,23 @@ if (!config.poolSeed || !config.endpoint || !config.userSeed || !config.factoryS
 const args = []
 process.argv.forEach(function(val, index, _array) { if (index > 1) { args.push(val) } })
 
-if (args.length != 4) {
+if (args.length != 5) {
   console.log("Missing arguments")
-  console.log("Usage: node deploy_htlc.js [htlcSeed] [endTime] [amount] [secretHash]")
+  console.log("Usage: node deploy_htlc.js [\"UCO\" | tokenAddress] [htlcSeed] [endTime] [amount] [secretHash]")
   process.exit(1)
 }
 
-main(config.poolSeed, config.endpoint, config.userSeed, config.factorySeed)
+main(config.endpoint, config.userSeed, config.factorySeed)
 
-async function main(poolSeed, endpoint, userSeed, factorySeed) {
-  const seed = args[0]
-  const endTime = parseInt(args[1])
-  const amount = parseFloat(args[2])
-  const secretHash = args[3]
+async function main(endpoint, userSeed, factorySeed) {
+  const token = args[0]
+  const seed = args[1]
+  const endTime = parseInt(args[2])
+  const amount = parseFloat(args[3])
+  const secretHash = args[4]
+
+  const poolSeed = Crypto.hash(token).slice(1)
+  const tokenAddress = Utils.uint8ArrayToHex(Crypto.deriveAddress(poolSeed, 1))
 
   const poolGenesisAddress = Utils.uint8ArrayToHex(Crypto.deriveAddress(poolSeed, 0))
   const factoryGenesisAddress = Utils.uint8ArrayToHex(Crypto.deriveAddress(factorySeed, 0))
@@ -31,7 +35,7 @@ async function main(poolSeed, endpoint, userSeed, factorySeed) {
   const archethic = new Archethic(endpoint)
   await archethic.connect()
 
-  const params = [endTime, userAddress, poolGenesisAddress, secretHash, "UCO", amount]
+  const params = [endTime, userAddress, poolGenesisAddress, secretHash, tokenAddress, amount]
   const htlcCode = await archethic.network.callFunction(factoryGenesisAddress, "get_chargeable_htlc", params)
 
   const storageNonce = await archethic.network.getStorageNoncePublicKey()

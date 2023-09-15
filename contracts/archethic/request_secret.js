@@ -1,27 +1,26 @@
 import Archethic, { Crypto, Utils } from "archethic"
 import config from "./config.js"
 
-if (!config.poolSeed || !config.endpoint || !config.userSeed) {
+if (!config.endpoint || !config.userSeed) {
   console.log("Invalid config !")
-  console.log("Config needs poolSeed, endpoint and userSeed")
+  console.log("Config needs endpoint and userSeed")
   process.exit(1)
 }
 
 const args = []
 process.argv.forEach(function(val, index, _array) { if (index > 1) { args.push(val) } })
 
-if (args.length != 1) {
+if (args.length != 2) {
   console.log("Missing arguments")
-  console.log("Usage: node deploy_htlc.js [htlcGenesisAddress]")
+  console.log("Usage: node deploy_htlc.js [poolAddress] [htlcGenesisAddress]")
   process.exit(1)
 }
 
-main(config.poolSeed, config.endpoint, config.userSeed)
+main(config.endpoint, config.userSeed)
 
-async function main(poolSeed, endpoint, seed) {
-  const htlcGenesisAddress = args[0]
-
-  const poolGenesisAddress = Utils.uint8ArrayToHex(Crypto.deriveAddress(poolSeed, 0))
+async function main(endpoint, seed) {
+  const poolGenesisAddress = args[0]
+  const htlcGenesisAddress = args[1]
 
   const archethic = new Archethic(endpoint)
   await archethic.connect()

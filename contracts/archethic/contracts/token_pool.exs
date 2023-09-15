@@ -18,8 +18,14 @@ condition triggered_by: transaction, on: request_funds(end_time, amount, user_ad
 ]
 
 actions triggered_by: transaction, on: request_funds(_end_time, amount, _user_address, _secret_hash) do
-  Contract.set_type "transfer"
-  Contract.add_uco_transfer to: transaction.address, amount: amount
+  args = [
+    #TOKEN_ADDRESS#,
+    amount,
+    transaction.address
+  ]
+  token_definition = Contract.call_function(#FACTORY_ADDRESS#, "get_token_resupply_definition", args)
+  Contract.set_type "token"
+  Contract.set_content token_definition
 end
 
 ##########################################
@@ -34,10 +40,7 @@ condition triggered_by: transaction, on: request_secret_hash(end_time, amount, u
 
 actions triggered_by: transaction, on: request_secret_hash(end_time, _amount, _user_address) do
   # Here delete old secret that hasn't been used before endTime
-  contract_content = Map.new()
-  if Json.is_valid?(contract.content) do
-    contract_content = Json.parse(contract.content)
-  end
+  contract_content = Contract.call_function(#STATE_ADDRESS#, "get_state", [])
 
   for key in Map.keys(contract_content) do
     htlc_map = Map.get(contract_content, key)
@@ -62,7 +65,7 @@ actions triggered_by: transaction, on: request_secret_hash(end_time, _amount, _u
 
   contract_content = Map.set(contract_content, htlc_genesis_address, htlc_map)
 
-  Contract.set_content Json.to_string(contract_content)
+  Contract.add_recipient address: #STATE_ADDRESS#, action: "update_state", args: [contract_content]
   Contract.add_recipient address: transaction.address, action: "set_secret_hash", args: [secret_hash, signature]
 end
 
@@ -75,15 +78,15 @@ condition triggered_by: transaction, on: reveal_secret(htlc_genesis_address), as
   content: (
     # Ensure htlc_genesis_address exists in pool state
     # and end_time has not been reached
+    contract_content = Contract.call_function(#STATE_ADDRESS#, "get_state", [])
+
     valid? = false
 
-    if Json.is_valid?(contract.content) do
-      htlc_genesis_address = String.to_hex(htlc_genesis_address)
-      htlc_map = Map.get(Json.parse(contract.content), htlc_genesis_address)
+    htlc_genesis_address = String.to_hex(htlc_genesis_address)
+    htlc_map = Map.get(contract_content, htlc_genesis_address)
 
-      if htlc_map != nil do
-        valid? = htlc_map.end_time > Time.now()
-      end
+    if htlc_map != nil do
+      valid? = htlc_map.end_time > Time.now()
     end
 
     valid?
@@ -98,7 +101,7 @@ condition triggered_by: transaction, on: reveal_secret(htlc_genesis_address), as
 ]
 
 actions triggered_by: transaction, on: reveal_secret(htlc_genesis_address) do
-  contract_content = Json.parse(contract.content)
+  contract_content = Contract.call_function(#STATE_ADDRESS#, "get_state", [])
 
   htlc_genesis_address = String.to_hex(htlc_genesis_address)
   htlc_map = Map.get(contract_content, htlc_genesis_address)
@@ -108,7 +111,7 @@ actions triggered_by: transaction, on: reveal_secret(htlc_genesis_address) do
   # Here should decrypt secret
   signature = sign_for_evm(htlc_map.secret)
 
-  Contract.set_content Json.to_string(contract_content)
+  Contract.add_recipient address: #STATE_ADDRESS#, action: "update_state", args: [contract_content]
   Contract.add_recipient address: htlc_genesis_address, action: "reveal_secret", args: [htlc_map.secret, signature]
 end
 
@@ -117,7 +120,7 @@ end
 ####################
 
 export fun get_token_address() do
-  "UCO"
+  #TOKEN_ADDRESS#
 end
 
 #####################
@@ -130,7 +133,7 @@ fun valid_chargeable_code?(end_time, amount, user_address, secret_hash) do
     user_address,
     #POOL_ADDRESS#,
     secret_hash,
-    "UCO",
+    #TOKEN_ADDRESS#,
     amount
   ]
 
@@ -144,7 +147,7 @@ fun valid_signed_code?(end_time, amount, user_address) do
     end_time,
     user_address,
     #POOL_ADDRESS#,
-    "UCO",
+    #TOKEN_ADDRESS#,
     amount
   ]
 
