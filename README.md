@@ -66,8 +66,7 @@ In order to develop and test the application, you need to have some prerequisite
         |> Base.decode16!(case: :mixed),
       amount: 1_000_000_000_000_000_000_000
     }
-  ]
-  ```
+  ]```
 
   - Launch the Archethic Wallet
   - Create a new account in the devnet environnment
