@@ -1,6 +1,7 @@
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
+import 'package:aebridge/util/address_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -12,20 +13,24 @@ class FormatAddressLinkCopy extends ConsumerWidget {
     required this.address,
     required this.chainId,
     this.expanded = true,
+    this.reduceAddress = false,
+    this.fontSize = 13,
     super.key,
   });
 
   final int chainId;
   final String address;
   final bool expanded;
+  final bool reduceAddress;
+  final double fontSize;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Widget _address() {
       return SelectableText(
-        address,
+        reduceAddress ? AddressUtil.reduceAddress(address) : address,
         style: TextStyle(
-          fontSize: 13,
+          fontSize: fontSize,
           fontFamily: BridgeThemeBase.addressFont,
         ),
       );
@@ -61,9 +66,9 @@ class FormatAddressLinkCopy extends ConsumerWidget {
               ),
             );
           },
-          child: const Icon(
+          child: Icon(
             Iconsax.copy,
-            size: 12,
+            size: fontSize - 1,
           ),
         ),
         const SizedBox(width: 5),
@@ -81,9 +86,9 @@ class FormatAddressLinkCopy extends ConsumerWidget {
               ),
             );
           },
-          child: const Icon(
+          child: Icon(
             Iconsax.export_3,
-            size: 12,
+            size: fontSize - 1,
           ),
         ),
       ],

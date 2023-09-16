@@ -24,7 +24,13 @@ class BalanceRepositoryImpl implements BalanceRepository {
       }
 
       for (final balanceToken in balanceGetResponse!.token) {
-        if (balanceToken.address == tokenAddress) {
+        // TODO(reddwarf03): optimize this part
+        final balanceTokenAddressGenesis =
+            await sl.get<ApiService>().getGenesisAddress(balanceToken.address!);
+        final tokenAddressGenesis =
+            await sl.get<ApiService>().getGenesisAddress(tokenAddress);
+        if (balanceTokenAddressGenesis.address!.toUpperCase() ==
+            tokenAddressGenesis.address!.toUpperCase()) {
           return fromBigInt(balanceToken.amount).toDouble();
         }
       }

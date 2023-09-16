@@ -1,6 +1,4 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'dart:convert';
-
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
@@ -8,7 +6,6 @@ import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/evm_mixin.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
@@ -30,18 +27,8 @@ class EVMLPERC with EVMBridgeProcessMixin {
         debugPrint('providerEndpoint: $providerEndpoint');
         final web3Client = Web3Client(providerEndpoint!, Client());
 
-        final abiDummyTokenStringJson = jsonDecode(
-          await rootBundle
-              .loadString('contracts/evm/build/contracts/IERC20.json'),
-        );
-
-        final contractDummyToken = DeployedContract(
-          ContractAbi.fromJson(
-            jsonEncode(abiDummyTokenStringJson['abi']),
-            abiDummyTokenStringJson['contractName'] as String,
-          ),
-          EthereumAddress.fromHex(tokenAddress),
-        );
+        final contractDummyToken =
+            await getDeployedContract(contractNameIERC20, tokenAddress);
 
         final transactionTransfer = Transaction.callContract(
           contract: contractDummyToken,
@@ -73,17 +60,9 @@ class EVMLPERC with EVMBridgeProcessMixin {
 
         final web3Client = Web3Client(providerEndpoint!, Client());
 
-        final abiStringJson = jsonDecode(
-          await rootBundle
-              .loadString('contracts/evm/build/contracts/SignedHTLC_ERC.json'),
-        );
-
-        final contractHTLCERC = DeployedContract(
-          ContractAbi.fromJson(
-            jsonEncode(abiStringJson['abi']),
-            abiStringJson['contractName'] as String,
-          ),
-          EthereumAddress.fromHex(htlcContractAddress),
+        final contractHTLCERC = await getDeployedContract(
+          contractNameSignedHTLCERC,
+          htlcContractAddress,
         );
 
         final transactionWithdraw = Transaction.callContract(
@@ -116,22 +95,9 @@ class EVMLPERC with EVMBridgeProcessMixin {
       () async {
         final web3Client = Web3Client(providerEndpoint!, Client());
 
-        final abiStringJson = jsonDecode(
-          await rootBundle.loadString(
-            'contracts/evm/build/contracts/ChargeableHTLC_ERC.json',
-          ),
-        );
-
-        debugPrint(
-          'getFee - htlcContractAddress: $htlcContractAddress',
-        );
-
-        final contractHTLC = DeployedContract(
-          ContractAbi.fromJson(
-            jsonEncode(abiStringJson['abi']),
-            abiStringJson['contractName'] as String,
-          ),
-          EthereumAddress.fromHex(htlcContractAddress),
+        final contractHTLC = await getDeployedContract(
+          contractNameChargeableHTLCERC,
+          htlcContractAddress,
         );
 
         final feeMap = await web3Client.call(

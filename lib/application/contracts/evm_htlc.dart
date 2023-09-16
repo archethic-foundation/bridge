@@ -1,13 +1,10 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'dart:convert';
-
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/domain/usecases/evm_mixin.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
@@ -29,24 +26,12 @@ class EVMHTLC with EVMBridgeProcessMixin {
 
         await refundedEvent(htlcContractAddress);
 
-        final abiStringJson = jsonDecode(
-          await rootBundle
-              .loadString('contracts/evm/build/contracts/IHTLC.json'),
-        );
-
-        debugPrint('refund - htlcContractAddress: $htlcContractAddress');
-
-        final contractHTLCERC = DeployedContract(
-          ContractAbi.fromJson(
-            jsonEncode(abiStringJson['abi']),
-            abiStringJson['contractName'] as String,
-          ),
-          EthereumAddress.fromHex(htlcContractAddress),
-        );
+        final contractHTLC =
+            await getDeployedContract(contractNameIHTLC, htlcContractAddress);
 
         final transactionRefund = Transaction.callContract(
-          contract: contractHTLCERC,
-          function: contractHTLCERC.function('refund'),
+          contract: contractHTLC,
+          function: contractHTLC.function('refund'),
           parameters: [],
         );
 
@@ -69,22 +54,8 @@ class EVMHTLC with EVMBridgeProcessMixin {
       () async {
         final web3Client = Web3Client(providerEndpoint!, Client());
 
-        final abiStringJson = jsonDecode(
-          await rootBundle
-              .loadString('contracts/evm/build/contracts/IHTLC.json'),
-        );
-
-        debugPrint(
-          'getHTLCContract - htlcContractAddress: $htlcContractAddress',
-        );
-
-        final contractHTLC = DeployedContract(
-          ContractAbi.fromJson(
-            jsonEncode(abiStringJson['abi']),
-            abiStringJson['contractName'] as String,
-          ),
-          EthereumAddress.fromHex(htlcContractAddress),
-        );
+        final contractHTLC =
+            await getDeployedContract(contractNameIHTLC, htlcContractAddress);
 
         return (
           await getDateLockTime(web3Client, contractHTLC),
@@ -133,22 +104,8 @@ class EVMHTLC with EVMBridgeProcessMixin {
       () async {
         final web3Client = Web3Client(providerEndpoint!, Client());
 
-        final abiStringJson = jsonDecode(
-          await rootBundle
-              .loadString('contracts/evm/build/contracts/IHTLC.json'),
-        );
-
-        debugPrint(
-          'getAmount - htlcContractAddress: $htlcContractAddress',
-        );
-
-        final contractHTLC = DeployedContract(
-          ContractAbi.fromJson(
-            jsonEncode(abiStringJson['abi']),
-            abiStringJson['contractName'] as String,
-          ),
-          EthereumAddress.fromHex(htlcContractAddress),
-        );
+        final contractHTLC =
+            await getDeployedContract(contractNameIHTLC, htlcContractAddress);
 
         final amountMap = await web3Client.call(
           contract: contractHTLC,
@@ -199,22 +156,8 @@ class EVMHTLC with EVMBridgeProcessMixin {
   ) async {
     final web3Client = Web3Client(providerEndpoint!, Client());
 
-    final abiStringJson = jsonDecode(
-      await rootBundle
-          .loadString('contracts/evm/build/contracts/HTLC_ERC.json'),
-    );
-
-    debugPrint(
-      'refundedEvent - htlcContractAddress: $htlcContractAddress',
-    );
-
-    final contractHTLC = DeployedContract(
-      ContractAbi.fromJson(
-        jsonEncode(abiStringJson['abi']),
-        abiStringJson['contractName'] as String,
-      ),
-      EthereumAddress.fromHex(htlcContractAddress),
-    );
+    final contractHTLC =
+        await getDeployedContract(contractNameHTLCERC, htlcContractAddress);
 
     final event = contractHTLC.event('Refunded');
     web3Client
@@ -231,22 +174,8 @@ class EVMHTLC with EVMBridgeProcessMixin {
   ) async {
     final web3Client = Web3Client(providerEndpoint!, Client());
 
-    final abiStringJson = jsonDecode(
-      await rootBundle
-          .loadString('contracts/evm/build/contracts/HTLC_ERC.json'),
-    );
-
-    debugPrint(
-      'refundedEvent - htlcContractAddress: $htlcContractAddress',
-    );
-
-    final contractHTLC = DeployedContract(
-      ContractAbi.fromJson(
-        jsonEncode(abiStringJson['abi']),
-        abiStringJson['contractName'] as String,
-      ),
-      EthereumAddress.fromHex(htlcContractAddress),
-    );
+    final contractHTLC =
+        await getDeployedContract(contractNameHTLCERC, htlcContractAddress);
 
     final events = await web3Client.getLogs(
       FilterOptions.events(
@@ -275,25 +204,12 @@ class EVMHTLC with EVMBridgeProcessMixin {
 
         final web3Client = Web3Client(providerEndpoint!, Client());
 
-        final abiStringJson = jsonDecode(
-          await rootBundle
-              .loadString('contracts/evm/build/contracts/IHTLC.json'),
-        );
-
-        debugPrint('withdraw - htlcContractAddress: $htlcContractAddress');
-        debugPrint('withdraw - secret: $secret');
-
-        final contractHTLCERC = DeployedContract(
-          ContractAbi.fromJson(
-            jsonEncode(abiStringJson['abi']),
-            abiStringJson['contractName'] as String,
-          ),
-          EthereumAddress.fromHex(htlcContractAddress),
-        );
+        final contractHTLC =
+            await getDeployedContract(contractNameHTLCERC, htlcContractAddress);
 
         final transactionWithdraw = Transaction.callContract(
-          contract: contractHTLCERC,
-          function: contractHTLCERC.function('withdraw'),
+          contract: contractHTLC,
+          function: contractHTLC.function('withdraw'),
           parameters: [
             hexToBytes(secret),
           ],

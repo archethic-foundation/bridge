@@ -9,7 +9,7 @@ if (!config.endpoint || !config.factorySeed) {
 }
 
 const args = []
-process.argv.forEach(function(val, index, _array) { if (index > 1) { args.push(val) } })
+process.argv.forEach(function (val, index, _array) { if (index > 1) { args.push(val) } })
 
 if (args.length != 1) {
   console.log("Missing arguments")
@@ -22,6 +22,7 @@ main(config.endpoint, config.factorySeed)
 async function main(endpoint, factorySeed) {
   const token = args[0]
   const poolSeed = Crypto.hash(token).slice(1)
+  console.log("poolSeed", Utils.uint8ArrayToHex(poolSeed));
   const stateSeed = Crypto.hash(token + "state").slice(1)
   const stateContractAddress = Utils.uint8ArrayToHex(Crypto.deriveAddress(stateSeed, 0))
 

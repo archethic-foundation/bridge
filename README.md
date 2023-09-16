@@ -46,6 +46,10 @@ In order to develop and test the application, you need to have some prerequisite
     If you want to fill Pool and Factory chains with faucet, you can ,before start the node, update the `Archethic.Bootstrap.NetworkInit` section in `config/dev.exs` Node's file
     ```elixir
 
+    # Faucet
+    # Factory: 00006e985f953bba22776b1ce8202789002447f8129a8837db811e5438e5450d0584
+    # Pool UCO: 00004ae35d87f8a74f3101a020c26676c3f80c62e4bf49d9ceea7ac5b72587b43aa3
+    # Pool WETH: 0000fec13f49c0bc0f8897e8efbe4fd871fb97a6cab182bc6aae52303e1b1d65ec18
     config :archethic, Archethic.Bootstrap.NetworkInit,
     genesis_pools: [
     %{
@@ -56,17 +60,22 @@ In order to develop and test the application, you need to have some prerequisite
     },
     %{
       address:
-        "0000852ddc39fa27c7972c65f2d00de1de0b5fc225722d52d0708354c3fdea7b7fec"
+        "00006e985f953bba22776b1ce8202789002447f8129a8837db811e5438e5450d0584"
         |> Base.decode16!(case: :mixed),
       amount: 1_000_000_000_000_000_000_000
     },
     %{
       address:
-        "00006e985f953bba22776b1ce8202789002447f8129a8837db811e5438e5450d0584"
+        "00004ae35d87f8a74f3101a020c26676c3f80c62e4bf49d9ceea7ac5b72587b43aa3"
         |> Base.decode16!(case: :mixed),
       amount: 1_000_000_000_000_000_000_000
-    }
-  ]```
+    },
+    %{
+      address:
+        "0000fec13f49c0bc0f8897e8efbe4fd871fb97a6cab182bc6aae52303e1b1d65ec18"
+        |> Base.decode16!(case: :mixed),
+      amount: 1_000_000_000_000_000_000_000
+    }]```
 
   - Launch the Archethic Wallet
   - Create a new account in the devnet environnment
@@ -75,7 +84,7 @@ In order to develop and test the application, you need to have some prerequisite
 #### 3) Deploy Archethic Pools
   - Execute the following commands to deploy the contracts
     ```bash
-    cd contracts/archethic;npm install;node deploy_factory.js;node deploy_pool.js;cd -
+    cd contracts/archethic;npm install;node deploy_factory.js;node deploy_pool.js UCO;node deploy_pool.js WETH;cd -
     ```
     - If you encounter an "Insufficient funds" error:
       - [Obtain UCO tokens from the faucet for the Pool genesis address](http://localhost:4000/faucet) (with 300 UCO)
@@ -100,10 +109,10 @@ In order to develop and test the application, you need to have some prerequisite
   - Copy/Paste the app URL (ex: http://localhost:49316/) into Chrome 
   NB: The port number could be different
 
-If you want to debug the Flutter app, you should enable chrome extensions
-1- Go to `flutter\bin\cache` and remove a file named: `flutter_tools.stamp`
-2- Go to `flutter\packages\flutter_tools\lib\src\web` and open the file `chrome.dart`.
-3- Find `--disable-extensions` and `--disable-popup-blocking` and comment these lines
+If you want to debug the Flutter app, you should enable chrome extensions:
+  - Go to `flutter\bin\cache` and remove a file named: `flutter_tools.stamp`
+  - Go to `flutter\packages\flutter_tools\lib\src\web` and open the file `chrome.dart`.
+  - Find `--disable-extensions` and `--disable-popup-blocking` and comment these lines
 Ref: https://stackoverflow.com/questions/67958169/how-chrome-extensions-be-enabled-when-flutter-web-debugging/71747975#71747975
 
 ## Note

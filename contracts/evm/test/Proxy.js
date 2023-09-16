@@ -80,11 +80,11 @@ contract("LP Proxy", (accounts) => {
         const reserveAddress = accounts[4]
 
         const proxiedPoolInstance = await deployProxy(LiquidityPool, [reserveAddress, satefyModuleAddress, 5, archPoolSigner.address, web3.utils.toWei('200')]);
-        assert.equal(await proxiedPoolInstance.safetyModuleFeeRate(), 5)
+        assert.equal(await proxiedPoolInstance.safetyModuleFeeRate(), 500)
 
         await upgradeProxy(proxiedPoolInstance.address, LiquidityPoolV2, [reserveAddress, satefyModuleAddress, 5, archPoolSigner.address, web3.utils.toWei('200')]);
-        await proxiedPoolInstance.setSafetyModuleFeeRate(5)
-        assert.equal(await proxiedPoolInstance.safetyModuleFeeRate(), 10)
+        await proxiedPoolInstance.setSafetyModuleFeeRate(500)
+        assert.equal(await proxiedPoolInstance.safetyModuleFeeRate(), 1000)
     })
 })
 

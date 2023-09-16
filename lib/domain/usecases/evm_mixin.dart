@@ -2,19 +2,21 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
-import 'dart:typed_data';
 
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/application/contracts/evm_lp.dart';
 import 'package:aebridge/application/contracts/evm_lp_erc.dart';
+import 'package:aebridge/application/contracts/evm_lp_native.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/failures.dart';
+import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webthree/crypto.dart';
@@ -22,6 +24,15 @@ import 'package:webthree/json_rpc.dart';
 import 'package:webthree/webthree.dart';
 
 enum EVMBridgeProcessStep { none, deploy }
+
+const contractNameIHTLC = 'IHTLC';
+const contractNameHTLCERC = 'HTLC_ERC';
+
+const contractNameIPool = 'IPool';
+
+const contractNameIERC20 = 'IERC20';
+const contractNameSignedHTLCERC = 'SignedHTLC_ERC';
+const contractNameChargeableHTLCERC = 'ChargeableHTLC_ERC';
 
 mixin EVMBridgeProcessMixin {
   String getEVMStepLabel(
@@ -130,16 +141,29 @@ mixin EVMBridgeProcessMixin {
     await bridgeNotifier.setCurrentStep(2);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
-    final evmLPERC = EVMLPERC(bridge.blockchainFrom!.providerEndpoint);
-    final resultProvisionChargeableHTLC =
-        await evmLPERC.provisionChargeableHTLC(
-      BigInt.from(bridge.tokenToBridgeAmount),
-      htlcAddress,
-      bridge.tokenToBridge!.tokenAddress,
-      chainId: bridge.blockchainFrom!.chainId,
-    );
+
+    Result<void, Failure>? resultProvisionChargeableHTLC;
+    if (bridge.tokenToBridge!.type == 'ERC20') {
+      final evmLPERC = EVMLPERC(bridge.blockchainFrom!.providerEndpoint);
+      resultProvisionChargeableHTLC = await evmLPERC.provisionChargeableHTLC(
+        BigInt.from(bridge.tokenToBridgeAmount),
+        htlcAddress,
+        bridge.tokenToBridge!.tokenAddress,
+        chainId: bridge.blockchainFrom!.chainId,
+      );
+    }
+
+    if (bridge.tokenToBridge!.type == 'Native') {
+      final evmLPNative = EVMLPNative(bridge.blockchainFrom!.providerEndpoint);
+      resultProvisionChargeableHTLC = await evmLPNative.provisionChargeableHTLC(
+        BigInt.from(bridge.tokenToBridgeAmount),
+        htlcAddress,
+        chainId: bridge.blockchainFrom!.chainId,
+      );
+    }
+
     await bridgeNotifier.setWaitForWalletConfirmation(null);
-    await resultProvisionChargeableHTLC.map(
+    await resultProvisionChargeableHTLC!.map(
       success: (success) {},
       failure: (failure) async {
         await bridgeNotifier.setFailure(failure);
@@ -177,6 +201,18 @@ mixin EVMBridgeProcessMixin {
         throw failure;
       },
     );
+  }
+
+  Future<double?> getEVMHTLCAmount(WidgetRef ref, String htlcAddress) async {
+    double? etlcAmount;
+    final bridge = ref.read(BridgeFormProvider.bridgeForm);
+    final htlc = EVMHTLC(bridge.blockchainFrom!.providerEndpoint);
+    final resultAmount = await htlc.getAmount(htlcAddress);
+    resultAmount.map(
+      success: (amount) => etlcAmount = amount,
+      failure: (failure) => etlcAmount = null,
+    );
+    return etlcAmount;
   }
 
   Future<void> revealEVMSecret(
@@ -247,5 +283,36 @@ mixin EVMBridgeProcessMixin {
       }
       throw Failure.other(cause: e.toString());
     }
+  }
+
+  Future<BigInt> estimateGas(
+    Web3Client web3Client,
+    Transaction transaction,
+  ) async {
+    return web3Client.estimateGas(
+      sender: transaction.from,
+      to: transaction.to,
+      gasPrice: transaction.gasPrice,
+      value: transaction.value,
+      data: transaction.data,
+    );
+  }
+
+  Future<DeployedContract> getDeployedContract(
+    String contractName,
+    String address,
+  ) async {
+    final abiLPERCStringJson = jsonDecode(
+      await rootBundle
+          .loadString('contracts/evm/build/contracts/$contractName.json'),
+    );
+
+    return DeployedContract(
+      ContractAbi.fromJson(
+        jsonEncode(abiLPERCStringJson['abi']),
+        abiLPERCStringJson['contractName'] as String,
+      ),
+      EthereumAddress.fromHex(address),
+    );
   }
 }

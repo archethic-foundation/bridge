@@ -1,6 +1,4 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'dart:convert';
-
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
@@ -8,7 +6,6 @@ import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/evm_mixin.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
@@ -17,6 +14,55 @@ class EVMLP with EVMBridgeProcessMixin {
   EVMLP(this.providerEndpoint);
 
   String? providerEndpoint;
+
+  Future<Transaction> _getDeployChargeableHTLCTransaction(
+    DeployedContract deployedContract,
+    String poolAddress,
+    String hash,
+    BigInt amount, {
+    int lockTime = 720,
+  }) async {
+    debugPrint('providerEndpoint: $providerEndpoint');
+
+    final transactionMintHTLC = Transaction.callContract(
+      contract: deployedContract,
+      function: deployedContract.function('mintHTLC'),
+      parameters: [
+        hexToBytes(hash),
+        EtherAmount.fromBigInt(EtherUnit.ether, amount).getInWei,
+        BigInt.from(lockTime),
+      ],
+    );
+
+    return transactionMintHTLC;
+  }
+
+  Future<Result<double, Failure>> estimateDeployChargeableHTLC(
+    String poolAddress,
+    String hash,
+    BigInt amount, {
+    int lockTime = 720,
+    int chainId = 1337,
+  }) async {
+    return Result.guard(() async {
+      final web3Client = Web3Client(providerEndpoint!, Client());
+      final contract =
+          await getDeployedContract(contractNameIPool, poolAddress);
+
+      final transaction = await _getDeployChargeableHTLCTransaction(
+        contract,
+        poolAddress,
+        hash,
+        amount,
+        lockTime: lockTime,
+      );
+
+      final fees = await estimateGas(web3Client, transaction);
+
+      return EtherAmount.fromBigInt(EtherUnit.ether, fees)
+          .getValueInUnit(EtherUnit.ether);
+    });
+  }
 
   Future<Result<String, Failure>> deployChargeableHTLC(
     String poolAddress,
@@ -31,28 +77,15 @@ class EVMLP with EVMBridgeProcessMixin {
       final web3Client = Web3Client(providerEndpoint!, Client());
       late String htlcContractAddress;
 
-      final abiLPERCStringJson = jsonDecode(
-        await rootBundle.loadString('contracts/evm/build/contracts/IPool.json'),
-      );
+      final contractLPERC =
+          await getDeployedContract(contractNameIPool, poolAddress);
 
-      final contractLPERC = DeployedContract(
-        ContractAbi.fromJson(
-          jsonEncode(abiLPERCStringJson['abi']),
-          abiLPERCStringJson['contractName'] as String,
-        ),
-        EthereumAddress.fromHex(poolAddress),
-      );
-
-      debugPrint('contractLPERC ok');
-
-      final transactionMintHTLC = Transaction.callContract(
-        contract: contractLPERC,
-        function: contractLPERC.function('mintHTLC'),
-        parameters: [
-          hexToBytes(hash),
-          EtherAmount.fromBigInt(EtherUnit.ether, amount).getInWei,
-          BigInt.from(lockTime),
-        ],
+      final transaction = await _getDeployChargeableHTLCTransaction(
+        contractLPERC,
+        poolAddress,
+        hash,
+        amount,
+        lockTime: lockTime,
       );
 
       debugPrint('contractLPERC mintHTLC ok');
@@ -60,7 +93,7 @@ class EVMLP with EVMBridgeProcessMixin {
       await sendTransactionWithErrorManagement(
         web3Client,
         evmWalletProvider.credentials!,
-        transactionMintHTLC,
+        transaction,
         chainId,
       );
 
@@ -96,26 +129,15 @@ class EVMLP with EVMBridgeProcessMixin {
         final web3Client = Web3Client(providerEndpoint!, Client());
         late String htlcContractAddress;
 
-        final abiLPERCStringJson = jsonDecode(
-          await rootBundle
-              .loadString('contracts/evm/build/contracts/IPool.json'),
-        );
+        final contractLP =
+            await getDeployedContract(contractNameIPool, poolAddress);
 
-        final contractLPERC = DeployedContract(
-          ContractAbi.fromJson(
-            jsonEncode(abiLPERCStringJson['abi']),
-            abiLPERCStringJson['contractName'] as String,
-          ),
-          EthereumAddress.fromHex(poolAddress),
-        );
-
-        debugPrint('contractLPERC ok');
         debugPrint(
           'EtherAmount.fromUnitAndValue(EtherUnit.ether, amount).getInWei ${EtherAmount.fromBigInt(EtherUnit.ether, amount).getInWei}',
         );
         final transactionProvisionHTLC = Transaction.callContract(
-          contract: contractLPERC,
-          function: contractLPERC.function('provisionHTLC'),
+          contract: contractLP,
+          function: contractLP.function('provisionHTLC'),
           parameters: [
             hexToBytes(secretHash.secretHash!),
             EtherAmount.fromBigInt(EtherUnit.ether, amount).getInWei,
@@ -126,7 +148,7 @@ class EVMLP with EVMBridgeProcessMixin {
           ],
         );
 
-        debugPrint('contractLPERC provisionHTLC ok');
+        debugPrint('contractLP provisionHTLC ok');
 
         await sendTransactionWithErrorManagement(
           web3Client,
@@ -139,8 +161,8 @@ class EVMLP with EVMBridgeProcessMixin {
         debugPrint('secretHash : ${hexToBytes(secretHash.secretHash!)}');
         // Get HTLC address
         final transactionProvisionedSwapsHashes = await web3Client.call(
-          contract: contractLPERC,
-          function: contractLPERC.function('provisionedSwaps'),
+          contract: contractLP,
+          function: contractLP.function('provisionedSwaps'),
           params: [
             hexToBytes(secretHash.secretHash!),
           ],
@@ -166,17 +188,8 @@ class EVMLP with EVMBridgeProcessMixin {
     final web3Client = Web3Client(providerEndpoint!, Client());
     late String htlcContractAddress;
 
-    final abiLPETHStringJson = jsonDecode(
-      await rootBundle.loadString('contracts/evm/build/contracts/IPool.json'),
-    );
-
-    final contractLPETH = DeployedContract(
-      ContractAbi.fromJson(
-        jsonEncode(abiLPETHStringJson['abi']),
-        abiLPETHStringJson['contractName'] as String,
-      ),
-      EthereumAddress.fromHex(poolAddress),
-    );
+    final contractLPETH =
+        await getDeployedContract(contractNameIPool, poolAddress);
 
     final transactionMintHTLC = Transaction.callContract(
       contract: contractLPETH,
@@ -230,22 +243,8 @@ class EVMLP with EVMBridgeProcessMixin {
       () async {
         final web3Client = Web3Client(providerEndpoint!, Client());
 
-        final abiStringJson = jsonDecode(
-          await rootBundle
-              .loadString('contracts/evm/build/contracts/IPool.json'),
-        );
-
-        debugPrint(
-          'getSafetyModuleFeeRate - poolAddress: $poolAddress',
-        );
-
-        final contractLP = DeployedContract(
-          ContractAbi.fromJson(
-            jsonEncode(abiStringJson['abi']),
-            abiStringJson['contractName'] as String,
-          ),
-          EthereumAddress.fromHex(poolAddress),
-        );
+        final contractLP =
+            await getDeployedContract(contractNameIPool, poolAddress);
 
         final safetyModuleFeeRateMap = await web3Client.call(
           contract: contractLP,
@@ -256,9 +255,7 @@ class EVMLP with EVMBridgeProcessMixin {
         final BigInt safetyModuleFeeRate = safetyModuleFeeRateMap[0];
         debugPrint('HTLC safetyModuleFeeRate: $safetyModuleFeeRate');
 
-        final etherAmount =
-            EtherAmount.fromBigInt(EtherUnit.wei, safetyModuleFeeRate);
-        return etherAmount.getValueInUnit(EtherUnit.ether);
+        return safetyModuleFeeRate.toDouble() / 100000 * 100;
       },
     );
   }
@@ -270,22 +267,8 @@ class EVMLP with EVMBridgeProcessMixin {
       () async {
         final web3Client = Web3Client(providerEndpoint!, Client());
 
-        final abiStringJson = jsonDecode(
-          await rootBundle
-              .loadString('contracts/evm/build/contracts/IPool.json'),
-        );
-
-        debugPrint(
-          'getSafetyModuleAddress - poolAddress: $poolAddress',
-        );
-
-        final contractLP = DeployedContract(
-          ContractAbi.fromJson(
-            jsonEncode(abiStringJson['abi']),
-            abiStringJson['contractName'] as String,
-          ),
-          EthereumAddress.fromHex(poolAddress),
-        );
+        final contractLP =
+            await getDeployedContract(contractNameIPool, poolAddress);
 
         final safetyModuleAddressMap = await web3Client.call(
           contract: contractLP,
@@ -293,10 +276,10 @@ class EVMLP with EVMBridgeProcessMixin {
           params: [],
         );
 
-        final safetyModuleAddress = safetyModuleAddressMap[0];
+        final EthereumAddress safetyModuleAddress = safetyModuleAddressMap[0];
         debugPrint('HTLC safetyModuleAddress: $safetyModuleAddress');
 
-        return safetyModuleAddress;
+        return safetyModuleAddress.hexEip55;
       },
     );
   }

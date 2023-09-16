@@ -47,11 +47,10 @@ _$_BridgeFormState _$$_BridgeFormStateFromJson(Map<String, dynamic> json) =>
       safetyModuleFeesRate:
           (json['safetyModuleFeesRate'] as num?)?.toDouble() ?? 0.0,
       safetyModuleFeesAddress: json['safetyModuleFeesAddress'] as String? ?? '',
-      safetyModuleFees: (json['safetyModuleFees'] as num?)?.toDouble() ?? 0.0,
       archethicProtocolFeesRate:
           (json['archethicProtocolFeesRate'] as num?)?.toDouble() ?? 0.0,
-      archethicProtocolFees:
-          (json['archethicProtocolFees'] as num?)?.toDouble() ?? 0.0,
+      archethicProtocolFeesAddress:
+          json['archethicProtocolFeesAddress'] as String? ?? '',
       archethicTransactionFees:
           (json['archethicTransactionFees'] as num?)?.toDouble() ?? 0.0,
     );
@@ -91,9 +90,8 @@ Map<String, dynamic> _$$_BridgeFormStateToJson(_$_BridgeFormState instance) =>
       'secret': instance.secret,
       'safetyModuleFeesRate': instance.safetyModuleFeesRate,
       'safetyModuleFeesAddress': instance.safetyModuleFeesAddress,
-      'safetyModuleFees': instance.safetyModuleFees,
       'archethicProtocolFeesRate': instance.archethicProtocolFeesRate,
-      'archethicProtocolFees': instance.archethicProtocolFees,
+      'archethicProtocolFeesAddress': instance.archethicProtocolFeesAddress,
       'archethicTransactionFees': instance.archethicTransactionFees,
     };
 

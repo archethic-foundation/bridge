@@ -2,6 +2,7 @@
 import 'package:aebridge/application/balance.dart';
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/bridge_history.dart';
+import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/application/contracts/evm_lp.dart';
 import 'package:aebridge/application/oracle/state.dart';
 import 'package:aebridge/application/session/provider.dart';
@@ -44,8 +45,6 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       currentStep: bridgeFormState.currentStep,
       failure: null,
       isTransferInProgress: true,
-      safetyModuleFees: bridgeFormState.safetyModuleFees,
-      archethicProtocolFees: bridgeFormState.archethicProtocolFees,
       archethicTransactionFees: bridgeFormState.archethicTransactionFees,
       targetAddress: bridgeFormState.targetAddress,
       timestampExec: bridgeFormState.timestampExec,
@@ -77,27 +76,6 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     BridgeBlockchain? blockchainFrom,
   ) async {
     state = state.copyWith(blockchainFrom: blockchainFrom);
-
-    if (blockchainFrom!.isArchethic == false) {
-      final evmLP = EVMLP(blockchainFrom.providerEndpoint);
-      final resultSafetyModuleFeeRate = await evmLP
-          .getSafetyModuleFeeRate(blockchainFrom.archethicFactoryAddress!);
-      await resultSafetyModuleFeeRate.map(
-        success: (safetyModuleFeeRate) async {
-          await setSafetyModuleFeesRate(safetyModuleFeeRate);
-        },
-        failure: (failure) {},
-      );
-      final resultSafetyModuleFeeAddress = await evmLP
-          .getSafetyModuleAddress(blockchainFrom.archethicFactoryAddress!);
-      await resultSafetyModuleFeeAddress.map(
-        success: (safetyModuleFeeAddress) async {
-          await setSafetyModuleFeesAddress(safetyModuleFeeAddress);
-        },
-        failure: (failure) {},
-      );
-    }
-
     await storeBridge();
   }
 
@@ -302,9 +280,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       currentStep: 0,
       failure: null,
       isTransferInProgress: false,
-      safetyModuleFees: 0,
       safetyModuleFeesRate: 0,
-      archethicProtocolFees: 0,
       archethicProtocolFeesRate: 0,
       archethicTransactionFees: 0,
       targetAddress: '',
@@ -336,13 +312,6 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     await storeBridge();
   }
 
-  Future<void> setSafetyModuleFees(double fees) async {
-    state = state.copyWith(
-      safetyModuleFees: fees,
-    );
-    await storeBridge();
-  }
-
   Future<void> setSafetyModuleFeesRate(double rate) async {
     state = state.copyWith(
       safetyModuleFeesRate: rate,
@@ -357,9 +326,9 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     await storeBridge();
   }
 
-  Future<void> setArchethicProtocolFees(double fees) async {
+  Future<void> setArchethicProtocolFeesAddress(String address) async {
     state = state.copyWith(
-      archethicProtocolFees: fees,
+      archethicProtocolFeesAddress: address,
     );
     await storeBridge();
   }
@@ -503,6 +472,48 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       return false;
     }
     return true;
+  }
+
+  Future<void> validateForm() async {
+    if (state.blockchainFrom!.isArchethic == false) {
+      final evmLP = EVMLP(state.blockchainFrom!.providerEndpoint);
+      final resultSafetyModuleFeeRate = await evmLP
+          .getSafetyModuleFeeRate(state.tokenToBridge!.poolAddressFrom);
+      await resultSafetyModuleFeeRate.map(
+        success: (safetyModuleFeeRate) async {
+          await setSafetyModuleFeesRate(safetyModuleFeeRate);
+        },
+        failure: (failure) {},
+      );
+      final resultSafetyModuleFeeAddress = await evmLP
+          .getSafetyModuleAddress(state.tokenToBridge!.poolAddressFrom);
+      await resultSafetyModuleFeeAddress.map(
+        success: (safetyModuleFeeAddress) async {
+          await setSafetyModuleFeesAddress(safetyModuleFeeAddress);
+        },
+        failure: (failure) {},
+      );
+      final archethicContract = ArchethicContract();
+      final resultArchethicProtocolFeeRate = await archethicContract
+          .getProtocolFeeRate(state.blockchainTo!.archethicFactoryAddress!);
+      await resultArchethicProtocolFeeRate.map(
+        success: (archethicProtocolFeeRate) async {
+          await setArchethicProtocolFeesRate(archethicProtocolFeeRate);
+        },
+        failure: (failure) {},
+      );
+      final resultArchethicProtocolFeeAddress = await archethicContract
+          .getProtocolAddress(state.blockchainTo!.archethicFactoryAddress!);
+      await resultArchethicProtocolFeeAddress.map(
+        success: (archethicProtocolFeeAddress) async {
+          await setArchethicProtocolFeesAddress(archethicProtocolFeeAddress);
+        },
+        failure: (failure) {},
+      );
+    }
+    await setBridgeProcessStep(
+      BridgeProcessStep.confirmation,
+    );
   }
 
   Future<void> bridge(BuildContext context, WidgetRef ref) async {

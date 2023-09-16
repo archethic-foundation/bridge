@@ -69,12 +69,24 @@ class ArchethicContract with TransactionBridgeMixin {
   Future<Result<String, Failure>> provisionSignedHTLC(
     String htlcGenesisAddress,
     double amount,
+    String tokenAddress,
   ) async {
     return Result.guard(
       () async {
-        var transactionTransfer =
-            Transaction(type: 'transfer', data: Transaction.initData())
-                .addUCOTransfer(htlcGenesisAddress, toBigInt(amount));
+        Transaction? transactionTransfer;
+        if (tokenAddress.isEmpty) {
+          transactionTransfer =
+              Transaction(type: 'transfer', data: Transaction.initData())
+                  .addUCOTransfer(htlcGenesisAddress, toBigInt(amount));
+        } else {
+          transactionTransfer =
+              Transaction(type: 'transfer', data: Transaction.initData())
+                  .addTokenTransfer(
+            htlcGenesisAddress,
+            toBigInt(amount),
+            tokenAddress,
+          );
+        }
 
         final currentNameAccount = await getCurrentAccount();
         debugPrint(
@@ -344,7 +356,7 @@ class ArchethicContract with TransactionBridgeMixin {
                 ),
               ),
             );
-        return code;
+        return code.toString();
       },
     );
   }
@@ -380,7 +392,7 @@ class ArchethicContract with TransactionBridgeMixin {
                 ),
               ),
             );
-        return code;
+        return code.toString();
       },
     );
   }
@@ -466,12 +478,12 @@ class ArchethicContract with TransactionBridgeMixin {
     );
   }
 
-  Future<Result<double, Failure>> getProtocolFee(
+  Future<Result<double, Failure>> getProtocolFeeRate(
     String factoryAddress,
   ) async {
     return Result.guard(
       () async {
-        final protocolFee = await sl.get<ApiService>().callSCFunction(
+        final protocolFeeRate = await sl.get<ApiService>().callSCFunction(
               jsonRPCRequest: SCCallFunctionRequest(
                 method: 'contract_fun',
                 params: SCCallFunctionParams(
@@ -482,8 +494,8 @@ class ArchethicContract with TransactionBridgeMixin {
               ),
             );
         try {
-          final protocolFeeValue = double.parse(protocolFee);
-          return protocolFeeValue;
+          final protocolFeeRateValue = double.parse(protocolFeeRate.toString());
+          return protocolFeeRateValue;
         } catch (e) {
           throw const Failure.other(
             cause: 'Protocol fees could not be recovered',
@@ -493,7 +505,7 @@ class ArchethicContract with TransactionBridgeMixin {
     );
   }
 
-  Future<Result<String, Failure>> getProtcolAddress(
+  Future<Result<String, Failure>> getProtocolAddress(
     String factoryAddress,
   ) async {
     return Result.guard(
@@ -508,7 +520,7 @@ class ArchethicContract with TransactionBridgeMixin {
                 ),
               ),
             );
-        return protocolAddress;
+        return protocolAddress.toString();
       },
     );
   }

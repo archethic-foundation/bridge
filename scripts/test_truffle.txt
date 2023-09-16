@@ -14,6 +14,10 @@ await tokenInstance.transfer(recipientAddress, amountToSend, { from: accounts[4]
 let balancePool = await tokenInstance.balanceOf(recipientAddress)
 web3.utils.fromWei(balancePool)
 
-// Get HTLC Balance
-let balanceHTLC = await tokenInstance.balanceOf('0xa217ebe1563f759d54be660e6d51eb6233cbb7f4')
+// Get HTLC Balance UCO
+let balanceHTLC = await tokenInstance.balanceOf('0x61B194f227E3Dd312F0e4F1915004aCa143a360d')
 web3.utils.fromWei(balanceHTLC)
+
+// Get HTLC Balance ETH
+let balanceAccount0 = await tokenInstance.balanceOf('0xaa74722D2cB78D4b5e52c2Ee7F12fe08851baa5F')
+web3.utils.fromWei(balanceAccount0)

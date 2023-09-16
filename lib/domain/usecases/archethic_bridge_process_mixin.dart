@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:aebridge/application/contracts/archethic_contract.dart';
@@ -83,6 +82,7 @@ mixin ArchethicBridgeProcessMixin {
   Future<String> deployAEChargeableHTLC(
     WidgetRef ref,
     Digest secretHash,
+    double amount,
   ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
@@ -100,8 +100,10 @@ mixin ArchethicBridgeProcessMixin {
       bridge.tokenToBridge!.poolAddressTo,
       bridge.targetAddress,
       endTime,
-      bridge.tokenToBridgeAmount,
-      '',
+      amount,
+      bridge.tokenToBridge!.type == 'Native'
+          ? bridge.tokenToBridge!.tokenAddress
+          : '',
       archethic.uint8ListToHex(
         Uint8List.fromList(secretHash.bytes),
       ),
@@ -134,6 +136,7 @@ mixin ArchethicBridgeProcessMixin {
         await ArchethicContract().provisionSignedHTLC(
       archethicHTLCAddress,
       bridge.tokenToBridgeAmount,
+      bridge.tokenToBridge!.tokenAddress,
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
     await resultProvisionSignedHTLC.map(
@@ -157,20 +160,19 @@ mixin ArchethicBridgeProcessMixin {
     await bridgeNotifier.setCurrentStep(3);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.archethic);
-    final secretHashFromFct =
-        await sl.get<archethic.ApiService>().callSCFunction(
-              jsonRPCRequest: archethic.SCCallFunctionRequest(
-                method: 'contract_fun',
-                params: archethic.SCCallFunctionParams(
-                  contract: archethicHTLCAddress,
-                  function: 'get_secret_hash',
-                  args: [],
-                ),
-              ),
-            );
+    final secretHashMap = await sl.get<archethic.ApiService>().callSCFunction(
+          jsonRPCRequest: archethic.SCCallFunctionRequest(
+            method: 'contract_fun',
+            params: archethic.SCCallFunctionParams(
+              contract: archethicHTLCAddress,
+              function: 'get_secret_hash',
+              args: [],
+            ),
+          ),
+          resultMap: true,
+        ) as Map<String, dynamic>;
     await bridgeNotifier.setWaitForWalletConfirmation(null);
-    debugPrint('secretHashFromFct: $secretHashFromFct');
-    final secretHashMap = jsonDecode(secretHashFromFct);
+    debugPrint('secretHashMap: $secretHashMap');
     return SecretHash(
       secretHash: secretHashMap['secret_hash'],
       secretHashSignature: SecretHashSignature(
@@ -210,7 +212,7 @@ mixin ArchethicBridgeProcessMixin {
   Future<Secret> revealAESecret(WidgetRef ref, String htlcAddress) async {
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(6);
-    final secretFromFct = await sl.get<archethic.ApiService>().callSCFunction(
+    final secretMap = await sl.get<archethic.ApiService>().callSCFunction(
           jsonRPCRequest: archethic.SCCallFunctionRequest(
             method: 'contract_fun',
             params: archethic.SCCallFunctionParams(
@@ -219,9 +221,9 @@ mixin ArchethicBridgeProcessMixin {
               args: [],
             ),
           ),
-        );
-    debugPrint('secret: $secretFromFct');
-    final secretMap = jsonDecode(secretFromFct);
+          resultMap: true,
+        ) as Map<String, dynamic>;
+    debugPrint('secret: $secretMap');
     debugPrint(
       'secret without archethic prefix ${secretMap["secret"]}',
     );

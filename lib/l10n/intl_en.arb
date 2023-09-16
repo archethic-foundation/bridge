@@ -57,9 +57,7 @@
   "addressCopied": "Address copied",
   "blockchain_selection_test_included_lbl": "Include testnet ?",
   "bridgeConfirm_fees_lbl": "Fees",
-  "bridgeConfirm_fees_bridge_fee_lbl": "Bridge Fee",
   "bridgeConfirm_fees_receive_value_lbl": "You will receive",
-  "bridgeConfirm_fees_help_lbl": "How does the bridge fee work",
   "bridgesListTitle": "List of local transactions",
   "btn_clear_local_history": "Clear local informations",
   "bridgesListClearConfirmed": "Local information has been cleared",
@@ -102,5 +100,7 @@
   "refundTypeAddressMalformatedAddress": "Malformated address",
   "refundCanRefundYes": "You can refund",
   "refundCanRefundDateLock": "You can refund after %1",
-  "refundTxAddressLbl": "Transaction"
+  "refundTxAddressLbl": "Transaction",
+  "bridgeConfirmEVMSafetyModuleLbl": "EVM Safety module",
+  "bridgeConfirmArchethicProtocolLbl": "Archethic Protocol"
 }

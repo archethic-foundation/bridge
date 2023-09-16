@@ -26,10 +26,10 @@ contract("ERC LiquidityPool", (accounts) => {
     it("should create contract", async () => {
         const instance = await LiquidityPool.new()
         await instance.initialize(accounts[4], accounts[3], 5, archPoolSigner.address, web3.utils.toWei('2'), DummyTokenInstance.address)
-    
+
         assert.equal(await instance.reserveAddress(), accounts[4])
         assert.equal(await instance.safetyModuleAddress(), accounts[3])
-        assert.equal(await instance.safetyModuleFeeRate(), 5)
+        assert.equal(await instance.safetyModuleFeeRate(), 500)
         assert.equal(await instance.archethicPoolSigner(), archPoolSigner.address)
         assert.equal(await instance.poolCap(), web3.utils.toWei('2'))
         assert.equal(await instance.locked(), true)
@@ -47,7 +47,7 @@ contract("ERC LiquidityPool", (accounts) => {
     it("should update the safety module address", async () => {
         const instance = await LiquidityPool.new()
         await instance.initialize(accounts[4], accounts[3], 5, archPoolSigner.address, web3.utils.toWei('2'), DummyTokenInstance.address)
-        
+
         await instance.setSafetyModuleAddress(accounts[8])
         assert.equal(await instance.safetyModuleAddress(), accounts[8])
     })
@@ -108,7 +108,7 @@ contract("ERC LiquidityPool", (accounts) => {
     it("should update token", async () => {
         const instance = await LiquidityPool.new()
         await instance.initialize(accounts[4], accounts[3], 5, archPoolSigner.address, web3.utils.toWei('2'), DummyTokenInstance.address)
-        
+
         const AnotherDummyTokenInstance = await DummyToken.new(2000000)
 
         await instance.setToken(AnotherDummyTokenInstance.address)
@@ -142,7 +142,7 @@ contract("ERC LiquidityPool", (accounts) => {
         assert.equal(await HTLCInstance.token(), DummyTokenInstance.address)
     })
 
-    it("should return an error when the signature is invalid", async() => {
+    it("should return an error when the signature is invalid", async () => {
         const instance = await LiquidityPool.new()
         await instance.initialize(accounts[4], accounts[3], 5, archPoolSigner.address, web3.utils.toWei('2'), DummyTokenInstance.address)
 
@@ -157,13 +157,13 @@ contract("ERC LiquidityPool", (accounts) => {
             await instance.provisionHTLC("0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", web3.utils.toWei('1'), 60, `0x${r}`, `0x${s}`, v)
 
         }
-        catch(e) {
+        catch (e) {
             const interface = new ethers.Interface(instance.abi);
             assert.equal(interface.parseError(e.data.result).name, "InvalidSignature")
         }
     })
 
-    it("should return an error when the pool doesn't have enough funds to provide HTLC contract", async() => {
+    it("should return an error when the pool doesn't have enough funds to provide HTLC contract", async () => {
         const instance = await LiquidityPool.new()
         await instance.initialize(accounts[4], accounts[3], 5, archPoolSigner.address, web3.utils.toWei('2'), DummyTokenInstance.address)
 
@@ -177,7 +177,7 @@ contract("ERC LiquidityPool", (accounts) => {
         try {
             await instance.provisionHTLC("0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", web3.utils.toWei('1'), 60, `0x${r}`, `0x${s}`, v)
         }
-        catch(e) {
+        catch (e) {
             const interface = new ethers.Interface(instance.abi);
             assert.equal(interface.parseError(e.data.result).name, "InsufficientFunds")
         }
@@ -226,7 +226,7 @@ contract("ERC LiquidityPool", (accounts) => {
         try {
             await instance.mintHTLC("0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", web3.utils.toWei('100000'), 60)
         }
-        catch(e) {
+        catch (e) {
             const interface = new ethers.Interface(instance.abi);
             assert.equal(interface.parseError(e.data.result).name, "InsufficientFunds")
         }
@@ -247,7 +247,7 @@ contract("ERC LiquidityPool", (accounts) => {
         try {
             await instance.mintHTLC("0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08", web3.utils.toWei('1'), 60)
         }
-        catch(e) {
+        catch (e) {
             const interface = new ethers.Interface(instance.abi);
             assert.equal(interface.parseError(e.data.result).name, "AlreadyMinted")
         }

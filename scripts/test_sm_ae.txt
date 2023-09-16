@@ -3,6 +3,10 @@ address seed toto : 0000c32fd6b33c9ff557ad8826f516c1c81d0242524be10891a009b77c50
 
 conf node
 
+# Faucet
+# Factory: 00006e985f953bba22776b1ce8202789002447f8129a8837db811e5438e5450d0584
+# Pool UCO: 00004ae35d87f8a74f3101a020c26676c3f80c62e4bf49d9ceea7ac5b72587b43aa3
+# Pool WETH: 0000fec13f49c0bc0f8897e8efbe4fd871fb97a6cab182bc6aae52303e1b1d65ec18
 config :archethic, Archethic.Bootstrap.NetworkInit,
   genesis_pools: [
     %{
@@ -13,10 +17,21 @@ config :archethic, Archethic.Bootstrap.NetworkInit,
     },
     %{
       address:
-        "0000852ddc39fa27c7972c65f2d00de1de0b5fc225722d52d0708354c3fdea7b7fec"
+        "00006e985f953bba22776b1ce8202789002447f8129a8837db811e5438e5450d0584"
         |> Base.decode16!(case: :mixed),
-      amount: 1_000_000_000_000_000
+      amount: 1_000_000_000_000_000_000_000
+    },
+    %{
+      address:
+        "00004ae35d87f8a74f3101a020c26676c3f80c62e4bf49d9ceea7ac5b72587b43aa3"
+        |> Base.decode16!(case: :mixed),
+      amount: 1_000_000_000_000_000_000_000
+    },
+    %{
+      address:
+        "0000fec13f49c0bc0f8897e8efbe4fd871fb97a6cab182bc6aae52303e1b1d65ec18"
+        |> Base.decode16!(case: :mixed),
+      amount: 1_000_000_000_000_000_000_000
     }
   ]
-
   

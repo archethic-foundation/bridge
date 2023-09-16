@@ -10,26 +10,31 @@ import "../../interfaces/IPool.sol";
 using SafeMath for uint256;
 
 contract ChargeableHTLC_ERC is HTLC_ERC {
-
     IPool public pool;
     uint256 public fee;
 
-    constructor(IERC20 _token, uint256 _amount, bytes32 _hash, uint _lockTime, IPool _pool) HTLC_ERC(_pool.reserveAddress(), _token, _amount, _hash, _lockTime) {
+    constructor(
+        IERC20 _token,
+        uint256 _amount,
+        bytes32 _hash,
+        uint _lockTime,
+        IPool _pool
+    ) HTLC_ERC(_pool.reserveAddress(), _token, _amount, _hash, _lockTime) {
         pool = _pool;
-        fee = _amount.mul(pool.safetyModuleFeeRate()).div(100);
+        fee = _amount.mul(pool.safetyModuleFeeRate()).div(100000);
         amount = _amount.sub(fee);
     }
 
-    function _enoughFunds() internal override view returns (bool) {
-        return token.balanceOf(address(this)) == amount.add(fee);    
+    function _enoughFunds() internal view override returns (bool) {
+        return token.balanceOf(address(this)) == amount.add(fee);
     }
 
-    function _transfer() override internal {
+    function _transfer() internal override {
         token.transfer(pool.safetyModuleAddress(), fee);
         token.transfer(recipient, amount);
     }
 
-    function _refund() override internal {
+    function _refund() internal override {
         token.transfer(from, amount.add(fee));
     }
 }

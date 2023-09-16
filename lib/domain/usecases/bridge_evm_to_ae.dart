@@ -45,71 +45,61 @@ class BridgeEVMToArchethicUseCase
       await bridgeNotifier.setHTLCAEAddress(recoveryHTLCAEAddress);
     }
 
-    switch (bridge.tokenToBridge!.type) {
-      case 'ERC20':
+    // 1) Deploy EVM HTLC
+    if (recoveryStep <= 1) {
+      try {
+        htlcEVMAddress = await deployEVMHTLC(ref, secretHash);
+        await bridgeNotifier.setHTLCEVMAddress(htlcEVMAddress);
+      } catch (e) {
+        return;
+      }
+      var blockchainFrom =
+          ref.read(BridgeFormProvider.bridgeForm).blockchainFrom;
+      blockchainFrom = blockchainFrom!.copyWith(htlcAddress: htlcEVMAddress);
+      await bridgeNotifier.setBlockchainFrom(blockchainFrom);
+    }
 
-        // 1) Deploy EVM HTLC
-        if (recoveryStep <= 1) {
-          try {
-            htlcEVMAddress = await deployEVMHTLC(ref, secretHash);
-            await bridgeNotifier.setHTLCEVMAddress(htlcEVMAddress);
-          } catch (e) {
-            return;
-          }
-          var blockchainFrom =
-              ref.read(BridgeFormProvider.bridgeForm).blockchainFrom;
-          blockchainFrom =
-              blockchainFrom!.copyWith(htlcAddress: htlcEVMAddress);
-          await bridgeNotifier.setBlockchainFrom(blockchainFrom);
-        }
+    // 2) Provision HTLC
+    if (recoveryStep <= 2) {
+      try {
+        await provisionEVMHTLC(ref, htlcEVMAddress!);
+      } catch (e) {
+        return;
+      }
+    }
 
-        // 2) Provision HTLC
-        if (recoveryStep <= 2) {
-          try {
-            await provisionEVMHTLC(ref, htlcEVMAddress!);
-          } catch (e) {
-            return;
-          }
-        }
+    // 3) Deploy Archethic HTLC
+    if (recoveryStep <= 3) {
+      try {
+        var amount = await getEVMHTLCAmount(ref, htlcEVMAddress!);
+        amount ??= bridge.tokenToBridgeAmount;
+        debugPrint('Archethic HTLC amount $amount');
 
-        // 3) Deploy Archethic HTLC
-        if (recoveryStep <= 3) {
-          try {
-            htlcAEAddress = await deployAEChargeableHTLC(ref, secretHash);
-            await bridgeNotifier.setHTLCAEAddress(htlcAEAddress);
-          } catch (e) {
-            return;
-          }
-          var blockchainTo =
-              ref.read(BridgeFormProvider.bridgeForm).blockchainTo;
-          blockchainTo = blockchainTo!.copyWith(htlcAddress: htlcAEAddress);
-          await bridgeNotifier.setBlockchainTo(blockchainTo);
-        }
+        htlcAEAddress = await deployAEChargeableHTLC(ref, secretHash, amount);
+        await bridgeNotifier.setHTLCAEAddress(htlcAEAddress);
+      } catch (e) {
+        return;
+      }
+      var blockchainTo = ref.read(BridgeFormProvider.bridgeForm).blockchainTo;
+      blockchainTo = blockchainTo!.copyWith(htlcAddress: htlcAEAddress);
+      await bridgeNotifier.setBlockchainTo(blockchainTo);
+    }
 
-        // 4) Withwdraw
-        if (recoveryStep <= 4) {
-          try {
-            await withdrawEVM(ref, htlcEVMAddress!, secret);
-          } catch (e) {
-            return;
-          }
-        }
-        // 5) Reveal secret to Archethic HTLC
-        if (recoveryStep <= 5) {
-          try {
-            await revealEVMSecret(ref, htlcAEAddress!, secret);
-          } catch (e) {
-            return;
-          }
-        }
-
-        break;
-      case 'Native':
-        break;
-      case 'Wrapped':
-        break;
-      default:
-        throw Exception('Unknown token type.');
+    // 4) Withwdraw
+    if (recoveryStep <= 4) {
+      try {
+        await withdrawEVM(ref, htlcEVMAddress!, secret);
+      } catch (e) {
+        return;
+      }
+    }
+    // 5) Reveal secret to Archethic HTLC
+    if (recoveryStep <= 5) {
+      try {
+        await revealEVMSecret(ref, htlcAEAddress!, secret);
+      } catch (e) {
+        return;
+      }
     }
   }
 
