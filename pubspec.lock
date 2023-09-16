@@ -37,8 +37,8 @@ packages:
     dependency: transitive
     description:
       path: "."
-      ref: map-result-SCFunction
-      resolved-ref: "5130998cb02bd70bd7e381aa5fb5d6b31c686c1a"
+      ref: dev
+      resolved-ref: "4839788190f5e35d330c63c36c5bf2fe95e33a6e"
       url: "https://github.com/archethic-foundation/libdart.git"
     source: git
     version: "3.3.0"
@@ -47,7 +47,7 @@ packages:
     description:
       path: "."
       ref: libdart_calling_sm_function
-      resolved-ref: "637b2361dff3f6a63b403a4600f6496831a0382a"
+      resolved-ref: "61e2b2b6f9fac1595c787354e601639094c629c4"
       url: "https://github.com/archethic-foundation/archethic-wallet-client-dart.git"
     source: git
     version: "1.0.6"
