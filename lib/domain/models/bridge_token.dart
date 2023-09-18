@@ -21,7 +21,8 @@ class BridgeTokenJsonConverter
 class BridgeToken with _$BridgeToken {
   const factory BridgeToken({
     @Default('') String name,
-    @Default('') String tokenAddress,
+    @Default('') String tokenAddressSource,
+    @Default('') String tokenAddressTarget,
     @Default('') String symbol,
     @Default('') String targetTokenName,
     @Default('') String targetTokenSymbol,

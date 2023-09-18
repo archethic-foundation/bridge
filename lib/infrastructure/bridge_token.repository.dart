@@ -32,7 +32,8 @@ class BridgeTokensRepositoryImpl implements BridgeTokensRepository {
               type: token.type,
               poolAddressFrom: token.poolAddressFrom,
               poolAddressTo: token.poolAddressTo,
-              tokenAddress: token.tokenAddress,
+              tokenAddressSource: token.tokenAddressSource,
+              tokenAddressTarget: token.tokenAddressTarget,
             ),
           );
         }

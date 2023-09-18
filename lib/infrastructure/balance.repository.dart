@@ -24,13 +24,7 @@ class BalanceRepositoryImpl implements BalanceRepository {
       }
 
       for (final balanceToken in balanceGetResponse!.token) {
-        // TODO(reddwarf03): optimize this part
-        final balanceTokenAddressGenesis =
-            await sl.get<ApiService>().getGenesisAddress(balanceToken.address!);
-        final tokenAddressGenesis =
-            await sl.get<ApiService>().getGenesisAddress(tokenAddress);
-        if (balanceTokenAddressGenesis.address!.toUpperCase() ==
-            tokenAddressGenesis.address!.toUpperCase()) {
+        if (balanceToken.address!.toUpperCase() == tokenAddress.toUpperCase()) {
           return fromBigInt(balanceToken.amount).toDouble();
         }
       }
@@ -44,6 +38,7 @@ class BalanceRepositoryImpl implements BalanceRepository {
           return balance;
 
         case 'ERC20':
+        case 'Wrapped':
           final balance = await sl.get<EVMWalletProvider>().getBalance(
                 providerEndpoint!,
                 typeToken,

@@ -9,7 +9,8 @@ part of 'bridge_token.dart';
 _$_BridgeToken _$$_BridgeTokenFromJson(Map<String, dynamic> json) =>
     _$_BridgeToken(
       name: json['name'] as String? ?? '',
-      tokenAddress: json['tokenAddress'] as String? ?? '',
+      tokenAddressSource: json['tokenAddressSource'] as String? ?? '',
+      tokenAddressTarget: json['tokenAddressTarget'] as String? ?? '',
       symbol: json['symbol'] as String? ?? '',
       targetTokenName: json['targetTokenName'] as String? ?? '',
       targetTokenSymbol: json['targetTokenSymbol'] as String? ?? '',
@@ -21,7 +22,8 @@ _$_BridgeToken _$$_BridgeTokenFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_BridgeTokenToJson(_$_BridgeToken instance) =>
     <String, dynamic>{
       'name': instance.name,
-      'tokenAddress': instance.tokenAddress,
+      'tokenAddressSource': instance.tokenAddressSource,
+      'tokenAddressTarget': instance.tokenAddressTarget,
       'symbol': instance.symbol,
       'targetTokenName': instance.targetTokenName,
       'targetTokenSymbol': instance.targetTokenSymbol,

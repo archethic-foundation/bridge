@@ -28,12 +28,10 @@ class BridgeTokenToBridgeArchethicOracleUco extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Text(
-          '1 UCO = \$${archethicOracleUCO.usd.toStringAsFixed(5)} ($timestamp)',
-        ),
         IconButtonAnimated(
           icon: const Icon(
             Icons.help,
+            size: 16,
           ),
           onPressed: () {
             launchUrl(
@@ -43,6 +41,12 @@ class BridgeTokenToBridgeArchethicOracleUco extends ConsumerWidget {
             );
           },
           color: Colors.white,
+        ),
+        Text(
+          '1 UCO = \$${archethicOracleUCO.usd.toStringAsFixed(5)} ($timestamp)',
+          style: TextStyle(
+            fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
+          ),
         ),
       ],
     );

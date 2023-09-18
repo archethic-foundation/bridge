@@ -524,4 +524,29 @@ class ArchethicContract with TransactionBridgeMixin {
       },
     );
   }
+
+  Future<(double, String)> calculateArchethicProtocolFees(
+    String archethicFactoryAddress,
+  ) async {
+    var rate = 0.0;
+    var address = '';
+
+    final resultArchethicProtocolFeeRate =
+        await getProtocolFeeRate(archethicFactoryAddress);
+    await resultArchethicProtocolFeeRate.map(
+      success: (archethicProtocolFeeRate) async {
+        rate = archethicProtocolFeeRate;
+      },
+      failure: (failure) {},
+    );
+    final resultArchethicProtocolFeeAddress =
+        await getProtocolAddress(archethicFactoryAddress);
+    await resultArchethicProtocolFeeAddress.map(
+      success: (archethicProtocolFeeAddress) async {
+        address = archethicProtocolFeeAddress;
+      },
+      failure: (failure) {},
+    );
+    return (rate, address);
+  }
 }

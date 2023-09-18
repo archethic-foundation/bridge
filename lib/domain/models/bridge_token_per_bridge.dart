@@ -24,7 +24,8 @@ class TokenData with _$TokenData {
     @Default('') String poolAddressFrom,
     @Default('') String poolAddressTo,
     @Default('') String type,
-    @Default('') String tokenAddress,
+    @Default('') String tokenAddressSource,
+    @Default('') String tokenAddressTarget,
   }) = _TokenData;
 
   factory TokenData.fromJson(Map<String, dynamic> json) =>

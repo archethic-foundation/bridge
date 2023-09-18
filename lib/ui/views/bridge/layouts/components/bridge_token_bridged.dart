@@ -24,7 +24,7 @@ class BridgeTokenBridged extends ConsumerWidget {
     }
 
     return Align(
-      alignment: Alignment.centerLeft,
+      alignment: Alignment.centerRight,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

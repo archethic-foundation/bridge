@@ -177,7 +177,8 @@ mixin _$TokenData {
   String get poolAddressFrom => throw _privateConstructorUsedError;
   String get poolAddressTo => throw _privateConstructorUsedError;
   String get type => throw _privateConstructorUsedError;
-  String get tokenAddress => throw _privateConstructorUsedError;
+  String get tokenAddressSource => throw _privateConstructorUsedError;
+  String get tokenAddressTarget => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -198,7 +199,8 @@ abstract class $TokenDataCopyWith<$Res> {
       String poolAddressFrom,
       String poolAddressTo,
       String type,
-      String tokenAddress});
+      String tokenAddressSource,
+      String tokenAddressTarget});
 }
 
 /// @nodoc
@@ -221,7 +223,8 @@ class _$TokenDataCopyWithImpl<$Res, $Val extends TokenData>
     Object? poolAddressFrom = null,
     Object? poolAddressTo = null,
     Object? type = null,
-    Object? tokenAddress = null,
+    Object? tokenAddressSource = null,
+    Object? tokenAddressTarget = null,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -252,9 +255,13 @@ class _$TokenDataCopyWithImpl<$Res, $Val extends TokenData>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      tokenAddress: null == tokenAddress
-          ? _value.tokenAddress
-          : tokenAddress // ignore: cast_nullable_to_non_nullable
+      tokenAddressSource: null == tokenAddressSource
+          ? _value.tokenAddressSource
+          : tokenAddressSource // ignore: cast_nullable_to_non_nullable
+              as String,
+      tokenAddressTarget: null == tokenAddressTarget
+          ? _value.tokenAddressTarget
+          : tokenAddressTarget // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
@@ -275,7 +282,8 @@ abstract class _$$_TokenDataCopyWith<$Res> implements $TokenDataCopyWith<$Res> {
       String poolAddressFrom,
       String poolAddressTo,
       String type,
-      String tokenAddress});
+      String tokenAddressSource,
+      String tokenAddressTarget});
 }
 
 /// @nodoc
@@ -296,7 +304,8 @@ class __$$_TokenDataCopyWithImpl<$Res>
     Object? poolAddressFrom = null,
     Object? poolAddressTo = null,
     Object? type = null,
-    Object? tokenAddress = null,
+    Object? tokenAddressSource = null,
+    Object? tokenAddressTarget = null,
   }) {
     return _then(_$_TokenData(
       name: null == name
@@ -327,9 +336,13 @@ class __$$_TokenDataCopyWithImpl<$Res>
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
               as String,
-      tokenAddress: null == tokenAddress
-          ? _value.tokenAddress
-          : tokenAddress // ignore: cast_nullable_to_non_nullable
+      tokenAddressSource: null == tokenAddressSource
+          ? _value.tokenAddressSource
+          : tokenAddressSource // ignore: cast_nullable_to_non_nullable
+              as String,
+      tokenAddressTarget: null == tokenAddressTarget
+          ? _value.tokenAddressTarget
+          : tokenAddressTarget // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
@@ -346,7 +359,8 @@ class _$_TokenData implements _TokenData {
       this.poolAddressFrom = '',
       this.poolAddressTo = '',
       this.type = '',
-      this.tokenAddress = ''});
+      this.tokenAddressSource = '',
+      this.tokenAddressTarget = ''});
 
   factory _$_TokenData.fromJson(Map<String, dynamic> json) =>
       _$$_TokenDataFromJson(json);
@@ -374,11 +388,14 @@ class _$_TokenData implements _TokenData {
   final String type;
   @override
   @JsonKey()
-  final String tokenAddress;
+  final String tokenAddressSource;
+  @override
+  @JsonKey()
+  final String tokenAddressTarget;
 
   @override
   String toString() {
-    return 'TokenData(name: $name, symbol: $symbol, targetTokenName: $targetTokenName, targetTokenSymbol: $targetTokenSymbol, poolAddressFrom: $poolAddressFrom, poolAddressTo: $poolAddressTo, type: $type, tokenAddress: $tokenAddress)';
+    return 'TokenData(name: $name, symbol: $symbol, targetTokenName: $targetTokenName, targetTokenSymbol: $targetTokenSymbol, poolAddressFrom: $poolAddressFrom, poolAddressTo: $poolAddressTo, type: $type, tokenAddressSource: $tokenAddressSource, tokenAddressTarget: $tokenAddressTarget)';
   }
 
   @override
@@ -397,14 +414,25 @@ class _$_TokenData implements _TokenData {
             (identical(other.poolAddressTo, poolAddressTo) ||
                 other.poolAddressTo == poolAddressTo) &&
             (identical(other.type, type) || other.type == type) &&
-            (identical(other.tokenAddress, tokenAddress) ||
-                other.tokenAddress == tokenAddress));
+            (identical(other.tokenAddressSource, tokenAddressSource) ||
+                other.tokenAddressSource == tokenAddressSource) &&
+            (identical(other.tokenAddressTarget, tokenAddressTarget) ||
+                other.tokenAddressTarget == tokenAddressTarget));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, name, symbol, targetTokenName,
-      targetTokenSymbol, poolAddressFrom, poolAddressTo, type, tokenAddress);
+  int get hashCode => Object.hash(
+      runtimeType,
+      name,
+      symbol,
+      targetTokenName,
+      targetTokenSymbol,
+      poolAddressFrom,
+      poolAddressTo,
+      type,
+      tokenAddressSource,
+      tokenAddressTarget);
 
   @JsonKey(ignore: true)
   @override
@@ -429,7 +457,8 @@ abstract class _TokenData implements TokenData {
       final String poolAddressFrom,
       final String poolAddressTo,
       final String type,
-      final String tokenAddress}) = _$_TokenData;
+      final String tokenAddressSource,
+      final String tokenAddressTarget}) = _$_TokenData;
 
   factory _TokenData.fromJson(Map<String, dynamic> json) =
       _$_TokenData.fromJson;
@@ -449,7 +478,9 @@ abstract class _TokenData implements TokenData {
   @override
   String get type;
   @override
-  String get tokenAddress;
+  String get tokenAddressSource;
+  @override
+  String get tokenAddressTarget;
   @override
   @JsonKey(ignore: true)
   _$$_TokenDataCopyWith<_$_TokenData> get copyWith =>

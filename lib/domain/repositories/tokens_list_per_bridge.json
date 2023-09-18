@@ -129,7 +129,7 @@
                 "poolAddressFrom": "0000fec13f49c0bc0f8897e8efbe4fd871fb97a6cab182bc6aae52303e1b1d65ec18",
                 "poolAddressTo": "0xaa74722D2cB78D4b5e52c2Ee7F12fe08851baa5F",
                 "type": "Wrapped",
-                "tokenAddress": "0000140eb229d36fefc437a51c492e1b71581c9ce5a1fccfd2b117ac297f0b3c5e3e"
+                "tokenAddressSource": "0000140eb229d36fefc437a51c492e1b71581c9ce5a1fccfd2b117ac297f0b3c5e3e"
             },
             {
                 "name": "Universal Coin",
@@ -138,7 +138,8 @@
                 "targetTokenSymbol": "UCO",
                 "poolAddressFrom": "00004ae35d87f8a74f3101a020c26676c3f80c62e4bf49d9ceea7ac5b72587b43aa3",
                 "poolAddressTo": "0x61B194f227E3Dd312F0e4F1915004aCa143a360d",
-                "type": "Native"
+                "type": "Native",
+                "tokenAddressTarget": "0xB08553D05a988076E3D962f36887411F92bDD11b"
             }
         ],
         "1->-1": [
@@ -159,7 +160,7 @@
                 "poolAddressFrom": "",
                 "poolAddressTo": "",
                 "type": "ERC20",
-                "tokenAddress": ""
+                "tokenAddressSource": ""
             }
         ],
         "137->-1": [
@@ -180,7 +181,7 @@
                 "poolAddressFrom": "",
                 "poolAddressTo": "",
                 "type": "ERC20",
-                "tokenAddress": ""
+                "tokenAddressSource": ""
             }
         ],
         "56->-1": [
@@ -201,7 +202,7 @@
                 "poolAddressFrom": "",
                 "poolAddressTo": "",
                 "type": "ERC20",
-                "tokenAddress": ""
+                "tokenAddressSource": ""
             }
         ],
         "5->-2": [
@@ -222,7 +223,7 @@
                 "poolAddressFrom": "",
                 "poolAddressTo": "",
                 "type": "ERC20",
-                "tokenAddress": "0x51279e98d99AA8D65763a885BEFA5463dCd84Af6"
+                "tokenAddressSource": "0x51279e98d99AA8D65763a885BEFA5463dCd84Af6"
             }
         ],
         "80001->-2": [
@@ -243,7 +244,7 @@
                 "poolAddressFrom": "",
                 "poolAddressTo": "",
                 "type": "ERC20",
-                "tokenAddress": ""
+                "tokenAddressSource": ""
             }
         ],
         "97->-2": [
@@ -264,7 +265,7 @@
                 "poolAddressFrom": "",
                 "poolAddressTo": "",
                 "type": "ERC20",
-                "tokenAddress": ""
+                "tokenAddressSource": ""
             }
         ],
         "1337->-3": [
@@ -276,7 +277,7 @@
                 "poolAddressFrom": "0xaa74722D2cB78D4b5e52c2Ee7F12fe08851baa5F",
                 "poolAddressTo": "0000fec13f49c0bc0f8897e8efbe4fd871fb97a6cab182bc6aae52303e1b1d65ec18",
                 "type": "Native",
-                "tokenAddress": "0000140eb229d36fefc437a51c492e1b71581c9ce5a1fccfd2b117ac297f0b3c5e3e"
+                "tokenAddressTarget": "0000140eb229d36fefc437a51c492e1b71581c9ce5a1fccfd2b117ac297f0b3c5e3e"
             },
             {
                 "name": "Universal Coin",
@@ -286,7 +287,7 @@
                 "poolAddressFrom": "0x61B194f227E3Dd312F0e4F1915004aCa143a360d",
                 "poolAddressTo": "00004ae35d87f8a74f3101a020c26676c3f80c62e4bf49d9ceea7ac5b72587b43aa3",
                 "type": "ERC20",
-                "tokenAddress": "0xB08553D05a988076E3D962f36887411F92bDD11b"
+                "tokenAddressSource": "0xB08553D05a988076E3D962f36887411F92bDD11b"
             }
         ]
     }

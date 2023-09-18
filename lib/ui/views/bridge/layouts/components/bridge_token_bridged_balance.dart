@@ -6,11 +6,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class BridgeTokenToBridgeBalance extends ConsumerWidget {
-  const BridgeTokenToBridgeBalance({
+class BridgeTokenBridgedBalance extends ConsumerWidget {
+  const BridgeTokenBridgedBalance({
     super.key,
   });
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
@@ -22,13 +21,13 @@ class BridgeTokenToBridgeBalance extends ConsumerWidget {
     return FutureBuilder<String>(
       future: FiatValue().display(
         ref,
-        bridge.tokenToBridge!.symbol,
-        bridge.tokenToBridgeBalance,
+        bridge.tokenToBridge!.targetTokenSymbol,
+        bridge.tokenBridgedBalance,
       ),
       builder: (context, snapshot) {
         if (snapshot.hasData) {
           return Text(
-            '${AppLocalizations.of(context)!.balance_title_infos} ${bridge.tokenToBridgeBalance.toStringAsFixed(2).replaceAll(RegExp(r"0*$"), "").replaceAll(RegExp(r"\.$"), "").formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data}',
+            '${AppLocalizations.of(context)!.balance_title_infos} ${bridge.tokenBridgedBalance.toStringAsFixed(2).replaceAll(RegExp(r"0*$"), "").replaceAll(RegExp(r"\.$"), "").formatNumber()} ${bridge.tokenToBridge!.targetTokenSymbol} ${snapshot.data}',
           );
         }
         return const SizedBox();

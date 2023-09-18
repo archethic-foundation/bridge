@@ -17,7 +17,7 @@ Future<double> _getBalance(
   String tokenAddress, {
   String? providerEndpoint,
 }) async {
-  return ref.watch(_balanceRepositoryProvider).getBalance(
+  return ref.read(_balanceRepositoryProvider).getBalance(
         isArchethic,
         address,
         typeToken,

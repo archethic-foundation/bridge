@@ -148,7 +148,7 @@ mixin EVMBridgeProcessMixin {
       resultProvisionChargeableHTLC = await evmLPERC.provisionChargeableHTLC(
         BigInt.from(bridge.tokenToBridgeAmount),
         htlcAddress,
-        bridge.tokenToBridge!.tokenAddress,
+        bridge.tokenToBridge!.tokenAddressSource,
         chainId: bridge.blockchainFrom!.chainId,
       );
     }

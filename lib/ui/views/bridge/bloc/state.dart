@@ -23,6 +23,7 @@ class BridgeFormState with _$BridgeFormState {
     @Default(0) double tokenToBridgeAmount,
     @Default('') String targetAddress,
     @Default(0) double tokenToBridgeBalance,
+    @Default(0) double tokenBridgedBalance,
     @FailureJsonConverter() Failure? failure,
     @Default(false) bool isTransferInProgress,
     WaitForWalletConfirmation? waitForWalletConfirmation,

@@ -15,6 +15,9 @@ dependencies:
       url: https://github.com/archethic-foundation/archethic-wallet-client-dart.git
       ref: libdart_calling_sm_function
 
+  # Dart package that provides simple access to the CoinGecko API (Version 3)
+  coingecko_api: ^1.1.1+1
+
   # Implementations of SHA, MD5, and HMAC cryptographic functions
   crypto: ^3.0.3
 

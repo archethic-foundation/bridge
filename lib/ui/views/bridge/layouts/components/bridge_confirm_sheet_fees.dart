@@ -1,6 +1,7 @@
 import 'package:aebridge/application/oracle/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
+import 'package:aebridge/ui/views/util/components/fiat_value.dart';
 import 'package:aebridge/ui/views/util/components/format_address_link_copy.dart';
 import 'package:aebridge/ui/views/util/components/icon_button_animated.dart';
 import 'package:aebridge/ui/views/util/generic/formatters.dart';
@@ -80,8 +81,20 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
                 ),
               ],
             ),
-            Text(
-              '-${bridge.safetyModuleFees.toStringAsFixed(2).formatNumber()} ${bridge.safetyModuleSymbol} (\$${safetyModuleFeesFiat.toStringAsFixed(2).formatNumber()})',
+            FutureBuilder<String>(
+              future: FiatValue().display(
+                ref,
+                bridge.safetyModuleSymbol,
+                safetyModuleFeesFiat,
+              ),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text(
+                    '-${bridge.safetyModuleFees.toStringAsFixed(2).formatNumber()} ${bridge.safetyModuleSymbol} ${snapshot.data}',
+                  );
+                }
+                return const SizedBox();
+              },
             ),
           ],
         ),

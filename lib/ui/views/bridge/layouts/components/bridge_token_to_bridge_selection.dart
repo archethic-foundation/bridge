@@ -39,7 +39,7 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
             ),
           ),
           SizedBox(
-            width: 200,
+            width: 230,
             child: Row(
               children: [
                 Expanded(

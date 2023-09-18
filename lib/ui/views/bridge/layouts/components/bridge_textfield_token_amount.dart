@@ -1,8 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/oracle/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_balance.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
+import 'package:aebridge/ui/views/util/components/fiat_value.dart';
 import 'package:aebridge/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -67,27 +66,9 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
       return const SizedBox();
     }
 
-    final archethicOracleUCO =
-        ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
-
-    final tokenToBridgeAmountFiat =
-        archethicOracleUCO.usd * bridge.tokenToBridgeAmount;
-
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Padding(
-          padding: const EdgeInsets.only(bottom: 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                AppLocalizations.of(context)!.bridge_token_amount_lbl,
-              ),
-              const BridgeTokenToBridgeBalance(),
-            ],
-          ),
-        ),
         Stack(
           alignment: Alignment.centerRight,
           children: [
@@ -176,11 +157,24 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
             ),
           ],
         ),
-        Align(
-          alignment: Alignment.centerRight,
-          child: Text(
-            '\$${tokenToBridgeAmountFiat.toStringAsFixed(2).formatNumber()}',
+        FutureBuilder<String>(
+          future: FiatValue().display(
+            ref,
+            bridge.tokenToBridge!.symbol,
+            bridge.tokenToBridgeAmount,
+            withParenthesis: false,
           ),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  '${snapshot.data}',
+                ),
+              );
+            }
+            return const SizedBox();
+          },
         ),
       ],
     )

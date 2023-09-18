@@ -283,4 +283,28 @@ class EVMLP with EVMBridgeProcessMixin {
       },
     );
   }
+
+  Future<(double, String)> calculateSafetyModuleFees(
+    String poolAddress,
+  ) async {
+    var rate = 0.0;
+    var address = '';
+
+    final resultSafetyModuleFeeRate = await getSafetyModuleFeeRate(poolAddress);
+    await resultSafetyModuleFeeRate.map(
+      success: (safetyModuleFeeRate) async {
+        rate = safetyModuleFeeRate;
+      },
+      failure: (failure) {},
+    );
+    final resultSafetyModuleFeeAddress =
+        await getSafetyModuleAddress(poolAddress);
+    await resultSafetyModuleFeeAddress.map(
+      success: (safetyModuleFeeAddress) async {
+        address = safetyModuleFeeAddress;
+      },
+      failure: (failure) {},
+    );
+    return (rate, address);
+  }
 }

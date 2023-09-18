@@ -62,7 +62,7 @@ mixin ArchethicBridgeProcessMixin {
       walletFrom!.genesisAddress,
       endTime,
       bridge.tokenToBridgeAmount,
-      bridge.tokenToBridge!.tokenAddress,
+      bridge.tokenToBridge!.tokenAddressSource,
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
     await resultDeploySignedHTLC.map(
@@ -102,7 +102,7 @@ mixin ArchethicBridgeProcessMixin {
       endTime,
       amount,
       bridge.tokenToBridge!.type == 'Native'
-          ? bridge.tokenToBridge!.tokenAddress
+          ? bridge.tokenToBridge!.tokenAddressSource
           : '',
       archethic.uint8ListToHex(
         Uint8List.fromList(secretHash.bytes),
@@ -136,7 +136,7 @@ mixin ArchethicBridgeProcessMixin {
         await ArchethicContract().provisionSignedHTLC(
       archethicHTLCAddress,
       bridge.tokenToBridgeAmount,
-      bridge.tokenToBridge!.tokenAddress,
+      bridge.tokenToBridge!.tokenAddressSource,
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
     await resultProvisionSignedHTLC.map(

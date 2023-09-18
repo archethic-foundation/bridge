@@ -6,6 +6,7 @@ import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_btn.d
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_sheet_fees.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/components/blockchain_label.dart';
+import 'package:aebridge/ui/views/util/components/fiat_value.dart';
 import 'package:aebridge/ui/views/util/components/format_address_link_copy.dart';
 import 'package:aebridge/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,9 @@ class BridgeConfirmSheet extends ConsumerWidget {
                 AppLocalizations.of(context)!.bridgeConfirmTitle,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
+            ),
+            const SizedBox(
+              width: 5,
             ),
             Expanded(
               child: Container(
@@ -78,8 +82,20 @@ class BridgeConfirmSheet extends ConsumerWidget {
             Text(
               AppLocalizations.of(context)!.bridge_token_amount_lbl,
             ),
-            Text(
-              '${bridge.tokenToBridgeAmount.toString().formatNumber()} ${bridge.tokenToBridge!.symbol} (\$${tokenToBridgeAmountFiat.toStringAsFixed(2).formatNumber()})',
+            FutureBuilder<String>(
+              future: FiatValue().display(
+                ref,
+                bridge.tokenToBridge!.symbol,
+                tokenToBridgeAmountFiat,
+              ),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text(
+                    '${bridge.tokenToBridgeAmount.toString().formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data}',
+                  );
+                }
+                return const SizedBox();
+              },
             ),
           ],
         ),
@@ -120,7 +136,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
         const BridgeConfirmButton(),
         const SizedBox(height: 10),
         const BridgeConfirmBackButton(),
-        const SizedBox(height: 10),
+        const SizedBox(height: 40),
       ],
     );
   }

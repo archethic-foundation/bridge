@@ -8,6 +8,8 @@ import 'package:aebridge/ui/views/bridge/layouts/components/bridge_textfield_tar
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_textfield_token_amount.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_address.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_bridged.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_bridged_balance.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_balance.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_selection.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +31,9 @@ class BridgeFormSheet extends ConsumerWidget {
                 AppLocalizations.of(context)!.bridgeFormTitle,
                 style: Theme.of(context).textTheme.titleSmall,
               ),
+            ),
+            const SizedBox(
+              width: 5,
             ),
             Expanded(
               child: Container(
@@ -58,6 +63,13 @@ class BridgeFormSheet extends ConsumerWidget {
           children: [
             BridgeTokenToBridgeSelection(),
             BridgeTokenBridged(),
+          ],
+        ),
+        const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            BridgeTokenToBridgeBalance(),
+            BridgeTokenBridgedBalance(),
           ],
         ),
         const Align(

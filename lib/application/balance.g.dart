@@ -22,7 +22,7 @@ final _balanceRepositoryProvider =
 );
 
 typedef _BalanceRepositoryRef = AutoDisposeProviderRef<BalanceRepository>;
-String _$getBalanceHash() => r'c078f1ae54f347bd3c8bceecc1687ac520434e02';
+String _$getBalanceHash() => r'eff86b6c2ef83cb454ccd915e2f5c0b24ba26888';
 
 /// Copied from Dart SDK
 class _SystemHash {

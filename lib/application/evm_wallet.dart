@@ -108,6 +108,7 @@ class EVMWalletProvider extends ChangeNotifier {
           final balance = await web3Client!.getBalance(credentials!.address);
           return balance.getValueInUnit(EtherUnit.ether);
         case 'ERC20':
+        case 'Wrapped':
           if (erc20address.isEmpty) {
             return 0.0;
           }

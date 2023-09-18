@@ -16,7 +16,7 @@ class BridgeTokenAddress extends ConsumerWidget {
 
     if (bridge.blockchainTo == null ||
         bridge.tokenToBridge == null ||
-        bridge.tokenToBridge!.tokenAddress.isEmpty) {
+        bridge.tokenToBridge!.tokenAddressSource.isEmpty) {
       return const SizedBox();
     }
 
@@ -29,7 +29,7 @@ class BridgeTokenAddress extends ConsumerWidget {
             AppLocalizations.of(context)!.bridge_token_address_lbl,
           ),
           FormatAddressLinkCopy(
-            address: bridge.tokenToBridge!.tokenAddress,
+            address: bridge.tokenToBridge!.tokenAddressSource,
             chainId: bridge.blockchainFrom!.chainId,
           ),
         ],

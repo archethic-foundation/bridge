@@ -51,6 +51,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       tokenToBridge: bridgeFormState.tokenToBridge,
       tokenToBridgeAmount: bridgeFormState.tokenToBridgeAmount,
       tokenToBridgeBalance: bridgeFormState.tokenToBridgeBalance,
+      tokenBridgedBalance: bridgeFormState.tokenBridgedBalance,
       waitForWalletConfirmation: bridgeFormState.waitForWalletConfirmation,
       htlcAEAddress: bridgeFormState.htlcAEAddress,
       htlcEVMAddress: bridgeFormState.htlcEVMAddress,
@@ -201,11 +202,34 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
         state.blockchainFrom!.isArchethic,
         session.walletFrom!.genesisAddress,
         state.tokenToBridge!.type,
-        state.tokenToBridge!.tokenAddress,
+        state.tokenToBridge!.tokenAddressSource,
         providerEndpoint: state.blockchainFrom!.providerEndpoint,
       ).future,
     );
     await setTokenToBridgeBalance(balance);
+
+    late final String typeTarget;
+    switch (state.tokenToBridge!.type) {
+      case 'ERC20':
+        typeTarget = 'Native';
+        break;
+      case 'Native':
+        typeTarget = 'Wrapped';
+        break;
+      case 'Wrapped':
+        typeTarget = 'Native';
+        break;
+    }
+    final balanceTarget = await ref.read(
+      BalanceProviders.getBalance(
+        state.blockchainTo!.isArchethic,
+        session.walletTo!.genesisAddress,
+        typeTarget,
+        state.tokenToBridge!.tokenAddressTarget,
+        providerEndpoint: state.blockchainTo!.providerEndpoint,
+      ).future,
+    );
+    await setTokenBridgedBalance(balanceTarget);
   }
 
   Future<void> setTokenToBridgeBalance(
@@ -213,6 +237,15 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   ) async {
     state = state.copyWith(
       tokenToBridgeBalance: tokenToBridgeBalance,
+    );
+    await storeBridge();
+  }
+
+  Future<void> setTokenBridgedBalance(
+    double tokenBridgedBalance,
+  ) async {
+    state = state.copyWith(
+      tokenBridgedBalance: tokenBridgedBalance,
     );
     await storeBridge();
   }
@@ -287,6 +320,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       tokenToBridge: null,
       tokenToBridgeAmount: 0,
       tokenToBridgeBalance: 0,
+      tokenBridgedBalance: 0,
       waitForWalletConfirmation: null,
       timestampExec: null,
       changeDirectionInProgress: false,
@@ -475,42 +509,29 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   }
 
   Future<void> validateForm() async {
-    if (state.blockchainFrom!.isArchethic == false) {
-      final evmLP = EVMLP(state.blockchainFrom!.providerEndpoint);
-      final resultSafetyModuleFeeRate = await evmLP
-          .getSafetyModuleFeeRate(state.tokenToBridge!.poolAddressFrom);
-      await resultSafetyModuleFeeRate.map(
-        success: (safetyModuleFeeRate) async {
-          await setSafetyModuleFeesRate(safetyModuleFeeRate);
-        },
-        failure: (failure) {},
-      );
-      final resultSafetyModuleFeeAddress = await evmLP
-          .getSafetyModuleAddress(state.tokenToBridge!.poolAddressFrom);
-      await resultSafetyModuleFeeAddress.map(
-        success: (safetyModuleFeeAddress) async {
-          await setSafetyModuleFeesAddress(safetyModuleFeeAddress);
-        },
-        failure: (failure) {},
-      );
-      final archethicContract = ArchethicContract();
-      final resultArchethicProtocolFeeRate = await archethicContract
-          .getProtocolFeeRate(state.blockchainTo!.archethicFactoryAddress!);
-      await resultArchethicProtocolFeeRate.map(
-        success: (archethicProtocolFeeRate) async {
-          await setArchethicProtocolFeesRate(archethicProtocolFeeRate);
-        },
-        failure: (failure) {},
-      );
-      final resultArchethicProtocolFeeAddress = await archethicContract
-          .getProtocolAddress(state.blockchainTo!.archethicFactoryAddress!);
-      await resultArchethicProtocolFeeAddress.map(
-        success: (archethicProtocolFeeAddress) async {
-          await setArchethicProtocolFeesAddress(archethicProtocolFeeAddress);
-        },
-        failure: (failure) {},
-      );
-    }
+    final evmLP = EVMLP(
+      state.blockchainFrom!.isArchethic
+          ? state.blockchainTo!.providerEndpoint
+          : state.blockchainFrom!.providerEndpoint,
+    );
+
+    final safetyModuleFees = await evmLP.calculateSafetyModuleFees(
+      state.blockchainFrom!.isArchethic
+          ? state.tokenToBridge!.poolAddressTo
+          : state.tokenToBridge!.poolAddressFrom,
+    );
+    await setSafetyModuleFeesRate(safetyModuleFees.$1);
+    await setSafetyModuleFeesAddress(safetyModuleFees.$2);
+
+    final archethicProtocolFees =
+        await ArchethicContract().calculateArchethicProtocolFees(
+      state.blockchainFrom!.isArchethic
+          ? state.blockchainFrom!.archethicFactoryAddress!
+          : state.blockchainTo!.archethicFactoryAddress!,
+    );
+    await setArchethicProtocolFeesRate(archethicProtocolFees.$1);
+    await setArchethicProtocolFeesAddress(archethicProtocolFees.$2);
+
     await setBridgeProcessStep(
       BridgeProcessStep.confirmation,
     );
