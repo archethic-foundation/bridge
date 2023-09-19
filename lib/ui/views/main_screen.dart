@@ -6,9 +6,9 @@ import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter_gen/gen_l10n/localizations.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
@@ -35,6 +35,7 @@ class MainScreenState extends ConsumerState<MainScreen> {
         mobile: const SizedBox(),
         tablet: const SizedBox(),
         desktop: Stack(
+          alignment: Alignment.center,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -78,14 +79,38 @@ class MainScreenState extends ConsumerState<MainScreen> {
             Positioned(
               top: 20,
               right: 20,
-              child: IconButton(
-                icon: const Icon(Iconsax.element_3, size: 26),
-                onPressed: _toggleSubMenu,
+              child: Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  image: DecorationImage(
+                    colorFilter: ColorFilter.mode(
+                      ArchethicThemeBase.blue800,
+                      BlendMode.modulate,
+                    ),
+                    image: const AssetImage(
+                      'assets/images/background-sub-menu.png',
+                    ),
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                child: IconButton(
+                  icon: const Icon(Iconsax.element_3, size: 26),
+                  hoverColor: Colors.transparent,
+                  onPressed: _toggleSubMenu,
+                ),
+              ),
+            ),
+            const Positioned(
+              bottom: 10,
+              child: Text(
+                'The visuals in the app are temporary and subject to change in future updates',
               ),
             ),
             if (_isSubMenuOpen)
               Positioned(
-                top: 50,
+                top: 70,
                 right: 20,
                 child: Column(
                   children: [

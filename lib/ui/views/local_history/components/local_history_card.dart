@@ -34,6 +34,14 @@ class LocalHistoryCard extends StatelessWidget {
             ),
             fit: BoxFit.cover,
           ),
+          boxShadow: [
+            BoxShadow(
+              color: ArchethicThemeBase.neutral900,
+              blurRadius: 40,
+              spreadRadius: 10,
+              offset: const Offset(1, 10),
+            ),
+          ],
         ),
         child: Padding(
           padding: const EdgeInsets.all(20),

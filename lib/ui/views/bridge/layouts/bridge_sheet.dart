@@ -43,6 +43,14 @@ class BridgeSheet extends ConsumerWidget {
                   ),
                   fit: BoxFit.cover,
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: ArchethicThemeBase.neutral900,
+                    blurRadius: 40,
+                    spreadRadius: 10,
+                    offset: const Offset(1, 10),
+                  ),
+                ],
               ),
               child: Stack(
                 children: [
