@@ -22,7 +22,8 @@ final _marketRepositoryProvider =
 );
 
 typedef _MarketRepositoryRef = AutoDisposeProviderRef<MarketRepository>;
-String _$getPriceHash() => r'756723a0f015bacf62b2b3c5f557b763b014d088';
+String _$getPriceFromCoinIdHash() =>
+    r'3cf19e37bc7dc6adeb700b86212fc3bb41311331';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -45,27 +46,28 @@ class _SystemHash {
   }
 }
 
-/// See also [_getPrice].
-@ProviderFor(_getPrice)
-const _getPriceProvider = _GetPriceFamily();
+/// See also [_getPriceFromCoinId].
+@ProviderFor(_getPriceFromCoinId)
+const _getPriceFromCoinIdProvider = _GetPriceFromCoinIdFamily();
 
-/// See also [_getPrice].
-class _GetPriceFamily extends Family<AsyncValue<Result<double, Failure>>> {
-  /// See also [_getPrice].
-  const _GetPriceFamily();
+/// See also [_getPriceFromCoinId].
+class _GetPriceFromCoinIdFamily
+    extends Family<AsyncValue<Result<double, Failure>>> {
+  /// See also [_getPriceFromCoinId].
+  const _GetPriceFromCoinIdFamily();
 
-  /// See also [_getPrice].
-  _GetPriceProvider call(
+  /// See also [_getPriceFromCoinId].
+  _GetPriceFromCoinIdProvider call(
     String coinId,
   ) {
-    return _GetPriceProvider(
+    return _GetPriceFromCoinIdProvider(
       coinId,
     );
   }
 
   @override
-  _GetPriceProvider getProviderOverride(
-    covariant _GetPriceProvider provider,
+  _GetPriceFromCoinIdProvider getProviderOverride(
+    covariant _GetPriceFromCoinIdProvider provider,
   ) {
     return call(
       provider.coinId,
@@ -84,32 +86,33 @@ class _GetPriceFamily extends Family<AsyncValue<Result<double, Failure>>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'_getPriceProvider';
+  String? get name => r'_getPriceFromCoinIdProvider';
 }
 
-/// See also [_getPrice].
-class _GetPriceProvider
+/// See also [_getPriceFromCoinId].
+class _GetPriceFromCoinIdProvider
     extends AutoDisposeFutureProvider<Result<double, Failure>> {
-  /// See also [_getPrice].
-  _GetPriceProvider(
+  /// See also [_getPriceFromCoinId].
+  _GetPriceFromCoinIdProvider(
     String coinId,
   ) : this._internal(
-          (ref) => _getPrice(
-            ref as _GetPriceRef,
+          (ref) => _getPriceFromCoinId(
+            ref as _GetPriceFromCoinIdRef,
             coinId,
           ),
-          from: _getPriceProvider,
-          name: r'_getPriceProvider',
+          from: _getPriceFromCoinIdProvider,
+          name: r'_getPriceFromCoinIdProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$getPriceHash,
-          dependencies: _GetPriceFamily._dependencies,
-          allTransitiveDependencies: _GetPriceFamily._allTransitiveDependencies,
+                  : _$getPriceFromCoinIdHash,
+          dependencies: _GetPriceFromCoinIdFamily._dependencies,
+          allTransitiveDependencies:
+              _GetPriceFromCoinIdFamily._allTransitiveDependencies,
           coinId: coinId,
         );
 
-  _GetPriceProvider._internal(
+  _GetPriceFromCoinIdProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -123,12 +126,13 @@ class _GetPriceProvider
 
   @override
   Override overrideWith(
-    FutureOr<Result<double, Failure>> Function(_GetPriceRef provider) create,
+    FutureOr<Result<double, Failure>> Function(_GetPriceFromCoinIdRef provider)
+        create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: _GetPriceProvider._internal(
-        (ref) => create(ref as _GetPriceRef),
+      override: _GetPriceFromCoinIdProvider._internal(
+        (ref) => create(ref as _GetPriceFromCoinIdRef),
         from: from,
         name: null,
         dependencies: null,
@@ -141,12 +145,12 @@ class _GetPriceProvider
 
   @override
   AutoDisposeFutureProviderElement<Result<double, Failure>> createElement() {
-    return _GetPriceProviderElement(this);
+    return _GetPriceFromCoinIdProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is _GetPriceProvider && other.coinId == coinId;
+    return other is _GetPriceFromCoinIdProvider && other.coinId == coinId;
   }
 
   @override
@@ -158,18 +162,149 @@ class _GetPriceProvider
   }
 }
 
-mixin _GetPriceRef on AutoDisposeFutureProviderRef<Result<double, Failure>> {
+mixin _GetPriceFromCoinIdRef
+    on AutoDisposeFutureProviderRef<Result<double, Failure>> {
   /// The parameter `coinId` of this provider.
   String get coinId;
 }
 
-class _GetPriceProviderElement
+class _GetPriceFromCoinIdProviderElement
     extends AutoDisposeFutureProviderElement<Result<double, Failure>>
-    with _GetPriceRef {
-  _GetPriceProviderElement(super.provider);
+    with _GetPriceFromCoinIdRef {
+  _GetPriceFromCoinIdProviderElement(super.provider);
 
   @override
-  String get coinId => (origin as _GetPriceProvider).coinId;
+  String get coinId => (origin as _GetPriceFromCoinIdProvider).coinId;
+}
+
+String _$getPriceFromSymbolHash() =>
+    r'e5149fe99efaa212abb5166e94f6af94a19ed274';
+
+/// See also [_getPriceFromSymbol].
+@ProviderFor(_getPriceFromSymbol)
+const _getPriceFromSymbolProvider = _GetPriceFromSymbolFamily();
+
+/// See also [_getPriceFromSymbol].
+class _GetPriceFromSymbolFamily extends Family<AsyncValue<double>> {
+  /// See also [_getPriceFromSymbol].
+  const _GetPriceFromSymbolFamily();
+
+  /// See also [_getPriceFromSymbol].
+  _GetPriceFromSymbolProvider call(
+    String symbol,
+  ) {
+    return _GetPriceFromSymbolProvider(
+      symbol,
+    );
+  }
+
+  @override
+  _GetPriceFromSymbolProvider getProviderOverride(
+    covariant _GetPriceFromSymbolProvider provider,
+  ) {
+    return call(
+      provider.symbol,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'_getPriceFromSymbolProvider';
+}
+
+/// See also [_getPriceFromSymbol].
+class _GetPriceFromSymbolProvider extends AutoDisposeFutureProvider<double> {
+  /// See also [_getPriceFromSymbol].
+  _GetPriceFromSymbolProvider(
+    String symbol,
+  ) : this._internal(
+          (ref) => _getPriceFromSymbol(
+            ref as _GetPriceFromSymbolRef,
+            symbol,
+          ),
+          from: _getPriceFromSymbolProvider,
+          name: r'_getPriceFromSymbolProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product')
+                  ? null
+                  : _$getPriceFromSymbolHash,
+          dependencies: _GetPriceFromSymbolFamily._dependencies,
+          allTransitiveDependencies:
+              _GetPriceFromSymbolFamily._allTransitiveDependencies,
+          symbol: symbol,
+        );
+
+  _GetPriceFromSymbolProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.symbol,
+  }) : super.internal();
+
+  final String symbol;
+
+  @override
+  Override overrideWith(
+    FutureOr<double> Function(_GetPriceFromSymbolRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: _GetPriceFromSymbolProvider._internal(
+        (ref) => create(ref as _GetPriceFromSymbolRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        symbol: symbol,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<double> createElement() {
+    return _GetPriceFromSymbolProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is _GetPriceFromSymbolProvider && other.symbol == symbol;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, symbol.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin _GetPriceFromSymbolRef on AutoDisposeFutureProviderRef<double> {
+  /// The parameter `symbol` of this provider.
+  String get symbol;
+}
+
+class _GetPriceFromSymbolProviderElement
+    extends AutoDisposeFutureProviderElement<double>
+    with _GetPriceFromSymbolRef {
+  _GetPriceFromSymbolProviderElement(super.provider);
+
+  @override
+  String get symbol => (origin as _GetPriceFromSymbolProvider).symbol;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

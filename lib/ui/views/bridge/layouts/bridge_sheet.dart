@@ -60,7 +60,7 @@ class BridgeSheet extends ConsumerWidget {
                     padding: const EdgeInsets.only(
                       left: 30,
                       right: 30,
-                      top: 20,
+                      top: 11,
                       bottom: 20,
                     ),
                     child: bridge.bridgeProcessStep == BridgeProcessStep.form

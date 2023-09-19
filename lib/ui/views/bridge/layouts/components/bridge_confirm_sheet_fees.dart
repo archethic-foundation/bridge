@@ -1,4 +1,3 @@
-import 'package:aebridge/application/oracle/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/components/fiat_value.dart';
@@ -16,24 +15,6 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
-
-    final archethicOracleUCO =
-        ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
-
-    var tokenToBridgeReceivedFiat = 0.0;
-    var safetyModuleFeesFiat = 0.0;
-    var archethicProtocolFeesFiat = 0.0;
-    if (bridge.tokenToBridge!.symbol == 'UCO') {
-      tokenToBridgeReceivedFiat =
-          archethicOracleUCO.usd * bridge.tokenToBridgeReceived;
-    }
-    if (bridge.safetyModuleSymbol == 'UCO') {
-      safetyModuleFeesFiat = archethicOracleUCO.usd * bridge.safetyModuleFees;
-    }
-    if (bridge.archethicProtocolSymbol == 'UCO') {
-      archethicProtocolFeesFiat =
-          archethicOracleUCO.usd * bridge.archethicProtocolFees;
-    }
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,7 +66,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
               future: FiatValue().display(
                 ref,
                 bridge.safetyModuleSymbol,
-                safetyModuleFeesFiat,
+                bridge.safetyModuleFees,
               ),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
@@ -119,13 +100,25 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
                       .bridgeConfirmArchethicProtocolLbl,
                 ),
                 Text(
-                  '${bridge.archethicProtocolFeesRate}% of the remaining amount after the EVM Safety module fee',
+                  '${bridge.archethicProtocolFeesRate}% of the remaining amount after the Safety module fee',
                   style: Theme.of(context).textTheme.labelSmall,
                 ),
               ],
             ),
-            Text(
-              '-${bridge.archethicProtocolFees.toStringAsFixed(2).formatNumber()} ${bridge.archethicProtocolSymbol} (\$${archethicProtocolFeesFiat.toStringAsFixed(2).formatNumber()})',
+            FutureBuilder<String>(
+              future: FiatValue().display(
+                ref,
+                bridge.archethicProtocolSymbol,
+                bridge.archethicProtocolFees,
+              ),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text(
+                    '-${bridge.archethicProtocolFees.toStringAsFixed(2).formatNumber()} ${bridge.archethicProtocolSymbol} ${snapshot.data}',
+                  );
+                }
+                return const SizedBox();
+              },
             ),
           ],
         ),
@@ -155,8 +148,20 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
               AppLocalizations.of(context)!
                   .bridgeConfirm_fees_receive_value_lbl,
             ),
-            Text(
-              '${bridge.tokenToBridgeReceived} ${bridge.tokenToBridge!.targetTokenSymbol} (\$${tokenToBridgeReceivedFiat.toStringAsFixed(2).formatNumber()})',
+            FutureBuilder<String>(
+              future: FiatValue().display(
+                ref,
+                bridge.tokenToBridge!.targetTokenSymbol,
+                bridge.tokenToBridgeReceived,
+              ),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text(
+                    '${bridge.tokenToBridgeReceived} ${bridge.tokenToBridge!.targetTokenSymbol} ${snapshot.data}',
+                  );
+                }
+                return const SizedBox();
+              },
             ),
           ],
         ),
