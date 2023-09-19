@@ -2,13 +2,13 @@
 import 'package:aebridge/application/main_screen_widget_displayed.dart';
 import 'package:aebridge/navigation_drawer_section.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
-import 'package:aebridge/ui/views/util/components/icon_animated.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 
 class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key});
@@ -76,39 +76,58 @@ class MainScreenState extends ConsumerState<MainScreen> {
               ],
             ),
             Positioned(
-              top: 10,
-              right: 44,
+              top: 20,
+              right: 20,
               child: IconButton(
-                icon: const Icon(Iconsax.element_3, size: 20),
+                icon: const Icon(Iconsax.element_3, size: 26),
                 onPressed: _toggleSubMenu,
               ),
             ),
             if (_isSubMenuOpen)
               Positioned(
-                top: 40,
-                right: 10,
+                top: 50,
+                right: 20,
                 child: Column(
                   children: [
-                    _buildSubMenuIcon(
-                      Iconsax.activity,
-                      'AEWeb',
+                    _buildSubMenu(
+                      AppLocalizations.of(context)!
+                          .archethicDashboardMenuAEWebItem,
+                      AppLocalizations.of(context)!
+                          .archethicDashboardMenuAEWebDesc,
                       'https://aeweb.archethic.net',
-                    ),
-                    _buildSubMenuIcon(
-                      Iconsax.activity,
-                      'Bridge on way',
+                    )
+                        .animate(delay: 100.ms)
+                        .fadeIn(duration: 400.ms, delay: 200.ms)
+                        .move(
+                          begin: const Offset(-16, 0),
+                          curve: Curves.easeOutQuad,
+                        ),
+                    _buildSubMenu(
+                      AppLocalizations.of(context)!
+                          .archethicDashboardMenuBridgeOnWayItem,
+                      AppLocalizations.of(context)!
+                          .archethicDashboardMenuBridgeOnWayDesc,
                       'https://bridge.archethic.net',
-                    ),
-                    _buildSubMenuIcon(
-                      Iconsax.activity,
-                      'DEX',
+                    )
+                        .animate(delay: 200.ms)
+                        .fadeIn(duration: 400.ms, delay: 200.ms)
+                        .move(
+                          begin: const Offset(-16, 0),
+                          curve: Curves.easeOutQuad,
+                        ),
+                    _buildSubMenu(
+                      AppLocalizations.of(context)!
+                          .archethicDashboardMenuDEXItem,
+                      AppLocalizations.of(context)!
+                          .archethicDashboardMenuDEXDesc,
                       'https://dex.archethic.net',
-                    ),
-                    _buildSubMenuIcon(
-                      Iconsax.add,
-                      'Website',
-                      'https://archethic.net',
-                    ),
+                    )
+                        .animate(delay: 300.ms)
+                        .fadeIn(duration: 400.ms, delay: 200.ms)
+                        .move(
+                          begin: const Offset(-16, 0),
+                          curve: Curves.easeOutQuad,
+                        ),
                   ],
                 ),
               ),
@@ -118,28 +137,62 @@ class MainScreenState extends ConsumerState<MainScreen> {
     );
   }
 
-  Widget _buildSubMenuIcon(IconData icon, String label, String url) {
-    return MouseRegion(
-      cursor: SystemMouseCursors.click,
-      child: GestureDetector(
+  Widget _buildSubMenu(
+    String label,
+    String description,
+    String url,
+  ) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 20),
+      child: InkWell(
         onTap: () {
           launchUrl(
             Uri.parse(url),
           );
         },
-        child: Padding(
-          padding: const EdgeInsets.only(right: 20),
-          child: Column(
-            children: [
-              const SizedBox(
-                height: 30,
+        child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(16),
+            image: DecorationImage(
+              colorFilter: ColorFilter.mode(
+                ArchethicThemeBase.blue800,
+                BlendMode.modulate,
               ),
-              IconAnimated(icon: icon, color: Colors.white60),
-              const SizedBox(
-                height: 3,
+              image: const AssetImage(
+                'assets/images/background-sub-menu.png',
               ),
-              Text(label, style: const TextStyle(fontSize: 10)),
-            ],
+              fit: BoxFit.cover,
+            ),
+          ),
+          width: 250,
+          height: 100,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 20, bottom: 3),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Text(
+                  label,
+                  textAlign: TextAlign.end,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                  ),
+                ),
+                SizedBox(
+                  width: 200,
+                  child: Text(
+                    description,
+                    textAlign: TextAlign.end,
+                    softWrap: true,
+                    style: const TextStyle(
+                      fontSize: 11,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

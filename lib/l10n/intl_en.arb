@@ -102,5 +102,11 @@
   "refundCanRefundDateLock": "You can refund after %1",
   "refundTxAddressLbl": "Transaction",
   "bridgeConfirmEVMSafetyModuleLbl": "EVM Safety module",
-  "bridgeConfirmArchethicProtocolLbl": "Archethic Protocol"
+  "bridgeConfirmArchethicProtocolLbl": "Archethic Protocol",
+  "archethicDashboardMenuDEXItem": "DEX",
+  "archethicDashboardMenuDEXDesc": "SWAP assets on-chain, add liquidity & access LP staking",
+  "archethicDashboardMenuBridgeOnWayItem": "Bridge on way",
+  "archethicDashboardMenuBridgeOnWayDesc": "The portal allowing seamless assets deposits & withdrawals",
+  "archethicDashboardMenuAEWebItem": "AEWeb",
+  "archethicDashboardMenuAEWebDesc": "The decentralized alternative to web hosting"
 }
