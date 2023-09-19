@@ -72,10 +72,7 @@ class BridgeFormSheet extends ConsumerWidget {
             BridgeTokenBridgedBalance(),
           ],
         ),
-        const Align(
-          alignment: Alignment.centerLeft,
-          child: BridgeTokenAddress(),
-        ),
+        const BridgeTokenAddress(),
         const SizedBox(
           height: 10,
         ),

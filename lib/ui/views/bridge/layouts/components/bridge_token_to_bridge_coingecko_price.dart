@@ -13,7 +13,9 @@ class BridgeTokenToBridgeCoingeckoPrice extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
 
-    if (bridge.tokenToBridge == null) {
+    if (bridge.tokenToBridge == null ||
+        bridge.tokenToBridge!.symbol == 'UCO' ||
+        bridge.coingeckoPrice == 0) {
       return const SizedBox();
     }
 

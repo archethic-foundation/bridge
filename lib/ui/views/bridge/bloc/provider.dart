@@ -87,10 +87,10 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     final sessionNotifier = ref.read(SessionProviders.session.notifier);
     state = state.copyWith(failure: null);
     await storeBridge();
-
     if (blockchainFrom.isArchethic) {
       debugPrint('connect to Archethic Wallet');
       final connection = await sessionNotifier.connectToArchethicWallet(true);
+      await Future.delayed(const Duration(milliseconds: 500));
       await connection.map(
         success: (success) async {
           await setBlockchainFrom(blockchainFrom);
@@ -162,7 +162,6 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
               blockchainTo,
             ).future,
           );
-
           if (blockchainFrom != null && state.failure == null) {
             await setBlockchainFromWithConnection(blockchainFrom);
           }
@@ -357,7 +356,6 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       tokenBridgedBalance: 0,
       waitForWalletConfirmation: null,
       timestampExec: null,
-      changeDirectionInProgress: false,
       htlcAEAddress: null,
       htlcEVMAddress: null,
       resumeProcess: false,
