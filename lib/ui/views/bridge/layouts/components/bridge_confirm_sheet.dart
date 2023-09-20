@@ -1,5 +1,4 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/oracle/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_back_btn.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_btn.dart';
@@ -19,12 +18,6 @@ class BridgeConfirmSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
-
-    final archethicOracleUCO =
-        ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
-
-    final tokenToBridgeAmountFiat =
-        archethicOracleUCO.usd * bridge.tokenToBridgeAmount;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -86,7 +79,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
               future: FiatValue().display(
                 ref,
                 bridge.tokenToBridge!.symbol,
-                tokenToBridgeAmountFiat,
+                bridge.tokenToBridgeAmount,
               ),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {

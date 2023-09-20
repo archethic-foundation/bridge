@@ -4,6 +4,7 @@ import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/application/contracts/evm_lp.dart';
+import 'package:aebridge/application/market.dart';
 import 'package:aebridge/application/oracle/state.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
@@ -86,10 +87,10 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     final sessionNotifier = ref.read(SessionProviders.session.notifier);
     state = state.copyWith(failure: null);
     await storeBridge();
-
     if (blockchainFrom.isArchethic) {
       debugPrint('connect to Archethic Wallet');
       final connection = await sessionNotifier.connectToArchethicWallet(true);
+      await Future.delayed(const Duration(milliseconds: 500));
       await connection.map(
         success: (success) async {
           await setBlockchainFrom(blockchainFrom);
@@ -161,7 +162,6 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
               blockchainTo,
             ).future,
           );
-
           if (blockchainFrom != null && state.failure == null) {
             await setBlockchainFromWithConnection(blockchainFrom);
           }
@@ -186,6 +186,36 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     await storeBridge();
   }
 
+  Future<void> setCoingeckoPrice() async {
+    if (state.tokenToBridge == null) {
+      state = state.copyWith(coingeckoPrice: 0);
+    }
+    String? coinId;
+    switch (state.tokenToBridge!.symbol) {
+      case 'ETH':
+      case 'WETH':
+        coinId = 'ethereum';
+        break;
+      case 'BSC':
+        coinId = 'binance-usd';
+        break;
+      case 'MATIC':
+        coinId = 'polygon';
+        break;
+      default:
+        state = state.copyWith(coingeckoPrice: 0);
+        return;
+    }
+
+    final coingeckoPriceResult =
+        await ref.read(MarketProviders.marketRepository).getPrice(coinId);
+    coingeckoPriceResult.map(
+      success: (coingeckoPrice) =>
+          state = state.copyWith(coingeckoPrice: coingeckoPrice),
+      failure: (failure) => state = state.copyWith(coingeckoPrice: 0),
+    );
+  }
+
   Future<void> setTokenToBridge(
     BridgeToken? tokenToBridge,
   ) async {
@@ -196,6 +226,8 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     final session = ref.read(SessionProviders.session);
 
     if (tokenToBridge == null) return;
+
+    await setCoingeckoPrice();
 
     final balance = await ref.read(
       BalanceProviders.getBalance(
@@ -318,12 +350,12 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       archethicTransactionFees: 0,
       targetAddress: '',
       tokenToBridge: null,
+      coingeckoPrice: 0,
       tokenToBridgeAmount: 0,
       tokenToBridgeBalance: 0,
       tokenBridgedBalance: 0,
       waitForWalletConfirmation: null,
       timestampExec: null,
-      changeDirectionInProgress: false,
       htlcAEAddress: null,
       htlcEVMAddress: null,
       resumeProcess: false,
@@ -531,7 +563,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     );
     await setArchethicProtocolFeesRate(archethicProtocolFees.$1);
     await setArchethicProtocolFeesAddress(archethicProtocolFees.$2);
-
+    await setCoingeckoPrice();
     await setBridgeProcessStep(
       BridgeProcessStep.confirmation,
     );

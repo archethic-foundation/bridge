@@ -43,6 +43,14 @@ class BridgeSheet extends ConsumerWidget {
                   ),
                   fit: BoxFit.cover,
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: ArchethicThemeBase.neutral900,
+                    blurRadius: 40,
+                    spreadRadius: 10,
+                    offset: const Offset(1, 10),
+                  ),
+                ],
               ),
               child: Stack(
                 children: [
@@ -60,7 +68,7 @@ class BridgeSheet extends ConsumerWidget {
                     padding: const EdgeInsets.only(
                       left: 30,
                       right: 30,
-                      top: 20,
+                      top: 11,
                       bottom: 20,
                     ),
                     child: bridge.bridgeProcessStep == BridgeProcessStep.form

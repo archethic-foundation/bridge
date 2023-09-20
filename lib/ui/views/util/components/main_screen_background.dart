@@ -1,3 +1,4 @@
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:flutter/material.dart';
 
 class MainScreenBackground extends StatelessWidget {
@@ -7,21 +8,37 @@ class MainScreenBackground extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      padding: const EdgeInsets.symmetric(
-        horizontal: 5,
-        vertical: 10,
-      ),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(24),
-        image: const DecorationImage(
-          image: AssetImage(
-            'assets/images/background-mainscreen.png',
+    return Stack(
+      children: [
+        Container(
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+            image: DecorationImage(
+              colorFilter: ColorFilter.mode(
+                ArchethicThemeBase.plum500.withOpacity(0.8),
+                BlendMode.modulate,
+              ),
+              image: const AssetImage(
+                'assets/images/background-menu.png',
+              ),
+              fit: BoxFit.cover,
+            ),
           ),
-          fit: BoxFit.cover,
         ),
-      ),
+        Container(
+          height: MediaQuery.of(context).size.height,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(24),
+            image: const DecorationImage(
+              image: AssetImage(
+                'assets/images/background-mainscreen.png',
+              ),
+              fit: BoxFit.cover,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

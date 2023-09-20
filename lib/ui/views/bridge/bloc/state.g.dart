@@ -29,6 +29,7 @@ _$_BridgeFormState _$$_BridgeFormStateFromJson(Map<String, dynamic> json) =>
           (json['tokenToBridgeBalance'] as num?)?.toDouble() ?? 0,
       tokenBridgedBalance:
           (json['tokenBridgedBalance'] as num?)?.toDouble() ?? 0,
+      coingeckoPrice: (json['coingeckoPrice'] as num?)?.toDouble() ?? 0,
       failure: _$JsonConverterFromJson<Map<String, dynamic>, Failure>(
           json['failure'], const FailureJsonConverter().fromJson),
       isTransferInProgress: json['isTransferInProgress'] as bool? ?? false,
@@ -76,6 +77,7 @@ Map<String, dynamic> _$$_BridgeFormStateToJson(_$_BridgeFormState instance) =>
       'targetAddress': instance.targetAddress,
       'tokenToBridgeBalance': instance.tokenToBridgeBalance,
       'tokenBridgedBalance': instance.tokenBridgedBalance,
+      'coingeckoPrice': instance.coingeckoPrice,
       'failure': _$JsonConverterToJson<Map<String, dynamic>, Failure>(
           instance.failure, const FailureJsonConverter().toJson),
       'isTransferInProgress': instance.isTransferInProgress,
