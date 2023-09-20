@@ -20,7 +20,7 @@ class LocalHistoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 50),
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: BridgeThemeBase.gradientSheetBackground,
@@ -51,23 +51,28 @@ class LocalHistoryCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text(
-                  DateFormat.yMd(
-                    Localizations.localeOf(context).languageCode,
-                  ).add_Hms().format(
-                        DateTime.fromMillisecondsSinceEpoch(
-                          bridge.timestampExec!,
-                        ).toLocal(),
-                      ),
-                  textAlign: TextAlign.center,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      DateFormat.yMd(
+                        Localizations.localeOf(context).languageCode,
+                      ).add_Hms().format(
+                            DateTime.fromMillisecondsSinceEpoch(
+                              bridge.timestampExec!,
+                            ).toLocal(),
+                          ),
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    LocalHistoryCardOptions(bridge: bridge),
+                  ],
                 ),
                 LocalHistoryCardStatusInfos(bridge: bridge),
                 LocalHistoryCardDirectionInfos(bridge: bridge),
                 LocalHistoryCardTrfInfos(bridge: bridge),
                 LocalHistoryCardHTLCInfos(bridge: bridge),
-                LocalHistoryCardOptions(bridge: bridge),
               ],
             ),
           ),

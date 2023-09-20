@@ -6,7 +6,7 @@
   "build": "Build:",
   "btn_cancel": "Cancel",
   "btn_close": "Close",
-  "btn_sync": "Sync",
+  "btn_copy": "Copy",
   "yes": "Yes",
   "no": "No",
   "ok": "Ok",
@@ -108,5 +108,12 @@
   "archethicDashboardMenuBridgeOnWayItem": "Bridge on way",
   "archethicDashboardMenuBridgeOnWayDesc": "The portal allowing seamless assets deposits & withdrawals",
   "archethicDashboardMenuAEWebItem": "AEWeb",
-  "archethicDashboardMenuAEWebDesc": "The decentralized alternative to web hosting"
+  "archethicDashboardMenuAEWebDesc": "The decentralized alternative to web hosting",
+  "local_history_logs_title": "Logs",
+  "local_history_logs_desc": "In the event of difficulty, you can copy and forward this information to the archethic support team.\nThis information does not contain any information that could affect the security of your funds, but it does provide information for analyzing your problem.\nHowever, before sending this information, please note that it contains your Archethic and EVM addresses.",
+  "local_history_logs_copied": "Logs copied",
+  "local_history_option_delete": "Delete",
+  "local_history_option_refund": "Refund",
+  "local_history_option_logs": "Logs",
+  "local_history_option_resume": "Resume"
 }

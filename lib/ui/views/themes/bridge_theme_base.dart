@@ -14,7 +14,7 @@ class BridgeThemeBase {
   static Color maxButtonColor = ArchethicThemeBase.raspberry500;
   static Color backgroundPopupColor = ArchethicThemeBase.purple500;
 
-  static Color statusOK = ArchethicThemeBase.systemPositive800;
+  static Color statusOK = ArchethicThemeBase.systemPositive500;
   static Color statusKO = ArchethicThemeBase.systemDanger800;
   static Color statusInProgress = ArchethicThemeBase.raspberry300;
 

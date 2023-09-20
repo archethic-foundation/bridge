@@ -52,7 +52,7 @@ class MyApp extends ConsumerWidget {
 
     return MaterialApp.router(
       routerConfig: _router,
-      title: 'aebridge',
+      title: 'Archethic Bridge',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,

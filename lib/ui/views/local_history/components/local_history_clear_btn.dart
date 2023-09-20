@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/bridge_history.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/components/app_button.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
@@ -34,6 +35,8 @@ class LocalHistoryClearButton extends ConsumerWidget {
                           return Scaffold(
                             backgroundColor: Colors.transparent,
                             body: AlertDialog(
+                              backgroundColor:
+                                  BridgeThemeBase.backgroundPopupColor,
                               contentPadding: const EdgeInsets.only(
                                 top: 10,
                               ),

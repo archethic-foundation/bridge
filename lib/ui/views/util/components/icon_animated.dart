@@ -8,12 +8,14 @@ class IconAnimated extends ConsumerStatefulWidget {
     required this.icon,
     required this.color,
     this.iconSize = 20,
+    this.tooltip = '',
     super.key,
   });
 
   final IconData icon;
   final double iconSize;
   final Color color;
+  final String tooltip;
 
   @override
   ConsumerState<IconAnimated> createState() => IconAnimatedState();
@@ -35,11 +37,14 @@ class IconAnimatedState extends ConsumerState<IconAnimated> {
           _over = false;
         });
       },
-      child: Icon(
-        widget.icon,
-        size: widget.iconSize,
-        color: widget.color,
-      ).animate(target: _over ? 1 : 0).scaleXY(end: 1.3),
+      child: Tooltip(
+        message: widget.tooltip,
+        child: Icon(
+          widget.icon,
+          size: widget.iconSize,
+          color: widget.color,
+        ).animate(target: _over ? 1 : 0).scaleXY(end: 1.3),
+      ),
     );
   }
 }
