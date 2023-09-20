@@ -2,7 +2,10 @@
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_direction_infos.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_htlc_infos.dart';
-import 'package:aebridge/ui/views/local_history/components/local_history_card_options.dart';
+import 'package:aebridge/ui/views/local_history/components/local_history_card_options_delete.dart';
+import 'package:aebridge/ui/views/local_history/components/local_history_card_options_logs.dart';
+import 'package:aebridge/ui/views/local_history/components/local_history_card_options_refund.dart';
+import 'package:aebridge/ui/views/local_history/components/local_history_card_options_resume.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_status_infos.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_trf_infos.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
@@ -66,7 +69,14 @@ class LocalHistoryCard extends StatelessWidget {
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    LocalHistoryCardOptions(bridge: bridge),
+                    Row(
+                      children: [
+                        LocalHistoryCardOptionsDelete(bridge: bridge),
+                        LocalHistoryCardOptionsResume(bridge: bridge),
+                        LocalHistoryCardOptionsRefund(bridge: bridge),
+                        LocalHistoryCardOptionsLogs(bridge: bridge),
+                      ],
+                    ),
                   ],
                 ),
                 LocalHistoryCardStatusInfos(bridge: bridge),

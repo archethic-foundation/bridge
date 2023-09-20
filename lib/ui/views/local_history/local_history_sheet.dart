@@ -8,7 +8,6 @@ import 'package:aebridge/ui/views/local_history/components/local_history_clear_b
 import 'package:aebridge/ui/views/util/components/main_screen_background.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -86,14 +85,7 @@ class LocalHistorySheet extends ConsumerWidget {
                             json.decode(json.encode(data.value[index]))
                                 as Map<String, dynamic>,
                           );
-                          return LocalHistoryCard(bridge: bridge)
-                              .animate()
-                              .fade(
-                                duration: const Duration(milliseconds: 100),
-                              )
-                              .scale(
-                                duration: const Duration(milliseconds: 200),
-                              );
+                          return LocalHistoryCard(bridge: bridge);
                         },
                       ),
                     ),

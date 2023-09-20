@@ -101,9 +101,7 @@ mixin ArchethicBridgeProcessMixin {
       bridge.targetAddress,
       endTime,
       amount,
-      bridge.tokenToBridge!.type == 'Native'
-          ? bridge.tokenToBridge!.tokenAddressSource
-          : '',
+      bridge.tokenToBridge!.tokenAddressTarget,
       archethic.uint8ListToHex(
         Uint8List.fromList(secretHash.bytes),
       ),

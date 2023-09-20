@@ -269,7 +269,7 @@ mixin EVMBridgeProcessMixin {
         throw Failure.other(cause: e.data, stack: e.message);
       }
       if (e is EthersException) {
-        throw Failure.other(cause: e.rawError, stack: e.reason);
+        throw Failure.other(cause: e.rawError.toString(), stack: e.reason);
       }
       if (e is RPCError) {
         const encoder = JsonEncoder.withIndent('  ');

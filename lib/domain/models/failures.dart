@@ -39,7 +39,7 @@ class Failure with _$Failure implements Exception {
   }) = RPCErrorEVM;
 
   const factory Failure.other({
-    Object? cause,
+    String? cause,
     String? stack,
   }) = OtherFailure;
 
