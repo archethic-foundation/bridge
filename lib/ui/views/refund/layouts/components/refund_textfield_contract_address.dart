@@ -89,7 +89,6 @@ class _RefundContractAddressState extends ConsumerState<RefundContractAddress> {
                                 BridgeThemeBase.gradientInputFormBackground,
                           ),
                           child: TextField(
-                            maxLines: 2,
                             style: TextStyle(
                               fontFamily: BridgeThemeBase.addressFont,
                               fontSize: 14,
@@ -108,7 +107,7 @@ class _RefundContractAddressState extends ConsumerState<RefundContractAddress> {
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.text,
                             inputFormatters: <TextInputFormatter>[
-                              LengthLimitingTextInputFormatter(68),
+                              LengthLimitingTextInputFormatter(42),
                             ],
                             decoration: const InputDecoration(
                               border: InputBorder.none,

@@ -19,7 +19,7 @@ class RefundButton extends ConsumerWidget {
       return const SizedBox();
     }
 
-    if (refund.isControlsOk == false) {
+    if (refund.isControlsOk == false || refund.htlcCanRefund == false) {
       return AppButton(
         labelBtn: AppLocalizations.of(context)!.btn_refund,
         icon: Iconsax.empty_wallet_change,

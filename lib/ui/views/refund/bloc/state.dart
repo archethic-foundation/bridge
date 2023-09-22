@@ -9,9 +9,9 @@ class RefundFormState with _$RefundFormState {
     @Default('') String contractAddress,
     String? refundTxAddress,
     int? chainId,
-    bool? isArchethic,
     bool? isAlwaysRefunded,
     @Default(false) refundOk,
+    bool? addressOk,
     DateTime? htlcDateLock,
     @Default(0) double amount,
     @Default(0) double fee,
@@ -20,5 +20,9 @@ class RefundFormState with _$RefundFormState {
   }) = _RefundFormState;
   const RefundFormState._();
 
-  bool get isControlsOk => failure == null && contractAddress.isNotEmpty;
+  bool get isControlsOk =>
+      failure == null &&
+      contractAddress.isNotEmpty &&
+      addressOk != null &&
+      addressOk == true;
 }

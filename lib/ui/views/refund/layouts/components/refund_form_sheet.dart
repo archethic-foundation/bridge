@@ -81,6 +81,8 @@ class RefundFormSheet extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 20, left: 30, right: 30),
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisSize: MainAxisSize.min,
                     children: [
                       const RefundInfo(),
                       const SizedBox(
@@ -94,13 +96,13 @@ class RefundFormSheet extends ConsumerWidget {
                       ),
                       const RefundMessage(),
                       const SizedBox(
-                        height: 40,
+                        height: 20,
                       ),
-                      const RefundButton(),
                       const RefundTransaction(),
                     ],
                   ),
                 ),
+                const RefundButton(),
               ],
             ),
           ),

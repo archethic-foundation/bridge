@@ -19,9 +19,9 @@ mixin _$RefundFormState {
   String get contractAddress => throw _privateConstructorUsedError;
   String? get refundTxAddress => throw _privateConstructorUsedError;
   int? get chainId => throw _privateConstructorUsedError;
-  bool? get isArchethic => throw _privateConstructorUsedError;
   bool? get isAlwaysRefunded => throw _privateConstructorUsedError;
   dynamic get refundOk => throw _privateConstructorUsedError;
+  bool? get addressOk => throw _privateConstructorUsedError;
   DateTime? get htlcDateLock => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
   double get fee => throw _privateConstructorUsedError;
@@ -44,9 +44,9 @@ abstract class $RefundFormStateCopyWith<$Res> {
       {String contractAddress,
       String? refundTxAddress,
       int? chainId,
-      bool? isArchethic,
       bool? isAlwaysRefunded,
       dynamic refundOk,
+      bool? addressOk,
       DateTime? htlcDateLock,
       double amount,
       double fee,
@@ -72,9 +72,9 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
     Object? contractAddress = null,
     Object? refundTxAddress = freezed,
     Object? chainId = freezed,
-    Object? isArchethic = freezed,
     Object? isAlwaysRefunded = freezed,
     Object? refundOk = freezed,
+    Object? addressOk = freezed,
     Object? htlcDateLock = freezed,
     Object? amount = null,
     Object? fee = null,
@@ -94,10 +94,6 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
           ? _value.chainId
           : chainId // ignore: cast_nullable_to_non_nullable
               as int?,
-      isArchethic: freezed == isArchethic
-          ? _value.isArchethic
-          : isArchethic // ignore: cast_nullable_to_non_nullable
-              as bool?,
       isAlwaysRefunded: freezed == isAlwaysRefunded
           ? _value.isAlwaysRefunded
           : isAlwaysRefunded // ignore: cast_nullable_to_non_nullable
@@ -106,6 +102,10 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
           ? _value.refundOk
           : refundOk // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      addressOk: freezed == addressOk
+          ? _value.addressOk
+          : addressOk // ignore: cast_nullable_to_non_nullable
+              as bool?,
       htlcDateLock: freezed == htlcDateLock
           ? _value.htlcDateLock
           : htlcDateLock // ignore: cast_nullable_to_non_nullable
@@ -154,9 +154,9 @@ abstract class _$$_RefundFormStateCopyWith<$Res>
       {String contractAddress,
       String? refundTxAddress,
       int? chainId,
-      bool? isArchethic,
       bool? isAlwaysRefunded,
       dynamic refundOk,
+      bool? addressOk,
       DateTime? htlcDateLock,
       double amount,
       double fee,
@@ -181,9 +181,9 @@ class __$$_RefundFormStateCopyWithImpl<$Res>
     Object? contractAddress = null,
     Object? refundTxAddress = freezed,
     Object? chainId = freezed,
-    Object? isArchethic = freezed,
     Object? isAlwaysRefunded = freezed,
     Object? refundOk = freezed,
+    Object? addressOk = freezed,
     Object? htlcDateLock = freezed,
     Object? amount = null,
     Object? fee = null,
@@ -203,15 +203,15 @@ class __$$_RefundFormStateCopyWithImpl<$Res>
           ? _value.chainId
           : chainId // ignore: cast_nullable_to_non_nullable
               as int?,
-      isArchethic: freezed == isArchethic
-          ? _value.isArchethic
-          : isArchethic // ignore: cast_nullable_to_non_nullable
-              as bool?,
       isAlwaysRefunded: freezed == isAlwaysRefunded
           ? _value.isAlwaysRefunded
           : isAlwaysRefunded // ignore: cast_nullable_to_non_nullable
               as bool?,
       refundOk: freezed == refundOk ? _value.refundOk! : refundOk,
+      addressOk: freezed == addressOk
+          ? _value.addressOk
+          : addressOk // ignore: cast_nullable_to_non_nullable
+              as bool?,
       htlcDateLock: freezed == htlcDateLock
           ? _value.htlcDateLock
           : htlcDateLock // ignore: cast_nullable_to_non_nullable
@@ -241,9 +241,9 @@ class _$_RefundFormState extends _RefundFormState {
       {this.contractAddress = '',
       this.refundTxAddress,
       this.chainId,
-      this.isArchethic,
       this.isAlwaysRefunded,
       this.refundOk = false,
+      this.addressOk,
       this.htlcDateLock,
       this.amount = 0,
       this.fee = 0,
@@ -259,12 +259,12 @@ class _$_RefundFormState extends _RefundFormState {
   @override
   final int? chainId;
   @override
-  final bool? isArchethic;
-  @override
   final bool? isAlwaysRefunded;
   @override
   @JsonKey()
   final dynamic refundOk;
+  @override
+  final bool? addressOk;
   @override
   final DateTime? htlcDateLock;
   @override
@@ -282,7 +282,7 @@ class _$_RefundFormState extends _RefundFormState {
 
   @override
   String toString() {
-    return 'RefundFormState(contractAddress: $contractAddress, refundTxAddress: $refundTxAddress, chainId: $chainId, isArchethic: $isArchethic, isAlwaysRefunded: $isAlwaysRefunded, refundOk: $refundOk, htlcDateLock: $htlcDateLock, amount: $amount, fee: $fee, htlcCanRefund: $htlcCanRefund, failure: $failure)';
+    return 'RefundFormState(contractAddress: $contractAddress, refundTxAddress: $refundTxAddress, chainId: $chainId, isAlwaysRefunded: $isAlwaysRefunded, refundOk: $refundOk, addressOk: $addressOk, htlcDateLock: $htlcDateLock, amount: $amount, fee: $fee, htlcCanRefund: $htlcCanRefund, failure: $failure)';
   }
 
   @override
@@ -295,11 +295,11 @@ class _$_RefundFormState extends _RefundFormState {
             (identical(other.refundTxAddress, refundTxAddress) ||
                 other.refundTxAddress == refundTxAddress) &&
             (identical(other.chainId, chainId) || other.chainId == chainId) &&
-            (identical(other.isArchethic, isArchethic) ||
-                other.isArchethic == isArchethic) &&
             (identical(other.isAlwaysRefunded, isAlwaysRefunded) ||
                 other.isAlwaysRefunded == isAlwaysRefunded) &&
             const DeepCollectionEquality().equals(other.refundOk, refundOk) &&
+            (identical(other.addressOk, addressOk) ||
+                other.addressOk == addressOk) &&
             (identical(other.htlcDateLock, htlcDateLock) ||
                 other.htlcDateLock == htlcDateLock) &&
             (identical(other.amount, amount) || other.amount == amount) &&
@@ -315,9 +315,9 @@ class _$_RefundFormState extends _RefundFormState {
       contractAddress,
       refundTxAddress,
       chainId,
-      isArchethic,
       isAlwaysRefunded,
       const DeepCollectionEquality().hash(refundOk),
+      addressOk,
       htlcDateLock,
       amount,
       fee,
@@ -336,9 +336,9 @@ abstract class _RefundFormState extends RefundFormState {
       {final String contractAddress,
       final String? refundTxAddress,
       final int? chainId,
-      final bool? isArchethic,
       final bool? isAlwaysRefunded,
       final dynamic refundOk,
+      final bool? addressOk,
       final DateTime? htlcDateLock,
       final double amount,
       final double fee,
@@ -353,11 +353,11 @@ abstract class _RefundFormState extends RefundFormState {
   @override
   int? get chainId;
   @override
-  bool? get isArchethic;
-  @override
   bool? get isAlwaysRefunded;
   @override
   dynamic get refundOk;
+  @override
+  bool? get addressOk;
   @override
   DateTime? get htlcDateLock;
   @override

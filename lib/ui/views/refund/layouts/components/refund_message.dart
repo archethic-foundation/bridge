@@ -4,6 +4,7 @@ import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:aebridge/ui/views/util/components/info_banner.dart';
 import 'package:aebridge/ui/views/util/failure_message.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RefundMessage extends ConsumerWidget {
@@ -15,10 +16,10 @@ class RefundMessage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final refund = ref.watch(RefundFormProvider.refundForm);
     if (refund.refundOk) {
-      return const SizedBox(
+      return SizedBox(
         height: 40,
         child: InfoBanner(
-          'The refund has been performed successfully',
+          AppLocalizations.of(context)!.refundSuccessInfo,
           InfoBannerType.success,
         ),
       );
@@ -30,8 +31,8 @@ class RefundMessage extends ConsumerWidget {
         child: InfoBanner(
           FailureMessage(
             context: context,
-            failure: const Failure.other(
-              cause: 'This contract has already been refunded',
+            failure: Failure.other(
+              cause: AppLocalizations.of(context)!.refundAlreadyDoneInfo,
             ),
           ).getMessage(),
           InfoBannerType.request,

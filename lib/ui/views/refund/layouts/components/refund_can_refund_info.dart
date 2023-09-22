@@ -16,7 +16,9 @@ class RefundCanRefundInfo extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final refund = ref.watch(RefundFormProvider.refundForm);
     if (refund.isAlwaysRefunded != null && refund.isAlwaysRefunded == true) {
-      return const SizedBox();
+      return const SizedBox(
+        height: 20,
+      );
     }
     if (refund.htlcCanRefund) {
       return Row(
@@ -63,7 +65,9 @@ class RefundCanRefundInfo extends ConsumerWidget {
           ],
         );
       } else {
-        return const SizedBox();
+        return const SizedBox(
+          height: 20,
+        );
       }
     }
   }

@@ -42,44 +42,41 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
   }
 
   Future<void> setStatus() async {
-    await control();
-    if (state.isControlsOk) {
-      if (state.isArchethic == false) {
-        final resultLockTime = await EVMHTLC('http://127.0.0.1:7545')
-            .getHTLCLockTime(state.contractAddress);
-        resultLockTime.map(
-          success: (locktime) {
-            state = state.copyWith(
-              htlcDateLock: locktime.$1,
-              htlcCanRefund: locktime.$2,
-            );
-          },
-          failure: setFailure,
-        );
-        final resultAmount = await EVMHTLC('http://127.0.0.1:7545')
-            .getAmount(state.contractAddress);
-        resultAmount.map(
-          success: (amount) {
-            setAmount(amount);
-          },
-          failure: setFailure,
-        );
-        final resultFee = await EVMLPERC('http://127.0.0.1:7545')
-            .getFee(state.contractAddress);
-        resultFee.map(
-          success: (fee) {
-            setFee(fee);
-          },
-          failure: setFailure,
-        );
-        final refundTxAddress = await EVMHTLC('http://127.0.0.1:7545')
-            .getTxRefund(state.contractAddress);
-        if (refundTxAddress.isNotEmpty) {
+    if (await control()) {
+      final resultLockTime = await EVMHTLC('http://127.0.0.1:7545')
+          .getHTLCLockTime(state.contractAddress);
+      resultLockTime.map(
+        success: (locktime) {
           state = state.copyWith(
-            refundTxAddress: refundTxAddress,
-            isAlwaysRefunded: true,
+            htlcDateLock: locktime.$1,
+            htlcCanRefund: locktime.$2,
           );
-        }
+        },
+        failure: setFailure,
+      );
+      final resultAmount = await EVMHTLC('http://127.0.0.1:7545')
+          .getAmount(state.contractAddress);
+      resultAmount.map(
+        success: (amount) {
+          setAmount(amount);
+        },
+        failure: setFailure,
+      );
+      final resultFee =
+          await EVMLPERC('http://127.0.0.1:7545').getFee(state.contractAddress);
+      resultFee.map(
+        success: (fee) {
+          setFee(fee);
+        },
+        failure: setFailure,
+      );
+      final refundTxAddress = await EVMHTLC('http://127.0.0.1:7545')
+          .getTxRefund(state.contractAddress);
+      if (refundTxAddress.isNotEmpty) {
+        state = state.copyWith(
+          refundTxAddress: refundTxAddress,
+          isAlwaysRefunded: true,
+        );
       }
     }
   }
@@ -108,10 +105,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     state = state.copyWith(refundTxAddress: refundTxAddress);
   }
 
-  void setIsArchethic(bool? isArchethic) {
-    state = state.copyWith(isArchethic: isArchethic);
-  }
-
   Future<bool> control() async {
     state = state.copyWith(
       refundOk: false,
@@ -121,6 +114,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       htlcCanRefund: false,
       amount: 0,
       failure: null,
+      addressOk: null,
     );
 
     if (state.contractAddress.isEmpty) {
@@ -131,29 +125,23 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     }
 
     var addressOk = false;
-    setIsArchethic(null);
+
     if (archethic.Address(address: state.contractAddress).isValid()) {
       addressOk = true;
-      setIsArchethic(true);
     }
 
     if (addressOk == false) {
       try {
         webthree.EthereumAddress.fromHex(state.contractAddress);
         addressOk = true;
-        setIsArchethic(false);
         // ignore: empty_catches
-      } catch (e) {}
+      } catch (e) {
+        addressOk = false;
+      }
     }
 
-    if (addressOk == false) {
-      state = state.copyWith(
-        failure: const Failure.other(cause: 'Please enter a valid address.'),
-      );
-      return false;
-    }
-
-    return true;
+    state = state.copyWith(addressOk: addressOk);
+    return addressOk;
   }
 
   Future<void> refund(BuildContext context, WidgetRef ref) async {
