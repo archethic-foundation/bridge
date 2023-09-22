@@ -39,7 +39,7 @@ class _LocalHistoryBridgeFinishedIncludedSwitchState
         children: [
           TextSpan(
             text: AppLocalizations.of(context)!
-                .local_history_selection_bridge_finished_included_lbl,
+                .local_history_selection_transfer_completed_included_lbl,
           ),
           WidgetSpan(
             alignment: PlaceholderAlignment.middle,

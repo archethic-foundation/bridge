@@ -7,6 +7,8 @@ part 'state.freezed.dart';
 class LocalHistoryFormState with _$LocalHistoryFormState {
   const factory LocalHistoryFormState({
     @Default(false) bool processCompletedIncluded,
+    DateTime? filterPeriodStart,
+    DateTime? filterPeriodEnd,
   }) = _LocalHistoryFormState;
   const LocalHistoryFormState._();
 }

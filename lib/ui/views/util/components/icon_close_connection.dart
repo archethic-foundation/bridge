@@ -96,7 +96,7 @@ class IconCloseConnection extends ConsumerWidget {
         );
       },
       icon: const Icon(Icons.power_settings_new_rounded),
-      color: Colors.red,
+      color: ArchethicThemeBase.raspberry50,
       tooltip: AppLocalizations.of(context)!.connectionWalletDisconnect,
     );
   }

@@ -27,6 +27,20 @@ class LocalHistoryFormNotifier
       BridgeHistoryProviders.fetchBridgesList,
     );
   }
+
+  void setFilterPeriodStart(DateTime filterPeriodStart) {
+    state = state.copyWith(filterPeriodStart: filterPeriodStart);
+    ref.invalidate(
+      BridgeHistoryProviders.fetchBridgesList,
+    );
+  }
+
+  void setFilterPeriodEnd(DateTime filterPeriodEnd) {
+    state = state.copyWith(filterPeriodEnd: filterPeriodEnd);
+    ref.invalidate(
+      BridgeHistoryProviders.fetchBridgesList,
+    );
+  }
 }
 
 abstract class LocalHistoryFormProvider {

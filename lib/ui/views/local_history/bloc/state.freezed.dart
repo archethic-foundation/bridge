@@ -17,6 +17,8 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$LocalHistoryFormState {
   bool get processCompletedIncluded => throw _privateConstructorUsedError;
+  DateTime? get filterPeriodStart => throw _privateConstructorUsedError;
+  DateTime? get filterPeriodEnd => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LocalHistoryFormStateCopyWith<LocalHistoryFormState> get copyWith =>
@@ -29,7 +31,10 @@ abstract class $LocalHistoryFormStateCopyWith<$Res> {
           $Res Function(LocalHistoryFormState) then) =
       _$LocalHistoryFormStateCopyWithImpl<$Res, LocalHistoryFormState>;
   @useResult
-  $Res call({bool processCompletedIncluded});
+  $Res call(
+      {bool processCompletedIncluded,
+      DateTime? filterPeriodStart,
+      DateTime? filterPeriodEnd});
 }
 
 /// @nodoc
@@ -47,12 +52,22 @@ class _$LocalHistoryFormStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? processCompletedIncluded = null,
+    Object? filterPeriodStart = freezed,
+    Object? filterPeriodEnd = freezed,
   }) {
     return _then(_value.copyWith(
       processCompletedIncluded: null == processCompletedIncluded
           ? _value.processCompletedIncluded
           : processCompletedIncluded // ignore: cast_nullable_to_non_nullable
               as bool,
+      filterPeriodStart: freezed == filterPeriodStart
+          ? _value.filterPeriodStart
+          : filterPeriodStart // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      filterPeriodEnd: freezed == filterPeriodEnd
+          ? _value.filterPeriodEnd
+          : filterPeriodEnd // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -65,7 +80,10 @@ abstract class _$$_LocalHistoryFormStateCopyWith<$Res>
       __$$_LocalHistoryFormStateCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool processCompletedIncluded});
+  $Res call(
+      {bool processCompletedIncluded,
+      DateTime? filterPeriodStart,
+      DateTime? filterPeriodEnd});
 }
 
 /// @nodoc
@@ -80,12 +98,22 @@ class __$$_LocalHistoryFormStateCopyWithImpl<$Res>
   @override
   $Res call({
     Object? processCompletedIncluded = null,
+    Object? filterPeriodStart = freezed,
+    Object? filterPeriodEnd = freezed,
   }) {
     return _then(_$_LocalHistoryFormState(
       processCompletedIncluded: null == processCompletedIncluded
           ? _value.processCompletedIncluded
           : processCompletedIncluded // ignore: cast_nullable_to_non_nullable
               as bool,
+      filterPeriodStart: freezed == filterPeriodStart
+          ? _value.filterPeriodStart
+          : filterPeriodStart // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      filterPeriodEnd: freezed == filterPeriodEnd
+          ? _value.filterPeriodEnd
+          : filterPeriodEnd // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -93,16 +121,23 @@ class __$$_LocalHistoryFormStateCopyWithImpl<$Res>
 /// @nodoc
 
 class _$_LocalHistoryFormState extends _LocalHistoryFormState {
-  const _$_LocalHistoryFormState({this.processCompletedIncluded = false})
+  const _$_LocalHistoryFormState(
+      {this.processCompletedIncluded = false,
+      this.filterPeriodStart,
+      this.filterPeriodEnd})
       : super._();
 
   @override
   @JsonKey()
   final bool processCompletedIncluded;
+  @override
+  final DateTime? filterPeriodStart;
+  @override
+  final DateTime? filterPeriodEnd;
 
   @override
   String toString() {
-    return 'LocalHistoryFormState(processCompletedIncluded: $processCompletedIncluded)';
+    return 'LocalHistoryFormState(processCompletedIncluded: $processCompletedIncluded, filterPeriodStart: $filterPeriodStart, filterPeriodEnd: $filterPeriodEnd)';
   }
 
   @override
@@ -112,11 +147,16 @@ class _$_LocalHistoryFormState extends _LocalHistoryFormState {
             other is _$_LocalHistoryFormState &&
             (identical(
                     other.processCompletedIncluded, processCompletedIncluded) ||
-                other.processCompletedIncluded == processCompletedIncluded));
+                other.processCompletedIncluded == processCompletedIncluded) &&
+            (identical(other.filterPeriodStart, filterPeriodStart) ||
+                other.filterPeriodStart == filterPeriodStart) &&
+            (identical(other.filterPeriodEnd, filterPeriodEnd) ||
+                other.filterPeriodEnd == filterPeriodEnd));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, processCompletedIncluded);
+  int get hashCode => Object.hash(runtimeType, processCompletedIncluded,
+      filterPeriodStart, filterPeriodEnd);
 
   @JsonKey(ignore: true)
   @override
@@ -127,12 +167,18 @@ class _$_LocalHistoryFormState extends _LocalHistoryFormState {
 }
 
 abstract class _LocalHistoryFormState extends LocalHistoryFormState {
-  const factory _LocalHistoryFormState({final bool processCompletedIncluded}) =
-      _$_LocalHistoryFormState;
+  const factory _LocalHistoryFormState(
+      {final bool processCompletedIncluded,
+      final DateTime? filterPeriodStart,
+      final DateTime? filterPeriodEnd}) = _$_LocalHistoryFormState;
   const _LocalHistoryFormState._() : super._();
 
   @override
   bool get processCompletedIncluded;
+  @override
+  DateTime? get filterPeriodStart;
+  @override
+  DateTime? get filterPeriodEnd;
   @override
   @JsonKey(ignore: true)
   _$$_LocalHistoryFormStateCopyWith<_$_LocalHistoryFormState> get copyWith =>

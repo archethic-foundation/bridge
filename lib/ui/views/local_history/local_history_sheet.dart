@@ -7,6 +7,7 @@ import 'package:aebridge/ui/views/local_history/bloc/provider.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_bridge_finished_included_switch.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_clear_btn.dart';
+import 'package:aebridge/ui/views/local_history/components/local_history_period_filter.dart';
 import 'package:aebridge/ui/views/util/components/main_screen_background.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:flutter/material.dart';
@@ -70,9 +71,18 @@ class LocalHistorySheet extends ConsumerWidget {
                   ),
                 ],
               ),
-              const LocalHistoryBridgeFinishedIncludedSwitch(),
-              const SizedBox(
-                height: 30,
+              const Padding(
+                padding:
+                    EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
+                child: Row(
+                  children: [
+                    LocalHistoryBridgeFinishedIncludedSwitch(),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    LocalHistoryPeriodFilter(),
+                  ],
+                ),
               ),
               bridgesList.map(
                 data: (data) {
@@ -92,6 +102,21 @@ class LocalHistorySheet extends ConsumerWidget {
                           );
                           if (localHistory.processCompletedIncluded == false &&
                               bridge.failure == null) return const SizedBox();
+                          if (localHistory.filterPeriodStart != null &&
+                              bridge.timestampExec != null &&
+                              DateTime.fromMillisecondsSinceEpoch(
+                                bridge.timestampExec!,
+                              ).isBefore(localHistory.filterPeriodStart!)) {
+                            return const SizedBox();
+                          }
+                          if (localHistory.filterPeriodEnd != null &&
+                              bridge.timestampExec != null &&
+                              DateTime.fromMillisecondsSinceEpoch(
+                                bridge.timestampExec!,
+                              ).isAfter(localHistory.filterPeriodEnd!)) {
+                            return const SizedBox();
+                          }
+
                           return LocalHistoryCard(bridge: bridge);
                         },
                       ),
