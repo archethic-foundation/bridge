@@ -91,9 +91,7 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
             Text('${AppLocalizations.of(context)!.localHistoryStatus}: '),
             Text(
               'Transfer stopped at step ${bridge.currentStep}',
-              style: TextStyle(
-                color: BridgeThemeBase.statusInProgress,
-              ),
+              style: TextStyle(color: BridgeThemeBase.statusKO),
             ),
             Text(
               ' (${BridgeArchethicToEVMUseCase().getStepLabel(context, bridge.currentStep)})',

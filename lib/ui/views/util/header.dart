@@ -15,13 +15,6 @@ class Header extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final linearGradient = LinearGradient(
-      colors: <Color>[
-        ArchethicThemeBase.raspberry300,
-        ArchethicThemeBase.blue500,
-      ],
-    ).createShader(const Rect.fromLTWH(0, 0, 200, 45));
-
     if (forceAELogo == false &&
         (Responsive.isMobile(context) || Responsive.isTablet(context))) {
       return Row(
@@ -50,8 +43,7 @@ class Header extends StatelessWidget {
               'Bridge',
               style: TextStyle(
                 fontSize: 45,
-                fontWeight: FontWeight.w600,
-                foreground: Paint()..shader = linearGradient,
+                color: ArchethicThemeBase.blue200,
               ),
             ),
             const SizedBox(

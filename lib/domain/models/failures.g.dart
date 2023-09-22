@@ -146,7 +146,7 @@ Map<String, dynamic> _$$RPCErrorEVMToJson(_$RPCErrorEVM instance) =>
 
 _$OtherFailure _$$OtherFailureFromJson(Map<String, dynamic> json) =>
     _$OtherFailure(
-      cause: json['cause'],
+      cause: json['cause'] as String?,
       stack: json['stack'] as String?,
       $type: json['runtimeType'] as String?,
     );

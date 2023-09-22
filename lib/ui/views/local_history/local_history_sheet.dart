@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
+import 'package:aebridge/ui/views/local_history/bloc/provider.dart';
+import 'package:aebridge/ui/views/local_history/components/local_history_bridge_finished_included_switch.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_clear_btn.dart';
 import 'package:aebridge/ui/views/util/components/main_screen_background.dart';
@@ -68,11 +70,14 @@ class LocalHistorySheet extends ConsumerWidget {
                   ),
                 ],
               ),
+              const LocalHistoryBridgeFinishedIncludedSwitch(),
               const SizedBox(
                 height: 30,
               ),
               bridgesList.map(
                 data: (data) {
+                  final localHistory =
+                      ref.read(LocalHistoryFormProvider.localHistoryForm);
                   return Expanded(
                     child: SizedBox(
                       child: ListView.builder(
@@ -85,6 +90,8 @@ class LocalHistorySheet extends ConsumerWidget {
                             json.decode(json.encode(data.value[index]))
                                 as Map<String, dynamic>,
                           );
+                          if (localHistory.processCompletedIncluded == false &&
+                              bridge.failure == null) return const SizedBox();
                           return LocalHistoryCard(bridge: bridge);
                         },
                       ),

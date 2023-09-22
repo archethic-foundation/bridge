@@ -115,5 +115,6 @@
   "local_history_option_delete": "Delete",
   "local_history_option_refund": "Refund",
   "local_history_option_logs": "Logs",
-  "local_history_option_resume": "Resume"
+  "local_history_option_resume": "Resume",
+  "local_history_selection_bridge_finished_included_lbl": "Include transfer completed?"
 }
