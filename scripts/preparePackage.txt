@@ -1,4 +1,4 @@
- git submodule update --init --recursive  
+git submodule update --remote
 flutter pub outdated
 flutter pub get
 dart fix --dry-run

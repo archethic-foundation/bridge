@@ -27,21 +27,24 @@ class FormatAddressLinkCopy extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     Widget _address() {
-      return reduceAddress
-          ? Text(
-              reduceAddress ? AddressUtil.reduceAddress(address) : address,
-              style: TextStyle(
-                fontSize: fontSize,
-                fontFamily: BridgeThemeBase.addressFont,
+      return Padding(
+        padding: const EdgeInsets.only(bottom: 1),
+        child: reduceAddress
+            ? Text(
+                reduceAddress ? AddressUtil.reduceAddress(address) : address,
+                style: TextStyle(
+                  fontSize: fontSize,
+                  fontFamily: BridgeThemeBase.addressFont,
+                ),
+              )
+            : SelectableText(
+                reduceAddress ? AddressUtil.reduceAddress(address) : address,
+                style: TextStyle(
+                  fontSize: fontSize,
+                  fontFamily: BridgeThemeBase.addressFont,
+                ),
               ),
-            )
-          : SelectableText(
-              reduceAddress ? AddressUtil.reduceAddress(address) : address,
-              style: TextStyle(
-                fontSize: fontSize,
-                fontFamily: BridgeThemeBase.addressFont,
-              ),
-            );
+      );
     }
 
     return Row(

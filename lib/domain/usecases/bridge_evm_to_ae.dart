@@ -60,7 +60,7 @@ class BridgeEVMToArchethicUseCase
     }
 
     // 2) Provision HTLC
-    if (recoveryStep <= 2) {
+    if (recoveryStep <= 2 && bridge.tokenToBridge!.type != 'Native') {
       try {
         await provisionEVMHTLC(ref, htlcEVMAddress!);
       } catch (e) {

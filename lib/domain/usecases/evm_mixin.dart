@@ -118,6 +118,7 @@ mixin EVMBridgeProcessMixin {
       bridge.tokenToBridge!.poolAddressFrom,
       secretHash.toString(),
       BigInt.from(bridge.tokenToBridgeAmount),
+      bridge.tokenToBridge!.type != 'Native',
       chainId: bridge.blockchainFrom!.chainId,
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);

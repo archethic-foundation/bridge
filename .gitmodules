@@ -1,3 +1,4 @@
 [submodule "contracts"]
 	path = contracts
 	url = https://github.com/archethic-foundation/bridge-contracts
+	branch = main

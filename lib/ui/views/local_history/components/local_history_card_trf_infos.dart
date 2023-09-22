@@ -5,6 +5,7 @@ import 'package:aebridge/ui/views/util/components/fiat_value.dart';
 import 'package:aebridge/ui/views/util/components/format_address_link_copy.dart';
 import 'package:aebridge/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LocalHistoryCardTrfInfos extends ConsumerWidget {
@@ -35,7 +36,7 @@ class LocalHistoryCardTrfInfos extends ConsumerWidget {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return SelectableText(
-                    '${bridge.tokenToBridgeAmount.toString().formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data}',
+                    '${bridge.tokenToBridgeAmount.toString().formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data} ${AppLocalizations.of(context)!.localHistoryToLbl}',
                   );
                 }
                 return const SizedBox();
