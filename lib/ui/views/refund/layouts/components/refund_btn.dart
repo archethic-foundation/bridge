@@ -15,7 +15,8 @@ class RefundButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final refund = ref.watch(RefundFormProvider.refundForm);
     if (refund.refundTxAddress != null ||
-        (refund.isAlwaysRefunded != null && refund.isAlwaysRefunded == true)) {
+        (refund.isAlreadyRefunded != null &&
+            refund.isAlreadyRefunded == true)) {
       return const SizedBox();
     }
 

@@ -9,7 +9,7 @@ class RefundFormState with _$RefundFormState {
     @Default('') String contractAddress,
     String? refundTxAddress,
     int? chainId,
-    bool? isAlwaysRefunded,
+    bool? isAlreadyRefunded,
     @Default(false) refundOk,
     bool? addressOk,
     DateTime? htlcDateLock,

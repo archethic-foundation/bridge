@@ -75,7 +75,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       if (refundTxAddress.isNotEmpty) {
         state = state.copyWith(
           refundTxAddress: refundTxAddress,
-          isAlwaysRefunded: true,
+          isAlreadyRefunded: true,
         );
       }
     }
@@ -109,7 +109,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     state = state.copyWith(
       refundOk: false,
       refundTxAddress: null,
-      isAlwaysRefunded: false,
+      isAlreadyRefunded: false,
       htlcDateLock: null,
       htlcCanRefund: false,
       amount: 0,

@@ -25,7 +25,7 @@ class RefundMessage extends ConsumerWidget {
       );
     }
 
-    if (refund.isAlwaysRefunded != null && refund.isAlwaysRefunded == true) {
+    if (refund.isAlreadyRefunded != null && refund.isAlreadyRefunded == true) {
       return SizedBox(
         height: 40,
         child: InfoBanner(

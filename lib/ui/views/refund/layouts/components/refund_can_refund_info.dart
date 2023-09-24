@@ -15,7 +15,7 @@ class RefundCanRefundInfo extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final refund = ref.watch(RefundFormProvider.refundForm);
-    if (refund.isAlwaysRefunded != null && refund.isAlwaysRefunded == true) {
+    if (refund.isAlreadyRefunded != null && refund.isAlreadyRefunded == true) {
       return const SizedBox(
         height: 20,
       );
