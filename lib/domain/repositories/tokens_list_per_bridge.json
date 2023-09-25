@@ -60,7 +60,7 @@
                 "type": "Native"
             }
         ],
-        "-2->5": [
+        "-2->11155111": [
             {
                 "name": "Wrapped Ether",
                 "symbol": "WETH",
@@ -205,7 +205,7 @@
                 "tokenAddressSource": ""
             }
         ],
-        "5->-2": [
+        "11155111->-2": [
             {
                 "name": "Ether",
                 "symbol": "ETH",
