@@ -526,7 +526,7 @@ class ArchethicContract with TransactionBridgeMixin {
     );
   }
 
-  Future<(double, String)> calculateArchethicProtocolFees(
+  Future<({double rate, String address})> calculateArchethicProtocolFees(
     String archethicFactoryAddress,
   ) async {
     var rate = 0.0;
@@ -548,6 +548,6 @@ class ArchethicContract with TransactionBridgeMixin {
       },
       failure: (failure) {},
     );
-    return (rate, address);
+    return (rate: rate, address: address);
   }
 }

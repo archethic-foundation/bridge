@@ -14,9 +14,7 @@ class RefundTransaction extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final refund = ref.watch(RefundFormProvider.refundForm);
     if (refund.refundTxAddress == null) {
-      return const SizedBox(
-        height: 20,
-      );
+      return const SizedBox();
     }
 
     return Padding(

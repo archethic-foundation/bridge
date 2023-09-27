@@ -26,6 +26,7 @@ mixin _$RefundFormState {
   double get amount => throw _privateConstructorUsedError;
   double get fee => throw _privateConstructorUsedError;
   dynamic get htlcCanRefund => throw _privateConstructorUsedError;
+  BridgeWallet? get evmWallet => throw _privateConstructorUsedError;
   @FailureJsonConverter()
   Failure? get failure => throw _privateConstructorUsedError;
 
@@ -51,8 +52,10 @@ abstract class $RefundFormStateCopyWith<$Res> {
       double amount,
       double fee,
       dynamic htlcCanRefund,
+      BridgeWallet? evmWallet,
       @FailureJsonConverter() Failure? failure});
 
+  $BridgeWalletCopyWith<$Res>? get evmWallet;
   $FailureCopyWith<$Res>? get failure;
 }
 
@@ -79,6 +82,7 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
     Object? amount = null,
     Object? fee = null,
     Object? htlcCanRefund = freezed,
+    Object? evmWallet = freezed,
     Object? failure = freezed,
   }) {
     return _then(_value.copyWith(
@@ -122,11 +126,27 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
           ? _value.htlcCanRefund
           : htlcCanRefund // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      evmWallet: freezed == evmWallet
+          ? _value.evmWallet
+          : evmWallet // ignore: cast_nullable_to_non_nullable
+              as BridgeWallet?,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
               as Failure?,
     ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BridgeWalletCopyWith<$Res>? get evmWallet {
+    if (_value.evmWallet == null) {
+      return null;
+    }
+
+    return $BridgeWalletCopyWith<$Res>(_value.evmWallet!, (value) {
+      return _then(_value.copyWith(evmWallet: value) as $Val);
+    });
   }
 
   @override
@@ -161,8 +181,11 @@ abstract class _$$_RefundFormStateCopyWith<$Res>
       double amount,
       double fee,
       dynamic htlcCanRefund,
+      BridgeWallet? evmWallet,
       @FailureJsonConverter() Failure? failure});
 
+  @override
+  $BridgeWalletCopyWith<$Res>? get evmWallet;
   @override
   $FailureCopyWith<$Res>? get failure;
 }
@@ -188,6 +211,7 @@ class __$$_RefundFormStateCopyWithImpl<$Res>
     Object? amount = null,
     Object? fee = null,
     Object? htlcCanRefund = freezed,
+    Object? evmWallet = freezed,
     Object? failure = freezed,
   }) {
     return _then(_$_RefundFormState(
@@ -226,6 +250,10 @@ class __$$_RefundFormStateCopyWithImpl<$Res>
               as double,
       htlcCanRefund:
           freezed == htlcCanRefund ? _value.htlcCanRefund! : htlcCanRefund,
+      evmWallet: freezed == evmWallet
+          ? _value.evmWallet
+          : evmWallet // ignore: cast_nullable_to_non_nullable
+              as BridgeWallet?,
       failure: freezed == failure
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
@@ -248,6 +276,7 @@ class _$_RefundFormState extends _RefundFormState {
       this.amount = 0,
       this.fee = 0,
       this.htlcCanRefund = false,
+      this.evmWallet,
       @FailureJsonConverter() this.failure})
       : super._();
 
@@ -277,12 +306,14 @@ class _$_RefundFormState extends _RefundFormState {
   @JsonKey()
   final dynamic htlcCanRefund;
   @override
+  final BridgeWallet? evmWallet;
+  @override
   @FailureJsonConverter()
   final Failure? failure;
 
   @override
   String toString() {
-    return 'RefundFormState(contractAddress: $contractAddress, refundTxAddress: $refundTxAddress, chainId: $chainId, isAlreadyRefunded: $isAlreadyRefunded, refundOk: $refundOk, addressOk: $addressOk, htlcDateLock: $htlcDateLock, amount: $amount, fee: $fee, htlcCanRefund: $htlcCanRefund, failure: $failure)';
+    return 'RefundFormState(contractAddress: $contractAddress, refundTxAddress: $refundTxAddress, chainId: $chainId, isAlreadyRefunded: $isAlreadyRefunded, refundOk: $refundOk, addressOk: $addressOk, htlcDateLock: $htlcDateLock, amount: $amount, fee: $fee, htlcCanRefund: $htlcCanRefund, evmWallet: $evmWallet, failure: $failure)';
   }
 
   @override
@@ -306,6 +337,8 @@ class _$_RefundFormState extends _RefundFormState {
             (identical(other.fee, fee) || other.fee == fee) &&
             const DeepCollectionEquality()
                 .equals(other.htlcCanRefund, htlcCanRefund) &&
+            (identical(other.evmWallet, evmWallet) ||
+                other.evmWallet == evmWallet) &&
             (identical(other.failure, failure) || other.failure == failure));
   }
 
@@ -322,6 +355,7 @@ class _$_RefundFormState extends _RefundFormState {
       amount,
       fee,
       const DeepCollectionEquality().hash(htlcCanRefund),
+      evmWallet,
       failure);
 
   @JsonKey(ignore: true)
@@ -343,6 +377,7 @@ abstract class _RefundFormState extends RefundFormState {
       final double amount,
       final double fee,
       final dynamic htlcCanRefund,
+      final BridgeWallet? evmWallet,
       @FailureJsonConverter() final Failure? failure}) = _$_RefundFormState;
   const _RefundFormState._() : super._();
 
@@ -366,6 +401,8 @@ abstract class _RefundFormState extends RefundFormState {
   double get fee;
   @override
   dynamic get htlcCanRefund;
+  @override
+  BridgeWallet? get evmWallet;
   @override
   @FailureJsonConverter()
   Failure? get failure;

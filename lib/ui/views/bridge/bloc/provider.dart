@@ -550,8 +550,8 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
           ? state.tokenToBridge!.poolAddressTo
           : state.tokenToBridge!.poolAddressFrom,
     );
-    await setSafetyModuleFeesRate(safetyModuleFees.$1);
-    await setSafetyModuleFeesAddress(safetyModuleFees.$2);
+    await setSafetyModuleFeesRate(safetyModuleFees.rate);
+    await setSafetyModuleFeesAddress(safetyModuleFees.address);
 
     final archethicProtocolFees =
         await ArchethicContract().calculateArchethicProtocolFees(
@@ -559,8 +559,8 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
           ? state.blockchainFrom!.archethicFactoryAddress!
           : state.blockchainTo!.archethicFactoryAddress!,
     );
-    await setArchethicProtocolFeesRate(archethicProtocolFees.$1);
-    await setArchethicProtocolFeesAddress(archethicProtocolFees.$2);
+    await setArchethicProtocolFeesRate(archethicProtocolFees.rate);
+    await setArchethicProtocolFeesAddress(archethicProtocolFees.address);
     await setCoingeckoPrice();
     await setBridgeProcessStep(
       BridgeProcessStep.confirmation,

@@ -16,23 +16,7 @@ class RefundCanRefundInfo extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final refund = ref.watch(RefundFormProvider.refundForm);
     if (refund.isAlreadyRefunded != null && refund.isAlreadyRefunded == true) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.end,
-        children: [
-          Icon(
-            Iconsax.tick_circle5,
-            size: 12,
-            color: ArchethicThemeBase.systemInfo500,
-          ),
-          const SizedBox(
-            width: 3,
-          ),
-          Text(
-            'Already refunded.',
-            style: TextStyle(color: ArchethicThemeBase.systemInfo500),
-          ),
-        ],
-      );
+      return const SizedBox();
     }
     if (refund.htlcCanRefund) {
       return Row(

@@ -231,7 +231,7 @@ class EVMLP with EVMBridgeProcessMixin {
     );
   }
 
-  Future<(double, String)> calculateSafetyModuleFees(
+  Future<({double rate, String address})> calculateSafetyModuleFees(
     String poolAddress,
   ) async {
     var rate = 0.0;
@@ -252,6 +252,6 @@ class EVMLP with EVMBridgeProcessMixin {
       },
       failure: (failure) {},
     );
-    return (rate, address);
+    return (rate: rate, address: address);
   }
 }

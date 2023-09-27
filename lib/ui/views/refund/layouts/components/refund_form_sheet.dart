@@ -1,8 +1,9 @@
-import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_btn.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_can_refund_info.dart';
+import 'package:aebridge/ui/views/refund/layouts/components/refund_connect_wallet_btn.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_contract.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_infos.dart';
+import 'package:aebridge/ui/views/refund/layouts/components/refund_infos_wallet.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_message.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_textfield_contract_address.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
@@ -18,15 +19,13 @@ class RefundFormSheet extends ConsumerWidget {
   final String? contractAddress;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(RefundFormProvider.refundForm.notifier).control();
-
     return Stack(
       alignment: Alignment.center,
       children: [
         const MainScreenBackground(),
         Container(
           width: 650,
-          height: 350,
+          height: 400,
           decoration: BoxDecoration(
             gradient: BridgeThemeBase.gradientSheetBackground,
             border: GradientBoxBorder(
@@ -91,6 +90,7 @@ class RefundFormSheet extends ConsumerWidget {
                         height: 10,
                       ),
                       RefundContractAddress(contractAddress: contractAddress),
+                      const RefundInfosWallet(),
                       const RefundCanRefundInfo(),
                       const SizedBox(
                         height: 20,
@@ -100,10 +100,12 @@ class RefundFormSheet extends ConsumerWidget {
                         height: 20,
                       ),
                       const RefundTransaction(),
+                      // TODO(everyone): Fix Strange animation
+                      const RefundConnectWalletButton(),
+                      const RefundButton(),
                     ],
                   ),
                 ),
-                const RefundButton(),
               ],
             ),
           ),

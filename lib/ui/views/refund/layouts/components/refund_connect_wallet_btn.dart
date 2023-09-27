@@ -6,30 +6,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RefundButton extends ConsumerWidget {
-  const RefundButton({
+class RefundConnectWalletButton extends ConsumerWidget {
+  const RefundConnectWalletButton({
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final refund = ref.watch(RefundFormProvider.refundForm);
-    if (refund.evmWallet == null ||
-        refund.evmWallet!.isConnected == false ||
-        refund.contractAddress.isEmpty ||
-        refund.failure != null ||
-        refund.refundTxAddress != null ||
-        (refund.isAlreadyRefunded != null &&
-            refund.isAlreadyRefunded == true)) {
+
+    if (refund.evmWallet != null && refund.evmWallet!.isConnected) {
       return const SizedBox();
     }
 
     return AppButton(
-      labelBtn: AppLocalizations.of(context)!.btn_refund,
-      icon: Iconsax.empty_wallet_change,
+      labelBtn: AppLocalizations.of(context)!.btn_refund_evm_connect,
+      icon: Iconsax.empty_wallet,
       onPressed: () async {
-        final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier);
-        await refundNotifier.refund(context, ref);
+        await ref
+            .read(RefundFormProvider.refundForm.notifier)
+            .connectToEVMWallet();
       },
     );
   }

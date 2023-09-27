@@ -1,3 +1,4 @@
+import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
@@ -16,6 +17,7 @@ class RefundFormState with _$RefundFormState {
     @Default(0) double amount,
     @Default(0) double fee,
     @Default(false) htlcCanRefund,
+    BridgeWallet? evmWallet,
     @FailureJsonConverter() Failure? failure,
   }) = _RefundFormState;
   const RefundFormState._();

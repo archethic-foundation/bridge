@@ -47,7 +47,8 @@ class EVMHTLC with EVMBridgeProcessMixin {
     );
   }
 
-  Future<Result<(DateTime, bool), Failure>> getHTLCLockTime(
+  Future<Result<({DateTime dateLockTime, bool canRefund}), Failure>>
+      getHTLCLockTime(
     String htlcContractAddress,
   ) async {
     return Result.guard(
@@ -58,8 +59,8 @@ class EVMHTLC with EVMBridgeProcessMixin {
             await getDeployedContract(contractNameIHTLC, htlcContractAddress);
 
         return (
-          await getDateLockTime(web3Client, contractHTLC),
-          await isCanRefund(web3Client, contractHTLC),
+          dateLockTime: await getDateLockTime(web3Client, contractHTLC),
+          canRefund: await isCanRefund(web3Client, contractHTLC),
         );
       },
     );
@@ -142,7 +143,9 @@ class EVMHTLC with EVMBridgeProcessMixin {
     final canRefundMap = await web3Client.call(
       contract: contract,
       function: contract.function('canRefund'),
-      params: [],
+      params: [
+        BigInt.from(DateTime.now().millisecondsSinceEpoch * 1000),
+      ],
     );
 
     final bool canRefund = canRefundMap[0];

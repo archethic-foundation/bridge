@@ -1,7 +1,11 @@
+import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/application/contracts/evm_lp_erc.dart';
 import 'package:aebridge/application/evm_wallet.dart';
+import 'package:aebridge/application/session/provider.dart';
+import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
+import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/domain/usecases/refund_evm.dart';
 import 'package:aebridge/ui/views/refund/bloc/state.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
@@ -30,6 +34,11 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
 
   @override
   RefundFormState build() {
+    if (sl.isRegistered<EVMWalletProvider>()) {
+      sl.unregister<EVMWalletProvider>();
+    }
+    ref.read(SessionProviders.session.notifier).cancelAllWalletsConnection();
+
     return ref.watch(
       RefundFormProvider.initialRefundForm,
     );
@@ -41,36 +50,41 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
   }
 
   Future<void> setStatus() async {
+    if (state.evmWallet == null || state.evmWallet!.isConnected == false) {
+      return;
+    }
+
     if (await control()) {
-      final resultLockTime = await EVMHTLC('http://127.0.0.1:7545')
+      final resultLockTime = await EVMHTLC(state.evmWallet!.providerEndpoint)
           .getHTLCLockTime(state.contractAddress);
       resultLockTime.map(
         success: (locktime) {
           state = state.copyWith(
-            htlcDateLock: locktime.$1,
-            htlcCanRefund: locktime.$2,
+            htlcDateLock: locktime.dateLockTime,
+            htlcCanRefund: locktime.canRefund,
           );
         },
         failure: setFailure,
       );
-      final resultAmount = await EVMHTLC('http://127.0.0.1:7545')
-          .getAmount(state.contractAddress);
+
+      final evmHTLC = EVMHTLC(state.evmWallet!.providerEndpoint);
+      final evmLPERC = EVMLPERC(state.evmWallet!.providerEndpoint);
+
+      final resultAmount = await evmHTLC.getAmount(state.contractAddress);
       resultAmount.map(
         success: (amount) {
           setAmount(amount);
         },
         failure: setFailure,
       );
-      final resultFee =
-          await EVMLPERC('http://127.0.0.1:7545').getFee(state.contractAddress);
+      final resultFee = await evmLPERC.getFee(state.contractAddress);
       resultFee.map(
         success: (fee) {
           setFee(fee);
         },
         failure: setFailure,
       );
-      final refundTxAddress = await EVMHTLC('http://127.0.0.1:7545')
-          .getTxRefund(state.contractAddress);
+      final refundTxAddress = await evmHTLC.getTxRefund(state.contractAddress);
       if (refundTxAddress.isNotEmpty) {
         state = state.copyWith(
           refundTxAddress: refundTxAddress,
@@ -169,6 +183,53 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
 
     await EVMWalletProvider().connect(currentChain);
     await RefunEVMCase().run(ref, state.contractAddress);
+  }
+
+  Future<Result<void, Failure>> connectToEVMWallet() async {
+    return Result.guard(
+      () async {
+        var evmWallet = const BridgeWallet();
+        evmWallet = evmWallet.copyWith(
+          isConnected: false,
+          error: '',
+        );
+        state = state.copyWith(evmWallet: evmWallet);
+        final evmWalletProvider = EVMWalletProvider();
+
+        try {
+          final currentChainId = await evmWalletProvider.getChainId();
+
+          final bridgeBlockchain = await ref.read(
+            BridgeBlockchainsProviders.getBlockchainFromChainId(
+              currentChainId,
+            ).future,
+          );
+          await evmWalletProvider.connect(currentChainId);
+          if (evmWalletProvider.walletConnected) {
+            debugPrint('Connected to ${evmWalletProvider.accountName}');
+            evmWallet = evmWallet.copyWith(
+              wallet: 'evmWallet',
+              isConnected: true,
+              error: '',
+              nameAccount: evmWalletProvider.accountName!,
+              genesisAddress: evmWalletProvider.currentAddress!,
+              endpoint: bridgeBlockchain!.name,
+              providerEndpoint: bridgeBlockchain.providerEndpoint,
+            );
+            state = state.copyWith(evmWallet: evmWallet);
+            if (sl.isRegistered<EVMWalletProvider>()) {
+              await sl.unregister<EVMWalletProvider>();
+            }
+            sl.registerLazySingleton<EVMWalletProvider>(
+              () => evmWalletProvider,
+            );
+            await setStatus();
+          }
+        } catch (e) {
+          throw const Failure.connectivityEVM();
+        }
+      },
+    );
   }
 }
 
