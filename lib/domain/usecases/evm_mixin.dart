@@ -120,6 +120,7 @@ mixin EVMBridgeProcessMixin {
       BigInt.from(bridge.tokenToBridgeAmount),
       bridge.tokenToBridge!.type != 'Native',
       chainId: bridge.blockchainFrom!.chainId,
+      lockTime: 60,
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
     late String htlcAddress;

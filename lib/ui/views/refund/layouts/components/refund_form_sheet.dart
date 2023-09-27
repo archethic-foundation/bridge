@@ -1,4 +1,4 @@
-import 'package:aebridge/ui/views/refund/layouts/components/refund_blockchain_info.dart';
+import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_btn.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_can_refund_info.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_contract.dart';
@@ -18,6 +18,8 @@ class RefundFormSheet extends ConsumerWidget {
   final String? contractAddress;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    ref.watch(RefundFormProvider.refundForm.notifier).control();
+
     return Stack(
       alignment: Alignment.center,
       children: [
@@ -89,7 +91,6 @@ class RefundFormSheet extends ConsumerWidget {
                         height: 10,
                       ),
                       RefundContractAddress(contractAddress: contractAddress),
-                      const RefundBlockchainInfo(),
                       const RefundCanRefundInfo(),
                       const SizedBox(
                         height: 20,

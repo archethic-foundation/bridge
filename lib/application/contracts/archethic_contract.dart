@@ -240,6 +240,7 @@ class ArchethicContract with TransactionBridgeMixin {
                   [scAuthorizedKey],
                 )
                 .build(seedSC, index)
+                .transaction
                 .originSign(originPrivateKey);
 
         await sendTransactions(

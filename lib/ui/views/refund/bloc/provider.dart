@@ -5,7 +5,6 @@ import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/usecases/refund_evm.dart';
 import 'package:aebridge/ui/views/refund/bloc/state.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
-import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webthree/webthree.dart' as webthree;
@@ -105,6 +104,26 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     state = state.copyWith(refundTxAddress: refundTxAddress);
   }
 
+  ({bool result, Failure? failure}) _controlAddress() {
+    if (state.contractAddress.isEmpty) {
+      return (
+        result: false,
+        failure: const Failure.other(cause: 'Please enter a contract address.'),
+      );
+    }
+
+    try {
+      webthree.EthereumAddress.fromHex(state.contractAddress);
+    } catch (e) {
+      return (
+        result: false,
+        failure: const Failure.other(cause: 'Malformated address.'),
+      );
+    }
+
+    return (result: true, failure: null);
+  }
+
   Future<bool> control() async {
     state = state.copyWith(
       refundOk: false,
@@ -117,31 +136,18 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       addressOk: null,
     );
 
-    if (state.contractAddress.isEmpty) {
+    final controlAddress = _controlAddress();
+    if (controlAddress.failure != null) {
       state = state.copyWith(
-        failure: const Failure.other(cause: 'Please enter a contract address.'),
+        failure: controlAddress.failure,
       );
-      return false;
+    } else {
+      state = state.copyWith(
+        addressOk: true,
+      );
     }
 
-    var addressOk = false;
-
-    if (archethic.Address(address: state.contractAddress).isValid()) {
-      addressOk = true;
-    }
-
-    if (addressOk == false) {
-      try {
-        webthree.EthereumAddress.fromHex(state.contractAddress);
-        addressOk = true;
-        // ignore: empty_catches
-      } catch (e) {
-        addressOk = false;
-      }
-    }
-
-    state = state.copyWith(addressOk: addressOk);
-    return addressOk;
+    return controlAddress.result;
   }
 
   Future<void> refund(BuildContext context, WidgetRef ref) async {

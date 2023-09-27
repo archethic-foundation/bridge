@@ -21,7 +21,6 @@ import 'package:webthree/webthree.dart' as webthree;
 final _bridgeFormProvider =
     NotifierProvider.autoDispose<BridgeFormNotifier, BridgeFormState>(
   () {
-    debugPrint('_bridgeFormProvider');
     return BridgeFormNotifier();
   },
 );
@@ -31,7 +30,6 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
 
   @override
   BridgeFormState build() {
-    debugPrint('BridgeFormState build');
     return const BridgeFormState();
   }
 

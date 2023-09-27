@@ -90,7 +90,7 @@ mixin ArchethicBridgeProcessMixin {
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.archethic);
     var endTime =
-        DateTime.now().add(const Duration(minutes: 720)).millisecondsSinceEpoch;
+        DateTime.now().add(const Duration(minutes: 1)).millisecondsSinceEpoch;
     endTime = DateUtil().roundToNearestMinute(endTime) ~/ 1000;
 
     late String htlcAddress;
