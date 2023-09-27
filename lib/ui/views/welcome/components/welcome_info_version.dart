@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/version.dart';
+import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,21 +19,29 @@ class WelcomeInfoVersion extends ConsumerWidget {
       ),
     );
 
-    return Column(
-      children: [
-        SvgPicture.asset(
-          'assets/images/AELogo-Public Blockchain-White.svg',
-          semanticsLabel: 'AE Logo',
-          height: 22,
-        ),
-        const SizedBox(
-          height: 5,
-        ),
-        Text(
-          asyncVersionString.asData?.value ?? '',
-          style: Theme.of(context).textTheme.labelSmall,
-        ),
-      ],
+    var width = MediaQuery.of(context).size.width * 0.9;
+    if (Responsive.isDesktop(context) == true) {
+      width = MediaQuery.of(context).size.width / 6;
+    }
+
+    return SizedBox(
+      width: width,
+      child: Column(
+        children: [
+          SvgPicture.asset(
+            'assets/images/AELogo-Public Blockchain-White.svg',
+            semanticsLabel: 'AE Logo',
+            height: 22,
+          ),
+          const SizedBox(
+            height: 5,
+          ),
+          Text(
+            asyncVersionString.asData?.value ?? '',
+            style: Theme.of(context).textTheme.labelSmall,
+          ),
+        ],
+      ),
     );
   }
 }
