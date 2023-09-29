@@ -75,7 +75,8 @@ In order to develop and test the application, you need to have some prerequisite
         "000076922e553e45373185ff8fca84aed0036a478864fa19f39133c337a85f0e7ed7"
         |> Base.decode16!(case: :mixed),
       amount: 1_000_000_000_000_000_000_000
-    }]```
+    }]
+    ```
 
   - Launch the Archethic Wallet
   - Create a new account in the devnet environnment
@@ -84,7 +85,7 @@ In order to develop and test the application, you need to have some prerequisite
 #### 3) Deploy Archethic Pools
   - Execute the following commands to deploy the contracts
     ```bash
-    cd contracts/archethic;npm install;node deploy_factory.js;node deploy_pool.js UCO;node deploy_pool.js WETH;cd -
+    cd contracts/archethic;npm install;node deploy_factory.js;node deploy_pool.js UCO;node deploy_pool.js aeETH;cd -
     ```
     - If you encounter an "Insufficient funds" error:
       - [Obtain UCO tokens from the faucet for the Pool genesis address](http://localhost:4000/faucet) (with 300 UCO)
