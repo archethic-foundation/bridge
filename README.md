@@ -99,6 +99,12 @@ In order to develop and test the application, you need to have some prerequisite
     ```
   More infos: [Truffle](https://trufflesuite.com/docs/truffle/how-to/install/) (Tools for EVM smart contract development)
 
+  - Configure the AEBridge project (`/lib/domain/repositories/tokens_list_per_bridge.json` file)
+    - Put from terminal "info 2_deploy_eth_pool.js/TransparentUpgradeableProxy/contract address" value to `-3->1337/ETH/poolAddressTo`
+    - Put from terminal "info 2_deploy_eth_pool.js/TransparentUpgradeableProxy/contract address" value to `1337->-3/ETH/poolAddressFrom`
+    - Put from terminal "info 3_deploy_erc.pool.js/TransparentUpgradeableProxy/contract address" value to `1337->-3/UCO/poolAddressFrom`
+    - Put from terminal "info 3_deploy_erc.pool.js/TransparentUpgradeableProxy/contract address" value to `-3->1337/UCO/poolAddressTo}`
+    - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to `1337->-3/UCO/tokenAddress` 
   - Add ERC Token in your EVM Wallet
     - Search in terminal "info 3_deploy_erc.pool.js/Deployed token" and put the value to EVM Wallet
 
