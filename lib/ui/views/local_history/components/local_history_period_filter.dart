@@ -1,4 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:math';
+
 import 'package:aebridge/ui/views/local_history/bloc/provider.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:flutter/material.dart';
@@ -46,10 +48,12 @@ class LocalHistoryPeriodFilter extends ConsumerWidget {
         ),
         builder: (context, child) {
           return Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ConstrainedBox(
-                constraints: const BoxConstraints(
+                constraints: BoxConstraints(
                   maxWidth: 400,
+                  maxHeight: min(800, MediaQuery.of(context).size.height - 40),
                 ),
                 child: child,
               ),
