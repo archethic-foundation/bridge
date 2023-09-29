@@ -78,7 +78,7 @@ In order to develop and test the application, you need to have some prerequisite
     }]
     ```
 
-  - Launch the Archethic Wallet
+  - Launch the Archethic Wallet in desktop version (Linux, Windows, MacOS)
   - Create a new account in the devnet environnment
   - [Obtain UCO from the faucet for the account](http://localhost:4000/faucet)
   
