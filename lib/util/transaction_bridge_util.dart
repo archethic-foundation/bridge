@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -163,7 +164,7 @@ mixin TransactionBridgeMixin {
         throw Exception('An error occurs');
       },
       success: (result) {
-        accountName = result.name;
+        accountName = result.shortName;
       },
     );
     return accountName;
