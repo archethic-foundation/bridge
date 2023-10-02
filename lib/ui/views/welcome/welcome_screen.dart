@@ -1,9 +1,9 @@
 import 'package:aebridge/ui/views/util/components/scrollbar.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
-import 'package:aebridge/ui/views/util/header.dart';
 import 'package:aebridge/ui/views/welcome/components/welcome_bridge_btn.dart';
 import 'package:aebridge/ui/views/welcome/components/welcome_info_version.dart';
 import 'package:aebridge/ui/views/welcome/components/welcome_infos.dart';
+import 'package:aebridge/ui/views/welcome/header_main_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -77,9 +77,7 @@ class _WelcomeScreenResponsiveWidget extends ConsumerWidget {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(top: 20),
-                    child: Header(
-                      forceAELogo: true,
-                    ),
+                    child: HeaderMainScreen(),
                   ),
                 ],
               ),
@@ -109,9 +107,7 @@ class _WelcomeScreenResponsiveWidget extends ConsumerWidget {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(top: 20),
-                    child: Header(
-                      forceAELogo: true,
-                    ),
+                    child: HeaderMainScreen(),
                   ),
                 ],
               ),
@@ -140,9 +136,7 @@ class _WelcomeScreenResponsiveWidget extends ConsumerWidget {
               children: [
                 Padding(
                   padding: EdgeInsets.only(top: 20),
-                  child: Header(
-                    forceAELogo: true,
-                  ),
+                  child: HeaderMainScreen(),
                 ),
               ],
             ),

@@ -1,37 +1,28 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
-import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:flutter/material.dart';
 
-class Header extends StatelessWidget {
-  const Header({
-    super.key,
-  });
+class HeaderMainScreen extends StatelessWidget {
+  const HeaderMainScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    if (Responsive.isMobile(context)) {
-      return const SizedBox();
-    }
-
     return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const SizedBox(
-          width: 16,
-        ),
         Image.asset(
           'assets/images/AELogo.png',
-          width: 30,
-        ),
-        const SizedBox(
-          width: 8,
+          width: 60,
         ),
         Text(
           'Bridge',
           style: TextStyle(
-            fontSize: 20,
+            fontSize: 45,
             color: ArchethicThemeBase.blue200,
           ),
+        ),
+        const SizedBox(
+          width: 5,
         ),
         Padding(
           padding: const EdgeInsets.only(bottom: 30),
