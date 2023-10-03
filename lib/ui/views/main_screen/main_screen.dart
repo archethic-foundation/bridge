@@ -97,15 +97,6 @@ class MainScreenState extends ConsumerState<MainScreen> {
             alignment: Alignment.center,
             children: [
               const Body(),
-              Positioned(
-                bottom: 10,
-                child: Text(
-                  'The visuals in the app are temporary and subject to change in future updates',
-                  style: TextStyle(
-                    color: ArchethicThemeBase.systemDanger500,
-                  ),
-                ),
-              ),
               if (_isSubMenuOpen)
                 Positioned(
                   top: 0,

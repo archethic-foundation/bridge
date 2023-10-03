@@ -1,5 +1,4 @@
 import 'package:aebridge/application/main_screen_widget_displayed.dart';
-import 'package:aebridge/application/version.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/local_history/local_history_sheet.dart';
 import 'package:aebridge/ui/views/refund/layouts/refund_sheet.dart';
@@ -10,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class MenuDestination {
   const MenuDestination(
@@ -85,22 +83,6 @@ class _NavigationDrawerSectionState
                   semanticsLabel: 'AE Logo',
                   height: 22,
                 ),
-                const SizedBox(
-                  height: 5,
-                ),
-                Consumer(
-                  builder: (context, ref, child) {
-                    final asyncVersionString = ref.watch(
-                      versionStringProvider(
-                        AppLocalizations.of(context)!,
-                      ),
-                    );
-                    return Text(
-                      asyncVersionString.asData?.value ?? '',
-                      style: Theme.of(context).textTheme.labelSmall,
-                    );
-                  },
-                ),
               ],
             ),
           ),
@@ -140,34 +122,6 @@ class _NavigationDrawerSectionState
             )
             .setWidget(const RefundSheet());
 
-        break;
-      case 3:
-        launchUrl(
-          Uri.parse(
-            'https://wiki.archethic.net',
-          ),
-        );
-        break;
-      case 4:
-        launchUrl(
-          Uri.parse(
-            'https://github.com/archethic-foundation/bridge',
-          ),
-        );
-        break;
-      case 5:
-        launchUrl(
-          Uri.parse(
-            'https://wiki.archethic.net/category/FAQ',
-          ),
-        );
-        break;
-      case 6:
-        launchUrl(
-          Uri.parse(
-            'https://wiki.archethic.net/',
-          ),
-        );
         break;
       default:
     }
