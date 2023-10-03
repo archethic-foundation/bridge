@@ -31,9 +31,7 @@ class BodyLarge extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        const Expanded(
-          child: NavigationDrawerSection(),
-        ),
+        const NavigationDrawerSection(),
         Expanded(
           flex: 4,
           child: Padding(

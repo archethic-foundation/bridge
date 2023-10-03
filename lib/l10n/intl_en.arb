@@ -116,5 +116,6 @@
   "local_history_option_logs": "Logs",
   "local_history_option_resume": "Resume",
   "local_history_selection_transfer_completed_included_lbl": "Include transfer completed?",
-  "local_history_period_date_lbl": "Period filter - Dates selection"
+  "local_history_period_date_lbl": "Period filter - Dates selection",
+  "logout": "Logout"
 }

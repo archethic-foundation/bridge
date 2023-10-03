@@ -28,6 +28,7 @@ class AppBarMainScreen extends StatelessWidget implements PreferredSizeWidget {
           width: 10,
         ),
         MenuAnchor(
+          alignmentOffset: const Offset(0, 10),
           builder: (context, controller, child) {
             return IconButton(
               onPressed: () {

@@ -2,7 +2,6 @@ import 'package:aebridge/application/main_screen_widget_displayed.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/local_history/local_history_sheet.dart';
 import 'package:aebridge/ui/views/refund/layouts/refund_sheet.dart';
-import 'package:aebridge/ui/views/util/connection_to_wallet_status.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
@@ -75,6 +74,7 @@ class _NavigationDrawerSectionState
           Padding(
             padding: const EdgeInsets.only(
               top: 10,
+              bottom: 10,
             ),
             child: Column(
               children: [
@@ -86,10 +86,6 @@ class _NavigationDrawerSectionState
               ],
             ),
           ),
-        const Padding(
-          padding: EdgeInsets.all(10),
-          child: ConnectionToWalletStatus(),
-        ),
       ],
     );
   }
