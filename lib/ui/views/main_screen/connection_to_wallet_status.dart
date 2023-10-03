@@ -67,6 +67,13 @@ class _ConnectionToWalletStatusState
     return Container(
       constraints: const BoxConstraints(maxWidth: 300),
       child: MenuAnchor(
+        style: MenuStyle(
+          shape: MaterialStateProperty.all(
+            RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(20),
+            ),
+          ),
+        ),
         alignmentOffset: const Offset(0, 10),
         builder: (context, controller, child) {
           return FilledButton.tonal(

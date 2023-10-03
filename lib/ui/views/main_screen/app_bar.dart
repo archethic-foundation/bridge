@@ -28,6 +28,13 @@ class AppBarMainScreen extends StatelessWidget implements PreferredSizeWidget {
           width: 10,
         ),
         MenuAnchor(
+          style: MenuStyle(
+            shape: MaterialStateProperty.all(
+              RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+            ),
+          ),
           alignmentOffset: const Offset(0, 10),
           builder: (context, controller, child) {
             return IconButton(

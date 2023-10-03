@@ -1,8 +1,14 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/main_screen_widget_displayed.dart';
+import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
+import 'package:aebridge/ui/views/local_history/local_history_sheet.dart';
 import 'package:aebridge/ui/views/main_screen/app_bar.dart';
 import 'package:aebridge/ui/views/main_screen/body.dart';
+import 'package:aebridge/ui/views/main_screen/bottom_navigation_bar.dart';
+import 'package:aebridge/ui/views/refund/layouts/refund_sheet.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
+import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -17,6 +23,20 @@ class MainScreen extends ConsumerStatefulWidget {
 
 class MainScreenState extends ConsumerState<MainScreen> {
   bool _isSubMenuOpen = false;
+  int navigationIndex = 0;
+  List<(String, IconData)> listNavigationLabelIcon = [];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    listNavigationLabelIcon = [
+      (AppLocalizations.of(context)!.menu_bridge, Iconsax.recovery_convert),
+      (AppLocalizations.of(context)!.menu_local_history, Iconsax.clock),
+      (AppLocalizations.of(context)!.menu_refund, Iconsax.empty_wallet_change),
+    ];
+  }
+
   void _toggleSubMenu() {
     setState(() {
       _isSubMenuOpen = !_isSubMenuOpen;
@@ -30,6 +50,44 @@ class MainScreenState extends ConsumerState<MainScreen> {
     });
   }
 
+  void _onDestinationSelected(int selectedIndex) {
+    setState(() {
+      navigationIndex = selectedIndex;
+    });
+
+    switch (selectedIndex) {
+      case 0:
+        ref
+            .read(
+              MainScreenWidgetDisplayedProviders
+                  .mainScreenWidgetDisplayedProvider.notifier,
+            )
+            .setWidget(const BridgeSheet());
+
+        break;
+      case 1:
+        ref
+            .read(
+              MainScreenWidgetDisplayedProviders
+                  .mainScreenWidgetDisplayedProvider.notifier,
+            )
+            .setWidget(const LocalHistorySheet());
+
+        break;
+      case 2:
+        ref
+            .read(
+              MainScreenWidgetDisplayedProviders
+                  .mainScreenWidgetDisplayedProvider.notifier,
+            )
+            .setWidget(const RefundSheet());
+
+        break;
+      default:
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -37,117 +95,71 @@ class MainScreenState extends ConsumerState<MainScreen> {
       child: Scaffold(
         backgroundColor: BridgeThemeBase.backgroundColor,
         appBar: AppBarMainScreen(onAEMenuTapped: _toggleSubMenu),
-        body: Responsive(
-          mobile: const SizedBox(),
-          tablet: Stack(
-            alignment: Alignment.center,
-            children: [
-              const Body(),
-              if (_isSubMenuOpen)
-                Positioned(
-                  top: 0,
-                  right: 20,
-                  child: Column(
-                    children: [
-                      _buildSubMenu(
-                        AppLocalizations.of(context)!
-                            .archethicDashboardMenuAEWebItem,
-                        AppLocalizations.of(context)!
-                            .archethicDashboardMenuAEWebDesc,
-                        'https://aeweb.archethic.net',
-                      )
-                          .animate(delay: 100.ms)
-                          .fadeIn(duration: 400.ms, delay: 200.ms)
-                          .move(
-                            begin: const Offset(-16, 0),
-                            curve: Curves.easeOutQuad,
-                          ),
-                      _buildSubMenu(
-                        AppLocalizations.of(context)!
-                            .archethicDashboardMenuBridgeOnWayItem,
-                        AppLocalizations.of(context)!
-                            .archethicDashboardMenuBridgeOnWayDesc,
-                        'https://bridge.archethic.net',
-                      )
-                          .animate(delay: 200.ms)
-                          .fadeIn(duration: 400.ms, delay: 200.ms)
-                          .move(
-                            begin: const Offset(-16, 0),
-                            curve: Curves.easeOutQuad,
-                          ),
-                      _buildSubMenu(
-                        AppLocalizations.of(context)!
-                            .archethicDashboardMenuDEXItem,
-                        AppLocalizations.of(context)!
-                            .archethicDashboardMenuDEXDesc,
-                        'https://dex.archethic.net',
-                      )
-                          .animate(delay: 300.ms)
-                          .fadeIn(duration: 400.ms, delay: 200.ms)
-                          .move(
-                            begin: const Offset(-16, 0),
-                            curve: Curves.easeOutQuad,
-                          ),
-                    ],
-                  ),
+        body: Stack(
+          alignment: Alignment.center,
+          children: [
+            Body(
+              listNavigationLabelIcon: listNavigationLabelIcon,
+              navDrawerIndex: navigationIndex,
+              onDestinationSelected: _onDestinationSelected,
+            ),
+            if (_isSubMenuOpen)
+              Positioned(
+                top: 0,
+                right: 20,
+                child: Column(
+                  children: [
+                    _buildSubMenu(
+                      AppLocalizations.of(context)!
+                          .archethicDashboardMenuAEWebItem,
+                      AppLocalizations.of(context)!
+                          .archethicDashboardMenuAEWebDesc,
+                      'https://aeweb.archethic.net',
+                    )
+                        .animate(delay: 100.ms)
+                        .fadeIn(duration: 400.ms, delay: 200.ms)
+                        .move(
+                          begin: const Offset(-16, 0),
+                          curve: Curves.easeOutQuad,
+                        ),
+                    _buildSubMenu(
+                      AppLocalizations.of(context)!
+                          .archethicDashboardMenuBridgeOnWayItem,
+                      AppLocalizations.of(context)!
+                          .archethicDashboardMenuBridgeOnWayDesc,
+                      'https://bridge.archethic.net',
+                    )
+                        .animate(delay: 200.ms)
+                        .fadeIn(duration: 400.ms, delay: 200.ms)
+                        .move(
+                          begin: const Offset(-16, 0),
+                          curve: Curves.easeOutQuad,
+                        ),
+                    _buildSubMenu(
+                      AppLocalizations.of(context)!
+                          .archethicDashboardMenuDEXItem,
+                      AppLocalizations.of(context)!
+                          .archethicDashboardMenuDEXDesc,
+                      'https://dex.archethic.net',
+                    )
+                        .animate(delay: 300.ms)
+                        .fadeIn(duration: 400.ms, delay: 200.ms)
+                        .move(
+                          begin: const Offset(-16, 0),
+                          curve: Curves.easeOutQuad,
+                        ),
+                  ],
                 ),
-            ],
-          ),
-          desktop: Stack(
-            alignment: Alignment.center,
-            children: [
-              const Body(),
-              if (_isSubMenuOpen)
-                Positioned(
-                  top: 0,
-                  right: 20,
-                  child: Column(
-                    children: [
-                      _buildSubMenu(
-                        AppLocalizations.of(context)!
-                            .archethicDashboardMenuAEWebItem,
-                        AppLocalizations.of(context)!
-                            .archethicDashboardMenuAEWebDesc,
-                        'https://aeweb.archethic.net',
-                      )
-                          .animate(delay: 100.ms)
-                          .fadeIn(duration: 400.ms, delay: 200.ms)
-                          .move(
-                            begin: const Offset(-16, 0),
-                            curve: Curves.easeOutQuad,
-                          ),
-                      _buildSubMenu(
-                        AppLocalizations.of(context)!
-                            .archethicDashboardMenuBridgeOnWayItem,
-                        AppLocalizations.of(context)!
-                            .archethicDashboardMenuBridgeOnWayDesc,
-                        'https://bridge.archethic.net',
-                      )
-                          .animate(delay: 200.ms)
-                          .fadeIn(duration: 400.ms, delay: 200.ms)
-                          .move(
-                            begin: const Offset(-16, 0),
-                            curve: Curves.easeOutQuad,
-                          ),
-                      _buildSubMenu(
-                        AppLocalizations.of(context)!
-                            .archethicDashboardMenuDEXItem,
-                        AppLocalizations.of(context)!
-                            .archethicDashboardMenuDEXDesc,
-                        'https://dex.archethic.net',
-                      )
-                          .animate(delay: 300.ms)
-                          .fadeIn(duration: 400.ms, delay: 200.ms)
-                          .move(
-                            begin: const Offset(-16, 0),
-                            curve: Curves.easeOutQuad,
-                          ),
-                    ],
-                  ),
-                ),
-            ],
-          ),
+              ),
+          ],
         ),
+        bottomNavigationBar: Responsive.isMobile(context)
+            ? BottomNavigationBarMainScreen(
+                listNavigationLabelIcon: listNavigationLabelIcon,
+                navDrawerIndex: navigationIndex,
+                onDestinationSelected: _onDestinationSelected,
+              )
+            : null,
       ),
     );
   }
