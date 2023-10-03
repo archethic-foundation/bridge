@@ -63,6 +63,7 @@ mixin ArchethicBridgeProcessMixin {
       endTime,
       bridge.tokenToBridgeAmount,
       bridge.tokenToBridge!.tokenAddressSource,
+      bridge.blockchainFrom!.chainId,
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
     await resultDeploySignedHTLC.map(

@@ -19,6 +19,7 @@ class ArchethicContract with TransactionBridgeMixin {
     int endTime,
     double amount,
     String tokenAddress,
+    int chainId,
   ) async {
     return Result.guard(
       () async {
@@ -44,7 +45,7 @@ class ArchethicContract with TransactionBridgeMixin {
         final recipient = Recipient(
           address: poolAddress.toUpperCase(),
           action: 'request_secret_hash',
-          args: [endTime, amount, userAddress],
+          args: [endTime, amount, userAddress, chainId],
         );
 
         final resultDeploy = await _deployHTLC(
