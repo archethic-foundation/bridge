@@ -94,6 +94,7 @@ class MainScreenState extends ConsumerState<MainScreen> {
     return GestureDetector(
       onTap: _closeSubMenu,
       child: Scaffold(
+        extendBodyBehindAppBar: true,
         backgroundColor: BridgeThemeBase.backgroundColor,
         appBar: AppBarMainScreen(
           onAEMenuTapped: _toggleSubMenu,
