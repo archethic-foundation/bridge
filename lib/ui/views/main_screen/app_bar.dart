@@ -2,6 +2,7 @@
 import 'package:aebridge/application/version.dart';
 import 'package:aebridge/ui/views/main_screen/connection_to_wallet_status.dart';
 import 'package:aebridge/ui/views/main_screen/header.dart';
+import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -12,18 +13,22 @@ class AppBarMainScreen extends StatelessWidget implements PreferredSizeWidget {
   const AppBarMainScreen({
     super.key,
     required this.onAEMenuTapped,
+    required this.title,
   });
 
   final Function() onAEMenuTapped;
+  final Widget? title;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.transparent,
       leading: const Header(),
-      leadingWidth: 150,
+      leadingWidth: Responsive.isMobile(context) ? null : 150,
+      title: title,
       actions: [
-        const ConnectionToWalletStatus(),
+        if (Responsive.isDesktop(context) || Responsive.isTablet(context))
+          const ConnectionToWalletStatus(),
         const SizedBox(
           width: 10,
         ),

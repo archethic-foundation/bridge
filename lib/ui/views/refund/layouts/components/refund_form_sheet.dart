@@ -51,35 +51,6 @@ class RefundFormSheet extends ConsumerWidget {
             child: Column(
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(
-                    top: 10,
-                  ),
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 15,
-                        ),
-                        child: SelectionArea(
-                          child: Text(
-                            AppLocalizations.of(context)!.refundFormTitle,
-                            style: Theme.of(context).textTheme.titleSmall,
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          width: 50,
-                          height: 1,
-                          decoration: BoxDecoration(
-                            gradient: BridgeThemeBase.gradient,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
                   padding: const EdgeInsets.only(top: 20, left: 30, right: 30),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

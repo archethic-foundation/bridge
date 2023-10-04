@@ -94,7 +94,14 @@ class MainScreenState extends ConsumerState<MainScreen> {
       onTap: _closeSubMenu,
       child: Scaffold(
         backgroundColor: BridgeThemeBase.backgroundColor,
-        appBar: AppBarMainScreen(onAEMenuTapped: _toggleSubMenu),
+        appBar: AppBarMainScreen(
+          onAEMenuTapped: _toggleSubMenu,
+          title: Center(
+            child: Text(
+              listNavigationLabelIcon[navigationIndex].$1,
+            ),
+          ),
+        ),
         body: Stack(
           alignment: Alignment.center,
           children: [
