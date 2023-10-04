@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
+import 'package:aebridge/ui/views/util/components/icon_animated.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/localizations.dart';
 
 class PopupCloseButton extends StatelessWidget {
   const PopupCloseButton({
@@ -9,19 +10,25 @@ class PopupCloseButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        const Spacer(),
-        TextButton(
-          child: Text(
-            AppLocalizations.of(context)!.btn_close,
-            style: Theme.of(context).textTheme.titleMedium,
+    return Padding(
+      padding: const EdgeInsets.only(top: 10),
+      child: InkWell(
+        onTap: () {
+          Navigator.of(context).pop();
+        },
+        child: CircleAvatar(
+          radius: 20,
+          backgroundColor: BridgeThemeBase.backgroundPopupColor,
+          child: const CircleAvatar(
+            foregroundColor: Colors.white,
+            radius: 12,
+            child: IconAnimated(
+              color: Colors.white,
+              icon: Icons.close,
+            ),
           ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
         ),
-      ],
+      ),
     );
   }
 }
