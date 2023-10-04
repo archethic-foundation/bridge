@@ -100,7 +100,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
           const BridgeConfirmSheetFees(),
           const Spacer(),
           const BridgeConfirmButton(),
-          const SizedBox(height: 30),
+          const SizedBox(height: 25),
         ],
       ),
     );

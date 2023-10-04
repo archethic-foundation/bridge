@@ -36,107 +36,87 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
             BridgeThemeBase.sizeBoxComponentWidth / 2 - 40,
             MediaQuery.of(context).size.width / 3 - 5,
           ),
-          child: Row(
-            children: [
-              Expanded(
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: DecoratedBox(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(
-                              10,
-                            ),
-                            border: Border.all(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .primaryContainer,
-                              width: 0.5,
-                            ),
-                            gradient:
-                                BridgeThemeBase.gradientInputFormBackground,
-                          ),
-                          child: InkWell(
-                            child: Container(
-                              padding: const EdgeInsets.only(left: 10),
-                              height: 45,
-                              child: Align(
-                                alignment: Alignment.centerLeft,
-                                child: bridge.changeDirectionInProgress == true
-                                    ? const Text('')
-                                    : bridge.blockchainTo == null
-                                        ? Padding(
-                                            padding:
-                                                const EdgeInsets.only(left: 5),
-                                            child: Flexible(
-                                              child: Text(
-                                                AppLocalizations.of(context)!
-                                                    .btn_selectBlockchain,
-                                                style: textTheme.titleMedium,
-                                                overflow: TextOverflow.ellipsis,
-                                              ),
-                                            ),
-                                          )
-                                        : Row(
-                                            children: [
-                                              SvgPicture.asset(
-                                                'assets/images/bc-logos/${bridge.blockchainTo!.icon}',
-                                                width: 20,
-                                              ),
-                                              const SizedBox(
-                                                width: 10,
-                                              ),
-                                              Flexible(
-                                                child: Text(
-                                                  bridge.blockchainTo!.name,
-                                                  style: textTheme.titleMedium,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(
+                10,
+              ),
+              border: Border.all(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                width: 0.5,
+              ),
+              gradient: BridgeThemeBase.gradientInputFormBackground,
+            ),
+            child: InkWell(
+              child: Container(
+                padding: const EdgeInsets.only(left: 10),
+                height: 45,
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: bridge.changeDirectionInProgress == true
+                      ? const Text('')
+                      : bridge.blockchainTo == null
+                          ? Padding(
+                              padding: const EdgeInsets.only(left: 5),
+                              child: Row(
+                                children: [
+                                  Flexible(
+                                    child: Text(
+                                      AppLocalizations.of(context)!
+                                          .btn_selectBlockchain,
+                                      style: textTheme.titleMedium,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ],
                               ),
+                            )
+                          : Row(
+                              children: [
+                                SvgPicture.asset(
+                                  'assets/images/bc-logos/${bridge.blockchainTo!.icon}',
+                                  width: 20,
+                                ),
+                                const SizedBox(
+                                  width: 10,
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    bridge.blockchainTo!.name,
+                                    style: textTheme.titleMedium,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ],
                             ),
-                            onTap: () async {
-                              final blockchainSelectionNotifier = ref.watch(
-                                BlockchainSelectionFormProvider
-                                    .blockchainSelectionForm.notifier,
-                              );
-                              if (bridge.blockchainFrom != null &&
-                                  bridge.blockchainFrom!.env != '1-mainnet') {
-                                blockchainSelectionNotifier
-                                    .setTestnetIncluded(true);
-                              }
-
-                              final blockchain =
-                                  await BlockchainSelectionPopup.getDialog(
-                                context,
-                                ref,
-                                env: bridge.blockchainFrom == null
-                                    ? null
-                                    : bridge.blockchainFrom!.env,
-                                shouldBeArchethic: bridge.blockchainFrom == null
-                                    ? null
-                                    : !bridge.blockchainFrom!.isArchethic,
-                              );
-                              if (blockchain == null) return;
-                              await ref
-                                  .watch(BridgeFormProvider.bridgeForm.notifier)
-                                  .setBlockchainToWithConnection(blockchain);
-                            },
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
                 ),
               ),
-            ],
+              onTap: () async {
+                final blockchainSelectionNotifier = ref.watch(
+                  BlockchainSelectionFormProvider
+                      .blockchainSelectionForm.notifier,
+                );
+                if (bridge.blockchainFrom != null &&
+                    bridge.blockchainFrom!.env != '1-mainnet') {
+                  blockchainSelectionNotifier.setTestnetIncluded(true);
+                }
+
+                final blockchain = await BlockchainSelectionPopup.getDialog(
+                  context,
+                  ref,
+                  env: bridge.blockchainFrom == null
+                      ? null
+                      : bridge.blockchainFrom!.env,
+                  shouldBeArchethic: bridge.blockchainFrom == null
+                      ? null
+                      : !bridge.blockchainFrom!.isArchethic,
+                );
+                if (blockchain == null) return;
+                await ref
+                    .watch(BridgeFormProvider.bridgeForm.notifier)
+                    .setBlockchainToWithConnection(blockchain);
+              },
+            ),
           ),
         ),
       ],

@@ -13,19 +13,16 @@ class BridgeInProgressInfos extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
     if (bridge.isTransferInProgress) {
-      return SizedBox(
-        height: 40,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              AppLocalizations.of(context)!.bridgeInProgressInfo1,
-            ),
-            Text(
-              AppLocalizations.of(context)!.bridgeInProgressInfo2,
-            ),
-          ],
-        ),
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            AppLocalizations.of(context)!.bridgeInProgressInfo1,
+          ),
+          Text(
+            AppLocalizations.of(context)!.bridgeInProgressInfo2,
+          ),
+        ],
       );
     }
 

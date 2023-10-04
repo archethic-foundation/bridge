@@ -25,28 +25,30 @@ class BridgeInProgressPopup {
                 backgroundColor: Colors.transparent,
                 body: AlertDialog(
                   backgroundColor: BridgeThemeBase.backgroundPopupColor,
-                  content: Container(
-                    height: 500,
-                    width: BridgeThemeBase.sizeBoxComponentWidth,
-                    color: Colors.transparent,
-                    padding: const EdgeInsets.only(
-                      top: 10,
-                      left: 30,
-                      right: 30,
-                    ),
-                    child: const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        BridgeInProgressCloseBtn(),
-                        BridgeInProgressInfos(),
-                        BridgeInProgressCircularStepProgressIndicator(),
-                        BridgeInProgressCurrentStep(),
-                        BridgeInProgressError(),
-                        BridgeInProgressContracts(),
-                        Spacer(),
-                        BridgeInProgressResumeBtn(),
-                      ],
+                  content: SingleChildScrollView(
+                    child: Container(
+                      height: 500,
+                      width: BridgeThemeBase.sizeBoxComponentWidth,
+                      color: Colors.transparent,
+                      padding: const EdgeInsets.only(
+                        top: 10,
+                        left: 30,
+                        right: 30,
+                      ),
+                      child: const Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          BridgeInProgressCloseBtn(),
+                          BridgeInProgressInfos(),
+                          BridgeInProgressCircularStepProgressIndicator(),
+                          BridgeInProgressCurrentStep(),
+                          BridgeInProgressError(),
+                          BridgeInProgressContracts(),
+                          Spacer(),
+                          BridgeInProgressResumeBtn(),
+                        ],
+                      ),
                     ),
                   ),
                 ),

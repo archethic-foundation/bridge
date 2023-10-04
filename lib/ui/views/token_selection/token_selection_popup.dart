@@ -23,50 +23,54 @@ class TokenSelectionPopup {
                 backgroundColor: Colors.transparent,
                 body: AlertDialog(
                   backgroundColor: BridgeThemeBase.backgroundPopupColor,
-                  content: Container(
-                    width: BridgeThemeBase.sizeBoxComponentWidth,
-                    color: Colors.transparent,
-                    padding: const EdgeInsets.all(10),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        const PopupCloseButton(),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                            top: 10,
-                          ),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 15),
-                                child: SelectionArea(
-                                  child: Text(
-                                    AppLocalizations.of(context)!
-                                        .token_selection_title,
-                                    style:
-                                        Theme.of(context).textTheme.titleSmall,
+                  content: SingleChildScrollView(
+                    child: Container(
+                      height: 220,
+                      width: BridgeThemeBase.sizeBoxComponentWidth,
+                      color: Colors.transparent,
+                      padding: const EdgeInsets.all(10),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          const PopupCloseButton(),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              top: 10,
+                            ),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 15),
+                                  child: SelectionArea(
+                                    child: Text(
+                                      AppLocalizations.of(context)!
+                                          .token_selection_title,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Expanded(
-                                child: Container(
-                                  width: 50,
-                                  height: 1,
-                                  decoration: BoxDecoration(
-                                    gradient: BridgeThemeBase.gradient,
+                                Expanded(
+                                  child: Container(
+                                    width: 50,
+                                    height: 1,
+                                    decoration: BoxDecoration(
+                                      gradient: BridgeThemeBase.gradient,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 10,
-                        ),
-                        TokenList(direction: direction),
-                      ],
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Expanded(child: TokenList(direction: direction)),
+                        ],
+                      ),
                     ),
                   ),
                 ),

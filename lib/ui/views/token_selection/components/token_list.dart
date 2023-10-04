@@ -21,24 +21,15 @@ class TokenList extends ConsumerWidget {
         data: (data) {
           return _TokensList(tokens: data.value);
         },
-        error: (error) => const SizedBox(
-          height: 200,
-        ),
-        loading: (loading) => const Stack(
-          children: [
-            SizedBox(
-              height: 200,
+        error: (error) => const SizedBox(),
+        loading: (loading) => const Center(
+          child: SizedBox(
+            height: 20,
+            width: 20,
+            child: CircularProgressIndicator(
+              strokeWidth: 1,
             ),
-            SizedBox(
-              height: 20,
-              width: 20,
-              child: Center(
-                child: CircularProgressIndicator(
-                  strokeWidth: 1,
-                ),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
@@ -53,7 +44,6 @@ class _TokensList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: 200,
       child: ListView.separated(
         separatorBuilder: (context, index) => const SizedBox(
           height: 10,

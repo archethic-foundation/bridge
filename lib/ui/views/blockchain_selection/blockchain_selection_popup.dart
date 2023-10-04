@@ -26,6 +26,7 @@ class BlockchainSelectionPopup {
                 body: AlertDialog(
                   backgroundColor: BridgeThemeBase.backgroundPopupColor,
                   content: Container(
+                    height: 400,
                     width: BridgeThemeBase.sizeBoxComponentWidth,
                     color: Colors.transparent,
                     padding: const EdgeInsets.all(10),
@@ -68,9 +69,11 @@ class BlockchainSelectionPopup {
                         const SizedBox(
                           height: 10,
                         ),
-                        BlockchainList(
-                          env: env,
-                          shouldBeArchethic: shouldBeArchethic,
+                        Expanded(
+                          child: BlockchainList(
+                            env: env,
+                            shouldBeArchethic: shouldBeArchethic,
+                          ),
                         ),
                       ],
                     ),

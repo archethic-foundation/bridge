@@ -80,7 +80,6 @@ class _BlockchainsList extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: MediaQuery.of(context).size.width,
-      height: 300,
       child: ListView.separated(
         separatorBuilder: (context, index) => const SizedBox(
           height: 10,
