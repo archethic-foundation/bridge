@@ -101,7 +101,8 @@ class LocalHistoryClearButton extends ConsumerWidget {
                                             children: [
                                               AppButton(
                                                 labelBtn: AppLocalizations.of(
-                                                        context)!
+                                                  context,
+                                                )!
                                                     .no,
                                                 onPressed: () async {
                                                   Navigator.of(context).pop();
@@ -109,7 +110,8 @@ class LocalHistoryClearButton extends ConsumerWidget {
                                               ),
                                               AppButton(
                                                 labelBtn: AppLocalizations.of(
-                                                        context)!
+                                                  context,
+                                                )!
                                                     .yes,
                                                 onPressed: () async {
                                                   ref.read(
