@@ -110,7 +110,7 @@ class MainScreenState extends ConsumerState<MainScreen> {
             ),
             if (_isSubMenuOpen)
               Positioned(
-                top: 0,
+                top: 30,
                 right: 20,
                 child: Column(
                   children: [
