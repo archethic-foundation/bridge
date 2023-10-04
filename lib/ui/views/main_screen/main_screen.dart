@@ -155,6 +155,19 @@ class MainScreenState extends ConsumerState<MainScreen> {
                           begin: const Offset(-16, 0),
                           curve: Curves.easeOutQuad,
                         ),
+                    _buildSubMenu(
+                      AppLocalizations.of(context)!
+                          .archethicDashboardMenuWalletOnWayItem,
+                      AppLocalizations.of(context)!
+                          .archethicDashboardMenuWalletOnWayDesc,
+                      'https://www.archethic.net/aewallet.html',
+                    )
+                        .animate(delay: 200.ms)
+                        .fadeIn(duration: 400.ms, delay: 200.ms)
+                        .move(
+                          begin: const Offset(-16, 0),
+                          curve: Curves.easeOutQuad,
+                        ),
                   ],
                 ),
               ),
