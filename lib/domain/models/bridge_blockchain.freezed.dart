@@ -119,11 +119,11 @@ class _$BridgeBlockchainCopyWithImpl<$Res, $Val extends BridgeBlockchain>
 }
 
 /// @nodoc
-abstract class _$$_BridgeBlockchainCopyWith<$Res>
+abstract class _$$BridgeBlockchainImplCopyWith<$Res>
     implements $BridgeBlockchainCopyWith<$Res> {
-  factory _$$_BridgeBlockchainCopyWith(
-          _$_BridgeBlockchain value, $Res Function(_$_BridgeBlockchain) then) =
-      __$$_BridgeBlockchainCopyWithImpl<$Res>;
+  factory _$$BridgeBlockchainImplCopyWith(_$BridgeBlockchainImpl value,
+          $Res Function(_$BridgeBlockchainImpl) then) =
+      __$$BridgeBlockchainImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -139,11 +139,11 @@ abstract class _$$_BridgeBlockchainCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BridgeBlockchainCopyWithImpl<$Res>
-    extends _$BridgeBlockchainCopyWithImpl<$Res, _$_BridgeBlockchain>
-    implements _$$_BridgeBlockchainCopyWith<$Res> {
-  __$$_BridgeBlockchainCopyWithImpl(
-      _$_BridgeBlockchain _value, $Res Function(_$_BridgeBlockchain) _then)
+class __$$BridgeBlockchainImplCopyWithImpl<$Res>
+    extends _$BridgeBlockchainCopyWithImpl<$Res, _$BridgeBlockchainImpl>
+    implements _$$BridgeBlockchainImplCopyWith<$Res> {
+  __$$BridgeBlockchainImplCopyWithImpl(_$BridgeBlockchainImpl _value,
+      $Res Function(_$BridgeBlockchainImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -159,7 +159,7 @@ class __$$_BridgeBlockchainCopyWithImpl<$Res>
     Object? htlcAddress = freezed,
     Object? archethicFactoryAddress = freezed,
   }) {
-    return _then(_$_BridgeBlockchain(
+    return _then(_$BridgeBlockchainImpl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -202,8 +202,8 @@ class __$$_BridgeBlockchainCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_BridgeBlockchain extends _BridgeBlockchain {
-  const _$_BridgeBlockchain(
+class _$BridgeBlockchainImpl extends _BridgeBlockchain {
+  const _$BridgeBlockchainImpl(
       {this.name = '',
       this.chainId = 0,
       this.env = '',
@@ -215,8 +215,8 @@ class _$_BridgeBlockchain extends _BridgeBlockchain {
       this.archethicFactoryAddress})
       : super._();
 
-  factory _$_BridgeBlockchain.fromJson(Map<String, dynamic> json) =>
-      _$$_BridgeBlockchainFromJson(json);
+  factory _$BridgeBlockchainImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BridgeBlockchainImplFromJson(json);
 
   @override
   @JsonKey()
@@ -253,7 +253,7 @@ class _$_BridgeBlockchain extends _BridgeBlockchain {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BridgeBlockchain &&
+            other is _$BridgeBlockchainImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.chainId, chainId) || other.chainId == chainId) &&
             (identical(other.env, env) || other.env == env) &&
@@ -288,12 +288,13 @@ class _$_BridgeBlockchain extends _BridgeBlockchain {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BridgeBlockchainCopyWith<_$_BridgeBlockchain> get copyWith =>
-      __$$_BridgeBlockchainCopyWithImpl<_$_BridgeBlockchain>(this, _$identity);
+  _$$BridgeBlockchainImplCopyWith<_$BridgeBlockchainImpl> get copyWith =>
+      __$$BridgeBlockchainImplCopyWithImpl<_$BridgeBlockchainImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_BridgeBlockchainToJson(
+    return _$$BridgeBlockchainImplToJson(
       this,
     );
   }
@@ -309,11 +310,11 @@ abstract class _BridgeBlockchain extends BridgeBlockchain {
       final String providerEndpoint,
       final bool isArchethic,
       final String? htlcAddress,
-      final String? archethicFactoryAddress}) = _$_BridgeBlockchain;
+      final String? archethicFactoryAddress}) = _$BridgeBlockchainImpl;
   const _BridgeBlockchain._() : super._();
 
   factory _BridgeBlockchain.fromJson(Map<String, dynamic> json) =
-      _$_BridgeBlockchain.fromJson;
+      _$BridgeBlockchainImpl.fromJson;
 
   @override
   String get name;
@@ -335,6 +336,6 @@ abstract class _BridgeBlockchain extends BridgeBlockchain {
   String? get archethicFactoryAddress;
   @override
   @JsonKey(ignore: true)
-  _$$_BridgeBlockchainCopyWith<_$_BridgeBlockchain> get copyWith =>
+  _$$BridgeBlockchainImplCopyWith<_$BridgeBlockchainImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

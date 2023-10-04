@@ -88,10 +88,10 @@ class _$SessionCopyWithImpl<$Res, $Val extends Session>
 }
 
 /// @nodoc
-abstract class _$$_SessionCopyWith<$Res> implements $SessionCopyWith<$Res> {
-  factory _$$_SessionCopyWith(
-          _$_Session value, $Res Function(_$_Session) then) =
-      __$$_SessionCopyWithImpl<$Res>;
+abstract class _$$SessionImplCopyWith<$Res> implements $SessionCopyWith<$Res> {
+  factory _$$SessionImplCopyWith(
+          _$SessionImpl value, $Res Function(_$SessionImpl) then) =
+      __$$SessionImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({BridgeWallet? walletFrom, BridgeWallet? walletTo});
@@ -103,10 +103,11 @@ abstract class _$$_SessionCopyWith<$Res> implements $SessionCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_SessionCopyWithImpl<$Res>
-    extends _$SessionCopyWithImpl<$Res, _$_Session>
-    implements _$$_SessionCopyWith<$Res> {
-  __$$_SessionCopyWithImpl(_$_Session _value, $Res Function(_$_Session) _then)
+class __$$SessionImplCopyWithImpl<$Res>
+    extends _$SessionCopyWithImpl<$Res, _$SessionImpl>
+    implements _$$SessionImplCopyWith<$Res> {
+  __$$SessionImplCopyWithImpl(
+      _$SessionImpl _value, $Res Function(_$SessionImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -115,7 +116,7 @@ class __$$_SessionCopyWithImpl<$Res>
     Object? walletFrom = freezed,
     Object? walletTo = freezed,
   }) {
-    return _then(_$_Session(
+    return _then(_$SessionImpl(
       walletFrom: freezed == walletFrom
           ? _value.walletFrom
           : walletFrom // ignore: cast_nullable_to_non_nullable
@@ -130,8 +131,8 @@ class __$$_SessionCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_Session extends _Session {
-  const _$_Session({this.walletFrom, this.walletTo}) : super._();
+class _$SessionImpl extends _Session {
+  const _$SessionImpl({this.walletFrom, this.walletTo}) : super._();
 
   @override
   final BridgeWallet? walletFrom;
@@ -147,7 +148,7 @@ class _$_Session extends _Session {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Session &&
+            other is _$SessionImpl &&
             (identical(other.walletFrom, walletFrom) ||
                 other.walletFrom == walletFrom) &&
             (identical(other.walletTo, walletTo) ||
@@ -160,14 +161,14 @@ class _$_Session extends _Session {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SessionCopyWith<_$_Session> get copyWith =>
-      __$$_SessionCopyWithImpl<_$_Session>(this, _$identity);
+  _$$SessionImplCopyWith<_$SessionImpl> get copyWith =>
+      __$$SessionImplCopyWithImpl<_$SessionImpl>(this, _$identity);
 }
 
 abstract class _Session extends Session {
   const factory _Session(
       {final BridgeWallet? walletFrom,
-      final BridgeWallet? walletTo}) = _$_Session;
+      final BridgeWallet? walletTo}) = _$SessionImpl;
   const _Session._() : super._();
 
   @override
@@ -176,6 +177,6 @@ abstract class _Session extends Session {
   BridgeWallet? get walletTo;
   @override
   @JsonKey(ignore: true)
-  _$$_SessionCopyWith<_$_Session> get copyWith =>
+  _$$SessionImplCopyWith<_$SessionImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

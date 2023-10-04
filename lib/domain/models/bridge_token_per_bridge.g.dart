@@ -6,9 +6,9 @@ part of 'bridge_token_per_bridge.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_BridgeTokensPerBridge _$$_BridgeTokensPerBridgeFromJson(
+_$BridgeTokensPerBridgeImpl _$$BridgeTokensPerBridgeImplFromJson(
         Map<String, dynamic> json) =>
-    _$_BridgeTokensPerBridge(
+    _$BridgeTokensPerBridgeImpl(
       tokens: (json['tokens'] as Map<String, dynamic>?)?.map(
         (k, e) => MapEntry(
             k,
@@ -18,13 +18,14 @@ _$_BridgeTokensPerBridge _$$_BridgeTokensPerBridgeFromJson(
       ),
     );
 
-Map<String, dynamic> _$$_BridgeTokensPerBridgeToJson(
-        _$_BridgeTokensPerBridge instance) =>
+Map<String, dynamic> _$$BridgeTokensPerBridgeImplToJson(
+        _$BridgeTokensPerBridgeImpl instance) =>
     <String, dynamic>{
       'tokens': instance.tokens,
     };
 
-_$_TokenData _$$_TokenDataFromJson(Map<String, dynamic> json) => _$_TokenData(
+_$TokenDataImpl _$$TokenDataImplFromJson(Map<String, dynamic> json) =>
+    _$TokenDataImpl(
       name: json['name'] as String? ?? '',
       symbol: json['symbol'] as String? ?? '',
       targetTokenName: json['targetTokenName'] as String? ?? '',
@@ -36,7 +37,7 @@ _$_TokenData _$$_TokenDataFromJson(Map<String, dynamic> json) => _$_TokenData(
       tokenAddressTarget: json['tokenAddressTarget'] as String? ?? '',
     );
 
-Map<String, dynamic> _$$_TokenDataToJson(_$_TokenData instance) =>
+Map<String, dynamic> _$$TokenDataImplToJson(_$TokenDataImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
       'symbol': instance.symbol,

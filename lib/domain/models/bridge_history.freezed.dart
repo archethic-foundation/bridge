@@ -58,22 +58,22 @@ class _$BridgeHistoryCopyWithImpl<$Res, $Val extends BridgeHistory>
 }
 
 /// @nodoc
-abstract class _$$_BridgeHistoryCopyWith<$Res>
+abstract class _$$BridgeHistoryImplCopyWith<$Res>
     implements $BridgeHistoryCopyWith<$Res> {
-  factory _$$_BridgeHistoryCopyWith(
-          _$_BridgeHistory value, $Res Function(_$_BridgeHistory) then) =
-      __$$_BridgeHistoryCopyWithImpl<$Res>;
+  factory _$$BridgeHistoryImplCopyWith(
+          _$BridgeHistoryImpl value, $Res Function(_$BridgeHistoryImpl) then) =
+      __$$BridgeHistoryImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<Map<String, dynamic>>? bridgeList});
 }
 
 /// @nodoc
-class __$$_BridgeHistoryCopyWithImpl<$Res>
-    extends _$BridgeHistoryCopyWithImpl<$Res, _$_BridgeHistory>
-    implements _$$_BridgeHistoryCopyWith<$Res> {
-  __$$_BridgeHistoryCopyWithImpl(
-      _$_BridgeHistory _value, $Res Function(_$_BridgeHistory) _then)
+class __$$BridgeHistoryImplCopyWithImpl<$Res>
+    extends _$BridgeHistoryCopyWithImpl<$Res, _$BridgeHistoryImpl>
+    implements _$$BridgeHistoryImplCopyWith<$Res> {
+  __$$BridgeHistoryImplCopyWithImpl(
+      _$BridgeHistoryImpl _value, $Res Function(_$BridgeHistoryImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -81,7 +81,7 @@ class __$$_BridgeHistoryCopyWithImpl<$Res>
   $Res call({
     Object? bridgeList = freezed,
   }) {
-    return _then(_$_BridgeHistory(
+    return _then(_$BridgeHistoryImpl(
       bridgeList: freezed == bridgeList
           ? _value._bridgeList
           : bridgeList // ignore: cast_nullable_to_non_nullable
@@ -92,8 +92,8 @@ class __$$_BridgeHistoryCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BridgeHistory extends _BridgeHistory {
-  const _$_BridgeHistory({final List<Map<String, dynamic>>? bridgeList})
+class _$BridgeHistoryImpl extends _BridgeHistory {
+  const _$BridgeHistoryImpl({final List<Map<String, dynamic>>? bridgeList})
       : _bridgeList = bridgeList,
         super._();
 
@@ -116,7 +116,7 @@ class _$_BridgeHistory extends _BridgeHistory {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BridgeHistory &&
+            other is _$BridgeHistoryImpl &&
             const DeepCollectionEquality()
                 .equals(other._bridgeList, _bridgeList));
   }
@@ -128,19 +128,19 @@ class _$_BridgeHistory extends _BridgeHistory {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BridgeHistoryCopyWith<_$_BridgeHistory> get copyWith =>
-      __$$_BridgeHistoryCopyWithImpl<_$_BridgeHistory>(this, _$identity);
+  _$$BridgeHistoryImplCopyWith<_$BridgeHistoryImpl> get copyWith =>
+      __$$BridgeHistoryImplCopyWithImpl<_$BridgeHistoryImpl>(this, _$identity);
 }
 
 abstract class _BridgeHistory extends BridgeHistory {
   const factory _BridgeHistory({final List<Map<String, dynamic>>? bridgeList}) =
-      _$_BridgeHistory;
+      _$BridgeHistoryImpl;
   const _BridgeHistory._() : super._();
 
   @override
   List<Map<String, dynamic>>? get bridgeList;
   @override
   @JsonKey(ignore: true)
-  _$$_BridgeHistoryCopyWith<_$_BridgeHistory> get copyWith =>
+  _$$BridgeHistoryImplCopyWith<_$BridgeHistoryImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

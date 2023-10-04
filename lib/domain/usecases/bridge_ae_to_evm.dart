@@ -29,8 +29,17 @@ class BridgeArchethicToEVMUseCase
       await bridgeNotifier.setHTLCAEAddress(recoveryHTLCAEAddress);
     }
 
-    // 1) Deploy Archethic HTLC
+    // 1) Provision Archethic HTLC
     if (recoveryStep <= 1) {
+      try {
+        await provisionAEHTLC(ref, htlcAEAddress!);
+      } catch (e) {
+        return;
+      }
+    }
+
+    // 2) Deploy Archethic HTLC
+    if (recoveryStep <= 2) {
       try {
         htlcAEAddress = await deployAESignedHTLC(ref);
       } catch (e) {
@@ -42,20 +51,15 @@ class BridgeArchethicToEVMUseCase
       await bridgeNotifier.setBlockchainFrom(blockchainFrom);
     }
 
-    // 2) Provision Archethic HTLC
-    if (recoveryStep <= 2) {
-      try {
-        await provisionAEHTLC(ref, htlcAEAddress!);
-      } catch (e) {
-        return;
-      }
-    }
-
     // 3) Get Secret Hash from API
     late SecretHash secretHash;
+    late int endTime;
     if (recoveryStep <= 3) {
       try {
-        secretHash = await getAESecretHash(ref, htlcAEAddress!);
+        final resultGetAESecretHash =
+            await getAESecretHash(ref, htlcAEAddress!);
+        secretHash = resultGetAESecretHash.secretHash;
+        endTime = resultGetAESecretHash.endTime;
       } catch (e) {
         return;
       }
@@ -64,7 +68,8 @@ class BridgeArchethicToEVMUseCase
     // 4) Deploy EVM HTLC + Provision
     if (recoveryStep <= 4) {
       try {
-        htlcEVMAddress = await deployEVMHTCLAndProvision(ref, secretHash);
+        htlcEVMAddress =
+            await deployEVMHTCLAndProvision(ref, secretHash, endTime);
       } catch (e) {
         return;
       }

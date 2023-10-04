@@ -80,9 +80,10 @@ class _$SecretCopyWithImpl<$Res, $Val extends Secret>
 }
 
 /// @nodoc
-abstract class _$$_SecretCopyWith<$Res> implements $SecretCopyWith<$Res> {
-  factory _$$_SecretCopyWith(_$_Secret value, $Res Function(_$_Secret) then) =
-      __$$_SecretCopyWithImpl<$Res>;
+abstract class _$$SecretImplCopyWith<$Res> implements $SecretCopyWith<$Res> {
+  factory _$$SecretImplCopyWith(
+          _$SecretImpl value, $Res Function(_$SecretImpl) then) =
+      __$$SecretImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? secret, SecretSignature? secretSignature});
@@ -92,10 +93,11 @@ abstract class _$$_SecretCopyWith<$Res> implements $SecretCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_SecretCopyWithImpl<$Res>
-    extends _$SecretCopyWithImpl<$Res, _$_Secret>
-    implements _$$_SecretCopyWith<$Res> {
-  __$$_SecretCopyWithImpl(_$_Secret _value, $Res Function(_$_Secret) _then)
+class __$$SecretImplCopyWithImpl<$Res>
+    extends _$SecretCopyWithImpl<$Res, _$SecretImpl>
+    implements _$$SecretImplCopyWith<$Res> {
+  __$$SecretImplCopyWithImpl(
+      _$SecretImpl _value, $Res Function(_$SecretImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -104,7 +106,7 @@ class __$$_SecretCopyWithImpl<$Res>
     Object? secret = freezed,
     Object? secretSignature = freezed,
   }) {
-    return _then(_$_Secret(
+    return _then(_$SecretImpl(
       secret: freezed == secret
           ? _value.secret
           : secret // ignore: cast_nullable_to_non_nullable
@@ -119,11 +121,11 @@ class __$$_SecretCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_Secret implements _Secret {
-  _$_Secret({this.secret, this.secretSignature});
+class _$SecretImpl implements _Secret {
+  _$SecretImpl({this.secret, this.secretSignature});
 
-  factory _$_Secret.fromJson(Map<String, dynamic> json) =>
-      _$$_SecretFromJson(json);
+  factory _$SecretImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SecretImplFromJson(json);
 
   @override
   final String? secret;
@@ -139,7 +141,7 @@ class _$_Secret implements _Secret {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_Secret &&
+            other is _$SecretImpl &&
             (identical(other.secret, secret) || other.secret == secret) &&
             (identical(other.secretSignature, secretSignature) ||
                 other.secretSignature == secretSignature));
@@ -152,12 +154,12 @@ class _$_Secret implements _Secret {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SecretCopyWith<_$_Secret> get copyWith =>
-      __$$_SecretCopyWithImpl<_$_Secret>(this, _$identity);
+  _$$SecretImplCopyWith<_$SecretImpl> get copyWith =>
+      __$$SecretImplCopyWithImpl<_$SecretImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SecretToJson(
+    return _$$SecretImplToJson(
       this,
     );
   }
@@ -166,9 +168,9 @@ class _$_Secret implements _Secret {
 abstract class _Secret implements Secret {
   factory _Secret(
       {final String? secret,
-      final SecretSignature? secretSignature}) = _$_Secret;
+      final SecretSignature? secretSignature}) = _$SecretImpl;
 
-  factory _Secret.fromJson(Map<String, dynamic> json) = _$_Secret.fromJson;
+  factory _Secret.fromJson(Map<String, dynamic> json) = _$SecretImpl.fromJson;
 
   @override
   String? get secret;
@@ -176,7 +178,7 @@ abstract class _Secret implements Secret {
   SecretSignature? get secretSignature;
   @override
   @JsonKey(ignore: true)
-  _$$_SecretCopyWith<_$_Secret> get copyWith =>
+  _$$SecretImplCopyWith<_$SecretImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -240,22 +242,22 @@ class _$SecretSignatureCopyWithImpl<$Res, $Val extends SecretSignature>
 }
 
 /// @nodoc
-abstract class _$$_SecretSignatureCopyWith<$Res>
+abstract class _$$SecretSignatureImplCopyWith<$Res>
     implements $SecretSignatureCopyWith<$Res> {
-  factory _$$_SecretSignatureCopyWith(
-          _$_SecretSignature value, $Res Function(_$_SecretSignature) then) =
-      __$$_SecretSignatureCopyWithImpl<$Res>;
+  factory _$$SecretSignatureImplCopyWith(_$SecretSignatureImpl value,
+          $Res Function(_$SecretSignatureImpl) then) =
+      __$$SecretSignatureImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? r, String? s, int? v});
 }
 
 /// @nodoc
-class __$$_SecretSignatureCopyWithImpl<$Res>
-    extends _$SecretSignatureCopyWithImpl<$Res, _$_SecretSignature>
-    implements _$$_SecretSignatureCopyWith<$Res> {
-  __$$_SecretSignatureCopyWithImpl(
-      _$_SecretSignature _value, $Res Function(_$_SecretSignature) _then)
+class __$$SecretSignatureImplCopyWithImpl<$Res>
+    extends _$SecretSignatureCopyWithImpl<$Res, _$SecretSignatureImpl>
+    implements _$$SecretSignatureImplCopyWith<$Res> {
+  __$$SecretSignatureImplCopyWithImpl(
+      _$SecretSignatureImpl _value, $Res Function(_$SecretSignatureImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -265,7 +267,7 @@ class __$$_SecretSignatureCopyWithImpl<$Res>
     Object? s = freezed,
     Object? v = freezed,
   }) {
-    return _then(_$_SecretSignature(
+    return _then(_$SecretSignatureImpl(
       r: freezed == r
           ? _value.r
           : r // ignore: cast_nullable_to_non_nullable
@@ -284,11 +286,11 @@ class __$$_SecretSignatureCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SecretSignature implements _SecretSignature {
-  _$_SecretSignature({this.r, this.s, this.v});
+class _$SecretSignatureImpl implements _SecretSignature {
+  _$SecretSignatureImpl({this.r, this.s, this.v});
 
-  factory _$_SecretSignature.fromJson(Map<String, dynamic> json) =>
-      _$$_SecretSignatureFromJson(json);
+  factory _$SecretSignatureImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SecretSignatureImplFromJson(json);
 
   @override
   final String? r;
@@ -306,7 +308,7 @@ class _$_SecretSignature implements _SecretSignature {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SecretSignature &&
+            other is _$SecretSignatureImpl &&
             (identical(other.r, r) || other.r == r) &&
             (identical(other.s, s) || other.s == s) &&
             (identical(other.v, v) || other.v == v));
@@ -319,12 +321,13 @@ class _$_SecretSignature implements _SecretSignature {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SecretSignatureCopyWith<_$_SecretSignature> get copyWith =>
-      __$$_SecretSignatureCopyWithImpl<_$_SecretSignature>(this, _$identity);
+  _$$SecretSignatureImplCopyWith<_$SecretSignatureImpl> get copyWith =>
+      __$$SecretSignatureImplCopyWithImpl<_$SecretSignatureImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SecretSignatureToJson(
+    return _$$SecretSignatureImplToJson(
       this,
     );
   }
@@ -332,10 +335,10 @@ class _$_SecretSignature implements _SecretSignature {
 
 abstract class _SecretSignature implements SecretSignature {
   factory _SecretSignature({final String? r, final String? s, final int? v}) =
-      _$_SecretSignature;
+      _$SecretSignatureImpl;
 
   factory _SecretSignature.fromJson(Map<String, dynamic> json) =
-      _$_SecretSignature.fromJson;
+      _$SecretSignatureImpl.fromJson;
 
   @override
   String? get r;
@@ -345,7 +348,7 @@ abstract class _SecretSignature implements SecretSignature {
   int? get v;
   @override
   @JsonKey(ignore: true)
-  _$$_SecretSignatureCopyWith<_$_SecretSignature> get copyWith =>
+  _$$SecretSignatureImplCopyWith<_$SecretSignatureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -419,11 +422,11 @@ class _$SecretHashCopyWithImpl<$Res, $Val extends SecretHash>
 }
 
 /// @nodoc
-abstract class _$$_SecretHashCopyWith<$Res>
+abstract class _$$SecretHashImplCopyWith<$Res>
     implements $SecretHashCopyWith<$Res> {
-  factory _$$_SecretHashCopyWith(
-          _$_SecretHash value, $Res Function(_$_SecretHash) then) =
-      __$$_SecretHashCopyWithImpl<$Res>;
+  factory _$$SecretHashImplCopyWith(
+          _$SecretHashImpl value, $Res Function(_$SecretHashImpl) then) =
+      __$$SecretHashImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? secretHash, SecretHashSignature? secretHashSignature});
@@ -433,11 +436,11 @@ abstract class _$$_SecretHashCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_SecretHashCopyWithImpl<$Res>
-    extends _$SecretHashCopyWithImpl<$Res, _$_SecretHash>
-    implements _$$_SecretHashCopyWith<$Res> {
-  __$$_SecretHashCopyWithImpl(
-      _$_SecretHash _value, $Res Function(_$_SecretHash) _then)
+class __$$SecretHashImplCopyWithImpl<$Res>
+    extends _$SecretHashCopyWithImpl<$Res, _$SecretHashImpl>
+    implements _$$SecretHashImplCopyWith<$Res> {
+  __$$SecretHashImplCopyWithImpl(
+      _$SecretHashImpl _value, $Res Function(_$SecretHashImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -446,7 +449,7 @@ class __$$_SecretHashCopyWithImpl<$Res>
     Object? secretHash = freezed,
     Object? secretHashSignature = freezed,
   }) {
-    return _then(_$_SecretHash(
+    return _then(_$SecretHashImpl(
       secretHash: freezed == secretHash
           ? _value.secretHash
           : secretHash // ignore: cast_nullable_to_non_nullable
@@ -461,11 +464,11 @@ class __$$_SecretHashCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SecretHash implements _SecretHash {
-  _$_SecretHash({this.secretHash, this.secretHashSignature});
+class _$SecretHashImpl implements _SecretHash {
+  _$SecretHashImpl({this.secretHash, this.secretHashSignature});
 
-  factory _$_SecretHash.fromJson(Map<String, dynamic> json) =>
-      _$$_SecretHashFromJson(json);
+  factory _$SecretHashImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SecretHashImplFromJson(json);
 
   @override
   final String? secretHash;
@@ -481,7 +484,7 @@ class _$_SecretHash implements _SecretHash {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SecretHash &&
+            other is _$SecretHashImpl &&
             (identical(other.secretHash, secretHash) ||
                 other.secretHash == secretHash) &&
             (identical(other.secretHashSignature, secretHashSignature) ||
@@ -495,12 +498,12 @@ class _$_SecretHash implements _SecretHash {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SecretHashCopyWith<_$_SecretHash> get copyWith =>
-      __$$_SecretHashCopyWithImpl<_$_SecretHash>(this, _$identity);
+  _$$SecretHashImplCopyWith<_$SecretHashImpl> get copyWith =>
+      __$$SecretHashImplCopyWithImpl<_$SecretHashImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SecretHashToJson(
+    return _$$SecretHashImplToJson(
       this,
     );
   }
@@ -509,10 +512,10 @@ class _$_SecretHash implements _SecretHash {
 abstract class _SecretHash implements SecretHash {
   factory _SecretHash(
       {final String? secretHash,
-      final SecretHashSignature? secretHashSignature}) = _$_SecretHash;
+      final SecretHashSignature? secretHashSignature}) = _$SecretHashImpl;
 
   factory _SecretHash.fromJson(Map<String, dynamic> json) =
-      _$_SecretHash.fromJson;
+      _$SecretHashImpl.fromJson;
 
   @override
   String? get secretHash;
@@ -520,7 +523,7 @@ abstract class _SecretHash implements SecretHash {
   SecretHashSignature? get secretHashSignature;
   @override
   @JsonKey(ignore: true)
-  _$$_SecretHashCopyWith<_$_SecretHash> get copyWith =>
+  _$$SecretHashImplCopyWith<_$SecretHashImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -584,22 +587,22 @@ class _$SecretHashSignatureCopyWithImpl<$Res, $Val extends SecretHashSignature>
 }
 
 /// @nodoc
-abstract class _$$_SecretHashSignatureCopyWith<$Res>
+abstract class _$$SecretHashSignatureImplCopyWith<$Res>
     implements $SecretHashSignatureCopyWith<$Res> {
-  factory _$$_SecretHashSignatureCopyWith(_$_SecretHashSignature value,
-          $Res Function(_$_SecretHashSignature) then) =
-      __$$_SecretHashSignatureCopyWithImpl<$Res>;
+  factory _$$SecretHashSignatureImplCopyWith(_$SecretHashSignatureImpl value,
+          $Res Function(_$SecretHashSignatureImpl) then) =
+      __$$SecretHashSignatureImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({String? r, String? s, int? v});
 }
 
 /// @nodoc
-class __$$_SecretHashSignatureCopyWithImpl<$Res>
-    extends _$SecretHashSignatureCopyWithImpl<$Res, _$_SecretHashSignature>
-    implements _$$_SecretHashSignatureCopyWith<$Res> {
-  __$$_SecretHashSignatureCopyWithImpl(_$_SecretHashSignature _value,
-      $Res Function(_$_SecretHashSignature) _then)
+class __$$SecretHashSignatureImplCopyWithImpl<$Res>
+    extends _$SecretHashSignatureCopyWithImpl<$Res, _$SecretHashSignatureImpl>
+    implements _$$SecretHashSignatureImplCopyWith<$Res> {
+  __$$SecretHashSignatureImplCopyWithImpl(_$SecretHashSignatureImpl _value,
+      $Res Function(_$SecretHashSignatureImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -609,7 +612,7 @@ class __$$_SecretHashSignatureCopyWithImpl<$Res>
     Object? s = freezed,
     Object? v = freezed,
   }) {
-    return _then(_$_SecretHashSignature(
+    return _then(_$SecretHashSignatureImpl(
       r: freezed == r
           ? _value.r
           : r // ignore: cast_nullable_to_non_nullable
@@ -628,11 +631,11 @@ class __$$_SecretHashSignatureCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_SecretHashSignature implements _SecretHashSignature {
-  _$_SecretHashSignature({this.r, this.s, this.v});
+class _$SecretHashSignatureImpl implements _SecretHashSignature {
+  _$SecretHashSignatureImpl({this.r, this.s, this.v});
 
-  factory _$_SecretHashSignature.fromJson(Map<String, dynamic> json) =>
-      _$$_SecretHashSignatureFromJson(json);
+  factory _$SecretHashSignatureImpl.fromJson(Map<String, dynamic> json) =>
+      _$$SecretHashSignatureImplFromJson(json);
 
   @override
   final String? r;
@@ -650,7 +653,7 @@ class _$_SecretHashSignature implements _SecretHashSignature {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_SecretHashSignature &&
+            other is _$SecretHashSignatureImpl &&
             (identical(other.r, r) || other.r == r) &&
             (identical(other.s, s) || other.s == s) &&
             (identical(other.v, v) || other.v == v));
@@ -663,13 +666,13 @@ class _$_SecretHashSignature implements _SecretHashSignature {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_SecretHashSignatureCopyWith<_$_SecretHashSignature> get copyWith =>
-      __$$_SecretHashSignatureCopyWithImpl<_$_SecretHashSignature>(
+  _$$SecretHashSignatureImplCopyWith<_$SecretHashSignatureImpl> get copyWith =>
+      __$$SecretHashSignatureImplCopyWithImpl<_$SecretHashSignatureImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_SecretHashSignatureToJson(
+    return _$$SecretHashSignatureImplToJson(
       this,
     );
   }
@@ -679,10 +682,10 @@ abstract class _SecretHashSignature implements SecretHashSignature {
   factory _SecretHashSignature(
       {final String? r,
       final String? s,
-      final int? v}) = _$_SecretHashSignature;
+      final int? v}) = _$SecretHashSignatureImpl;
 
   factory _SecretHashSignature.fromJson(Map<String, dynamic> json) =
-      _$_SecretHashSignature.fromJson;
+      _$SecretHashSignatureImpl.fromJson;
 
   @override
   String? get r;
@@ -692,6 +695,6 @@ abstract class _SecretHashSignature implements SecretHashSignature {
   int? get v;
   @override
   @JsonKey(ignore: true)
-  _$$_SecretHashSignatureCopyWith<_$_SecretHashSignature> get copyWith =>
+  _$$SecretHashSignatureImplCopyWith<_$SecretHashSignatureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

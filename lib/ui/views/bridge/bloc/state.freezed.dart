@@ -305,11 +305,11 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
 }
 
 /// @nodoc
-abstract class _$$_BridgeFormStateCopyWith<$Res>
+abstract class _$$BridgeFormStateImplCopyWith<$Res>
     implements $BridgeFormStateCopyWith<$Res> {
-  factory _$$_BridgeFormStateCopyWith(
-          _$_BridgeFormState value, $Res Function(_$_BridgeFormState) then) =
-      __$$_BridgeFormStateCopyWithImpl<$Res>;
+  factory _$$BridgeFormStateImplCopyWith(_$BridgeFormStateImpl value,
+          $Res Function(_$BridgeFormStateImpl) then) =
+      __$$BridgeFormStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -352,11 +352,11 @@ abstract class _$$_BridgeFormStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BridgeFormStateCopyWithImpl<$Res>
-    extends _$BridgeFormStateCopyWithImpl<$Res, _$_BridgeFormState>
-    implements _$$_BridgeFormStateCopyWith<$Res> {
-  __$$_BridgeFormStateCopyWithImpl(
-      _$_BridgeFormState _value, $Res Function(_$_BridgeFormState) _then)
+class __$$BridgeFormStateImplCopyWithImpl<$Res>
+    extends _$BridgeFormStateCopyWithImpl<$Res, _$BridgeFormStateImpl>
+    implements _$$BridgeFormStateImplCopyWith<$Res> {
+  __$$BridgeFormStateImplCopyWithImpl(
+      _$BridgeFormStateImpl _value, $Res Function(_$BridgeFormStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -388,7 +388,7 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
     Object? archethicProtocolFeesAddress = null,
     Object? archethicTransactionFees = null,
   }) {
-    return _then(_$_BridgeFormState(
+    return _then(_$BridgeFormStateImpl(
       resumeProcess: null == resumeProcess
           ? _value.resumeProcess
           : resumeProcess // ignore: cast_nullable_to_non_nullable
@@ -495,8 +495,8 @@ class __$$_BridgeFormStateCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_BridgeFormState extends _BridgeFormState {
-  const _$_BridgeFormState(
+class _$BridgeFormStateImpl extends _BridgeFormState {
+  const _$BridgeFormStateImpl(
       {this.resumeProcess = false,
       this.bridgeProcessStep = BridgeProcessStep.form,
       @BridgeBlockchainJsonConverter() this.blockchainFrom,
@@ -525,8 +525,8 @@ class _$_BridgeFormState extends _BridgeFormState {
       : _secret = secret,
         super._();
 
-  factory _$_BridgeFormState.fromJson(Map<String, dynamic> json) =>
-      _$$_BridgeFormStateFromJson(json);
+  factory _$BridgeFormStateImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BridgeFormStateImplFromJson(json);
 
   @override
   @JsonKey()
@@ -616,7 +616,7 @@ class _$_BridgeFormState extends _BridgeFormState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BridgeFormState &&
+            other is _$BridgeFormStateImpl &&
             (identical(other.resumeProcess, resumeProcess) ||
                 other.resumeProcess == resumeProcess) &&
             (identical(other.bridgeProcessStep, bridgeProcessStep) ||
@@ -706,12 +706,13 @@ class _$_BridgeFormState extends _BridgeFormState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BridgeFormStateCopyWith<_$_BridgeFormState> get copyWith =>
-      __$$_BridgeFormStateCopyWithImpl<_$_BridgeFormState>(this, _$identity);
+  _$$BridgeFormStateImplCopyWith<_$BridgeFormStateImpl> get copyWith =>
+      __$$BridgeFormStateImplCopyWithImpl<_$BridgeFormStateImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_BridgeFormStateToJson(
+    return _$$BridgeFormStateImplToJson(
       this,
     );
   }
@@ -744,11 +745,11 @@ abstract class _BridgeFormState extends BridgeFormState {
       final String safetyModuleFeesAddress,
       final double archethicProtocolFeesRate,
       final String archethicProtocolFeesAddress,
-      final double archethicTransactionFees}) = _$_BridgeFormState;
+      final double archethicTransactionFees}) = _$BridgeFormStateImpl;
   const _BridgeFormState._() : super._();
 
   factory _BridgeFormState.fromJson(Map<String, dynamic> json) =
-      _$_BridgeFormState.fromJson;
+      _$BridgeFormStateImpl.fromJson;
 
   @override
   bool get resumeProcess;
@@ -807,6 +808,6 @@ abstract class _BridgeFormState extends BridgeFormState {
   double get archethicTransactionFees;
   @override
   @JsonKey(ignore: true)
-  _$$_BridgeFormStateCopyWith<_$_BridgeFormState> get copyWith =>
+  _$$BridgeFormStateImplCopyWith<_$BridgeFormStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

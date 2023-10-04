@@ -6,8 +6,9 @@ part of 'bridge_blockchain.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_BridgeBlockchain _$$_BridgeBlockchainFromJson(Map<String, dynamic> json) =>
-    _$_BridgeBlockchain(
+_$BridgeBlockchainImpl _$$BridgeBlockchainImplFromJson(
+        Map<String, dynamic> json) =>
+    _$BridgeBlockchainImpl(
       name: json['name'] as String? ?? '',
       chainId: json['chainId'] as int? ?? 0,
       env: json['env'] as String? ?? '',
@@ -19,7 +20,8 @@ _$_BridgeBlockchain _$$_BridgeBlockchainFromJson(Map<String, dynamic> json) =>
       archethicFactoryAddress: json['archethicFactoryAddress'] as String?,
     );
 
-Map<String, dynamic> _$$_BridgeBlockchainToJson(_$_BridgeBlockchain instance) =>
+Map<String, dynamic> _$$BridgeBlockchainImplToJson(
+        _$BridgeBlockchainImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
       'chainId': instance.chainId,

@@ -9,11 +9,16 @@ class RefunEVMCase {
   Future<void> run(
     WidgetRef ref,
     String htlcContractAddress,
+    int chaindId,
   ) async {
     final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier);
 
-    final result =
-        await EVMHTLC('http://127.0.0.1:7545').refund(htlcContractAddress);
+    // TODO(reddwarf03): Use dynamic provider
+    final result = await EVMHTLC(
+      'http://127.0.0.1:7545',
+      htlcContractAddress,
+      chaindId,
+    ).refund();
     result.map(
       success: (refundTxAddress) {
         refundNotifier

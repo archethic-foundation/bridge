@@ -22,7 +22,7 @@ mixin _$RefundFormState {
   bool? get isAlreadyRefunded => throw _privateConstructorUsedError;
   dynamic get refundOk => throw _privateConstructorUsedError;
   bool? get addressOk => throw _privateConstructorUsedError;
-  DateTime? get htlcDateLock => throw _privateConstructorUsedError;
+  int? get htlcDateLock => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
   double get fee => throw _privateConstructorUsedError;
   dynamic get htlcCanRefund => throw _privateConstructorUsedError;
@@ -48,7 +48,7 @@ abstract class $RefundFormStateCopyWith<$Res> {
       bool? isAlreadyRefunded,
       dynamic refundOk,
       bool? addressOk,
-      DateTime? htlcDateLock,
+      int? htlcDateLock,
       double amount,
       double fee,
       dynamic htlcCanRefund,
@@ -113,7 +113,7 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
       htlcDateLock: freezed == htlcDateLock
           ? _value.htlcDateLock
           : htlcDateLock // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as int?,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -163,11 +163,11 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
 }
 
 /// @nodoc
-abstract class _$$_RefundFormStateCopyWith<$Res>
+abstract class _$$RefundFormStateImplCopyWith<$Res>
     implements $RefundFormStateCopyWith<$Res> {
-  factory _$$_RefundFormStateCopyWith(
-          _$_RefundFormState value, $Res Function(_$_RefundFormState) then) =
-      __$$_RefundFormStateCopyWithImpl<$Res>;
+  factory _$$RefundFormStateImplCopyWith(_$RefundFormStateImpl value,
+          $Res Function(_$RefundFormStateImpl) then) =
+      __$$RefundFormStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -177,7 +177,7 @@ abstract class _$$_RefundFormStateCopyWith<$Res>
       bool? isAlreadyRefunded,
       dynamic refundOk,
       bool? addressOk,
-      DateTime? htlcDateLock,
+      int? htlcDateLock,
       double amount,
       double fee,
       dynamic htlcCanRefund,
@@ -191,11 +191,11 @@ abstract class _$$_RefundFormStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_RefundFormStateCopyWithImpl<$Res>
-    extends _$RefundFormStateCopyWithImpl<$Res, _$_RefundFormState>
-    implements _$$_RefundFormStateCopyWith<$Res> {
-  __$$_RefundFormStateCopyWithImpl(
-      _$_RefundFormState _value, $Res Function(_$_RefundFormState) _then)
+class __$$RefundFormStateImplCopyWithImpl<$Res>
+    extends _$RefundFormStateCopyWithImpl<$Res, _$RefundFormStateImpl>
+    implements _$$RefundFormStateImplCopyWith<$Res> {
+  __$$RefundFormStateImplCopyWithImpl(
+      _$RefundFormStateImpl _value, $Res Function(_$RefundFormStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -214,7 +214,7 @@ class __$$_RefundFormStateCopyWithImpl<$Res>
     Object? evmWallet = freezed,
     Object? failure = freezed,
   }) {
-    return _then(_$_RefundFormState(
+    return _then(_$RefundFormStateImpl(
       contractAddress: null == contractAddress
           ? _value.contractAddress
           : contractAddress // ignore: cast_nullable_to_non_nullable
@@ -239,7 +239,7 @@ class __$$_RefundFormStateCopyWithImpl<$Res>
       htlcDateLock: freezed == htlcDateLock
           ? _value.htlcDateLock
           : htlcDateLock // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+              as int?,
       amount: null == amount
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
@@ -264,8 +264,8 @@ class __$$_RefundFormStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_RefundFormState extends _RefundFormState {
-  const _$_RefundFormState(
+class _$RefundFormStateImpl extends _RefundFormState {
+  const _$RefundFormStateImpl(
       {this.contractAddress = '',
       this.refundTxAddress,
       this.chainId,
@@ -295,7 +295,7 @@ class _$_RefundFormState extends _RefundFormState {
   @override
   final bool? addressOk;
   @override
-  final DateTime? htlcDateLock;
+  final int? htlcDateLock;
   @override
   @JsonKey()
   final double amount;
@@ -320,7 +320,7 @@ class _$_RefundFormState extends _RefundFormState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_RefundFormState &&
+            other is _$RefundFormStateImpl &&
             (identical(other.contractAddress, contractAddress) ||
                 other.contractAddress == contractAddress) &&
             (identical(other.refundTxAddress, refundTxAddress) ||
@@ -361,8 +361,9 @@ class _$_RefundFormState extends _RefundFormState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_RefundFormStateCopyWith<_$_RefundFormState> get copyWith =>
-      __$$_RefundFormStateCopyWithImpl<_$_RefundFormState>(this, _$identity);
+  _$$RefundFormStateImplCopyWith<_$RefundFormStateImpl> get copyWith =>
+      __$$RefundFormStateImplCopyWithImpl<_$RefundFormStateImpl>(
+          this, _$identity);
 }
 
 abstract class _RefundFormState extends RefundFormState {
@@ -373,12 +374,12 @@ abstract class _RefundFormState extends RefundFormState {
       final bool? isAlreadyRefunded,
       final dynamic refundOk,
       final bool? addressOk,
-      final DateTime? htlcDateLock,
+      final int? htlcDateLock,
       final double amount,
       final double fee,
       final dynamic htlcCanRefund,
       final BridgeWallet? evmWallet,
-      @FailureJsonConverter() final Failure? failure}) = _$_RefundFormState;
+      @FailureJsonConverter() final Failure? failure}) = _$RefundFormStateImpl;
   const _RefundFormState._() : super._();
 
   @override
@@ -394,7 +395,7 @@ abstract class _RefundFormState extends RefundFormState {
   @override
   bool? get addressOk;
   @override
-  DateTime? get htlcDateLock;
+  int? get htlcDateLock;
   @override
   double get amount;
   @override
@@ -408,6 +409,6 @@ abstract class _RefundFormState extends RefundFormState {
   Failure? get failure;
   @override
   @JsonKey(ignore: true)
-  _$$_RefundFormStateCopyWith<_$_RefundFormState> get copyWith =>
+  _$$RefundFormStateImplCopyWith<_$RefundFormStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

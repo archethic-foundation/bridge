@@ -57,7 +57,7 @@ class RefundCanRefundInfo extends ConsumerWidget {
                     DateFormat.yMd(
                       Localizations.localeOf(context).languageCode,
                     ).add_Hms().format(
-                          refund.htlcDateLock!.toLocal(),
+                          DateTime(refund.htlcDateLock!).toLocal(),
                         ),
                   ),
               style: TextStyle(color: ArchethicThemeBase.systemDanger300),

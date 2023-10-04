@@ -6,127 +6,135 @@ part of 'failures.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$LoggedOut _$$LoggedOutFromJson(Map<String, dynamic> json) => _$LoggedOut(
+_$LoggedOutImpl _$$LoggedOutImplFromJson(Map<String, dynamic> json) =>
+    _$LoggedOutImpl(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$LoggedOutToJson(_$LoggedOut instance) =>
+Map<String, dynamic> _$$LoggedOutImplToJson(_$LoggedOutImpl instance) =>
     <String, dynamic>{
       'runtimeType': instance.$type,
     };
 
-_$NetworkFailure _$$NetworkFailureFromJson(Map<String, dynamic> json) =>
-    _$NetworkFailure(
+_$NetworkFailureImpl _$$NetworkFailureImplFromJson(Map<String, dynamic> json) =>
+    _$NetworkFailureImpl(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$NetworkFailureToJson(_$NetworkFailure instance) =>
+Map<String, dynamic> _$$NetworkFailureImplToJson(
+        _$NetworkFailureImpl instance) =>
     <String, dynamic>{
       'runtimeType': instance.$type,
     };
 
-_$QuotaExceededFailure _$$QuotaExceededFailureFromJson(
+_$QuotaExceededFailureImpl _$$QuotaExceededFailureImplFromJson(
         Map<String, dynamic> json) =>
-    _$QuotaExceededFailure(
+    _$QuotaExceededFailureImpl(
       cooldownEndDate: json['cooldownEndDate'] == null
           ? null
           : DateTime.parse(json['cooldownEndDate'] as String),
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$QuotaExceededFailureToJson(
-        _$QuotaExceededFailure instance) =>
+Map<String, dynamic> _$$QuotaExceededFailureImplToJson(
+        _$QuotaExceededFailureImpl instance) =>
     <String, dynamic>{
       'cooldownEndDate': instance.cooldownEndDate?.toIso8601String(),
       'runtimeType': instance.$type,
     };
 
-_$ServiceNotFound _$$ServiceNotFoundFromJson(Map<String, dynamic> json) =>
-    _$ServiceNotFound(
-      $type: json['runtimeType'] as String?,
-    );
-
-Map<String, dynamic> _$$ServiceNotFoundToJson(_$ServiceNotFound instance) =>
-    <String, dynamic>{
-      'runtimeType': instance.$type,
-    };
-
-_$ServiceAlreadyExists _$$ServiceAlreadyExistsFromJson(
+_$ServiceNotFoundImpl _$$ServiceNotFoundImplFromJson(
         Map<String, dynamic> json) =>
-    _$ServiceAlreadyExists(
+    _$ServiceNotFoundImpl(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ServiceAlreadyExistsToJson(
-        _$ServiceAlreadyExists instance) =>
+Map<String, dynamic> _$$ServiceNotFoundImplToJson(
+        _$ServiceNotFoundImpl instance) =>
     <String, dynamic>{
       'runtimeType': instance.$type,
     };
 
-_$InsuffientFunds _$$InsuffientFundsFromJson(Map<String, dynamic> json) =>
-    _$InsuffientFunds(
-      $type: json['runtimeType'] as String?,
-    );
-
-Map<String, dynamic> _$$InsuffientFundsToJson(_$InsuffientFunds instance) =>
-    <String, dynamic>{
-      'runtimeType': instance.$type,
-    };
-
-_$Inauthorized _$$InauthorizedFromJson(Map<String, dynamic> json) =>
-    _$Inauthorized(
-      $type: json['runtimeType'] as String?,
-    );
-
-Map<String, dynamic> _$$InauthorizedToJson(_$Inauthorized instance) =>
-    <String, dynamic>{
-      'runtimeType': instance.$type,
-    };
-
-_$InvalidValue _$$InvalidValueFromJson(Map<String, dynamic> json) =>
-    _$InvalidValue(
-      $type: json['runtimeType'] as String?,
-    );
-
-Map<String, dynamic> _$$InvalidValueToJson(_$InvalidValue instance) =>
-    <String, dynamic>{
-      'runtimeType': instance.$type,
-    };
-
-_$UserRejected _$$UserRejectedFromJson(Map<String, dynamic> json) =>
-    _$UserRejected(
-      $type: json['runtimeType'] as String?,
-    );
-
-Map<String, dynamic> _$$UserRejectedToJson(_$UserRejected instance) =>
-    <String, dynamic>{
-      'runtimeType': instance.$type,
-    };
-
-_$ConnectivityArchethic _$$ConnectivityArchethicFromJson(
+_$ServiceAlreadyExistsImpl _$$ServiceAlreadyExistsImplFromJson(
         Map<String, dynamic> json) =>
-    _$ConnectivityArchethic(
+    _$ServiceAlreadyExistsImpl(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ConnectivityArchethicToJson(
-        _$ConnectivityArchethic instance) =>
+Map<String, dynamic> _$$ServiceAlreadyExistsImplToJson(
+        _$ServiceAlreadyExistsImpl instance) =>
     <String, dynamic>{
       'runtimeType': instance.$type,
     };
 
-_$ConnectivityEVM _$$ConnectivityEVMFromJson(Map<String, dynamic> json) =>
-    _$ConnectivityEVM(
+_$InsuffientFundsImpl _$$InsuffientFundsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$InsuffientFundsImpl(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$ConnectivityEVMToJson(_$ConnectivityEVM instance) =>
+Map<String, dynamic> _$$InsuffientFundsImplToJson(
+        _$InsuffientFundsImpl instance) =>
     <String, dynamic>{
       'runtimeType': instance.$type,
     };
 
-_$RPCErrorEVM _$$RPCErrorEVMFromJson(Map<String, dynamic> json) =>
-    _$RPCErrorEVM(
+_$InauthorizedImpl _$$InauthorizedImplFromJson(Map<String, dynamic> json) =>
+    _$InauthorizedImpl(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$InauthorizedImplToJson(_$InauthorizedImpl instance) =>
+    <String, dynamic>{
+      'runtimeType': instance.$type,
+    };
+
+_$InvalidValueImpl _$$InvalidValueImplFromJson(Map<String, dynamic> json) =>
+    _$InvalidValueImpl(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$InvalidValueImplToJson(_$InvalidValueImpl instance) =>
+    <String, dynamic>{
+      'runtimeType': instance.$type,
+    };
+
+_$UserRejectedImpl _$$UserRejectedImplFromJson(Map<String, dynamic> json) =>
+    _$UserRejectedImpl(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$UserRejectedImplToJson(_$UserRejectedImpl instance) =>
+    <String, dynamic>{
+      'runtimeType': instance.$type,
+    };
+
+_$ConnectivityArchethicImpl _$$ConnectivityArchethicImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ConnectivityArchethicImpl(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$ConnectivityArchethicImplToJson(
+        _$ConnectivityArchethicImpl instance) =>
+    <String, dynamic>{
+      'runtimeType': instance.$type,
+    };
+
+_$ConnectivityEVMImpl _$$ConnectivityEVMImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ConnectivityEVMImpl(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$ConnectivityEVMImplToJson(
+        _$ConnectivityEVMImpl instance) =>
+    <String, dynamic>{
+      'runtimeType': instance.$type,
+    };
+
+_$RPCErrorEVMImpl _$$RPCErrorEVMImplFromJson(Map<String, dynamic> json) =>
+    _$RPCErrorEVMImpl(
       data: (json['data'] as Map<String, dynamic>?)?.map(
         (k, e) =>
             MapEntry(k, RPCErrorEVMData.fromJson(e as Map<String, dynamic>)),
@@ -136,7 +144,7 @@ _$RPCErrorEVM _$$RPCErrorEVMFromJson(Map<String, dynamic> json) =>
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$RPCErrorEVMToJson(_$RPCErrorEVM instance) =>
+Map<String, dynamic> _$$RPCErrorEVMImplToJson(_$RPCErrorEVMImpl instance) =>
     <String, dynamic>{
       'data': instance.data,
       'stack': instance.stack,
@@ -144,29 +152,31 @@ Map<String, dynamic> _$$RPCErrorEVMToJson(_$RPCErrorEVM instance) =>
       'runtimeType': instance.$type,
     };
 
-_$OtherFailure _$$OtherFailureFromJson(Map<String, dynamic> json) =>
-    _$OtherFailure(
+_$OtherFailureImpl _$$OtherFailureImplFromJson(Map<String, dynamic> json) =>
+    _$OtherFailureImpl(
       cause: json['cause'] as String?,
       stack: json['stack'] as String?,
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$OtherFailureToJson(_$OtherFailure instance) =>
+Map<String, dynamic> _$$OtherFailureImplToJson(_$OtherFailureImpl instance) =>
     <String, dynamic>{
       'cause': instance.cause,
       'stack': instance.stack,
       'runtimeType': instance.$type,
     };
 
-_$_RPCErrorEVMData _$$_RPCErrorEVMDataFromJson(Map<String, dynamic> json) =>
-    _$_RPCErrorEVMData(
+_$RPCErrorEVMDataImpl _$$RPCErrorEVMDataImplFromJson(
+        Map<String, dynamic> json) =>
+    _$RPCErrorEVMDataImpl(
       error: json['error'] as String,
       program_counter: json['program_counter'] as int,
       returnValue: json['return'] as String,
       reason: json['reason'] as String,
     );
 
-Map<String, dynamic> _$$_RPCErrorEVMDataToJson(_$_RPCErrorEVMData instance) =>
+Map<String, dynamic> _$$RPCErrorEVMDataImplToJson(
+        _$RPCErrorEVMDataImpl instance) =>
     <String, dynamic>{
       'error': instance.error,
       'program_counter': instance.program_counter,

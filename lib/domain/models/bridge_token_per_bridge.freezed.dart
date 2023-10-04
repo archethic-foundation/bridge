@@ -65,22 +65,24 @@ class _$BridgeTokensPerBridgeCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_BridgeTokensPerBridgeCopyWith<$Res>
+abstract class _$$BridgeTokensPerBridgeImplCopyWith<$Res>
     implements $BridgeTokensPerBridgeCopyWith<$Res> {
-  factory _$$_BridgeTokensPerBridgeCopyWith(_$_BridgeTokensPerBridge value,
-          $Res Function(_$_BridgeTokensPerBridge) then) =
-      __$$_BridgeTokensPerBridgeCopyWithImpl<$Res>;
+  factory _$$BridgeTokensPerBridgeImplCopyWith(
+          _$BridgeTokensPerBridgeImpl value,
+          $Res Function(_$BridgeTokensPerBridgeImpl) then) =
+      __$$BridgeTokensPerBridgeImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({Map<String, List<TokenData>>? tokens});
 }
 
 /// @nodoc
-class __$$_BridgeTokensPerBridgeCopyWithImpl<$Res>
-    extends _$BridgeTokensPerBridgeCopyWithImpl<$Res, _$_BridgeTokensPerBridge>
-    implements _$$_BridgeTokensPerBridgeCopyWith<$Res> {
-  __$$_BridgeTokensPerBridgeCopyWithImpl(_$_BridgeTokensPerBridge _value,
-      $Res Function(_$_BridgeTokensPerBridge) _then)
+class __$$BridgeTokensPerBridgeImplCopyWithImpl<$Res>
+    extends _$BridgeTokensPerBridgeCopyWithImpl<$Res,
+        _$BridgeTokensPerBridgeImpl>
+    implements _$$BridgeTokensPerBridgeImplCopyWith<$Res> {
+  __$$BridgeTokensPerBridgeImplCopyWithImpl(_$BridgeTokensPerBridgeImpl _value,
+      $Res Function(_$BridgeTokensPerBridgeImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -88,7 +90,7 @@ class __$$_BridgeTokensPerBridgeCopyWithImpl<$Res>
   $Res call({
     Object? tokens = freezed,
   }) {
-    return _then(_$_BridgeTokensPerBridge(
+    return _then(_$BridgeTokensPerBridgeImpl(
       tokens: freezed == tokens
           ? _value._tokens
           : tokens // ignore: cast_nullable_to_non_nullable
@@ -99,12 +101,13 @@ class __$$_BridgeTokensPerBridgeCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_BridgeTokensPerBridge implements _BridgeTokensPerBridge {
-  const _$_BridgeTokensPerBridge({final Map<String, List<TokenData>>? tokens})
+class _$BridgeTokensPerBridgeImpl implements _BridgeTokensPerBridge {
+  const _$BridgeTokensPerBridgeImpl(
+      {final Map<String, List<TokenData>>? tokens})
       : _tokens = tokens;
 
-  factory _$_BridgeTokensPerBridge.fromJson(Map<String, dynamic> json) =>
-      _$$_BridgeTokensPerBridgeFromJson(json);
+  factory _$BridgeTokensPerBridgeImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BridgeTokensPerBridgeImplFromJson(json);
 
   final Map<String, List<TokenData>>? _tokens;
   @override
@@ -125,7 +128,7 @@ class _$_BridgeTokensPerBridge implements _BridgeTokensPerBridge {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BridgeTokensPerBridge &&
+            other is _$BridgeTokensPerBridgeImpl &&
             const DeepCollectionEquality().equals(other._tokens, _tokens));
   }
 
@@ -137,13 +140,13 @@ class _$_BridgeTokensPerBridge implements _BridgeTokensPerBridge {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BridgeTokensPerBridgeCopyWith<_$_BridgeTokensPerBridge> get copyWith =>
-      __$$_BridgeTokensPerBridgeCopyWithImpl<_$_BridgeTokensPerBridge>(
-          this, _$identity);
+  _$$BridgeTokensPerBridgeImplCopyWith<_$BridgeTokensPerBridgeImpl>
+      get copyWith => __$$BridgeTokensPerBridgeImplCopyWithImpl<
+          _$BridgeTokensPerBridgeImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_BridgeTokensPerBridgeToJson(
+    return _$$BridgeTokensPerBridgeImplToJson(
       this,
     );
   }
@@ -151,17 +154,18 @@ class _$_BridgeTokensPerBridge implements _BridgeTokensPerBridge {
 
 abstract class _BridgeTokensPerBridge implements BridgeTokensPerBridge {
   const factory _BridgeTokensPerBridge(
-      {final Map<String, List<TokenData>>? tokens}) = _$_BridgeTokensPerBridge;
+          {final Map<String, List<TokenData>>? tokens}) =
+      _$BridgeTokensPerBridgeImpl;
 
   factory _BridgeTokensPerBridge.fromJson(Map<String, dynamic> json) =
-      _$_BridgeTokensPerBridge.fromJson;
+      _$BridgeTokensPerBridgeImpl.fromJson;
 
   @override
   Map<String, List<TokenData>>? get tokens;
   @override
   @JsonKey(ignore: true)
-  _$$_BridgeTokensPerBridgeCopyWith<_$_BridgeTokensPerBridge> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$BridgeTokensPerBridgeImplCopyWith<_$BridgeTokensPerBridgeImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 TokenData _$TokenDataFromJson(Map<String, dynamic> json) {
@@ -268,10 +272,11 @@ class _$TokenDataCopyWithImpl<$Res, $Val extends TokenData>
 }
 
 /// @nodoc
-abstract class _$$_TokenDataCopyWith<$Res> implements $TokenDataCopyWith<$Res> {
-  factory _$$_TokenDataCopyWith(
-          _$_TokenData value, $Res Function(_$_TokenData) then) =
-      __$$_TokenDataCopyWithImpl<$Res>;
+abstract class _$$TokenDataImplCopyWith<$Res>
+    implements $TokenDataCopyWith<$Res> {
+  factory _$$TokenDataImplCopyWith(
+          _$TokenDataImpl value, $Res Function(_$TokenDataImpl) then) =
+      __$$TokenDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -287,11 +292,11 @@ abstract class _$$_TokenDataCopyWith<$Res> implements $TokenDataCopyWith<$Res> {
 }
 
 /// @nodoc
-class __$$_TokenDataCopyWithImpl<$Res>
-    extends _$TokenDataCopyWithImpl<$Res, _$_TokenData>
-    implements _$$_TokenDataCopyWith<$Res> {
-  __$$_TokenDataCopyWithImpl(
-      _$_TokenData _value, $Res Function(_$_TokenData) _then)
+class __$$TokenDataImplCopyWithImpl<$Res>
+    extends _$TokenDataCopyWithImpl<$Res, _$TokenDataImpl>
+    implements _$$TokenDataImplCopyWith<$Res> {
+  __$$TokenDataImplCopyWithImpl(
+      _$TokenDataImpl _value, $Res Function(_$TokenDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -307,7 +312,7 @@ class __$$_TokenDataCopyWithImpl<$Res>
     Object? tokenAddressSource = null,
     Object? tokenAddressTarget = null,
   }) {
-    return _then(_$_TokenData(
+    return _then(_$TokenDataImpl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -350,8 +355,8 @@ class __$$_TokenDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_TokenData implements _TokenData {
-  _$_TokenData(
+class _$TokenDataImpl implements _TokenData {
+  _$TokenDataImpl(
       {this.name = '',
       this.symbol = '',
       this.targetTokenName = '',
@@ -362,8 +367,8 @@ class _$_TokenData implements _TokenData {
       this.tokenAddressSource = '',
       this.tokenAddressTarget = ''});
 
-  factory _$_TokenData.fromJson(Map<String, dynamic> json) =>
-      _$$_TokenDataFromJson(json);
+  factory _$TokenDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TokenDataImplFromJson(json);
 
   @override
   @JsonKey()
@@ -402,7 +407,7 @@ class _$_TokenData implements _TokenData {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_TokenData &&
+            other is _$TokenDataImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.symbol, symbol) || other.symbol == symbol) &&
             (identical(other.targetTokenName, targetTokenName) ||
@@ -437,12 +442,12 @@ class _$_TokenData implements _TokenData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_TokenDataCopyWith<_$_TokenData> get copyWith =>
-      __$$_TokenDataCopyWithImpl<_$_TokenData>(this, _$identity);
+  _$$TokenDataImplCopyWith<_$TokenDataImpl> get copyWith =>
+      __$$TokenDataImplCopyWithImpl<_$TokenDataImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_TokenDataToJson(
+    return _$$TokenDataImplToJson(
       this,
     );
   }
@@ -458,10 +463,10 @@ abstract class _TokenData implements TokenData {
       final String poolAddressTo,
       final String type,
       final String tokenAddressSource,
-      final String tokenAddressTarget}) = _$_TokenData;
+      final String tokenAddressTarget}) = _$TokenDataImpl;
 
   factory _TokenData.fromJson(Map<String, dynamic> json) =
-      _$_TokenData.fromJson;
+      _$TokenDataImpl.fromJson;
 
   @override
   String get name;
@@ -483,6 +488,6 @@ abstract class _TokenData implements TokenData {
   String get tokenAddressTarget;
   @override
   @JsonKey(ignore: true)
-  _$$_TokenDataCopyWith<_$_TokenData> get copyWith =>
+  _$$TokenDataImplCopyWith<_$TokenDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -183,30 +183,30 @@ class _$FailureCopyWithImpl<$Res, $Val extends Failure>
 }
 
 /// @nodoc
-abstract class _$$LoggedOutCopyWith<$Res> {
-  factory _$$LoggedOutCopyWith(
-          _$LoggedOut value, $Res Function(_$LoggedOut) then) =
-      __$$LoggedOutCopyWithImpl<$Res>;
+abstract class _$$LoggedOutImplCopyWith<$Res> {
+  factory _$$LoggedOutImplCopyWith(
+          _$LoggedOutImpl value, $Res Function(_$LoggedOutImpl) then) =
+      __$$LoggedOutImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$LoggedOutCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$LoggedOut>
-    implements _$$LoggedOutCopyWith<$Res> {
-  __$$LoggedOutCopyWithImpl(
-      _$LoggedOut _value, $Res Function(_$LoggedOut) _then)
+class __$$LoggedOutImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$LoggedOutImpl>
+    implements _$$LoggedOutImplCopyWith<$Res> {
+  __$$LoggedOutImplCopyWithImpl(
+      _$LoggedOutImpl _value, $Res Function(_$LoggedOutImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$LoggedOut extends LoggedOut {
-  const _$LoggedOut({final String? $type})
+class _$LoggedOutImpl extends LoggedOut {
+  const _$LoggedOutImpl({final String? $type})
       : $type = $type ?? 'loggedOut',
         super._();
 
-  factory _$LoggedOut.fromJson(Map<String, dynamic> json) =>
-      _$$LoggedOutFromJson(json);
+  factory _$LoggedOutImpl.fromJson(Map<String, dynamic> json) =>
+      _$$LoggedOutImplFromJson(json);
 
   @JsonKey(name: 'runtimeType')
   final String $type;
@@ -219,7 +219,7 @@ class _$LoggedOut extends LoggedOut {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$LoggedOut);
+        (other.runtimeType == runtimeType && other is _$LoggedOutImpl);
   }
 
   @JsonKey(ignore: true)
@@ -363,44 +363,45 @@ class _$LoggedOut extends LoggedOut {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$LoggedOutToJson(
+    return _$$LoggedOutImplToJson(
       this,
     );
   }
 }
 
 abstract class LoggedOut extends Failure {
-  const factory LoggedOut() = _$LoggedOut;
+  const factory LoggedOut() = _$LoggedOutImpl;
   const LoggedOut._() : super._();
 
-  factory LoggedOut.fromJson(Map<String, dynamic> json) = _$LoggedOut.fromJson;
+  factory LoggedOut.fromJson(Map<String, dynamic> json) =
+      _$LoggedOutImpl.fromJson;
 }
 
 /// @nodoc
-abstract class _$$NetworkFailureCopyWith<$Res> {
-  factory _$$NetworkFailureCopyWith(
-          _$NetworkFailure value, $Res Function(_$NetworkFailure) then) =
-      __$$NetworkFailureCopyWithImpl<$Res>;
+abstract class _$$NetworkFailureImplCopyWith<$Res> {
+  factory _$$NetworkFailureImplCopyWith(_$NetworkFailureImpl value,
+          $Res Function(_$NetworkFailureImpl) then) =
+      __$$NetworkFailureImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$NetworkFailureCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$NetworkFailure>
-    implements _$$NetworkFailureCopyWith<$Res> {
-  __$$NetworkFailureCopyWithImpl(
-      _$NetworkFailure _value, $Res Function(_$NetworkFailure) _then)
+class __$$NetworkFailureImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$NetworkFailureImpl>
+    implements _$$NetworkFailureImplCopyWith<$Res> {
+  __$$NetworkFailureImplCopyWithImpl(
+      _$NetworkFailureImpl _value, $Res Function(_$NetworkFailureImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$NetworkFailure extends NetworkFailure {
-  const _$NetworkFailure({final String? $type})
+class _$NetworkFailureImpl extends NetworkFailure {
+  const _$NetworkFailureImpl({final String? $type})
       : $type = $type ?? 'network',
         super._();
 
-  factory _$NetworkFailure.fromJson(Map<String, dynamic> json) =>
-      _$$NetworkFailureFromJson(json);
+  factory _$NetworkFailureImpl.fromJson(Map<String, dynamic> json) =>
+      _$$NetworkFailureImplFromJson(json);
 
   @JsonKey(name: 'runtimeType')
   final String $type;
@@ -413,7 +414,7 @@ class _$NetworkFailure extends NetworkFailure {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$NetworkFailure);
+        (other.runtimeType == runtimeType && other is _$NetworkFailureImpl);
   }
 
   @JsonKey(ignore: true)
@@ -557,35 +558,35 @@ class _$NetworkFailure extends NetworkFailure {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$NetworkFailureToJson(
+    return _$$NetworkFailureImplToJson(
       this,
     );
   }
 }
 
 abstract class NetworkFailure extends Failure {
-  const factory NetworkFailure() = _$NetworkFailure;
+  const factory NetworkFailure() = _$NetworkFailureImpl;
   const NetworkFailure._() : super._();
 
   factory NetworkFailure.fromJson(Map<String, dynamic> json) =
-      _$NetworkFailure.fromJson;
+      _$NetworkFailureImpl.fromJson;
 }
 
 /// @nodoc
-abstract class _$$QuotaExceededFailureCopyWith<$Res> {
-  factory _$$QuotaExceededFailureCopyWith(_$QuotaExceededFailure value,
-          $Res Function(_$QuotaExceededFailure) then) =
-      __$$QuotaExceededFailureCopyWithImpl<$Res>;
+abstract class _$$QuotaExceededFailureImplCopyWith<$Res> {
+  factory _$$QuotaExceededFailureImplCopyWith(_$QuotaExceededFailureImpl value,
+          $Res Function(_$QuotaExceededFailureImpl) then) =
+      __$$QuotaExceededFailureImplCopyWithImpl<$Res>;
   @useResult
   $Res call({DateTime? cooldownEndDate});
 }
 
 /// @nodoc
-class __$$QuotaExceededFailureCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$QuotaExceededFailure>
-    implements _$$QuotaExceededFailureCopyWith<$Res> {
-  __$$QuotaExceededFailureCopyWithImpl(_$QuotaExceededFailure _value,
-      $Res Function(_$QuotaExceededFailure) _then)
+class __$$QuotaExceededFailureImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$QuotaExceededFailureImpl>
+    implements _$$QuotaExceededFailureImplCopyWith<$Res> {
+  __$$QuotaExceededFailureImplCopyWithImpl(_$QuotaExceededFailureImpl _value,
+      $Res Function(_$QuotaExceededFailureImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -593,7 +594,7 @@ class __$$QuotaExceededFailureCopyWithImpl<$Res>
   $Res call({
     Object? cooldownEndDate = freezed,
   }) {
-    return _then(_$QuotaExceededFailure(
+    return _then(_$QuotaExceededFailureImpl(
       cooldownEndDate: freezed == cooldownEndDate
           ? _value.cooldownEndDate
           : cooldownEndDate // ignore: cast_nullable_to_non_nullable
@@ -604,13 +605,13 @@ class __$$QuotaExceededFailureCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$QuotaExceededFailure extends QuotaExceededFailure {
-  const _$QuotaExceededFailure({this.cooldownEndDate, final String? $type})
+class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
+  const _$QuotaExceededFailureImpl({this.cooldownEndDate, final String? $type})
       : $type = $type ?? 'quotaExceeded',
         super._();
 
-  factory _$QuotaExceededFailure.fromJson(Map<String, dynamic> json) =>
-      _$$QuotaExceededFailureFromJson(json);
+  factory _$QuotaExceededFailureImpl.fromJson(Map<String, dynamic> json) =>
+      _$$QuotaExceededFailureImplFromJson(json);
 
   @override
   final DateTime? cooldownEndDate;
@@ -627,7 +628,7 @@ class _$QuotaExceededFailure extends QuotaExceededFailure {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$QuotaExceededFailure &&
+            other is _$QuotaExceededFailureImpl &&
             (identical(other.cooldownEndDate, cooldownEndDate) ||
                 other.cooldownEndDate == cooldownEndDate));
   }
@@ -639,9 +640,10 @@ class _$QuotaExceededFailure extends QuotaExceededFailure {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$QuotaExceededFailureCopyWith<_$QuotaExceededFailure> get copyWith =>
-      __$$QuotaExceededFailureCopyWithImpl<_$QuotaExceededFailure>(
-          this, _$identity);
+  _$$QuotaExceededFailureImplCopyWith<_$QuotaExceededFailureImpl>
+      get copyWith =>
+          __$$QuotaExceededFailureImplCopyWithImpl<_$QuotaExceededFailureImpl>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -780,7 +782,7 @@ class _$QuotaExceededFailure extends QuotaExceededFailure {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$QuotaExceededFailureToJson(
+    return _$$QuotaExceededFailureImplToJson(
       this,
     );
   }
@@ -788,43 +790,43 @@ class _$QuotaExceededFailure extends QuotaExceededFailure {
 
 abstract class QuotaExceededFailure extends Failure {
   const factory QuotaExceededFailure({final DateTime? cooldownEndDate}) =
-      _$QuotaExceededFailure;
+      _$QuotaExceededFailureImpl;
   const QuotaExceededFailure._() : super._();
 
   factory QuotaExceededFailure.fromJson(Map<String, dynamic> json) =
-      _$QuotaExceededFailure.fromJson;
+      _$QuotaExceededFailureImpl.fromJson;
 
   DateTime? get cooldownEndDate;
   @JsonKey(ignore: true)
-  _$$QuotaExceededFailureCopyWith<_$QuotaExceededFailure> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$QuotaExceededFailureImplCopyWith<_$QuotaExceededFailureImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$ServiceNotFoundCopyWith<$Res> {
-  factory _$$ServiceNotFoundCopyWith(
-          _$ServiceNotFound value, $Res Function(_$ServiceNotFound) then) =
-      __$$ServiceNotFoundCopyWithImpl<$Res>;
+abstract class _$$ServiceNotFoundImplCopyWith<$Res> {
+  factory _$$ServiceNotFoundImplCopyWith(_$ServiceNotFoundImpl value,
+          $Res Function(_$ServiceNotFoundImpl) then) =
+      __$$ServiceNotFoundImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$ServiceNotFoundCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$ServiceNotFound>
-    implements _$$ServiceNotFoundCopyWith<$Res> {
-  __$$ServiceNotFoundCopyWithImpl(
-      _$ServiceNotFound _value, $Res Function(_$ServiceNotFound) _then)
+class __$$ServiceNotFoundImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$ServiceNotFoundImpl>
+    implements _$$ServiceNotFoundImplCopyWith<$Res> {
+  __$$ServiceNotFoundImplCopyWithImpl(
+      _$ServiceNotFoundImpl _value, $Res Function(_$ServiceNotFoundImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$ServiceNotFound extends ServiceNotFound {
-  const _$ServiceNotFound({final String? $type})
+class _$ServiceNotFoundImpl extends ServiceNotFound {
+  const _$ServiceNotFoundImpl({final String? $type})
       : $type = $type ?? 'serviceNotFound',
         super._();
 
-  factory _$ServiceNotFound.fromJson(Map<String, dynamic> json) =>
-      _$$ServiceNotFoundFromJson(json);
+  factory _$ServiceNotFoundImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ServiceNotFoundImplFromJson(json);
 
   @JsonKey(name: 'runtimeType')
   final String $type;
@@ -837,7 +839,7 @@ class _$ServiceNotFound extends ServiceNotFound {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ServiceNotFound);
+        (other.runtimeType == runtimeType && other is _$ServiceNotFoundImpl);
   }
 
   @JsonKey(ignore: true)
@@ -981,45 +983,45 @@ class _$ServiceNotFound extends ServiceNotFound {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ServiceNotFoundToJson(
+    return _$$ServiceNotFoundImplToJson(
       this,
     );
   }
 }
 
 abstract class ServiceNotFound extends Failure {
-  const factory ServiceNotFound() = _$ServiceNotFound;
+  const factory ServiceNotFound() = _$ServiceNotFoundImpl;
   const ServiceNotFound._() : super._();
 
   factory ServiceNotFound.fromJson(Map<String, dynamic> json) =
-      _$ServiceNotFound.fromJson;
+      _$ServiceNotFoundImpl.fromJson;
 }
 
 /// @nodoc
-abstract class _$$ServiceAlreadyExistsCopyWith<$Res> {
-  factory _$$ServiceAlreadyExistsCopyWith(_$ServiceAlreadyExists value,
-          $Res Function(_$ServiceAlreadyExists) then) =
-      __$$ServiceAlreadyExistsCopyWithImpl<$Res>;
+abstract class _$$ServiceAlreadyExistsImplCopyWith<$Res> {
+  factory _$$ServiceAlreadyExistsImplCopyWith(_$ServiceAlreadyExistsImpl value,
+          $Res Function(_$ServiceAlreadyExistsImpl) then) =
+      __$$ServiceAlreadyExistsImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$ServiceAlreadyExistsCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$ServiceAlreadyExists>
-    implements _$$ServiceAlreadyExistsCopyWith<$Res> {
-  __$$ServiceAlreadyExistsCopyWithImpl(_$ServiceAlreadyExists _value,
-      $Res Function(_$ServiceAlreadyExists) _then)
+class __$$ServiceAlreadyExistsImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$ServiceAlreadyExistsImpl>
+    implements _$$ServiceAlreadyExistsImplCopyWith<$Res> {
+  __$$ServiceAlreadyExistsImplCopyWithImpl(_$ServiceAlreadyExistsImpl _value,
+      $Res Function(_$ServiceAlreadyExistsImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$ServiceAlreadyExists extends ServiceAlreadyExists {
-  const _$ServiceAlreadyExists({final String? $type})
+class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
+  const _$ServiceAlreadyExistsImpl({final String? $type})
       : $type = $type ?? 'serviceAlreadyExists',
         super._();
 
-  factory _$ServiceAlreadyExists.fromJson(Map<String, dynamic> json) =>
-      _$$ServiceAlreadyExistsFromJson(json);
+  factory _$ServiceAlreadyExistsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ServiceAlreadyExistsImplFromJson(json);
 
   @JsonKey(name: 'runtimeType')
   final String $type;
@@ -1032,7 +1034,8 @@ class _$ServiceAlreadyExists extends ServiceAlreadyExists {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ServiceAlreadyExists);
+        (other.runtimeType == runtimeType &&
+            other is _$ServiceAlreadyExistsImpl);
   }
 
   @JsonKey(ignore: true)
@@ -1176,45 +1179,45 @@ class _$ServiceAlreadyExists extends ServiceAlreadyExists {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ServiceAlreadyExistsToJson(
+    return _$$ServiceAlreadyExistsImplToJson(
       this,
     );
   }
 }
 
 abstract class ServiceAlreadyExists extends Failure {
-  const factory ServiceAlreadyExists() = _$ServiceAlreadyExists;
+  const factory ServiceAlreadyExists() = _$ServiceAlreadyExistsImpl;
   const ServiceAlreadyExists._() : super._();
 
   factory ServiceAlreadyExists.fromJson(Map<String, dynamic> json) =
-      _$ServiceAlreadyExists.fromJson;
+      _$ServiceAlreadyExistsImpl.fromJson;
 }
 
 /// @nodoc
-abstract class _$$InsuffientFundsCopyWith<$Res> {
-  factory _$$InsuffientFundsCopyWith(
-          _$InsuffientFunds value, $Res Function(_$InsuffientFunds) then) =
-      __$$InsuffientFundsCopyWithImpl<$Res>;
+abstract class _$$InsuffientFundsImplCopyWith<$Res> {
+  factory _$$InsuffientFundsImplCopyWith(_$InsuffientFundsImpl value,
+          $Res Function(_$InsuffientFundsImpl) then) =
+      __$$InsuffientFundsImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$InsuffientFundsCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$InsuffientFunds>
-    implements _$$InsuffientFundsCopyWith<$Res> {
-  __$$InsuffientFundsCopyWithImpl(
-      _$InsuffientFunds _value, $Res Function(_$InsuffientFunds) _then)
+class __$$InsuffientFundsImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$InsuffientFundsImpl>
+    implements _$$InsuffientFundsImplCopyWith<$Res> {
+  __$$InsuffientFundsImplCopyWithImpl(
+      _$InsuffientFundsImpl _value, $Res Function(_$InsuffientFundsImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$InsuffientFunds extends InsuffientFunds {
-  const _$InsuffientFunds({final String? $type})
+class _$InsuffientFundsImpl extends InsuffientFunds {
+  const _$InsuffientFundsImpl({final String? $type})
       : $type = $type ?? 'insufficientFunds',
         super._();
 
-  factory _$InsuffientFunds.fromJson(Map<String, dynamic> json) =>
-      _$$InsuffientFundsFromJson(json);
+  factory _$InsuffientFundsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$InsuffientFundsImplFromJson(json);
 
   @JsonKey(name: 'runtimeType')
   final String $type;
@@ -1227,7 +1230,7 @@ class _$InsuffientFunds extends InsuffientFunds {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$InsuffientFunds);
+        (other.runtimeType == runtimeType && other is _$InsuffientFundsImpl);
   }
 
   @JsonKey(ignore: true)
@@ -1371,45 +1374,45 @@ class _$InsuffientFunds extends InsuffientFunds {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$InsuffientFundsToJson(
+    return _$$InsuffientFundsImplToJson(
       this,
     );
   }
 }
 
 abstract class InsuffientFunds extends Failure {
-  const factory InsuffientFunds() = _$InsuffientFunds;
+  const factory InsuffientFunds() = _$InsuffientFundsImpl;
   const InsuffientFunds._() : super._();
 
   factory InsuffientFunds.fromJson(Map<String, dynamic> json) =
-      _$InsuffientFunds.fromJson;
+      _$InsuffientFundsImpl.fromJson;
 }
 
 /// @nodoc
-abstract class _$$InauthorizedCopyWith<$Res> {
-  factory _$$InauthorizedCopyWith(
-          _$Inauthorized value, $Res Function(_$Inauthorized) then) =
-      __$$InauthorizedCopyWithImpl<$Res>;
+abstract class _$$InauthorizedImplCopyWith<$Res> {
+  factory _$$InauthorizedImplCopyWith(
+          _$InauthorizedImpl value, $Res Function(_$InauthorizedImpl) then) =
+      __$$InauthorizedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$InauthorizedCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$Inauthorized>
-    implements _$$InauthorizedCopyWith<$Res> {
-  __$$InauthorizedCopyWithImpl(
-      _$Inauthorized _value, $Res Function(_$Inauthorized) _then)
+class __$$InauthorizedImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$InauthorizedImpl>
+    implements _$$InauthorizedImplCopyWith<$Res> {
+  __$$InauthorizedImplCopyWithImpl(
+      _$InauthorizedImpl _value, $Res Function(_$InauthorizedImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$Inauthorized extends Inauthorized {
-  const _$Inauthorized({final String? $type})
+class _$InauthorizedImpl extends Inauthorized {
+  const _$InauthorizedImpl({final String? $type})
       : $type = $type ?? 'unauthorized',
         super._();
 
-  factory _$Inauthorized.fromJson(Map<String, dynamic> json) =>
-      _$$InauthorizedFromJson(json);
+  factory _$InauthorizedImpl.fromJson(Map<String, dynamic> json) =>
+      _$$InauthorizedImplFromJson(json);
 
   @JsonKey(name: 'runtimeType')
   final String $type;
@@ -1422,7 +1425,7 @@ class _$Inauthorized extends Inauthorized {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$Inauthorized);
+        (other.runtimeType == runtimeType && other is _$InauthorizedImpl);
   }
 
   @JsonKey(ignore: true)
@@ -1566,45 +1569,45 @@ class _$Inauthorized extends Inauthorized {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$InauthorizedToJson(
+    return _$$InauthorizedImplToJson(
       this,
     );
   }
 }
 
 abstract class Inauthorized extends Failure {
-  const factory Inauthorized() = _$Inauthorized;
+  const factory Inauthorized() = _$InauthorizedImpl;
   const Inauthorized._() : super._();
 
   factory Inauthorized.fromJson(Map<String, dynamic> json) =
-      _$Inauthorized.fromJson;
+      _$InauthorizedImpl.fromJson;
 }
 
 /// @nodoc
-abstract class _$$InvalidValueCopyWith<$Res> {
-  factory _$$InvalidValueCopyWith(
-          _$InvalidValue value, $Res Function(_$InvalidValue) then) =
-      __$$InvalidValueCopyWithImpl<$Res>;
+abstract class _$$InvalidValueImplCopyWith<$Res> {
+  factory _$$InvalidValueImplCopyWith(
+          _$InvalidValueImpl value, $Res Function(_$InvalidValueImpl) then) =
+      __$$InvalidValueImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$InvalidValueCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$InvalidValue>
-    implements _$$InvalidValueCopyWith<$Res> {
-  __$$InvalidValueCopyWithImpl(
-      _$InvalidValue _value, $Res Function(_$InvalidValue) _then)
+class __$$InvalidValueImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$InvalidValueImpl>
+    implements _$$InvalidValueImplCopyWith<$Res> {
+  __$$InvalidValueImplCopyWithImpl(
+      _$InvalidValueImpl _value, $Res Function(_$InvalidValueImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$InvalidValue extends InvalidValue {
-  const _$InvalidValue({final String? $type})
+class _$InvalidValueImpl extends InvalidValue {
+  const _$InvalidValueImpl({final String? $type})
       : $type = $type ?? 'invalidValue',
         super._();
 
-  factory _$InvalidValue.fromJson(Map<String, dynamic> json) =>
-      _$$InvalidValueFromJson(json);
+  factory _$InvalidValueImpl.fromJson(Map<String, dynamic> json) =>
+      _$$InvalidValueImplFromJson(json);
 
   @JsonKey(name: 'runtimeType')
   final String $type;
@@ -1617,7 +1620,7 @@ class _$InvalidValue extends InvalidValue {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$InvalidValue);
+        (other.runtimeType == runtimeType && other is _$InvalidValueImpl);
   }
 
   @JsonKey(ignore: true)
@@ -1761,45 +1764,45 @@ class _$InvalidValue extends InvalidValue {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$InvalidValueToJson(
+    return _$$InvalidValueImplToJson(
       this,
     );
   }
 }
 
 abstract class InvalidValue extends Failure {
-  const factory InvalidValue() = _$InvalidValue;
+  const factory InvalidValue() = _$InvalidValueImpl;
   const InvalidValue._() : super._();
 
   factory InvalidValue.fromJson(Map<String, dynamic> json) =
-      _$InvalidValue.fromJson;
+      _$InvalidValueImpl.fromJson;
 }
 
 /// @nodoc
-abstract class _$$UserRejectedCopyWith<$Res> {
-  factory _$$UserRejectedCopyWith(
-          _$UserRejected value, $Res Function(_$UserRejected) then) =
-      __$$UserRejectedCopyWithImpl<$Res>;
+abstract class _$$UserRejectedImplCopyWith<$Res> {
+  factory _$$UserRejectedImplCopyWith(
+          _$UserRejectedImpl value, $Res Function(_$UserRejectedImpl) then) =
+      __$$UserRejectedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$UserRejectedCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$UserRejected>
-    implements _$$UserRejectedCopyWith<$Res> {
-  __$$UserRejectedCopyWithImpl(
-      _$UserRejected _value, $Res Function(_$UserRejected) _then)
+class __$$UserRejectedImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$UserRejectedImpl>
+    implements _$$UserRejectedImplCopyWith<$Res> {
+  __$$UserRejectedImplCopyWithImpl(
+      _$UserRejectedImpl _value, $Res Function(_$UserRejectedImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$UserRejected extends UserRejected {
-  const _$UserRejected({final String? $type})
+class _$UserRejectedImpl extends UserRejected {
+  const _$UserRejectedImpl({final String? $type})
       : $type = $type ?? 'userRejected',
         super._();
 
-  factory _$UserRejected.fromJson(Map<String, dynamic> json) =>
-      _$$UserRejectedFromJson(json);
+  factory _$UserRejectedImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserRejectedImplFromJson(json);
 
   @JsonKey(name: 'runtimeType')
   final String $type;
@@ -1812,7 +1815,7 @@ class _$UserRejected extends UserRejected {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$UserRejected);
+        (other.runtimeType == runtimeType && other is _$UserRejectedImpl);
   }
 
   @JsonKey(ignore: true)
@@ -1956,45 +1959,46 @@ class _$UserRejected extends UserRejected {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UserRejectedToJson(
+    return _$$UserRejectedImplToJson(
       this,
     );
   }
 }
 
 abstract class UserRejected extends Failure {
-  const factory UserRejected() = _$UserRejected;
+  const factory UserRejected() = _$UserRejectedImpl;
   const UserRejected._() : super._();
 
   factory UserRejected.fromJson(Map<String, dynamic> json) =
-      _$UserRejected.fromJson;
+      _$UserRejectedImpl.fromJson;
 }
 
 /// @nodoc
-abstract class _$$ConnectivityArchethicCopyWith<$Res> {
-  factory _$$ConnectivityArchethicCopyWith(_$ConnectivityArchethic value,
-          $Res Function(_$ConnectivityArchethic) then) =
-      __$$ConnectivityArchethicCopyWithImpl<$Res>;
+abstract class _$$ConnectivityArchethicImplCopyWith<$Res> {
+  factory _$$ConnectivityArchethicImplCopyWith(
+          _$ConnectivityArchethicImpl value,
+          $Res Function(_$ConnectivityArchethicImpl) then) =
+      __$$ConnectivityArchethicImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$ConnectivityArchethicCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$ConnectivityArchethic>
-    implements _$$ConnectivityArchethicCopyWith<$Res> {
-  __$$ConnectivityArchethicCopyWithImpl(_$ConnectivityArchethic _value,
-      $Res Function(_$ConnectivityArchethic) _then)
+class __$$ConnectivityArchethicImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$ConnectivityArchethicImpl>
+    implements _$$ConnectivityArchethicImplCopyWith<$Res> {
+  __$$ConnectivityArchethicImplCopyWithImpl(_$ConnectivityArchethicImpl _value,
+      $Res Function(_$ConnectivityArchethicImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$ConnectivityArchethic extends ConnectivityArchethic {
-  const _$ConnectivityArchethic({final String? $type})
+class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
+  const _$ConnectivityArchethicImpl({final String? $type})
       : $type = $type ?? 'connectivityArchethic',
         super._();
 
-  factory _$ConnectivityArchethic.fromJson(Map<String, dynamic> json) =>
-      _$$ConnectivityArchethicFromJson(json);
+  factory _$ConnectivityArchethicImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ConnectivityArchethicImplFromJson(json);
 
   @JsonKey(name: 'runtimeType')
   final String $type;
@@ -2007,7 +2011,8 @@ class _$ConnectivityArchethic extends ConnectivityArchethic {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ConnectivityArchethic);
+        (other.runtimeType == runtimeType &&
+            other is _$ConnectivityArchethicImpl);
   }
 
   @JsonKey(ignore: true)
@@ -2151,45 +2156,45 @@ class _$ConnectivityArchethic extends ConnectivityArchethic {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ConnectivityArchethicToJson(
+    return _$$ConnectivityArchethicImplToJson(
       this,
     );
   }
 }
 
 abstract class ConnectivityArchethic extends Failure {
-  const factory ConnectivityArchethic() = _$ConnectivityArchethic;
+  const factory ConnectivityArchethic() = _$ConnectivityArchethicImpl;
   const ConnectivityArchethic._() : super._();
 
   factory ConnectivityArchethic.fromJson(Map<String, dynamic> json) =
-      _$ConnectivityArchethic.fromJson;
+      _$ConnectivityArchethicImpl.fromJson;
 }
 
 /// @nodoc
-abstract class _$$ConnectivityEVMCopyWith<$Res> {
-  factory _$$ConnectivityEVMCopyWith(
-          _$ConnectivityEVM value, $Res Function(_$ConnectivityEVM) then) =
-      __$$ConnectivityEVMCopyWithImpl<$Res>;
+abstract class _$$ConnectivityEVMImplCopyWith<$Res> {
+  factory _$$ConnectivityEVMImplCopyWith(_$ConnectivityEVMImpl value,
+          $Res Function(_$ConnectivityEVMImpl) then) =
+      __$$ConnectivityEVMImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$ConnectivityEVMCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$ConnectivityEVM>
-    implements _$$ConnectivityEVMCopyWith<$Res> {
-  __$$ConnectivityEVMCopyWithImpl(
-      _$ConnectivityEVM _value, $Res Function(_$ConnectivityEVM) _then)
+class __$$ConnectivityEVMImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$ConnectivityEVMImpl>
+    implements _$$ConnectivityEVMImplCopyWith<$Res> {
+  __$$ConnectivityEVMImplCopyWithImpl(
+      _$ConnectivityEVMImpl _value, $Res Function(_$ConnectivityEVMImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$ConnectivityEVM extends ConnectivityEVM {
-  const _$ConnectivityEVM({final String? $type})
+class _$ConnectivityEVMImpl extends ConnectivityEVM {
+  const _$ConnectivityEVMImpl({final String? $type})
       : $type = $type ?? 'connectivityEVM',
         super._();
 
-  factory _$ConnectivityEVM.fromJson(Map<String, dynamic> json) =>
-      _$$ConnectivityEVMFromJson(json);
+  factory _$ConnectivityEVMImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ConnectivityEVMImplFromJson(json);
 
   @JsonKey(name: 'runtimeType')
   final String $type;
@@ -2202,7 +2207,7 @@ class _$ConnectivityEVM extends ConnectivityEVM {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ConnectivityEVM);
+        (other.runtimeType == runtimeType && other is _$ConnectivityEVMImpl);
   }
 
   @JsonKey(ignore: true)
@@ -2346,35 +2351,35 @@ class _$ConnectivityEVM extends ConnectivityEVM {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$ConnectivityEVMToJson(
+    return _$$ConnectivityEVMImplToJson(
       this,
     );
   }
 }
 
 abstract class ConnectivityEVM extends Failure {
-  const factory ConnectivityEVM() = _$ConnectivityEVM;
+  const factory ConnectivityEVM() = _$ConnectivityEVMImpl;
   const ConnectivityEVM._() : super._();
 
   factory ConnectivityEVM.fromJson(Map<String, dynamic> json) =
-      _$ConnectivityEVM.fromJson;
+      _$ConnectivityEVMImpl.fromJson;
 }
 
 /// @nodoc
-abstract class _$$RPCErrorEVMCopyWith<$Res> {
-  factory _$$RPCErrorEVMCopyWith(
-          _$RPCErrorEVM value, $Res Function(_$RPCErrorEVM) then) =
-      __$$RPCErrorEVMCopyWithImpl<$Res>;
+abstract class _$$RPCErrorEVMImplCopyWith<$Res> {
+  factory _$$RPCErrorEVMImplCopyWith(
+          _$RPCErrorEVMImpl value, $Res Function(_$RPCErrorEVMImpl) then) =
+      __$$RPCErrorEVMImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Map<String, RPCErrorEVMData>? data, String? stack, String? name});
 }
 
 /// @nodoc
-class __$$RPCErrorEVMCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$RPCErrorEVM>
-    implements _$$RPCErrorEVMCopyWith<$Res> {
-  __$$RPCErrorEVMCopyWithImpl(
-      _$RPCErrorEVM _value, $Res Function(_$RPCErrorEVM) _then)
+class __$$RPCErrorEVMImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$RPCErrorEVMImpl>
+    implements _$$RPCErrorEVMImplCopyWith<$Res> {
+  __$$RPCErrorEVMImplCopyWithImpl(
+      _$RPCErrorEVMImpl _value, $Res Function(_$RPCErrorEVMImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2384,7 +2389,7 @@ class __$$RPCErrorEVMCopyWithImpl<$Res>
     Object? stack = freezed,
     Object? name = freezed,
   }) {
-    return _then(_$RPCErrorEVM(
+    return _then(_$RPCErrorEVMImpl(
       data: freezed == data
           ? _value._data
           : data // ignore: cast_nullable_to_non_nullable
@@ -2403,8 +2408,8 @@ class __$$RPCErrorEVMCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$RPCErrorEVM extends RPCErrorEVM {
-  const _$RPCErrorEVM(
+class _$RPCErrorEVMImpl extends RPCErrorEVM {
+  const _$RPCErrorEVMImpl(
       {final Map<String, RPCErrorEVMData>? data,
       this.stack,
       this.name,
@@ -2413,8 +2418,8 @@ class _$RPCErrorEVM extends RPCErrorEVM {
         $type = $type ?? 'rpcErrorEVM',
         super._();
 
-  factory _$RPCErrorEVM.fromJson(Map<String, dynamic> json) =>
-      _$$RPCErrorEVMFromJson(json);
+  factory _$RPCErrorEVMImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RPCErrorEVMImplFromJson(json);
 
   final Map<String, RPCErrorEVMData>? _data;
   @override
@@ -2443,7 +2448,7 @@ class _$RPCErrorEVM extends RPCErrorEVM {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$RPCErrorEVM &&
+            other is _$RPCErrorEVMImpl &&
             const DeepCollectionEquality().equals(other._data, _data) &&
             (identical(other.stack, stack) || other.stack == stack) &&
             (identical(other.name, name) || other.name == name));
@@ -2457,8 +2462,8 @@ class _$RPCErrorEVM extends RPCErrorEVM {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$RPCErrorEVMCopyWith<_$RPCErrorEVM> get copyWith =>
-      __$$RPCErrorEVMCopyWithImpl<_$RPCErrorEVM>(this, _$identity);
+  _$$RPCErrorEVMImplCopyWith<_$RPCErrorEVMImpl> get copyWith =>
+      __$$RPCErrorEVMImplCopyWithImpl<_$RPCErrorEVMImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -2597,7 +2602,7 @@ class _$RPCErrorEVM extends RPCErrorEVM {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$RPCErrorEVMToJson(
+    return _$$RPCErrorEVMImplToJson(
       this,
     );
   }
@@ -2607,35 +2612,35 @@ abstract class RPCErrorEVM extends Failure {
   const factory RPCErrorEVM(
       {final Map<String, RPCErrorEVMData>? data,
       final String? stack,
-      final String? name}) = _$RPCErrorEVM;
+      final String? name}) = _$RPCErrorEVMImpl;
   const RPCErrorEVM._() : super._();
 
   factory RPCErrorEVM.fromJson(Map<String, dynamic> json) =
-      _$RPCErrorEVM.fromJson;
+      _$RPCErrorEVMImpl.fromJson;
 
   Map<String, RPCErrorEVMData>? get data;
   String? get stack;
   String? get name;
   @JsonKey(ignore: true)
-  _$$RPCErrorEVMCopyWith<_$RPCErrorEVM> get copyWith =>
+  _$$RPCErrorEVMImplCopyWith<_$RPCErrorEVMImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$OtherFailureCopyWith<$Res> {
-  factory _$$OtherFailureCopyWith(
-          _$OtherFailure value, $Res Function(_$OtherFailure) then) =
-      __$$OtherFailureCopyWithImpl<$Res>;
+abstract class _$$OtherFailureImplCopyWith<$Res> {
+  factory _$$OtherFailureImplCopyWith(
+          _$OtherFailureImpl value, $Res Function(_$OtherFailureImpl) then) =
+      __$$OtherFailureImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String? cause, String? stack});
 }
 
 /// @nodoc
-class __$$OtherFailureCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$OtherFailure>
-    implements _$$OtherFailureCopyWith<$Res> {
-  __$$OtherFailureCopyWithImpl(
-      _$OtherFailure _value, $Res Function(_$OtherFailure) _then)
+class __$$OtherFailureImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$OtherFailureImpl>
+    implements _$$OtherFailureImplCopyWith<$Res> {
+  __$$OtherFailureImplCopyWithImpl(
+      _$OtherFailureImpl _value, $Res Function(_$OtherFailureImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2644,7 +2649,7 @@ class __$$OtherFailureCopyWithImpl<$Res>
     Object? cause = freezed,
     Object? stack = freezed,
   }) {
-    return _then(_$OtherFailure(
+    return _then(_$OtherFailureImpl(
       cause: freezed == cause
           ? _value.cause
           : cause // ignore: cast_nullable_to_non_nullable
@@ -2659,13 +2664,13 @@ class __$$OtherFailureCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$OtherFailure extends OtherFailure {
-  const _$OtherFailure({this.cause, this.stack, final String? $type})
+class _$OtherFailureImpl extends OtherFailure {
+  const _$OtherFailureImpl({this.cause, this.stack, final String? $type})
       : $type = $type ?? 'other',
         super._();
 
-  factory _$OtherFailure.fromJson(Map<String, dynamic> json) =>
-      _$$OtherFailureFromJson(json);
+  factory _$OtherFailureImpl.fromJson(Map<String, dynamic> json) =>
+      _$$OtherFailureImplFromJson(json);
 
   @override
   final String? cause;
@@ -2684,7 +2689,7 @@ class _$OtherFailure extends OtherFailure {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$OtherFailure &&
+            other is _$OtherFailureImpl &&
             (identical(other.cause, cause) || other.cause == cause) &&
             (identical(other.stack, stack) || other.stack == stack));
   }
@@ -2696,8 +2701,8 @@ class _$OtherFailure extends OtherFailure {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$OtherFailureCopyWith<_$OtherFailure> get copyWith =>
-      __$$OtherFailureCopyWithImpl<_$OtherFailure>(this, _$identity);
+  _$$OtherFailureImplCopyWith<_$OtherFailureImpl> get copyWith =>
+      __$$OtherFailureImplCopyWithImpl<_$OtherFailureImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -2836,7 +2841,7 @@ class _$OtherFailure extends OtherFailure {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$OtherFailureToJson(
+    return _$$OtherFailureImplToJson(
       this,
     );
   }
@@ -2844,16 +2849,16 @@ class _$OtherFailure extends OtherFailure {
 
 abstract class OtherFailure extends Failure {
   const factory OtherFailure({final String? cause, final String? stack}) =
-      _$OtherFailure;
+      _$OtherFailureImpl;
   const OtherFailure._() : super._();
 
   factory OtherFailure.fromJson(Map<String, dynamic> json) =
-      _$OtherFailure.fromJson;
+      _$OtherFailureImpl.fromJson;
 
   String? get cause;
   String? get stack;
   @JsonKey(ignore: true)
-  _$$OtherFailureCopyWith<_$OtherFailure> get copyWith =>
+  _$$OtherFailureImplCopyWith<_$OtherFailureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -2930,11 +2935,11 @@ class _$RPCErrorEVMDataCopyWithImpl<$Res, $Val extends RPCErrorEVMData>
 }
 
 /// @nodoc
-abstract class _$$_RPCErrorEVMDataCopyWith<$Res>
+abstract class _$$RPCErrorEVMDataImplCopyWith<$Res>
     implements $RPCErrorEVMDataCopyWith<$Res> {
-  factory _$$_RPCErrorEVMDataCopyWith(
-          _$_RPCErrorEVMData value, $Res Function(_$_RPCErrorEVMData) then) =
-      __$$_RPCErrorEVMDataCopyWithImpl<$Res>;
+  factory _$$RPCErrorEVMDataImplCopyWith(_$RPCErrorEVMDataImpl value,
+          $Res Function(_$RPCErrorEVMDataImpl) then) =
+      __$$RPCErrorEVMDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -2945,11 +2950,11 @@ abstract class _$$_RPCErrorEVMDataCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_RPCErrorEVMDataCopyWithImpl<$Res>
-    extends _$RPCErrorEVMDataCopyWithImpl<$Res, _$_RPCErrorEVMData>
-    implements _$$_RPCErrorEVMDataCopyWith<$Res> {
-  __$$_RPCErrorEVMDataCopyWithImpl(
-      _$_RPCErrorEVMData _value, $Res Function(_$_RPCErrorEVMData) _then)
+class __$$RPCErrorEVMDataImplCopyWithImpl<$Res>
+    extends _$RPCErrorEVMDataCopyWithImpl<$Res, _$RPCErrorEVMDataImpl>
+    implements _$$RPCErrorEVMDataImplCopyWith<$Res> {
+  __$$RPCErrorEVMDataImplCopyWithImpl(
+      _$RPCErrorEVMDataImpl _value, $Res Function(_$RPCErrorEVMDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -2960,7 +2965,7 @@ class __$$_RPCErrorEVMDataCopyWithImpl<$Res>
     Object? returnValue = null,
     Object? reason = null,
   }) {
-    return _then(_$_RPCErrorEVMData(
+    return _then(_$RPCErrorEVMDataImpl(
       error: null == error
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
@@ -2983,15 +2988,15 @@ class __$$_RPCErrorEVMDataCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_RPCErrorEVMData implements _RPCErrorEVMData {
-  const _$_RPCErrorEVMData(
+class _$RPCErrorEVMDataImpl implements _RPCErrorEVMData {
+  const _$RPCErrorEVMDataImpl(
       {required this.error,
       required this.program_counter,
       @JsonKey(name: 'return') required this.returnValue,
       required this.reason});
 
-  factory _$_RPCErrorEVMData.fromJson(Map<String, dynamic> json) =>
-      _$$_RPCErrorEVMDataFromJson(json);
+  factory _$RPCErrorEVMDataImpl.fromJson(Map<String, dynamic> json) =>
+      _$$RPCErrorEVMDataImplFromJson(json);
 
   @override
   final String error;
@@ -3014,7 +3019,7 @@ class _$_RPCErrorEVMData implements _RPCErrorEVMData {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_RPCErrorEVMData &&
+            other is _$RPCErrorEVMDataImpl &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.program_counter, program_counter) ||
                 other.program_counter == program_counter) &&
@@ -3031,12 +3036,13 @@ class _$_RPCErrorEVMData implements _RPCErrorEVMData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_RPCErrorEVMDataCopyWith<_$_RPCErrorEVMData> get copyWith =>
-      __$$_RPCErrorEVMDataCopyWithImpl<_$_RPCErrorEVMData>(this, _$identity);
+  _$$RPCErrorEVMDataImplCopyWith<_$RPCErrorEVMDataImpl> get copyWith =>
+      __$$RPCErrorEVMDataImplCopyWithImpl<_$RPCErrorEVMDataImpl>(
+          this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_RPCErrorEVMDataToJson(
+    return _$$RPCErrorEVMDataImplToJson(
       this,
     );
   }
@@ -3047,10 +3053,10 @@ abstract class _RPCErrorEVMData implements RPCErrorEVMData {
       {required final String error,
       required final int program_counter,
       @JsonKey(name: 'return') required final String returnValue,
-      required final String reason}) = _$_RPCErrorEVMData;
+      required final String reason}) = _$RPCErrorEVMDataImpl;
 
   factory _RPCErrorEVMData.fromJson(Map<String, dynamic> json) =
-      _$_RPCErrorEVMData.fromJson;
+      _$RPCErrorEVMDataImpl.fromJson;
 
   @override
   String get error;
@@ -3063,6 +3069,6 @@ abstract class _RPCErrorEVMData implements RPCErrorEVMData {
   String get reason;
   @override
   @JsonKey(ignore: true)
-  _$$_RPCErrorEVMDataCopyWith<_$_RPCErrorEVMData> get copyWith =>
+  _$$RPCErrorEVMDataImplCopyWith<_$RPCErrorEVMDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

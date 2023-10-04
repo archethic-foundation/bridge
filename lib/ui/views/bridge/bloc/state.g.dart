@@ -6,8 +6,9 @@ part of 'state.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_BridgeFormState _$$_BridgeFormStateFromJson(Map<String, dynamic> json) =>
-    _$_BridgeFormState(
+_$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
+        Map<String, dynamic> json) =>
+    _$BridgeFormStateImpl(
       resumeProcess: json['resumeProcess'] as bool? ?? false,
       bridgeProcessStep: $enumDecodeNullable(
               _$BridgeProcessStepEnumMap, json['bridgeProcessStep']) ??
@@ -58,7 +59,8 @@ _$_BridgeFormState _$$_BridgeFormStateFromJson(Map<String, dynamic> json) =>
           (json['archethicTransactionFees'] as num?)?.toDouble() ?? 0.0,
     );
 
-Map<String, dynamic> _$$_BridgeFormStateToJson(_$_BridgeFormState instance) =>
+Map<String, dynamic> _$$BridgeFormStateImplToJson(
+        _$BridgeFormStateImpl instance) =>
     <String, dynamic>{
       'resumeProcess': instance.resumeProcess,
       'bridgeProcessStep':
