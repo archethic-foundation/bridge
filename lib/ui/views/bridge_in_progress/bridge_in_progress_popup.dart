@@ -38,6 +38,7 @@ class BridgeInProgressPopup {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
+                        BridgeInProgressCloseBtn(),
                         BridgeInProgressInfos(),
                         BridgeInProgressCircularStepProgressIndicator(),
                         BridgeInProgressCurrentStep(),
@@ -45,7 +46,6 @@ class BridgeInProgressPopup {
                         BridgeInProgressContracts(),
                         Spacer(),
                         BridgeInProgressResumeBtn(),
-                        BridgeInProgressCloseBtn(),
                       ],
                     ),
                   ),

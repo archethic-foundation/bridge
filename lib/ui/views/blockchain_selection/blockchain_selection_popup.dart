@@ -1,9 +1,9 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/ui/views/blockchain_selection/components/blockchain_list.dart';
-import 'package:aebridge/ui/views/blockchain_selection/components/blockchain_selection_close_btn.dart';
 import 'package:aebridge/ui/views/blockchain_selection/components/blockchain_testnet_included_switch.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
+import 'package:aebridge/ui/views/util/components/popup_close_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,15 +28,12 @@ class BlockchainSelectionPopup {
                   content: Container(
                     width: BridgeThemeBase.sizeBoxComponentWidth,
                     color: Colors.transparent,
-                    padding: const EdgeInsets.only(
-                      top: 10,
-                      left: 30,
-                      right: 30,
-                    ),
+                    padding: const EdgeInsets.all(10),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
+                        const PopupCloseButton(),
                         Padding(
                           padding: const EdgeInsets.only(
                             top: 10,
@@ -69,16 +66,12 @@ class BlockchainSelectionPopup {
                           ),
                         ),
                         const SizedBox(
-                          height: 30,
+                          height: 10,
                         ),
                         BlockchainList(
                           env: env,
                           shouldBeArchethic: shouldBeArchethic,
                         ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        const BlockchainSelectionCloseBtn(),
                       ],
                     ),
                   ),
