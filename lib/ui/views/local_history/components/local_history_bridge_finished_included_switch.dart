@@ -46,13 +46,21 @@ class _LocalHistoryBridgeFinishedIncludedSwitchState
             child: Container(
               padding: const EdgeInsets.only(left: 2),
               height: 30,
-              child: FittedBox(
-                fit: BoxFit.fill,
-                child: Switch(
-                  thumbIcon: thumbIcon,
-                  value: localHistory.processCompletedIncluded,
-                  onChanged: localHistoryNotifier.setProcessCompletedIncluded,
-                ),
+              child: Row(
+                children: [
+                  const SizedBox(
+                    width: 8,
+                  ),
+                  FittedBox(
+                    fit: BoxFit.fill,
+                    child: Switch(
+                      thumbIcon: thumbIcon,
+                      value: localHistory.processCompletedIncluded,
+                      onChanged:
+                          localHistoryNotifier.setProcessCompletedIncluded,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

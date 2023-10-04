@@ -30,6 +30,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
               Text(
                 AppLocalizations.of(context)!.bridge_blockchain_from_lbl,
               ),
+              const SizedBox(width: 8),
               BlockchainLabel(
                 chainId: bridge.blockchainFrom!.chainId,
               ),
@@ -42,6 +43,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
               Text(
                 AppLocalizations.of(context)!.bridge_blockchain_to_lbl,
               ),
+              const SizedBox(width: 8),
               BlockchainLabel(
                 chainId: bridge.blockchainTo!.chainId,
               ),

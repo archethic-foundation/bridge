@@ -2,9 +2,8 @@
 import 'dart:math';
 
 import 'package:aebridge/ui/views/local_history/bloc/provider.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
+import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -66,88 +65,56 @@ class LocalHistoryPeriodFilter extends ConsumerWidget {
     }
 
     final localHistory = ref.watch(LocalHistoryFormProvider.localHistoryForm);
-    return SizedBox(
-      width: 280,
+
+    return MenuItemButton(
       child: Row(
         children: [
-          Expanded(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(
-                          10,
-                        ),
-                        border: Border.all(
-                          color: Theme.of(context).colorScheme.primaryContainer,
-                          width: 0.5,
-                        ),
-                        gradient: BridgeThemeBase.gradientInputFormBackground,
-                      ),
-                      child: InkWell(
-                        child: Container(
-                          padding: const EdgeInsets.only(left: 10),
-                          height: 45,
-                          child: Align(
-                            alignment: Alignment.centerLeft,
-                            child: (localHistory.filterPeriodStart == null ||
-                                    localHistory.filterPeriodEnd == null)
-                                ? Text(
-                                    AppLocalizations.of(context)!
-                                        .local_history_period_date_lbl,
-                                  )
-                                : Text('${DateFormat.yMMMEd(
-                                    Localizations.localeOf(context)
-                                        .languageCode,
-                                  ).format(
-                                    localHistory.filterPeriodStart!.toLocal(),
-                                  )} - ${DateFormat.yMMMEd(
-                                    Localizations.localeOf(context)
-                                        .languageCode,
-                                  ).format(
-                                    localHistory.filterPeriodEnd!.toLocal(),
-                                  )} '),
-                          ),
-                        ),
-                        onTap: () async {
-                          final localHistoryNotifier = ref.read(
-                            LocalHistoryFormProvider.localHistoryForm.notifier,
-                          );
-
-                          final date = await dateTimeRangePicker();
-                          if (date != null) {
-                            localHistoryNotifier
-                              ..setFilterPeriodStart(
-                                date.start,
-                              )
-                              ..setFilterPeriodEnd(
-                                date.end.add(
-                                  const Duration(
-                                    hours: 23,
-                                    minutes: 59,
-                                    seconds: 59,
-                                  ),
-                                ),
-                              );
-                          }
-                        },
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
+          const Icon(
+            Iconsax.filter,
+            size: 16,
           ),
+          const SizedBox(
+            width: 10,
+          ),
+          if (localHistory.filterPeriodStart == null ||
+              localHistory.filterPeriodEnd == null)
+            Text(
+              AppLocalizations.of(context)!.local_history_period_date_lbl,
+            )
+          else
+            Text('${DateFormat.yMMMEd(
+              Localizations.localeOf(context).languageCode,
+            ).format(
+              localHistory.filterPeriodStart!.toLocal(),
+            )} - ${DateFormat.yMMMEd(
+              Localizations.localeOf(context).languageCode,
+            ).format(
+              localHistory.filterPeriodEnd!.toLocal(),
+            )} '),
         ],
       ),
-    )
-        .animate()
-        .fade(duration: const Duration(milliseconds: 300))
-        .scale(duration: const Duration(milliseconds: 300));
+      onPressed: () async {
+        final localHistoryNotifier = ref.read(
+          LocalHistoryFormProvider.localHistoryForm.notifier,
+        );
+
+        final date = await dateTimeRangePicker();
+        if (date != null) {
+          localHistoryNotifier
+            ..setFilterPeriodStart(
+              date.start,
+            )
+            ..setFilterPeriodEnd(
+              date.end.add(
+                const Duration(
+                  hours: 23,
+                  minutes: 59,
+                  seconds: 59,
+                ),
+              ),
+            );
+        }
+      },
+    );
   }
 }

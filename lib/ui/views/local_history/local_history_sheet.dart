@@ -28,106 +28,120 @@ class LocalHistorySheet extends ConsumerWidget {
       alignment: Alignment.center,
       children: [
         const MainScreenBackground(),
-        Container(
-          padding: const EdgeInsets.symmetric(
-            vertical: 40,
-            horizontal: 130,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (!Responsive.isDesktop(context)) const SizedBox(width: 20),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.all(10),
-                    child: SelectionArea(
-                      child: Text(
-                        AppLocalizations.of(context)!.bridgesListTitle,
-                        style: Theme.of(context).textTheme.titleSmall,
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (!Responsive.isDesktop(context)) const SizedBox(width: 20),
+            Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: SelectionArea(
+                    child: Text(
+                      AppLocalizations.of(context)!.bridgesListTitle,
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    width: 25,
+                    height: 1,
+                    decoration: const BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Color(0x003C89B9),
+                          Color(0xFFCC00FF),
+                        ],
+                        stops: [0, 1],
+                        begin: AlignmentDirectional.centerEnd,
+                        end: AlignmentDirectional.centerStart,
                       ),
                     ),
                   ),
-                  Expanded(
-                    child: Container(
-                      width: 25,
-                      height: 1,
-                      decoration: const BoxDecoration(
-                        gradient: LinearGradient(
-                          colors: [
-                            Color(0x003C89B9),
-                            Color(0xFFCC00FF),
-                          ],
-                          stops: [0, 1],
-                          begin: AlignmentDirectional.centerEnd,
-                          end: AlignmentDirectional.centerStart,
-                        ),
+                ),
+                MenuAnchor(
+                  style: MenuStyle(
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    width: 300,
-                    child: LocalHistoryClearButton(),
-                  ),
-                ],
-              ),
-              const Padding(
-                padding:
-                    EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-                child: Row(
-                  children: [
-                    LocalHistoryBridgeFinishedIncludedSwitch(),
-                    SizedBox(
-                      width: 20,
-                    ),
+                  alignmentOffset: const Offset(0, 10),
+                  builder: (context, controller, child) {
+                    return IconButton(
+                      onPressed: () {
+                        if (controller.isOpen) {
+                          controller.close();
+                        } else {
+                          controller.open();
+                        }
+                      },
+                      icon: Icon(
+                        Icons.more_vert_outlined,
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
+                      ),
+                    );
+                  },
+                  menuChildren: const [
                     LocalHistoryPeriodFilter(),
+                    LocalHistoryClearButton(),
                   ],
                 ),
+              ],
+            ),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+              child: Row(
+                children: [
+                  LocalHistoryBridgeFinishedIncludedSwitch(),
+                ],
               ),
-              bridgesList.map(
-                data: (data) {
-                  final localHistory =
-                      ref.read(LocalHistoryFormProvider.localHistoryForm);
-                  return Expanded(
-                    child: SizedBox(
-                      child: ListView.builder(
-                        padding: const EdgeInsets.all(8),
-                        itemCount: data.value.length,
-                        itemBuilder: (context, index) {
-                          debugPrint(json.encode(data.value[index]));
-                          // Conversion LinkedMap to Map
-                          final bridge = BridgeFormState.fromJson(
-                            json.decode(json.encode(data.value[index]))
-                                as Map<String, dynamic>,
-                          );
-                          if (localHistory.processCompletedIncluded == false &&
-                              bridge.failure == null) return const SizedBox();
-                          if (localHistory.filterPeriodStart != null &&
-                              bridge.timestampExec != null &&
-                              DateTime.fromMillisecondsSinceEpoch(
-                                bridge.timestampExec!,
-                              ).isBefore(localHistory.filterPeriodStart!)) {
-                            return const SizedBox();
-                          }
-                          if (localHistory.filterPeriodEnd != null &&
-                              bridge.timestampExec != null &&
-                              DateTime.fromMillisecondsSinceEpoch(
-                                bridge.timestampExec!,
-                              ).isAfter(localHistory.filterPeriodEnd!)) {
-                            return const SizedBox();
-                          }
+            ),
+            bridgesList.map(
+              data: (data) {
+                final localHistory =
+                    ref.read(LocalHistoryFormProvider.localHistoryForm);
+                return Expanded(
+                  child: SizedBox(
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(8),
+                      itemCount: data.value.length,
+                      itemBuilder: (context, index) {
+                        debugPrint(json.encode(data.value[index]));
+                        // Conversion LinkedMap to Map
+                        final bridge = BridgeFormState.fromJson(
+                          json.decode(json.encode(data.value[index]))
+                              as Map<String, dynamic>,
+                        );
+                        if (localHistory.processCompletedIncluded == false &&
+                            bridge.failure == null) return const SizedBox();
+                        if (localHistory.filterPeriodStart != null &&
+                            bridge.timestampExec != null &&
+                            DateTime.fromMillisecondsSinceEpoch(
+                              bridge.timestampExec!,
+                            ).isBefore(localHistory.filterPeriodStart!)) {
+                          return const SizedBox();
+                        }
+                        if (localHistory.filterPeriodEnd != null &&
+                            bridge.timestampExec != null &&
+                            DateTime.fromMillisecondsSinceEpoch(
+                              bridge.timestampExec!,
+                            ).isAfter(localHistory.filterPeriodEnd!)) {
+                          return const SizedBox();
+                        }
 
-                          return LocalHistoryCard(bridge: bridge);
-                        },
-                      ),
+                        return LocalHistoryCard(bridge: bridge);
+                      },
                     ),
-                  );
-                },
-                error: (error) => const SizedBox(),
-                loading: (loading) => const SizedBox(),
-              ),
-            ],
-          ),
+                  ),
+                );
+              },
+              error: (error) => const SizedBox(),
+              loading: (loading) => const SizedBox(),
+            ),
+          ],
         ),
       ],
     );
