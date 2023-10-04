@@ -1,4 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:math';
+
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
@@ -33,13 +35,16 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 30, bottom: 5),
+            padding: const EdgeInsets.only(top: 5, bottom: 5),
             child: Text(
               AppLocalizations.of(context)!.bridge_token_selection_lbl,
             ),
           ),
           SizedBox(
-            width: 230,
+            width: min(
+              BridgeThemeBase.sizeBoxComponentWidth / 2 - 40,
+              MediaQuery.of(context).size.width / 3 - 5,
+            ),
             child: Row(
               children: [
                 Expanded(

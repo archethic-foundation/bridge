@@ -60,11 +60,9 @@ class BridgeFormSheet extends ConsumerWidget {
           height: 10,
         ),
         BridgeErrorMessage(),
-        SizedBox(
-          height: 20,
-        ),
+        Spacer(),
         BridgeButton(),
-        SizedBox(height: 10),
+        SizedBox(height: 30),
       ],
     );
   }

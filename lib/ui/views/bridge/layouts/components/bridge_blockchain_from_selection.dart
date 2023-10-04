@@ -1,4 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:math';
+
 import 'package:aebridge/ui/views/blockchain_selection/bloc/provider.dart';
 import 'package:aebridge/ui/views/blockchain_selection/blockchain_selection_popup.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
@@ -30,7 +32,10 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
           ),
         ),
         SizedBox(
-          width: BridgeThemeBase.sizeBoxComponentWidth / 2 - 40,
+          width: min(
+            BridgeThemeBase.sizeBoxComponentWidth / 2 - 40,
+            MediaQuery.of(context).size.width / 3 - 5,
+          ),
           child: Row(
             children: [
               Expanded(
@@ -67,10 +72,13 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
                                         ? Padding(
                                             padding:
                                                 const EdgeInsets.only(left: 5),
-                                            child: Text(
-                                              AppLocalizations.of(context)!
-                                                  .btn_selectBlockchain,
-                                              style: textTheme.titleMedium,
+                                            child: Flexible(
+                                              child: Text(
+                                                AppLocalizations.of(context)!
+                                                    .btn_selectBlockchain,
+                                                style: textTheme.titleMedium,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
                                             ),
                                           )
                                         : Row(
@@ -82,9 +90,13 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
                                               const SizedBox(
                                                 width: 10,
                                               ),
-                                              Text(
-                                                bridge.blockchainFrom!.name,
-                                                style: textTheme.titleMedium,
+                                              Flexible(
+                                                child: Text(
+                                                  bridge.blockchainFrom!.name,
+                                                  style: textTheme.titleMedium,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                ),
                                               ),
                                             ],
                                           ),

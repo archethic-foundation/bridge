@@ -3,7 +3,6 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_back_btn.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_btn.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_sheet_fees.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/components/blockchain_label.dart';
 import 'package:aebridge/ui/views/util/components/fiat_value.dart';
 import 'package:aebridge/ui/views/util/components/format_address_link_copy.dart';
@@ -19,118 +18,91 @@ class BridgeConfirmSheet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
 
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          children: [
-            SelectionArea(
-              child: Text(
-                AppLocalizations.of(context)!.bridgeConfirmTitle,
-                style: Theme.of(context).textTheme.titleSmall,
-              ),
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            Expanded(
-              child: Container(
-                width: 50,
-                height: 1,
-                decoration: BoxDecoration(
-                  gradient: BridgeThemeBase.gradient,
-                ),
-              ),
-            ),
-          ],
-        ),
-        const SizedBox(height: 10),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              AppLocalizations.of(context)!.bridge_blockchain_from_lbl,
-            ),
-            BlockchainLabel(
-              chainId: bridge.blockchainFrom!.chainId,
-            ),
-          ],
-        ),
-        const SizedBox(height: 3),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              AppLocalizations.of(context)!.bridge_blockchain_to_lbl,
-            ),
-            BlockchainLabel(
-              chainId: bridge.blockchainTo!.chainId,
-            ),
-          ],
-        ),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              AppLocalizations.of(context)!.bridge_token_amount_lbl,
-            ),
-            FutureBuilder<String>(
-              future: FiatValue().display(
-                ref,
-                bridge.tokenToBridge!.symbol,
-                bridge.tokenToBridgeAmount,
-              ),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Text(
-                    '${bridge.tokenToBridgeAmount.toString().formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data}',
-                  );
-                }
-                return const SizedBox();
-              },
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        if (bridge.targetAddress.isNotEmpty)
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const BridgeConfirmBackButton(),
+          const SizedBox(height: 15),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                AppLocalizations.of(context)!.bridge_target_address_lbl,
+                AppLocalizations.of(context)!.bridge_blockchain_from_lbl,
               ),
-              FormatAddressLinkCopy(
-                address: bridge.targetAddress,
-                chainId: bridge.blockchainTo!.chainId,
-                expanded: false,
-                reduceAddress: true,
+              BlockchainLabel(
+                chainId: bridge.blockchainFrom!.chainId,
               ),
             ],
           ),
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 10),
-          child: SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: 1,
-            child: Container(
-              decoration: BoxDecoration(
-                gradient: BridgeThemeBase.gradient,
+          const SizedBox(height: 3),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.bridge_blockchain_to_lbl,
               ),
-            ),
+              BlockchainLabel(
+                chainId: bridge.blockchainTo!.chainId,
+              ),
+            ],
           ),
-        ),
-        const BridgeConfirmSheetFees(),
-        const Expanded(
-          child: SizedBox(),
-        ),
-        const BridgeConfirmButton(),
-        const SizedBox(height: 10),
-        const BridgeConfirmBackButton(),
-        const SizedBox(height: 40),
-      ],
+          const SizedBox(height: 3),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                AppLocalizations.of(context)!.bridge_token_amount_lbl,
+              ),
+              FutureBuilder<String>(
+                future: FiatValue().display(
+                  ref,
+                  bridge.tokenToBridge!.symbol,
+                  bridge.tokenToBridgeAmount,
+                ),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Text(
+                      '${bridge.tokenToBridgeAmount.toString().formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data}',
+                    );
+                  }
+                  return const SizedBox();
+                },
+              ),
+            ],
+          ),
+          const SizedBox(
+            height: 3,
+          ),
+          if (bridge.targetAddress.isNotEmpty)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: Text(
+                    AppLocalizations.of(context)!.bridge_target_address_lbl,
+                  ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                FormatAddressLinkCopy(
+                  address: bridge.targetAddress,
+                  chainId: bridge.blockchainTo!.chainId,
+                  expanded: false,
+                  reduceAddress: true,
+                ),
+              ],
+            ),
+          const SizedBox(
+            height: 10,
+          ),
+          const BridgeConfirmSheetFees(),
+          const Spacer(),
+          const BridgeConfirmButton(),
+          const SizedBox(height: 30),
+        ],
+      ),
     );
   }
 }

@@ -20,47 +20,60 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Text(
-                  AppLocalizations.of(context)!.bridgeConfirm_fees_lbl,
-                ),
-                IconButtonAnimated(
-                  icon: const Icon(
-                    Icons.help,
+            Text(
+              AppLocalizations.of(context)!.bridgeConfirm_fees_lbl,
+            ),
+            IconButtonAnimated(
+              icon: const Icon(
+                Icons.help,
+              ),
+              onPressed: () {
+                launchUrl(
+                  Uri.parse(
+                    'https://wiki.archethic.net/FAQ/',
                   ),
-                  onPressed: () {
-                    launchUrl(
-                      Uri.parse(
-                        'https://wiki.archethic.net/FAQ/',
-                      ),
-                    );
-                  },
-                  color: Colors.white,
+                );
+              },
+              color: Colors.white,
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            Expanded(
+              child: Container(
+                width: 50,
+                height: 1,
+                decoration: BoxDecoration(
+                  gradient: BridgeThemeBase.gradient,
                 ),
-              ],
+              ),
             ),
           ],
         ),
         const SizedBox(
-          height: 10,
+          height: 3,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  AppLocalizations.of(context)!.bridgeConfirmEVMSafetyModuleLbl,
-                ),
-                Text(
-                  '${bridge.safetyModuleFeesRate}% of the initial amount',
-                  style: Theme.of(context).textTheme.labelSmall,
-                ),
-              ],
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!
+                        .bridgeConfirmEVMSafetyModuleLbl,
+                  ),
+                  Text(
+                    '${bridge.safetyModuleFeesRate}% of the initial amount',
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              width: 20,
             ),
             FutureBuilder<String>(
               future: FiatValue().display(
@@ -92,18 +105,23 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  AppLocalizations.of(context)!
-                      .bridgeConfirmArchethicProtocolLbl,
-                ),
-                Text(
-                  '${bridge.archethicProtocolFeesRate}% of the remaining amount after the Safety module fee',
-                  style: Theme.of(context).textTheme.labelSmall,
-                ),
-              ],
+            Flexible(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    AppLocalizations.of(context)!
+                        .bridgeConfirmArchethicProtocolLbl,
+                  ),
+                  Text(
+                    '${bridge.archethicProtocolFeesRate}% of the remaining amount after the Safety module fee',
+                    style: Theme.of(context).textTheme.labelSmall,
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              width: 20,
             ),
             FutureBuilder<String>(
               future: FiatValue().display(
@@ -128,6 +146,9 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
           expanded: false,
           reduceAddress: true,
           fontSize: Theme.of(context).textTheme.labelSmall!.fontSize!,
+        ),
+        const SizedBox(
+          height: 15,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10),

@@ -2,8 +2,6 @@
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
-import 'package:aebridge/ui/views/util/components/app_button.dart';
-import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,22 +18,31 @@ class BridgeConfirmBackButton extends ConsumerWidget {
     if (session.allWalletsIsConnected == false) {
       return const SizedBox();
     }
-    if (bridge.tokenToBridge == null) {
-      return AppButton(
-        labelBtn: AppLocalizations.of(context)!.btn_back,
-        icon: Iconsax.back_square,
-        disabled: true,
-      );
-    }
 
-    return AppButton(
-      labelBtn: AppLocalizations.of(context)!.btn_back,
-      icon: Iconsax.back_square,
-      onPressed: () {
-        ref.watch(BridgeFormProvider.bridgeForm.notifier).setBridgeProcessStep(
-              BridgeProcessStep.form,
-            );
-      },
+    return Stack(
+      children: [
+        Center(
+          child: Text(
+            AppLocalizations.of(context)!.bridgeConfirmTitle,
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
+        ),
+        TextButton(
+          onPressed: bridge.tokenToBridge == null
+              ? null
+              : () {
+                  ref
+                      .watch(BridgeFormProvider.bridgeForm.notifier)
+                      .setBridgeProcessStep(
+                        BridgeProcessStep.form,
+                      );
+                },
+          child: Text(
+            '< ${AppLocalizations.of(context)!.btn_back}',
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+        ),
+      ],
     );
   }
 }

@@ -30,7 +30,7 @@ class BridgeSheet extends ConsumerWidget {
           children: [
             Container(
               width: 650,
-              height: 610,
+              height: 520,
               decoration: BoxDecoration(
                 gradient: BridgeThemeBase.gradientSheetBackground,
                 border: GradientBoxBorder(
