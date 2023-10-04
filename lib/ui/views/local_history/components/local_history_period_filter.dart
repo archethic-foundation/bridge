@@ -67,31 +67,34 @@ class LocalHistoryPeriodFilter extends ConsumerWidget {
     final localHistory = ref.watch(LocalHistoryFormProvider.localHistoryForm);
 
     return MenuItemButton(
-      child: Row(
-        children: [
-          const Icon(
-            Iconsax.filter,
-            size: 16,
-          ),
-          const SizedBox(
-            width: 10,
-          ),
-          if (localHistory.filterPeriodStart == null ||
-              localHistory.filterPeriodEnd == null)
-            Text(
-              AppLocalizations.of(context)!.local_history_period_date_lbl,
-            )
-          else
-            Text('${DateFormat.yMMMEd(
-              Localizations.localeOf(context).languageCode,
-            ).format(
-              localHistory.filterPeriodStart!.toLocal(),
-            )} - ${DateFormat.yMMMEd(
-              Localizations.localeOf(context).languageCode,
-            ).format(
-              localHistory.filterPeriodEnd!.toLocal(),
-            )} '),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: Row(
+          children: [
+            const Icon(
+              Iconsax.filter,
+              size: 16,
+            ),
+            const SizedBox(
+              width: 10,
+            ),
+            if (localHistory.filterPeriodStart == null ||
+                localHistory.filterPeriodEnd == null)
+              Text(
+                AppLocalizations.of(context)!.local_history_period_date_lbl,
+              )
+            else
+              Text('${DateFormat.yMMMEd(
+                Localizations.localeOf(context).languageCode,
+              ).format(
+                localHistory.filterPeriodStart!.toLocal(),
+              )} - ${DateFormat.yMMMEd(
+                Localizations.localeOf(context).languageCode,
+              ).format(
+                localHistory.filterPeriodEnd!.toLocal(),
+              )} '),
+          ],
+        ),
       ),
       onPressed: () async {
         final localHistoryNotifier = ref.read(
