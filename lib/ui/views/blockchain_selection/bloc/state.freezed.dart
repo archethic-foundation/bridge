@@ -60,25 +60,25 @@ class _$BlockchainSelectionFormStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_BlockchainSelectionFormStateCopyWith<$Res>
+abstract class _$$BlockchainSelectionFormStateImplCopyWith<$Res>
     implements $BlockchainSelectionFormStateCopyWith<$Res> {
-  factory _$$_BlockchainSelectionFormStateCopyWith(
-          _$_BlockchainSelectionFormState value,
-          $Res Function(_$_BlockchainSelectionFormState) then) =
-      __$$_BlockchainSelectionFormStateCopyWithImpl<$Res>;
+  factory _$$BlockchainSelectionFormStateImplCopyWith(
+          _$BlockchainSelectionFormStateImpl value,
+          $Res Function(_$BlockchainSelectionFormStateImpl) then) =
+      __$$BlockchainSelectionFormStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({bool testnetIncluded});
 }
 
 /// @nodoc
-class __$$_BlockchainSelectionFormStateCopyWithImpl<$Res>
+class __$$BlockchainSelectionFormStateImplCopyWithImpl<$Res>
     extends _$BlockchainSelectionFormStateCopyWithImpl<$Res,
-        _$_BlockchainSelectionFormState>
-    implements _$$_BlockchainSelectionFormStateCopyWith<$Res> {
-  __$$_BlockchainSelectionFormStateCopyWithImpl(
-      _$_BlockchainSelectionFormState _value,
-      $Res Function(_$_BlockchainSelectionFormState) _then)
+        _$BlockchainSelectionFormStateImpl>
+    implements _$$BlockchainSelectionFormStateImplCopyWith<$Res> {
+  __$$BlockchainSelectionFormStateImplCopyWithImpl(
+      _$BlockchainSelectionFormStateImpl _value,
+      $Res Function(_$BlockchainSelectionFormStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -86,7 +86,7 @@ class __$$_BlockchainSelectionFormStateCopyWithImpl<$Res>
   $Res call({
     Object? testnetIncluded = null,
   }) {
-    return _then(_$_BlockchainSelectionFormState(
+    return _then(_$BlockchainSelectionFormStateImpl(
       testnetIncluded: null == testnetIncluded
           ? _value.testnetIncluded
           : testnetIncluded // ignore: cast_nullable_to_non_nullable
@@ -97,8 +97,8 @@ class __$$_BlockchainSelectionFormStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BlockchainSelectionFormState extends _BlockchainSelectionFormState {
-  const _$_BlockchainSelectionFormState({this.testnetIncluded = true})
+class _$BlockchainSelectionFormStateImpl extends _BlockchainSelectionFormState {
+  const _$BlockchainSelectionFormStateImpl({this.testnetIncluded = true})
       : super._();
 
   @override
@@ -114,7 +114,7 @@ class _$_BlockchainSelectionFormState extends _BlockchainSelectionFormState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BlockchainSelectionFormState &&
+            other is _$BlockchainSelectionFormStateImpl &&
             (identical(other.testnetIncluded, testnetIncluded) ||
                 other.testnetIncluded == testnetIncluded));
   }
@@ -125,21 +125,23 @@ class _$_BlockchainSelectionFormState extends _BlockchainSelectionFormState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BlockchainSelectionFormStateCopyWith<_$_BlockchainSelectionFormState>
-      get copyWith => __$$_BlockchainSelectionFormStateCopyWithImpl<
-          _$_BlockchainSelectionFormState>(this, _$identity);
+  _$$BlockchainSelectionFormStateImplCopyWith<
+          _$BlockchainSelectionFormStateImpl>
+      get copyWith => __$$BlockchainSelectionFormStateImplCopyWithImpl<
+          _$BlockchainSelectionFormStateImpl>(this, _$identity);
 }
 
 abstract class _BlockchainSelectionFormState
     extends BlockchainSelectionFormState {
   const factory _BlockchainSelectionFormState({final bool testnetIncluded}) =
-      _$_BlockchainSelectionFormState;
+      _$BlockchainSelectionFormStateImpl;
   const _BlockchainSelectionFormState._() : super._();
 
   @override
   bool get testnetIncluded;
   @override
   @JsonKey(ignore: true)
-  _$$_BlockchainSelectionFormStateCopyWith<_$_BlockchainSelectionFormState>
+  _$$BlockchainSelectionFormStateImplCopyWith<
+          _$BlockchainSelectionFormStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

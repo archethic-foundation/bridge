@@ -60,6 +60,7 @@ mixin EVMBridgeProcessMixin {
   Future<String> deployEVMHTCLAndProvision(
     WidgetRef ref,
     SecretHash secretHash,
+    int endTime,
   ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
@@ -80,6 +81,7 @@ mixin EVMBridgeProcessMixin {
       bridge.tokenToBridge!.poolAddressTo,
       secretHash,
       BigInt.from(bridge.tokenToBridgeAmount),
+      endTime,
       chainId: bridge.blockchainTo!.chainId,
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
@@ -120,7 +122,6 @@ mixin EVMBridgeProcessMixin {
       BigInt.from(bridge.tokenToBridgeAmount),
       bridge.tokenToBridge!.type != 'Native',
       chainId: bridge.blockchainFrom!.chainId,
-      lockTime: 60,
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
     late String htlcAddress;
@@ -146,21 +147,25 @@ mixin EVMBridgeProcessMixin {
 
     Result<void, Failure>? resultProvisionChargeableHTLC;
     if (bridge.tokenToBridge!.type == 'ERC20') {
-      final evmLPERC = EVMLPERC(bridge.blockchainFrom!.providerEndpoint);
+      final evmLPERC = EVMLPERC(
+        bridge.blockchainFrom!.providerEndpoint,
+        htlcAddress,
+        bridge.blockchainFrom!.chainId,
+      );
       resultProvisionChargeableHTLC = await evmLPERC.provisionChargeableHTLC(
         BigInt.from(bridge.tokenToBridgeAmount),
-        htlcAddress,
         bridge.tokenToBridge!.tokenAddressSource,
-        chainId: bridge.blockchainFrom!.chainId,
       );
     }
 
     if (bridge.tokenToBridge!.type == 'Native') {
-      final evmLPNative = EVMLPNative(bridge.blockchainFrom!.providerEndpoint);
+      final evmLPNative = EVMLPNative(
+        bridge.blockchainFrom!.providerEndpoint,
+        htlcAddress,
+        bridge.blockchainFrom!.chainId,
+      );
       resultProvisionChargeableHTLC = await evmLPNative.provisionChargeableHTLC(
         BigInt.from(bridge.tokenToBridgeAmount),
-        htlcAddress,
-        chainId: bridge.blockchainFrom!.chainId,
       );
     }
 
@@ -185,12 +190,14 @@ mixin EVMBridgeProcessMixin {
     await bridgeNotifier.setCurrentStep(4);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
-    final htlc = EVMHTLC(bridge.blockchainFrom!.providerEndpoint);
+    final htlc = EVMHTLC(
+      bridge.blockchainFrom!.providerEndpoint,
+      htlcAddress,
+      bridge.blockchainFrom!.chainId,
+    );
 
     final resultWithdraw = await htlc.withdraw(
-      htlcAddress,
       '0x${bytesToHex(secret)}',
-      chainId: bridge.blockchainFrom!.chainId,
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
     await resultWithdraw.map(
@@ -208,8 +215,12 @@ mixin EVMBridgeProcessMixin {
   Future<double?> getEVMHTLCAmount(WidgetRef ref, String htlcAddress) async {
     double? etlcAmount;
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
-    final htlc = EVMHTLC(bridge.blockchainFrom!.providerEndpoint);
-    final resultAmount = await htlc.getAmount(htlcAddress);
+    final htlc = EVMHTLC(
+      bridge.blockchainFrom!.providerEndpoint,
+      htlcAddress,
+      bridge.blockchainFrom!.chainId,
+    );
+    final resultAmount = await htlc.getAmount();
     resultAmount.map(
       success: (amount) => etlcAmount = amount,
       failure: (failure) => etlcAmount = null,

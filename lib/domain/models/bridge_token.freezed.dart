@@ -119,11 +119,11 @@ class _$BridgeTokenCopyWithImpl<$Res, $Val extends BridgeToken>
 }
 
 /// @nodoc
-abstract class _$$_BridgeTokenCopyWith<$Res>
+abstract class _$$BridgeTokenImplCopyWith<$Res>
     implements $BridgeTokenCopyWith<$Res> {
-  factory _$$_BridgeTokenCopyWith(
-          _$_BridgeToken value, $Res Function(_$_BridgeToken) then) =
-      __$$_BridgeTokenCopyWithImpl<$Res>;
+  factory _$$BridgeTokenImplCopyWith(
+          _$BridgeTokenImpl value, $Res Function(_$BridgeTokenImpl) then) =
+      __$$BridgeTokenImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -139,11 +139,11 @@ abstract class _$$_BridgeTokenCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BridgeTokenCopyWithImpl<$Res>
-    extends _$BridgeTokenCopyWithImpl<$Res, _$_BridgeToken>
-    implements _$$_BridgeTokenCopyWith<$Res> {
-  __$$_BridgeTokenCopyWithImpl(
-      _$_BridgeToken _value, $Res Function(_$_BridgeToken) _then)
+class __$$BridgeTokenImplCopyWithImpl<$Res>
+    extends _$BridgeTokenCopyWithImpl<$Res, _$BridgeTokenImpl>
+    implements _$$BridgeTokenImplCopyWith<$Res> {
+  __$$BridgeTokenImplCopyWithImpl(
+      _$BridgeTokenImpl _value, $Res Function(_$BridgeTokenImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -159,7 +159,7 @@ class __$$_BridgeTokenCopyWithImpl<$Res>
     Object? poolAddressTo = null,
     Object? type = null,
   }) {
-    return _then(_$_BridgeToken(
+    return _then(_$BridgeTokenImpl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -202,8 +202,8 @@ class __$$_BridgeTokenCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$_BridgeToken implements _BridgeToken {
-  const _$_BridgeToken(
+class _$BridgeTokenImpl implements _BridgeToken {
+  const _$BridgeTokenImpl(
       {this.name = '',
       this.tokenAddressSource = '',
       this.tokenAddressTarget = '',
@@ -214,8 +214,8 @@ class _$_BridgeToken implements _BridgeToken {
       this.poolAddressTo = '',
       this.type = ''});
 
-  factory _$_BridgeToken.fromJson(Map<String, dynamic> json) =>
-      _$$_BridgeTokenFromJson(json);
+  factory _$BridgeTokenImpl.fromJson(Map<String, dynamic> json) =>
+      _$$BridgeTokenImplFromJson(json);
 
   @override
   @JsonKey()
@@ -254,7 +254,7 @@ class _$_BridgeToken implements _BridgeToken {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BridgeToken &&
+            other is _$BridgeTokenImpl &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.tokenAddressSource, tokenAddressSource) ||
                 other.tokenAddressSource == tokenAddressSource) &&
@@ -289,12 +289,12 @@ class _$_BridgeToken implements _BridgeToken {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BridgeTokenCopyWith<_$_BridgeToken> get copyWith =>
-      __$$_BridgeTokenCopyWithImpl<_$_BridgeToken>(this, _$identity);
+  _$$BridgeTokenImplCopyWith<_$BridgeTokenImpl> get copyWith =>
+      __$$BridgeTokenImplCopyWithImpl<_$BridgeTokenImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$_BridgeTokenToJson(
+    return _$$BridgeTokenImplToJson(
       this,
     );
   }
@@ -310,10 +310,10 @@ abstract class _BridgeToken implements BridgeToken {
       final String targetTokenSymbol,
       final String poolAddressFrom,
       final String poolAddressTo,
-      final String type}) = _$_BridgeToken;
+      final String type}) = _$BridgeTokenImpl;
 
   factory _BridgeToken.fromJson(Map<String, dynamic> json) =
-      _$_BridgeToken.fromJson;
+      _$BridgeTokenImpl.fromJson;
 
   @override
   String get name;
@@ -335,6 +335,6 @@ abstract class _BridgeToken implements BridgeToken {
   String get type;
   @override
   @JsonKey(ignore: true)
-  _$$_BridgeTokenCopyWith<_$_BridgeToken> get copyWith =>
+  _$$BridgeTokenImplCopyWith<_$BridgeTokenImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

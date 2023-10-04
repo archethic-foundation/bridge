@@ -6,17 +6,18 @@ part of 'bridge_history.hive.dto.dart';
 // TypeAdapterGenerator
 // **************************************************************************
 
-class BridgeHistoryHiveDTOAdapter extends TypeAdapter<_$_BridgeHistoryHiveDTO> {
+class BridgeHistoryHiveDTOImplAdapter
+    extends TypeAdapter<_$BridgeHistoryHiveDTOImpl> {
   @override
   final int typeId = 2;
 
   @override
-  _$_BridgeHistoryHiveDTO read(BinaryReader reader) {
+  _$BridgeHistoryHiveDTOImpl read(BinaryReader reader) {
     final numOfFields = reader.readByte();
     final fields = <int, dynamic>{
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
-    return _$_BridgeHistoryHiveDTO(
+    return _$BridgeHistoryHiveDTOImpl(
       bridgeList: (fields[0] as List?)
           ?.map((dynamic e) => (e as Map).cast<String, dynamic>())
           ?.toList(),
@@ -24,7 +25,7 @@ class BridgeHistoryHiveDTOAdapter extends TypeAdapter<_$_BridgeHistoryHiveDTO> {
   }
 
   @override
-  void write(BinaryWriter writer, _$_BridgeHistoryHiveDTO obj) {
+  void write(BinaryWriter writer, _$BridgeHistoryHiveDTOImpl obj) {
     writer
       ..writeByte(1)
       ..writeByte(0)
@@ -37,7 +38,7 @@ class BridgeHistoryHiveDTOAdapter extends TypeAdapter<_$_BridgeHistoryHiveDTO> {
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      other is BridgeHistoryHiveDTOAdapter &&
+      other is BridgeHistoryHiveDTOImplAdapter &&
           runtimeType == other.runtimeType &&
           typeId == other.typeId;
 }

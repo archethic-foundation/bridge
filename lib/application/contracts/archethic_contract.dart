@@ -269,7 +269,6 @@ class ArchethicContract with TransactionBridgeMixin {
           factoryAddress,
           poolAddress,
           userAddress,
-          endTime,
           amount,
           tokenAddress,
         );
@@ -333,7 +332,6 @@ class ArchethicContract with TransactionBridgeMixin {
     String factoryAddress,
     String poolAddress,
     String userAddress,
-    int endTime,
     double amount,
     String tokenAddress,
   ) async {
@@ -346,7 +344,6 @@ class ArchethicContract with TransactionBridgeMixin {
                   contract: factoryAddress.toUpperCase(),
                   function: 'get_signed_htlc',
                   args: [
-                    endTime,
                     userAddress.toUpperCase(),
                     poolAddress.toUpperCase(),
                     if (tokenAddress.isEmpty)

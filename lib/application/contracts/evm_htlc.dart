@@ -10,21 +10,25 @@ import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
 class EVMHTLC with EVMBridgeProcessMixin {
-  EVMHTLC(this.providerEndpoint);
+  EVMHTLC(
+    this.providerEndpoint,
+    this.htlcContractAddress,
+    this.chainId,
+  ) {
+    web3Client = Web3Client(providerEndpoint, Client());
+  }
 
-  String? providerEndpoint;
+  final String providerEndpoint;
+  final String htlcContractAddress;
+  Web3Client? web3Client;
+  final int chainId;
 
-  Future<Result<String, Failure>> refund(
-    String htlcContractAddress, {
-    int chainId = 1337,
-  }) async {
+  Future<Result<String, Failure>> refund() async {
     return Result.guard(
       () async {
         final evmWalletProvider = sl.get<EVMWalletProvider>();
 
-        final web3Client = Web3Client(providerEndpoint!, Client());
-
-        await refundedEvent(htlcContractAddress);
+        await refundedEvent();
 
         final contractHTLC =
             await getDeployedContract(contractNameIHTLC, htlcContractAddress);
@@ -36,7 +40,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
         );
 
         final refundTx = await sendTransactionWithErrorManagement(
-          web3Client,
+          web3Client!,
           evmWalletProvider.credentials!,
           transactionRefund,
           chainId,
@@ -47,46 +51,30 @@ class EVMHTLC with EVMBridgeProcessMixin {
     );
   }
 
-  Future<Result<({DateTime dateLockTime, bool canRefund}), Failure>>
-      getHTLCLockTime(
-    String htlcContractAddress,
-  ) async {
+  Future<Result<({int dateLockTime, bool canRefund}), Failure>>
+      getHTLCLockTimeAndRefundState() async {
     return Result.guard(
       () async {
-        final web3Client = Web3Client(providerEndpoint!, Client());
-
-        final contractHTLC =
-            await getDeployedContract(contractNameIHTLC, htlcContractAddress);
-
         return (
-          dateLockTime: await getDateLockTime(web3Client, contractHTLC),
-          canRefund: await isCanRefund(web3Client, contractHTLC),
+          dateLockTime: await _getDateLockTime(),
+          canRefund: await _isCanRefund(),
         );
       },
     );
   }
 
-  Future<int> _getStartTime(
-    Web3Client web3Client,
-    DeployedContract contract,
-  ) async {
-    final startTimeMap = await web3Client.call(
-      contract: contract,
-      function: contract.function('startTime'),
-      params: [],
+  Future<Result<int, Failure>> getHTLCLockTime() async {
+    return Result.guard(
+      () async {
+        return _getDateLockTime();
+      },
     );
-
-    final BigInt startTime = startTimeMap[0];
-    debugPrint('HTLC startTime: $startTime');
-
-    return startTime.toInt();
   }
 
   Future<int> _getLockTime(
-    Web3Client web3Client,
     DeployedContract contract,
   ) async {
-    final lockTimeMap = await web3Client.call(
+    final lockTimeMap = await web3Client!.call(
       contract: contract,
       function: contract.function('lockTime'),
       params: [],
@@ -98,12 +86,10 @@ class EVMHTLC with EVMBridgeProcessMixin {
     return lockTime.toInt();
   }
 
-  Future<Result<double, Failure>> getAmount(
-    String htlcContractAddress,
-  ) async {
+  Future<Result<double, Failure>> getAmount() async {
     return Result.guard(
       () async {
-        final web3Client = Web3Client(providerEndpoint!, Client());
+        final web3Client = Web3Client(providerEndpoint, Client());
 
         final contractHTLC =
             await getDeployedContract(contractNameIHTLC, htlcContractAddress);
@@ -123,24 +109,19 @@ class EVMHTLC with EVMBridgeProcessMixin {
     );
   }
 
-  Future<DateTime> getDateLockTime(
-    Web3Client web3Client,
-    DeployedContract contract,
-  ) async {
-    final startTime = await _getStartTime(web3Client, contract);
-    final lockTime = await _getLockTime(web3Client, contract);
-    final timestampInSec = startTime + lockTime;
-    final dateLockTime =
-        DateTime.fromMillisecondsSinceEpoch(timestampInSec * 1000);
-    debugPrint('HTLC DateLockTime: $dateLockTime');
-    return dateLockTime;
+  Future<int> _getDateLockTime() async {
+    final contract =
+        await getDeployedContract(contractNameIHTLC, htlcContractAddress);
+    final lockTime = await _getLockTime(contract);
+    debugPrint('HTLC DateLockTime: $lockTime');
+
+    return lockTime;
   }
 
-  Future<bool> isCanRefund(
-    Web3Client web3Client,
-    DeployedContract contract,
-  ) async {
-    final canRefundMap = await web3Client.call(
+  Future<bool> _isCanRefund() async {
+    final contract =
+        await getDeployedContract(contractNameIHTLC, htlcContractAddress);
+    final canRefundMap = await web3Client!.call(
       contract: contract,
       function: contract.function('canRefund'),
       params: [
@@ -154,16 +135,12 @@ class EVMHTLC with EVMBridgeProcessMixin {
     return canRefund;
   }
 
-  Future<void> refundedEvent(
-    String htlcContractAddress,
-  ) async {
-    final web3Client = Web3Client(providerEndpoint!, Client());
-
+  Future<void> refundedEvent() async {
     final contractHTLC =
         await getDeployedContract(contractNameHTLCERC, htlcContractAddress);
 
     final event = contractHTLC.event('Refunded');
-    web3Client
+    web3Client!
         .events(
       FilterOptions.events(contract: contractHTLC, event: event),
     )
@@ -172,15 +149,11 @@ class EVMHTLC with EVMBridgeProcessMixin {
     });
   }
 
-  Future<String> getTxRefund(
-    String htlcContractAddress,
-  ) async {
-    final web3Client = Web3Client(providerEndpoint!, Client());
-
+  Future<String> getTxRefund() async {
     final contractHTLC =
         await getDeployedContract(contractNameHTLCERC, htlcContractAddress);
 
-    final events = await web3Client.getLogs(
+    final events = await web3Client!.getLogs(
       FilterOptions.events(
         contract: contractHTLC,
         event: contractHTLC.event('Refunded'),
@@ -197,18 +170,16 @@ class EVMHTLC with EVMBridgeProcessMixin {
   }
 
   Future<Result<String, Failure>> withdraw(
-    String htlcContractAddress,
-    String secret, {
-    int chainId = 1337,
-  }) async {
+    String secret,
+  ) async {
     return Result.guard(
       () async {
         final evmWalletProvider = sl.get<EVMWalletProvider>();
 
-        final web3Client = Web3Client(providerEndpoint!, Client());
-
-        final contractHTLC =
-            await getDeployedContract(contractNameHTLCERC, htlcContractAddress);
+        final contractHTLC = await getDeployedContract(
+          contractNameHTLCERC,
+          htlcContractAddress,
+        );
 
         final transactionWithdraw = Transaction.callContract(
           contract: contractHTLC,
@@ -219,7 +190,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
         );
 
         final withdrawTx = await sendTransactionWithErrorManagement(
-          web3Client,
+          web3Client!,
           evmWalletProvider.credentials!,
           transactionWithdraw,
           chainId,

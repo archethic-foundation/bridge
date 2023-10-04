@@ -20,9 +20,8 @@ class EVMLP with EVMBridgeProcessMixin {
     String poolAddress,
     String hash,
     BigInt amount,
-    bool isERC20, {
-    int lockTime = 720,
-  }) async {
+    bool isERC20,
+  ) async {
     debugPrint('providerEndpoint: $providerEndpoint');
 
     final transactionMintHTLC = Transaction.callContract(
@@ -31,7 +30,6 @@ class EVMLP with EVMBridgeProcessMixin {
       parameters: [
         hexToBytes(hash),
         EtherAmount.fromBigInt(EtherUnit.ether, amount).getInWei,
-        BigInt.from(lockTime),
       ],
       value: isERC20 == false
           ? EtherAmount.fromBigInt(EtherUnit.ether, amount)
@@ -44,10 +42,8 @@ class EVMLP with EVMBridgeProcessMixin {
     String poolAddress,
     String hash,
     BigInt amount,
-    bool isERC20, {
-    int lockTime = 720,
-    int chainId = 1337,
-  }) async {
+    bool isERC20,
+  ) async {
     return Result.guard(() async {
       final web3Client = Web3Client(providerEndpoint!, Client());
       final contract =
@@ -59,7 +55,6 @@ class EVMLP with EVMBridgeProcessMixin {
         hash,
         amount,
         isERC20,
-        lockTime: lockTime,
       );
 
       final fees = await estimateGas(web3Client, transaction);
@@ -74,7 +69,6 @@ class EVMLP with EVMBridgeProcessMixin {
     String hash,
     BigInt amount,
     bool isERC20, {
-    int lockTime = 720,
     int chainId = 1337,
   }) async {
     return Result.guard(() async {
@@ -92,7 +86,6 @@ class EVMLP with EVMBridgeProcessMixin {
         hash,
         amount,
         isERC20,
-        lockTime: lockTime,
       );
 
       debugPrint('contractLPERC mintHTLC ok');
@@ -109,7 +102,7 @@ class EVMLP with EVMBridgeProcessMixin {
       // Get HTLC address
       final transactionMintedSwapsHashes = await web3Client.call(
         contract: contractLPERC,
-        function: contractLPERC.function('mintedSwaps'),
+        function: contractLPERC.function('mintedSwap'),
         params: [
           hexToBytes(hash),
         ],
@@ -125,8 +118,8 @@ class EVMLP with EVMBridgeProcessMixin {
   Future<Result<String, Failure>> deployAndProvisionSignedHTLC(
     String poolAddress,
     SecretHash secretHash,
-    BigInt amount, {
-    int lockTime = 720,
+    BigInt amount,
+    int endTime, {
     int chainId = 1337,
   }) async {
     return Result.guard(
@@ -148,7 +141,7 @@ class EVMLP with EVMBridgeProcessMixin {
           parameters: [
             hexToBytes(secretHash.secretHash!),
             EtherAmount.fromBigInt(EtherUnit.ether, amount).getInWei,
-            BigInt.from(lockTime),
+            BigInt.from(endTime),
             hexToBytes(secretHash.secretHashSignature!.r!),
             hexToBytes(secretHash.secretHashSignature!.s!),
             BigInt.from(secretHash.secretHashSignature!.v!),

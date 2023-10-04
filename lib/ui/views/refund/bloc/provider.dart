@@ -55,8 +55,13 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     }
 
     if (await control()) {
-      final resultLockTime = await EVMHTLC(state.evmWallet!.providerEndpoint)
-          .getHTLCLockTime(state.contractAddress);
+      final chainId = sl.get<EVMWalletProvider>().currentChain ?? 0;
+
+      final resultLockTime = await EVMHTLC(
+        state.evmWallet!.providerEndpoint!,
+        state.contractAddress,
+        chainId,
+      ).getHTLCLockTimeAndRefundState();
       resultLockTime.map(
         success: (locktime) {
           state = state.copyWith(
@@ -67,24 +72,32 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         failure: setFailure,
       );
 
-      final evmHTLC = EVMHTLC(state.evmWallet!.providerEndpoint);
-      final evmLPERC = EVMLPERC(state.evmWallet!.providerEndpoint);
+      final evmHTLC = EVMHTLC(
+        state.evmWallet!.providerEndpoint!,
+        state.contractAddress,
+        chainId,
+      );
+      final evmLPERC = EVMLPERC(
+        state.evmWallet!.providerEndpoint!,
+        state.contractAddress,
+        chainId,
+      );
 
-      final resultAmount = await evmHTLC.getAmount(state.contractAddress);
+      final resultAmount = await evmHTLC.getAmount();
       resultAmount.map(
         success: (amount) {
           setAmount(amount);
         },
         failure: setFailure,
       );
-      final resultFee = await evmLPERC.getFee(state.contractAddress);
+      final resultFee = await evmLPERC.getFee();
       resultFee.map(
         success: (fee) {
           setFee(fee);
         },
         failure: setFailure,
       );
-      final refundTxAddress = await evmHTLC.getTxRefund(state.contractAddress);
+      final refundTxAddress = await evmHTLC.getTxRefund();
       if (refundTxAddress.isNotEmpty) {
         state = state.copyWith(
           refundTxAddress: refundTxAddress,
@@ -182,7 +195,11 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     }
 
     await EVMWalletProvider().connect(currentChain);
-    await RefunEVMCase().run(ref, state.contractAddress);
+    await RefunEVMCase().run(
+      ref,
+      state.contractAddress,
+      currentChain,
+    );
   }
 
   Future<Result<void, Failure>> connectToEVMWallet() async {

@@ -63,7 +63,7 @@ mixin ArchethicBridgeProcessMixin {
       endTime,
       bridge.tokenToBridgeAmount,
       bridge.tokenToBridge!.tokenAddressSource,
-      bridge.blockchainFrom!.chainId,
+      bridge.blockchainTo!.chainId,
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
     await resultDeploySignedHTLC.map(
@@ -84,15 +84,13 @@ mixin ArchethicBridgeProcessMixin {
     WidgetRef ref,
     Digest secretHash,
     double amount,
+    int endTime,
   ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(3);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.archethic);
-    var endTime =
-        DateTime.now().add(const Duration(minutes: 1)).millisecondsSinceEpoch;
-    endTime = DateUtil().roundToNearestMinute(endTime) ~/ 1000;
 
     late String htlcAddress;
     final resultDeployChargeableHTLCAE =
@@ -151,7 +149,7 @@ mixin ArchethicBridgeProcessMixin {
     return txAddress;
   }
 
-  Future<SecretHash> getAESecretHash(
+  Future<({SecretHash secretHash, int endTime})> getAESecretHash(
     WidgetRef ref,
     String archethicHTLCAddress,
   ) async {
@@ -164,7 +162,7 @@ mixin ArchethicBridgeProcessMixin {
             method: 'contract_fun',
             params: archethic.SCCallFunctionParams(
               contract: archethicHTLCAddress,
-              function: 'get_secret_hash',
+              function: 'get_htlc_data',
               args: [],
             ),
           ),
@@ -172,13 +170,16 @@ mixin ArchethicBridgeProcessMixin {
         ) as Map<String, dynamic>;
     await bridgeNotifier.setWaitForWalletConfirmation(null);
     debugPrint('secretHashMap: $secretHashMap');
-    return SecretHash(
-      secretHash: secretHashMap['secret_hash'],
-      secretHashSignature: SecretHashSignature(
-        r: secretHashMap['secret_hash_signature']['r'],
-        s: secretHashMap['secret_hash_signature']['s'],
-        v: secretHashMap['secret_hash_signature']['v'],
+    return (
+      secretHash: SecretHash(
+        secretHash: secretHashMap['secret_hash'],
+        secretHashSignature: SecretHashSignature(
+          r: secretHashMap['secret_hash_signature']['r'],
+          s: secretHashMap['secret_hash_signature']['s'],
+          v: secretHashMap['secret_hash_signature']['v'],
+        ),
       ),
+      endTime: int.tryParse(secretHashMap['end_time']) ?? 0,
     );
   }
 
@@ -242,11 +243,13 @@ mixin ArchethicBridgeProcessMixin {
     await bridgeNotifier.setCurrentStep(7);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
-    final evmLPERC = EVMLPERC(bridge.blockchainTo!.providerEndpoint);
-    final resultSignedWithdraw = await evmLPERC.signedWithdraw(
+    final evmLPERC = EVMLPERC(
+      bridge.blockchainTo!.providerEndpoint,
       htlc,
+      bridge.blockchainFrom!.chainId,
+    );
+    final resultSignedWithdraw = await evmLPERC.signedWithdraw(
       secret,
-      chainId: bridge.blockchainFrom!.chainId,
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
     late String txAddress;

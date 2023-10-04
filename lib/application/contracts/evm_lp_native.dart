@@ -8,21 +8,26 @@ import 'package:http/http.dart';
 import 'package:webthree/webthree.dart';
 
 class EVMLPNative with EVMBridgeProcessMixin {
-  EVMLPNative(this.providerEndpoint);
-
-  String? providerEndpoint;
+  EVMLPNative(
+    this.providerEndpoint,
+    this.htlcContractAddress,
+    this.chainId,
+  ) {
+    web3Client = Web3Client(providerEndpoint, Client());
+  }
+  final String providerEndpoint;
+  final String htlcContractAddress;
+  Web3Client? web3Client;
+  final int chainId;
 
   Future<Result<void, Failure>> provisionChargeableHTLC(
     BigInt amount,
-    String htlcContractAddress, {
-    int chainId = 1337,
-  }) async {
+  ) async {
     return Result.guard(() async {
       final evmWalletProvider = sl.get<EVMWalletProvider>();
-      final web3Client = Web3Client(providerEndpoint!, Client());
 
       await sendTransactionWithErrorManagement(
-        web3Client,
+        web3Client!,
         evmWalletProvider.credentials!,
         Transaction(
           to: EthereumAddress.fromHex(htlcContractAddress),

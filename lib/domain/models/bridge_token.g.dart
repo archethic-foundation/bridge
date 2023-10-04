@@ -6,8 +6,8 @@ part of 'bridge_token.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_BridgeToken _$$_BridgeTokenFromJson(Map<String, dynamic> json) =>
-    _$_BridgeToken(
+_$BridgeTokenImpl _$$BridgeTokenImplFromJson(Map<String, dynamic> json) =>
+    _$BridgeTokenImpl(
       name: json['name'] as String? ?? '',
       tokenAddressSource: json['tokenAddressSource'] as String? ?? '',
       tokenAddressTarget: json['tokenAddressTarget'] as String? ?? '',
@@ -19,7 +19,7 @@ _$_BridgeToken _$$_BridgeTokenFromJson(Map<String, dynamic> json) =>
       type: json['type'] as String? ?? '',
     );
 
-Map<String, dynamic> _$$_BridgeTokenToJson(_$_BridgeToken instance) =>
+Map<String, dynamic> _$$BridgeTokenImplToJson(_$BridgeTokenImpl instance) =>
     <String, dynamic>{
       'name': instance.name,
       'tokenAddressSource': instance.tokenAddressSource,

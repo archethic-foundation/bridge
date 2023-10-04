@@ -13,7 +13,7 @@ class RefundFormState with _$RefundFormState {
     bool? isAlreadyRefunded,
     @Default(false) refundOk,
     bool? addressOk,
-    DateTime? htlcDateLock,
+    int? htlcDateLock,
     @Default(0) double amount,
     @Default(0) double fee,
     @Default(false) htlcCanRefund,

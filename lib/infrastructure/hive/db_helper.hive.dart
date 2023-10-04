@@ -19,6 +19,6 @@ class DBHelper {
       Hive.init(suppDir.path);
     }
 
-    Hive.registerAdapter(BridgeHistoryHiveDTOAdapter());
+    Hive.registerAdapter(BridgeHistoryHiveDTOImplAdapter());
   }
 }

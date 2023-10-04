@@ -73,11 +73,12 @@ class _$LocalHistoryFormStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_LocalHistoryFormStateCopyWith<$Res>
+abstract class _$$LocalHistoryFormStateImplCopyWith<$Res>
     implements $LocalHistoryFormStateCopyWith<$Res> {
-  factory _$$_LocalHistoryFormStateCopyWith(_$_LocalHistoryFormState value,
-          $Res Function(_$_LocalHistoryFormState) then) =
-      __$$_LocalHistoryFormStateCopyWithImpl<$Res>;
+  factory _$$LocalHistoryFormStateImplCopyWith(
+          _$LocalHistoryFormStateImpl value,
+          $Res Function(_$LocalHistoryFormStateImpl) then) =
+      __$$LocalHistoryFormStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -87,11 +88,12 @@ abstract class _$$_LocalHistoryFormStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_LocalHistoryFormStateCopyWithImpl<$Res>
-    extends _$LocalHistoryFormStateCopyWithImpl<$Res, _$_LocalHistoryFormState>
-    implements _$$_LocalHistoryFormStateCopyWith<$Res> {
-  __$$_LocalHistoryFormStateCopyWithImpl(_$_LocalHistoryFormState _value,
-      $Res Function(_$_LocalHistoryFormState) _then)
+class __$$LocalHistoryFormStateImplCopyWithImpl<$Res>
+    extends _$LocalHistoryFormStateCopyWithImpl<$Res,
+        _$LocalHistoryFormStateImpl>
+    implements _$$LocalHistoryFormStateImplCopyWith<$Res> {
+  __$$LocalHistoryFormStateImplCopyWithImpl(_$LocalHistoryFormStateImpl _value,
+      $Res Function(_$LocalHistoryFormStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -101,7 +103,7 @@ class __$$_LocalHistoryFormStateCopyWithImpl<$Res>
     Object? filterPeriodStart = freezed,
     Object? filterPeriodEnd = freezed,
   }) {
-    return _then(_$_LocalHistoryFormState(
+    return _then(_$LocalHistoryFormStateImpl(
       processCompletedIncluded: null == processCompletedIncluded
           ? _value.processCompletedIncluded
           : processCompletedIncluded // ignore: cast_nullable_to_non_nullable
@@ -120,8 +122,8 @@ class __$$_LocalHistoryFormStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_LocalHistoryFormState extends _LocalHistoryFormState {
-  const _$_LocalHistoryFormState(
+class _$LocalHistoryFormStateImpl extends _LocalHistoryFormState {
+  const _$LocalHistoryFormStateImpl(
       {this.processCompletedIncluded = false,
       this.filterPeriodStart,
       this.filterPeriodEnd})
@@ -144,7 +146,7 @@ class _$_LocalHistoryFormState extends _LocalHistoryFormState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_LocalHistoryFormState &&
+            other is _$LocalHistoryFormStateImpl &&
             (identical(
                     other.processCompletedIncluded, processCompletedIncluded) ||
                 other.processCompletedIncluded == processCompletedIncluded) &&
@@ -161,16 +163,16 @@ class _$_LocalHistoryFormState extends _LocalHistoryFormState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LocalHistoryFormStateCopyWith<_$_LocalHistoryFormState> get copyWith =>
-      __$$_LocalHistoryFormStateCopyWithImpl<_$_LocalHistoryFormState>(
-          this, _$identity);
+  _$$LocalHistoryFormStateImplCopyWith<_$LocalHistoryFormStateImpl>
+      get copyWith => __$$LocalHistoryFormStateImplCopyWithImpl<
+          _$LocalHistoryFormStateImpl>(this, _$identity);
 }
 
 abstract class _LocalHistoryFormState extends LocalHistoryFormState {
   const factory _LocalHistoryFormState(
       {final bool processCompletedIncluded,
       final DateTime? filterPeriodStart,
-      final DateTime? filterPeriodEnd}) = _$_LocalHistoryFormState;
+      final DateTime? filterPeriodEnd}) = _$LocalHistoryFormStateImpl;
   const _LocalHistoryFormState._() : super._();
 
   @override
@@ -181,6 +183,6 @@ abstract class _LocalHistoryFormState extends LocalHistoryFormState {
   DateTime? get filterPeriodEnd;
   @override
   @JsonKey(ignore: true)
-  _$$_LocalHistoryFormStateCopyWith<_$_LocalHistoryFormState> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$LocalHistoryFormStateImplCopyWith<_$LocalHistoryFormStateImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

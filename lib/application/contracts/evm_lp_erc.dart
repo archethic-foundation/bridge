@@ -11,21 +11,26 @@ import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
 class EVMLPERC with EVMBridgeProcessMixin {
-  EVMLPERC(this.providerEndpoint);
-
-  String? providerEndpoint;
+  EVMLPERC(
+    this.providerEndpoint,
+    this.htlcContractAddress,
+    this.chainId,
+  ) {
+    web3Client = Web3Client(providerEndpoint, Client());
+  }
+  final String providerEndpoint;
+  final String htlcContractAddress;
+  Web3Client? web3Client;
+  final int chainId;
 
   Future<Result<void, Failure>> provisionChargeableHTLC(
     BigInt amount,
-    String htlcContractAddress,
-    String tokenAddress, {
-    int chainId = 1337,
-  }) async {
+    String tokenAddress,
+  ) async {
     return Result.guard(
       () async {
         final evmWalletProvider = sl.get<EVMWalletProvider>();
         debugPrint('providerEndpoint: $providerEndpoint');
-        final web3Client = Web3Client(providerEndpoint!, Client());
 
         final contractDummyToken =
             await getDeployedContract(contractNameIERC20, tokenAddress);
@@ -40,7 +45,7 @@ class EVMLPERC with EVMBridgeProcessMixin {
         );
 
         await sendTransactionWithErrorManagement(
-          web3Client,
+          web3Client!,
           evmWalletProvider.credentials!,
           transactionTransfer,
           chainId,
@@ -50,15 +55,11 @@ class EVMLPERC with EVMBridgeProcessMixin {
   }
 
   Future<Result<String, Failure>> signedWithdraw(
-    String htlcContractAddress,
-    Secret secret, {
-    int chainId = 1337,
-  }) async {
+    Secret secret,
+  ) async {
     return Result.guard(
       () async {
         final evmWalletProvider = sl.get<EVMWalletProvider>();
-
-        final web3Client = Web3Client(providerEndpoint!, Client());
 
         final contractHTLCERC = await getDeployedContract(
           contractNameSignedHTLCERC,
@@ -77,7 +78,7 @@ class EVMLPERC with EVMBridgeProcessMixin {
         );
 
         final withdrawTx = await sendTransactionWithErrorManagement(
-          web3Client,
+          web3Client!,
           evmWalletProvider.credentials!,
           transactionWithdraw,
           chainId,
@@ -88,19 +89,15 @@ class EVMLPERC with EVMBridgeProcessMixin {
     );
   }
 
-  Future<Result<double, Failure>> getFee(
-    String htlcContractAddress,
-  ) async {
+  Future<Result<double, Failure>> getFee() async {
     return Result.guard(
       () async {
-        final web3Client = Web3Client(providerEndpoint!, Client());
-
         final contractHTLC = await getDeployedContract(
           contractNameChargeableHTLCERC,
           htlcContractAddress,
         );
 
-        final feeMap = await web3Client.call(
+        final feeMap = await web3Client!.call(
           contract: contractHTLC,
           function: contractHTLC.function('fee'),
           params: [],

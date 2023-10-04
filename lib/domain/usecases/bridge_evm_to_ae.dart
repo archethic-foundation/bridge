@@ -2,6 +2,7 @@
 import 'dart:async';
 import 'dart:typed_data';
 
+import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/domain/usecases/archethic_bridge_process_mixin.dart';
 import 'package:aebridge/domain/usecases/evm_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
@@ -35,7 +36,7 @@ class BridgeEVMToArchethicUseCase
 
     String? htlcEVMAddress;
     String? htlcAEAddress;
-
+    int? endTime;
     if (recoveryHTLCEVMAddress != null) {
       htlcEVMAddress = recoveryHTLCEVMAddress;
       await bridgeNotifier.setHTLCEVMAddress(htlcEVMAddress);
@@ -59,10 +60,25 @@ class BridgeEVMToArchethicUseCase
       await bridgeNotifier.setBlockchainFrom(blockchainFrom);
     }
 
+    final htlc = EVMHTLC(
+      bridge.blockchainFrom!.providerEndpoint,
+      htlcEVMAddress!,
+      bridge.blockchainFrom!.chainId,
+    );
+    final resultGetHTLCLockTime = await htlc.getHTLCLockTime();
+    resultGetHTLCLockTime.map(
+      success: (htlcLockTime) {
+        endTime = htlcLockTime;
+      },
+      failure: (failure) {
+        return;
+      },
+    );
+
     // 2) Provision HTLC
     if (recoveryStep <= 2 && bridge.tokenToBridge!.type != 'Native') {
       try {
-        await provisionEVMHTLC(ref, htlcEVMAddress!);
+        await provisionEVMHTLC(ref, htlcEVMAddress);
       } catch (e) {
         return;
       }
@@ -71,11 +87,12 @@ class BridgeEVMToArchethicUseCase
     // 3) Deploy Archethic HTLC
     if (recoveryStep <= 3) {
       try {
-        var amount = await getEVMHTLCAmount(ref, htlcEVMAddress!);
+        var amount = await getEVMHTLCAmount(ref, htlcEVMAddress);
         amount ??= bridge.tokenToBridgeAmount;
         debugPrint('Archethic HTLC amount $amount');
 
-        htlcAEAddress = await deployAEChargeableHTLC(ref, secretHash, amount);
+        htlcAEAddress =
+            await deployAEChargeableHTLC(ref, secretHash, amount, endTime!);
         await bridgeNotifier.setHTLCAEAddress(htlcAEAddress);
       } catch (e) {
         return;
@@ -88,7 +105,7 @@ class BridgeEVMToArchethicUseCase
     // 4) Withwdraw
     if (recoveryStep <= 4) {
       try {
-        await withdrawEVM(ref, htlcEVMAddress!, secret);
+        await withdrawEVM(ref, htlcEVMAddress, secret);
       } catch (e) {
         return;
       }

@@ -60,22 +60,22 @@ class _$BridgeHistoryHiveDTOCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_BridgeHistoryHiveDTOCopyWith<$Res>
+abstract class _$$BridgeHistoryHiveDTOImplCopyWith<$Res>
     implements $BridgeHistoryHiveDTOCopyWith<$Res> {
-  factory _$$_BridgeHistoryHiveDTOCopyWith(_$_BridgeHistoryHiveDTO value,
-          $Res Function(_$_BridgeHistoryHiveDTO) then) =
-      __$$_BridgeHistoryHiveDTOCopyWithImpl<$Res>;
+  factory _$$BridgeHistoryHiveDTOImplCopyWith(_$BridgeHistoryHiveDTOImpl value,
+          $Res Function(_$BridgeHistoryHiveDTOImpl) then) =
+      __$$BridgeHistoryHiveDTOImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({@HiveField(0) List<Map<String, dynamic>>? bridgeList});
 }
 
 /// @nodoc
-class __$$_BridgeHistoryHiveDTOCopyWithImpl<$Res>
-    extends _$BridgeHistoryHiveDTOCopyWithImpl<$Res, _$_BridgeHistoryHiveDTO>
-    implements _$$_BridgeHistoryHiveDTOCopyWith<$Res> {
-  __$$_BridgeHistoryHiveDTOCopyWithImpl(_$_BridgeHistoryHiveDTO _value,
-      $Res Function(_$_BridgeHistoryHiveDTO) _then)
+class __$$BridgeHistoryHiveDTOImplCopyWithImpl<$Res>
+    extends _$BridgeHistoryHiveDTOCopyWithImpl<$Res, _$BridgeHistoryHiveDTOImpl>
+    implements _$$BridgeHistoryHiveDTOImplCopyWith<$Res> {
+  __$$BridgeHistoryHiveDTOImplCopyWithImpl(_$BridgeHistoryHiveDTOImpl _value,
+      $Res Function(_$BridgeHistoryHiveDTOImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -83,7 +83,7 @@ class __$$_BridgeHistoryHiveDTOCopyWithImpl<$Res>
   $Res call({
     Object? bridgeList = freezed,
   }) {
-    return _then(_$_BridgeHistoryHiveDTO(
+    return _then(_$BridgeHistoryHiveDTOImpl(
       bridgeList: freezed == bridgeList
           ? _value._bridgeList
           : bridgeList // ignore: cast_nullable_to_non_nullable
@@ -95,8 +95,8 @@ class __$$_BridgeHistoryHiveDTOCopyWithImpl<$Res>
 /// @nodoc
 
 @HiveType(typeId: HiveTypeIds.bridgeHistory)
-class _$_BridgeHistoryHiveDTO extends _BridgeHistoryHiveDTO {
-  const _$_BridgeHistoryHiveDTO(
+class _$BridgeHistoryHiveDTOImpl extends _BridgeHistoryHiveDTO {
+  const _$BridgeHistoryHiveDTOImpl(
       {@HiveField(0) final List<Map<String, dynamic>>? bridgeList})
       : _bridgeList = bridgeList,
         super._();
@@ -121,7 +121,7 @@ class _$_BridgeHistoryHiveDTO extends _BridgeHistoryHiveDTO {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BridgeHistoryHiveDTO &&
+            other is _$BridgeHistoryHiveDTOImpl &&
             const DeepCollectionEquality()
                 .equals(other._bridgeList, _bridgeList));
   }
@@ -133,15 +133,16 @@ class _$_BridgeHistoryHiveDTO extends _BridgeHistoryHiveDTO {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BridgeHistoryHiveDTOCopyWith<_$_BridgeHistoryHiveDTO> get copyWith =>
-      __$$_BridgeHistoryHiveDTOCopyWithImpl<_$_BridgeHistoryHiveDTO>(
-          this, _$identity);
+  _$$BridgeHistoryHiveDTOImplCopyWith<_$BridgeHistoryHiveDTOImpl>
+      get copyWith =>
+          __$$BridgeHistoryHiveDTOImplCopyWithImpl<_$BridgeHistoryHiveDTOImpl>(
+              this, _$identity);
 }
 
 abstract class _BridgeHistoryHiveDTO extends BridgeHistoryHiveDTO {
   const factory _BridgeHistoryHiveDTO(
           {@HiveField(0) final List<Map<String, dynamic>>? bridgeList}) =
-      _$_BridgeHistoryHiveDTO;
+      _$BridgeHistoryHiveDTOImpl;
   const _BridgeHistoryHiveDTO._() : super._();
 
   @override
@@ -149,6 +150,6 @@ abstract class _BridgeHistoryHiveDTO extends BridgeHistoryHiveDTO {
   List<Map<String, dynamic>>? get bridgeList;
   @override
   @JsonKey(ignore: true)
-  _$$_BridgeHistoryHiveDTOCopyWith<_$_BridgeHistoryHiveDTO> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$BridgeHistoryHiveDTOImplCopyWith<_$BridgeHistoryHiveDTOImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }

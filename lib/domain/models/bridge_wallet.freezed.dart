@@ -136,11 +136,11 @@ class _$BridgeWalletCopyWithImpl<$Res, $Val extends BridgeWallet>
 }
 
 /// @nodoc
-abstract class _$$_BridgeWalletCopyWith<$Res>
+abstract class _$$BridgeWalletImplCopyWith<$Res>
     implements $BridgeWalletCopyWith<$Res> {
-  factory _$$_BridgeWalletCopyWith(
-          _$_BridgeWallet value, $Res Function(_$_BridgeWallet) then) =
-      __$$_BridgeWalletCopyWithImpl<$Res>;
+  factory _$$BridgeWalletImplCopyWith(
+          _$BridgeWalletImpl value, $Res Function(_$BridgeWalletImpl) then) =
+      __$$BridgeWalletImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -160,11 +160,11 @@ abstract class _$$_BridgeWalletCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_BridgeWalletCopyWithImpl<$Res>
-    extends _$BridgeWalletCopyWithImpl<$Res, _$_BridgeWallet>
-    implements _$$_BridgeWalletCopyWith<$Res> {
-  __$$_BridgeWalletCopyWithImpl(
-      _$_BridgeWallet _value, $Res Function(_$_BridgeWallet) _then)
+class __$$BridgeWalletImplCopyWithImpl<$Res>
+    extends _$BridgeWalletCopyWithImpl<$Res, _$BridgeWalletImpl>
+    implements _$$BridgeWalletImplCopyWith<$Res> {
+  __$$BridgeWalletImplCopyWithImpl(
+      _$BridgeWalletImpl _value, $Res Function(_$BridgeWalletImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -181,7 +181,7 @@ class __$$_BridgeWalletCopyWithImpl<$Res>
     Object? accountSub = freezed,
     Object? accountStreamSub = freezed,
   }) {
-    return _then(_$_BridgeWallet(
+    return _then(_$BridgeWalletImpl(
       wallet: null == wallet
           ? _value.wallet
           : wallet // ignore: cast_nullable_to_non_nullable
@@ -228,8 +228,8 @@ class __$$_BridgeWalletCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_BridgeWallet extends _BridgeWallet {
-  const _$_BridgeWallet(
+class _$BridgeWalletImpl extends _BridgeWallet {
+  const _$BridgeWalletImpl(
       {this.wallet = '',
       this.endpoint = '',
       this.nameAccount = '',
@@ -279,7 +279,7 @@ class _$_BridgeWallet extends _BridgeWallet {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_BridgeWallet &&
+            other is _$BridgeWalletImpl &&
             (identical(other.wallet, wallet) || other.wallet == wallet) &&
             (identical(other.endpoint, endpoint) ||
                 other.endpoint == endpoint) &&
@@ -317,22 +317,23 @@ class _$_BridgeWallet extends _BridgeWallet {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_BridgeWalletCopyWith<_$_BridgeWallet> get copyWith =>
-      __$$_BridgeWalletCopyWithImpl<_$_BridgeWallet>(this, _$identity);
+  _$$BridgeWalletImplCopyWith<_$BridgeWalletImpl> get copyWith =>
+      __$$BridgeWalletImplCopyWithImpl<_$BridgeWalletImpl>(this, _$identity);
 }
 
 abstract class _BridgeWallet extends BridgeWallet {
   const factory _BridgeWallet(
-      {final String wallet,
-      final String endpoint,
-      final String nameAccount,
-      final String oldNameAccount,
-      final String genesisAddress,
-      final String error,
-      final String? providerEndpoint,
-      final bool isConnected,
-      final Subscription<Account>? accountSub,
-      final StreamSubscription<Account>? accountStreamSub}) = _$_BridgeWallet;
+          {final String wallet,
+          final String endpoint,
+          final String nameAccount,
+          final String oldNameAccount,
+          final String genesisAddress,
+          final String error,
+          final String? providerEndpoint,
+          final bool isConnected,
+          final Subscription<Account>? accountSub,
+          final StreamSubscription<Account>? accountStreamSub}) =
+      _$BridgeWalletImpl;
   const _BridgeWallet._() : super._();
 
   @override
@@ -357,6 +358,6 @@ abstract class _BridgeWallet extends BridgeWallet {
   StreamSubscription<Account>? get accountStreamSub;
   @override
   @JsonKey(ignore: true)
-  _$$_BridgeWalletCopyWith<_$_BridgeWallet> get copyWith =>
+  _$$BridgeWalletImplCopyWith<_$BridgeWalletImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -6,16 +6,16 @@ part of 'state.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$_ArchethicOracleUCO _$$_ArchethicOracleUCOFromJson(
+_$ArchethicOracleUCOImpl _$$ArchethicOracleUCOImplFromJson(
         Map<String, dynamic> json) =>
-    _$_ArchethicOracleUCO(
+    _$ArchethicOracleUCOImpl(
       timestamp: json['timestamp'] as int? ?? 0,
       eur: (json['eur'] as num?)?.toDouble() ?? 0,
       usd: (json['usd'] as num?)?.toDouble() ?? 0,
     );
 
-Map<String, dynamic> _$$_ArchethicOracleUCOToJson(
-        _$_ArchethicOracleUCO instance) =>
+Map<String, dynamic> _$$ArchethicOracleUCOImplToJson(
+        _$ArchethicOracleUCOImpl instance) =>
     <String, dynamic>{
       'timestamp': instance.timestamp,
       'eur': instance.eur,
