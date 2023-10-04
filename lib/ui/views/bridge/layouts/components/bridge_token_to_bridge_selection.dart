@@ -110,29 +110,39 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
                                             const SizedBox(
                                               width: 10,
                                             ),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      '${bridge.tokenToBridge!.name} ',
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Flexible(
+                                                        child: Text(
+                                                          '${bridge.tokenToBridge!.name} ',
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .labelSmall,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Flexible(
+                                                    child: Text(
+                                                      bridge.tokenToBridge!
+                                                          .symbol,
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .labelSmall,
                                                     ),
-                                                  ],
-                                                ),
-                                                Text(
-                                                  bridge.tokenToBridge!.symbol,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .labelSmall,
-                                                ),
-                                              ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ],
                                         ),

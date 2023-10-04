@@ -35,29 +35,32 @@ class _BlockchainTestnetIncludedSwitchState
       },
     );
 
-    return Text.rich(
-      TextSpan(
-        children: [
-          TextSpan(
-            text: AppLocalizations.of(context)!
-                .blockchain_selection_test_included_lbl,
-          ),
-          WidgetSpan(
-            alignment: PlaceholderAlignment.middle,
-            child: Container(
-              padding: const EdgeInsets.only(left: 2),
-              height: 30,
-              child: FittedBox(
-                fit: BoxFit.fill,
-                child: Switch(
-                  thumbIcon: thumbIcon,
-                  value: blockchainSelectionProvider.testnetIncluded,
-                  onChanged: blockchainSelectionNotifier.setTestnetIncluded,
+    return Padding(
+      padding: const EdgeInsets.only(left: 16),
+      child: Text.rich(
+        TextSpan(
+          children: [
+            TextSpan(
+              text: AppLocalizations.of(context)!
+                  .blockchain_selection_test_included_lbl,
+            ),
+            WidgetSpan(
+              alignment: PlaceholderAlignment.middle,
+              child: Container(
+                padding: const EdgeInsets.only(left: 2),
+                height: 30,
+                child: FittedBox(
+                  fit: BoxFit.fill,
+                  child: Switch(
+                    thumbIcon: thumbIcon,
+                    value: blockchainSelectionProvider.testnetIncluded,
+                    onChanged: blockchainSelectionNotifier.setTestnetIncluded,
+                  ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

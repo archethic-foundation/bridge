@@ -99,30 +99,41 @@ class BridgeTokenBridged extends ConsumerWidget {
                                             const SizedBox(
                                               width: 10,
                                             ),
-                                            Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Row(
-                                                  children: [
-                                                    Text(
-                                                      '${bridge.tokenToBridge!.targetTokenName} ',
+                                            Expanded(
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Flexible(
+                                                        child: Text(
+                                                          '${bridge.tokenToBridge!.targetTokenName} ',
+                                                          style:
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .labelSmall,
+                                                          overflow: TextOverflow
+                                                              .ellipsis,
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                  Flexible(
+                                                    child: Text(
+                                                      bridge.tokenToBridge!
+                                                          .targetTokenSymbol,
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .labelSmall,
+                                                      overflow:
+                                                          TextOverflow.ellipsis,
                                                     ),
-                                                  ],
-                                                ),
-                                                Text(
-                                                  bridge.tokenToBridge!
-                                                      .targetTokenSymbol,
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .labelSmall,
-                                                ),
-                                              ],
+                                                  ),
+                                                ],
+                                              ),
                                             ),
                                           ],
                                         ),

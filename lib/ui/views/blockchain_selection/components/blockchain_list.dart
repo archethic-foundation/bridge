@@ -125,9 +125,12 @@ class _SingleBlockchain extends StatelessWidget {
             const SizedBox(
               width: 10,
             ),
-            Text(
-              '${blockchain.name} ',
-              style: Theme.of(context).textTheme.labelLarge,
+            Flexible(
+              child: Text(
+                '${blockchain.name} ',
+                style: Theme.of(context).textTheme.labelLarge,
+                overflow: TextOverflow.ellipsis,
+              ),
             ),
           ],
         ),

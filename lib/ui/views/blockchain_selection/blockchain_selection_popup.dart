@@ -62,10 +62,13 @@ class BlockchainSelectionPopup {
                                   ),
                                 ),
                               ),
-                              const BlockchainTestnetIncludedSwitch(),
                             ],
                           ),
                         ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const BlockchainTestnetIncludedSwitch(),
                         const SizedBox(
                           height: 10,
                         ),
