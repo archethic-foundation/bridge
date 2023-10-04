@@ -99,6 +99,18 @@ Map<String, dynamic> _$$InvalidValueImplToJson(_$InvalidValueImpl instance) =>
       'runtimeType': instance.$type,
     };
 
+_$WrongNetworkImpl _$$WrongNetworkImplFromJson(Map<String, dynamic> json) =>
+    _$WrongNetworkImpl(
+      json['cause'] as String,
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$WrongNetworkImplToJson(_$WrongNetworkImpl instance) =>
+    <String, dynamic>{
+      'cause': instance.cause,
+      'runtimeType': instance.$type,
+    };
+
 _$UserRejectedImpl _$$UserRejectedImplFromJson(Map<String, dynamic> json) =>
     _$UserRejectedImpl(
       $type: json['runtimeType'] as String?,

@@ -31,6 +31,10 @@ class FailureMessage {
       return (failure! as RPCErrorEVM).data!['Some_Key']!.reason;
     }
 
+    if (failure is WrongNetwork) {
+      return (failure! as WrongNetwork).cause;
+    }
+
     if (failure is OtherFailure) {
       return (failure! as OtherFailure).cause.toString();
     }

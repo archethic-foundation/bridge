@@ -29,6 +29,9 @@ class Failure with _$Failure implements Exception {
   const factory Failure.insufficientFunds() = InsuffientFunds;
   const factory Failure.unauthorized() = Inauthorized;
   const factory Failure.invalidValue() = InvalidValue;
+  const factory Failure.wrongNetwork(
+    String cause,
+  ) = WrongNetwork;
   const factory Failure.userRejected() = UserRejected;
   const factory Failure.connectivityArchethic() = ConnectivityArchethic;
   const factory Failure.connectivityEVM() = ConnectivityEVM;

@@ -109,6 +109,7 @@ class _SessionNotifier extends Notifier<Session> {
 
   Future<Result<void, Failure>> connectToArchethicWallet(
     bool from,
+    BridgeBlockchain blockchain,
   ) async {
     return Result.guard(() async {
       var bridgeWallet = const BridgeWallet();
@@ -138,6 +139,51 @@ class _SessionNotifier extends Notifier<Session> {
         },
         success: (result) async {
           debugPrint('DApp is connected to archethic wallet.');
+
+          switch (blockchain.env) {
+            case '1-mainnet':
+              if (result.endpointUrl != 'https://mainnet.archethic.net') {
+                bridgeWallet = bridgeWallet.copyWith(
+                  isConnected: false,
+                  error:
+                      'Please, connect your Archethic wallet to the Mainnet network.',
+                );
+                _fillState(bridgeWallet, from);
+                throw Failure.wrongNetwork(bridgeWallet.error);
+              }
+              break;
+            case '2-testnet':
+              if (result.endpointUrl != 'https://testnet.archethic.net') {
+                bridgeWallet = bridgeWallet.copyWith(
+                  isConnected: false,
+                  error:
+                      'Please, connect your Archethic wallet to the Testnet network.',
+                );
+                _fillState(bridgeWallet, from);
+                throw Failure.wrongNetwork(bridgeWallet.error);
+              }
+              break;
+            case '3-devnet':
+              if (result.endpointUrl == 'https://testnet.archethic.net' ||
+                  result.endpointUrl == 'https://mainnet.archethic.net') {
+                bridgeWallet = bridgeWallet.copyWith(
+                  isConnected: false,
+                  error:
+                      'Please, connect your Archethic wallet to the Devnet network.',
+                );
+                _fillState(bridgeWallet, from);
+                throw Failure.wrongNetwork(bridgeWallet.error);
+              }
+              break;
+            default:
+              bridgeWallet = bridgeWallet.copyWith(
+                isConnected: false,
+                error:
+                    'Please, connect your Archethic wallet to the right network.',
+              );
+              _fillState(bridgeWallet, from);
+              throw Failure.wrongNetwork(bridgeWallet.error);
+          }
 
           if (FeatureFlags.mainnetActive == false &&
               result.endpointUrl == 'https://mainnet.archethic.net') {
