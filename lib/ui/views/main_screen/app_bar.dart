@@ -13,19 +13,17 @@ class AppBarMainScreen extends StatelessWidget implements PreferredSizeWidget {
   const AppBarMainScreen({
     super.key,
     required this.onAEMenuTapped,
-    required this.title,
   });
 
   final Function() onAEMenuTapped;
-  final Widget? title;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
       backgroundColor: Colors.transparent,
+      elevation: 0,
       leading: const Header(),
       leadingWidth: Responsive.isMobile(context) ? null : 150,
-      title: title,
       actions: [
         if (Responsive.isDesktop(context) || Responsive.isTablet(context))
           const ConnectionToWalletStatus(),
