@@ -4,16 +4,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class NavigationRailMainScreen extends ConsumerStatefulWidget {
-  NavigationRailMainScreen({
+  const NavigationRailMainScreen({
     super.key,
     required this.navDrawerIndex,
     required this.listNavigationLabelIcon,
     required this.onDestinationSelected,
   });
 
-  int navDrawerIndex = 0;
-  List<(String, IconData)> listNavigationLabelIcon;
-  Function(int) onDestinationSelected;
+  final int navDrawerIndex;
+  final List<(String, IconData)> listNavigationLabelIcon;
+  final Function(int) onDestinationSelected;
 
   @override
   ConsumerState<NavigationRailMainScreen> createState() =>

@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BottomNavigationBarMainScreen extends ConsumerStatefulWidget {
-  BottomNavigationBarMainScreen({
+  const BottomNavigationBarMainScreen({
     super.key,
     required this.navDrawerIndex,
     required this.listNavigationLabelIcon,
     required this.onDestinationSelected,
   });
 
-  int navDrawerIndex = 0;
-  List<(String, IconData)> listNavigationLabelIcon;
-  Function(int) onDestinationSelected;
+  final int navDrawerIndex;
+  final List<(String, IconData)> listNavigationLabelIcon;
+  final Function(int) onDestinationSelected;
 
   @override
   ConsumerState<BottomNavigationBarMainScreen> createState() =>

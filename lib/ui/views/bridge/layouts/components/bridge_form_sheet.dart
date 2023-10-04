@@ -44,6 +44,7 @@ class BridgeFormSheet extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             BridgeTokenToBridgeBalance(),
+            SizedBox(width: 20),
             BridgeTokenBridgedBalance(),
           ],
         ),

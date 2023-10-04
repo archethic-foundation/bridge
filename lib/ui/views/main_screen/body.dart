@@ -7,16 +7,16 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class Body extends ConsumerWidget {
-  Body({
+  const Body({
     super.key,
     required this.navDrawerIndex,
     required this.listNavigationLabelIcon,
     required this.onDestinationSelected,
   });
 
-  int navDrawerIndex = 0;
-  List<(String, IconData)> listNavigationLabelIcon;
-  Function(int) onDestinationSelected;
+  final int navDrawerIndex;
+  final List<(String, IconData)> listNavigationLabelIcon;
+  final Function(int) onDestinationSelected;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

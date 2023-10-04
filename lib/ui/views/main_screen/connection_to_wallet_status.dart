@@ -25,7 +25,6 @@ class _ConnectionToWalletStatusState
   @override
   Widget build(BuildContext context) {
     final session = ref.watch(SessionProviders.session);
-    final sessionNotifier = ref.watch(SessionProviders.session.notifier);
 
     BridgeWallet? walletArchethic;
     if (session.walletFrom != null &&
