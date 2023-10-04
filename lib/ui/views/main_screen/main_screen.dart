@@ -7,6 +7,7 @@ import 'package:aebridge/ui/views/main_screen/body.dart';
 import 'package:aebridge/ui/views/main_screen/bottom_navigation_bar.dart';
 import 'package:aebridge/ui/views/refund/layouts/refund_sheet.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
+import 'package:aebridge/ui/views/util/components/main_screen_background.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
@@ -105,6 +106,7 @@ class MainScreenState extends ConsumerState<MainScreen> {
         body: Stack(
           alignment: Alignment.center,
           children: [
+            const MainScreenBackground(),
             Body(
               listNavigationLabelIcon: listNavigationLabelIcon,
               navDrawerIndex: navigationIndex,
