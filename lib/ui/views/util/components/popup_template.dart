@@ -8,11 +8,17 @@ class PopupTemplate extends StatelessWidget {
     required this.popupContent,
     required this.popupTitle,
     required this.popupHeight,
+    this.warningCloseButton = false,
+    this.warningCloseLabel = '',
+    this.warningCloseFunction,
   });
 
   final Widget popupContent;
   final String popupTitle;
   final double popupHeight;
+  final bool warningCloseButton;
+  final String warningCloseLabel;
+  final Function? warningCloseFunction;
 
   @override
   Widget build(BuildContext context) {
@@ -73,9 +79,13 @@ class PopupTemplate extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const Positioned(
+                  Positioned(
                     right: 0,
-                    child: PopupCloseButton(),
+                    child: PopupCloseButton(
+                      warningCloseButton: warningCloseButton,
+                      warningCloseLabel: warningCloseLabel,
+                      warningCloseFunction: warningCloseFunction,
+                    ),
                   ),
                 ],
               ),
