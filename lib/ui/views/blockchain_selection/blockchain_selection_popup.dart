@@ -19,7 +19,7 @@ class BlockchainSelectionPopup {
       builder: (context) {
         return PopupTemplate(
           popupTitle: AppLocalizations.of(context)!.blockchain_selection_title,
-          popupHeight: 300,
+          popupHeight: 350,
           popupContent: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,

@@ -1,6 +1,15 @@
 {
     "blockchains": [
         {
+            "name": "Archethic",
+            "chainId": -1,
+            "env": "1-mainnet",
+            "icon": "Archethic.svg",
+            "urlExplorer": "https://mainnet.archethic.net/explorer/transaction/",
+            "isArchethic": true,
+            "archethicFactoryAddress": ""
+        },
+        {
             "name": "Archethic Testnet",
             "chainId": -2,
             "env": "2-testnet",
@@ -17,6 +26,15 @@
             "urlExplorer": "http://localhost:4000/explorer/transaction/",
             "isArchethic": true,
             "archethicFactoryAddress": "00006e985f953bba22776b1ce8202789002447f8129a8837db811e5438e5450d0584"
+        },
+        {
+            "name": "Ethereum",
+            "chainId": 1,
+            "env": "1-mainnet",
+            "icon": "Ethereum.svg",
+            "urlExplorer": "https://etherscan.io/",
+            "providerEndpoint": "https://mainnet.infura.io/v3/3a7a2dbdbec046a4961550ddf8c7d78a",
+            "isArchethic": false
         },
         {
             "name": "Sepolia Ethereum Testnet",
@@ -36,12 +54,30 @@
             "isArchethic": false
         },
         {
+            "name": "Polygon",
+            "chainId": 137,
+            "env": "1-mainnet",
+            "icon": "Polygon.svg",
+            "urlExplorer": "https://polygonscan.com",
+            "providerEndpoint": "https://polygon-mainnet.g.alchemy.com/v2/DynWKvz6PUFaeZNmlxPXNiV1nK4Ac_2D",
+            "isArchethic": false
+        },
+        {
             "name": "Mumbai Polygon Testnet",
             "chainId": 80001,
             "env": "2-testnet",
             "icon": "Polygon.svg",
             "urlExplorer": "https://mumbai.polygonscan.com",
             "providerEndpoint": "https://polygon-mumbai.g.alchemy.com/v2/-8zo2X19AmwNv7AGVIsGF5LWJQLc92Oj",
+            "isArchethic": false
+        },
+        {
+            "name": "Binance Smart Chain",
+            "chainId": 56,
+            "env": "1-mainnet",
+            "icon": "BSC.svg",
+            "urlExplorer": "https://bscscan.com",
+            "providerEndpoint": "https://bsc-dataseed1.binance.org/",
             "isArchethic": false
         },
         {

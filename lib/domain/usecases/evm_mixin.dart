@@ -2,8 +2,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
-
-import 'package:aebridge/application/contracts/archethic_contract.dart';
+import 'package:aebridge/application/contracts/archethic_contract_chargeable.dart';
 import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/application/contracts/evm_lp.dart';
 import 'package:aebridge/application/contracts/evm_lp_erc.dart';
@@ -240,7 +239,7 @@ mixin EVMBridgeProcessMixin {
     final session = ref.read(SessionProviders.session);
     final walletTo = session.walletTo;
     final resultRevealSecretToChargeableHTLC =
-        await ArchethicContract().revealSecretToChargeableHTLC(
+        await ArchethicContractChargeable().revealSecretToChargeableHTLC(
       walletTo!.genesisAddress,
       walletTo.nameAccount,
       htlcAddress,

@@ -98,7 +98,7 @@ class __$$BlockchainSelectionFormStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$BlockchainSelectionFormStateImpl extends _BlockchainSelectionFormState {
-  const _$BlockchainSelectionFormStateImpl({this.testnetIncluded = true})
+  const _$BlockchainSelectionFormStateImpl({this.testnetIncluded = false})
       : super._();
 
   @override
