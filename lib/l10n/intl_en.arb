@@ -119,5 +119,6 @@
   "local_history_option_resume": "Resume",
   "local_history_selection_transfer_completed_included_lbl": "Include transfer completed?",
   "local_history_period_date_lbl": "Period filter",
-  "logout": "Logout"
+  "logout": "Logout",
+  "bridgeProcessInterruptionWarning": "Are you sure you want to stop the transfer process?"
 }
