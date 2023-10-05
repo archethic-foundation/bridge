@@ -2,7 +2,7 @@
 import 'package:aebridge/application/balance.dart';
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/bridge_history.dart';
-import 'package:aebridge/application/contracts/archethic_contract.dart';
+import 'package:aebridge/application/contracts/archethic_factory.dart';
 import 'package:aebridge/application/contracts/evm_lp.dart';
 import 'package:aebridge/application/market.dart';
 import 'package:aebridge/application/oracle/state.dart';
@@ -559,12 +559,11 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     await setSafetyModuleFeesRate(safetyModuleFees.rate);
     await setSafetyModuleFeesAddress(safetyModuleFees.address);
 
-    final archethicProtocolFees =
-        await ArchethicContract().calculateArchethicProtocolFees(
+    final archethicProtocolFees = await ArchethicFactory(
       state.blockchainFrom!.isArchethic
           ? state.blockchainFrom!.archethicFactoryAddress!
           : state.blockchainTo!.archethicFactoryAddress!,
-    );
+    ).calculateArchethicProtocolFees();
     await setArchethicProtocolFeesRate(archethicProtocolFees.rate);
     await setArchethicProtocolFeesAddress(archethicProtocolFees.address);
     await setCoingeckoPrice();

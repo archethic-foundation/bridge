@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 
+import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/archethic_bridge_process_mixin.dart';
 import 'package:aebridge/domain/usecases/evm_mixin.dart';
@@ -20,6 +21,7 @@ class BridgeArchethicToEVMUseCase
 
     String? htlcEVMAddress;
     String? htlcAEAddress;
+    String? seedHTLC;
     if (recoveryHTLCEVMAddress != null) {
       htlcEVMAddress = recoveryHTLCEVMAddress;
       await bridgeNotifier.setHTLCEVMAddress(recoveryHTLCEVMAddress);
@@ -29,26 +31,37 @@ class BridgeArchethicToEVMUseCase
       await bridgeNotifier.setHTLCAEAddress(recoveryHTLCAEAddress);
     }
 
-    // 1) Provision Archethic HTLC
+    final resultDefineHTLCAddress = ArchethicContract().defineHTLCAddress();
+    htlcAEAddress = resultDefineHTLCAddress.genesisAddressHTLC;
+    seedHTLC = resultDefineHTLCAddress.seedHTLC;
+
+    var blockchainFrom = ref.read(BridgeFormProvider.bridgeForm).blockchainFrom;
+    blockchainFrom = blockchainFrom!.copyWith(htlcAddress: htlcAEAddress);
+    await bridgeNotifier.setBlockchainFrom(blockchainFrom);
+
+    // 1) Deploy Archethic HTLC
     if (recoveryStep <= 1) {
       try {
-        await provisionAEHTLC(ref, htlcAEAddress!);
+        await deployAESignedHTLC(
+          ref,
+          htlcAEAddress,
+          seedHTLC,
+        );
       } catch (e) {
         return;
       }
     }
 
-    // 2) Deploy Archethic HTLC
+    // 2) Provision Archethic HTLC
     if (recoveryStep <= 2) {
       try {
-        htlcAEAddress = await deployAESignedHTLC(ref);
+        await provisionAEHTLC(
+          ref,
+          htlcAEAddress,
+        );
       } catch (e) {
         return;
       }
-      var blockchainFrom =
-          ref.read(BridgeFormProvider.bridgeForm).blockchainFrom;
-      blockchainFrom = blockchainFrom!.copyWith(htlcAddress: htlcAEAddress);
-      await bridgeNotifier.setBlockchainFrom(blockchainFrom);
     }
 
     // 3) Get Secret Hash from API
@@ -56,8 +69,7 @@ class BridgeArchethicToEVMUseCase
     late int endTime;
     if (recoveryStep <= 3) {
       try {
-        final resultGetAESecretHash =
-            await getAESecretHash(ref, htlcAEAddress!);
+        final resultGetAESecretHash = await getAESecretHash(ref, htlcAEAddress);
         secretHash = resultGetAESecretHash.secretHash;
         endTime = resultGetAESecretHash.endTime;
       } catch (e) {
@@ -81,7 +93,7 @@ class BridgeArchethicToEVMUseCase
     // 5) Request Secret from Archethic LP
     if (recoveryStep <= 5) {
       try {
-        await requestAESecretFromLP(ref, htlcAEAddress!);
+        await requestAESecretFromLP(ref, htlcAEAddress);
       } catch (e) {
         return;
       }
@@ -91,7 +103,7 @@ class BridgeArchethicToEVMUseCase
     late Secret secret;
     if (recoveryStep <= 6) {
       try {
-        secret = await revealAESecret(ref, htlcAEAddress!);
+        secret = await revealAESecret(ref, htlcAEAddress);
       } catch (e) {
         return;
       }
