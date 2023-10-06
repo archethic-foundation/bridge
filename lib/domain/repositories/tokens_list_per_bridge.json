@@ -129,7 +129,7 @@
                 "targetTokenName": "Ether",
                 "targetTokenSymbol": "ETH",
                 "poolAddressFrom": "000076922e553e45373185ff8fca84aed0036a478864fa19f39133c337a85f0e7ed7",
-                "poolAddressTo": "0x00B496533c5129597eFd3B9a5120d0A5360C0648",
+                "poolAddressTo": "0x26F8C6DB23a4aa5293eEeEe8A3317773e849CF44",
                 "type": "Wrapped",
                 "tokenAddressSource": "00009dc45277589127e84d34b0ded17fee688459f22074cfe9b33ecfd2b1f050fffd"
             },
@@ -139,9 +139,9 @@
                 "targetTokenName": "ERC20 - Universal Coin",
                 "targetTokenSymbol": "UCO",
                 "poolAddressFrom": "00004ae35d87f8a74f3101a020c26676c3f80c62e4bf49d9ceea7ac5b72587b43aa3",
-                "poolAddressTo": "0x9a695312E3b347f44Dc372Dc967E8908cf1d3274",
+                "poolAddressTo": "0xB08553D05a988076E3D962f36887411F92bDD11b",
                 "type": "Native",
-                "tokenAddressTarget": "0x36489B3B623cca10D221c79E58e75d29BA883322"
+                "tokenAddressTarget": "0xAF5A0f0Da670d06a06C533a27aD1972F5c2d5718"
             }
         ],
         "1->-1": [
@@ -276,7 +276,7 @@
                 "symbol": "ETH",
                 "targetTokenName": "Archethic Ether",
                 "targetTokenSymbol": "aeETH",
-                "poolAddressFrom": "0x00B496533c5129597eFd3B9a5120d0A5360C0648",
+                "poolAddressFrom": "0x26F8C6DB23a4aa5293eEeEe8A3317773e849CF44",
                 "poolAddressTo": "000076922e553e45373185ff8fca84aed0036a478864fa19f39133c337a85f0e7ed7",
                 "type": "Native",
                 "tokenAddressTarget": "00009dc45277589127e84d34b0ded17fee688459f22074cfe9b33ecfd2b1f050fffd"
@@ -286,10 +286,10 @@
                 "symbol": "UCO",
                 "targetTokenName": "Universal Coin",
                 "targetTokenSymbol": "UCO",
-                "poolAddressFrom": "0x9a695312E3b347f44Dc372Dc967E8908cf1d3274",
+                "poolAddressFrom": "0xB08553D05a988076E3D962f36887411F92bDD11b",
                 "poolAddressTo": "00004ae35d87f8a74f3101a020c26676c3f80c62e4bf49d9ceea7ac5b72587b43aa3",
                 "type": "ERC20",
-                "tokenAddressSource": "0x36489B3B623cca10D221c79E58e75d29BA883322"
+                "tokenAddressSource": "0xAF5A0f0Da670d06a06C533a27aD1972F5c2d5718"
             }
         ]
     }
