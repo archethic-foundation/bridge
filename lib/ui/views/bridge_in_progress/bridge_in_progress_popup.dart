@@ -7,7 +7,8 @@ import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progre
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_error.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_infos.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_resume_btn.dart';
-import 'package:aebridge/ui/views/util/components/popup_template.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
+import 'package:aebridge/ui/views/util/components/popup_close_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -20,30 +21,88 @@ class BridgeInProgressPopup {
     return showDialog<void>(
       context: context,
       builder: (context) {
-        return PopupTemplate(
-          popupTitle: '',
-          popupHeight: 500,
-          popupContent: const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              BridgeInProgressInfos(),
-              BridgeInProgressCircularStepProgressIndicator(),
-              BridgeInProgressCurrentStep(),
-              BridgeInProgressError(),
-              BridgeInProgressContracts(),
-              Spacer(),
-              BridgeInProgressResumeBtn(),
-            ],
+        return ScaffoldMessenger(
+          child: Builder(
+            builder: (context) {
+              return Consumer(
+                builder: (context, ref, _) {
+                  final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+                  return Scaffold(
+                    backgroundColor: Colors.transparent.withAlpha(120),
+                    body: AlertDialog(
+                      backgroundColor: Colors.transparent,
+                      elevation: 0,
+                      content: Stack(
+                        children: <Widget>[
+                          Container(
+                            margin: const EdgeInsets.only(
+                                top: 30, right: 15, left: 8),
+                            padding: const EdgeInsets.all(20),
+                            height: 500,
+                            width: BridgeThemeBase.sizeBoxComponentWidth,
+                            decoration: BoxDecoration(
+                              color: BridgeThemeBase.backgroundPopupColor,
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: const <BoxShadow>[
+                                BoxShadow(
+                                  color: Colors.black26,
+                                ),
+                              ],
+                            ),
+                            child: const Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                BridgeInProgressInfos(),
+                                BridgeInProgressCircularStepProgressIndicator(),
+                                BridgeInProgressCurrentStep(),
+                                BridgeInProgressError(),
+                                BridgeInProgressContracts(),
+                                Spacer(),
+                                BridgeInProgressResumeBtn(),
+                              ],
+                            ),
+                          ),
+                          Positioned(
+                            right: 0,
+                            child: PopupCloseButton(
+                              warningCloseButton: true,
+                              warningCloseLabel:
+                                  bridge.isTransferInProgress == true
+                                      ? AppLocalizations.of(context)!
+                                          .bridgeProcessInterruptionWarning
+                                      : '',
+                              warningCloseFunction:
+                                  bridge.isTransferInProgress == true
+                                      ? () async {
+                                          final bridgeNotifier = ref.read(
+                                            BridgeFormProvider
+                                                .bridgeForm.notifier,
+                                          );
+                                          await bridgeNotifier.setFailure(
+                                            const Failure.userRejected(),
+                                          );
+
+                                          bridgeNotifier.initState();
+                                        }
+                                      : () async {
+                                          ref
+                                              .read(
+                                                BridgeFormProvider
+                                                    .bridgeForm.notifier,
+                                              )
+                                              .initState();
+                                        },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
           ),
-          warningCloseButton: true,
-          warningCloseLabel:
-              AppLocalizations.of(context)!.bridgeProcessInterruptionWarning,
-          warningCloseFunction: () async {
-            await ref
-                .read(BridgeFormProvider.bridgeForm.notifier)
-                .setFailure(const Failure.userRejected());
-          },
         );
       },
     );

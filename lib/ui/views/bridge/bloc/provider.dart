@@ -341,7 +341,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     await storeBridge();
   }
 
-  Future<void> initState() async {
+  void initState() {
     state = state.copyWith(
       blockchainFrom: null,
       blockchainTo: null,
@@ -366,7 +366,6 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       secret: null,
       archethicOracleUCO: null,
     );
-    await storeBridge();
   }
 
   Future<void> setCurrentStep(int currentStep) async {

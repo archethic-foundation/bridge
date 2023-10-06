@@ -36,7 +36,7 @@ class BridgeBlockchainIconDirection extends ConsumerWidget {
           await sessionNotifier.cancelAllWalletsConnection();
           final blockchainFrom = bridge.blockchainFrom;
           final blockchainTo = bridge.blockchainTo;
-          await bridgeForm.initState();
+          bridgeForm.initState();
           if (blockchainFrom != null) {
             await bridgeForm.setBlockchainToWithConnection(blockchainFrom);
           }
