@@ -162,7 +162,7 @@ class EVMLP with EVMBridgeProcessMixin {
         // Get HTLC address
         final transactionProvisionedSwapsHashes = await web3Client.call(
           contract: contractLP,
-          function: contractLP.function('provisionedSwaps'),
+          function: contractLP.function('provisionedSwap'),
           params: [
             hexToBytes(secretHash.secretHash!),
           ],
