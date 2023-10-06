@@ -18,8 +18,12 @@ class TokenSelectionPopup {
         return PopupTemplate(
           popupTitle: AppLocalizations.of(context)!.token_selection_title,
           popupHeight: 220,
-          popupContent: Expanded(
-            child: TokenList(direction: direction),
+          popupContent: Column(
+            children: [
+              Expanded(
+                child: TokenList(direction: direction),
+              ),
+            ],
           ),
         );
       },
