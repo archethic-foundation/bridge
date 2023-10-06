@@ -36,7 +36,10 @@ class BridgeInProgressPopup {
                         children: <Widget>[
                           Container(
                             margin: const EdgeInsets.only(
-                                top: 30, right: 15, left: 8),
+                              top: 30,
+                              right: 15,
+                              left: 8,
+                            ),
                             padding: const EdgeInsets.all(20),
                             height: 500,
                             width: BridgeThemeBase.sizeBoxComponentWidth,

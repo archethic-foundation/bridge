@@ -25,6 +25,7 @@ migrate_working_dir/
 **/doc/api/
 .last_build_id
 .dart_tool/
+.contracts/
 .flutter-plugins
 .flutter-plugins-dependencies
 .packages
