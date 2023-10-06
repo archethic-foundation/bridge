@@ -373,6 +373,24 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     await storeBridge();
   }
 
+  Future<void> swapDirections() async {
+    await setChangeDirectionInProgress(true);
+    final sessionNotifier = ref.read(SessionProviders.session.notifier);
+    await sessionNotifier.cancelAllWalletsConnection();
+    final blockchainFrom = state.blockchainFrom;
+    final blockchainTo = state.blockchainTo;
+    initState();
+    if (blockchainFrom != null) {
+      await setBlockchainToWithConnection(blockchainFrom);
+    }
+    if (blockchainTo != null) {
+      await setBlockchainFromWithConnection(blockchainTo);
+    }
+    await setTokenToBridge(null);
+    await setTokenToBridgeAmount(0);
+    await setChangeDirectionInProgress(false);
+  }
+
   Future<void> setChangeDirectionInProgress(
     bool changeDirectionInProgress,
   ) async {

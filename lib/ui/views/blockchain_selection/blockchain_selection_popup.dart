@@ -10,32 +10,27 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class BlockchainSelectionPopup {
   static Future<BridgeBlockchain?> getDialog(
     BuildContext context,
-    WidgetRef ref, {
-    String? env,
-    bool? shouldBeArchethic,
-  }) async {
+    WidgetRef ref,
+  ) async {
     return showDialog<BridgeBlockchain>(
       context: context,
       builder: (context) {
         return PopupTemplate(
           popupTitle: AppLocalizations.of(context)!.blockchain_selection_title,
           popupHeight: 350,
-          popupContent: Column(
+          popupContent: const Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              const Align(
+              Align(
                 alignment: Alignment.centerRight,
                 child: BlockchainTestnetIncludedSwitch(),
               ),
-              const SizedBox(
+              SizedBox(
                 height: 10,
               ),
               Expanded(
-                child: BlockchainList(
-                  env: env,
-                  shouldBeArchethic: shouldBeArchethic,
-                ),
+                child: BlockchainList(),
               ),
             ],
           ),

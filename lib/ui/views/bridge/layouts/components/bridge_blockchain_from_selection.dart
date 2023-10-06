@@ -104,14 +104,18 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
                 final blockchain = await BlockchainSelectionPopup.getDialog(
                   context,
                   ref,
-                  env: bridge.blockchainTo == null
-                      ? null
-                      : bridge.blockchainTo!.env,
-                  shouldBeArchethic: bridge.blockchainTo == null
-                      ? null
-                      : !bridge.blockchainTo!.isArchethic,
                 );
                 if (blockchain == null) return;
+
+                // We want to swap values
+                if (bridge.blockchainTo != null &&
+                    blockchain.chainId == bridge.blockchainTo!.chainId) {
+                  await ref
+                      .watch(BridgeFormProvider.bridgeForm.notifier)
+                      .swapDirections();
+                  return;
+                }
+
                 await ref
                     .watch(BridgeFormProvider.bridgeForm.notifier)
                     .setBlockchainFromWithConnection(blockchain);

@@ -9,13 +9,8 @@ import 'package:flutter_svg/svg.dart';
 
 class BlockchainList extends ConsumerWidget {
   const BlockchainList({
-    this.env,
-    this.shouldBeArchethic,
     super.key,
   });
-
-  final String? env;
-  final bool? shouldBeArchethic;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -26,23 +21,11 @@ class BlockchainList extends ConsumerWidget {
     return SizedBox(
       child: blockchains.map(
         data: (data) {
-          if (env != null) {
-            data.value.removeWhere(
-              (element) => element.env != env,
-            );
-          }
-
           final blockchainSelectionProvider = ref
               .watch(BlockchainSelectionFormProvider.blockchainSelectionForm);
           if (blockchainSelectionProvider.testnetIncluded == false) {
             data.value.removeWhere(
               (element) => element.env != '1-mainnet',
-            );
-          }
-
-          if (shouldBeArchethic != null) {
-            data.value.removeWhere(
-              (element) => element.isArchethic != shouldBeArchethic,
             );
           }
 
