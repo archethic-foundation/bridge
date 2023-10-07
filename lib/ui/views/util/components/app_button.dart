@@ -26,11 +26,6 @@ class AppButtonState extends State<AppButton> {
   bool _over = false;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return MouseRegion(
       onEnter: (_) {

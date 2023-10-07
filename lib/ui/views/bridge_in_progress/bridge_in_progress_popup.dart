@@ -69,7 +69,7 @@ class BridgeInProgressPopup {
                           Positioned(
                             right: 0,
                             child: PopupCloseButton(
-                              warningCloseButton: true,
+                              warningCloseWarning: bridge.isTransferInProgress,
                               warningCloseLabel:
                                   bridge.isTransferInProgress == true
                                       ? AppLocalizations.of(context)!

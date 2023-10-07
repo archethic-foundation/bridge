@@ -8,7 +8,6 @@ class PopupTemplate extends StatelessWidget {
     required this.popupContent,
     required this.popupTitle,
     required this.popupHeight,
-    this.warningCloseButton = false,
     this.warningCloseLabel = '',
     this.warningCloseFunction,
   });
@@ -16,7 +15,6 @@ class PopupTemplate extends StatelessWidget {
   final Widget popupContent;
   final String popupTitle;
   final double popupHeight;
-  final bool warningCloseButton;
   final String warningCloseLabel;
   final Function? warningCloseFunction;
 
@@ -82,7 +80,6 @@ class PopupTemplate extends StatelessWidget {
                   Positioned(
                     right: 0,
                     child: PopupCloseButton(
-                      warningCloseButton: warningCloseButton,
                       warningCloseLabel: warningCloseLabel,
                       warningCloseFunction: warningCloseFunction,
                     ),
