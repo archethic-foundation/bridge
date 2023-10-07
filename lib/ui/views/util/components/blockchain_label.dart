@@ -18,24 +18,21 @@ class BlockchainLabel extends ConsumerWidget {
         .watch(BridgeBlockchainsProviders.getBlockchainFromChainId(chainId))
         .when(
       data: (data) {
-        return Flexible(
-          child: Row(
-            children: [
-              SvgPicture.asset(
-                'assets/images/bc-logos/${data!.icon}',
-                width: 15,
-              ),
-              const SizedBox(
-                width: 8,
-              ),
-              Expanded(
-                child: Text(
-                  data.name,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-            ],
-          ),
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              'assets/images/bc-logos/${data!.icon}',
+              width: 15,
+            ),
+            const SizedBox(
+              width: 8,
+            ),
+            Text(
+              data.name,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
         );
       },
       error: (Object error, StackTrace stackTrace) {
