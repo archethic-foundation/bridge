@@ -81,7 +81,7 @@ mixin EVMBridgeProcessMixin {
         await evmLP.deployAndProvisionSignedHTLC(
       bridge.tokenToBridge!.poolAddressTo,
       secretHash,
-      BigInt.from(bridge.tokenToBridgeAmount),
+      bridge.tokenToBridgeAmount,
       endTime,
       chainId: bridge.blockchainTo!.chainId,
     );
@@ -120,7 +120,7 @@ mixin EVMBridgeProcessMixin {
     final resultDeployChargeableHTLCEVM = await evmLP.deployChargeableHTLC(
       bridge.tokenToBridge!.poolAddressFrom,
       secretHash.toString(),
-      BigInt.from(bridge.tokenToBridgeAmount),
+      bridge.tokenToBridgeAmount,
       bridge.tokenToBridge!.type != 'Native',
       chainId: bridge.blockchainFrom!.chainId,
     );
@@ -154,7 +154,7 @@ mixin EVMBridgeProcessMixin {
         bridge.blockchainFrom!.chainId,
       );
       resultProvisionChargeableHTLC = await evmLPERC.provisionChargeableHTLC(
-        BigInt.from(bridge.tokenToBridgeAmount),
+        bridge.tokenToBridgeAmount,
         bridge.tokenToBridge!.tokenAddressSource,
       );
     }
@@ -166,7 +166,7 @@ mixin EVMBridgeProcessMixin {
         bridge.blockchainFrom!.chainId,
       );
       resultProvisionChargeableHTLC = await evmLPNative.provisionChargeableHTLC(
-        BigInt.from(bridge.tokenToBridgeAmount),
+        bridge.tokenToBridgeAmount,
       );
     }
 
@@ -328,5 +328,63 @@ mixin EVMBridgeProcessMixin {
       ),
       EthereumAddress.fromHex(address),
     );
+  }
+
+  Future<String> withdrawAE(WidgetRef ref, String htlc, Secret secret) async {
+    final bridge = ref.read(BridgeFormProvider.bridgeForm);
+    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+    await bridgeNotifier.setCurrentStep(7);
+    await bridgeNotifier
+        .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
+
+    Result<String, Failure>? resultSignedWithdraw;
+    if (bridge.tokenToBridge!.type == 'ERC20') {
+      final evmLPERC = EVMLPERC(
+        bridge.blockchainTo!.providerEndpoint,
+        htlc,
+        bridge.blockchainFrom!.chainId,
+      );
+
+      resultSignedWithdraw = await evmLPERC.signedWithdraw(
+        secret,
+      );
+    }
+
+    if (bridge.tokenToBridge!.type == 'Wrapped') {
+      final evmLPNative = EVMLPNative(
+        bridge.blockchainTo!.providerEndpoint,
+        htlc,
+        bridge.blockchainFrom!.chainId,
+      );
+
+      resultSignedWithdraw = await evmLPNative.signedWithdraw(
+        secret,
+      );
+    }
+
+    if (resultSignedWithdraw == null) {
+      const failure =
+          Failure.other(cause: 'An error occurs while the withdraw.');
+      await bridgeNotifier.setFailure(failure);
+      await bridgeNotifier.setTransferInProgress(false);
+      throw failure;
+    }
+
+    await bridgeNotifier.setWaitForWalletConfirmation(null);
+    late String txAddress;
+    await resultSignedWithdraw.map(
+      success: (success) async {
+        await bridgeNotifier.setCurrentStep(8);
+        await bridgeNotifier.setWaitForWalletConfirmation(null);
+        await bridgeNotifier.setTransferInProgress(false);
+        txAddress = success;
+      },
+      failure: (failure) async {
+        await bridgeNotifier.setFailure(failure);
+        await bridgeNotifier.setTransferInProgress(false);
+        throw failure;
+      },
+    );
+    return txAddress;
   }
 }

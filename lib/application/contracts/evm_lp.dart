@@ -19,20 +19,16 @@ class EVMLP with EVMBridgeProcessMixin {
     DeployedContract deployedContract,
     String poolAddress,
     String hash,
-    BigInt amount,
+    double amount,
     bool isERC20,
   ) async {
-    debugPrint('providerEndpoint: $providerEndpoint');
-
+    final amountInWei = BigInt.from(amount * 1e18);
     final transactionMintHTLC = Transaction.callContract(
       contract: deployedContract,
       function: deployedContract.function('mintHTLC'),
-      parameters: [
-        hexToBytes(hash),
-        EtherAmount.fromBigInt(EtherUnit.ether, amount).getInWei,
-      ],
+      parameters: [hexToBytes(hash), amountInWei],
       value: isERC20 == false
-          ? EtherAmount.fromBigInt(EtherUnit.ether, amount)
+          ? EtherAmount.fromBigInt(EtherUnit.wei, amountInWei)
           : null,
     );
     return transactionMintHTLC;
@@ -41,7 +37,7 @@ class EVMLP with EVMBridgeProcessMixin {
   Future<Result<double, Failure>> estimateDeployChargeableHTLC(
     String poolAddress,
     String hash,
-    BigInt amount,
+    double amount,
     bool isERC20,
   ) async {
     return Result.guard(() async {
@@ -67,7 +63,7 @@ class EVMLP with EVMBridgeProcessMixin {
   Future<Result<String, Failure>> deployChargeableHTLC(
     String poolAddress,
     String hash,
-    BigInt amount,
+    double amount,
     bool isERC20, {
     int chainId = 1337,
   }) async {
@@ -118,7 +114,7 @@ class EVMLP with EVMBridgeProcessMixin {
   Future<Result<String, Failure>> deployAndProvisionSignedHTLC(
     String poolAddress,
     SecretHash secretHash,
-    BigInt amount,
+    double amount,
     int endTime, {
     int chainId = 1337,
   }) async {
@@ -132,15 +128,14 @@ class EVMLP with EVMBridgeProcessMixin {
         final contractLP =
             await getDeployedContract(contractNameIPool, poolAddress);
 
-        debugPrint(
-          'EtherAmount.fromUnitAndValue(EtherUnit.ether, amount).getInWei ${EtherAmount.fromBigInt(EtherUnit.ether, amount).getInWei}',
-        );
+        final amountInWei = BigInt.from(amount * 1e18);
+
         final transactionProvisionHTLC = Transaction.callContract(
           contract: contractLP,
           function: contractLP.function('provisionHTLC'),
           parameters: [
             hexToBytes(secretHash.secretHash!),
-            EtherAmount.fromBigInt(EtherUnit.ether, amount).getInWei,
+            amountInWei,
             BigInt.from(endTime),
             hexToBytes(secretHash.secretHashSignature!.r!),
             hexToBytes(secretHash.secretHashSignature!.s!),

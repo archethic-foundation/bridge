@@ -24,7 +24,7 @@ class EVMLPERC with EVMBridgeProcessMixin {
   final int chainId;
 
   Future<Result<void, Failure>> provisionChargeableHTLC(
-    BigInt amount,
+    double amount,
     String tokenAddress,
   ) async {
     return Result.guard(
@@ -35,12 +35,14 @@ class EVMLPERC with EVMBridgeProcessMixin {
         final contractDummyToken =
             await getDeployedContract(contractNameIERC20, tokenAddress);
 
+        final amountInWei = BigInt.from(amount * 1e18);
+
         final transactionTransfer = Transaction.callContract(
           contract: contractDummyToken,
           function: contractDummyToken.function('transfer'),
           parameters: [
             EthereumAddress.fromHex(htlcContractAddress),
-            EtherAmount.fromBigInt(EtherUnit.ether, amount).getInWei,
+            amountInWei,
           ],
         );
 
