@@ -197,13 +197,15 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     String? coinId;
     switch (state.tokenToBridge!.symbol) {
       case 'ETH':
-      case 'WETH':
+      case 'aeETH':
         coinId = 'ethereum';
         break;
       case 'BSC':
+      case 'aeBSC':
         coinId = 'binance-usd';
         break;
       case 'MATIC':
+      case 'aeMATIC':
         coinId = 'polygon';
         break;
       default:

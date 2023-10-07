@@ -30,7 +30,7 @@ Future<double> _getPriceFromSymbol(
   String? coinId;
   switch (symbol) {
     case 'ETH':
-    case 'WETH':
+    case 'aeETH':
       coinId = 'ethereum';
       break;
     case 'BSC':

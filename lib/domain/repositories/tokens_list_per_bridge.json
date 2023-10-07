@@ -3,7 +3,7 @@
         "-1->1": [
             {
                 "name": "Wrapped Ether",
-                "symbol": "WETH",
+                "symbol": "aeETH",
                 "targetTokenName": "Ether",
                 "targetTokenSymbol": "ETH",
                 "poolAddressFrom": "",
@@ -149,7 +149,7 @@
                 "name": "Ether",
                 "symbol": "ETH",
                 "targetTokenName": "Wrapped Ether",
-                "targetTokenSymbol": "WETH",
+                "targetTokenSymbol": "aeETH",
                 "poolAddressFrom": "",
                 "poolAddressTo": "",
                 "type": "Native"

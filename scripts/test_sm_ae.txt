@@ -6,7 +6,7 @@ conf node
 # Faucet
 # Factory: 00006e985f953bba22776b1ce8202789002447f8129a8837db811e5438e5450d0584
 # Pool UCO: 00004ae35d87f8a74f3101a020c26676c3f80c62e4bf49d9ceea7ac5b72587b43aa3
-# Pool WETH: 0000fec13f49c0bc0f8897e8efbe4fd871fb97a6cab182bc6aae52303e1b1d65ec18
+# Pool aeETH: 000076922e553e45373185ff8fca84aed0036a478864fa19f39133c337a85f0e7ed7
 config :archethic, Archethic.Bootstrap.NetworkInit,
   genesis_pools: [
     %{
@@ -29,9 +29,8 @@ config :archethic, Archethic.Bootstrap.NetworkInit,
     },
     %{
       address:
-        "0000fec13f49c0bc0f8897e8efbe4fd871fb97a6cab182bc6aae52303e1b1d65ec18"
+        "000076922e553e45373185ff8fca84aed0036a478864fa19f39133c337a85f0e7ed7"
         |> Base.decode16!(case: :mixed),
       amount: 1_000_000_000_000_000_000_000
     }
   ]
-  
