@@ -26,11 +26,13 @@ enum EVMBridgeProcessStep { none, deploy }
 
 const contractNameIHTLC = 'IHTLC';
 const contractNameHTLCERC = 'HTLC_ERC';
+const contractNameHTLCETH = 'HTLC_ETH';
 
 const contractNameIPool = 'IPool';
 
 const contractNameIERC20 = 'IERC20';
 const contractNameSignedHTLCERC = 'SignedHTLC_ERC';
+const contractNameSignedHTLCETH = 'SignedHTLC_ETH';
 const contractNameChargeableHTLCERC = 'ChargeableHTLC_ERC';
 
 mixin EVMBridgeProcessMixin {

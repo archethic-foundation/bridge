@@ -4,7 +4,10 @@ import 'dart:typed_data';
 import 'package:aebridge/application/contracts/archethic_contract_chargeable.dart';
 import 'package:aebridge/application/contracts/archethic_contract_signed.dart';
 import 'package:aebridge/application/contracts/evm_lp_erc.dart';
+import 'package:aebridge/application/contracts/evm_lp_native.dart';
 import 'package:aebridge/application/session/provider.dart';
+import 'package:aebridge/domain/models/failures.dart';
+import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
@@ -250,14 +253,40 @@ mixin ArchethicBridgeProcessMixin {
     await bridgeNotifier.setCurrentStep(7);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
-    final evmLPERC = EVMLPERC(
-      bridge.blockchainTo!.providerEndpoint,
-      htlc,
-      bridge.blockchainFrom!.chainId,
-    );
-    final resultSignedWithdraw = await evmLPERC.signedWithdraw(
-      secret,
-    );
+
+    Result<String, Failure>? resultSignedWithdraw;
+    if (bridge.tokenToBridge!.type == 'ERC20') {
+      final evmLPERC = EVMLPERC(
+        bridge.blockchainTo!.providerEndpoint,
+        htlc,
+        bridge.blockchainFrom!.chainId,
+      );
+
+      resultSignedWithdraw = await evmLPERC.signedWithdraw(
+        secret,
+      );
+    }
+
+    if (bridge.tokenToBridge!.type == 'Wrapped') {
+      final evmLPNative = EVMLPNative(
+        bridge.blockchainTo!.providerEndpoint,
+        htlc,
+        bridge.blockchainFrom!.chainId,
+      );
+
+      resultSignedWithdraw = await evmLPNative.signedWithdraw(
+        secret,
+      );
+    }
+
+    if (resultSignedWithdraw == null) {
+      const failure =
+          Failure.other(cause: 'An error occurs while the withdraw.');
+      await bridgeNotifier.setFailure(failure);
+      await bridgeNotifier.setTransferInProgress(false);
+      throw failure;
+    }
+
     await bridgeNotifier.setWaitForWalletConfirmation(null);
     late String txAddress;
     await resultSignedWithdraw.map(
