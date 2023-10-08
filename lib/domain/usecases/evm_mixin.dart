@@ -338,7 +338,8 @@ mixin EVMBridgeProcessMixin {
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
 
     Result<String, Failure>? resultSignedWithdraw;
-    if (bridge.tokenToBridge!.type == 'ERC20') {
+    debugPrint('bridge.tokenToBridge!.type: ${bridge.tokenToBridge!.type}');
+    if (bridge.tokenToBridge!.type == 'Native') {
       final evmLPERC = EVMLPERC(
         bridge.blockchainTo!.providerEndpoint,
         htlc,
