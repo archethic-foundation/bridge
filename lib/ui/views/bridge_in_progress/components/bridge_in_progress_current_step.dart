@@ -21,7 +21,6 @@ class BridgeInProgressCurrentStep extends ConsumerWidget {
 
     if (bridge.blockchainFrom != null && bridge.blockchainFrom!.isArchethic) {
       return Container(
-        height: 30,
         alignment: Alignment.center,
         padding: const EdgeInsets.only(bottom: 10),
         child: Text(
@@ -32,7 +31,6 @@ class BridgeInProgressCurrentStep extends ConsumerWidget {
       );
     } else {
       return Container(
-        height: 30,
         alignment: Alignment.center,
         padding: const EdgeInsets.only(bottom: 10),
         child: Text(

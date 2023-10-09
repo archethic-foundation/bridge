@@ -11,6 +11,7 @@ import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_bridged
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_bridged_balance.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_balance.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_selection.dart';
+import 'package:aebridge/ui/views/util/components/scrollbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -19,52 +20,62 @@ class BridgeFormSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            BridgeBlockchainFromSelection(),
-            BridgeBlockchainIconDirection(),
-            BridgeBlockchainToSelection(),
-          ],
+    return Container(
+      constraints: const BoxConstraints(minHeight: 475, maxHeight: 600),
+      child: const ArchethicScrollbar(
+        child: SizedBox(
+          width: 650,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  BridgeBlockchainFromSelection(),
+                  BridgeBlockchainIconDirection(),
+                  BridgeBlockchainToSelection(),
+                ],
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  BridgeTokenToBridgeSelection(),
+                  BridgeTokenBridged(),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  BridgeTokenToBridgeBalance(),
+                  SizedBox(width: 20),
+                  BridgeTokenBridgedBalance(),
+                ],
+              ),
+              BridgeTokenAddress(),
+              SizedBox(
+                height: 10,
+              ),
+              BridgeTargetAddress(),
+              SizedBox(
+                height: 10,
+              ),
+              BridgeTokenAmount(),
+              SizedBox(
+                height: 10,
+              ),
+              BridgeErrorMessage(),
+              SizedBox(
+                height: 10,
+              ),
+              BridgeButton(),
+              SizedBox(height: 10),
+            ],
+          ),
         ),
-        SizedBox(
-          height: 5,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            BridgeTokenToBridgeSelection(),
-            BridgeTokenBridged(),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            BridgeTokenToBridgeBalance(),
-            SizedBox(width: 20),
-            BridgeTokenBridgedBalance(),
-          ],
-        ),
-        BridgeTokenAddress(),
-        SizedBox(
-          height: 10,
-        ),
-        BridgeTargetAddress(),
-        SizedBox(
-          height: 10,
-        ),
-        BridgeTokenAmount(),
-        SizedBox(
-          height: 10,
-        ),
-        BridgeErrorMessage(),
-        Spacer(),
-        BridgeButton(),
-        SizedBox(height: 25),
-      ],
+      ),
     );
   }
 }
