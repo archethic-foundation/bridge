@@ -78,6 +78,8 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
     String currentNameAccount,
     String htlcAddress,
     String secret,
+    double amount,
+    String poolAddress,
   ) async {
     return Result.guard(
       () async {
@@ -85,12 +87,28 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
 
         // ignore: unused_local_variable
         var htlcAddressBefore = htlcAddress;
-        final transactionMap = await apiService
-            .getLastTransaction([htlcAddress], request: 'address');
+        final transactionMap = await apiService.getLastTransaction(
+          [htlcAddress],
+        );
         if (transactionMap[htlcAddress] != null &&
             transactionMap[htlcAddress]!.address != null &&
             transactionMap[htlcAddress]!.address!.address != null) {
           htlcAddressBefore = transactionMap[htlcAddress]!.address!.address!;
+        }
+
+        if (transactionMap[htlcAddress] != null) {
+          // Check HTLC AE has funds
+          final htlc = transactionMap[htlcAddress];
+          for (final input in htlc!.inputs) {
+            final genesisAddressFrom =
+                await apiService.getGenesisAddress(input.from!);
+            if (genesisAddressFrom.address != null &&
+                genesisAddressFrom.address == poolAddress.toUpperCase()) {
+              if (fromBigInt(input.amount) != amount) {
+                throw const Failure.insufficientFunds();
+              }
+            }
+          }
         }
 
         var transaction = Transaction(

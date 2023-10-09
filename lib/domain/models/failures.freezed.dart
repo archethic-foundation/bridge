@@ -27,9 +27,9 @@ Failure _$FailureFromJson(Map<String, dynamic> json) {
     case 'serviceAlreadyExists':
       return ServiceAlreadyExists.fromJson(json);
     case 'insufficientFunds':
-      return InsuffientFunds.fromJson(json);
+      return InsufficientFunds.fromJson(json);
     case 'unauthorized':
-      return Inauthorized.fromJson(json);
+      return Unauthorized.fromJson(json);
     case 'invalidValue':
       return InvalidValue.fromJson(json);
     case 'wrongNetwork':
@@ -121,8 +121,8 @@ mixin _$Failure {
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(InsuffientFunds value) insufficientFunds,
-    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
@@ -140,8 +140,8 @@ mixin _$Failure {
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(InsuffientFunds value)? insufficientFunds,
-    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
@@ -158,8 +158,8 @@ mixin _$Failure {
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(InsuffientFunds value)? insufficientFunds,
-    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
@@ -315,8 +315,8 @@ class _$LoggedOutImpl extends LoggedOut {
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(InsuffientFunds value) insufficientFunds,
-    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
@@ -337,8 +337,8 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(InsuffientFunds value)? insufficientFunds,
-    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
@@ -358,8 +358,8 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(InsuffientFunds value)? insufficientFunds,
-    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
@@ -516,8 +516,8 @@ class _$NetworkFailureImpl extends NetworkFailure {
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(InsuffientFunds value) insufficientFunds,
-    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
@@ -538,8 +538,8 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(InsuffientFunds value)? insufficientFunds,
-    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
@@ -559,8 +559,8 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(InsuffientFunds value)? insufficientFunds,
-    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
@@ -746,8 +746,8 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(InsuffientFunds value) insufficientFunds,
-    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
@@ -768,8 +768,8 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(InsuffientFunds value)? insufficientFunds,
-    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
@@ -789,8 +789,8 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(InsuffientFunds value)? insufficientFunds,
-    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
@@ -953,8 +953,8 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(InsuffientFunds value) insufficientFunds,
-    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
@@ -975,8 +975,8 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(InsuffientFunds value)? insufficientFunds,
-    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
@@ -996,8 +996,8 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(InsuffientFunds value)? insufficientFunds,
-    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
@@ -1155,8 +1155,8 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(InsuffientFunds value) insufficientFunds,
-    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
@@ -1177,8 +1177,8 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(InsuffientFunds value)? insufficientFunds,
-    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
@@ -1198,8 +1198,8 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(InsuffientFunds value)? insufficientFunds,
-    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
@@ -1232,30 +1232,30 @@ abstract class ServiceAlreadyExists extends Failure {
 }
 
 /// @nodoc
-abstract class _$$InsuffientFundsImplCopyWith<$Res> {
-  factory _$$InsuffientFundsImplCopyWith(_$InsuffientFundsImpl value,
-          $Res Function(_$InsuffientFundsImpl) then) =
-      __$$InsuffientFundsImplCopyWithImpl<$Res>;
+abstract class _$$InsufficientFundsImplCopyWith<$Res> {
+  factory _$$InsufficientFundsImplCopyWith(_$InsufficientFundsImpl value,
+          $Res Function(_$InsufficientFundsImpl) then) =
+      __$$InsufficientFundsImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$InsuffientFundsImplCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$InsuffientFundsImpl>
-    implements _$$InsuffientFundsImplCopyWith<$Res> {
-  __$$InsuffientFundsImplCopyWithImpl(
-      _$InsuffientFundsImpl _value, $Res Function(_$InsuffientFundsImpl) _then)
+class __$$InsufficientFundsImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$InsufficientFundsImpl>
+    implements _$$InsufficientFundsImplCopyWith<$Res> {
+  __$$InsufficientFundsImplCopyWithImpl(_$InsufficientFundsImpl _value,
+      $Res Function(_$InsufficientFundsImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$InsuffientFundsImpl extends InsuffientFunds {
-  const _$InsuffientFundsImpl({final String? $type})
+class _$InsufficientFundsImpl extends InsufficientFunds {
+  const _$InsufficientFundsImpl({final String? $type})
       : $type = $type ?? 'insufficientFunds',
         super._();
 
-  factory _$InsuffientFundsImpl.fromJson(Map<String, dynamic> json) =>
-      _$$InsuffientFundsImplFromJson(json);
+  factory _$InsufficientFundsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$InsufficientFundsImplFromJson(json);
 
   @JsonKey(name: 'runtimeType')
   final String $type;
@@ -1268,7 +1268,7 @@ class _$InsuffientFundsImpl extends InsuffientFunds {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$InsuffientFundsImpl);
+        (other.runtimeType == runtimeType && other is _$InsufficientFundsImpl);
   }
 
   @JsonKey(ignore: true)
@@ -1356,8 +1356,8 @@ class _$InsuffientFundsImpl extends InsuffientFunds {
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(InsuffientFunds value) insufficientFunds,
-    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
@@ -1378,8 +1378,8 @@ class _$InsuffientFundsImpl extends InsuffientFunds {
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(InsuffientFunds value)? insufficientFunds,
-    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
@@ -1399,8 +1399,8 @@ class _$InsuffientFundsImpl extends InsuffientFunds {
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(InsuffientFunds value)? insufficientFunds,
-    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
@@ -1418,45 +1418,45 @@ class _$InsuffientFundsImpl extends InsuffientFunds {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$InsuffientFundsImplToJson(
+    return _$$InsufficientFundsImplToJson(
       this,
     );
   }
 }
 
-abstract class InsuffientFunds extends Failure {
-  const factory InsuffientFunds() = _$InsuffientFundsImpl;
-  const InsuffientFunds._() : super._();
+abstract class InsufficientFunds extends Failure {
+  const factory InsufficientFunds() = _$InsufficientFundsImpl;
+  const InsufficientFunds._() : super._();
 
-  factory InsuffientFunds.fromJson(Map<String, dynamic> json) =
-      _$InsuffientFundsImpl.fromJson;
+  factory InsufficientFunds.fromJson(Map<String, dynamic> json) =
+      _$InsufficientFundsImpl.fromJson;
 }
 
 /// @nodoc
-abstract class _$$InauthorizedImplCopyWith<$Res> {
-  factory _$$InauthorizedImplCopyWith(
-          _$InauthorizedImpl value, $Res Function(_$InauthorizedImpl) then) =
-      __$$InauthorizedImplCopyWithImpl<$Res>;
+abstract class _$$UnauthorizedImplCopyWith<$Res> {
+  factory _$$UnauthorizedImplCopyWith(
+          _$UnauthorizedImpl value, $Res Function(_$UnauthorizedImpl) then) =
+      __$$UnauthorizedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$InauthorizedImplCopyWithImpl<$Res>
-    extends _$FailureCopyWithImpl<$Res, _$InauthorizedImpl>
-    implements _$$InauthorizedImplCopyWith<$Res> {
-  __$$InauthorizedImplCopyWithImpl(
-      _$InauthorizedImpl _value, $Res Function(_$InauthorizedImpl) _then)
+class __$$UnauthorizedImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$UnauthorizedImpl>
+    implements _$$UnauthorizedImplCopyWith<$Res> {
+  __$$UnauthorizedImplCopyWithImpl(
+      _$UnauthorizedImpl _value, $Res Function(_$UnauthorizedImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$InauthorizedImpl extends Inauthorized {
-  const _$InauthorizedImpl({final String? $type})
+class _$UnauthorizedImpl extends Unauthorized {
+  const _$UnauthorizedImpl({final String? $type})
       : $type = $type ?? 'unauthorized',
         super._();
 
-  factory _$InauthorizedImpl.fromJson(Map<String, dynamic> json) =>
-      _$$InauthorizedImplFromJson(json);
+  factory _$UnauthorizedImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UnauthorizedImplFromJson(json);
 
   @JsonKey(name: 'runtimeType')
   final String $type;
@@ -1469,7 +1469,7 @@ class _$InauthorizedImpl extends Inauthorized {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$InauthorizedImpl);
+        (other.runtimeType == runtimeType && other is _$UnauthorizedImpl);
   }
 
   @JsonKey(ignore: true)
@@ -1557,8 +1557,8 @@ class _$InauthorizedImpl extends Inauthorized {
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(InsuffientFunds value) insufficientFunds,
-    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
@@ -1579,8 +1579,8 @@ class _$InauthorizedImpl extends Inauthorized {
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(InsuffientFunds value)? insufficientFunds,
-    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
@@ -1600,8 +1600,8 @@ class _$InauthorizedImpl extends Inauthorized {
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(InsuffientFunds value)? insufficientFunds,
-    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
@@ -1619,18 +1619,18 @@ class _$InauthorizedImpl extends Inauthorized {
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$InauthorizedImplToJson(
+    return _$$UnauthorizedImplToJson(
       this,
     );
   }
 }
 
-abstract class Inauthorized extends Failure {
-  const factory Inauthorized() = _$InauthorizedImpl;
-  const Inauthorized._() : super._();
+abstract class Unauthorized extends Failure {
+  const factory Unauthorized() = _$UnauthorizedImpl;
+  const Unauthorized._() : super._();
 
-  factory Inauthorized.fromJson(Map<String, dynamic> json) =
-      _$InauthorizedImpl.fromJson;
+  factory Unauthorized.fromJson(Map<String, dynamic> json) =
+      _$UnauthorizedImpl.fromJson;
 }
 
 /// @nodoc
@@ -1758,8 +1758,8 @@ class _$InvalidValueImpl extends InvalidValue {
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(InsuffientFunds value) insufficientFunds,
-    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
@@ -1780,8 +1780,8 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(InsuffientFunds value)? insufficientFunds,
-    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
@@ -1801,8 +1801,8 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(InsuffientFunds value)? insufficientFunds,
-    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
@@ -1985,8 +1985,8 @@ class _$WrongNetworkImpl extends WrongNetwork {
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(InsuffientFunds value) insufficientFunds,
-    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
@@ -2007,8 +2007,8 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(InsuffientFunds value)? insufficientFunds,
-    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
@@ -2028,8 +2028,8 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(InsuffientFunds value)? insufficientFunds,
-    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
@@ -2191,8 +2191,8 @@ class _$UserRejectedImpl extends UserRejected {
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(InsuffientFunds value) insufficientFunds,
-    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
@@ -2213,8 +2213,8 @@ class _$UserRejectedImpl extends UserRejected {
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(InsuffientFunds value)? insufficientFunds,
-    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
@@ -2234,8 +2234,8 @@ class _$UserRejectedImpl extends UserRejected {
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(InsuffientFunds value)? insufficientFunds,
-    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
@@ -2394,8 +2394,8 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(InsuffientFunds value) insufficientFunds,
-    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
@@ -2416,8 +2416,8 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(InsuffientFunds value)? insufficientFunds,
-    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
@@ -2437,8 +2437,8 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(InsuffientFunds value)? insufficientFunds,
-    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
@@ -2595,8 +2595,8 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(InsuffientFunds value) insufficientFunds,
-    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
@@ -2617,8 +2617,8 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(InsuffientFunds value)? insufficientFunds,
-    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
@@ -2638,8 +2638,8 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(InsuffientFunds value)? insufficientFunds,
-    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
@@ -2852,8 +2852,8 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(InsuffientFunds value) insufficientFunds,
-    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
@@ -2874,8 +2874,8 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(InsuffientFunds value)? insufficientFunds,
-    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
@@ -2895,8 +2895,8 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(InsuffientFunds value)? insufficientFunds,
-    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
@@ -3097,8 +3097,8 @@ class _$OtherFailureImpl extends OtherFailure {
     required TResult Function(QuotaExceededFailure value) quotaExceeded,
     required TResult Function(ServiceNotFound value) serviceNotFound,
     required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
-    required TResult Function(InsuffientFunds value) insufficientFunds,
-    required TResult Function(Inauthorized value) unauthorized,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
@@ -3119,8 +3119,8 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult? Function(QuotaExceededFailure value)? quotaExceeded,
     TResult? Function(ServiceNotFound value)? serviceNotFound,
     TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult? Function(InsuffientFunds value)? insufficientFunds,
-    TResult? Function(Inauthorized value)? unauthorized,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
@@ -3140,8 +3140,8 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult Function(QuotaExceededFailure value)? quotaExceeded,
     TResult Function(ServiceNotFound value)? serviceNotFound,
     TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
-    TResult Function(InsuffientFunds value)? insufficientFunds,
-    TResult Function(Inauthorized value)? unauthorized,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,

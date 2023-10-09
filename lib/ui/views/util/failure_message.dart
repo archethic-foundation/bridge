@@ -27,6 +27,10 @@ class FailureMessage {
       return AppLocalizations.of(context)!.failureConnectivityEVM;
     }
 
+    if (failure is InsufficientFunds) {
+      return AppLocalizations.of(context)!.failureInsufficientFunds;
+    }
+
     if (failure is RPCErrorEVM) {
       return (failure! as RPCErrorEVM).data!['Some_Key']!.reason;
     }
