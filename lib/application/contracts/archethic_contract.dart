@@ -51,7 +51,7 @@ class ArchethicContract with TransactionBridgeMixin {
         // Faucet poolAddress
         var transactionTransfer =
             Transaction(type: 'transfer', data: Transaction.initData())
-                .addUCOTransfer(htlcGenesisAddress, toBigInt(6));
+                .addUCOTransfer(htlcGenesisAddress, toBigInt(1));
 
         final currentNameAccount = await getCurrentAccount();
 

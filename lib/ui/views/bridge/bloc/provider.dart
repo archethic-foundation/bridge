@@ -564,19 +564,24 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   }
 
   Future<void> validateForm() async {
-    final evmLP = EVMLP(
-      state.blockchainFrom!.isArchethic
-          ? state.blockchainTo!.providerEndpoint
-          : state.blockchainFrom!.providerEndpoint,
-    );
+    if (state.blockchainFrom!.isArchethic == false) {
+      final evmLP = EVMLP(
+        state.blockchainFrom!.isArchethic
+            ? state.blockchainTo!.providerEndpoint
+            : state.blockchainFrom!.providerEndpoint,
+      );
 
-    final safetyModuleFees = await evmLP.calculateSafetyModuleFees(
-      state.blockchainFrom!.isArchethic
-          ? state.tokenToBridge!.poolAddressTo
-          : state.tokenToBridge!.poolAddressFrom,
-    );
-    await setSafetyModuleFeesRate(safetyModuleFees.rate);
-    await setSafetyModuleFeesAddress(safetyModuleFees.address);
+      final safetyModuleFees = await evmLP.calculateSafetyModuleFees(
+        state.blockchainFrom!.isArchethic
+            ? state.tokenToBridge!.poolAddressTo
+            : state.tokenToBridge!.poolAddressFrom,
+      );
+      await setSafetyModuleFeesRate(safetyModuleFees.rate);
+      await setSafetyModuleFeesAddress(safetyModuleFees.address);
+    } else {
+      await setSafetyModuleFeesRate(0);
+      await setSafetyModuleFeesAddress('');
+    }
 
     final archethicProtocolFees = await ArchethicFactory(
       state.blockchainFrom!.isArchethic

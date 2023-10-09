@@ -54,6 +54,50 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
         const SizedBox(
           height: 3,
         ),
+        _safetyModuleInfos(context, ref),
+        const SizedBox(
+          height: 10,
+        ),
+        _archethicProtocolInfos(context, ref),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              AppLocalizations.of(context)!
+                  .bridgeConfirm_fees_receive_value_lbl,
+            ),
+            FutureBuilder<String>(
+              future: FiatValue().display(
+                ref,
+                bridge.tokenToBridge!.targetTokenSymbol,
+                bridge.tokenToBridgeReceived,
+              ),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Text(
+                    '${bridge.tokenToBridgeReceived.toStringAsFixed(4).formatNumber()} ${bridge.tokenToBridge!.targetTokenSymbol} ${snapshot.data}',
+                  );
+                }
+                return const SizedBox();
+              },
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  Widget _safetyModuleInfos(
+    BuildContext context,
+    WidgetRef ref,
+  ) {
+    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    if (bridge.blockchainFrom!.isArchethic == true) {
+      return const SizedBox();
+    }
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -99,9 +143,19 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
           reduceAddress: true,
           fontSize: Theme.of(context).textTheme.labelSmall!.fontSize!,
         ),
-        const SizedBox(
-          height: 10,
-        ),
+      ],
+    );
+  }
+
+  Widget _archethicProtocolInfos(
+    BuildContext context,
+    WidgetRef ref,
+  ) {
+    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -161,30 +215,6 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
               ),
             ),
           ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              AppLocalizations.of(context)!
-                  .bridgeConfirm_fees_receive_value_lbl,
-            ),
-            FutureBuilder<String>(
-              future: FiatValue().display(
-                ref,
-                bridge.tokenToBridge!.targetTokenSymbol,
-                bridge.tokenToBridgeReceived,
-              ),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Text(
-                    '${bridge.tokenToBridgeReceived.toStringAsFixed(4).formatNumber()} ${bridge.tokenToBridge!.targetTokenSymbol} ${snapshot.data}',
-                  );
-                }
-                return const SizedBox();
-              },
-            ),
-          ],
         ),
       ],
     );
