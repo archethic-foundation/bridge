@@ -25,29 +25,31 @@ class LocalHistoryCardTrfInfos extends ConsumerWidget {
 
       return Padding(
         padding: const EdgeInsets.only(top: 5),
-        child: Row(
-          children: [
-            FutureBuilder<String>(
-              future: FiatValue().display(
-                ref,
-                bridge.tokenToBridge!.symbol,
-                tokenToBridgeAmountFiat,
+        child: Flexible(
+          child: Wrap(
+            children: [
+              FutureBuilder<String>(
+                future: FiatValue().display(
+                  ref,
+                  bridge.tokenToBridge!.symbol,
+                  tokenToBridgeAmountFiat,
+                ),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return SelectableText(
+                      '${bridge.tokenToBridgeAmount.toString().formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data} ${AppLocalizations.of(context)!.localHistoryToLbl}',
+                    );
+                  }
+                  return const SizedBox();
+                },
               ),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return SelectableText(
-                    '${bridge.tokenToBridgeAmount.toString().formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data} ${AppLocalizations.of(context)!.localHistoryToLbl}',
-                  );
-                }
-                return const SizedBox();
-              },
-            ),
-            FormatAddressLinkCopy(
-              address: bridge.targetAddress,
-              chainId: bridge.blockchainTo!.chainId,
-              expanded: false,
-            ),
-          ],
+              FormatAddressLinkCopy(
+                address: bridge.targetAddress,
+                chainId: bridge.blockchainTo!.chainId,
+                expanded: false,
+              ),
+            ],
+          ),
         ),
       );
     }

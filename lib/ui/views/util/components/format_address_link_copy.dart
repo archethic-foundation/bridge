@@ -47,7 +47,7 @@ class FormatAddressLinkCopy extends ConsumerWidget {
       );
     }
 
-    return Row(
+    return Wrap(
       children: [
         if (expanded)
           Expanded(

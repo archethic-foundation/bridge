@@ -34,36 +34,38 @@ class BridgeInProgressPopup {
                       elevation: 0,
                       content: Stack(
                         children: <Widget>[
-                          Container(
-                            margin: const EdgeInsets.only(
-                              top: 30,
-                              right: 15,
-                              left: 8,
-                            ),
-                            padding: const EdgeInsets.all(20),
-                            height: 500,
-                            width: BridgeThemeBase.sizeBoxComponentWidth,
-                            decoration: BoxDecoration(
-                              color: BridgeThemeBase.backgroundPopupColor,
-                              borderRadius: BorderRadius.circular(16),
-                              boxShadow: const <BoxShadow>[
-                                BoxShadow(
-                                  color: Colors.black26,
-                                ),
-                              ],
-                            ),
-                            child: const Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                BridgeInProgressInfos(),
-                                BridgeInProgressCircularStepProgressIndicator(),
-                                BridgeInProgressCurrentStep(),
-                                BridgeInProgressError(),
-                                BridgeInProgressContracts(),
-                                Spacer(),
-                                BridgeInProgressResumeBtn(),
-                              ],
+                          SingleChildScrollView(
+                            child: Container(
+                              margin: const EdgeInsets.only(
+                                top: 30,
+                                right: 15,
+                                left: 8,
+                              ),
+                              padding: const EdgeInsets.all(20),
+                              height: 500,
+                              width: BridgeThemeBase.sizeBoxComponentWidth,
+                              decoration: BoxDecoration(
+                                color: BridgeThemeBase.backgroundPopupColor,
+                                borderRadius: BorderRadius.circular(16),
+                                boxShadow: const <BoxShadow>[
+                                  BoxShadow(
+                                    color: Colors.black26,
+                                  ),
+                                ],
+                              ),
+                              child: const Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisSize: MainAxisSize.min,
+                                children: <Widget>[
+                                  BridgeInProgressInfos(),
+                                  BridgeInProgressCircularStepProgressIndicator(),
+                                  BridgeInProgressCurrentStep(),
+                                  BridgeInProgressError(),
+                                  BridgeInProgressContracts(),
+                                  Spacer(),
+                                  BridgeInProgressResumeBtn(),
+                                ],
+                              ),
                             ),
                           ),
                           Positioned(

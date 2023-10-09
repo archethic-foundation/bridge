@@ -25,7 +25,7 @@ class LocalHistoryCardHTLCInfos extends StatelessWidget {
           if (bridge.blockchainFrom != null &&
               bridge.blockchainFrom!.htlcAddress != null &&
               bridge.blockchainFrom!.htlcAddress!.isNotEmpty)
-            Row(
+            Wrap(
               children: [
                 SelectableText(
                   '${bridge.blockchainFrom!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
@@ -40,7 +40,7 @@ class LocalHistoryCardHTLCInfos extends StatelessWidget {
           if (bridge.blockchainTo != null &&
               bridge.blockchainTo!.htlcAddress != null &&
               bridge.blockchainTo!.htlcAddress!.isNotEmpty)
-            Row(
+            Wrap(
               children: [
                 SelectableText(
                   '${bridge.blockchainTo!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
