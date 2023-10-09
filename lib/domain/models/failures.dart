@@ -26,8 +26,8 @@ class Failure with _$Failure implements Exception {
   }) = QuotaExceededFailure;
   const factory Failure.serviceNotFound() = ServiceNotFound;
   const factory Failure.serviceAlreadyExists() = ServiceAlreadyExists;
-  const factory Failure.insufficientFunds() = InsuffientFunds;
-  const factory Failure.unauthorized() = Inauthorized;
+  const factory Failure.insufficientFunds() = InsufficientFunds;
+  const factory Failure.unauthorized() = Unauthorized;
   const factory Failure.invalidValue() = InvalidValue;
   const factory Failure.wrongNetwork(
     String cause,

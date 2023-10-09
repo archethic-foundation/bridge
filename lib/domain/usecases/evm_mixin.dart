@@ -233,6 +233,8 @@ mixin EVMBridgeProcessMixin {
     WidgetRef ref,
     String htlcAddress,
     Uint8List secret,
+    double amount,
+    String poolAddress,
   ) async {
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(5);
@@ -246,6 +248,8 @@ mixin EVMBridgeProcessMixin {
       walletTo.nameAccount,
       htlcAddress,
       bytesToHex(secret),
+      amount,
+      poolAddress,
     );
     await bridgeNotifier.setWaitForWalletConfirmation(null);
     await bridgeNotifier.setTransferInProgress(false);

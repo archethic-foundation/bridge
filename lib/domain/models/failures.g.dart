@@ -67,24 +67,24 @@ Map<String, dynamic> _$$ServiceAlreadyExistsImplToJson(
       'runtimeType': instance.$type,
     };
 
-_$InsuffientFundsImpl _$$InsuffientFundsImplFromJson(
+_$InsufficientFundsImpl _$$InsufficientFundsImplFromJson(
         Map<String, dynamic> json) =>
-    _$InsuffientFundsImpl(
+    _$InsufficientFundsImpl(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$InsuffientFundsImplToJson(
-        _$InsuffientFundsImpl instance) =>
+Map<String, dynamic> _$$InsufficientFundsImplToJson(
+        _$InsufficientFundsImpl instance) =>
     <String, dynamic>{
       'runtimeType': instance.$type,
     };
 
-_$InauthorizedImpl _$$InauthorizedImplFromJson(Map<String, dynamic> json) =>
-    _$InauthorizedImpl(
+_$UnauthorizedImpl _$$UnauthorizedImplFromJson(Map<String, dynamic> json) =>
+    _$UnauthorizedImpl(
       $type: json['runtimeType'] as String?,
     );
 
-Map<String, dynamic> _$$InauthorizedImplToJson(_$InauthorizedImpl instance) =>
+Map<String, dynamic> _$$UnauthorizedImplToJson(_$UnauthorizedImpl instance) =>
     <String, dynamic>{
       'runtimeType': instance.$type,
     };

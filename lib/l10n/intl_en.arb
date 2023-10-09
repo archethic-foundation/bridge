@@ -89,6 +89,7 @@
   "failureUserRejected": "The request has been declined.",
   "failureConnectivityArchethic": "Please, open your Archethic Wallet and allow DApps connection.",
   "failureConnectivityEVM": "Please, open your EVM Wallet.",
+  "failureInsufficientFunds": "Funds are not sufficient.",
   "refundFormTitle": "Refund",
   "btn_refund": "Refund",
   "btn_refund_evm_connect": "Connect EVM Wallet",

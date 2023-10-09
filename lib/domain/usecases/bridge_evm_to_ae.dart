@@ -85,9 +85,10 @@ class BridgeEVMToArchethicUseCase
     }
 
     // 3) Deploy Archethic HTLC
+    double? amount;
     if (recoveryStep <= 3) {
       try {
-        var amount = await getEVMHTLCAmount(ref, htlcEVMAddress);
+        amount = await getEVMHTLCAmount(ref, htlcEVMAddress);
         amount ??= bridge.tokenToBridgeAmount;
         debugPrint('Archethic HTLC amount $amount');
 
@@ -102,7 +103,7 @@ class BridgeEVMToArchethicUseCase
       await bridgeNotifier.setBlockchainTo(blockchainTo);
     }
 
-    // 4) Withwdraw
+    // 4) Withdraw
     if (recoveryStep <= 4) {
       try {
         await withdrawEVM(ref, htlcEVMAddress, secret);
@@ -113,7 +114,13 @@ class BridgeEVMToArchethicUseCase
     // 5) Reveal secret to Archethic HTLC
     if (recoveryStep <= 5) {
       try {
-        await revealEVMSecret(ref, htlcAEAddress!, secret);
+        await revealEVMSecret(
+          ref,
+          htlcAEAddress!,
+          secret,
+          amount!,
+          bridge.tokenToBridge!.poolAddressTo,
+        );
       } catch (e) {
         return;
       }
