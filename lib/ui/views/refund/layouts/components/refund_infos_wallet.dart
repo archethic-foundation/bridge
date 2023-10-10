@@ -13,24 +13,16 @@ class RefundInfosWallet extends ConsumerWidget {
     if (refund.evmWallet == null) {
       return const SizedBox();
     }
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.end,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            Text(
-              refund.evmWallet!.nameAccount,
-            ),
-            Row(
-              children: [
-                Text(
-                  refund.evmWallet!.endpoint,
-                ),
-              ],
-            ),
-          ],
+        Text(
+          refund.evmWallet!.nameAccount,
+          textAlign: TextAlign.end,
+        ),
+        Text(
+          refund.evmWallet!.endpoint,
+          textAlign: TextAlign.end,
         ),
       ],
     );

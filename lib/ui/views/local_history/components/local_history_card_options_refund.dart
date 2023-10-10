@@ -32,6 +32,7 @@ class LocalHistoryCardOptionsRefund extends ConsumerWidget {
               )
               .setWidget(
                 RefundSheet(contractAddress: bridge.htlcEVMAddress),
+                ref,
               );
         },
         child: IconAnimated(

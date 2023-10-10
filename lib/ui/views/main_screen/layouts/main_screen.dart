@@ -2,9 +2,10 @@
 import 'package:aebridge/application/main_screen_widget_displayed.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/local_history/local_history_sheet.dart';
-import 'package:aebridge/ui/views/main_screen/app_bar.dart';
-import 'package:aebridge/ui/views/main_screen/body.dart';
-import 'package:aebridge/ui/views/main_screen/bottom_navigation_bar.dart';
+import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
+import 'package:aebridge/ui/views/main_screen/layouts/app_bar.dart';
+import 'package:aebridge/ui/views/main_screen/layouts/body.dart';
+import 'package:aebridge/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
 import 'package:aebridge/ui/views/refund/layouts/refund_sheet.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/components/main_screen_background.dart';
@@ -24,7 +25,6 @@ class MainScreen extends ConsumerStatefulWidget {
 
 class MainScreenState extends ConsumerState<MainScreen> {
   bool _isSubMenuOpen = false;
-  int navigationIndex = 0;
   List<(String, IconData)> listNavigationLabelIcon = [];
 
   @override
@@ -53,7 +53,8 @@ class MainScreenState extends ConsumerState<MainScreen> {
 
   void _onDestinationSelected(int selectedIndex) {
     setState(() {
-      navigationIndex = selectedIndex;
+      ref.read(navigationIndexMainScreenProvider.notifier).state =
+          selectedIndex;
     });
 
     switch (selectedIndex) {
@@ -63,7 +64,7 @@ class MainScreenState extends ConsumerState<MainScreen> {
               MainScreenWidgetDisplayedProviders
                   .mainScreenWidgetDisplayedProvider.notifier,
             )
-            .setWidget(const BridgeSheet());
+            .setWidget(const BridgeSheet(), ref);
 
         break;
       case 1:
@@ -72,7 +73,7 @@ class MainScreenState extends ConsumerState<MainScreen> {
               MainScreenWidgetDisplayedProviders
                   .mainScreenWidgetDisplayedProvider.notifier,
             )
-            .setWidget(const LocalHistorySheet());
+            .setWidget(const LocalHistorySheet(), ref);
 
         break;
       case 2:
@@ -81,7 +82,7 @@ class MainScreenState extends ConsumerState<MainScreen> {
               MainScreenWidgetDisplayedProviders
                   .mainScreenWidgetDisplayedProvider.notifier,
             )
-            .setWidget(const RefundSheet());
+            .setWidget(const RefundSheet(), ref);
 
         break;
       default:
@@ -104,7 +105,7 @@ class MainScreenState extends ConsumerState<MainScreen> {
             const MainScreenBackground(),
             Body(
               listNavigationLabelIcon: listNavigationLabelIcon,
-              navDrawerIndex: navigationIndex,
+              navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),
               onDestinationSelected: _onDestinationSelected,
             ),
             if (_isSubMenuOpen)
@@ -173,7 +174,7 @@ class MainScreenState extends ConsumerState<MainScreen> {
         bottomNavigationBar: Responsive.isMobile(context)
             ? BottomNavigationBarMainScreen(
                 listNavigationLabelIcon: listNavigationLabelIcon,
-                navDrawerIndex: navigationIndex,
+                navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),
                 onDestinationSelected: _onDestinationSelected,
               )
             : null,

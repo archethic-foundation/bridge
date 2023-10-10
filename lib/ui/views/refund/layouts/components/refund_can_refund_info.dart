@@ -32,9 +32,12 @@ class RefundCanRefundInfo extends ConsumerWidget {
           const SizedBox(
             width: 3,
           ),
-          Text(
-            '${AppLocalizations.of(context)!.refundCanRefundYes} ${refund.amount + refund.fee} UCO',
-            style: TextStyle(color: ArchethicThemeBase.systemPositive500),
+          Flexible(
+            child: Text(
+              '${AppLocalizations.of(context)!.refundCanRefundYes} ${refund.amount + refund.fee} UCO',
+              style: TextStyle(color: ArchethicThemeBase.systemPositive500),
+              textAlign: TextAlign.end,
+            ),
           ),
         ],
       );
@@ -51,16 +54,21 @@ class RefundCanRefundInfo extends ConsumerWidget {
             const SizedBox(
               width: 3,
             ),
-            Text(
-              AppLocalizations.of(context)!.refundCanRefundDateLock.replaceAll(
-                    '%1',
-                    DateFormat.yMd(
-                      Localizations.localeOf(context).languageCode,
-                    ).add_Hms().format(
-                          DateTime(refund.htlcDateLock!).toLocal(),
-                        ),
-                  ),
-              style: TextStyle(color: ArchethicThemeBase.systemDanger300),
+            Flexible(
+              child: Text(
+                AppLocalizations.of(context)!
+                    .refundCanRefundDateLock
+                    .replaceAll(
+                      '%1',
+                      DateFormat.yMd(
+                        Localizations.localeOf(context).languageCode,
+                      ).add_Hms().format(
+                            DateTime(refund.htlcDateLock!).toLocal(),
+                          ),
+                    ),
+                style: TextStyle(color: ArchethicThemeBase.systemDanger300),
+                textAlign: TextAlign.end,
+              ),
             ),
           ],
         );

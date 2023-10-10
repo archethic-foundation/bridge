@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/oracle/provider.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_coingecko_price.dart';
 import 'package:aebridge/ui/views/util/components/icon_button_animated.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,7 +27,7 @@ class BridgeTokenToBridgeArchethicOracleUco extends ConsumerWidget {
           ).toLocal(),
         );
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.end,
       children: [
         IconButtonAnimated(
           icon: const Icon(
@@ -42,11 +43,17 @@ class BridgeTokenToBridgeArchethicOracleUco extends ConsumerWidget {
           },
           color: Colors.white,
         ),
-        Text(
-          '1 UCO = \$${archethicOracleUCO.usd.toStringAsFixed(5)} ($timestamp)',
-          style: TextStyle(
-            fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
-          ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            const BridgeTokenToBridgeCoingeckoPrice(),
+            Text(
+              '1 UCO = \$${archethicOracleUCO.usd.toStringAsFixed(5)} ($timestamp)',
+              style: TextStyle(
+                fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
+              ),
+            ),
+          ],
         ),
       ],
     );

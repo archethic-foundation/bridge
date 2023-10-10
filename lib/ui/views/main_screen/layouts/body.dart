@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/main_screen_widget_displayed.dart';
-import 'package:aebridge/ui/views/main_screen/navigation_rail.dart';
+import 'package:aebridge/ui/views/main_screen/layouts/navigation_rail.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';

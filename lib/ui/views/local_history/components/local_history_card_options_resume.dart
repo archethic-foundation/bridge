@@ -37,7 +37,7 @@ class LocalHistoryCardOptionsResume extends ConsumerWidget {
                     MainScreenWidgetDisplayedProviders
                         .mainScreenWidgetDisplayedProvider.notifier,
                   )
-                  .setWidget(const BridgeSheet());
+                  .setWidget(const BridgeSheet(), ref);
               if (!context.mounted) return;
               await BridgeInProgressPopup.getDialog(
                 context,

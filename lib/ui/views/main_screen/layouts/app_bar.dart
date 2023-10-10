@@ -1,7 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/version.dart';
-import 'package:aebridge/ui/views/main_screen/connection_to_wallet_status.dart';
-import 'package:aebridge/ui/views/main_screen/header.dart';
+import 'package:aebridge/ui/views/main_screen/layouts/connection_to_wallet_status.dart';
+import 'package:aebridge/ui/views/main_screen/layouts/header.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';

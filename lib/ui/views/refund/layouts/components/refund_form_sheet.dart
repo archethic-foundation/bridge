@@ -20,7 +20,7 @@ class RefundFormSheet extends ConsumerWidget {
     return Align(
       child: Container(
         width: 650,
-        height: 400,
+        constraints: const BoxConstraints(minHeight: 400, maxHeight: 600),
         decoration: BoxDecoration(
           gradient: BridgeThemeBase.gradientSheetBackground,
           border: GradientBoxBorder(
@@ -42,37 +42,50 @@ class RefundFormSheet extends ConsumerWidget {
             ),
           ],
         ),
-        child: ArchethicScrollbar(
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(top: 20, left: 30, right: 30),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const RefundInfo(),
-                    const SizedBox(
-                      height: 10,
+        child: Padding(
+          padding: const EdgeInsets.only(
+            left: 30,
+            right: 30,
+            top: 11,
+            bottom: 5,
+          ),
+          child: LayoutBuilder(
+            builder: (context, constraint) {
+              return ArchethicScrollbar(
+                child: Container(
+                  constraints: BoxConstraints(minHeight: constraint.maxHeight),
+                  child: IntrinsicHeight(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const RefundInfo(),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        RefundContractAddress(contractAddress: contractAddress),
+                        const RefundInfosWallet(),
+                        const RefundCanRefundInfo(),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const Spacer(),
+                        const RefundMessage(),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        const RefundTransaction(),
+                        const RefundConnectWalletButton(),
+                        const RefundButton(),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                      ],
                     ),
-                    RefundContractAddress(contractAddress: contractAddress),
-                    const RefundInfosWallet(),
-                    const RefundCanRefundInfo(),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const RefundMessage(),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    const RefundTransaction(),
-                    // TODO(everyone): Fix Strange animation
-                    const RefundConnectWalletButton(),
-                    const RefundButton(),
-                  ],
+                  ),
                 ),
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),
