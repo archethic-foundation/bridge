@@ -183,7 +183,10 @@ class EVMHTLC with EVMBridgeProcessMixin {
 
         final transactionWithdraw = Transaction.callContract(
           contract: contractHTLC,
-          function: contractHTLC.function('withdraw'),
+          function: contractHTLC.findFunctionByNameAndNbOfParameters(
+            'withdraw',
+            1,
+          ),
           parameters: [
             hexToBytes(secret),
           ],

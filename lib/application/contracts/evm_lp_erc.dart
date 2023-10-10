@@ -70,7 +70,10 @@ class EVMLPERC with EVMBridgeProcessMixin {
 
         final transactionWithdraw = Transaction.callContract(
           contract: contractHTLCERC,
-          function: contractHTLCERC.function('withdraw'),
+          function: contractHTLCERC.findFunctionByNameAndNbOfParameters(
+            'withdraw',
+            4,
+          ),
           parameters: [
             hexToBytes(secret.secret!),
             hexToBytes(secret.secretSignature!.r!),

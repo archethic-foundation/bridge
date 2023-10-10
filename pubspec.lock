@@ -54,10 +54,10 @@ packages:
     dependency: transitive
     description:
       name: archive
-      sha256: "06a96f1249f38a00435b3b0c9a3246d934d7dbc8183fc7c9e56989860edb99d4"
+      sha256: ca12e6c9ac022f33fd89128e7007fb5e97ab6e814d4fa05dd8d4f2db1e3c69cb
       url: "https://pub.dev"
     source: hosted
-    version: "3.4.4"
+    version: "3.4.5"
   args:
     dependency: transitive
     description:
@@ -230,10 +230,10 @@ packages:
     dependency: transitive
     description:
       name: coverage
-      sha256: "2fb815080e44a09b85e0f2ca8a820b15053982b2e714b59267719e8a9ff17097"
+      sha256: "595a29b55ce82d53398e1bcc2cba525d7bd7c59faeb2d2540e9d42c390cfeeeb"
       url: "https://pub.dev"
     source: hosted
-    version: "1.6.3"
+    version: "1.6.4"
   crypto:
     dependency: "direct main"
     description:
@@ -384,10 +384,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_riverpod
-      sha256: "890a872705cdbda11efd2bff2f672f1c8180b86b9509490822ee96a3e20cd4aa"
+      sha256: e667e406a74d67715f1fa0bd941d9ded49aff72f3a9f4440a36aece4e8d457a7
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.2"
+    version: "2.4.3"
   flutter_secure_storage:
     dependency: transitive
     description:
@@ -453,10 +453,10 @@ packages:
     dependency: "direct dev"
     description:
       name: freezed
-      sha256: be7826ed5d87e98c924a839542674fc14edbcb3e4fc0adbc058d680f2b241837
+      sha256: "21bf2825311de65501d22e563e3d7605dff57fb5e6da982db785ae5372ff018a"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.3"
+    version: "2.4.5"
   freezed_annotation:
     dependency: "direct main"
     description:
@@ -501,18 +501,18 @@ packages:
     dependency: transitive
     description:
       name: gql
-      sha256: "56c5707f84128dfad2db16f513bbfe011f0dae96073bbdc4e6a9925915641a03"
+      sha256: e5225e3be4d7eb4027406ab07cb68ad3a089deb3f7f6dc46edbdec78f2e5549f
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1-alpha+1691943394579"
+    version: "1.0.1-alpha+1696717343881"
   gql_dedupe_link:
     dependency: transitive
     description:
       name: gql_dedupe_link
-      sha256: "80419ab0618dea72a0961617cf24fba690ff4e63fffdd57a701b0c7de08b8360"
+      sha256: "79625bc8029755ce6b26483adf0255c6b6114acc56e7ef81469a99f1ce2296db"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.4-alpha+1691943394662"
+    version: "2.0.4-alpha+1696717344020"
   gql_error_link:
     dependency: transitive
     description:
@@ -525,10 +525,10 @@ packages:
     dependency: transitive
     description:
       name: gql_exec
-      sha256: "7b8c816f1d4830a21ae37e107bb035073b2f5613acde8f76a7768a7eb23322d3"
+      sha256: da419a3ebaae7672ed662c42d754ffba996347af7fe0ca031f1dd699334994d8
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1-alpha+1691943394588"
+    version: "1.0.1-alpha+1696717343896"
   gql_http_link:
     dependency: transitive
     description:
@@ -541,10 +541,10 @@ packages:
     dependency: transitive
     description:
       name: gql_link
-      sha256: "255a0262425b6efd9df2312fd90546105baaad22a98a9873dfca56efbe9163eb"
+      sha256: bcbb09ae8b200f413aa2d21fbf6ce4c4ac1ac443e81c612f29ef1587f4c84122
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1-alpha+1691943394596"
+    version: "1.0.1-alpha+1696717343909"
   gql_transform_link:
     dependency: transitive
     description:
@@ -885,10 +885,10 @@ packages:
     dependency: transitive
     description:
       name: platform
-      sha256: ae68c7bfcd7383af3629daafb32fb4e8681c7154428da4febcff06200585f102
+      sha256: "0a279f0707af40c890e80b1e9df8bb761694c074ba7e1d4ab1bc4b728e200b59"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.2"
+    version: "3.1.3"
   plugin_platform_interface:
     dependency: transitive
     description:
@@ -941,34 +941,34 @@ packages:
     dependency: transitive
     description:
       name: riverpod
-      sha256: ff676bd8a715c7085692fe4919564f78fb90d33b10a1c5c14e740581857cc914
+      sha256: "494bf2cfb4df30000273d3052bdb1cc1de738574c6b678f0beb146ea56f5e208"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.1"
+    version: "2.4.3"
   riverpod_analyzer_utils:
     dependency: transitive
     description:
       name: riverpod_analyzer_utils
-      sha256: aa216069d72f5478126029fa555874b4b38119f17e3f0f6c93fd63365f74502d
+      sha256: d72d7096964baf288b55619fe48100001fc4564ab7923ed0a7f5c7650e03c0d6
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.3"
+    version: "0.3.4"
   riverpod_annotation:
     dependency: "direct main"
     description:
       name: riverpod_annotation
-      sha256: aeeb1eb6ccf2d779f2ef730e6d96d560316b677662222316779a8cf0a94ee317
+      sha256: b724b2085405c4f62a1824a3fa3fb1e4858e09a4e2e8db92b7547c08d07a1377
       url: "https://pub.dev"
     source: hosted
-    version: "2.1.6"
+    version: "2.2.0"
   riverpod_generator:
     dependency: "direct dev"
     description:
       name: riverpod_generator
-      sha256: d132b1ccb476e60f99989caa6ba9b1c4d88409806c93d880d1633c60c382454d
+      sha256: "5b36ad2f2b562cffb37212e8d59390b25499bf045b732276e30a207b16a25f61"
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.2"
+    version: "2.3.3"
   rxdart:
     dependency: transitive
     description:
@@ -1114,10 +1114,10 @@ packages:
     dependency: "direct dev"
     description:
       name: test
-      sha256: "9b0dd8e36af4a5b1569029949d50a52cb2a2a2fdaa20cebb96e6603b9ae241f9"
+      sha256: a20ddc0723556dc6dd56094e58ec1529196d5d7774156604cb14e8445a5a82ff
       url: "https://pub.dev"
     source: hosted
-    version: "1.24.6"
+    version: "1.24.7"
   test_api:
     dependency: transitive
     description:
@@ -1130,10 +1130,10 @@ packages:
     dependency: transitive
     description:
       name: test_core
-      sha256: "4bef837e56375537055fdbbbf6dd458b1859881f4c7e6da936158f77d61ab265"
+      sha256: "96382d0bc826e260b077bb496259e58bc82e90b603ab16cd5ae95dfe1dfcba8b"
       url: "https://pub.dev"
     source: hosted
-    version: "0.5.6"
+    version: "0.5.7"
   timing:
     dependency: transitive
     description:
@@ -1274,10 +1274,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: c538be99af830f478718b51630ec1b6bee5e74e52c8a802d328d9e71d35d2583
+      sha256: a13d5503b4facefc515c8c587ce3cf69577a7b064a9f1220e005449cf1f64aad
       url: "https://pub.dev"
     source: hosted
-    version: "11.10.0"
+    version: "12.0.0"
   walletconnect_dart:
     dependency: "direct main"
     description:
@@ -1329,10 +1329,11 @@ packages:
   webthree:
     dependency: "direct main"
     description:
-      name: webthree
-      sha256: d34c20b20b8383dbce0cedc2fde0839efef31d2ccd3843207a4f2bc6625917d9
-      url: "https://pub.dev"
-    source: hosted
+      path: "."
+      ref: report-PR-Web3Dart
+      resolved-ref: "2b5dbd89616e9f1e0442c53b61520396d18bdbc3"
+      url: "https://github.com/redDwarf03/webthree.git"
+    source: git
     version: "2.5.9"
   win32:
     dependency: transitive

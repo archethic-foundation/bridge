@@ -58,7 +58,10 @@ class EVMLPNative with EVMBridgeProcessMixin {
 
         final transactionWithdraw = Transaction.callContract(
           contract: contractHTLCETH,
-          function: contractHTLCETH.function('withdraw'),
+          function: contractHTLCETH.findFunctionByNameAndNbOfParameters(
+            'withdraw',
+            4,
+          ),
           parameters: [
             hexToBytes(secret.secret!),
             hexToBytes(secret.secretSignature!.r!),
