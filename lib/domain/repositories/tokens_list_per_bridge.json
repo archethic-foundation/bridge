@@ -131,7 +131,7 @@
                 "poolAddressFrom": "000076922e553e45373185ff8fca84aed0036a478864fa19f39133c337a85f0e7ed7",
                 "poolAddressTo": "0x26F8C6DB23a4aa5293eEeEe8A3317773e849CF44",
                 "type": "Wrapped",
-                "tokenAddressSource": "00009dc45277589127e84d34b0ded17fee688459f22074cfe9b33ecfd2b1f050fffd"
+                "tokenAddressSource": "0000BC30E877B99FCA564DC07AF6A905EB2A85F6BB01CD270D0B3BAF056303A7759E"
             },
             {
                 "name": "Universal Coin",
@@ -279,7 +279,7 @@
                 "poolAddressFrom": "0x26F8C6DB23a4aa5293eEeEe8A3317773e849CF44",
                 "poolAddressTo": "000076922e553e45373185ff8fca84aed0036a478864fa19f39133c337a85f0e7ed7",
                 "type": "Native",
-                "tokenAddressTarget": "00009dc45277589127e84d34b0ded17fee688459f22074cfe9b33ecfd2b1f050fffd"
+                "tokenAddressTarget": "0000BC30E877B99FCA564DC07AF6A905EB2A85F6BB01CD270D0B3BAF056303A7759E"
             },
             {
                 "name": "Universal Coin",

@@ -7,6 +7,7 @@ import 'package:aebridge/application/contracts/evm_lp.dart';
 import 'package:aebridge/application/market.dart';
 import 'package:aebridge/application/oracle/state.dart';
 import 'package:aebridge/application/session/provider.dart';
+import 'package:aebridge/application/token_decimals.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/domain/models/bridge_token.dart';
 import 'package:aebridge/domain/models/failures.dart';
@@ -246,6 +247,16 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     );
     await setTokenToBridgeBalance(balance);
 
+    final tokenDecimals = await ref.read(
+      TokenDecimalsProviders.getTokenDecimals(
+        state.blockchainFrom!.isArchethic,
+        state.tokenToBridge!.type,
+        state.tokenToBridge!.tokenAddressSource,
+        providerEndpoint: state.blockchainFrom!.providerEndpoint,
+      ).future,
+    );
+    await setTokenToBridgeDecimals(tokenDecimals);
+
     late final String typeTarget;
     switch (state.tokenToBridge!.type) {
       case 'ERC20':
@@ -275,6 +286,15 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   ) async {
     state = state.copyWith(
       tokenToBridgeBalance: tokenToBridgeBalance,
+    );
+    await storeBridge();
+  }
+
+  Future<void> setTokenToBridgeDecimals(
+    int tokenToBridgeDecimals,
+  ) async {
+    state = state.copyWith(
+      tokenToBridgeDecimals: tokenToBridgeDecimals,
     );
     await storeBridge();
   }
@@ -360,6 +380,7 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       tokenToBridgeAmount: 0,
       tokenToBridgeBalance: 0,
       tokenBridgedBalance: 0,
+      tokenToBridgeDecimals: 8,
       waitForWalletConfirmation: null,
       timestampExec: null,
       htlcAEAddress: null,

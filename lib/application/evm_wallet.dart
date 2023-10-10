@@ -157,6 +157,65 @@ class EVMWalletProvider extends ChangeNotifier {
       return 0.0;
     }
   }
+
+  Future<int> getTokenDecimals(
+    String providerEndpoint,
+    String typeToken, {
+    String erc20address = '',
+  }) async {
+    const defaultDecimal = 8;
+
+    try {
+      if (web3Client == null || credentials == null) {
+        return 8;
+      }
+      switch (typeToken) {
+        case 'Native':
+          return defaultDecimal;
+        case 'ERC20':
+        case 'Wrapped':
+          if (erc20address.isEmpty) {
+            return defaultDecimal;
+          }
+          final client = Web3Client(
+            providerEndpoint,
+            Client(),
+          );
+
+          debugPrint('erc20address $erc20address');
+
+          final abiTokenStringJson = jsonDecode(
+            await rootBundle
+                .loadString('contracts/evm/build/contracts/IERC20.json'),
+          );
+
+          final contractToken = DeployedContract(
+            ContractAbi.fromJson(
+              jsonEncode(abiTokenStringJson['abi']),
+              abiTokenStringJson['contractName'] as String,
+            ),
+            EthereumAddress.fromHex(erc20address),
+          );
+
+          final decimalsResponse = await client.call(
+            contract: contractToken,
+            function: contractToken.function('decimals'),
+            params: [],
+          );
+
+          debugPrint(
+            '${decimalsResponse[0]}',
+          );
+
+          return decimalsResponse[0].toInt();
+        default:
+          return defaultDecimal;
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+      return defaultDecimal;
+    }
+  }
 }
 
 @JS()

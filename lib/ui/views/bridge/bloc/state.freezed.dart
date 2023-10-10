@@ -32,6 +32,7 @@ mixin _$BridgeFormState {
   String get targetAddress => throw _privateConstructorUsedError;
   double get tokenToBridgeBalance => throw _privateConstructorUsedError;
   double get tokenBridgedBalance => throw _privateConstructorUsedError;
+  int get tokenToBridgeDecimals => throw _privateConstructorUsedError;
   double get coingeckoPrice => throw _privateConstructorUsedError;
   @FailureJsonConverter()
   Failure? get failure => throw _privateConstructorUsedError;
@@ -75,6 +76,7 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       String targetAddress,
       double tokenToBridgeBalance,
       double tokenBridgedBalance,
+      int tokenToBridgeDecimals,
       double coingeckoPrice,
       @FailureJsonConverter() Failure? failure,
       bool isTransferInProgress,
@@ -121,6 +123,7 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? targetAddress = null,
     Object? tokenToBridgeBalance = null,
     Object? tokenBridgedBalance = null,
+    Object? tokenToBridgeDecimals = null,
     Object? coingeckoPrice = null,
     Object? failure = freezed,
     Object? isTransferInProgress = null,
@@ -175,6 +178,10 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
           ? _value.tokenBridgedBalance
           : tokenBridgedBalance // ignore: cast_nullable_to_non_nullable
               as double,
+      tokenToBridgeDecimals: null == tokenToBridgeDecimals
+          ? _value.tokenToBridgeDecimals
+          : tokenToBridgeDecimals // ignore: cast_nullable_to_non_nullable
+              as int,
       coingeckoPrice: null == coingeckoPrice
           ? _value.coingeckoPrice
           : coingeckoPrice // ignore: cast_nullable_to_non_nullable
@@ -322,6 +329,7 @@ abstract class _$$BridgeFormStateImplCopyWith<$Res>
       String targetAddress,
       double tokenToBridgeBalance,
       double tokenBridgedBalance,
+      int tokenToBridgeDecimals,
       double coingeckoPrice,
       @FailureJsonConverter() Failure? failure,
       bool isTransferInProgress,
@@ -371,6 +379,7 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
     Object? targetAddress = null,
     Object? tokenToBridgeBalance = null,
     Object? tokenBridgedBalance = null,
+    Object? tokenToBridgeDecimals = null,
     Object? coingeckoPrice = null,
     Object? failure = freezed,
     Object? isTransferInProgress = null,
@@ -425,6 +434,10 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
           ? _value.tokenBridgedBalance
           : tokenBridgedBalance // ignore: cast_nullable_to_non_nullable
               as double,
+      tokenToBridgeDecimals: null == tokenToBridgeDecimals
+          ? _value.tokenToBridgeDecimals
+          : tokenToBridgeDecimals // ignore: cast_nullable_to_non_nullable
+              as int,
       coingeckoPrice: null == coingeckoPrice
           ? _value.coingeckoPrice
           : coingeckoPrice // ignore: cast_nullable_to_non_nullable
@@ -506,6 +519,7 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
       this.targetAddress = '',
       this.tokenToBridgeBalance = 0,
       this.tokenBridgedBalance = 0,
+      this.tokenToBridgeDecimals = 8,
       this.coingeckoPrice = 0,
       @FailureJsonConverter() this.failure,
       this.isTransferInProgress = false,
@@ -555,6 +569,9 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
   @override
   @JsonKey()
   final double tokenBridgedBalance;
+  @override
+  @JsonKey()
+  final int tokenToBridgeDecimals;
   @override
   @JsonKey()
   final double coingeckoPrice;
@@ -609,7 +626,7 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
 
   @override
   String toString() {
-    return 'BridgeFormState(resumeProcess: $resumeProcess, bridgeProcessStep: $bridgeProcessStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, coingeckoPrice: $coingeckoPrice, failure: $failure, isTransferInProgress: $isTransferInProgress, waitForWalletConfirmation: $waitForWalletConfirmation, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, secret: $secret, safetyModuleFeesRate: $safetyModuleFeesRate, safetyModuleFeesAddress: $safetyModuleFeesAddress, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees)';
+    return 'BridgeFormState(resumeProcess: $resumeProcess, bridgeProcessStep: $bridgeProcessStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, tokenToBridgeDecimals: $tokenToBridgeDecimals, coingeckoPrice: $coingeckoPrice, failure: $failure, isTransferInProgress: $isTransferInProgress, waitForWalletConfirmation: $waitForWalletConfirmation, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, secret: $secret, safetyModuleFeesRate: $safetyModuleFeesRate, safetyModuleFeesAddress: $safetyModuleFeesAddress, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees)';
   }
 
   @override
@@ -635,13 +652,14 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
                 other.tokenToBridgeBalance == tokenToBridgeBalance) &&
             (identical(other.tokenBridgedBalance, tokenBridgedBalance) ||
                 other.tokenBridgedBalance == tokenBridgedBalance) &&
+            (identical(other.tokenToBridgeDecimals, tokenToBridgeDecimals) ||
+                other.tokenToBridgeDecimals == tokenToBridgeDecimals) &&
             (identical(other.coingeckoPrice, coingeckoPrice) ||
                 other.coingeckoPrice == coingeckoPrice) &&
             (identical(other.failure, failure) || other.failure == failure) &&
             (identical(other.isTransferInProgress, isTransferInProgress) ||
                 other.isTransferInProgress == isTransferInProgress) &&
-            (identical(other.waitForWalletConfirmation,
-                    waitForWalletConfirmation) ||
+            (identical(other.waitForWalletConfirmation, waitForWalletConfirmation) ||
                 other.waitForWalletConfirmation == waitForWalletConfirmation) &&
             (identical(other.currentStep, currentStep) ||
                 other.currentStep == currentStep) &&
@@ -668,7 +686,8 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
                     archethicProtocolFeesAddress) ||
                 other.archethicProtocolFeesAddress ==
                     archethicProtocolFeesAddress) &&
-            (identical(other.archethicTransactionFees, archethicTransactionFees) ||
+            (identical(
+                    other.archethicTransactionFees, archethicTransactionFees) ||
                 other.archethicTransactionFees == archethicTransactionFees));
   }
 
@@ -685,6 +704,7 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
         targetAddress,
         tokenToBridgeBalance,
         tokenBridgedBalance,
+        tokenToBridgeDecimals,
         coingeckoPrice,
         failure,
         isTransferInProgress,
@@ -729,6 +749,7 @@ abstract class _BridgeFormState extends BridgeFormState {
       final String targetAddress,
       final double tokenToBridgeBalance,
       final double tokenBridgedBalance,
+      final int tokenToBridgeDecimals,
       final double coingeckoPrice,
       @FailureJsonConverter() final Failure? failure,
       final bool isTransferInProgress,
@@ -772,6 +793,8 @@ abstract class _BridgeFormState extends BridgeFormState {
   double get tokenToBridgeBalance;
   @override
   double get tokenBridgedBalance;
+  @override
+  int get tokenToBridgeDecimals;
   @override
   double get coingeckoPrice;
   @override

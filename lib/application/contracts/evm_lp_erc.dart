@@ -32,14 +32,14 @@ class EVMLPERC with EVMBridgeProcessMixin {
         final evmWalletProvider = sl.get<EVMWalletProvider>();
         debugPrint('providerEndpoint: $providerEndpoint');
 
-        final contractDummyToken =
+        final contract =
             await getDeployedContract(contractNameIERC20, tokenAddress);
 
         final amountInWei = BigInt.from(amount * 1e18);
 
         final transactionTransfer = Transaction.callContract(
-          contract: contractDummyToken,
-          function: contractDummyToken.function('transfer'),
+          contract: contract,
+          function: contract.function('transfer'),
           parameters: [
             EthereumAddress.fromHex(htlcContractAddress),
             amountInWei,
@@ -110,6 +110,28 @@ class EVMLPERC with EVMBridgeProcessMixin {
 
         final etherAmount = EtherAmount.fromBigInt(EtherUnit.wei, fee);
         return etherAmount.getValueInUnit(EtherUnit.ether);
+      },
+    );
+  }
+
+  Future<Result<int, Failure>> getTokenNbOfDecimal(String tokenAddress) async {
+    return Result.guard(
+      () async {
+        final contractHTLC = await getDeployedContract(
+          contractNameIERC20,
+          tokenAddress,
+        );
+
+        final decimalsMap = await web3Client!.call(
+          contract: contractHTLC,
+          function: contractHTLC.function('decimals'),
+          params: [],
+        );
+
+        final int decimals = decimalsMap[0].toInt();
+        debugPrint('Token decimals: $decimals');
+
+        return decimals;
       },
     );
   }

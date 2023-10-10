@@ -51,6 +51,7 @@
   "bridge_token_bridged_lbl": "Target token",
   "bridge_target_address_lbl": "Address to which you can send your token",
   "bridge_token_amount_lbl": "Amount to send",
+  "bridge_token_bridged_decimals_lbl": "Number of decimals:",
   "token_selection_title": "Select a token",
   "addressCopied": "Address copied",
   "blockchain_selection_test_included_lbl": "Include testnet ?",

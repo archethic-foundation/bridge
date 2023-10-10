@@ -121,8 +121,14 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                                 textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.text,
                                 inputFormatters: <TextInputFormatter>[
-                                  AmountTextInputFormatter(precision: 8),
-                                  LengthLimitingTextInputFormatter(18),
+                                  AmountTextInputFormatter(
+                                    precision: bridge.tokenToBridgeDecimals,
+                                  ),
+                                  LengthLimitingTextInputFormatter(
+                                    bridge.tokenToBridgeBalance.toInt() +
+                                        bridge.tokenToBridgeDecimals +
+                                        1,
+                                  ),
                                 ],
                                 decoration: const InputDecoration(
                                   border: InputBorder.none,
@@ -162,24 +168,32 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
             ),
           ],
         ),
-        FutureBuilder<String>(
-          future: FiatValue().display(
-            ref,
-            bridge.tokenToBridge!.symbol,
-            bridge.tokenToBridgeAmount,
-            withParenthesis: false,
-          ),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Align(
-                alignment: Alignment.centerRight,
-                child: Text(
-                  '${snapshot.data}',
-                ),
-              );
-            }
-            return const SizedBox();
-          },
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '${AppLocalizations.of(context)!.bridge_token_bridged_decimals_lbl} ${bridge.tokenToBridgeDecimals}',
+            ),
+            FutureBuilder<String>(
+              future: FiatValue().display(
+                ref,
+                bridge.tokenToBridge!.symbol,
+                bridge.tokenToBridgeAmount,
+                withParenthesis: false,
+              ),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      '${snapshot.data}',
+                    ),
+                  );
+                }
+                return const SizedBox();
+              },
+            ),
+          ],
         ),
       ],
     )

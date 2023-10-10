@@ -24,6 +24,7 @@ class BridgeFormState with _$BridgeFormState {
     @Default('') String targetAddress,
     @Default(0) double tokenToBridgeBalance,
     @Default(0) double tokenBridgedBalance,
+    @Default(8) int tokenToBridgeDecimals,
     @Default(0) double coingeckoPrice,
     @FailureJsonConverter() Failure? failure,
     @Default(false) bool isTransferInProgress,
