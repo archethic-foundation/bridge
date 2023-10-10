@@ -48,23 +48,6 @@ class ArchethicContract with TransactionBridgeMixin {
           publicKey: storageNoncePublicKey,
         );
 
-        // Faucet poolAddress
-        var transactionTransfer =
-            Transaction(type: 'transfer', data: Transaction.initData())
-                .addUCOTransfer(htlcGenesisAddress, toBigInt(1));
-
-        final currentNameAccount = await getCurrentAccount();
-
-        transactionTransfer = (await signTx(
-          Uri.encodeFull('archethic-wallet-$currentNameAccount'),
-          '',
-          [transactionTransfer],
-        ))
-            .first;
-
-        debugPrint(
-          'deployHTLC - Tx address : ${transactionTransfer.address!.address!}',
-        );
         final indexMap =
             await apiService.getTransactionIndex([htlcGenesisAddress]);
         final index = indexMap[htlcGenesisAddress] ?? 0;
@@ -100,9 +83,92 @@ class ArchethicContract with TransactionBridgeMixin {
               .originSign(originPrivateKey);
         }
 
+        final fees = await calculateFees(transactionFinal);
+        var transactionTransfer =
+            Transaction(type: 'transfer', data: Transaction.initData())
+                .addUCOTransfer(
+          htlcGenesisAddress,
+          toBigInt(
+            fees,
+          ),
+        );
+
+        final currentNameAccount = await getCurrentAccount();
+
+        transactionTransfer = (await signTx(
+          Uri.encodeFull('archethic-wallet-$currentNameAccount'),
+          '',
+          [transactionTransfer],
+        ))
+            .first;
+
+        debugPrint(
+          'deployHTLC - Tx address : ${transactionTransfer.address!.address!}',
+        );
+
         await sendTransactions(
           <Transaction>[transactionTransfer, transactionFinal],
         );
+      },
+    );
+  }
+
+  // TODO(reddwarf03): To be finished
+  Future<Result<double, Failure>> estimateDeployHTLCFees(
+    Recipient? recipient,
+    String code,
+  ) async {
+    return Result.guard(
+      () async {
+        final apiService = sl.get<ApiService>();
+        final falseSeedSC = generateRandomSeed();
+
+        final storageNoncePublicKey =
+            await apiService.getStorageNoncePublicKey();
+        final aesKey = uint8ListToHex(
+          Uint8List.fromList(
+            List<int>.generate(32, (int i) => Random.secure().nextInt(256)),
+          ),
+        );
+        final scAuthorizedKey = AuthorizedKey(
+          encryptedSecretKey:
+              uint8ListToHex(ecEncrypt(aesKey, storageNoncePublicKey)),
+          publicKey: storageNoncePublicKey,
+        );
+
+        final originPrivateKey = apiService.getOriginKey();
+        final transactionSC =
+            Transaction(type: 'contract', data: Transaction.initData())
+                .setCode(code)
+                .addOwnership(
+          uint8ListToHex(
+            aesEncrypt(falseSeedSC, aesKey),
+          ),
+          [scAuthorizedKey],
+        );
+
+        late Transaction transactionFinal;
+        if (recipient != null) {
+          transactionFinal = transactionSC
+              .addRecipient(
+                recipient.address!,
+                action: recipient.action,
+                args: recipient.args,
+              )
+              .build(falseSeedSC, 0)
+              .transaction
+              .originSign(originPrivateKey);
+        } else {
+          transactionFinal = transactionSC
+              .build(falseSeedSC, 0)
+              .transaction
+              .originSign(originPrivateKey);
+        }
+
+        final fees = await calculateFees(transactionFinal);
+        return toBigInt(
+          fees,
+        ).toDouble();
       },
     );
   }

@@ -612,6 +612,9 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     await setArchethicProtocolFeesRate(archethicProtocolFees.rate);
     await setArchethicProtocolFeesAddress(archethicProtocolFees.address);
     await setCoingeckoPrice();
+
+    //final aeHTLCFees = await ArchethicContract().estimateDeployHTLCFees();
+
     await setBridgeProcessStep(
       BridgeProcessStep.confirmation,
     );

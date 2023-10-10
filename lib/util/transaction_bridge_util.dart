@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
@@ -13,7 +12,7 @@ mixin TransactionBridgeMixin {
     final transactionFee =
         await sl.get<ApiService>().getTransactionFee(transaction);
     final fees = fromBigInt(transactionFee.fee) * slippage;
-    log(
+    debugPrint(
       'Transaction ${transaction.address} : $fees UCO',
     );
     return fees;
@@ -56,13 +55,15 @@ mixin TransactionBridgeMixin {
             '${sl.get<ApiService>().endpoint}/socket/websocket',
         websocketEndpoint: websocketEndpoint,
       );
-      log('Send ${transaction.address!.address}');
+      debugPrint('Send ${transaction.address!.address}');
 
       await transactionRepository.send(
         transaction: transaction,
         onConfirmation: (confirmation) async {
           if (confirmation.isEnoughConfirmed) {
-            log('nbConfirmations: ${confirmation.nbConfirmations}, transactionAddress: ${confirmation.transactionAddress}, maxConfirmations: ${confirmation.maxConfirmations}');
+            debugPrint(
+              'nbConfirmations: ${confirmation.nbConfirmations}, transactionAddress: ${confirmation.transactionAddress}, maxConfirmations: ${confirmation.maxConfirmations}',
+            );
             transactionRepository.close();
             next = true;
           }
@@ -97,7 +98,7 @@ mixin TransactionBridgeMixin {
 
       while (next == false && errorDetail.isEmpty) {
         await Future.delayed(const Duration(seconds: 1));
-        log('wait...');
+        debugPrint('wait...');
       }
     }
 
@@ -125,9 +126,8 @@ mixin TransactionBridgeMixin {
         await sl.get<awc.ArchethicDAppClient>().signTransactions(payload);
     result.when(
       failure: (failure) {
-        log(
-          'Signature failed',
-          error: failure,
+        debugPrint(
+          'Signature failed $failure',
         );
         debugPrint('signTx: $failure');
         if (failure.code == 4001) {
