@@ -46,36 +46,30 @@ In order to develop and test the application, you need to have some prerequisite
     If you want to fill Pool and Factory chains with faucet, you can ,before start the node, update the `Archethic.Bootstrap.NetworkInit` section in `config/dev.exs` Node's file
     ```elixir
 
-    # Faucet
-    # Factory: 00006e985f953bba22776b1ce8202789002447f8129a8837db811e5438e5450d0584
-    # Pool UCO: 00004ae35d87f8a74f3101a020c26676c3f80c62e4bf49d9ceea7ac5b72587b43aa3
-    # Pool aeETH: 000076922e553e45373185ff8fca84aed0036a478864fa19f39133c337a85f0e7ed7
+    # Master Chain (pools' management): 000023ca0313eb76617060ae119b48e98e689f2b2ef030e6df063d426dc0b00f4428
+    # Pool UCO: 0000f53a34560bfe06b01689e585d53c07671f6eaa1b31e62659d8f7d5292f066941
+    # Faucet: 00001259AE51A6E63A1E04E308C5E769E0E9D15BFFE4E7880266C8FA10C3ADD7B7A2
     config :archethic, Archethic.Bootstrap.NetworkInit,
     genesis_pools: [
     %{
       address:
-        "00001259AE51A6E63A1E04E308C5E769E0E9D15BFFE4E7880266C8FA10C3ADD7B7A2"
+        "000023ca0313eb76617060ae119b48e98e689f2b2ef030e6df063d426dc0b00f4428"
         |> Base.decode16!(case: :mixed),
       amount: 1_000_000_000_000_000
     },
     %{
       address:
-        "00006e985f953bba22776b1ce8202789002447f8129a8837db811e5438e5450d0584"
+        "0000f53a34560bfe06b01689e585d53c07671f6eaa1b31e62659d8f7d5292f066941"
         |> Base.decode16!(case: :mixed),
-      amount: 1_000_000_000_000_000_000_000
+      amount: 1_000_000_000_000_000
     },
     %{
       address:
-        "00004ae35d87f8a74f3101a020c26676c3f80c62e4bf49d9ceea7ac5b72587b43aa3"
+        "00001259AE51A6E63A1E04E308C5E769E0E9D15BFFE4E7880266C8FA10C3ADD7B7A2"
         |> Base.decode16!(case: :mixed),
-      amount: 1_000_000_000_000_000_000_000
-    },
-    %{
-      address:
-        "000076922e553e45373185ff8fca84aed0036a478864fa19f39133c337a85f0e7ed7"
-        |> Base.decode16!(case: :mixed),
-      amount: 1_000_000_000_000_000_000_000
-    }]
+      amount: 1_000_000_000_000_000
+    }
+  ]
     ```
 
   - Launch the Archethic Wallet in desktop version (Linux, Windows, MacOS)
@@ -85,7 +79,7 @@ In order to develop and test the application, you need to have some prerequisite
 #### 3) Deploy Archethic Pools
   - Execute the following commands to deploy the contracts
     ```bash
-    cd contracts/archethic;npm install;node deploy_factory.js;node deploy_pool.js UCO;node deploy_pool.js aeETH;cd -
+    cd contracts/archethic;npm install;node bridge init_keychain;node bridge deploy_factory;node bridge deploy_pool --token UCO;node bridge deploy_pool --token aeETH;cd -
     ```
     - If you encounter an "Insufficient funds" error:
       - [Obtain UCO tokens from the faucet for the Pool genesis address](http://localhost:4000/faucet) (with 300 UCO)

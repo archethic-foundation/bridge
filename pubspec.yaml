@@ -2,7 +2,7 @@ name: aebridge
 description: Enable interoperability and facilitate the transfer of data and assets between the two blockchains.
 publish_to: "none"
 
-version: 0.0.9+5
+version: 0.0.9+6
 
 environment:
   sdk: ">=3.1.0 <4.0.0"
