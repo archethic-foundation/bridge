@@ -12,7 +12,6 @@ class FormatAddressLinkCopy extends ConsumerWidget {
   const FormatAddressLinkCopy({
     required this.address,
     required this.chainId,
-    this.expanded = true,
     this.reduceAddress = false,
     this.fontSize = 13,
     super.key,
@@ -20,7 +19,6 @@ class FormatAddressLinkCopy extends ConsumerWidget {
 
   final int chainId;
   final String address;
-  final bool expanded;
   final bool reduceAddress;
   final double fontSize;
 
@@ -49,12 +47,7 @@ class FormatAddressLinkCopy extends ConsumerWidget {
 
     return Wrap(
       children: [
-        if (expanded)
-          Expanded(
-            child: _address(),
-          )
-        else
-          _address(),
+        _address(),
         const SizedBox(width: 5),
         InkWell(
           onTap: () {

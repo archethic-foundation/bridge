@@ -40,6 +40,9 @@ class LocalHistoryCardTrfInfos extends ConsumerWidget {
                       if (snapshot.hasData) {
                         return SelectableText(
                           '${bridge.tokenToBridgeAmount.toString().formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data} ${AppLocalizations.of(context)!.localHistoryToLbl}',
+                          style: const TextStyle(
+                            fontSize: 13,
+                          ),
                         );
                       }
                       return const SizedBox();
@@ -48,7 +51,6 @@ class LocalHistoryCardTrfInfos extends ConsumerWidget {
                   FormatAddressLinkCopy(
                     address: bridge.targetAddress,
                     chainId: bridge.blockchainTo!.chainId,
-                    expanded: false,
                   ),
                 ],
               ),

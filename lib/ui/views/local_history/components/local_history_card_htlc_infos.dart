@@ -29,11 +29,13 @@ class LocalHistoryCardHTLCInfos extends StatelessWidget {
               children: [
                 SelectableText(
                   '${bridge.blockchainFrom!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
+                  style: const TextStyle(
+                    fontSize: 13,
+                  ),
                 ),
                 FormatAddressLinkCopy(
                   address: bridge.blockchainFrom!.htlcAddress!,
                   chainId: bridge.blockchainFrom!.chainId,
-                  expanded: false,
                 ),
               ],
             ),
@@ -44,11 +46,13 @@ class LocalHistoryCardHTLCInfos extends StatelessWidget {
               children: [
                 SelectableText(
                   '${bridge.blockchainTo!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
+                  style: const TextStyle(
+                    fontSize: 13,
+                  ),
                 ),
                 FormatAddressLinkCopy(
                   address: bridge.blockchainTo!.htlcAddress!,
                   chainId: bridge.blockchainTo!.chainId,
-                  expanded: false,
                 ),
               ],
             ),

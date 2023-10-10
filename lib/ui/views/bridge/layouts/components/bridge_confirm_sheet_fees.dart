@@ -139,7 +139,6 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
         FormatAddressLinkCopy(
           address: bridge.safetyModuleFeesAddress,
           chainId: bridge.blockchainFrom!.chainId,
-          expanded: false,
           reduceAddress: true,
           fontSize: Theme.of(context).textTheme.labelSmall!.fontSize!,
         ),
@@ -197,7 +196,6 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
         FormatAddressLinkCopy(
           address: bridge.archethicProtocolFeesAddress,
           chainId: bridge.blockchainFrom!.chainId,
-          expanded: false,
           reduceAddress: true,
           fontSize: Theme.of(context).textTheme.labelSmall!.fontSize!,
         ),

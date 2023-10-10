@@ -157,16 +157,23 @@ mixin TransactionBridgeMixin {
 
   Future<String> getCurrentAccount() async {
     var accountName = '';
-    final result = await sl.get<awc.ArchethicDAppClient>().getCurrentAccount();
 
-    result.when(
-      failure: (failure) {
-        throw Exception('An error occurs');
-      },
-      success: (result) {
-        accountName = result.shortName;
-      },
-    );
+    // TODO(a): remove the try catch, not mandatory but I added it to have the connection issue front exception for the user
+    try {
+      final result =
+          await sl.get<awc.ArchethicDAppClient>().getCurrentAccount();
+      result.when(
+        failure: (failure) {
+          throw Exception('An error occurs');
+        },
+        success: (result) {
+          accountName = result.shortName;
+        },
+      );
+    } catch (exc) {
+      debugPrint(exc.toString());
+    }
+
     return accountName;
   }
 }

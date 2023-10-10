@@ -91,7 +91,6 @@ class BridgeConfirmSheet extends ConsumerWidget {
                 FormatAddressLinkCopy(
                   address: bridge.targetAddress,
                   chainId: bridge.blockchainTo!.chainId,
-                  expanded: false,
                   reduceAddress: true,
                 ),
               ],

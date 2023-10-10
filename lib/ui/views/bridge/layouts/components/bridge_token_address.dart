@@ -27,7 +27,6 @@ class BridgeTokenAddress extends ConsumerWidget {
             address: bridge.tokenToBridge!.tokenAddressSource,
             chainId: bridge.blockchainFrom!.chainId,
             reduceAddress: true,
-            expanded: false,
           ),
         if (bridge.tokenToBridge!.tokenAddressTarget.isEmpty)
           const SizedBox()
@@ -36,7 +35,6 @@ class BridgeTokenAddress extends ConsumerWidget {
             address: bridge.tokenToBridge!.tokenAddressTarget,
             chainId: bridge.blockchainTo!.chainId,
             reduceAddress: true,
-            expanded: false,
           ),
       ],
     );
