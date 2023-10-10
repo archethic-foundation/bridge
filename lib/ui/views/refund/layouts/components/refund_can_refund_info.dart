@@ -15,11 +15,7 @@ class RefundCanRefundInfo extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final refund = ref.watch(RefundFormProvider.refundForm);
-    if (refund.htlcCanRefund == false ||
-        (refund.isAlreadyRefunded != null &&
-            refund.isAlreadyRefunded == true)) {
-      return const SizedBox();
-    }
+
     if (refund.htlcCanRefund) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
@@ -63,7 +59,9 @@ class RefundCanRefundInfo extends ConsumerWidget {
                       DateFormat.yMd(
                         Localizations.localeOf(context).languageCode,
                       ).add_Hms().format(
-                            DateTime(refund.htlcDateLock!).toLocal(),
+                            DateTime.fromMillisecondsSinceEpoch(
+                              refund.htlcDateLock! * 1000,
+                            ).toLocal(),
                           ),
                     ),
                 style: TextStyle(color: ArchethicThemeBase.systemDanger300),

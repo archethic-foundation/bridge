@@ -58,7 +58,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       final chainId = sl.get<EVMWalletProvider>().currentChain ?? 0;
 
       final resultLockTime = await EVMHTLC(
-        state.evmWallet!.providerEndpoint!,
+        state.evmWallet!.providerEndpoint,
         state.contractAddress,
         chainId,
       ).getHTLCLockTimeAndRefundState();
@@ -73,7 +73,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       );
 
       final evmHTLC = EVMHTLC(
-        state.evmWallet!.providerEndpoint!,
+        state.evmWallet!.providerEndpoint,
         state.contractAddress,
         chainId,
       );

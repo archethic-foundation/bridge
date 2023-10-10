@@ -2,7 +2,9 @@
 import 'dart:async';
 
 import 'package:aebridge/application/contracts/evm_htlc.dart';
+import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
+import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RefunEVMCase {
@@ -13,11 +15,13 @@ class RefunEVMCase {
   ) async {
     final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier);
 
-    // TODO(reddwarf03): Use dynamic provider
+    final web3Client = sl.get<EVMWalletProvider>().web3Client;
+
     final result = await EVMHTLC(
-      'http://127.0.0.1:7545',
+      null,
       htlcContractAddress,
       chaindId,
+      web3ClientProvided: web3Client,
     ).refund();
     result.map(
       success: (refundTxAddress) {

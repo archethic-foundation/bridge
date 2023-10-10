@@ -24,13 +24,20 @@ class RefundButton extends ConsumerWidget {
       return const SizedBox();
     }
 
-    return AppButton(
-      labelBtn: AppLocalizations.of(context)!.btn_refund,
-      icon: Iconsax.empty_wallet_change,
-      onPressed: () async {
-        final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier);
-        await refundNotifier.refund(context, ref);
-      },
-    );
+    return refund.htlcCanRefund == false
+        ? AppButton(
+            labelBtn: AppLocalizations.of(context)!.btn_refund,
+            icon: Iconsax.empty_wallet_change,
+            disabled: true,
+          )
+        : AppButton(
+            labelBtn: AppLocalizations.of(context)!.btn_refund,
+            icon: Iconsax.empty_wallet_change,
+            onPressed: () async {
+              final refundNotifier =
+                  ref.read(RefundFormProvider.refundForm.notifier);
+              await refundNotifier.refund(context, ref);
+            },
+          );
   }
 }

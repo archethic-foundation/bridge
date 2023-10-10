@@ -13,14 +13,20 @@ class EVMHTLC with EVMBridgeProcessMixin {
   EVMHTLC(
     this.providerEndpoint,
     this.htlcContractAddress,
-    this.chainId,
-  ) {
-    web3Client = Web3Client(providerEndpoint, Client());
+    this.chainId, {
+    this.web3ClientProvided,
+  }) {
+    if (web3ClientProvided != null) {
+      web3Client = web3ClientProvided;
+    } else {
+      web3Client = Web3Client(providerEndpoint!, Client());
+    }
   }
 
-  final String providerEndpoint;
+  final String? providerEndpoint;
   final String htlcContractAddress;
   Web3Client? web3Client;
+  Web3Client? web3ClientProvided;
   final int chainId;
 
   Future<Result<String, Failure>> refund() async {
@@ -82,6 +88,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
 
     final BigInt lockTime = lockTimeMap[0];
     debugPrint('HTLC lockTime: $lockTime');
+    debugPrint('Now : ${DateTime.now().millisecondsSinceEpoch ~/ 1000}');
 
     return lockTime.toInt();
   }
@@ -89,12 +96,10 @@ class EVMHTLC with EVMBridgeProcessMixin {
   Future<Result<double, Failure>> getAmount() async {
     return Result.guard(
       () async {
-        final web3Client = Web3Client(providerEndpoint, Client());
-
         final contractHTLC =
             await getDeployedContract(contractNameIHTLC, htlcContractAddress);
 
-        final amountMap = await web3Client.call(
+        final amountMap = await web3Client!.call(
           contract: contractHTLC,
           function: contractHTLC.function('amount'),
           params: [],
@@ -112,10 +117,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
   Future<int> _getDateLockTime() async {
     final contract =
         await getDeployedContract(contractNameIHTLC, htlcContractAddress);
-    final lockTime = await _getLockTime(contract);
-    debugPrint('HTLC DateLockTime: $lockTime');
-
-    return lockTime;
+    return _getLockTime(contract);
   }
 
   Future<bool> _isCanRefund() async {
@@ -125,7 +127,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
       contract: contract,
       function: contract.function('canRefund'),
       params: [
-        BigInt.from(DateTime.now().millisecondsSinceEpoch * 1000),
+        BigInt.from(DateTime.now().millisecondsSinceEpoch ~/ 1000),
       ],
     );
 
