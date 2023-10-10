@@ -16,7 +16,7 @@
             "icon": "Archethic.svg",
             "urlExplorer": "https://testnet.archethic.net/explorer/transaction/",
             "isArchethic": true,
-            "archethicFactoryAddress": ""
+            "archethicFactoryAddress": "0000795bfd6ca2f5ea9f378c20775caf798e9bfbff6aec94bf87ad8d59233b4fa299"
         },
         {
             "name": "Archethic Devnet",
@@ -25,7 +25,7 @@
             "icon": "Archethic.svg",
             "urlExplorer": "http://localhost:4000/explorer/transaction/",
             "isArchethic": true,
-            "archethicFactoryAddress": "00006e985f953bba22776b1ce8202789002447f8129a8837db811e5438e5450d0584"
+            "archethicFactoryAddress": "00004f53ed49c11ee3ff80d0abf608180bde9954dee20ede4dfa092a8c93d6ca26a9"
         },
         {
             "name": "Ethereum",
