@@ -3,7 +3,6 @@ import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/ui/views/blockchain_selection/bloc/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -70,11 +69,7 @@ class _BlockchainsList extends StatelessWidget {
         shrinkWrap: true,
         itemCount: blockchains.length,
         itemBuilder: (BuildContext context, int index) {
-          return _SingleBlockchain(blockchain: blockchains[index])
-              .animate(delay: (100 * index).ms)
-              .fadeIn(duration: 500.ms, delay: 100.ms)
-              .shimmer(blendMode: BlendMode.srcOver, color: Colors.white12)
-              .move(begin: const Offset(-16, 0), curve: Curves.easeOutQuad);
+          return _SingleBlockchain(blockchain: blockchains[index]);
         },
       ),
     );

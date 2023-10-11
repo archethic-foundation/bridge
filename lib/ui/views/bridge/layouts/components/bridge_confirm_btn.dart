@@ -38,7 +38,9 @@ class BridgeConfirmButton extends ConsumerWidget {
           final bridgeNotifier = ref
               .read(BridgeFormProvider.bridgeForm.notifier)
             ..setResumeProcess(true);
-          await bridgeNotifier.bridge(context, ref);
+          unawaited(
+            bridgeNotifier.bridge(context, ref),
+          );
 
           if (!context.mounted) return;
           await BridgeInProgressPopup.getDialog(
