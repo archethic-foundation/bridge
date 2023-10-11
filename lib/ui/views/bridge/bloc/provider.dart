@@ -33,12 +33,17 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
 
   Future<void> resume(BridgeFormState bridgeFormState) async {
     // TODO(reddwarf03): stop process when an operation fails
+    state = bridgeFormState.copyWith(
+      resumeProcess: true,
+      bridgeProcessStep: BridgeProcessStep.confirmation,
+      isTransferInProgress: false,
+    );
+
     await setBlockchainFromWithConnection(bridgeFormState.blockchainFrom!);
     await setBlockchainToWithConnection(bridgeFormState.blockchainTo!);
-    state = bridgeFormState.copyWith(
-      failure: null,
-      isTransferInProgress: true,
-    );
+    state = bridgeFormState.copyWith(failure: bridgeFormState.failure);
+    await storeBridge();
+    debugPrint('$state');
   }
 
   Future<void> storeBridge() async {

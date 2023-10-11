@@ -2,7 +2,6 @@
 import 'package:aebridge/application/bridge_token.dart';
 import 'package:aebridge/domain/models/bridge_token.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class TokenList extends ConsumerWidget {
@@ -51,11 +50,7 @@ class _TokensList extends StatelessWidget {
         shrinkWrap: true,
         itemCount: tokens.length,
         itemBuilder: (BuildContext context, int index) {
-          return _SingleToken(token: tokens[index])
-              .animate(delay: (100 * index).ms)
-              .fadeIn(duration: 500.ms, delay: 100.ms)
-              .shimmer(blendMode: BlendMode.srcOver, color: Colors.white12)
-              .move(begin: const Offset(-16, 0), curve: Curves.easeOutQuad);
+          return _SingleToken(token: tokens[index]);
         },
       ),
     );
