@@ -13,7 +13,7 @@ class BridgeConfirmBackButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(BridgeFormProvider.bridgeForm(null));
     final session = ref.watch(SessionProviders.session);
     if (session.allWalletsIsConnected == false) {
       return const SizedBox();
@@ -32,7 +32,7 @@ class BridgeConfirmBackButton extends ConsumerWidget {
               ? null
               : () {
                   ref
-                      .watch(BridgeFormProvider.bridgeForm.notifier)
+                      .watch(BridgeFormProvider.bridgeForm(null).notifier)
                       .setBridgeProcessStep(
                         BridgeProcessStep.form,
                       );

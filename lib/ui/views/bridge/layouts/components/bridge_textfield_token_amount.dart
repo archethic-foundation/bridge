@@ -30,7 +30,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
   }
 
   void _updateAmountTextController() {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm);
+    final bridge = ref.read(BridgeFormProvider.bridgeForm(null));
     tokenAmountController = TextEditingController();
     tokenAmountController.value =
         AmountTextInputFormatter(precision: 8).formatEditUpdate(
@@ -58,7 +58,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
         .textTheme
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
 
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(BridgeFormProvider.bridgeForm(null));
     if (!(bridge.tokenToBridgeAmount != 0.0 ||
         (tokenAmountController.text == '' ||
             tokenAmountController.text == '0'))) {
@@ -109,7 +109,8 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                                 controller: tokenAmountController,
                                 onChanged: (text) async {
                                   final bridgeNotifier = ref.read(
-                                    BridgeFormProvider.bridgeForm.notifier,
+                                    BridgeFormProvider.bridgeForm(null)
+                                        .notifier,
                                   );
                                   await bridgeNotifier.setTokenToBridgeAmount(
                                     double.tryParse(text.replaceAll(' ', '')) ??
@@ -149,7 +150,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
               child: InkWell(
                 onTap: () async {
                   await ref
-                      .read(BridgeFormProvider.bridgeForm.notifier)
+                      .read(BridgeFormProvider.bridgeForm(null).notifier)
                       .setMaxAmount();
                   _updateAmountTextController();
                 },

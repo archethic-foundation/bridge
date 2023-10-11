@@ -13,11 +13,14 @@ import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 class BridgeSheet extends ConsumerWidget {
   const BridgeSheet({
     super.key,
+    this.initialState,
   });
+
+  final BridgeFormState? initialState;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(BridgeFormProvider.bridgeForm(initialState));
     debugPrint('bridgeSheet: ${bridge.bridgeProcessStep}');
 
     return Align(

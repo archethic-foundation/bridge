@@ -14,7 +14,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(BridgeFormProvider.bridgeForm(null));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -91,7 +91,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(BridgeFormProvider.bridgeForm(null));
     if (bridge.blockchainFrom!.isArchethic == true) {
       return const SizedBox();
     }
@@ -150,7 +150,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(BridgeFormProvider.bridgeForm(null));
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
