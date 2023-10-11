@@ -31,8 +31,12 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     return const BridgeFormState();
   }
 
-  Future<void> resume(BridgeFormState bridgeFormState) async {
-    // TODO(reddwarf03): stop process when an operation fails
+  BridgeFormState get currentState => state;
+  set currentState(BridgeFormState bridgeFormState) {
+    state = bridgeFormState;
+  }
+
+  Future<BridgeFormState> resume(BridgeFormState bridgeFormState) async {
     state = bridgeFormState.copyWith(
       resumeProcess: true,
       bridgeProcessStep: BridgeProcessStep.confirmation,
@@ -44,6 +48,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     state = bridgeFormState.copyWith(failure: bridgeFormState.failure);
     await storeBridge();
     debugPrint('$state');
+    return state;
   }
 
   Future<void> storeBridge() async {

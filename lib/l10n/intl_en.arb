@@ -122,5 +122,13 @@
   "local_history_selection_transfer_completed_included_lbl": "Include transfer completed?",
   "local_history_period_date_lbl": "Period filter",
   "logout": "Logout",
-  "bridgeProcessInterruptionWarning": "Are you sure you want to stop the transfer process?"
+  "bridgeProcessInterruptionWarning": "Are you sure you want to stop the transfer process?",
+  "anErrorOccurred": "An error occurred : {exception}",
+  "@anErrorOccurred": {
+    "placeholders": {
+      "exception": {
+        "type": "String"
+      }
+    }
+  }
 }

@@ -27,9 +27,8 @@ class _BridgeSheetState extends ConsumerState<BridgeSheet> {
   void initState() {
     if (widget.initialState != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
-        ref
-            .read(BridgeFormProvider.bridgeForm.notifier)
-            .resume(widget.initialState!);
+        ref.read(BridgeFormProvider.bridgeForm.notifier).currentState =
+            widget.initialState!;
       });
     }
     super.initState();
