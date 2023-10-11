@@ -7,7 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$bridgeFormNotifierHash() =>
-    r'da2689b5b0abb6e7917cb5c62ae9fce7f2f2ee52';
+    r'db2459694481fd73bf2011733a7ab762ed75d98d';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -32,10 +32,10 @@ class _SystemHash {
 
 abstract class _$BridgeFormNotifier
     extends BuildlessAutoDisposeNotifier<BridgeFormState> {
-  late final BridgeFormState? args;
+  late final BridgeFormNotifierParameters args;
 
   BridgeFormState build(
-    BridgeFormState? args,
+    BridgeFormNotifierParameters args,
   );
 }
 
@@ -50,7 +50,7 @@ class _BridgeFormNotifierFamily extends Family<BridgeFormState> {
 
   /// See also [_BridgeFormNotifier].
   _BridgeFormNotifierProvider call(
-    BridgeFormState? args,
+    BridgeFormNotifierParameters args,
   ) {
     return _BridgeFormNotifierProvider(
       args,
@@ -86,7 +86,7 @@ class _BridgeFormNotifierProvider extends AutoDisposeNotifierProviderImpl<
     _BridgeFormNotifier, BridgeFormState> {
   /// See also [_BridgeFormNotifier].
   _BridgeFormNotifierProvider(
-    BridgeFormState? args,
+    BridgeFormNotifierParameters args,
   ) : this._internal(
           () => _BridgeFormNotifier()..args = args,
           from: _bridgeFormNotifierProvider,
@@ -111,7 +111,7 @@ class _BridgeFormNotifierProvider extends AutoDisposeNotifierProviderImpl<
     required this.args,
   }) : super.internal();
 
-  final BridgeFormState? args;
+  final BridgeFormNotifierParameters args;
 
   @override
   BridgeFormState runNotifierBuild(
@@ -161,7 +161,7 @@ class _BridgeFormNotifierProvider extends AutoDisposeNotifierProviderImpl<
 mixin _BridgeFormNotifierRef
     on AutoDisposeNotifierProviderRef<BridgeFormState> {
   /// The parameter `args` of this provider.
-  BridgeFormState? get args;
+  BridgeFormNotifierParameters get args;
 }
 
 class _BridgeFormNotifierProviderElement
@@ -170,7 +170,8 @@ class _BridgeFormNotifierProviderElement
   _BridgeFormNotifierProviderElement(super.provider);
 
   @override
-  BridgeFormState? get args => (origin as _BridgeFormNotifierProvider).args;
+  BridgeFormNotifierParameters get args =>
+      (origin as _BridgeFormNotifierProvider).args;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

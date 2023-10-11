@@ -11,7 +11,7 @@ class BridgeTokenAddress extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm(null));
+    final bridge = ref.watch(BridgeFormProvider.newBridgeForm);
 
     if (bridge.blockchainTo == null || bridge.tokenToBridge == null) {
       return const SizedBox();

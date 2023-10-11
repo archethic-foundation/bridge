@@ -24,12 +24,21 @@ import 'package:webthree/webthree.dart' as webthree;
 
 part 'provider.g.dart';
 
+@immutable
+class BridgeFormNotifierParameters {
+  const BridgeFormNotifierParameters({
+    this.initialState,
+  });
+
+  final BridgeFormState? initialState;
+}
+
 @riverpod
-class _BridgeFormNotifier
-    extends AutoDisposeFamilyNotifier<BridgeFormState, BridgeFormState?> {
+class _BridgeFormNotifier extends AutoDisposeFamilyNotifier<BridgeFormState,
+    BridgeFormNotifierParameters> {
   @override
-  BridgeFormState build(BridgeFormState? args) {
-    if (args != null) _resume(args);
+  BridgeFormState build(BridgeFormNotifierParameters args) {
+    if (args.initialState != null) _resume(args.initialState!);
     return const BridgeFormState();
   }
 
@@ -641,5 +650,7 @@ class _BridgeFormNotifier
 }
 
 abstract class BridgeFormProvider {
-  static const bridgeForm = _bridgeFormNotifierProvider;
+  static const resumedBridgeForm = _bridgeFormNotifierProvider;
+  static final newBridgeForm =
+      _bridgeFormNotifierProvider(const BridgeFormNotifierParameters());
 }

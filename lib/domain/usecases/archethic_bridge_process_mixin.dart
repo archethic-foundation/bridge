@@ -45,9 +45,8 @@ mixin ArchethicBridgeProcessMixin {
     String htlcAEAddress,
     String seedHTLC,
   ) async {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm(null));
-    final bridgeNotifier =
-        ref.read(BridgeFormProvider.bridgeForm(null).notifier);
+    final bridge = ref.read(BridgeFormProvider.newBridgeForm);
+    final bridgeNotifier = ref.read(BridgeFormProvider.newBridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(1);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.archethic);
@@ -88,9 +87,8 @@ mixin ArchethicBridgeProcessMixin {
     double amount,
     int endTime,
   ) async {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm(null));
-    final bridgeNotifier =
-        ref.read(BridgeFormProvider.bridgeForm(null).notifier);
+    final bridge = ref.read(BridgeFormProvider.newBridgeForm);
+    final bridgeNotifier = ref.read(BridgeFormProvider.newBridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(3);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.archethic);
@@ -127,9 +125,8 @@ mixin ArchethicBridgeProcessMixin {
     WidgetRef ref,
     String htlcGenesisAddress,
   ) async {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm(null));
-    final bridgeNotifier =
-        ref.read(BridgeFormProvider.bridgeForm(null).notifier);
+    final bridge = ref.read(BridgeFormProvider.newBridgeForm);
+    final bridgeNotifier = ref.read(BridgeFormProvider.newBridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(2);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.archethic);
@@ -163,8 +160,7 @@ mixin ArchethicBridgeProcessMixin {
     WidgetRef ref,
     String archethicHTLCAddress,
   ) async {
-    final bridgeNotifier =
-        ref.read(BridgeFormProvider.bridgeForm(null).notifier);
+    final bridgeNotifier = ref.read(BridgeFormProvider.newBridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(3);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.archethic);
@@ -195,9 +191,8 @@ mixin ArchethicBridgeProcessMixin {
   }
 
   Future<void> requestAESecretFromLP(WidgetRef ref, String htlcAddress) async {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm(null));
-    final bridgeNotifier =
-        ref.read(BridgeFormProvider.bridgeForm(null).notifier);
+    final bridge = ref.read(BridgeFormProvider.newBridgeForm);
+    final bridgeNotifier = ref.read(BridgeFormProvider.newBridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(5);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.archethic);
@@ -222,8 +217,7 @@ mixin ArchethicBridgeProcessMixin {
   }
 
   Future<Secret> revealAESecret(WidgetRef ref, String htlcAddress) async {
-    final bridgeNotifier =
-        ref.read(BridgeFormProvider.bridgeForm(null).notifier);
+    final bridgeNotifier = ref.read(BridgeFormProvider.newBridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(6);
     final secretMap = await sl.get<archethic.ApiService>().callSCFunction(
           jsonRPCRequest: archethic.SCCallFunctionRequest(

@@ -20,7 +20,11 @@ class BridgeSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm(initialState));
+    final bridge = ref.watch(
+      BridgeFormProvider.resumedBridgeForm(
+        BridgeFormNotifierParameters(initialState: initialState),
+      ),
+    );
     debugPrint('bridgeSheet: ${bridge.bridgeProcessStep}');
 
     return Align(
