@@ -1,4 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:async';
+
 import 'package:aebridge/application/balance.dart';
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/bridge_history.dart';
@@ -17,45 +19,27 @@ import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:webthree/webthree.dart' as webthree;
 
-final _bridgeFormProvider =
-    NotifierProvider.autoDispose<BridgeFormNotifier, BridgeFormState>(
-  () {
-    return BridgeFormNotifier();
-  },
-);
+part 'provider.g.dart';
 
-class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
-  BridgeFormNotifier();
-
+@riverpod
+class _BridgeFormNotifier
+    extends AutoDisposeFamilyNotifier<BridgeFormState, BridgeFormState?> {
   @override
-  BridgeFormState build() {
+  BridgeFormState build(BridgeFormState? args) {
+    if (args != null) _resume(args);
     return const BridgeFormState();
   }
 
-  Future<void> resume(BridgeFormState bridgeFormState) async {
+  Future<void> _resume(BridgeFormState bridgeFormState) async {
+    // TODO(reddwarf03): stop process when an operation fails
     await setBlockchainFromWithConnection(bridgeFormState.blockchainFrom!);
     await setBlockchainToWithConnection(bridgeFormState.blockchainTo!);
-    state = state.copyWith(
-      archethicOracleUCO: bridgeFormState.archethicOracleUCO,
-      blockchainTo: bridgeFormState.blockchainTo,
-      bridgeProcessStep: bridgeFormState.bridgeProcessStep,
-      changeDirectionInProgress: bridgeFormState.isControlsOk,
-      currentStep: bridgeFormState.currentStep,
+    state = bridgeFormState.copyWith(
       failure: null,
       isTransferInProgress: true,
-      archethicTransactionFees: bridgeFormState.archethicTransactionFees,
-      targetAddress: bridgeFormState.targetAddress,
-      timestampExec: bridgeFormState.timestampExec,
-      tokenToBridge: bridgeFormState.tokenToBridge,
-      tokenToBridgeAmount: bridgeFormState.tokenToBridgeAmount,
-      tokenToBridgeBalance: bridgeFormState.tokenToBridgeBalance,
-      tokenBridgedBalance: bridgeFormState.tokenBridgedBalance,
-      waitForWalletConfirmation: bridgeFormState.waitForWalletConfirmation,
-      htlcAEAddress: bridgeFormState.htlcAEAddress,
-      htlcEVMAddress: bridgeFormState.htlcEVMAddress,
-      secret: bridgeFormState.secret,
     );
   }
 
@@ -657,5 +641,5 @@ class BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
 }
 
 abstract class BridgeFormProvider {
-  static final bridgeForm = _bridgeFormProvider;
+  static const bridgeForm = _bridgeFormNotifierProvider;
 }

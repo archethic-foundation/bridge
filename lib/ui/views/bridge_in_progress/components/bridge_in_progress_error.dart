@@ -14,7 +14,7 @@ class BridgeInProgressError extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(BridgeFormProvider.bridgeForm(null));
 
     if (bridge.waitForWalletConfirmation ==
         WaitForWalletConfirmation.archethic) {

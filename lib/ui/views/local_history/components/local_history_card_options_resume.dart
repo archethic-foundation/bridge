@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/main_screen_widget_displayed.dart';
-import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/bridge_in_progress_popup.dart';
@@ -29,15 +28,15 @@ class LocalHistoryCardOptionsResume extends ConsumerWidget {
           padding: const EdgeInsets.only(left: 10),
           child: InkWell(
             onTap: () async {
-              await ref
-                  .read(BridgeFormProvider.bridgeForm.notifier)
-                  .resume(bridge);
               ref
                   .read(
                     MainScreenWidgetDisplayedProviders
                         .mainScreenWidgetDisplayedProvider.notifier,
                   )
-                  .setWidget(const BridgeSheet(), ref);
+                  .setWidget(
+                    BridgeSheet(initialState: bridge),
+                    ref,
+                  );
               if (!context.mounted) return;
               await BridgeInProgressPopup.getDialog(
                 context,

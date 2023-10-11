@@ -36,7 +36,7 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
   }
 
   void _updateTextController() {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm);
+    final bridge = ref.read(BridgeFormProvider.bridgeForm(null));
     addressController = TextEditingController(text: bridge.targetAddress);
   }
 
@@ -44,7 +44,7 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
   Widget build(
     BuildContext context,
   ) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(BridgeFormProvider.bridgeForm(null));
 
     if (bridge.targetAddress != addressController.text) {
       _updateTextController();
@@ -101,8 +101,9 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
                             autocorrect: false,
                             controller: addressController,
                             onChanged: (text) async {
-                              final bridgeNotifier = ref
-                                  .read(BridgeFormProvider.bridgeForm.notifier);
+                              final bridgeNotifier = ref.read(
+                                BridgeFormProvider.bridgeForm(null).notifier,
+                              );
                               await bridgeNotifier.setTargetAddress(
                                 text,
                               );

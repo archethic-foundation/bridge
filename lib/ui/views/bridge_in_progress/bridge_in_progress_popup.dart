@@ -26,7 +26,7 @@ class BridgeInProgressPopup {
             builder: (context) {
               return Consumer(
                 builder: (context, ref, _) {
-                  final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+                  final bridge = ref.watch(BridgeFormProvider.bridgeForm(null));
                   return Scaffold(
                     backgroundColor: Colors.transparent.withAlpha(120),
                     body: AlertDialog(
@@ -77,27 +77,28 @@ class BridgeInProgressPopup {
                                       ? AppLocalizations.of(context)!
                                           .bridgeProcessInterruptionWarning
                                       : '',
-                              warningCloseFunction:
-                                  bridge.isTransferInProgress == true
-                                      ? () async {
-                                          final bridgeNotifier = ref.read(
-                                            BridgeFormProvider
-                                                .bridgeForm.notifier,
-                                          );
-                                          await bridgeNotifier.setFailure(
-                                            const Failure.userRejected(),
-                                          );
+                              warningCloseFunction: bridge
+                                          .isTransferInProgress ==
+                                      true
+                                  ? () async {
+                                      final bridgeNotifier = ref.read(
+                                        BridgeFormProvider.bridgeForm(null)
+                                            .notifier,
+                                      );
+                                      await bridgeNotifier.setFailure(
+                                        const Failure.userRejected(),
+                                      );
 
-                                          bridgeNotifier.initState();
-                                        }
-                                      : () async {
-                                          ref
-                                              .read(
-                                                BridgeFormProvider
-                                                    .bridgeForm.notifier,
-                                              )
-                                              .initState();
-                                        },
+                                      bridgeNotifier.initState();
+                                    }
+                                  : () async {
+                                      ref
+                                          .read(
+                                            BridgeFormProvider.bridgeForm(null)
+                                                .notifier,
+                                          )
+                                          .initState();
+                                    },
                             ),
                           ),
                         ],

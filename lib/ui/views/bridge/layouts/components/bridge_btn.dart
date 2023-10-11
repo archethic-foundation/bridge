@@ -14,7 +14,7 @@ class BridgeButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(BridgeFormProvider.bridgeForm(null));
     final session = ref.watch(SessionProviders.session);
     if (session.allWalletsIsConnected == false) {
       return const SizedBox();
@@ -27,7 +27,8 @@ class BridgeButton extends ConsumerWidget {
       labelBtn: AppLocalizations.of(context)!.btn_bridge,
       icon: Iconsax.recovery_convert,
       onPressed: () async {
-        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+        final bridgeNotifier =
+            ref.read(BridgeFormProvider.bridgeForm(null).notifier);
         await bridgeNotifier.validateForm();
       },
     );
