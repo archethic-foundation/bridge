@@ -66,6 +66,10 @@ class MyApp extends ConsumerWidget {
         fontFamily: 'Telegraf',
         useMaterial3: true,
       ),
+      supportedLocales: const <Locale>[
+        // add here all the supported languages in the app (intl files)
+        Locale('en'),
+      ],
       localizationsDelegates: const [
         AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,

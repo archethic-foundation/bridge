@@ -46,6 +46,7 @@ class FormatAddressLinkCopy extends ConsumerWidget {
     }
 
     return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         _address(),
         const SizedBox(width: 5),
