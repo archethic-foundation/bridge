@@ -15,6 +15,7 @@ dependencies:
       url: https://github.com/archethic-foundation/archethic-wallet-client-dart.git
       ref: dev
 
+  # Centralized loading widget management
   busy: ^1.0.2
 
   # Dart package that provides simple access to the CoinGecko API (Version 3)
