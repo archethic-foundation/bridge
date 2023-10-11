@@ -9,6 +9,7 @@ import 'package:aebridge/ui/views/bridge/layouts/components/bridge_textfield_tok
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_address.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_bridged.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_bridged_balance.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_bridged_pool_balance.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_balance.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_selection.dart';
 import 'package:flutter/material.dart';
@@ -47,6 +48,14 @@ class BridgeFormSheet extends ConsumerWidget {
               BridgeTokenToBridgeBalance(),
               SizedBox(width: 20),
               BridgeTokenBridgedBalance(),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(),
+              SizedBox(width: 20),
+              BridgeTokenBridgedPoolBalance(),
             ],
           ),
           BridgeTokenAddress(),

@@ -30,6 +30,7 @@ _$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
           (json['tokenToBridgeBalance'] as num?)?.toDouble() ?? 0,
       tokenBridgedBalance:
           (json['tokenBridgedBalance'] as num?)?.toDouble() ?? 0,
+      poolTargetBalance: (json['poolTargetBalance'] as num?)?.toDouble() ?? 0,
       tokenToBridgeDecimals: json['tokenToBridgeDecimals'] as int? ?? 8,
       coingeckoPrice: (json['coingeckoPrice'] as num?)?.toDouble() ?? 0,
       failure: _$JsonConverterFromJson<Map<String, dynamic>, Failure>(
@@ -80,6 +81,7 @@ Map<String, dynamic> _$$BridgeFormStateImplToJson(
       'targetAddress': instance.targetAddress,
       'tokenToBridgeBalance': instance.tokenToBridgeBalance,
       'tokenBridgedBalance': instance.tokenBridgedBalance,
+      'poolTargetBalance': instance.poolTargetBalance,
       'tokenToBridgeDecimals': instance.tokenToBridgeDecimals,
       'coingeckoPrice': instance.coingeckoPrice,
       'failure': _$JsonConverterToJson<Map<String, dynamic>, Failure>(

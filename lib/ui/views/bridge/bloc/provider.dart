@@ -268,6 +268,20 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       ).future,
     );
     await setTokenBridgedBalance(balanceTarget);
+
+    if (state.blockchainTo!.isArchethic == false) {
+      final poolTargetBalance = await ref.read(
+        BalanceProviders.getBalance(
+          state.blockchainTo!.isArchethic,
+          state.tokenToBridge!.poolAddressTo,
+          typeTarget,
+          state.tokenToBridge!.tokenAddressTarget,
+          providerEndpoint: state.blockchainTo!.providerEndpoint,
+        ).future,
+      );
+      debugPrint('poolTargetBalance $poolTargetBalance');
+      setPoolTargetBalance(poolTargetBalance);
+    }
   }
 
   Future<void> setTokenToBridgeBalance(
@@ -295,6 +309,14 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       tokenBridgedBalance: tokenBridgedBalance,
     );
     await storeBridge();
+  }
+
+  void setPoolTargetBalance(
+    double poolTargetBalance,
+  ) {
+    state = state.copyWith(
+      poolTargetBalance: poolTargetBalance,
+    );
   }
 
   Future<void> setTokenToBridgeAmount(
@@ -368,6 +390,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       tokenToBridgeAmount: 0,
       tokenToBridgeBalance: 0,
       tokenBridgedBalance: 0,
+      poolTargetBalance: 0,
       tokenToBridgeDecimals: 8,
       waitForWalletConfirmation: null,
       timestampExec: null,
@@ -561,6 +584,17 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       );
       return false;
     }
+
+    if (state.poolTargetBalance < state.tokenToBridgeAmount) {
+      await setFailure(
+        const Failure.other(
+          cause:
+              "Sorry, but your amount exceeds the current pool's balance.\nPlease adjust your amount or try later.",
+        ),
+      );
+      return false;
+    }
+
     return true;
   }
 

@@ -79,6 +79,18 @@ Map<String, dynamic> _$$InsufficientFundsImplToJson(
       'runtimeType': instance.$type,
     };
 
+_$InsufficientPoolFundsImpl _$$InsufficientPoolFundsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$InsufficientPoolFundsImpl(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$InsufficientPoolFundsImplToJson(
+        _$InsufficientPoolFundsImpl instance) =>
+    <String, dynamic>{
+      'runtimeType': instance.$type,
+    };
+
 _$UnauthorizedImpl _$$UnauthorizedImplFromJson(Map<String, dynamic> json) =>
     _$UnauthorizedImpl(
       $type: json['runtimeType'] as String?,

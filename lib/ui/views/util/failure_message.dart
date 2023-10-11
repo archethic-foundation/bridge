@@ -31,6 +31,10 @@ class FailureMessage {
       return AppLocalizations.of(context)!.failureInsufficientFunds;
     }
 
+    if (failure is InsufficientPoolFunds) {
+      return AppLocalizations.of(context)!.failurePoolInsufficientFunds;
+    }
+
     if (failure is RPCErrorEVM) {
       return (failure! as RPCErrorEVM).data!['Some_Key']!.reason;
     }

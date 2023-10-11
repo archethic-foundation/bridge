@@ -32,6 +32,7 @@ class BalanceRepositoryImpl implements BalanceRepository {
       switch (typeToken) {
         case 'Native':
           final balance = await sl.get<EVMWalletProvider>().getBalance(
+                address,
                 providerEndpoint!,
                 typeToken,
               );
@@ -40,6 +41,7 @@ class BalanceRepositoryImpl implements BalanceRepository {
         case 'ERC20':
         case 'Wrapped':
           final balance = await sl.get<EVMWalletProvider>().getBalance(
+                address,
                 providerEndpoint!,
                 typeToken,
                 erc20address: tokenAddress,
