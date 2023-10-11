@@ -13,7 +13,7 @@ class BridgeInProgressResumeBtn extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bridge = ref.watch(BridgeFormProvider.newBridgeForm);
+    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
 
     if (bridge.isTransferInProgress == false &&
         bridge.failure != null &&
@@ -23,12 +23,12 @@ class BridgeInProgressResumeBtn extends ConsumerWidget {
         icon: Iconsax.recovery_convert,
         onPressed: () async {
           ref
-              .read(BridgeFormProvider.newBridgeForm.notifier)
+              .read(BridgeFormProvider.bridgeForm.notifier)
               .setResumeProcess(true);
 
           if (!context.mounted) return;
           await ref
-              .read(BridgeFormProvider.newBridgeForm.notifier)
+              .read(BridgeFormProvider.bridgeForm.notifier)
               .bridge(context, ref);
         },
       );

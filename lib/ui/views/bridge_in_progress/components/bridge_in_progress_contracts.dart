@@ -13,7 +13,7 @@ class BridgeInProgressContracts extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bridge = ref.watch(BridgeFormProvider.newBridgeForm);
+    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: Column(

@@ -64,8 +64,8 @@ mixin EVMBridgeProcessMixin {
     SecretHash secretHash,
     int endTime,
   ) async {
-    final bridge = ref.read(BridgeFormProvider.newBridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.newBridgeForm.notifier);
+    final bridge = ref.read(BridgeFormProvider.bridgeForm);
+    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(4);
     final evmLP = EVMLP(bridge.blockchainTo!.providerEndpoint);
     debugPrint(
@@ -112,8 +112,8 @@ mixin EVMBridgeProcessMixin {
   }
 
   Future<String> deployEVMHTLC(WidgetRef ref, Digest secretHash) async {
-    final bridge = ref.read(BridgeFormProvider.newBridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.newBridgeForm.notifier);
+    final bridge = ref.read(BridgeFormProvider.bridgeForm);
+    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(1);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
@@ -141,8 +141,8 @@ mixin EVMBridgeProcessMixin {
   }
 
   Future<void> provisionEVMHTLC(WidgetRef ref, String htlcAddress) async {
-    final bridge = ref.read(BridgeFormProvider.newBridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.newBridgeForm.notifier);
+    final bridge = ref.read(BridgeFormProvider.bridgeForm);
+    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(2);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
@@ -187,8 +187,8 @@ mixin EVMBridgeProcessMixin {
     String htlcAddress,
     Uint8List secret,
   ) async {
-    final bridge = ref.read(BridgeFormProvider.newBridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.newBridgeForm.notifier);
+    final bridge = ref.read(BridgeFormProvider.bridgeForm);
+    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(4);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
@@ -216,7 +216,7 @@ mixin EVMBridgeProcessMixin {
 
   Future<double?> getEVMHTLCAmount(WidgetRef ref, String htlcAddress) async {
     double? etlcAmount;
-    final bridge = ref.read(BridgeFormProvider.newBridgeForm);
+    final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final htlc = EVMHTLC(
       bridge.blockchainFrom!.providerEndpoint,
       htlcAddress,
@@ -237,7 +237,7 @@ mixin EVMBridgeProcessMixin {
     double amount,
     String poolAddress,
   ) async {
-    final bridgeNotifier = ref.read(BridgeFormProvider.newBridgeForm.notifier);
+    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(5);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.archethic);
@@ -336,8 +336,8 @@ mixin EVMBridgeProcessMixin {
   }
 
   Future<String> withdrawAE(WidgetRef ref, String htlc, Secret secret) async {
-    final bridge = ref.read(BridgeFormProvider.newBridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.newBridgeForm.notifier);
+    final bridge = ref.read(BridgeFormProvider.bridgeForm);
+    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(7);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);

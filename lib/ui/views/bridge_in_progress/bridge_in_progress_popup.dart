@@ -26,7 +26,7 @@ class BridgeInProgressPopup {
             builder: (context) {
               return Consumer(
                 builder: (context, ref, _) {
-                  final bridge = ref.watch(BridgeFormProvider.newBridgeForm);
+                  final bridge = ref.watch(BridgeFormProvider.bridgeForm);
                   return Scaffold(
                     backgroundColor: Colors.transparent.withAlpha(120),
                     body: AlertDialog(
@@ -82,7 +82,7 @@ class BridgeInProgressPopup {
                                       ? () async {
                                           final bridgeNotifier = ref.read(
                                             BridgeFormProvider
-                                                .newBridgeForm.notifier,
+                                                .bridgeForm.notifier,
                                           );
                                           await bridgeNotifier.setFailure(
                                             const Failure.userRejected(),
@@ -94,7 +94,7 @@ class BridgeInProgressPopup {
                                           ref
                                               .read(
                                                 BridgeFormProvider
-                                                    .newBridgeForm.notifier,
+                                                    .bridgeForm.notifier,
                                               )
                                               .initState();
                                         },

@@ -10,7 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/box_borders/gradient_box_border.dart';
 
-class BridgeSheet extends ConsumerWidget {
+class BridgeSheet extends ConsumerStatefulWidget {
   const BridgeSheet({
     super.key,
     this.initialState,
@@ -19,12 +19,24 @@ class BridgeSheet extends ConsumerWidget {
   final BridgeFormState? initialState;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final bridge = ref.watch(
-      BridgeFormProvider.resumedBridgeForm(
-        BridgeFormNotifierParameters(initialState: initialState),
-      ),
-    );
+  ConsumerState<BridgeSheet> createState() => _BridgeSheetState();
+}
+
+class _BridgeSheetState extends ConsumerState<BridgeSheet> {
+  @override
+  void initState() {
+    if (widget.initialState != null) {
+      ref
+          .read(BridgeFormProvider.bridgeForm.notifier)
+          .resume(widget.initialState!);
+    }
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+
     debugPrint('bridgeSheet: ${bridge.bridgeProcessStep}');
 
     return Align(

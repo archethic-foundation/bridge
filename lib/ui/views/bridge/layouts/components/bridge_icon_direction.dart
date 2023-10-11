@@ -11,8 +11,8 @@ class BridgeBlockchainIconDirection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bridgeForm = ref.watch(BridgeFormProvider.newBridgeForm.notifier);
-    final bridge = ref.watch(BridgeFormProvider.newBridgeForm);
+    final bridgeForm = ref.watch(BridgeFormProvider.bridgeForm.notifier);
+    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
 
     if (bridge.blockchainFrom == null ||
         bridge.blockchainTo == null ||

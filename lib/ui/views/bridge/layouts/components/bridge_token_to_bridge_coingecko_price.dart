@@ -11,7 +11,7 @@ class BridgeTokenToBridgeCoingeckoPrice extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bridge = ref.watch(BridgeFormProvider.newBridgeForm);
+    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
 
     if (bridge.tokenToBridge == null ||
         bridge.tokenToBridge!.symbol == 'UCO' ||

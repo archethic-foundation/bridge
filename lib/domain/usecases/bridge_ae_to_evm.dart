@@ -17,7 +17,7 @@ class BridgeArchethicToEVMUseCase
     String? recoveryHTLCEVMAddress,
     String? recoveryHTLCAEAddress,
   }) async {
-    final bridgeNotifier = ref.read(BridgeFormProvider.newBridgeForm.notifier);
+    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
 
     String? htlcEVMAddress;
     String? htlcAEAddress;
@@ -35,8 +35,7 @@ class BridgeArchethicToEVMUseCase
     htlcAEAddress = resultDefineHTLCAddress.genesisAddressHTLC;
     seedHTLC = resultDefineHTLCAddress.seedHTLC;
 
-    var blockchainFrom =
-        ref.read(BridgeFormProvider.newBridgeForm).blockchainFrom;
+    var blockchainFrom = ref.read(BridgeFormProvider.bridgeForm).blockchainFrom;
     blockchainFrom = blockchainFrom!.copyWith(htlcAddress: htlcAEAddress);
     await bridgeNotifier.setBlockchainFrom(blockchainFrom);
 
@@ -86,8 +85,7 @@ class BridgeArchethicToEVMUseCase
       } catch (e) {
         return;
       }
-      var blockchainTo =
-          ref.read(BridgeFormProvider.newBridgeForm).blockchainTo;
+      var blockchainTo = ref.read(BridgeFormProvider.bridgeForm).blockchainTo;
       blockchainTo = blockchainTo!.copyWith(htlcAddress: htlcEVMAddress);
       await bridgeNotifier.setBlockchainTo(blockchainTo);
     }

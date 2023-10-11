@@ -19,31 +19,19 @@ import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:webthree/webthree.dart' as webthree;
 
-@immutable
-class BridgeFormNotifierParameters {
-  const BridgeFormNotifierParameters({
-    this.initialState,
-  });
+part 'provider.g.dart';
 
-  final BridgeFormState? initialState;
-}
-
-final _bridgeFormNotifierProvider = NotifierProvider.autoDispose
-    .family<_BridgeFormNotifier, BridgeFormState, BridgeFormNotifierParameters>(
-  _BridgeFormNotifier.new,
-);
-
-class _BridgeFormNotifier extends AutoDisposeFamilyNotifier<BridgeFormState,
-    BridgeFormNotifierParameters> {
+@riverpod
+class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   @override
-  BridgeFormState build(BridgeFormNotifierParameters args) {
-    if (args.initialState != null) _resume(args.initialState!);
+  BridgeFormState build() {
     return const BridgeFormState();
   }
 
-  Future<void> _resume(BridgeFormState bridgeFormState) async {
+  Future<void> resume(BridgeFormState bridgeFormState) async {
     // TODO(reddwarf03): stop process when an operation fails
     await setBlockchainFromWithConnection(bridgeFormState.blockchainFrom!);
     await setBlockchainToWithConnection(bridgeFormState.blockchainTo!);
@@ -651,7 +639,5 @@ class _BridgeFormNotifier extends AutoDisposeFamilyNotifier<BridgeFormState,
 }
 
 abstract class BridgeFormProvider {
-  static final resumedBridgeForm = _bridgeFormNotifierProvider;
-  static final newBridgeForm =
-      _bridgeFormNotifierProvider(const BridgeFormNotifierParameters());
+  static final bridgeForm = _bridgeFormNotifierProvider;
 }
