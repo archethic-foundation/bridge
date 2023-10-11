@@ -11,6 +11,7 @@ import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/components/main_screen_background.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
+import 'package:busy/busy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -94,90 +95,93 @@ class MainScreenState extends ConsumerState<MainScreen> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: _closeSubMenu,
-      child: Scaffold(
-        backgroundColor: BridgeThemeBase.backgroundColor,
-        appBar: AppBarMainScreen(
-          onAEMenuTapped: _toggleSubMenu,
-        ),
-        body: Stack(
-          alignment: Alignment.center,
-          children: [
-            const MainScreenBackground(),
-            Body(
-              listNavigationLabelIcon: listNavigationLabelIcon,
-              navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),
-              onDestinationSelected: _onDestinationSelected,
-            ),
-            if (_isSubMenuOpen)
-              Positioned(
-                top: 30,
-                right: 20,
-                child: Column(
-                  children: [
-                    _buildSubMenu(
-                      AppLocalizations.of(context)!
-                          .archethicDashboardMenuAEWebItem,
-                      AppLocalizations.of(context)!
-                          .archethicDashboardMenuAEWebDesc,
-                      'https://aeweb.archethic.net',
-                    )
-                        .animate(delay: 100.ms)
-                        .fadeIn(duration: 400.ms, delay: 200.ms)
-                        .move(
-                          begin: const Offset(-16, 0),
-                          curve: Curves.easeOutQuad,
-                        ),
-                    _buildSubMenu(
-                      AppLocalizations.of(context)!
-                          .archethicDashboardMenuBridgeOnWayItem,
-                      AppLocalizations.of(context)!
-                          .archethicDashboardMenuBridgeOnWayDesc,
-                      'https://bridge.archethic.net',
-                    )
-                        .animate(delay: 200.ms)
-                        .fadeIn(duration: 400.ms, delay: 200.ms)
-                        .move(
-                          begin: const Offset(-16, 0),
-                          curve: Curves.easeOutQuad,
-                        ),
-                    _buildSubMenu(
-                      AppLocalizations.of(context)!
-                          .archethicDashboardMenuDEXItem,
-                      AppLocalizations.of(context)!
-                          .archethicDashboardMenuDEXDesc,
-                      'https://dex.archethic.net',
-                    )
-                        .animate(delay: 300.ms)
-                        .fadeIn(duration: 400.ms, delay: 200.ms)
-                        .move(
-                          begin: const Offset(-16, 0),
-                          curve: Curves.easeOutQuad,
-                        ),
-                    _buildSubMenu(
-                      AppLocalizations.of(context)!
-                          .archethicDashboardMenuWalletOnWayItem,
-                      AppLocalizations.of(context)!
-                          .archethicDashboardMenuWalletOnWayDesc,
-                      'https://www.archethic.net/aewallet.html',
-                    )
-                        .animate(delay: 400.ms)
-                        .fadeIn(duration: 400.ms, delay: 200.ms)
-                        .move(
-                          begin: const Offset(-16, 0),
-                          curve: Curves.easeOutQuad,
-                        ),
-                  ],
-                ),
-              ),
-          ],
-        ),
-        bottomNavigationBar: Responsive.isMobile(context)
-            ? BottomNavigationBarMainScreen(
+      child: BusyScaffold(
+        isBusy: ref.watch(isLoadingScreenProvider),
+        scaffold: Scaffold(
+          backgroundColor: BridgeThemeBase.backgroundColor,
+          appBar: AppBarMainScreen(
+            onAEMenuTapped: _toggleSubMenu,
+          ),
+          body: Stack(
+            alignment: Alignment.center,
+            children: [
+              const MainScreenBackground(),
+              Body(
                 listNavigationLabelIcon: listNavigationLabelIcon,
                 navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),
                 onDestinationSelected: _onDestinationSelected,
-              )
-            : null,
+              ),
+              if (_isSubMenuOpen)
+                Positioned(
+                  top: 30,
+                  right: 20,
+                  child: Column(
+                    children: [
+                      _buildSubMenu(
+                        AppLocalizations.of(context)!
+                            .archethicDashboardMenuAEWebItem,
+                        AppLocalizations.of(context)!
+                            .archethicDashboardMenuAEWebDesc,
+                        'https://aeweb.archethic.net',
+                      )
+                          .animate(delay: 100.ms)
+                          .fadeIn(duration: 400.ms, delay: 200.ms)
+                          .move(
+                            begin: const Offset(-16, 0),
+                            curve: Curves.easeOutQuad,
+                          ),
+                      _buildSubMenu(
+                        AppLocalizations.of(context)!
+                            .archethicDashboardMenuBridgeOnWayItem,
+                        AppLocalizations.of(context)!
+                            .archethicDashboardMenuBridgeOnWayDesc,
+                        'https://bridge.archethic.net',
+                      )
+                          .animate(delay: 200.ms)
+                          .fadeIn(duration: 400.ms, delay: 200.ms)
+                          .move(
+                            begin: const Offset(-16, 0),
+                            curve: Curves.easeOutQuad,
+                          ),
+                      _buildSubMenu(
+                        AppLocalizations.of(context)!
+                            .archethicDashboardMenuDEXItem,
+                        AppLocalizations.of(context)!
+                            .archethicDashboardMenuDEXDesc,
+                        'https://dex.archethic.net',
+                      )
+                          .animate(delay: 300.ms)
+                          .fadeIn(duration: 400.ms, delay: 200.ms)
+                          .move(
+                            begin: const Offset(-16, 0),
+                            curve: Curves.easeOutQuad,
+                          ),
+                      _buildSubMenu(
+                        AppLocalizations.of(context)!
+                            .archethicDashboardMenuWalletOnWayItem,
+                        AppLocalizations.of(context)!
+                            .archethicDashboardMenuWalletOnWayDesc,
+                        'https://www.archethic.net/aewallet.html',
+                      )
+                          .animate(delay: 400.ms)
+                          .fadeIn(duration: 400.ms, delay: 200.ms)
+                          .move(
+                            begin: const Offset(-16, 0),
+                            curve: Curves.easeOutQuad,
+                          ),
+                    ],
+                  ),
+                ),
+            ],
+          ),
+          bottomNavigationBar: Responsive.isMobile(context)
+              ? BottomNavigationBarMainScreen(
+                  listNavigationLabelIcon: listNavigationLabelIcon,
+                  navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),
+                  onDestinationSelected: _onDestinationSelected,
+                )
+              : null,
+        ),
       ),
     );
   }

@@ -1,5 +1,4 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +13,6 @@ class BridgeConfirmBackButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
-    final session = ref.watch(SessionProviders.session);
-    if (session.allWalletsIsConnected == false) {
-      return const SizedBox();
-    }
 
     return Stack(
       children: [
