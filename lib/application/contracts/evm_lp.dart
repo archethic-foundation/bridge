@@ -165,6 +165,10 @@ class EVMLP with EVMBridgeProcessMixin {
 
         htlcContractAddress = transactionProvisionedSwapsHashes[0].hex;
         debugPrint('HTLC address: $htlcContractAddress');
+        if (htlcContractAddress ==
+            '0x0000000000000000000000000000000000000000') {
+          throw const Failure.insufficientPoolFunds();
+        }
 
         return htlcContractAddress;
       },

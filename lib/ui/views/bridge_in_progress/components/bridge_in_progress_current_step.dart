@@ -13,7 +13,7 @@ class BridgeInProgressCurrentStep extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
-    if (bridge.blockchainFrom == null || bridge.isTransferInProgress == false) {
+    if (bridge.blockchainFrom == null) {
       return const SizedBox(
         height: 30,
       );

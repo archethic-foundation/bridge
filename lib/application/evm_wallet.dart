@@ -95,6 +95,7 @@ class EVMWalletProvider extends ChangeNotifier {
   }
 
   Future<double> getBalance(
+    String address,
     String providerEndpoint,
     String typeToken, {
     String erc20address = '',
@@ -105,7 +106,8 @@ class EVMWalletProvider extends ChangeNotifier {
       }
       switch (typeToken) {
         case 'Native':
-          final balance = await web3Client!.getBalance(credentials!.address);
+          final balance =
+              await web3Client!.getBalance(EthereumAddress.fromHex(address));
           return balance.getValueInUnit(EtherUnit.ether);
         case 'ERC20':
         case 'Wrapped':
@@ -137,7 +139,7 @@ class EVMWalletProvider extends ChangeNotifier {
             contract: contractToken,
             function: contractToken.function('balanceOf'),
             params: [
-              credentials!.address,
+              EthereumAddress.fromHex(address),
             ],
           );
 

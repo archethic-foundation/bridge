@@ -35,6 +35,8 @@ mixin ArchethicBridgeProcessMixin {
         return AppLocalizations.of(context)!.aeBridgeProcessStep6;
       case 7:
         return AppLocalizations.of(context)!.aeBridgeProcessStep7;
+      case 8:
+        return AppLocalizations.of(context)!.aeBridgeProcessStep8;
       default:
         return AppLocalizations.of(context)!.aeBridgeProcessStep0;
     }

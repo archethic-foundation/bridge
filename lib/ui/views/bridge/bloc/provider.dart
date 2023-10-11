@@ -45,8 +45,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
 
     await setBlockchainFromWithConnection(bridgeFormState.blockchainFrom!);
     await setBlockchainToWithConnection(bridgeFormState.blockchainTo!);
-    state = bridgeFormState.copyWith(failure: bridgeFormState.failure);
-    await storeBridge();
+    await setFailure(bridgeFormState.failure);
     debugPrint('$state');
     return state;
   }
@@ -76,8 +75,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     BridgeBlockchain blockchainFrom,
   ) async {
     final sessionNotifier = ref.read(SessionProviders.session.notifier);
-    state = state.copyWith(failure: null);
-    await storeBridge();
+    await setFailure(null);
     if (blockchainFrom.isArchethic) {
       debugPrint('connect to Archethic Wallet');
       final connection = await sessionNotifier.connectToArchethicWallet(
@@ -129,8 +127,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     BridgeBlockchain blockchainTo,
   ) async {
     final sessionNotifier = ref.read(SessionProviders.session.notifier);
-    state = state.copyWith(failure: null);
-    await storeBridge();
+    await setFailure(null);
     if (blockchainTo.isArchethic) {
       debugPrint('connect to Archethic Wallet');
       final connection = await sessionNotifier.connectToArchethicWallet(
@@ -173,8 +170,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     final session = ref.read(SessionProviders.session);
     if (session.walletTo != null &&
         session.walletTo!.genesisAddress.isNotEmpty) {
-      state = state.copyWith(targetAddress: session.walletTo!.genesisAddress);
-      await storeBridge();
+      await setTargetAddress(session.walletTo!.genesisAddress);
     }
   }
 
@@ -213,6 +209,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
           state = state.copyWith(coingeckoPrice: coingeckoPrice),
       failure: (failure) => state = state.copyWith(coingeckoPrice: 0),
     );
+    await storeBridge();
   }
 
   Future<void> setTokenToBridge(
@@ -271,6 +268,20 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       ).future,
     );
     await setTokenBridgedBalance(balanceTarget);
+
+    if (state.blockchainTo!.isArchethic == false) {
+      final poolTargetBalance = await ref.read(
+        BalanceProviders.getBalance(
+          state.blockchainTo!.isArchethic,
+          state.tokenToBridge!.poolAddressTo,
+          typeTarget,
+          state.tokenToBridge!.tokenAddressTarget,
+          providerEndpoint: state.blockchainTo!.providerEndpoint,
+        ).future,
+      );
+      debugPrint('poolTargetBalance $poolTargetBalance');
+      setPoolTargetBalance(poolTargetBalance);
+    }
   }
 
   Future<void> setTokenToBridgeBalance(
@@ -300,6 +311,14 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     await storeBridge();
   }
 
+  void setPoolTargetBalance(
+    double poolTargetBalance,
+  ) {
+    state = state.copyWith(
+      poolTargetBalance: poolTargetBalance,
+    );
+  }
+
   Future<void> setTokenToBridgeAmount(
     double tokenToBridgeAmount,
   ) async {
@@ -310,9 +329,8 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   }
 
   Future<void> setFailure(
-    Failure failure,
+    Failure? failure,
   ) async {
-    debugPrint(failure.toString());
     state = state.copyWith(
       failure: failure,
     );
@@ -372,6 +390,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       tokenToBridgeAmount: 0,
       tokenToBridgeBalance: 0,
       tokenBridgedBalance: 0,
+      poolTargetBalance: 0,
       tokenToBridgeDecimals: 8,
       waitForWalletConfirmation: null,
       timestampExec: null,
@@ -380,6 +399,9 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       resumeProcess: false,
       secret: null,
       archethicOracleUCO: null,
+      safetyModuleFeesAddress: '',
+      changeDirectionInProgress: false,
+      archethicProtocolFeesAddress: '',
     );
   }
 
@@ -490,52 +512,44 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   }
 
   Future<bool> control() async {
-    state = state.copyWith(failure: null);
-    await storeBridge();
+    await setFailure(null);
 
     if (state.blockchainFrom == null && state.blockchainFrom!.name.isEmpty) {
-      state = state.copyWith(
-        failure:
-            const Failure.other(cause: 'Please select the issuing blockchain.'),
+      await setFailure(
+        const Failure.other(cause: 'Please select the issuing blockchain.'),
       );
-      await storeBridge();
       return false;
     }
     if (state.blockchainTo == null && state.blockchainTo!.name.isEmpty) {
-      state = state.copyWith(
-        failure: const Failure.other(
+      await setFailure(
+        const Failure.other(
           cause: 'Please select the receiving blockchain.',
         ),
       );
-      await storeBridge();
       return false;
     }
     if (state.tokenToBridge == null && state.tokenToBridge!.name.isEmpty) {
-      state = state.copyWith(
-        failure:
-            const Failure.other(cause: 'Please select the token to transfer.'),
+      await setFailure(
+        const Failure.other(cause: 'Please select the token to transfer.'),
       );
-      await storeBridge();
       return false;
     }
     if (state.targetAddress.isEmpty) {
-      state = state.copyWith(
-        failure: const Failure.other(
+      await setFailure(
+        const Failure.other(
           cause:
               'Please enter your receiving address on the target blockchain.',
         ),
       );
-      await storeBridge();
       return false;
     }
     if (state.blockchainTo!.isArchethic) {
       if (archethic.Address(address: state.targetAddress).isValid() == false) {
-        state = state.copyWith(
-          failure: const Failure.other(
+        await setFailure(
+          const Failure.other(
             cause: 'Please enter a valid Archethic address.',
           ),
         );
-        await storeBridge();
         return false;
       }
     } else {
@@ -544,35 +558,43 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
           state.targetAddress,
         );
       } catch (e) {
-        state = state.copyWith(
-          failure: const Failure.other(cause: 'Please enter a valid address.'),
+        await setFailure(
+          const Failure.other(cause: 'Please enter a valid address.'),
         );
-        await storeBridge();
         return false;
       }
     }
 
     if (state.tokenToBridgeAmount.isNaN || state.tokenToBridgeAmount <= 0) {
-      state = state.copyWith(
-        failure: const Failure.other(
+      await setFailure(
+        const Failure.other(
           cause: 'Please enter the amount of tokens to transfer.',
         ),
       );
-      await storeBridge();
       return false;
     }
     debugPrint('state.tokenToBridgeBalance ${state.tokenToBridgeBalance}');
     debugPrint('state.bridgeProcessStep ${state.bridgeProcessStep.name}');
 
     if (state.tokenToBridgeBalance < state.tokenToBridgeAmount) {
-      state = state.copyWith(
-        failure: const Failure.other(
+      await setFailure(
+        const Failure.other(
           cause: 'Your amount exceeds your balance. Please adjust your amount.',
         ),
       );
-      await storeBridge();
       return false;
     }
+
+    if (state.poolTargetBalance < state.tokenToBridgeAmount) {
+      await setFailure(
+        const Failure.other(
+          cause:
+              "Sorry, but your amount exceeds the current pool's balance.\nPlease adjust your amount or try later.",
+        ),
+      );
+      return false;
+    }
+
     return true;
   }
 
