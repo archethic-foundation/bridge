@@ -585,7 +585,8 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       return false;
     }
 
-    if (state.poolTargetBalance < state.tokenToBridgeAmount) {
+    if (state.blockchainFrom!.isArchethic &&
+        state.poolTargetBalance < state.tokenToBridgeAmount) {
       await setFailure(
         const Failure.other(
           cause:
