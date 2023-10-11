@@ -110,7 +110,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
                         .bridgeConfirmEVMSafetyModuleLbl,
                   ),
                   Text(
-                    '${bridge.safetyModuleFeesRate}% of the initial amount',
+                    '${bridge.safetyModuleFeesRate}${AppLocalizations.of(context)!.bridgeConfirmFeesSafetyModuleChargeable}',
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
                 ],
@@ -166,10 +166,16 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
                     AppLocalizations.of(context)!
                         .bridgeConfirmArchethicProtocolLbl,
                   ),
-                  Text(
-                    '${bridge.archethicProtocolFeesRate}% of the remaining amount after the Safety module fee',
-                    style: Theme.of(context).textTheme.labelSmall,
-                  ),
+                  if (bridge.blockchainFrom!.isArchethic)
+                    Text(
+                      '${bridge.archethicProtocolFeesRate}${AppLocalizations.of(context)!.bridgeConfirmFeesAEProtocolSigned}',
+                      style: Theme.of(context).textTheme.labelSmall,
+                    )
+                  else
+                    Text(
+                      '${bridge.archethicProtocolFeesRate}${AppLocalizations.of(context)!.bridgeConfirmFeesAEProtocolChargeable}',
+                      style: Theme.of(context).textTheme.labelSmall,
+                    ),
                 ],
               ),
             ),

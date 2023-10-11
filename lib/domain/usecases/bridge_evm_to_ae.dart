@@ -114,11 +114,16 @@ class BridgeEVMToArchethicUseCase
     // 5) Reveal secret to Archethic HTLC
     if (recoveryStep <= 5) {
       try {
+        if (amount == null) {
+          amount = await getEVMHTLCAmount(ref, htlcEVMAddress);
+          amount ??= bridge.tokenToBridgeAmount;
+          debugPrint('Archethic HTLC amount $amount');
+        }
         await revealEVMSecret(
           ref,
           htlcAEAddress!,
           secret,
-          amount!,
+          amount,
           bridge.tokenToBridge!.poolAddressTo,
         );
       } catch (e) {
