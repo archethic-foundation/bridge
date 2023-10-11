@@ -2,7 +2,6 @@
 import 'package:aebridge/application/main_screen_widget_displayed.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
-import 'package:aebridge/ui/views/bridge_in_progress/bridge_in_progress_popup.dart';
 import 'package:aebridge/ui/views/util/components/icon_animated.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
@@ -37,11 +36,6 @@ class LocalHistoryCardOptionsResume extends ConsumerWidget {
                     BridgeSheet(initialState: bridge),
                     ref,
                   );
-              if (!context.mounted) return;
-              await BridgeInProgressPopup.getDialog(
-                context,
-                ref,
-              );
             },
             child: IconAnimated(
               icon: Iconsax.play_circle,
