@@ -19,10 +19,7 @@ import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:webthree/webthree.dart' as webthree;
-
-part 'provider.g.dart';
 
 @immutable
 class BridgeFormNotifierParameters {
@@ -33,7 +30,11 @@ class BridgeFormNotifierParameters {
   final BridgeFormState? initialState;
 }
 
-@riverpod
+final _bridgeFormNotifierProvider = NotifierProvider.autoDispose
+    .family<_BridgeFormNotifier, BridgeFormState, BridgeFormNotifierParameters>(
+  _BridgeFormNotifier.new,
+);
+
 class _BridgeFormNotifier extends AutoDisposeFamilyNotifier<BridgeFormState,
     BridgeFormNotifierParameters> {
   @override
@@ -650,7 +651,7 @@ class _BridgeFormNotifier extends AutoDisposeFamilyNotifier<BridgeFormState,
 }
 
 abstract class BridgeFormProvider {
-  static const resumedBridgeForm = _bridgeFormNotifierProvider;
+  static final resumedBridgeForm = _bridgeFormNotifierProvider;
   static final newBridgeForm =
       _bridgeFormNotifierProvider(const BridgeFormNotifierParameters());
 }
