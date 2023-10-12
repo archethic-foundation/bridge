@@ -66,101 +66,112 @@ class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
 class _WelcomeScreenResponsiveWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Positioned.fill(
-      child: Responsive(
-        mobile: ArchethicScrollbar(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: HeaderMainScreen(),
-                  ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.only(top: 60),
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: _infosGroup(context),
-                ),
-              ),
-              const WelcomeBridgeBtn(),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width - 300,
-                ),
-                child: const WelcomeInfoVersion(),
-              ),
-            ],
-          ),
-        ),
-        tablet: ArchethicScrollbar(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              const Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: HeaderMainScreen(),
-                  ),
-                ],
-              ),
-              Container(
-                padding: const EdgeInsets.only(top: 60),
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: _infosGroup(context),
-                ),
-              ),
-              const WelcomeBridgeBtn(),
-              Padding(
-                padding: EdgeInsets.only(
-                  left: MediaQuery.of(context).size.width - 300,
-                ),
-                child: const WelcomeInfoVersion(),
-              ),
-            ],
-          ),
-        ),
-        desktop: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            const Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 20),
-                  child: HeaderMainScreen(),
-                ),
-              ],
-            ),
-            Container(
-              padding: const EdgeInsets.only(top: 60),
-              width: MediaQuery.of(context).size.width,
-              height: 420,
-              child: Row(
+    return LayoutBuilder(
+      builder: (context, constraint) {
+        return Positioned.fill(
+          child: ArchethicScrollbar(
+            child: Responsive(
+              mobile: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: _infosGroup(context),
+                children: [
+                  const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: HeaderMainScreen(),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(top: 60),
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      children: _infosGroup(context),
+                    ),
+                  ),
+                  const WelcomeBridgeBtn(),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width - 300,
+                    ),
+                    child: const WelcomeInfoVersion(),
+                  ),
+                ],
+              ),
+              tablet: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  const Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: HeaderMainScreen(),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(top: 60),
+                    width: MediaQuery.of(context).size.width,
+                    child: Column(
+                      children: _infosGroup(context),
+                    ),
+                  ),
+                  const WelcomeBridgeBtn(),
+                  Padding(
+                    padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width - 300,
+                    ),
+                    child: const WelcomeInfoVersion(),
+                  ),
+                ],
+              ),
+              desktop: Container(
+                constraints: BoxConstraints(minHeight: constraint.maxHeight),
+                child: IntrinsicHeight(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 20),
+                            child: HeaderMainScreen(),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        constraints: const BoxConstraints(maxHeight: 420),
+                        padding: const EdgeInsets.only(top: 60),
+                        width: MediaQuery.of(context).size.width,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: _infosGroup(context),
+                        ),
+                      ),
+                      const Spacer(),
+                      const WelcomeBridgeBtn(),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: MediaQuery.of(context).size.width - 300,
+                        ),
+                        child: const WelcomeInfoVersion(),
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-            const WelcomeBridgeBtn(),
-            Padding(
-              padding: EdgeInsets.only(
-                left: MediaQuery.of(context).size.width - 300,
-              ),
-              child: const WelcomeInfoVersion(),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 
