@@ -2,8 +2,8 @@
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:flutter/material.dart';
 
-class HeaderMainScreen extends StatelessWidget {
-  const HeaderMainScreen({super.key});
+class HeaderWelcomeScreen extends StatelessWidget {
+  const HeaderWelcomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
