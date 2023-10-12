@@ -96,7 +96,7 @@ class MainScreenState extends ConsumerState<MainScreen> {
     return GestureDetector(
       onTap: _closeSubMenu,
       child: BusyScaffold(
-        isBusy: ref.watch(isLoadingScreenProvider),
+        isBusy: ref.watch(isLoadingMainScreenProvider),
         scaffold: Scaffold(
           backgroundColor: BridgeThemeBase.backgroundColor,
           appBar: AppBarMainScreen(

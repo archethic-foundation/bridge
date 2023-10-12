@@ -69,7 +69,7 @@ class LocalHistoryCardOptionsResume extends ConsumerWidget {
                   }
                 },
                 isBusyValueChanged: (isBusy) {
-                  ref.read(isLoadingScreenProvider.notifier).state = isBusy;
+                  ref.read(isLoadingMainScreenProvider.notifier).state = isBusy;
                 },
               );
             },
