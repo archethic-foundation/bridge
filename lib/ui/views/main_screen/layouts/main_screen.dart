@@ -113,11 +113,12 @@ class MainScreenState extends ConsumerState<MainScreen> {
               ),
               if (_isSubMenuOpen)
                 Positioned(
-                  top: 30,
+                  top: 0,
                   right: 20,
                   child: Column(
                     children: [
                       _buildSubMenu(
+                        topPadding: 10,
                         AppLocalizations.of(context)!
                             .archethicDashboardMenuAEWebItem,
                         AppLocalizations.of(context)!
@@ -176,10 +177,11 @@ class MainScreenState extends ConsumerState<MainScreen> {
   Widget _buildSubMenu(
     String label,
     String description,
-    String url,
-  ) {
+    String url, {
+    double topPadding = 20,
+  }) {
     return Padding(
-      padding: const EdgeInsets.only(top: 20),
+      padding: EdgeInsets.only(top: topPadding),
       child: InkWell(
         onTap: () {
           launchUrl(
