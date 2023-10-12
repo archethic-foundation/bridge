@@ -1,4 +1,3 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
@@ -28,8 +27,7 @@ class EVMLPNative with EVMBridgeProcessMixin {
   ) async {
     return Result.guard(() async {
       final evmWalletProvider = sl.get<EVMWalletProvider>();
-
-      final amountInWei = BigInt.from(amount * 1e18);
+      final ethAmount = EtherAmount.fromDouble(EtherUnit.ether, amount);
       await sendTransactionWithErrorManagement(
         web3Client!,
         evmWalletProvider.credentials!,
@@ -37,7 +35,7 @@ class EVMLPNative with EVMBridgeProcessMixin {
           to: EthereumAddress.fromHex(htlcContractAddress),
           gasPrice: EtherAmount.fromInt(EtherUnit.gwei, 10),
           maxGas: 500000,
-          value: EtherAmount.fromBigInt(EtherUnit.wei, amountInWei),
+          value: ethAmount,
         ),
         chainId,
       );
