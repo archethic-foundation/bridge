@@ -61,7 +61,8 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
     if (!(bridge.tokenToBridgeAmount != 0.0 ||
         (tokenAmountController.text == '' ||
-            tokenAmountController.text == '0'))) {
+            tokenAmountController.text == '0' ||
+            tokenAmountController.text == '0.'))) {
       _updateAmountTextController();
     }
 
