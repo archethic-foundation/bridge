@@ -17,7 +17,8 @@
                 "targetTokenSymbol": "UCO",
                 "poolAddressFrom": "",
                 "poolAddressTo": "",
-                "type": "Native"
+                "type": "Native",
+                "tokenAddressTarget": ""
             }
         ],
         "-1->137": [
@@ -37,7 +38,8 @@
                 "targetTokenSymbol": "UCO",
                 "poolAddressFrom": "",
                 "poolAddressTo": "",
-                "type": "Native"
+                "type": "Native",
+                "tokenAddressTarget": ""
             }
         ],
         "-1->56": [
@@ -57,7 +59,8 @@
                 "targetTokenSymbol": "UCO",
                 "poolAddressFrom": "",
                 "poolAddressTo": "",
-                "type": "Native"
+                "type": "Native",
+                "tokenAddressTarget": ""
             }
         ],
         "-2->11155111": [
@@ -99,7 +102,8 @@
                 "targetTokenSymbol": "UCO",
                 "poolAddressFrom": "000018d60115ece0c7558a46b4693749bf6beab524fddccf9b10b910619e4ee08801",
                 "poolAddressTo": "",
-                "type": "Native"
+                "type": "Native",
+                "tokenAddressTarget": "0x51279e98d99AA8D65763a885BEFA5463dCd84Af6"
             }
         ],
         "-2->97": [
@@ -119,7 +123,8 @@
                 "targetTokenSymbol": "UCO",
                 "poolAddressFrom": "000018d60115ece0c7558a46b4693749bf6beab524fddccf9b10b910619e4ee08801",
                 "poolAddressTo": "",
-                "type": "Native"
+                "type": "Native",
+                "tokenAddressTarget": "0x5e6554593E4fe61276AD09094f16A6D5133461A5"
             }
         ],
         "-3->1337": [
@@ -246,7 +251,7 @@
                 "poolAddressFrom": "",
                 "poolAddressTo": "000018d60115ece0c7558a46b4693749bf6beab524fddccf9b10b910619e4ee08801",
                 "type": "ERC20",
-                "tokenAddressSource": ""
+                "tokenAddressSource": "0x51279e98d99AA8D65763a885BEFA5463dCd84Af6"
             }
         ],
         "97->-2": [
@@ -267,7 +272,7 @@
                 "poolAddressFrom": "",
                 "poolAddressTo": "000018d60115ece0c7558a46b4693749bf6beab524fddccf9b10b910619e4ee08801",
                 "type": "ERC20",
-                "tokenAddressSource": ""
+                "tokenAddressSource": "0x5e6554593E4fe61276AD09094f16A6D5133461A5"
             }
         ],
         "1337->-3": [
