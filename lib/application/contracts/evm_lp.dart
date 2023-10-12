@@ -1,4 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:math';
+
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
@@ -22,14 +24,15 @@ class EVMLP with EVMBridgeProcessMixin {
     double amount,
     bool isERC20,
   ) async {
-    final amountInWei = BigInt.from(amount * 1e18);
+    final ethAmount = EtherAmount.fromDouble(EtherUnit.ether, amount);
     final transactionMintHTLC = Transaction.callContract(
       contract: deployedContract,
       function: deployedContract.function('mintHTLC'),
-      parameters: [hexToBytes(hash), amountInWei],
-      value: isERC20 == false
-          ? EtherAmount.fromBigInt(EtherUnit.wei, amountInWei)
-          : null,
+      parameters: [
+        hexToBytes(hash),
+        ethAmount.getInWei,
+      ],
+      value: isERC20 == false ? ethAmount : null,
     );
     return transactionMintHTLC;
   }
@@ -128,14 +131,15 @@ class EVMLP with EVMBridgeProcessMixin {
         final contractLP =
             await getDeployedContract(contractNameIPool, poolAddress);
 
-        final amountInWei = BigInt.from(amount * 1e18);
+        final bigIntValue = BigInt.from(amount * pow(10, 18));
+        final ethAmount = EtherAmount.fromBigInt(EtherUnit.wei, bigIntValue);
 
         final transactionProvisionHTLC = Transaction.callContract(
           contract: contractLP,
           function: contractLP.function('provisionHTLC'),
           parameters: [
             hexToBytes(secretHash.secretHash!),
-            amountInWei,
+            ethAmount.getInWei,
             BigInt.from(endTime),
             hexToBytes(secretHash.secretHashSignature!.r!),
             hexToBytes(secretHash.secretHashSignature!.s!),

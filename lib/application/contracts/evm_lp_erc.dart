@@ -1,4 +1,3 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
@@ -35,14 +34,13 @@ class EVMLPERC with EVMBridgeProcessMixin {
         final contract =
             await getDeployedContract(contractNameIERC20, tokenAddress);
 
-        final amountInWei = BigInt.from(amount * 1e18);
-
+        final ethAmount = EtherAmount.fromDouble(EtherUnit.ether, amount);
         final transactionTransfer = Transaction.callContract(
           contract: contract,
           function: contract.function('transfer'),
           parameters: [
             EthereumAddress.fromHex(htlcContractAddress),
-            amountInWei,
+            ethAmount.getInWei,
           ],
         );
 
