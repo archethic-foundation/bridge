@@ -72,7 +72,7 @@
                 "poolAddressFrom": "000066706d704329ca8c2a4153991e2ddacc968622ca10217ca14952eb7abb966c30",
                 "poolAddressTo": "0xc1c77bD5adb581bDeF19cd1eb0f8d941D1c576Ea",
                 "type": "Wrapped",
-                "tokenAddressSource": ""
+                "tokenAddressSource": "00003DF600E329199BF3EE8FBE2B8223413D70BCDD97E15089E6A74D94DE3F1173B4"
             },
             {
                 "name": "Universal Coin",
@@ -93,7 +93,8 @@
                 "targetTokenSymbol": "MATIC",
                 "poolAddressFrom": "0000072e418b60c6dabd272bc2728b17b352b8104f068d11365d50134f96a4199609",
                 "poolAddressTo": "",
-                "type": "Wrapped"
+                "type": "Wrapped",
+                "tokenAddressSource": "00001A4AB7AD0CE2B494C965C66FF2962692A5FE5ECB71B345ABB53BAD88A83A01F1"
             },
             {
                 "name": "Universal Coin",
@@ -114,7 +115,8 @@
                 "targetTokenSymbol": "BNB",
                 "poolAddressFrom": "00008dd22e7496e86901e9b276a1be6f9512eb09980cc04c7b76495ef37d5666a709",
                 "poolAddressTo": "",
-                "type": "Wrapped"
+                "type": "Wrapped",
+                "tokenAddressSource": "0000288BF6F0E12457B125DC54D2DFA4EB010BE3073CF02E10FB79B696180F55B827"
             },
             {
                 "name": "Universal Coin",
@@ -220,7 +222,8 @@
                 "targetTokenSymbol": "aeETH",
                 "poolAddressFrom": "0xc1c77bD5adb581bDeF19cd1eb0f8d941D1c576Ea",
                 "poolAddressTo": "000066706d704329ca8c2a4153991e2ddacc968622ca10217ca14952eb7abb966c30",
-                "type": "Native"
+                "type": "Native",
+                "tokenAddressTarget": "00003DF600E329199BF3EE8FBE2B8223413D70BCDD97E15089E6A74D94DE3F1173B4"
             },
             {
                 "name": "Universal Coin",
@@ -241,7 +244,8 @@
                 "targetTokenSymbol": "WMATIC",
                 "poolAddressFrom": "",
                 "poolAddressTo": "0000072e418b60c6dabd272bc2728b17b352b8104f068d11365d50134f96a4199609",
-                "type": "Native"
+                "type": "Native",
+                "tokenAddressTarget": "00001A4AB7AD0CE2B494C965C66FF2962692A5FE5ECB71B345ABB53BAD88A83A01F1"
             },
             {
                 "name": "Universal Coin",
@@ -262,7 +266,8 @@
                 "targetTokenSymbol": "WBNB",
                 "poolAddressFrom": "",
                 "poolAddressTo": "00008dd22e7496e86901e9b276a1be6f9512eb09980cc04c7b76495ef37d5666a709",
-                "type": "Native"
+                "type": "Native",
+                "tokenAddressTarget": "0000288BF6F0E12457B125DC54D2DFA4EB010BE3073CF02E10FB79B696180F55B827"
             },
             {
                 "name": "Universal Coin",
