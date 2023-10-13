@@ -26,6 +26,7 @@ class PopupTemplate extends StatelessWidget {
           return Scaffold(
             backgroundColor: Colors.transparent.withAlpha(120),
             body: AlertDialog(
+              insetPadding: EdgeInsets.zero,
               backgroundColor: Colors.transparent,
               elevation: 0,
               content: Stack(
