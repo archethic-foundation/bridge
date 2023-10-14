@@ -42,8 +42,14 @@ class ArchethicContractSigned with TransactionBridgeMixin {
               ),
             );
 
-        final resultDeploy = await ArchethicContract()
-            .deployHTLC(null, code.toString(), htlcGenesisAddress, seedSC);
+        const slippageFees = 3.0;
+        final resultDeploy = await ArchethicContract().deployHTLC(
+          null,
+          code.toString(),
+          htlcGenesisAddress,
+          seedSC,
+          slippageFees,
+        );
 
         resultDeploy.map(
           success: (success) {},

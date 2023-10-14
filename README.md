@@ -14,7 +14,6 @@
 
 In order to develop and test the application, you need to have some prerequisites:
 
-- [Ganache](https://trufflesuite.com/ganache/) (Simulation of the Ethereum's node)
 - [Node.js](https://nodejs.org/)
 - [Flutter](https://flutter.dev/)
   - Flutter 3.13+
@@ -26,20 +25,13 @@ In order to develop and test the application, you need to have some prerequisite
 ### Steps
 
 #### 1) Create an EVM Wallet
-  - Launch Ganache and create a new workspace with 
-    - Network id 1337 (Server tab)
-    - Seed `inflict author desk anxiety music swear acquire achieve link young benefit biology` (Accounts & Keys tab)
-    - Generate 10 accounts (Accounts & Keys tab)
   - Start your EVM wallet :
-    - Add Ganache network with these properties
-      - Network name: Ganache
-      - RPC Url: http://127.0.0.1:7545
-      - Chain Id: 1337
+    - Add Hardhat network with these properties
+      - Network name: Hardhat
+      - RPC Url: http://127.0.0.1:8545
+      - Chain Id: 31337
       - Symbol: ETH
     - Import an account using the private key from the first workspace's account 
-  - Click on "Key" icon in the first row on the Accounts tab
-  - Copy the private key
-  - Paste the private key into your EVM wallet
   
 #### 2) Create an Archethic Wallet
   - Start Archethic Node in the devnet environnment (ie local environnment)
@@ -86,22 +78,17 @@ In order to develop and test the application, you need to have some prerequisite
       - Retry deploying the contracts.
 
 #### 4) Deploy EVM Pools
-  - Execute the following commands to install truffle and to deploy the contracts:
+  - Execute the following commands to install EVM contracts management's dependencies and to start a local node:
 
     ```bash
-    cd contracts/evm;npm install -g truffle;npm install;truffle deploy;cd -
+    cd contracts/evm;npm install;npx hardhat node;cd -;
     ```
-  More infos: [Truffle](https://trufflesuite.com/docs/truffle/how-to/install/) (Tools for EVM smart contract development)
-
-  - Configure the AEBridge project (`/lib/domain/repositories/tokens_list_per_bridge.json` file)
-    - Put from terminal "info 2_deploy_eth_pool.js/TransparentUpgradeableProxy/contract address" value to `-3->1337/ETH/poolAddressTo`
-    - Put from terminal "info 2_deploy_eth_pool.js/TransparentUpgradeableProxy/contract address" value to `1337->-3/ETH/poolAddressFrom`
-    - Put from terminal "info 3_deploy_erc.pool.js/TransparentUpgradeableProxy/contract address" value to `1337->-3/UCO/poolAddressFrom`
-    - Put from terminal "info 3_deploy_erc.pool.js/TransparentUpgradeableProxy/contract address" value to `-3->1337/UCO/poolAddressTo}`
-    - Put from terminal "info 3_deploy_erc.pool.js/Deployed token" value to `1337->-3/UCO/tokenAddress` 
-  - Add ERC Token in your EVM Wallet
-    - Search in terminal "info 3_deploy_erc.pool.js/Deployed token" and put the value to EVM Wallet
-
+  
+  - Execute the following commands in another terminal to deploy the contracts and fill the pools with tokens:
+- 
+    ```bash
+    cd contracts/evm;npm run deploy;npm run fill-eth; npm run fill-erc;cd -;
+    ```
 #### 5) Run AEBridge
   - Execute the following command at the project's root to launch the app with Chrome extension availability:
     ```bash

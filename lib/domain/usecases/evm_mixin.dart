@@ -273,11 +273,13 @@ mixin EVMBridgeProcessMixin {
     int chainId,
   ) async {
     try {
-      return await web3Client.sendTransaction(
+      final transactionHash = await web3Client.sendTransaction(
         credentials,
         transaction,
         chainId: chainId,
       );
+      await watchTxStatus(web3Client, transactionHash);
+      return transactionHash;
     } catch (e) {
       debugPrint('error provisionChargeableHTLC $e');
 
@@ -302,6 +304,36 @@ mixin EVMBridgeProcessMixin {
       }
       throw Failure.other(cause: e.toString());
     }
+  }
+
+// wait and report:
+  Future<TransactionReceipt> watchTxStatus(Web3Client web3client, String txHash,
+      {int delay = 1, int retries = 10}) async {
+    TransactionReceipt? receipt;
+    try {
+      debugPrint('async watch tx status');
+      receipt = await web3client.getTransactionReceipt(txHash);
+    } catch (err) {
+      debugPrint('could not get $txHash receipt, try again');
+    }
+
+    var _delay = delay;
+    var _retries = retries;
+    while (receipt == null) {
+      debugPrint('retry: waiting for receipt');
+      await Future.delayed(Duration(seconds: _delay));
+      _delay *= 2;
+      _retries--;
+      if (_retries == 0) {
+        throw Exception('Transaction $txHash not mined yet...');
+      }
+      try {
+        receipt = await web3client.getTransactionReceipt(txHash);
+      } catch (err) {
+        debugPrint('could not get $txHash receipt, try again');
+      }
+    }
+    return receipt;
   }
 
   Future<BigInt> estimateGas(

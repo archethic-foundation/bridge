@@ -30,6 +30,7 @@ class ArchethicContract with TransactionBridgeMixin {
     String code,
     String htlcGenesisAddress,
     String seedSC,
+    double slippageFees,
   ) async {
     return Result.guard(
       () async {
@@ -64,7 +65,7 @@ class ArchethicContract with TransactionBridgeMixin {
           ),
           [scAuthorizedKey],
         );
-
+        debugPrint('index $index');
         late Transaction transactionFinal;
         if (recipient != null) {
           transactionFinal = transactionSC
@@ -83,7 +84,8 @@ class ArchethicContract with TransactionBridgeMixin {
               .originSign(originPrivateKey);
         }
 
-        final fees = await calculateFees(transactionFinal);
+        final fees =
+            await calculateFees(transactionFinal, slippage: slippageFees);
         var transactionTransfer =
             Transaction(type: 'transfer', data: Transaction.initData())
                 .addUCOTransfer(
