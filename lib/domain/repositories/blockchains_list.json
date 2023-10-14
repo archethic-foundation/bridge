@@ -47,10 +47,10 @@
         },
         {
             "name": "Ethereum Devnet",
-            "chainId": 1337,
+            "chainId": 31337,
             "env": "3-devnet",
             "icon": "Ethereum.svg",
-            "providerEndpoint": "http://127.0.0.1:7545",
+            "providerEndpoint": "http://127.0.0.1:8545",
             "isArchethic": false
         },
         {

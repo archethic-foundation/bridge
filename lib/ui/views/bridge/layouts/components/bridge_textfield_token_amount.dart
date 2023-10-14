@@ -59,10 +59,10 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
 
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final textNum = double.tryParse(tokenAmountController.text);
     if (!(bridge.tokenToBridgeAmount != 0.0 ||
-        (tokenAmountController.text == '' ||
-            tokenAmountController.text == '0' ||
-            tokenAmountController.text == '0.'))) {
+        tokenAmountController.text == '' ||
+        (textNum != null && textNum == 0))) {
       _updateAmountTextController();
     }
 

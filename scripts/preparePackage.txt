@@ -4,4 +4,3 @@ dart fix --dry-run
 flutter run -d web-server
 flutter build web --web-renderer canvaskit --release
 firebase deploy
-ganache -m "inflict author desk anxiety music swear acquire achieve link young benefit biology" -p 7545

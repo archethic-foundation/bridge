@@ -53,12 +53,13 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
         final resultDefineHTLCAddress = ArchethicContract().defineHTLCAddress();
         final htlcGenesisAddress = resultDefineHTLCAddress.genesisAddressHTLC;
         final _seedSC = resultDefineHTLCAddress.seedHTLC;
-
+        const slippageFees = 1.5;
         final resultDeployHTLC = await ArchethicContract().deployHTLC(
           recipient,
           code.toString(),
           htlcGenesisAddress,
           _seedSC,
+          slippageFees,
         );
         resultDeployHTLC.map(
           success: (success) {},

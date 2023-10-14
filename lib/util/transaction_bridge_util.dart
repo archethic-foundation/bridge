@@ -7,13 +7,19 @@ import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter/material.dart';
 
 mixin TransactionBridgeMixin {
-  Future<double> calculateFees(Transaction transaction) async {
-    const slippage = 1.01;
+  Future<double> calculateFees(
+    Transaction transaction, {
+    double slippage = 1.01,
+  }) async {
     final transactionFee =
         await sl.get<ApiService>().getTransactionFee(transaction);
+    debugPrint(
+      'Transaction ${transaction.address} : $transactionFee UCO',
+    );
+
     final fees = fromBigInt(transactionFee.fee) * slippage;
     debugPrint(
-      'Transaction ${transaction.address} : $fees UCO',
+      'Transaction ${transaction.address} *slippage : $fees UCO',
     );
     return fees;
   }

@@ -68,7 +68,7 @@ class EVMLP with EVMBridgeProcessMixin {
     String hash,
     double amount,
     bool isERC20, {
-    int chainId = 1337,
+    int chainId = 31337,
   }) async {
     return Result.guard(() async {
       final evmWalletProvider = sl.get<EVMWalletProvider>();
@@ -119,7 +119,7 @@ class EVMLP with EVMBridgeProcessMixin {
     SecretHash secretHash,
     double amount,
     int endTime, {
-    int chainId = 1337,
+    int chainId = 31337,
   }) async {
     return Result.guard(
       () async {
