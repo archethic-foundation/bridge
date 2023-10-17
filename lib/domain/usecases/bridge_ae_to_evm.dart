@@ -66,12 +66,14 @@ class BridgeArchethicToEVMUseCase
 
     late SecretHash secretHash;
     late int endTime;
+    late double amount;
     if (recoveryStep <= 4) {
       try {
         // 3) Get Secret Hash from API
-        final resultGetAESecretHash = await getAESecretHash(ref, htlcAEAddress);
-        secretHash = resultGetAESecretHash.secretHash;
-        endTime = resultGetAESecretHash.endTime;
+        final resultGetAEHTLCData = await getAEHTLCData(ref, htlcAEAddress);
+        secretHash = resultGetAEHTLCData.secretHash;
+        endTime = resultGetAEHTLCData.endTime;
+        amount = resultGetAEHTLCData.amount;
       } catch (e) {
         return;
       }
@@ -79,7 +81,7 @@ class BridgeArchethicToEVMUseCase
       // 4) Deploy EVM HTLC + Provision
       try {
         htlcEVMAddress =
-            await deployEVMHTCLAndProvision(ref, secretHash, endTime);
+            await deployEVMHTCLAndProvision(ref, secretHash, endTime, amount);
         await bridgeNotifier.setHTLCEVMAddress(htlcEVMAddress);
       } catch (e) {
         return;
