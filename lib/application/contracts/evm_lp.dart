@@ -96,6 +96,16 @@ class EVMLP with EVMBridgeProcessMixin {
         chainId,
       );
 
+      final contractPoolBase =
+          await getDeployedContract(contractNamePoolBase, poolAddress);
+      final events = await web3Client.getLogs(
+        FilterOptions.events(
+          contract: contractPoolBase,
+          event: contractPoolBase.event('ContractMinted'),
+        ),
+      );
+      debugPrint('Event ContractMinted = $events');
+
       debugPrint('HTLC Contract deployed');
 
       // Get HTLC address
@@ -155,6 +165,16 @@ class EVMLP with EVMBridgeProcessMixin {
           transactionProvisionHTLC,
           chainId,
         );
+
+        final contractPoolBase =
+            await getDeployedContract(contractNamePoolBase, poolAddress);
+        final events = await web3Client.getLogs(
+          FilterOptions.events(
+            contract: contractPoolBase,
+            event: contractPoolBase.event('ContractProvisioned'),
+          ),
+        );
+        debugPrint('Event ContractProvisioned = $events');
 
         debugPrint('HTLC Contract deployed');
         debugPrint('secretHash : ${hexToBytes(secretHash.secretHash!)}');

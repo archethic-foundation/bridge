@@ -50,6 +50,14 @@ class EVMLPERC with EVMBridgeProcessMixin {
           transactionTransfer,
           chainId,
         );
+
+        final events = await web3Client!.getLogs(
+          FilterOptions.events(
+            contract: contract,
+            event: contract.event('Transfer'),
+          ),
+        );
+        debugPrint('Event Transfer = $events');
       },
     );
   }
@@ -86,6 +94,14 @@ class EVMLPERC with EVMBridgeProcessMixin {
           transactionWithdraw,
           chainId,
         );
+        final events = await web3Client!.getLogs(
+          FilterOptions.events(
+            contract: contractHTLCERC,
+            event: contractHTLCERC.event('Withdrawn'),
+          ),
+        );
+        debugPrint('Event Withdrawn = $events');
+
         debugPrint('signedWithdrawTx: $withdrawTx');
         return withdrawTx;
       },

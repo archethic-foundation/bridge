@@ -30,6 +30,7 @@ const contractNameHTLCERC = 'HTLC_ERC';
 const contractNameHTLCETH = 'HTLC_ETH';
 
 const contractNameIPool = 'IPool';
+const contractNamePoolBase = 'PoolBase';
 
 const contractNameIERC20 = 'IERC20';
 const contractNameSignedHTLCERC = 'SignedHTLC_ERC';
@@ -267,21 +268,6 @@ mixin EVMBridgeProcessMixin {
     );
   }
 
-  Future<void> listenEvent(
-    DeployedContract contract,
-    Web3Client web3Client,
-    String eventName,
-  ) async {
-    final event = contract.event(eventName);
-    web3Client
-        .events(
-      FilterOptions.events(contract: contract, event: event),
-    )
-        .listen((event) {
-      debugPrint('event: $event');
-    });
-  }
-
   Future<String> sendTransactionWithErrorManagement(
     Web3Client web3Client,
     CredentialsWithKnownAddress credentials,
@@ -294,7 +280,6 @@ mixin EVMBridgeProcessMixin {
         transaction,
         chainId: chainId,
       );
-      await watchTxStatus(web3Client, transactionHash);
       debugPrint('transactionHash $transactionHash');
       return transactionHash;
     } catch (e) {

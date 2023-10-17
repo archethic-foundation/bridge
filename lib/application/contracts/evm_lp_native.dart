@@ -39,6 +39,17 @@ class EVMLPNative with EVMBridgeProcessMixin {
         ),
         chainId,
       );
+
+      final contract =
+          await getDeployedContract(contractNameHTLCETH, htlcContractAddress);
+
+      final events = await web3Client!.getLogs(
+        FilterOptions.events(
+          contract: contract,
+          event: contract.event('FundsReceived'),
+        ),
+      );
+      debugPrint('Event FundsReceived = $events');
     });
   }
 
@@ -74,6 +85,15 @@ class EVMLPNative with EVMBridgeProcessMixin {
           transactionWithdraw,
           chainId,
         );
+
+        final events = await web3Client!.getLogs(
+          FilterOptions.events(
+            contract: contractHTLCETH,
+            event: contractHTLCETH.event('Withdrawn'),
+          ),
+        );
+        debugPrint('Event Withdrawn = $events');
+
         debugPrint('signedWithdrawTx: $withdrawTx');
         return withdrawTx;
       },
