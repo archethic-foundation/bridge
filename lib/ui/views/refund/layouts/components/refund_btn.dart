@@ -16,7 +16,7 @@ class RefundButton extends ConsumerWidget {
     final refund = ref.watch(RefundFormProvider.refundForm);
     if (refund.evmWallet == null ||
         refund.evmWallet!.isConnected == false ||
-        refund.contractAddress.isEmpty ||
+        refund.htlcAddress.isEmpty ||
         refund.failure != null ||
         refund.refundTxAddress != null ||
         (refund.isAlreadyRefunded != null &&

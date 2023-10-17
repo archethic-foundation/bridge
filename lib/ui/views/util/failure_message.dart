@@ -36,7 +36,7 @@ class FailureMessage {
     }
 
     if (failure is RPCErrorEVM) {
-      return (failure! as RPCErrorEVM).data!['Some_Key']!.reason;
+      return (failure! as RPCErrorEVM).cause.toString();
     }
 
     if (failure is WrongNetwork) {

@@ -7,11 +7,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RefundSheet extends ConsumerWidget {
   const RefundSheet({
-    this.contractAddress,
+    this.htlcAddress,
     super.key,
   });
 
-  final String? contractAddress;
+  final String? htlcAddress;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -19,11 +19,11 @@ class RefundSheet extends ConsumerWidget {
       overrides: [
         RefundFormProvider.initialRefundForm.overrideWithValue(
           RefundFormState(
-            contractAddress: contractAddress ?? '',
+            htlcAddress: htlcAddress ?? '',
           ),
         ),
       ],
-      child: RefundFormSheet(contractAddress: contractAddress),
+      child: RefundFormSheet(htlcAddress: htlcAddress),
     );
   }
 }

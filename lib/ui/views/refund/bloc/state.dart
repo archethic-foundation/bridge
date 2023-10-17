@@ -7,7 +7,7 @@ part 'state.freezed.dart';
 @freezed
 class RefundFormState with _$RefundFormState {
   const factory RefundFormState({
-    @Default('') String contractAddress,
+    @Default('') String htlcAddress,
     String? refundTxAddress,
     int? chainId,
     bool? isAlreadyRefunded,
@@ -24,7 +24,7 @@ class RefundFormState with _$RefundFormState {
 
   bool get isControlsOk =>
       failure == null &&
-      contractAddress.isNotEmpty &&
+      htlcAddress.isNotEmpty &&
       addressOk != null &&
       addressOk == true;
 }

@@ -296,19 +296,20 @@ mixin EVMBridgeProcessMixin {
         const encoder = JsonEncoder.withIndent('  ');
         final validJson = encoder.convert(e.data);
         final Map<String, dynamic> jsonMap = json.decode(validJson);
-        final rpcErrorEVMData =
-            RPCErrorEVMData.fromJson(jsonMap.entries.first.value);
 
-        // Utiliser cette instance pour créer une instance de Failure.rpcErrorEVM
-        throw Failure.rpcErrorEVM(data: {'Some_Key': rpcErrorEVMData});
+        throw Failure.rpcErrorEVM(jsonMap.entries.first.value);
       }
       throw Failure.other(cause: e.toString());
     }
   }
 
 // wait and report:
-  Future<TransactionReceipt> watchTxStatus(Web3Client web3client, String txHash,
-      {int delay = 1, int retries = 10}) async {
+  Future<TransactionReceipt> watchTxStatus(
+    Web3Client web3client,
+    String txHash, {
+    int delay = 1,
+    int retries = 10,
+  }) async {
     TransactionReceipt? receipt;
     try {
       debugPrint('async watch tx status');

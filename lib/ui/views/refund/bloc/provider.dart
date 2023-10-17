@@ -44,8 +44,8 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     );
   }
 
-  Future<void> setContractAddress(String contractAddress) async {
-    state = state.copyWith(contractAddress: contractAddress);
+  Future<void> setContractAddress(String htlcAddress) async {
+    state = state.copyWith(htlcAddress: htlcAddress);
     await setStatus();
   }
 
@@ -54,12 +54,12 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       return;
     }
 
-    if (await control()) {
-      final chainId = sl.get<EVMWalletProvider>().currentChain ?? 0;
+    final chainId = sl.get<EVMWalletProvider>().currentChain ?? 0;
 
+    if (await control()) {
       final resultLockTime = await EVMHTLC(
         state.evmWallet!.providerEndpoint,
-        state.contractAddress,
+        state.htlcAddress,
         chainId,
       ).getHTLCLockTimeAndRefundState();
       resultLockTime.map(
@@ -74,12 +74,12 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
 
       final evmHTLC = EVMHTLC(
         state.evmWallet!.providerEndpoint,
-        state.contractAddress,
+        state.htlcAddress,
         chainId,
       );
       final evmLPERC = EVMLPERC(
         state.evmWallet!.providerEndpoint!,
-        state.contractAddress,
+        state.htlcAddress,
         chainId,
       );
 
@@ -132,7 +132,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
   }
 
   ({bool result, Failure? failure}) _controlAddress() {
-    if (state.contractAddress.isEmpty) {
+    if (state.htlcAddress.isEmpty) {
       return (
         result: false,
         failure: const Failure.other(cause: 'Please enter a contract address.'),
@@ -140,7 +140,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     }
 
     try {
-      webthree.EthereumAddress.fromHex(state.contractAddress);
+      webthree.EthereumAddress.fromHex(state.htlcAddress);
     } catch (e) {
       return (
         result: false,
@@ -197,7 +197,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     await EVMWalletProvider().connect(currentChain);
     await RefunEVMCase().run(
       ref,
-      state.contractAddress,
+      state.htlcAddress,
       currentChain,
     );
   }
@@ -231,7 +231,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
               nameAccount: evmWalletProvider.accountName!,
               genesisAddress: evmWalletProvider.currentAddress!,
               endpoint: bridgeBlockchain!.name,
-              providerEndpoint: bridgeBlockchain.providerEndpoint,
             );
             state = state.copyWith(evmWallet: evmWallet);
             if (sl.isRegistered<EVMWalletProvider>()) {

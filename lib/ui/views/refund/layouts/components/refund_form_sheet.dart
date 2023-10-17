@@ -13,8 +13,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 
 class RefundFormSheet extends ConsumerWidget {
-  const RefundFormSheet({this.contractAddress, super.key});
-  final String? contractAddress;
+  const RefundFormSheet({this.htlcAddress, super.key});
+  final String? htlcAddress;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Align(
@@ -63,7 +63,7 @@ class RefundFormSheet extends ConsumerWidget {
                         const SizedBox(
                           height: 10,
                         ),
-                        RefundContractAddress(contractAddress: contractAddress),
+                        RefundContractAddress(contractAddress: htlcAddress),
                         const RefundInfosWallet(),
                         const RefundCanRefundInfo(),
                         const SizedBox(

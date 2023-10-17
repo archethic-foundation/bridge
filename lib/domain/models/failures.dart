@@ -36,11 +36,9 @@ class Failure with _$Failure implements Exception {
   const factory Failure.userRejected() = UserRejected;
   const factory Failure.connectivityArchethic() = ConnectivityArchethic;
   const factory Failure.connectivityEVM() = ConnectivityEVM;
-  const factory Failure.rpcErrorEVM({
-    Map<String, RPCErrorEVMData>? data,
-    String? stack,
-    String? name,
-  }) = RPCErrorEVM;
+  const factory Failure.rpcErrorEVM(
+    String? cause,
+  ) = RPCErrorEVM;
 
   const factory Failure.other({
     String? cause,
@@ -49,19 +47,4 @@ class Failure with _$Failure implements Exception {
 
   factory Failure.fromJson(Map<String, dynamic> json) =>
       _$FailureFromJson(json);
-}
-
-@freezed
-class RPCErrorEVMData with _$RPCErrorEVMData {
-  const factory RPCErrorEVMData({
-    required String error,
-    // ignore: non_constant_identifier_names
-    required int program_counter,
-    // ignore: invalid_annotation_target
-    @JsonKey(name: 'return') required String returnValue,
-    required String reason,
-  }) = _RPCErrorEVMData;
-
-  factory RPCErrorEVMData.fromJson(Map<String, dynamic> json) =>
-      _$RPCErrorEVMDataFromJson(json);
 }
