@@ -158,7 +158,12 @@ mixin ArchethicBridgeProcessMixin {
     return;
   }
 
-  Future<({SecretHash secretHash, int endTime})> getAESecretHash(
+  Future<
+      ({
+        SecretHash secretHash,
+        int endTime,
+        double amount,
+      })> getAEHTLCData(
     WidgetRef ref,
     String archethicHTLCAddress,
   ) async {
@@ -166,7 +171,7 @@ mixin ArchethicBridgeProcessMixin {
     await bridgeNotifier.setCurrentStep(3);
     await bridgeNotifier
         .setWaitForWalletConfirmation(WaitForWalletConfirmation.archethic);
-    final secretHashMap = await sl.get<archethic.ApiService>().callSCFunction(
+    final htlcDataMap = await sl.get<archethic.ApiService>().callSCFunction(
           jsonRPCRequest: archethic.SCCallFunctionRequest(
             method: 'contract_fun',
             params: archethic.SCCallFunctionParams(
@@ -178,17 +183,18 @@ mixin ArchethicBridgeProcessMixin {
           resultMap: true,
         ) as Map<String, dynamic>;
     await bridgeNotifier.setWaitForWalletConfirmation(null);
-    debugPrint('secretHashMap: $secretHashMap');
+    debugPrint('htlcDataMap: $htlcDataMap');
     return (
       secretHash: SecretHash(
-        secretHash: secretHashMap['secret_hash'],
+        secretHash: htlcDataMap['secret_hash'],
         secretHashSignature: SecretHashSignature(
-          r: secretHashMap['secret_hash_signature']['r'],
-          s: secretHashMap['secret_hash_signature']['s'],
-          v: secretHashMap['secret_hash_signature']['v'],
+          r: htlcDataMap['secret_hash_signature']['r'],
+          s: htlcDataMap['secret_hash_signature']['s'],
+          v: htlcDataMap['secret_hash_signature']['v'],
         ),
       ),
-      endTime: secretHashMap['end_time'] as int,
+      endTime: htlcDataMap['end_time'] as int,
+      amount: htlcDataMap['amount'] as double,
     );
   }
 

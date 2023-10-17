@@ -63,6 +63,7 @@ mixin EVMBridgeProcessMixin {
     WidgetRef ref,
     SecretHash secretHash,
     int endTime,
+    double amount,
   ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
@@ -82,7 +83,7 @@ mixin EVMBridgeProcessMixin {
         await evmLP.deployAndProvisionSignedHTLC(
       bridge.tokenToBridge!.poolAddressTo,
       secretHash,
-      bridge.tokenToBridgeAmount,
+      amount,
       endTime,
       chainId: bridge.blockchainTo!.chainId,
     );
