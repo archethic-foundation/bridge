@@ -267,6 +267,21 @@ mixin EVMBridgeProcessMixin {
     );
   }
 
+  Future<void> listenEvent(
+    DeployedContract contract,
+    Web3Client web3Client,
+    String eventName,
+  ) async {
+    final event = contract.event(eventName);
+    web3Client
+        .events(
+      FilterOptions.events(contract: contract, event: event),
+    )
+        .listen((event) {
+      debugPrint('event: $event');
+    });
+  }
+
   Future<String> sendTransactionWithErrorManagement(
     Web3Client web3Client,
     CredentialsWithKnownAddress credentials,
@@ -280,6 +295,7 @@ mixin EVMBridgeProcessMixin {
         chainId: chainId,
       );
       await watchTxStatus(web3Client, transactionHash);
+      debugPrint('transactionHash $transactionHash');
       return transactionHash;
     } catch (e) {
       debugPrint('error provisionChargeableHTLC $e');

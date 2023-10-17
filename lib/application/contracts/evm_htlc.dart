@@ -34,7 +34,9 @@ class EVMHTLC with EVMBridgeProcessMixin {
       () async {
         final evmWalletProvider = sl.get<EVMWalletProvider>();
 
-        await refundedEvent();
+        final contractHTLCERC =
+            await getDeployedContract(contractNameHTLCERC, htlcContractAddress);
+        await listenEvent(contractHTLCERC, web3Client!, 'Minted');
 
         final contractHTLC =
             await getDeployedContract(contractNameIHTLC, htlcContractAddress);
@@ -135,20 +137,6 @@ class EVMHTLC with EVMBridgeProcessMixin {
     debugPrint('HTLC canRefund: $canRefund');
 
     return canRefund;
-  }
-
-  Future<void> refundedEvent() async {
-    final contractHTLC =
-        await getDeployedContract(contractNameHTLCERC, htlcContractAddress);
-
-    final event = contractHTLC.event('Refunded');
-    web3Client!
-        .events(
-      FilterOptions.events(contract: contractHTLC, event: event),
-    )
-        .listen((event) {
-      debugPrint('event: $event');
-    });
   }
 
   Future<String> getTxRefund() async {
