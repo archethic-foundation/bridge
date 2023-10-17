@@ -34,10 +34,6 @@ class EVMHTLC with EVMBridgeProcessMixin {
       () async {
         final evmWalletProvider = sl.get<EVMWalletProvider>();
 
-        final contractHTLCERC =
-            await getDeployedContract(contractNameHTLCERC, htlcContractAddress);
-        await listenEvent(contractHTLCERC, web3Client!, 'Minted');
-
         final contractHTLC =
             await getDeployedContract(contractNameIHTLC, htlcContractAddress);
 
@@ -188,7 +184,17 @@ class EVMHTLC with EVMBridgeProcessMixin {
           transactionWithdraw,
           chainId,
         );
+
+        final events = await web3Client!.getLogs(
+          FilterOptions.events(
+            contract: contractHTLC,
+            event: contractHTLC.event('Withdrawn'),
+          ),
+        );
+        debugPrint('Event Withdrawn = $events');
+
         debugPrint('withdrawTx: $withdrawTx');
+
         return withdrawTx;
       },
     );
