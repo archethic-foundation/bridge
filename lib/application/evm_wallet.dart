@@ -48,7 +48,7 @@ class EVMWalletProvider extends ChangeNotifier {
   Future<void> connect(int chainId) async {
     walletConnected = false;
     try {
-      final currentChain = await getChainId();
+      currentChain = await getChainId();
       if (currentChain != chainId) {
         final changeOk = await changeChainId(chainId);
         if (changeOk == false) {

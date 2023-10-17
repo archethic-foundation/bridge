@@ -40,7 +40,7 @@ class _RefundContractAddressState extends ConsumerState<RefundContractAddress> {
 
   void _updateTextController() {
     final refund = ref.read(RefundFormProvider.refundForm);
-    addressController = TextEditingController(text: refund.contractAddress);
+    addressController = TextEditingController(text: refund.htlcAddress);
   }
 
   @override
@@ -49,7 +49,7 @@ class _RefundContractAddressState extends ConsumerState<RefundContractAddress> {
   ) {
     final refund = ref.watch(RefundFormProvider.refundForm);
 
-    if (refund.contractAddress != addressController.text) {
+    if (refund.htlcAddress != addressController.text) {
       _updateTextController();
     }
 

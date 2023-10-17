@@ -233,7 +233,7 @@
                 "poolAddressFrom": "0xEF695C0C4034304300bD01f6C300a28000F2c163",
                 "poolAddressTo": "000018d60115ece0c7558a46b4693749bf6beab524fddccf9b10b910619e4ee08801",
                 "type": "ERC20",
-                "tokenAddressSource": "0xCBBd3374v090113732393DAE1433Bc14E5233d5d7"
+                "tokenAddressSource": "0xCBBd3374090113732393DAE1433Bc14E5233d5d7"
             }
         ],
         "80001->-2": [
