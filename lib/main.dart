@@ -18,7 +18,7 @@ Future<void> main() async {
   runApp(
     ProviderScope(
       observers: [
-        ProvidersLogger(),
+        ProvidersLogger(logger: false),
       ],
       child: const MyApp(),
     ),
