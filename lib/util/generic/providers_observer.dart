@@ -3,13 +3,16 @@ import 'dart:developer';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ProvidersLogger extends ProviderObserver {
+  ProvidersLogger({this.logger = true});
+
+  final bool logger;
   @override
   void didAddProvider(
     ProviderBase<Object?> provider,
     Object? value,
     ProviderContainer container,
   ) {
-    if (provider.name != null) {
+    if (provider.name != null && logger) {
       log('didAddProvider($value)', name: '${provider.name}');
     }
   }
@@ -21,7 +24,7 @@ class ProvidersLogger extends ProviderObserver {
     Object? newValue,
     ProviderContainer container,
   ) {
-    if (provider.name != null) {
+    if (provider.name != null && logger) {
       log('didUpdateProvider($newValue)', name: '${provider.name}');
     }
   }
@@ -33,14 +36,14 @@ class ProvidersLogger extends ProviderObserver {
     StackTrace stackTrace,
     ProviderContainer container,
   ) {
-    if (provider.name != null) {
+    if (provider.name != null && logger) {
       log('providerDidFail($error)', name: '${provider.name}');
     }
   }
 
   @override
   void didDisposeProvider(ProviderBase provider, ProviderContainer container) {
-    if (provider.name != null) {
+    if (provider.name != null && logger) {
       log('didDisposeProvider', name: '${provider.name}');
     }
   }
