@@ -27,6 +27,10 @@ class FailureMessage {
       return AppLocalizations.of(context)!.failureConnectivityEVM;
     }
 
+    if (failure is Timeout) {
+      return AppLocalizations.of(context)!.failureTimeout;
+    }
+
     if (failure is InsufficientFunds) {
       return AppLocalizations.of(context)!.failureInsufficientFunds;
     }

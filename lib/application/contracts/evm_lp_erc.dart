@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
@@ -44,20 +46,45 @@ class EVMLPERC with EVMBridgeProcessMixin {
           ],
         );
 
-        await sendTransactionWithErrorManagement(
-          web3Client!,
-          evmWalletProvider.credentials!,
-          transactionTransfer,
-          chainId,
-        );
-
-        final events = await web3Client!.getLogs(
-          FilterOptions.events(
-            contract: contract,
-            event: contract.event('Transfer'),
-          ),
-        );
-        debugPrint('Event Transfer = $events');
+        var timeout = false;
+        late StreamSubscription<FilterEvent> subscription;
+        try {
+          subscription = web3Client!
+              .events(
+                FilterOptions.events(
+                  contract: contract,
+                  event: contract.event('Transfer'),
+                ),
+              )
+              .take(1)
+              .listen(
+            (event) {
+              debugPrint('Event Transfer = $event');
+            },
+          );
+          await sendTransactionWithErrorManagement(
+            web3Client!,
+            evmWalletProvider.credentials!,
+            transactionTransfer,
+            chainId,
+          );
+          await subscription.asFuture().timeout(
+            const Duration(seconds: 20),
+            onTimeout: () {
+              debugPrint('Event Transfer = timeout');
+              return timeout = true;
+            },
+          );
+          await subscription.cancel();
+        } catch (e) {
+          debugPrint('e $e');
+          await subscription.cancel();
+          rethrow;
+        }
+        if (timeout) {
+          debugPrint('timeout');
+          throw const Failure.timeout();
+        }
       },
     );
   }
@@ -88,19 +115,46 @@ class EVMLPERC with EVMBridgeProcessMixin {
           ],
         );
 
-        final withdrawTx = await sendTransactionWithErrorManagement(
-          web3Client!,
-          evmWalletProvider.credentials!,
-          transactionWithdraw,
-          chainId,
-        );
-        final events = await web3Client!.getLogs(
-          FilterOptions.events(
-            contract: contractHTLCERC,
-            event: contractHTLCERC.event('Withdrawn'),
-          ),
-        );
-        debugPrint('Event Withdrawn = $events');
+        var withdrawTx = '';
+        var timeout = false;
+        late StreamSubscription<FilterEvent> subscription;
+        try {
+          subscription = web3Client!
+              .events(
+                FilterOptions.events(
+                  contract: contractHTLCERC,
+                  event: contractHTLCERC.event('Withdrawn'),
+                ),
+              )
+              .take(1)
+              .listen((event) {
+            debugPrint('Event Withdrawn = $event');
+          });
+
+          withdrawTx = await sendTransactionWithErrorManagement(
+            web3Client!,
+            evmWalletProvider.credentials!,
+            transactionWithdraw,
+            chainId,
+          );
+
+          await subscription.asFuture().timeout(
+            const Duration(seconds: 20),
+            onTimeout: () {
+              debugPrint('Event Withdrawn = timeout');
+              return timeout = true;
+            },
+          );
+          await subscription.cancel();
+        } catch (e) {
+          debugPrint('e $e');
+          await subscription.cancel();
+          rethrow;
+        }
+        if (timeout) {
+          debugPrint('timeout');
+          throw const Failure.timeout();
+        }
 
         debugPrint('signedWithdrawTx: $withdrawTx');
         return withdrawTx;

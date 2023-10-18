@@ -157,6 +157,16 @@ Map<String, dynamic> _$$ConnectivityEVMImplToJson(
       'runtimeType': instance.$type,
     };
 
+_$TimeoutImpl _$$TimeoutImplFromJson(Map<String, dynamic> json) =>
+    _$TimeoutImpl(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$TimeoutImplToJson(_$TimeoutImpl instance) =>
+    <String, dynamic>{
+      'runtimeType': instance.$type,
+    };
+
 _$RPCErrorEVMImpl _$$RPCErrorEVMImplFromJson(Map<String, dynamic> json) =>
     _$RPCErrorEVMImpl(
       json['cause'] as String?,
