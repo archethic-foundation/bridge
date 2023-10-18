@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:async';
 import 'dart:math';
 
 import 'package:aebridge/application/evm_wallet.dart';
@@ -89,22 +90,47 @@ class EVMLP with EVMBridgeProcessMixin {
 
       debugPrint('contractLPERC mintHTLC ok');
 
-      await sendTransactionWithErrorManagement(
-        web3Client,
-        evmWalletProvider.credentials!,
-        transaction,
-        chainId,
-      );
-
-      final contractPoolBase =
-          await getDeployedContract(contractNamePoolBase, poolAddress);
-      final events = await web3Client.getLogs(
-        FilterOptions.events(
-          contract: contractPoolBase,
-          event: contractPoolBase.event('ContractMinted'),
-        ),
-      );
-      debugPrint('Event ContractMinted = $events');
+      var timeout = false;
+      late StreamSubscription<FilterEvent> subscription;
+      try {
+        final contractPoolBase =
+            await getDeployedContract(contractNamePoolBase, poolAddress);
+        subscription = web3Client
+            .events(
+              FilterOptions.events(
+                contract: contractPoolBase,
+                event: contractPoolBase.event('ContractMinted'),
+              ),
+            )
+            .take(1)
+            .listen(
+          (event) {
+            debugPrint('Event ContractMinted = $event');
+          },
+        );
+        await sendTransactionWithErrorManagement(
+          web3Client,
+          evmWalletProvider.credentials!,
+          transaction,
+          chainId,
+        );
+        await subscription.asFuture().timeout(
+          const Duration(seconds: 30),
+          onTimeout: () {
+            debugPrint('Event ContractMinted = timeout');
+            return timeout = true;
+          },
+        );
+        await subscription.cancel();
+      } catch (e) {
+        debugPrint('e $e');
+        await subscription.cancel();
+        rethrow;
+      }
+      if (timeout) {
+        debugPrint('timeout');
+        throw const Failure.timeout();
+      }
 
       debugPrint('HTLC Contract deployed');
 
@@ -168,12 +194,18 @@ class EVMLP with EVMBridgeProcessMixin {
 
         final contractPoolBase =
             await getDeployedContract(contractNamePoolBase, poolAddress);
-        final events = await web3Client.getLogs(
-          FilterOptions.events(
-            contract: contractPoolBase,
-            event: contractPoolBase.event('ContractProvisioned'),
-          ),
-        );
+        final events = await web3Client
+            .events(
+              FilterOptions.events(
+                contract: contractPoolBase,
+                event: contractPoolBase.event('ContractProvisioned'),
+              ),
+            )
+            .first
+            .timeout(
+              const Duration(microseconds: 10),
+              onTimeout: () => throw const Failure.connectivityEVM(),
+            );
         debugPrint('Event ContractProvisioned = $events');
 
         debugPrint('HTLC Contract deployed');

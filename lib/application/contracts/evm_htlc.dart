@@ -1,4 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:async';
+
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
@@ -43,12 +45,47 @@ class EVMHTLC with EVMBridgeProcessMixin {
           parameters: [],
         );
 
-        final refundTx = await sendTransactionWithErrorManagement(
-          web3Client!,
-          evmWalletProvider.credentials!,
-          transactionRefund,
-          chainId,
-        );
+        var refundTx = '';
+        var timeout = false;
+        late StreamSubscription<FilterEvent> subscription;
+        try {
+          subscription = web3Client!
+              .events(
+                FilterOptions.events(
+                  contract: contractHTLC,
+                  event: contractHTLC.event('Refunded'),
+                ),
+              )
+              .take(1)
+              .listen(
+            (event) {
+              debugPrint('Event ContractMinted = $event');
+            },
+          );
+          refundTx = await sendTransactionWithErrorManagement(
+            web3Client!,
+            evmWalletProvider.credentials!,
+            transactionRefund,
+            chainId,
+          );
+          await subscription.asFuture().timeout(
+            const Duration(seconds: 30),
+            onTimeout: () {
+              debugPrint('Event ContractMinted = timeout');
+              return timeout = true;
+            },
+          );
+          await subscription.cancel();
+        } catch (e) {
+          debugPrint('e $e');
+          await subscription.cancel();
+          rethrow;
+        }
+        if (timeout) {
+          debugPrint('timeout');
+          throw const Failure.timeout();
+        }
+
         debugPrint('refundTx: $refundTx');
         return refundTx;
       },
@@ -169,31 +206,53 @@ class EVMHTLC with EVMBridgeProcessMixin {
 
         final transactionWithdraw = Transaction.callContract(
           contract: contractHTLC,
-          function: contractHTLC.findFunctionByNameAndNbOfParameters(
-            'withdraw',
-            1,
-          ),
+          function:
+              contractHTLC.findFunctionByNameAndNbOfParameters('withdraw', 1),
           parameters: [
             hexToBytes(secret),
           ],
         );
 
-        final withdrawTx = await sendTransactionWithErrorManagement(
-          web3Client!,
-          evmWalletProvider.credentials!,
-          transactionWithdraw,
-          chainId,
-        );
-
-        final events = await web3Client!.getLogs(
-          FilterOptions.events(
-            contract: contractHTLC,
-            event: contractHTLC.event('Withdrawn'),
-          ),
-        );
-        debugPrint('Event Withdrawn = $events');
-
-        debugPrint('withdrawTx: $withdrawTx');
+        var withdrawTx = '';
+        var timeout = false;
+        late StreamSubscription<FilterEvent> subscription;
+        try {
+          subscription = web3Client!
+              .events(
+                FilterOptions.events(
+                  contract: contractHTLC,
+                  event: contractHTLC.event('Withdrawn'),
+                ),
+              )
+              .take(1)
+              .listen(
+            (event) {
+              debugPrint('Event Withdrawn = $event');
+            },
+          );
+          withdrawTx = await sendTransactionWithErrorManagement(
+            web3Client!,
+            evmWalletProvider.credentials!,
+            transactionWithdraw,
+            chainId,
+          );
+          await subscription.asFuture().timeout(
+            const Duration(seconds: 20),
+            onTimeout: () {
+              debugPrint('Event Withdrawn = timeout');
+              return timeout = true;
+            },
+          );
+          await subscription.cancel();
+        } catch (e) {
+          debugPrint('e $e');
+          await subscription.cancel();
+          rethrow;
+        }
+        if (timeout) {
+          debugPrint('timeout');
+          throw const Failure.timeout();
+        }
 
         return withdrawTx;
       },

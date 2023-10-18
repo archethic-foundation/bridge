@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
@@ -28,28 +30,54 @@ class EVMLPNative with EVMBridgeProcessMixin {
     return Result.guard(() async {
       final evmWalletProvider = sl.get<EVMWalletProvider>();
       final ethAmount = EtherAmount.fromDouble(EtherUnit.ether, amount);
-      await sendTransactionWithErrorManagement(
-        web3Client!,
-        evmWalletProvider.credentials!,
-        Transaction(
-          to: EthereumAddress.fromHex(htlcContractAddress),
-          gasPrice: EtherAmount.fromInt(EtherUnit.gwei, 10),
-          maxGas: 500000,
-          value: ethAmount,
-        ),
-        chainId,
-      );
 
-      final contract =
-          await getDeployedContract(contractNameHTLCETH, htlcContractAddress);
+      var timeout = false;
+      late StreamSubscription<FilterEvent> subscription;
+      try {
+        final contract =
+            await getDeployedContract(contractNameHTLCETH, htlcContractAddress);
 
-      final events = await web3Client!.getLogs(
-        FilterOptions.events(
-          contract: contract,
-          event: contract.event('FundsReceived'),
-        ),
-      );
-      debugPrint('Event FundsReceived = $events');
+        subscription = web3Client!
+            .events(
+              FilterOptions.events(
+                contract: contract,
+                event: contract.event('FundsReceived'),
+              ),
+            )
+            .take(1)
+            .listen((event) {
+          debugPrint('Event FundsReceived = $event');
+        });
+
+        await sendTransactionWithErrorManagement(
+          web3Client!,
+          evmWalletProvider.credentials!,
+          Transaction(
+            to: EthereumAddress.fromHex(htlcContractAddress),
+            gasPrice: EtherAmount.fromInt(EtherUnit.gwei, 10),
+            maxGas: 500000,
+            value: ethAmount,
+          ),
+          chainId,
+        );
+
+        await subscription.asFuture().timeout(
+          const Duration(seconds: 20),
+          onTimeout: () {
+            debugPrint('Event FundsReceived = timeout');
+            return timeout = true;
+          },
+        );
+        await subscription.cancel();
+      } catch (e) {
+        debugPrint('e $e');
+        await subscription.cancel();
+        rethrow;
+      }
+      if (timeout) {
+        debugPrint('timeout');
+        throw const Failure.timeout();
+      }
     });
   }
 
@@ -79,20 +107,46 @@ class EVMLPNative with EVMBridgeProcessMixin {
           ],
         );
 
-        final withdrawTx = await sendTransactionWithErrorManagement(
-          web3Client!,
-          evmWalletProvider.credentials!,
-          transactionWithdraw,
-          chainId,
-        );
+        var withdrawTx = '';
+        var timeout = false;
+        late StreamSubscription<FilterEvent> subscription;
+        try {
+          subscription = web3Client!
+              .events(
+                FilterOptions.events(
+                  contract: contractHTLCETH,
+                  event: contractHTLCETH.event('Withdrawn'),
+                ),
+              )
+              .take(1)
+              .listen((event) {
+            debugPrint('Event Withdrawn = $event');
+          });
 
-        final events = await web3Client!.getLogs(
-          FilterOptions.events(
-            contract: contractHTLCETH,
-            event: contractHTLCETH.event('Withdrawn'),
-          ),
-        );
-        debugPrint('Event Withdrawn = $events');
+          withdrawTx = await sendTransactionWithErrorManagement(
+            web3Client!,
+            evmWalletProvider.credentials!,
+            transactionWithdraw,
+            chainId,
+          );
+
+          await subscription.asFuture().timeout(
+            const Duration(seconds: 20),
+            onTimeout: () {
+              debugPrint('Event Withdrawn = timeout');
+              return timeout = true;
+            },
+          );
+          await subscription.cancel();
+        } catch (e) {
+          debugPrint('e $e');
+          await subscription.cancel();
+          rethrow;
+        }
+        if (timeout) {
+          debugPrint('timeout');
+          throw const Failure.timeout();
+        }
 
         debugPrint('signedWithdrawTx: $withdrawTx');
         return withdrawTx;

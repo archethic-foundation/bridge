@@ -36,6 +36,7 @@ class Failure with _$Failure implements Exception {
   const factory Failure.userRejected() = UserRejected;
   const factory Failure.connectivityArchethic() = ConnectivityArchethic;
   const factory Failure.connectivityEVM() = ConnectivityEVM;
+  const factory Failure.timeout() = Timeout;
   const factory Failure.rpcErrorEVM(
     String? cause,
   ) = RPCErrorEVM;

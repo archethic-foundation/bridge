@@ -42,6 +42,8 @@ Failure _$FailureFromJson(Map<String, dynamic> json) {
       return ConnectivityArchethic.fromJson(json);
     case 'connectivityEVM':
       return ConnectivityEVM.fromJson(json);
+    case 'timeout':
+      return Timeout.fromJson(json);
     case 'rpcErrorEVM':
       return RPCErrorEVM.fromJson(json);
     case 'other':
@@ -70,6 +72,7 @@ mixin _$Failure {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function() timeout,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) =>
@@ -89,6 +92,7 @@ mixin _$Failure {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function()? timeout,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) =>
@@ -108,6 +112,7 @@ mixin _$Failure {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function()? timeout,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -130,6 +135,7 @@ mixin _$Failure {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(Timeout value) timeout,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) =>
@@ -149,6 +155,7 @@ mixin _$Failure {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(Timeout value)? timeout,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) =>
@@ -168,6 +175,7 @@ mixin _$Failure {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(Timeout value)? timeout,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -253,6 +261,7 @@ class _$LoggedOutImpl extends LoggedOut {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function() timeout,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -275,6 +284,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function()? timeout,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -297,6 +307,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function()? timeout,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -325,6 +336,7 @@ class _$LoggedOutImpl extends LoggedOut {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(Timeout value) timeout,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -347,6 +359,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(Timeout value)? timeout,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -369,6 +382,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(Timeout value)? timeout,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -455,6 +469,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function() timeout,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -477,6 +492,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function()? timeout,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -499,6 +515,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function()? timeout,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -527,6 +544,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(Timeout value) timeout,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -549,6 +567,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(Timeout value)? timeout,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -571,6 +590,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(Timeout value)? timeout,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -686,6 +706,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function() timeout,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -708,6 +729,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function()? timeout,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -730,6 +752,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function()? timeout,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -758,6 +781,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(Timeout value) timeout,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -780,6 +804,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(Timeout value)? timeout,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -802,6 +827,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(Timeout value)? timeout,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -894,6 +920,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function() timeout,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -916,6 +943,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function()? timeout,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -938,6 +966,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function()? timeout,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -966,6 +995,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(Timeout value) timeout,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -988,6 +1018,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(Timeout value)? timeout,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -1010,6 +1041,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(Timeout value)? timeout,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -1097,6 +1129,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function() timeout,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -1119,6 +1152,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function()? timeout,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -1141,6 +1175,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function()? timeout,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -1169,6 +1204,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(Timeout value) timeout,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -1191,6 +1227,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(Timeout value)? timeout,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -1213,6 +1250,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(Timeout value)? timeout,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -1299,6 +1337,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function() timeout,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -1321,6 +1360,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function()? timeout,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -1343,6 +1383,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function()? timeout,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -1371,6 +1412,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(Timeout value) timeout,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -1393,6 +1435,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(Timeout value)? timeout,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -1415,6 +1458,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(Timeout value)? timeout,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -1503,6 +1547,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function() timeout,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -1525,6 +1570,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function()? timeout,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -1547,6 +1593,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function()? timeout,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -1575,6 +1622,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(Timeout value) timeout,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -1597,6 +1645,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(Timeout value)? timeout,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -1619,6 +1668,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(Timeout value)? timeout,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -1705,6 +1755,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function() timeout,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -1727,6 +1778,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function()? timeout,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -1749,6 +1801,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function()? timeout,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -1777,6 +1830,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(Timeout value) timeout,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -1799,6 +1853,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(Timeout value)? timeout,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -1821,6 +1876,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(Timeout value)? timeout,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -1907,6 +1963,7 @@ class _$InvalidValueImpl extends InvalidValue {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function() timeout,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -1929,6 +1986,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function()? timeout,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -1951,6 +2009,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function()? timeout,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -1979,6 +2038,7 @@ class _$InvalidValueImpl extends InvalidValue {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(Timeout value) timeout,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -2001,6 +2061,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(Timeout value)? timeout,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -2023,6 +2084,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(Timeout value)? timeout,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -2135,6 +2197,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function() timeout,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -2157,6 +2220,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function()? timeout,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -2179,6 +2243,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function()? timeout,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -2207,6 +2272,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(Timeout value) timeout,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -2229,6 +2295,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(Timeout value)? timeout,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -2251,6 +2318,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(Timeout value)? timeout,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -2342,6 +2410,7 @@ class _$UserRejectedImpl extends UserRejected {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function() timeout,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -2364,6 +2433,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function()? timeout,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -2386,6 +2456,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function()? timeout,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -2414,6 +2485,7 @@ class _$UserRejectedImpl extends UserRejected {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(Timeout value) timeout,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -2436,6 +2508,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(Timeout value)? timeout,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -2458,6 +2531,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(Timeout value)? timeout,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -2546,6 +2620,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function() timeout,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -2568,6 +2643,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function()? timeout,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -2590,6 +2666,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function()? timeout,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -2618,6 +2695,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(Timeout value) timeout,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -2640,6 +2718,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(Timeout value)? timeout,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -2662,6 +2741,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(Timeout value)? timeout,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -2748,6 +2828,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function() timeout,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -2770,6 +2851,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function()? timeout,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -2792,6 +2874,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function()? timeout,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -2820,6 +2903,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(Timeout value) timeout,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -2842,6 +2926,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(Timeout value)? timeout,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -2864,6 +2949,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(Timeout value)? timeout,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -2888,6 +2974,213 @@ abstract class ConnectivityEVM extends Failure {
 
   factory ConnectivityEVM.fromJson(Map<String, dynamic> json) =
       _$ConnectivityEVMImpl.fromJson;
+}
+
+/// @nodoc
+abstract class _$$TimeoutImplCopyWith<$Res> {
+  factory _$$TimeoutImplCopyWith(
+          _$TimeoutImpl value, $Res Function(_$TimeoutImpl) then) =
+      __$$TimeoutImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$TimeoutImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$TimeoutImpl>
+    implements _$$TimeoutImplCopyWith<$Res> {
+  __$$TimeoutImplCopyWithImpl(
+      _$TimeoutImpl _value, $Res Function(_$TimeoutImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$TimeoutImpl extends Timeout {
+  const _$TimeoutImpl({final String? $type})
+      : $type = $type ?? 'timeout',
+        super._();
+
+  factory _$TimeoutImpl.fromJson(Map<String, dynamic> json) =>
+      _$$TimeoutImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'Failure.timeout()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$TimeoutImpl);
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loggedOut,
+    required TResult Function() network,
+    required TResult Function(DateTime? cooldownEndDate) quotaExceeded,
+    required TResult Function() serviceNotFound,
+    required TResult Function() serviceAlreadyExists,
+    required TResult Function() insufficientFunds,
+    required TResult Function() insufficientPoolFunds,
+    required TResult Function() unauthorized,
+    required TResult Function() invalidValue,
+    required TResult Function(String cause) wrongNetwork,
+    required TResult Function() userRejected,
+    required TResult Function() connectivityArchethic,
+    required TResult Function() connectivityEVM,
+    required TResult Function() timeout,
+    required TResult Function(String? cause) rpcErrorEVM,
+    required TResult Function(String? cause, String? stack) other,
+  }) {
+    return timeout();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loggedOut,
+    TResult? Function()? network,
+    TResult? Function(DateTime? cooldownEndDate)? quotaExceeded,
+    TResult? Function()? serviceNotFound,
+    TResult? Function()? serviceAlreadyExists,
+    TResult? Function()? insufficientFunds,
+    TResult? Function()? insufficientPoolFunds,
+    TResult? Function()? unauthorized,
+    TResult? Function()? invalidValue,
+    TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? userRejected,
+    TResult? Function()? connectivityArchethic,
+    TResult? Function()? connectivityEVM,
+    TResult? Function()? timeout,
+    TResult? Function(String? cause)? rpcErrorEVM,
+    TResult? Function(String? cause, String? stack)? other,
+  }) {
+    return timeout?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loggedOut,
+    TResult Function()? network,
+    TResult Function(DateTime? cooldownEndDate)? quotaExceeded,
+    TResult Function()? serviceNotFound,
+    TResult Function()? serviceAlreadyExists,
+    TResult Function()? insufficientFunds,
+    TResult Function()? insufficientPoolFunds,
+    TResult Function()? unauthorized,
+    TResult Function()? invalidValue,
+    TResult Function(String cause)? wrongNetwork,
+    TResult Function()? userRejected,
+    TResult Function()? connectivityArchethic,
+    TResult Function()? connectivityEVM,
+    TResult Function()? timeout,
+    TResult Function(String? cause)? rpcErrorEVM,
+    TResult Function(String? cause, String? stack)? other,
+    required TResult orElse(),
+  }) {
+    if (timeout != null) {
+      return timeout();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoggedOut value) loggedOut,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(QuotaExceededFailure value) quotaExceeded,
+    required TResult Function(ServiceNotFound value) serviceNotFound,
+    required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(InsufficientPoolFunds value)
+        insufficientPoolFunds,
+    required TResult Function(Unauthorized value) unauthorized,
+    required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ConnectivityArchethic value)
+        connectivityArchethic,
+    required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(Timeout value) timeout,
+    required TResult Function(RPCErrorEVM value) rpcErrorEVM,
+    required TResult Function(OtherFailure value) other,
+  }) {
+    return timeout(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoggedOut value)? loggedOut,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult? Function(ServiceNotFound value)? serviceNotFound,
+    TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
+    TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(Timeout value)? timeout,
+    TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
+    TResult? Function(OtherFailure value)? other,
+  }) {
+    return timeout?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoggedOut value)? loggedOut,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult Function(ServiceNotFound value)? serviceNotFound,
+    TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
+    TResult Function(Unauthorized value)? unauthorized,
+    TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(UserRejected value)? userRejected,
+    TResult Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(Timeout value)? timeout,
+    TResult Function(RPCErrorEVM value)? rpcErrorEVM,
+    TResult Function(OtherFailure value)? other,
+    required TResult orElse(),
+  }) {
+    if (timeout != null) {
+      return timeout(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$TimeoutImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class Timeout extends Failure {
+  const factory Timeout() = _$TimeoutImpl;
+  const Timeout._() : super._();
+
+  factory Timeout.fromJson(Map<String, dynamic> json) = _$TimeoutImpl.fromJson;
 }
 
 /// @nodoc
@@ -2976,6 +3269,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function() timeout,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -2998,6 +3292,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function()? timeout,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -3020,6 +3315,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function()? timeout,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -3048,6 +3344,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(Timeout value) timeout,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -3070,6 +3367,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(Timeout value)? timeout,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -3092,6 +3390,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(Timeout value)? timeout,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -3217,6 +3516,7 @@ class _$OtherFailureImpl extends OtherFailure {
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
+    required TResult Function() timeout,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -3239,6 +3539,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
+    TResult? Function()? timeout,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -3261,6 +3562,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
+    TResult Function()? timeout,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -3289,6 +3591,7 @@ class _$OtherFailureImpl extends OtherFailure {
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(Timeout value) timeout,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -3311,6 +3614,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(Timeout value)? timeout,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -3333,6 +3637,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(Timeout value)? timeout,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
