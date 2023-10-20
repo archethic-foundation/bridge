@@ -77,18 +77,18 @@ class EVMLP with EVMBridgeProcessMixin {
       final web3Client = Web3Client(providerEndpoint!, Client());
       late String htlcContractAddress;
 
-      final contractLPERC =
+      final contractLP =
           await getDeployedContract(contractNameIPool, poolAddress);
 
       final transaction = await _getDeployChargeableHTLCTransaction(
-        contractLPERC,
+        contractLP,
         poolAddress,
         hash,
         amount,
         isERC20,
       );
 
-      debugPrint('contractLPERC mintHTLC ok');
+      debugPrint('contractLP mintHTLC ok');
 
       var timeout = false;
       late StreamSubscription<FilterEvent> subscription;
@@ -115,7 +115,7 @@ class EVMLP with EVMBridgeProcessMixin {
           chainId,
         );
         await subscription.asFuture().timeout(
-          const Duration(seconds: 30),
+          const Duration(seconds: 60),
           onTimeout: () {
             debugPrint('Event ContractMinted = timeout');
             return timeout = true;
@@ -136,8 +136,8 @@ class EVMLP with EVMBridgeProcessMixin {
 
       // Get HTLC address
       final transactionMintedSwapsHashes = await web3Client.call(
-        contract: contractLPERC,
-        function: contractLPERC.function('mintedSwap'),
+        contract: contractLP,
+        function: contractLP.function('mintedSwap'),
         params: [
           hexToBytes(hash),
         ],
@@ -170,6 +170,13 @@ class EVMLP with EVMBridgeProcessMixin {
         final bigIntValue = BigInt.from(amount * pow(10, 18));
         final ethAmount = EtherAmount.fromBigInt(EtherUnit.wei, bigIntValue);
 
+        debugPrint('${hexToBytes(secretHash.secretHash!)}');
+        debugPrint('${ethAmount.getInWei}');
+        debugPrint('${BigInt.from(endTime)}');
+        debugPrint('${hexToBytes(secretHash.secretHashSignature!.r!)}');
+        debugPrint('${hexToBytes(secretHash.secretHashSignature!.s!)}');
+        debugPrint('${BigInt.from(secretHash.secretHashSignature!.v!)}');
+
         final transactionProvisionHTLC = Transaction.callContract(
           contract: contractLP,
           function: contractLP.function('provisionHTLC'),
@@ -184,29 +191,47 @@ class EVMLP with EVMBridgeProcessMixin {
         );
 
         debugPrint('contractLP provisionHTLC ok');
-
-        await sendTransactionWithErrorManagement(
-          web3Client,
-          evmWalletProvider.credentials!,
-          transactionProvisionHTLC,
-          chainId,
-        );
-
-        final contractPoolBase =
-            await getDeployedContract(contractNamePoolBase, poolAddress);
-        final events = await web3Client
-            .events(
-              FilterOptions.events(
-                contract: contractPoolBase,
-                event: contractPoolBase.event('ContractProvisioned'),
-              ),
-            )
-            .first
-            .timeout(
-              const Duration(microseconds: 10),
-              onTimeout: () => throw const Failure.connectivityEVM(),
-            );
-        debugPrint('Event ContractProvisioned = $events');
+        var timeout = false;
+        late StreamSubscription<FilterEvent> subscription;
+        try {
+          final contractPoolBase =
+              await getDeployedContract(contractNamePoolBase, poolAddress);
+          subscription = web3Client
+              .events(
+                FilterOptions.events(
+                  contract: contractPoolBase,
+                  event: contractPoolBase.event('ContractProvisioned'),
+                ),
+              )
+              .take(1)
+              .listen(
+            (event) {
+              debugPrint('Event ContractProvisioned = $event');
+            },
+          );
+          await sendTransactionWithErrorManagement(
+            web3Client,
+            evmWalletProvider.credentials!,
+            transactionProvisionHTLC,
+            chainId,
+          );
+          await subscription.asFuture().timeout(
+            const Duration(seconds: 60),
+            onTimeout: () {
+              debugPrint('Event ContractProvisioned = timeout');
+              return timeout = true;
+            },
+          );
+          await subscription.cancel();
+        } catch (e) {
+          debugPrint('e $e');
+          await subscription.cancel();
+          rethrow;
+        }
+        if (timeout) {
+          debugPrint('timeout');
+          throw const Failure.timeout();
+        }
 
         debugPrint('HTLC Contract deployed');
         debugPrint('secretHash : ${hexToBytes(secretHash.secretHash!)}');

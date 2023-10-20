@@ -30,39 +30,6 @@ class _SessionNotifier extends Notifier<Session> {
     return const Session();
   }
 
-/*
-  Future<void> connectToMWalletConnect(BridgeBlockchain blockchain) async {
-    try {
-      final walletConnectProvider = WalletConnectProvider();
-
-      await walletConnectProvider.connect(blockchain.chainId);
-      if (walletConnectProvider.walletConnected) {
-        debugPrint('Connected to ${blockchain.name}');
-
-        state = state.copyWith(
-          wallet: 'evmWallet',
-          isConnected: true,
-          error: '',
-          nameAccount: walletConnectProvider.session!.accounts[0],
-          genesisAddress: walletConnectProvider.session!.accounts[0],
-          endpoint: blockchain.name,
-        );
-        if (sl.isRegistered<WalletConnectProvider>()) {
-          sl.unregister<WalletConnectProvider>();
-        }
-        sl.registerLazySingleton<WalletConnectProvider>(
-          () => walletConnectProvider,
-        );
-      }
-    } catch (e) {
-      debugPrint(e.toString());
-      state = state.copyWith(
-        isConnected: false,
-        error: 'Please, open your WalletConnect.',
-      );
-    }
-  }
-*/
   Future<Result<void, Failure>> connectToEVMWallet(
     BridgeBlockchain blockchain,
     bool from,

@@ -69,7 +69,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
             chainId,
           );
           await subscription.asFuture().timeout(
-            const Duration(seconds: 30),
+            const Duration(seconds: 60),
             onTimeout: () {
               debugPrint('Event ContractMinted = timeout');
               return timeout = true;
@@ -237,7 +237,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
             chainId,
           );
           await subscription.asFuture().timeout(
-            const Duration(seconds: 20),
+            const Duration(seconds: 60),
             onTimeout: () {
               debugPrint('Event Withdrawn = timeout');
               return timeout = true;

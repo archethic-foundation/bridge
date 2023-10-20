@@ -75,6 +75,7 @@ class BridgeArchethicToEVMUseCase
         endTime = resultGetAEHTLCData.endTime;
         amount = resultGetAEHTLCData.amount;
       } catch (e) {
+        debugPrint(e.toString());
         return;
       }
 

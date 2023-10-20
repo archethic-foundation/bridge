@@ -112,8 +112,13 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
           }
         }
 
+        final blockchainTxVersion = int.parse(
+          (await apiService.getBlockchainVersion()).version.transaction,
+        );
+
         var transaction = Transaction(
           type: 'transfer',
+          version: blockchainTxVersion,
           data: Transaction.initData(),
         ).addRecipient(htlcAddress, action: 'reveal_secret', args: [secret]);
 

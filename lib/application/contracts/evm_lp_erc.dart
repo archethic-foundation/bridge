@@ -69,7 +69,7 @@ class EVMLPERC with EVMBridgeProcessMixin {
             chainId,
           );
           await subscription.asFuture().timeout(
-            const Duration(seconds: 20),
+            const Duration(seconds: 60),
             onTimeout: () {
               debugPrint('Event Transfer = timeout');
               return timeout = true;
@@ -139,7 +139,7 @@ class EVMLPERC with EVMBridgeProcessMixin {
           );
 
           await subscription.asFuture().timeout(
-            const Duration(seconds: 20),
+            const Duration(seconds: 60),
             onTimeout: () {
               debugPrint('Event Withdrawn = timeout');
               return timeout = true;

@@ -35,6 +35,9 @@ class ArchethicContract with TransactionBridgeMixin {
     return Result.guard(
       () async {
         final apiService = sl.get<ApiService>();
+        final blockchainTxVersion = int.parse(
+          (await apiService.getBlockchainVersion()).version.transaction,
+        );
 
         final storageNoncePublicKey =
             await apiService.getStorageNoncePublicKey();
@@ -56,10 +59,11 @@ class ArchethicContract with TransactionBridgeMixin {
 
         debugPrint('deployHTLC - HTLC Genesis Address: $htlcGenesisAddress');
 
-        final transactionSC =
-            Transaction(type: 'contract', data: Transaction.initData())
-                .setCode(code)
-                .addOwnership(
+        final transactionSC = Transaction(
+          type: 'contract',
+          version: blockchainTxVersion,
+          data: Transaction.initData(),
+        ).setCode(code).addOwnership(
           uint8ListToHex(
             aesEncrypt(seedSC, aesKey),
           ),
@@ -86,9 +90,11 @@ class ArchethicContract with TransactionBridgeMixin {
 
         final fees =
             await calculateFees(transactionFinal, slippage: slippageFees);
-        var transactionTransfer =
-            Transaction(type: 'transfer', data: Transaction.initData())
-                .addUCOTransfer(
+        var transactionTransfer = Transaction(
+          type: 'transfer',
+          version: blockchainTxVersion,
+          data: Transaction.initData(),
+        ).addUCOTransfer(
           htlcGenesisAddress,
           toBigInt(
             fees,
@@ -123,6 +129,9 @@ class ArchethicContract with TransactionBridgeMixin {
     return Result.guard(
       () async {
         final apiService = sl.get<ApiService>();
+        final blockchainTxVersion = int.parse(
+          (await apiService.getBlockchainVersion()).version.transaction,
+        );
         final falseSeedSC = generateRandomSeed();
 
         final storageNoncePublicKey =
@@ -139,10 +148,11 @@ class ArchethicContract with TransactionBridgeMixin {
         );
 
         final originPrivateKey = apiService.getOriginKey();
-        final transactionSC =
-            Transaction(type: 'contract', data: Transaction.initData())
-                .setCode(code)
-                .addOwnership(
+        final transactionSC = Transaction(
+          type: 'contract',
+          version: blockchainTxVersion,
+          data: Transaction.initData(),
+        ).setCode(code).addOwnership(
           uint8ListToHex(
             aesEncrypt(falseSeedSC, aesKey),
           ),
