@@ -69,7 +69,7 @@ class EVMLPNative with EVMBridgeProcessMixin {
         await bridgeNotifier.setWaitForWalletConfirmation(true);
 
         await subscription.asFuture().timeout(
-          const Duration(seconds: 60),
+          const Duration(seconds: 240),
           onTimeout: () {
             debugPrint('Event FundsReceived = timeout');
             return timeout = true;
@@ -115,6 +115,7 @@ class EVMLPNative with EVMBridgeProcessMixin {
             hexToBytes(secret.secretSignature!.s!),
             BigInt.from(secret.secretSignature!.v!),
           ],
+          maxGas: 1000000,
         );
 
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
@@ -145,7 +146,7 @@ class EVMLPNative with EVMBridgeProcessMixin {
           await bridgeNotifier.setWaitForWalletConfirmation(true);
 
           await subscription.asFuture().timeout(
-            const Duration(seconds: 60),
+            const Duration(seconds: 240),
             onTimeout: () {
               debugPrint('Event Withdrawn = timeout');
               return timeout = true;

@@ -26,6 +26,7 @@ class EVMLP with EVMBridgeProcessMixin {
     String hash,
     double amount,
     bool isERC20,
+    String addressFrom,
   ) async {
     final ethAmount = EtherAmount.fromDouble(EtherUnit.ether, amount);
     final transactionMintHTLC = Transaction.callContract(
@@ -35,6 +36,9 @@ class EVMLP with EVMBridgeProcessMixin {
         hexToBytes(hash),
         ethAmount.getInWei,
       ],
+      from: EthereumAddress.fromHex(addressFrom),
+      gasPrice: EtherAmount.fromInt(EtherUnit.gwei, 20),
+      maxGas: 1000000,
       value: isERC20 == false ? ethAmount : null,
     );
     return transactionMintHTLC;
@@ -45,6 +49,7 @@ class EVMLP with EVMBridgeProcessMixin {
     String hash,
     double amount,
     bool isERC20,
+    String addressFrom,
   ) async {
     return Result.guard(() async {
       final web3Client = Web3Client(providerEndpoint!, Client());
@@ -57,6 +62,7 @@ class EVMLP with EVMBridgeProcessMixin {
         hash,
         amount,
         isERC20,
+        addressFrom,
       );
 
       final fees = await estimateGas(web3Client, transaction);
@@ -89,6 +95,7 @@ class EVMLP with EVMBridgeProcessMixin {
         hash,
         amount,
         isERC20,
+        evmWalletProvider.currentAddress!,
       );
 
       debugPrint('contractLP mintHTLC ok');
@@ -123,7 +130,7 @@ class EVMLP with EVMBridgeProcessMixin {
         await bridgeNotifier.setWaitForWalletConfirmation(true);
 
         await subscription.asFuture().timeout(
-          const Duration(seconds: 60),
+          const Duration(seconds: 240),
           onTimeout: () {
             debugPrint('Event ContractMinted = timeout');
             return timeout = true;
@@ -199,6 +206,7 @@ class EVMLP with EVMBridgeProcessMixin {
             hexToBytes(secretHash.secretHashSignature!.s!),
             BigInt.from(secretHash.secretHashSignature!.v!),
           ],
+          maxGas: 1000000,
         );
 
         debugPrint('contractLP provisionHTLC ok');
@@ -233,7 +241,7 @@ class EVMLP with EVMBridgeProcessMixin {
           await bridgeNotifier.setWaitForWalletConfirmation(true);
 
           await subscription.asFuture().timeout(
-            const Duration(seconds: 60),
+            const Duration(seconds: 240),
             onTimeout: () {
               debugPrint('Event ContractProvisioned = timeout');
               return timeout = true;

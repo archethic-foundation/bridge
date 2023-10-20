@@ -47,6 +47,7 @@ class EVMLPERC with EVMBridgeProcessMixin {
             EthereumAddress.fromHex(htlcContractAddress),
             ethAmount.getInWei,
           ],
+          maxGas: 1000000,
         );
 
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
@@ -78,7 +79,7 @@ class EVMLPERC with EVMBridgeProcessMixin {
           await bridgeNotifier.setWaitForWalletConfirmation(true);
 
           await subscription.asFuture().timeout(
-            const Duration(seconds: 60),
+            const Duration(seconds: 240),
             onTimeout: () {
               debugPrint('Event Transfer = timeout');
               return timeout = true;
@@ -125,6 +126,7 @@ class EVMLPERC with EVMBridgeProcessMixin {
             hexToBytes(secret.secretSignature!.s!),
             BigInt.from(secret.secretSignature!.v!),
           ],
+          maxGas: 1000000,
         );
 
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
@@ -155,7 +157,7 @@ class EVMLPERC with EVMBridgeProcessMixin {
           await bridgeNotifier.setWaitForWalletConfirmation(true);
 
           await subscription.asFuture().timeout(
-            const Duration(seconds: 60),
+            const Duration(seconds: 240),
             onTimeout: () {
               debugPrint('Event Withdrawn = timeout');
               return timeout = true;

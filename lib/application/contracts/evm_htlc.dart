@@ -44,6 +44,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
         final transactionRefund = Transaction.callContract(
           contract: contractHTLC,
           function: contractHTLC.function('refund'),
+          maxGas: 1000000,
           parameters: [],
         );
 
@@ -71,7 +72,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
             chainId,
           );
           await subscription.asFuture().timeout(
-            const Duration(seconds: 60),
+            const Duration(seconds: 240),
             onTimeout: () {
               debugPrint('Event ContractMinted = timeout');
               return timeout = true;
@@ -214,6 +215,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
           parameters: [
             hexToBytes(secret),
           ],
+          maxGas: 1000000,
         );
 
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
@@ -245,7 +247,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
           await bridgeNotifier.setWaitForWalletConfirmation(true);
 
           await subscription.asFuture().timeout(
-            const Duration(seconds: 60),
+            const Duration(seconds: 240),
             onTimeout: () {
               debugPrint('Event Withdrawn = timeout');
               return timeout = true;
