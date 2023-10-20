@@ -10,7 +10,7 @@ part 'state.g.dart';
 
 enum BridgeProcessStep { form, confirmation }
 
-enum WaitForWalletConfirmation { evm, archethic }
+enum WalletConfirmation { evm, archethic }
 
 @freezed
 class BridgeFormState with _$BridgeFormState {
@@ -29,7 +29,8 @@ class BridgeFormState with _$BridgeFormState {
     @Default(0) double coingeckoPrice,
     @FailureJsonConverter() Failure? failure,
     @Default(false) bool isTransferInProgress,
-    WaitForWalletConfirmation? waitForWalletConfirmation,
+    WalletConfirmation? walletConfirmation,
+    @Default(false) waitForWalletConfirmation,
     @Default(0) int currentStep,
     @Default(false) bool changeDirectionInProgress,
     int? timestampExec,

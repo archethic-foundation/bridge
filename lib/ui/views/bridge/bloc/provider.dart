@@ -354,10 +354,19 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   }
 
   Future<void> setWaitForWalletConfirmation(
-    WaitForWalletConfirmation? waitForWalletConfirmation,
+    bool waitForWalletConfirmation,
   ) async {
     state = state.copyWith(
       waitForWalletConfirmation: waitForWalletConfirmation,
+    );
+    await storeBridge();
+  }
+
+  Future<void> setWalletConfirmation(
+    WalletConfirmation? walletConfirmation,
+  ) async {
+    state = state.copyWith(
+      walletConfirmation: walletConfirmation,
     );
     await storeBridge();
   }

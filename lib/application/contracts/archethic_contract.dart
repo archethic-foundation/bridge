@@ -4,10 +4,12 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
+import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:aebridge/util/transaction_bridge_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ArchethicContract with TransactionBridgeMixin {
   ArchethicContract();
@@ -26,6 +28,7 @@ class ArchethicContract with TransactionBridgeMixin {
   }
 
   Future<Result<void, Failure>> deployHTLC(
+    WidgetRef ref,
     Recipient? recipient,
     String code,
     String htlcGenesisAddress,
@@ -114,9 +117,14 @@ class ArchethicContract with TransactionBridgeMixin {
           'deployHTLC - Tx address : ${transactionTransfer.address!.address!}',
         );
 
+        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+        await bridgeNotifier.setWaitForWalletConfirmation(true);
+
         await sendTransactions(
           <Transaction>[transactionTransfer, transactionFinal],
         );
+
+        await bridgeNotifier.setWaitForWalletConfirmation(false);
       },
     );
   }

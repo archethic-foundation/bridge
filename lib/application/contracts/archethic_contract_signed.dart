@@ -3,15 +3,18 @@ import 'dart:async';
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
+import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:aebridge/util/transaction_bridge_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ArchethicContractSigned with TransactionBridgeMixin {
   ArchethicContractSigned();
 
   Future<Result<String, Failure>> deploySignedHTLC(
+    WidgetRef ref,
     String htlcGenesisAddress,
     String seedSC,
     String factoryAddress,
@@ -44,6 +47,7 @@ class ArchethicContractSigned with TransactionBridgeMixin {
 
         const slippageFees = 3.0;
         final resultDeploy = await ArchethicContract().deployHTLC(
+          ref,
           null,
           code.toString(),
           htlcGenesisAddress,
@@ -63,6 +67,7 @@ class ArchethicContractSigned with TransactionBridgeMixin {
   }
 
   Future<Result<void, Failure>> provisionSignedHTLC(
+    WidgetRef ref,
     double amount,
     String tokenAddress,
     String poolAddress,
@@ -125,6 +130,9 @@ class ArchethicContractSigned with TransactionBridgeMixin {
         ))
             .first;
 
+        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+        await bridgeNotifier.setWaitForWalletConfirmation(true);
+
         await sendTransactions(
           <Transaction>[transactionTransfer],
         );
@@ -132,12 +140,16 @@ class ArchethicContractSigned with TransactionBridgeMixin {
         debugPrint(
           'provisionSignedHTLC - Tx address ${transactionTransfer.address!.address!}',
         );
+
+        await bridgeNotifier.setWaitForWalletConfirmation(false);
+
         return;
       },
     );
   }
 
   Future<Result<String, Failure>> requestSecretFromSignedHTLC(
+    WidgetRef ref,
     String currentNameAccount,
     String htlcAddress,
     String poolAddress,
@@ -172,9 +184,15 @@ class ArchethicContractSigned with TransactionBridgeMixin {
         debugPrint(
           'requestSecretFromSignedHTLC - Tx address: ${transaction.address!.address!}',
         );
+
+        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+        await bridgeNotifier.setWaitForWalletConfirmation(true);
+
         await sendTransactions(
           <Transaction>[transaction],
         );
+
+        await bridgeNotifier.setWaitForWalletConfirmation(false);
 
         return transaction.address!.address!;
       },

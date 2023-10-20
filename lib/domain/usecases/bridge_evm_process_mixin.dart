@@ -78,17 +78,17 @@ mixin EVMBridgeProcessMixin {
     );
     debugPrint('bridge.blockchainTo!.chainId: ${bridge.blockchainTo!.chainId}');
 
-    await bridgeNotifier
-        .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
+    await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
     final resultDeployAndProvisionSignedHTLC =
         await evmLP.deployAndProvisionSignedHTLC(
+      ref,
       bridge.tokenToBridge!.poolAddressTo,
       secretHash,
       amount,
       endTime,
       chainId: bridge.blockchainTo!.chainId,
     );
-    await bridgeNotifier.setWaitForWalletConfirmation(null);
+    await bridgeNotifier.setWalletConfirmation(null);
     late String htlcAddress;
     await resultDeployAndProvisionSignedHTLC.map(
       success: (success) {
@@ -117,17 +117,17 @@ mixin EVMBridgeProcessMixin {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(1);
-    await bridgeNotifier
-        .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
+    await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
     final evmLP = EVMLP(bridge.blockchainFrom!.providerEndpoint);
     final resultDeployChargeableHTLCEVM = await evmLP.deployChargeableHTLC(
+      ref,
       bridge.tokenToBridge!.poolAddressFrom,
       secretHash.toString(),
       bridge.tokenToBridgeAmount,
       bridge.tokenToBridge!.type != 'Native',
       chainId: bridge.blockchainFrom!.chainId,
     );
-    await bridgeNotifier.setWaitForWalletConfirmation(null);
+    await bridgeNotifier.setWalletConfirmation(null);
     late String htlcAddress;
     await resultDeployChargeableHTLCEVM.map(
       success: (success) {
@@ -146,8 +146,7 @@ mixin EVMBridgeProcessMixin {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(2);
-    await bridgeNotifier
-        .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
+    await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
 
     Result<void, Failure>? resultProvisionChargeableHTLC;
     if (bridge.tokenToBridge!.type == 'ERC20') {
@@ -157,6 +156,7 @@ mixin EVMBridgeProcessMixin {
         bridge.blockchainFrom!.chainId,
       );
       resultProvisionChargeableHTLC = await evmLPERC.provisionChargeableHTLC(
+        ref,
         bridge.tokenToBridgeAmount,
         bridge.tokenToBridge!.tokenAddressSource,
       );
@@ -169,11 +169,12 @@ mixin EVMBridgeProcessMixin {
         bridge.blockchainFrom!.chainId,
       );
       resultProvisionChargeableHTLC = await evmLPNative.provisionChargeableHTLC(
+        ref,
         bridge.tokenToBridgeAmount,
       );
     }
 
-    await bridgeNotifier.setWaitForWalletConfirmation(null);
+    await bridgeNotifier.setWalletConfirmation(null);
     await resultProvisionChargeableHTLC!.map(
       success: (success) {},
       failure: (failure) async {
@@ -192,8 +193,7 @@ mixin EVMBridgeProcessMixin {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(4);
-    await bridgeNotifier
-        .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
+    await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
     final htlc = EVMHTLC(
       bridge.blockchainFrom!.providerEndpoint,
       htlcAddress,
@@ -201,9 +201,10 @@ mixin EVMBridgeProcessMixin {
     );
 
     final resultWithdraw = await htlc.withdraw(
+      ref,
       '0x${bytesToHex(secret)}',
     );
-    await bridgeNotifier.setWaitForWalletConfirmation(null);
+    await bridgeNotifier.setWalletConfirmation(null);
     await resultWithdraw.map(
       success: (success) {
         return;
@@ -241,12 +242,12 @@ mixin EVMBridgeProcessMixin {
   ) async {
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(5);
-    await bridgeNotifier
-        .setWaitForWalletConfirmation(WaitForWalletConfirmation.archethic);
+    await bridgeNotifier.setWalletConfirmation(WalletConfirmation.archethic);
     final session = ref.read(SessionProviders.session);
     final walletTo = session.walletTo;
     final resultRevealSecretToChargeableHTLC =
         await ArchethicContractChargeable().revealSecretToChargeableHTLC(
+      ref,
       walletTo!.genesisAddress,
       walletTo.nameAccount,
       htlcAddress,
@@ -254,7 +255,7 @@ mixin EVMBridgeProcessMixin {
       amount,
       poolAddress,
     );
-    await bridgeNotifier.setWaitForWalletConfirmation(null);
+    await bridgeNotifier.setWalletConfirmation(null);
     await bridgeNotifier.setTransferInProgress(false);
     await resultRevealSecretToChargeableHTLC.map(
       success: (success) async {
@@ -374,8 +375,7 @@ mixin EVMBridgeProcessMixin {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(7);
-    await bridgeNotifier
-        .setWaitForWalletConfirmation(WaitForWalletConfirmation.evm);
+    await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
 
     Result<String, Failure>? resultSignedWithdraw;
     debugPrint('bridge.tokenToBridge!.type: ${bridge.tokenToBridge!.type}');
@@ -387,6 +387,7 @@ mixin EVMBridgeProcessMixin {
       );
 
       resultSignedWithdraw = await evmLPERC.signedWithdraw(
+        ref,
         secret,
       );
     }
@@ -399,6 +400,7 @@ mixin EVMBridgeProcessMixin {
       );
 
       resultSignedWithdraw = await evmLPNative.signedWithdraw(
+        ref,
         secret,
       );
     }
@@ -411,12 +413,12 @@ mixin EVMBridgeProcessMixin {
       throw failure;
     }
 
-    await bridgeNotifier.setWaitForWalletConfirmation(null);
+    await bridgeNotifier.setWalletConfirmation(null);
     late String txAddress;
     await resultSignedWithdraw.map(
       success: (success) async {
         await bridgeNotifier.setCurrentStep(8);
-        await bridgeNotifier.setWaitForWalletConfirmation(null);
+        await bridgeNotifier.setWalletConfirmation(null);
         await bridgeNotifier.setTransferInProgress(false);
         txAddress = success;
       },

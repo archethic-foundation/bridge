@@ -3,8 +3,8 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:aebridge/application/contracts/evm_htlc.dart';
-import 'package:aebridge/domain/usecases/archethic_bridge_process_mixin.dart';
-import 'package:aebridge/domain/usecases/evm_mixin.dart';
+import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
+import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';

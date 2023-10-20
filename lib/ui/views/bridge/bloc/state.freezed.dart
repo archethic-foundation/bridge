@@ -38,8 +38,9 @@ mixin _$BridgeFormState {
   @FailureJsonConverter()
   Failure? get failure => throw _privateConstructorUsedError;
   bool get isTransferInProgress => throw _privateConstructorUsedError;
-  WaitForWalletConfirmation? get waitForWalletConfirmation =>
+  WalletConfirmation? get walletConfirmation =>
       throw _privateConstructorUsedError;
+  dynamic get waitForWalletConfirmation => throw _privateConstructorUsedError;
   int get currentStep => throw _privateConstructorUsedError;
   bool get changeDirectionInProgress => throw _privateConstructorUsedError;
   int? get timestampExec => throw _privateConstructorUsedError;
@@ -82,7 +83,8 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       double coingeckoPrice,
       @FailureJsonConverter() Failure? failure,
       bool isTransferInProgress,
-      WaitForWalletConfirmation? waitForWalletConfirmation,
+      WalletConfirmation? walletConfirmation,
+      dynamic waitForWalletConfirmation,
       int currentStep,
       bool changeDirectionInProgress,
       int? timestampExec,
@@ -130,6 +132,7 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? coingeckoPrice = null,
     Object? failure = freezed,
     Object? isTransferInProgress = null,
+    Object? walletConfirmation = freezed,
     Object? waitForWalletConfirmation = freezed,
     Object? currentStep = null,
     Object? changeDirectionInProgress = null,
@@ -201,10 +204,14 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
           ? _value.isTransferInProgress
           : isTransferInProgress // ignore: cast_nullable_to_non_nullable
               as bool,
+      walletConfirmation: freezed == walletConfirmation
+          ? _value.walletConfirmation
+          : walletConfirmation // ignore: cast_nullable_to_non_nullable
+              as WalletConfirmation?,
       waitForWalletConfirmation: freezed == waitForWalletConfirmation
           ? _value.waitForWalletConfirmation
           : waitForWalletConfirmation // ignore: cast_nullable_to_non_nullable
-              as WaitForWalletConfirmation?,
+              as dynamic,
       currentStep: null == currentStep
           ? _value.currentStep
           : currentStep // ignore: cast_nullable_to_non_nullable
@@ -341,7 +348,8 @@ abstract class _$$BridgeFormStateImplCopyWith<$Res>
       double coingeckoPrice,
       @FailureJsonConverter() Failure? failure,
       bool isTransferInProgress,
-      WaitForWalletConfirmation? waitForWalletConfirmation,
+      WalletConfirmation? walletConfirmation,
+      dynamic waitForWalletConfirmation,
       int currentStep,
       bool changeDirectionInProgress,
       int? timestampExec,
@@ -392,6 +400,7 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
     Object? coingeckoPrice = null,
     Object? failure = freezed,
     Object? isTransferInProgress = null,
+    Object? walletConfirmation = freezed,
     Object? waitForWalletConfirmation = freezed,
     Object? currentStep = null,
     Object? changeDirectionInProgress = null,
@@ -463,10 +472,13 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
           ? _value.isTransferInProgress
           : isTransferInProgress // ignore: cast_nullable_to_non_nullable
               as bool,
+      walletConfirmation: freezed == walletConfirmation
+          ? _value.walletConfirmation
+          : walletConfirmation // ignore: cast_nullable_to_non_nullable
+              as WalletConfirmation?,
       waitForWalletConfirmation: freezed == waitForWalletConfirmation
-          ? _value.waitForWalletConfirmation
-          : waitForWalletConfirmation // ignore: cast_nullable_to_non_nullable
-              as WaitForWalletConfirmation?,
+          ? _value.waitForWalletConfirmation!
+          : waitForWalletConfirmation,
       currentStep: null == currentStep
           ? _value.currentStep
           : currentStep // ignore: cast_nullable_to_non_nullable
@@ -537,7 +549,8 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
       this.coingeckoPrice = 0,
       @FailureJsonConverter() this.failure,
       this.isTransferInProgress = false,
-      this.waitForWalletConfirmation,
+      this.walletConfirmation,
+      this.waitForWalletConfirmation = false,
       this.currentStep = 0,
       this.changeDirectionInProgress = false,
       this.timestampExec,
@@ -599,7 +612,10 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
   @JsonKey()
   final bool isTransferInProgress;
   @override
-  final WaitForWalletConfirmation? waitForWalletConfirmation;
+  final WalletConfirmation? walletConfirmation;
+  @override
+  @JsonKey()
+  final dynamic waitForWalletConfirmation;
   @override
   @JsonKey()
   final int currentStep;
@@ -643,7 +659,7 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
 
   @override
   String toString() {
-    return 'BridgeFormState(resumeProcess: $resumeProcess, bridgeProcessStep: $bridgeProcessStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, poolTargetBalance: $poolTargetBalance, tokenToBridgeDecimals: $tokenToBridgeDecimals, coingeckoPrice: $coingeckoPrice, failure: $failure, isTransferInProgress: $isTransferInProgress, waitForWalletConfirmation: $waitForWalletConfirmation, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, secret: $secret, safetyModuleFeesRate: $safetyModuleFeesRate, safetyModuleFeesAddress: $safetyModuleFeesAddress, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees)';
+    return 'BridgeFormState(resumeProcess: $resumeProcess, bridgeProcessStep: $bridgeProcessStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, poolTargetBalance: $poolTargetBalance, tokenToBridgeDecimals: $tokenToBridgeDecimals, coingeckoPrice: $coingeckoPrice, failure: $failure, isTransferInProgress: $isTransferInProgress, walletConfirmation: $walletConfirmation, waitForWalletConfirmation: $waitForWalletConfirmation, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, secret: $secret, safetyModuleFeesRate: $safetyModuleFeesRate, safetyModuleFeesAddress: $safetyModuleFeesAddress, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees)';
   }
 
   @override
@@ -678,8 +694,10 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
             (identical(other.failure, failure) || other.failure == failure) &&
             (identical(other.isTransferInProgress, isTransferInProgress) ||
                 other.isTransferInProgress == isTransferInProgress) &&
-            (identical(other.waitForWalletConfirmation, waitForWalletConfirmation) ||
-                other.waitForWalletConfirmation == waitForWalletConfirmation) &&
+            (identical(other.walletConfirmation, walletConfirmation) ||
+                other.walletConfirmation == walletConfirmation) &&
+            const DeepCollectionEquality().equals(
+                other.waitForWalletConfirmation, waitForWalletConfirmation) &&
             (identical(other.currentStep, currentStep) ||
                 other.currentStep == currentStep) &&
             (identical(other.changeDirectionInProgress,
@@ -696,7 +714,8 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
             const DeepCollectionEquality().equals(other._secret, _secret) &&
             (identical(other.safetyModuleFeesRate, safetyModuleFeesRate) ||
                 other.safetyModuleFeesRate == safetyModuleFeesRate) &&
-            (identical(other.safetyModuleFeesAddress, safetyModuleFeesAddress) ||
+            (identical(
+                    other.safetyModuleFeesAddress, safetyModuleFeesAddress) ||
                 other.safetyModuleFeesAddress == safetyModuleFeesAddress) &&
             (identical(other.archethicProtocolFeesRate,
                     archethicProtocolFeesRate) ||
@@ -728,7 +747,8 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
         coingeckoPrice,
         failure,
         isTransferInProgress,
-        waitForWalletConfirmation,
+        walletConfirmation,
+        const DeepCollectionEquality().hash(waitForWalletConfirmation),
         currentStep,
         changeDirectionInProgress,
         timestampExec,
@@ -774,7 +794,8 @@ abstract class _BridgeFormState extends BridgeFormState {
       final double coingeckoPrice,
       @FailureJsonConverter() final Failure? failure,
       final bool isTransferInProgress,
-      final WaitForWalletConfirmation? waitForWalletConfirmation,
+      final WalletConfirmation? walletConfirmation,
+      final dynamic waitForWalletConfirmation,
       final int currentStep,
       final bool changeDirectionInProgress,
       final int? timestampExec,
@@ -826,7 +847,9 @@ abstract class _BridgeFormState extends BridgeFormState {
   @override
   bool get isTransferInProgress;
   @override
-  WaitForWalletConfirmation? get waitForWalletConfirmation;
+  WalletConfirmation? get walletConfirmation;
+  @override
+  dynamic get waitForWalletConfirmation;
   @override
   int get currentStep;
   @override

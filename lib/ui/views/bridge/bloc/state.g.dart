@@ -36,9 +36,9 @@ _$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
       failure: _$JsonConverterFromJson<Map<String, dynamic>, Failure>(
           json['failure'], const FailureJsonConverter().fromJson),
       isTransferInProgress: json['isTransferInProgress'] as bool? ?? false,
-      waitForWalletConfirmation: $enumDecodeNullable(
-          _$WaitForWalletConfirmationEnumMap,
-          json['waitForWalletConfirmation']),
+      walletConfirmation: $enumDecodeNullable(
+          _$WalletConfirmationEnumMap, json['walletConfirmation']),
+      waitForWalletConfirmation: json['waitForWalletConfirmation'] ?? false,
       currentStep: json['currentStep'] as int? ?? 0,
       changeDirectionInProgress:
           json['changeDirectionInProgress'] as bool? ?? false,
@@ -87,8 +87,9 @@ Map<String, dynamic> _$$BridgeFormStateImplToJson(
       'failure': _$JsonConverterToJson<Map<String, dynamic>, Failure>(
           instance.failure, const FailureJsonConverter().toJson),
       'isTransferInProgress': instance.isTransferInProgress,
-      'waitForWalletConfirmation': _$WaitForWalletConfirmationEnumMap[
-          instance.waitForWalletConfirmation],
+      'walletConfirmation':
+          _$WalletConfirmationEnumMap[instance.walletConfirmation],
+      'waitForWalletConfirmation': instance.waitForWalletConfirmation,
       'currentStep': instance.currentStep,
       'changeDirectionInProgress': instance.changeDirectionInProgress,
       'timestampExec': instance.timestampExec,
@@ -117,9 +118,9 @@ Value? _$JsonConverterFromJson<Json, Value>(
 ) =>
     json == null ? null : fromJson(json as Json);
 
-const _$WaitForWalletConfirmationEnumMap = {
-  WaitForWalletConfirmation.evm: 'evm',
-  WaitForWalletConfirmation.archethic: 'archethic',
+const _$WalletConfirmationEnumMap = {
+  WalletConfirmation.evm: 'evm',
+  WalletConfirmation.archethic: 'archethic',
 };
 
 Json? _$JsonConverterToJson<Json, Value>(
