@@ -4,9 +4,11 @@ import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/domain/models/secret.dart';
-import 'package:aebridge/domain/usecases/evm_mixin.dart';
+import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
+import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
@@ -25,11 +27,14 @@ class EVMLPNative with EVMBridgeProcessMixin {
   final int chainId;
 
   Future<Result<void, Failure>> provisionChargeableHTLC(
+    WidgetRef ref,
     double amount,
   ) async {
     return Result.guard(() async {
       final evmWalletProvider = sl.get<EVMWalletProvider>();
       final ethAmount = EtherAmount.fromDouble(EtherUnit.ether, amount);
+
+      final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
 
       var timeout = false;
       late StreamSubscription<FilterEvent> subscription;
@@ -61,6 +66,8 @@ class EVMLPNative with EVMBridgeProcessMixin {
           chainId,
         );
 
+        await bridgeNotifier.setWaitForWalletConfirmation(true);
+
         await subscription.asFuture().timeout(
           const Duration(seconds: 60),
           onTimeout: () {
@@ -69,9 +76,11 @@ class EVMLPNative with EVMBridgeProcessMixin {
           },
         );
         await subscription.cancel();
+        await bridgeNotifier.setWaitForWalletConfirmation(false);
       } catch (e) {
         debugPrint('e $e');
         await subscription.cancel();
+        await bridgeNotifier.setWaitForWalletConfirmation(false);
         rethrow;
       }
       if (timeout) {
@@ -82,6 +91,7 @@ class EVMLPNative with EVMBridgeProcessMixin {
   }
 
   Future<Result<String, Failure>> signedWithdraw(
+    WidgetRef ref,
     Secret secret,
   ) async {
     return Result.guard(
@@ -107,6 +117,8 @@ class EVMLPNative with EVMBridgeProcessMixin {
           ],
         );
 
+        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+
         var withdrawTx = '';
         var timeout = false;
         late StreamSubscription<FilterEvent> subscription;
@@ -130,6 +142,8 @@ class EVMLPNative with EVMBridgeProcessMixin {
             chainId,
           );
 
+          await bridgeNotifier.setWaitForWalletConfirmation(true);
+
           await subscription.asFuture().timeout(
             const Duration(seconds: 60),
             onTimeout: () {
@@ -138,9 +152,11 @@ class EVMLPNative with EVMBridgeProcessMixin {
             },
           );
           await subscription.cancel();
+          await bridgeNotifier.setWaitForWalletConfirmation(false);
         } catch (e) {
           debugPrint('e $e');
           await subscription.cancel();
+          await bridgeNotifier.setWaitForWalletConfirmation(false);
           rethrow;
         }
         if (timeout) {

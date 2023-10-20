@@ -6,9 +6,11 @@ import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/domain/models/secret.dart';
-import 'package:aebridge/domain/usecases/evm_mixin.dart';
+import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
+import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
@@ -65,6 +67,7 @@ class EVMLP with EVMBridgeProcessMixin {
   }
 
   Future<Result<String, Failure>> deployChargeableHTLC(
+    WidgetRef ref,
     String poolAddress,
     String hash,
     double amount,
@@ -90,6 +93,8 @@ class EVMLP with EVMBridgeProcessMixin {
 
       debugPrint('contractLP mintHTLC ok');
 
+      final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+
       var timeout = false;
       late StreamSubscription<FilterEvent> subscription;
       try {
@@ -114,6 +119,9 @@ class EVMLP with EVMBridgeProcessMixin {
           transaction,
           chainId,
         );
+
+        await bridgeNotifier.setWaitForWalletConfirmation(true);
+
         await subscription.asFuture().timeout(
           const Duration(seconds: 60),
           onTimeout: () {
@@ -122,9 +130,11 @@ class EVMLP with EVMBridgeProcessMixin {
           },
         );
         await subscription.cancel();
+        await bridgeNotifier.setWaitForWalletConfirmation(false);
       } catch (e) {
         debugPrint('e $e');
         await subscription.cancel();
+        await bridgeNotifier.setWaitForWalletConfirmation(false);
         rethrow;
       }
       if (timeout) {
@@ -151,6 +161,7 @@ class EVMLP with EVMBridgeProcessMixin {
   }
 
   Future<Result<String, Failure>> deployAndProvisionSignedHTLC(
+    WidgetRef ref,
     String poolAddress,
     SecretHash secretHash,
     double amount,
@@ -191,6 +202,9 @@ class EVMLP with EVMBridgeProcessMixin {
         );
 
         debugPrint('contractLP provisionHTLC ok');
+
+        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+
         var timeout = false;
         late StreamSubscription<FilterEvent> subscription;
         try {
@@ -215,6 +229,9 @@ class EVMLP with EVMBridgeProcessMixin {
             transactionProvisionHTLC,
             chainId,
           );
+
+          await bridgeNotifier.setWaitForWalletConfirmation(true);
+
           await subscription.asFuture().timeout(
             const Duration(seconds: 60),
             onTimeout: () {
@@ -223,9 +240,12 @@ class EVMLP with EVMBridgeProcessMixin {
             },
           );
           await subscription.cancel();
+          await bridgeNotifier.setWaitForWalletConfirmation(false);
         } catch (e) {
           debugPrint('e $e');
+
           await subscription.cancel();
+          await bridgeNotifier.setWaitForWalletConfirmation(false);
           rethrow;
         }
         if (timeout) {

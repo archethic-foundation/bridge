@@ -16,8 +16,16 @@ class BridgeInProgressError extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
 
-    if (bridge.waitForWalletConfirmation ==
-        WaitForWalletConfirmation.archethic) {
+    if (bridge.waitForWalletConfirmation == true) {
+      return InfoBanner(
+        AppLocalizations.of(context)!.bridgeInProgressWaitConfirmWallet,
+        InfoBannerType.request,
+        width: MediaQuery.of(context).size.width * 0.9,
+        waitAnimation: true,
+      );
+    }
+
+    if (bridge.walletConfirmation == WalletConfirmation.archethic) {
       return InfoBanner(
         AppLocalizations.of(context)!.bridgeInProgressConfirmAEWallet,
         InfoBannerType.request,
@@ -25,7 +33,7 @@ class BridgeInProgressError extends ConsumerWidget {
       );
     }
 
-    if (bridge.waitForWalletConfirmation == WaitForWalletConfirmation.evm) {
+    if (bridge.walletConfirmation == WalletConfirmation.evm) {
       return InfoBanner(
         AppLocalizations.of(context)!.bridgeInProgressConfirmEVMWallet,
         InfoBannerType.request,

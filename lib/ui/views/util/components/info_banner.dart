@@ -12,6 +12,7 @@ class InfoBanner extends StatelessWidget {
     this.infoBannerType, {
     this.height = 40,
     this.width = BridgeThemeBase.sizeBoxComponentWidth,
+    this.waitAnimation = false,
     super.key,
   });
 
@@ -19,6 +20,7 @@ class InfoBanner extends StatelessWidget {
   final InfoBannerType infoBannerType;
   final double height;
   final double width;
+  final bool waitAnimation;
 
   @override
   Widget build(BuildContext context) {
@@ -77,17 +79,32 @@ class InfoBanner extends StatelessWidget {
                             if (infoBannerType == InfoBannerType.error)
                               const SizedBox(width: 5),
                             Expanded(
-                              child: Text(
-                                message,
-                                style: TextStyle(
-                                  color: infoBannerType == InfoBannerType.error
-                                      ? Theme.of(context).colorScheme.error
-                                      : infoBannerType == InfoBannerType.request
-                                          ? Theme.of(context)
-                                              .colorScheme
-                                              .primary
-                                          : BridgeThemeBase.statusOK,
-                                ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    message,
+                                    style: TextStyle(
+                                      color: infoBannerType ==
+                                              InfoBannerType.error
+                                          ? Theme.of(context).colorScheme.error
+                                          : infoBannerType ==
+                                                  InfoBannerType.request
+                                              ? Theme.of(context)
+                                                  .colorScheme
+                                                  .primary
+                                              : BridgeThemeBase.statusOK,
+                                    ),
+                                  ),
+                                  if (waitAnimation)
+                                    SizedBox(
+                                      width: 10,
+                                      height: 10,
+                                      child: CircularProgressIndicator(
+                                        color: Colors.white.withOpacity(0.6),
+                                        strokeWidth: 1,
+                                      ),
+                                    ),
+                                ],
                               ),
                             ),
                           ],

@@ -3,8 +3,8 @@ import 'dart:async';
 
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/domain/models/secret.dart';
-import 'package:aebridge/domain/usecases/archethic_bridge_process_mixin.dart';
-import 'package:aebridge/domain/usecases/evm_mixin.dart';
+import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
+import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

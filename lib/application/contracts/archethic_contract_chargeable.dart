@@ -3,15 +3,18 @@ import 'dart:async';
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
+import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:aebridge/util/transaction_bridge_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ArchethicContractChargeable with TransactionBridgeMixin {
   ArchethicContractChargeable();
 
   Future<Result<String, Failure>> deployChargeableHTLC(
+    WidgetRef ref,
     String factoryAddress,
     String poolAddress,
     String userAddress,
@@ -23,6 +26,9 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
   ) async {
     return Result.guard(
       () async {
+        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+        await bridgeNotifier.setWaitForWalletConfirmation(true);
+
         final code = await sl.get<ApiService>().callSCFunction(
               jsonRPCRequest: SCCallFunctionRequest(
                 method: 'contract_fun',
@@ -44,6 +50,8 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
               ),
             );
 
+        await bridgeNotifier.setWaitForWalletConfirmation(false);
+
         final recipient = Recipient(
           address: poolAddress.toUpperCase(),
           action: 'request_funds',
@@ -55,6 +63,7 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
         final _seedSC = resultDefineHTLCAddress.seedHTLC;
         const slippageFees = 1.5;
         final resultDeployHTLC = await ArchethicContract().deployHTLC(
+          ref,
           recipient,
           code.toString(),
           htlcGenesisAddress,
@@ -75,6 +84,7 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
   }
 
   Future<Result<String, Failure>> revealSecretToChargeableHTLC(
+    WidgetRef ref,
     String userGenesisAddress,
     String currentNameAccount,
     String htlcAddress,
@@ -133,9 +143,14 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
           'revealSecretToChargeableHTLC - Tx address: ${transaction.address!.address!}',
         );
 
+        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+        await bridgeNotifier.setWaitForWalletConfirmation(true);
+
         await sendTransactions(
           <Transaction>[transaction],
         );
+
+        await bridgeNotifier.setWaitForWalletConfirmation(false);
 
         return transaction.address!.address!;
       },

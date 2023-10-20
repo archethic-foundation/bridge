@@ -50,8 +50,7 @@ mixin ArchethicBridgeProcessMixin {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(1);
-    await bridgeNotifier
-        .setWaitForWalletConfirmation(WaitForWalletConfirmation.archethic);
+    await bridgeNotifier.setWalletConfirmation(WalletConfirmation.archethic);
 
     final session = ref.read(SessionProviders.session);
     final walletFrom = session.walletFrom;
@@ -59,6 +58,7 @@ mixin ArchethicBridgeProcessMixin {
     late String archethicHTLCAddress;
     final resultDeploySignedHTLC =
         await ArchethicContractSigned().deploySignedHTLC(
+      ref,
       htlcAEAddress,
       seedHTLC,
       bridge.blockchainFrom!.archethicFactoryAddress!,
@@ -68,7 +68,7 @@ mixin ArchethicBridgeProcessMixin {
       bridge.tokenToBridge!.tokenAddressSource,
       bridge.blockchainTo!.chainId,
     );
-    await bridgeNotifier.setWaitForWalletConfirmation(null);
+    await bridgeNotifier.setWalletConfirmation(null);
     await resultDeploySignedHTLC.map(
       success: (success) {
         archethicHTLCAddress = success;
@@ -92,12 +92,12 @@ mixin ArchethicBridgeProcessMixin {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(3);
-    await bridgeNotifier
-        .setWaitForWalletConfirmation(WaitForWalletConfirmation.archethic);
+    await bridgeNotifier.setWalletConfirmation(WalletConfirmation.archethic);
 
     late String htlcAddress;
     final resultDeployChargeableHTLCAE =
         await ArchethicContractChargeable().deployChargeableHTLC(
+      ref,
       bridge.blockchainTo!.archethicFactoryAddress!,
       bridge.tokenToBridge!.poolAddressTo,
       bridge.targetAddress,
@@ -109,7 +109,7 @@ mixin ArchethicBridgeProcessMixin {
       ),
       bridge.blockchainFrom!.chainId,
     );
-    await bridgeNotifier.setWaitForWalletConfirmation(null);
+    await bridgeNotifier.setWalletConfirmation(null);
     await resultDeployChargeableHTLCAE.map(
       success: (success) {
         htlcAddress = success;
@@ -130,14 +130,14 @@ mixin ArchethicBridgeProcessMixin {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(2);
-    await bridgeNotifier
-        .setWaitForWalletConfirmation(WaitForWalletConfirmation.archethic);
+    await bridgeNotifier.setWalletConfirmation(WalletConfirmation.archethic);
 
     final session = ref.read(SessionProviders.session);
     final walletFrom = session.walletFrom;
 
     final resultProvisionSignedHTLC =
         await ArchethicContractSigned().provisionSignedHTLC(
+      ref,
       bridge.tokenToBridgeAmount,
       bridge.tokenToBridge!.tokenAddressSource,
       bridge.tokenToBridge!.poolAddressFrom,
@@ -146,7 +146,7 @@ mixin ArchethicBridgeProcessMixin {
       bridge.blockchainTo!.chainId,
     );
 
-    await bridgeNotifier.setWaitForWalletConfirmation(null);
+    await bridgeNotifier.setWalletConfirmation(null);
     await resultProvisionSignedHTLC.map(
       success: (success) {},
       failure: (failure) async {
@@ -169,8 +169,7 @@ mixin ArchethicBridgeProcessMixin {
   ) async {
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(3);
-    await bridgeNotifier
-        .setWaitForWalletConfirmation(WaitForWalletConfirmation.archethic);
+    await bridgeNotifier.setWaitForWalletConfirmation(true);
 
     //final updater = APIDataUpdater()..htlcAddressBefore = archethicHTLCAddress;
     //await updater.waitForHTLCUpdate(archethicHTLCAddress);
@@ -189,7 +188,7 @@ mixin ArchethicBridgeProcessMixin {
           ),
           resultMap: true,
         ) as Map<String, dynamic>;
-    await bridgeNotifier.setWaitForWalletConfirmation(null);
+    await bridgeNotifier.setWaitForWalletConfirmation(false);
     debugPrint('htlcDataMap: $htlcDataMap');
     return (
       secretHash: SecretHash(
@@ -209,18 +208,18 @@ mixin ArchethicBridgeProcessMixin {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(5);
-    await bridgeNotifier
-        .setWaitForWalletConfirmation(WaitForWalletConfirmation.archethic);
+    await bridgeNotifier.setWalletConfirmation(WalletConfirmation.archethic);
     final session = ref.read(SessionProviders.session);
     final walletFrom = session.walletFrom;
 
     final resultRequestSecretFromSignedHTLC =
         await ArchethicContractSigned().requestSecretFromSignedHTLC(
+      ref,
       walletFrom!.nameAccount,
       htlcAddress,
       bridge.tokenToBridge!.poolAddressFrom,
     );
-    await bridgeNotifier.setWaitForWalletConfirmation(null);
+    await bridgeNotifier.setWalletConfirmation(null);
     await resultRequestSecretFromSignedHTLC.map(
       success: (success) {},
       failure: (failure) async {
@@ -234,6 +233,11 @@ mixin ArchethicBridgeProcessMixin {
   Future<Secret> revealAESecret(WidgetRef ref, String htlcAddress) async {
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(6);
+    await bridgeNotifier.setWaitForWalletConfirmation(true);
+
+    // TODO(reddwarf03): Berk
+    await Future.delayed(const Duration(seconds: 10));
+
     final secretMap = await sl.get<archethic.ApiService>().callSCFunction(
           jsonRPCRequest: archethic.SCCallFunctionRequest(
             method: 'contract_fun',
@@ -245,6 +249,9 @@ mixin ArchethicBridgeProcessMixin {
           ),
           resultMap: true,
         ) as Map<String, dynamic>;
+
+    await bridgeNotifier.setWaitForWalletConfirmation(false);
+
     debugPrint('secret: $secretMap');
     debugPrint(
       'secret without archethic prefix ${secretMap["secret"]}',

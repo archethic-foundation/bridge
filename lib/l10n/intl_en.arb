@@ -72,6 +72,7 @@
   "bridgeInProgressInfoFinished": "The transfer was completed successfully.",
   "bridgeInProgressConfirmEVMWallet": "Please, confirm a transaction in your EVM Wallet",
   "bridgeInProgressConfirmAEWallet": "Please, confirm a transaction in your Archethic Wallet",
+  "bridgeInProgressWaitConfirmWallet": "Please wait... ",
   "localHistoryToLbl": "to",
   "localHistoryContractLbl": "Contract",
   "localHistoryStatus": "Status",
