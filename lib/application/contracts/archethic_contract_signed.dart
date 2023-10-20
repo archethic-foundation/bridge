@@ -153,6 +153,8 @@ class ArchethicContractSigned with TransactionBridgeMixin {
     String currentNameAccount,
     String htlcAddress,
     String poolAddress,
+    String htlcEVMAddress,
+    String txAddress,
   ) async {
     return Result.guard(
       () async {
@@ -171,7 +173,11 @@ class ArchethicContractSigned with TransactionBridgeMixin {
         ).addRecipient(
           poolAddress,
           action: 'reveal_secret',
-          args: [htlcAddress],
+          args: [
+            htlcAddress,
+            txAddress,
+            htlcEVMAddress,
+          ],
         );
 
         transaction = (await signTx(

@@ -72,7 +72,8 @@ class EVMLP with EVMBridgeProcessMixin {
     });
   }
 
-  Future<Result<String, Failure>> deployChargeableHTLC(
+  Future<Result<({String htlcContractAddress, String txAddress}), Failure>>
+      deployChargeableHTLC(
     WidgetRef ref,
     String poolAddress,
     String hash,
@@ -101,7 +102,7 @@ class EVMLP with EVMBridgeProcessMixin {
       debugPrint('contractLP mintHTLC ok');
 
       final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-
+      late String txAddress;
       var timeout = false;
       late StreamSubscription<FilterEvent> subscription;
       try {
@@ -120,7 +121,7 @@ class EVMLP with EVMBridgeProcessMixin {
             debugPrint('Event ContractMinted = $event');
           },
         );
-        await sendTransactionWithErrorManagement(
+        txAddress = await sendTransactionWithErrorManagement(
           web3Client,
           evmWalletProvider.credentials!,
           transaction,
@@ -163,11 +164,12 @@ class EVMLP with EVMBridgeProcessMixin {
       htlcContractAddress = transactionMintedSwapsHashes[0].hex;
       debugPrint('HTLC address: $htlcContractAddress');
 
-      return htlcContractAddress;
+      return (htlcContractAddress: htlcContractAddress, txAddress: txAddress);
     });
   }
 
-  Future<Result<String, Failure>> deployAndProvisionSignedHTLC(
+  Future<Result<({String htlcContractAddress, String txAddress}), Failure>>
+      deployAndProvisionSignedHTLC(
     WidgetRef ref,
     String poolAddress,
     SecretHash secretHash,
@@ -212,7 +214,7 @@ class EVMLP with EVMBridgeProcessMixin {
         debugPrint('contractLP provisionHTLC ok');
 
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-
+        late String txAddress;
         var timeout = false;
         late StreamSubscription<FilterEvent> subscription;
         try {
@@ -231,7 +233,7 @@ class EVMLP with EVMBridgeProcessMixin {
               debugPrint('Event ContractProvisioned = $event');
             },
           );
-          await sendTransactionWithErrorManagement(
+          txAddress = await sendTransactionWithErrorManagement(
             web3Client,
             evmWalletProvider.credentials!,
             transactionProvisionHTLC,
@@ -279,7 +281,7 @@ class EVMLP with EVMBridgeProcessMixin {
           throw const Failure.insufficientPoolFunds();
         }
 
-        return htlcContractAddress;
+        return (htlcContractAddress: htlcContractAddress, txAddress: txAddress);
       },
     );
   }

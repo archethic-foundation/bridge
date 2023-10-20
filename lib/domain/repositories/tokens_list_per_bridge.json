@@ -70,7 +70,7 @@
                 "targetTokenName": "Ether",
                 "targetTokenSymbol": "ETH",
                 "poolAddressFrom": "000066706d704329ca8c2a4153991e2ddacc968622ca10217ca14952eb7abb966c30",
-                "poolAddressTo": "0x5A1905F2BC406Ef3cfba9a99428C9498BCA63214",
+                "poolAddressTo": "0xcfBA4FA32527bFf23E073406c772e9a8b8D02650",
                 "type": "Wrapped",
                 "tokenAddressSource": "00003DF600E329199BF3EE8FBE2B8223413D70BCDD97E15089E6A74D94DE3F1173B4"
             },
@@ -80,7 +80,7 @@
                 "targetTokenName": "ERC20 - Universal Coin",
                 "targetTokenSymbol": "UCO",
                 "poolAddressFrom": "000018d60115ece0c7558a46b4693749bf6beab524fddccf9b10b910619e4ee08801",
-                "poolAddressTo": "0xEF695C0C4034304300bD01f6C300a28000F2c163",
+                "poolAddressTo": "0x50b8B73327613468e5605eD59B980555DAAC354a",
                 "type": "Native",
                 "tokenAddressTarget": "0xCBBd3374090113732393DAE1433Bc14E5233d5d7"
             }
@@ -92,7 +92,7 @@
                 "targetTokenName": "Polygon",
                 "targetTokenSymbol": "MATIC",
                 "poolAddressFrom": "0000072e418b60c6dabd272bc2728b17b352b8104f068d11365d50134f96a4199609",
-                "poolAddressTo": "0x57f7128771eE81eEdD5d1d147A7Aeb6a7D4D6424",
+                "poolAddressTo": "0xb7b2e4de4D386B73afa7F79C9769beda06EA6B4F",
                 "type": "Wrapped",
                 "tokenAddressSource": "00001A4AB7AD0CE2B494C965C66FF2962692A5FE5ECB71B345ABB53BAD88A83A01F1"
             },
@@ -102,7 +102,7 @@
                 "targetTokenName": "ERC20 - Universal Coin",
                 "targetTokenSymbol": "UCO",
                 "poolAddressFrom": "000018d60115ece0c7558a46b4693749bf6beab524fddccf9b10b910619e4ee08801",
-                "poolAddressTo": "0x3e16DE26a74096F5278Eeb44fc6867995202a835",
+                "poolAddressTo": "0xcfBA4FA32527bFf23E073406c772e9a8b8D02650",
                 "type": "Native",
                 "tokenAddressTarget": "0xCBBd3374090113732393DAE1433Bc14E5233d5d7"
             }
@@ -114,7 +114,7 @@
                 "targetTokenName": "Binance Coin",
                 "targetTokenSymbol": "BNB",
                 "poolAddressFrom": "00008dd22e7496e86901e9b276a1be6f9512eb09980cc04c7b76495ef37d5666a709",
-                "poolAddressTo": "0xc1c77bD5adb581bDeF19cd1eb0f8d941D1c576Ea",
+                "poolAddressTo": "0xEF695C0C4034304300bD01f6C300a28000F2c163",
                 "type": "Wrapped",
                 "tokenAddressSource": "0000288BF6F0E12457B125DC54D2DFA4EB010BE3073CF02E10FB79B696180F55B827"
             },
@@ -220,7 +220,7 @@
                 "symbol": "ETH",
                 "targetTokenName": "Archethic Ether",
                 "targetTokenSymbol": "aeETH",
-                "poolAddressFrom": "0x5A1905F2BC406Ef3cfba9a99428C9498BCA63214",
+                "poolAddressFrom": "0xcfBA4FA32527bFf23E073406c772e9a8b8D02650",
                 "poolAddressTo": "000066706d704329ca8c2a4153991e2ddacc968622ca10217ca14952eb7abb966c30",
                 "type": "Native",
                 "tokenAddressTarget": "00003DF600E329199BF3EE8FBE2B8223413D70BCDD97E15089E6A74D94DE3F1173B4"
@@ -230,7 +230,7 @@
                 "symbol": "UCO",
                 "targetTokenName": "Universal Coin",
                 "targetTokenSymbol": "UCO",
-                "poolAddressFrom": "0xEF695C0C4034304300bD01f6C300a28000F2c163",
+                "poolAddressFrom": "0x50b8B73327613468e5605eD59B980555DAAC354a",
                 "poolAddressTo": "000018d60115ece0c7558a46b4693749bf6beab524fddccf9b10b910619e4ee08801",
                 "type": "ERC20",
                 "tokenAddressSource": "0xCBBd3374090113732393DAE1433Bc14E5233d5d7"
@@ -242,7 +242,7 @@
                 "symbol": "MATIC",
                 "targetTokenName": "Wrapped Polygon",
                 "targetTokenSymbol": "aeMATIC",
-                "poolAddressFrom": "0x57f7128771eE81eEdD5d1d147A7Aeb6a7D4D6424",
+                "poolAddressFrom": "0xb7b2e4de4D386B73afa7F79C9769beda06EA6B4F",
                 "poolAddressTo": "0000072e418b60c6dabd272bc2728b17b352b8104f068d11365d50134f96a4199609",
                 "type": "Native",
                 "tokenAddressTarget": "00001A4AB7AD0CE2B494C965C66FF2962692A5FE5ECB71B345ABB53BAD88A83A01F1"
@@ -252,7 +252,7 @@
                 "symbol": "UCO",
                 "targetTokenName": "Universal Coin",
                 "targetTokenSymbol": "UCO",
-                "poolAddressFrom": "0x3e16DE26a74096F5278Eeb44fc6867995202a835",
+                "poolAddressFrom": "0xcfBA4FA32527bFf23E073406c772e9a8b8D02650",
                 "poolAddressTo": "000018d60115ece0c7558a46b4693749bf6beab524fddccf9b10b910619e4ee08801",
                 "type": "ERC20",
                 "tokenAddressSource": "0xCBBd3374090113732393DAE1433Bc14E5233d5d7"
@@ -264,7 +264,7 @@
                 "symbol": "BNB",
                 "targetTokenName": "Wrapped Binance Coin",
                 "targetTokenSymbol": "aeBNB",
-                "poolAddressFrom": "0xc1c77bD5adb581bDeF19cd1eb0f8d941D1c576Ea",
+                "poolAddressFrom": "0xEF695C0C4034304300bD01f6C300a28000F2c163",
                 "poolAddressTo": "00008dd22e7496e86901e9b276a1be6f9512eb09980cc04c7b76495ef37d5666a709",
                 "type": "Native",
                 "tokenAddressTarget": "0000288BF6F0E12457B125DC54D2DFA4EB010BE3073CF02E10FB79B696180F55B827"

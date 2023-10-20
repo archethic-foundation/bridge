@@ -60,7 +60,11 @@ mixin EVMBridgeProcessMixin {
     }
   }
 
-  Future<String> deployEVMHTCLAndProvision(
+  Future<
+      ({
+        String htlcAddress,
+        String txAddress,
+      })> deployEVMHTCLAndProvision(
     WidgetRef ref,
     SecretHash secretHash,
     int endTime,
@@ -90,9 +94,11 @@ mixin EVMBridgeProcessMixin {
     );
     await bridgeNotifier.setWalletConfirmation(null);
     late String htlcAddress;
+    late String txAddress;
     await resultDeployAndProvisionSignedHTLC.map(
       success: (success) {
-        htlcAddress = success;
+        htlcAddress = success.htlcContractAddress;
+        txAddress = success.txAddress;
       },
       failure: (failure) async {
         await bridgeNotifier.setFailure(failure);
@@ -100,7 +106,7 @@ mixin EVMBridgeProcessMixin {
         throw failure;
       },
     );
-    return htlcAddress;
+    return (htlcAddress: htlcAddress, txAddress: txAddress);
   }
 
   Uint8List generateRandomSecret() {
@@ -113,7 +119,10 @@ mixin EVMBridgeProcessMixin {
     return secret;
   }
 
-  Future<String> deployEVMHTLC(WidgetRef ref, Digest secretHash) async {
+  Future<({String htlcAddress, String txAddress})> deployEVMHTLC(
+    WidgetRef ref,
+    Digest secretHash,
+  ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(1);
@@ -129,9 +138,11 @@ mixin EVMBridgeProcessMixin {
     );
     await bridgeNotifier.setWalletConfirmation(null);
     late String htlcAddress;
+    late String txAddress;
     await resultDeployChargeableHTLCEVM.map(
       success: (success) {
-        htlcAddress = success;
+        htlcAddress = success.htlcContractAddress;
+        txAddress = success.txAddress;
       },
       failure: (failure) async {
         await bridgeNotifier.setFailure(failure);
@@ -139,7 +150,10 @@ mixin EVMBridgeProcessMixin {
         throw failure;
       },
     );
-    return htlcAddress;
+    return (
+      htlcAddress: htlcAddress,
+      txAddress: txAddress,
+    );
   }
 
   Future<void> provisionEVMHTLC(WidgetRef ref, String htlcAddress) async {

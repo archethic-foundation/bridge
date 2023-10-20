@@ -23,6 +23,8 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
     String tokenAddress,
     String secretHash,
     int chainId,
+    String htlcEVMAddress,
+    String txAddress,
   ) async {
     return Result.guard(
       () async {
@@ -55,7 +57,15 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
         final recipient = Recipient(
           address: poolAddress.toUpperCase(),
           action: 'request_funds',
-          args: [endTime, amount, userAddress, secretHash],
+          args: [
+            endTime,
+            amount,
+            userAddress,
+            secretHash,
+            txAddress,
+            htlcEVMAddress,
+            chainId,
+          ],
         );
 
         final resultDefineHTLCAddress = ArchethicContract().defineHTLCAddress();
@@ -130,7 +140,13 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
           type: 'transfer',
           version: blockchainTxVersion,
           data: Transaction.initData(),
-        ).addRecipient(htlcAddress, action: 'reveal_secret', args: [secret]);
+        ).addRecipient(
+          htlcAddress,
+          action: 'reveal_secret',
+          args: [
+            secret,
+          ],
+        );
 
         transaction = (await signTx(
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),

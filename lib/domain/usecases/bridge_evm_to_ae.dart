@@ -36,6 +36,7 @@ class BridgeEVMToArchethicUseCase
 
     String? htlcEVMAddress;
     String? htlcAEAddress;
+    late String txAddress;
     int? endTime;
     if (recoveryHTLCEVMAddress != null) {
       htlcEVMAddress = recoveryHTLCEVMAddress;
@@ -49,7 +50,9 @@ class BridgeEVMToArchethicUseCase
     // 1) Deploy EVM HTLC
     if (recoveryStep <= 1) {
       try {
-        htlcEVMAddress = await deployEVMHTLC(ref, secretHash);
+        final deployEVMHTLCResult = await deployEVMHTLC(ref, secretHash);
+        htlcEVMAddress = deployEVMHTLCResult.htlcAddress;
+        txAddress = deployEVMHTLCResult.txAddress;
         await bridgeNotifier.setHTLCEVMAddress(htlcEVMAddress);
       } catch (e) {
         return;
@@ -92,8 +95,14 @@ class BridgeEVMToArchethicUseCase
         amount ??= bridge.tokenToBridgeAmount;
         debugPrint('Archethic HTLC amount $amount');
 
-        htlcAEAddress =
-            await deployAEChargeableHTLC(ref, secretHash, amount, endTime!);
+        htlcAEAddress = await deployAEChargeableHTLC(
+          ref,
+          secretHash,
+          amount,
+          endTime!,
+          htlcEVMAddress,
+          txAddress,
+        );
         await bridgeNotifier.setHTLCAEAddress(htlcAEAddress);
       } catch (e) {
         return;

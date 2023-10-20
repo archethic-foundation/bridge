@@ -19,7 +19,7 @@ class BridgeArchethicToEVMUseCase
   }) async {
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
 
-    String? htlcEVMAddress;
+    late String htlcEVMAddress;
     String? htlcAEAddress;
     String? seedHTLC;
     if (recoveryHTLCEVMAddress != null) {
@@ -67,6 +67,7 @@ class BridgeArchethicToEVMUseCase
     late SecretHash secretHash;
     late int endTime;
     late double amount;
+    late String txAddress;
     if (recoveryStep <= 4) {
       try {
         // 3) Get Secret Hash from API
@@ -81,8 +82,10 @@ class BridgeArchethicToEVMUseCase
 
       // 4) Deploy EVM HTLC + Provision
       try {
-        htlcEVMAddress =
+        final deployEVMHTCLAndProvisionResult =
             await deployEVMHTCLAndProvision(ref, secretHash, endTime, amount);
+        htlcEVMAddress = deployEVMHTCLAndProvisionResult.htlcAddress;
+        txAddress = deployEVMHTCLAndProvisionResult.txAddress;
         await bridgeNotifier.setHTLCEVMAddress(htlcEVMAddress);
       } catch (e) {
         return;
@@ -95,7 +98,12 @@ class BridgeArchethicToEVMUseCase
     // 5) Request Secret from Archethic LP
     if (recoveryStep <= 5) {
       try {
-        await requestAESecretFromLP(ref, htlcAEAddress);
+        await requestAESecretFromLP(
+          ref,
+          htlcAEAddress,
+          htlcEVMAddress,
+          txAddress,
+        );
       } catch (e) {
         return;
       }
@@ -112,7 +120,7 @@ class BridgeArchethicToEVMUseCase
 
       // 7) Reveal Secret EVM (Withdraw)
       try {
-        await withdrawAE(ref, htlcEVMAddress!, secret);
+        await withdrawAE(ref, htlcEVMAddress, secret);
       } catch (e) {
         return;
       }

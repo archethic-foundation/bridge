@@ -88,6 +88,8 @@ mixin ArchethicBridgeProcessMixin {
     Digest secretHash,
     double amount,
     int endTime,
+    String htlcEVMAddress,
+    String txAddress,
   ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
@@ -108,6 +110,8 @@ mixin ArchethicBridgeProcessMixin {
         Uint8List.fromList(secretHash.bytes),
       ),
       bridge.blockchainFrom!.chainId,
+      htlcEVMAddress,
+      txAddress,
     );
     await bridgeNotifier.setWalletConfirmation(null);
     await resultDeployChargeableHTLCAE.map(
@@ -204,7 +208,12 @@ mixin ArchethicBridgeProcessMixin {
     );
   }
 
-  Future<void> requestAESecretFromLP(WidgetRef ref, String htlcAddress) async {
+  Future<void> requestAESecretFromLP(
+    WidgetRef ref,
+    String htlcAddress,
+    String htlcEVMAddress,
+    String txAddress,
+  ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(5);
@@ -218,6 +227,8 @@ mixin ArchethicBridgeProcessMixin {
       walletFrom!.nameAccount,
       htlcAddress,
       bridge.tokenToBridge!.poolAddressFrom,
+      htlcEVMAddress,
+      txAddress,
     );
     await bridgeNotifier.setWalletConfirmation(null);
     await resultRequestSecretFromSignedHTLC.map(
