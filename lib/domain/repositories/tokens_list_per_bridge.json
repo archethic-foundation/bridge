@@ -24,7 +24,7 @@
         "-1->137": [
             {
                 "name": "Wrapped Polygon",
-                "symbol": "WMATIC",
+                "symbol": "aeMATIC",
                 "targetTokenName": "Polygon",
                 "targetTokenSymbol": "MATIC",
                 "poolAddressFrom": "",
@@ -45,7 +45,7 @@
         "-1->56": [
             {
                 "name": "Wrapped Binance Coin",
-                "symbol": "WBNB",
+                "symbol": "aeBNB",
                 "targetTokenName": "Binance Coin",
                 "targetTokenSymbol": "BNB",
                 "poolAddressFrom": "",
@@ -88,7 +88,7 @@
         "-2->80001": [
             {
                 "name": "Wrapped Polygon",
-                "symbol": "WMATIC",
+                "symbol": "aeMATIC",
                 "targetTokenName": "Polygon",
                 "targetTokenSymbol": "MATIC",
                 "poolAddressFrom": "0000072e418b60c6dabd272bc2728b17b352b8104f068d11365d50134f96a4199609",
@@ -110,7 +110,7 @@
         "-2->97": [
             {
                 "name": "Wrapped Binance Coin",
-                "symbol": "WBNB",
+                "symbol": "aeBNB",
                 "targetTokenName": "Binance Coin",
                 "targetTokenSymbol": "BNB",
                 "poolAddressFrom": "00008dd22e7496e86901e9b276a1be6f9512eb09980cc04c7b76495ef37d5666a709",
@@ -177,7 +177,7 @@
                 "name": "Polygon",
                 "symbol": "MATIC",
                 "targetTokenName": "Wrapped Polygon",
-                "targetTokenSymbol": "WMATIC",
+                "targetTokenSymbol": "aeMATIC",
                 "poolAddressFrom": "",
                 "poolAddressTo": "",
                 "type": "Native"
@@ -198,7 +198,7 @@
                 "name": "Binance Coin",
                 "symbol": "BNB",
                 "targetTokenName": "Wrapped Binance Coin",
-                "targetTokenSymbol": "WBNB",
+                "targetTokenSymbol": "aeBNB",
                 "poolAddressFrom": "",
                 "poolAddressTo": "",
                 "type": "Native"
@@ -241,7 +241,7 @@
                 "name": "Polygon",
                 "symbol": "MATIC",
                 "targetTokenName": "Wrapped Polygon",
-                "targetTokenSymbol": "WMATIC",
+                "targetTokenSymbol": "aeMATIC",
                 "poolAddressFrom": "0x57f7128771eE81eEdD5d1d147A7Aeb6a7D4D6424",
                 "poolAddressTo": "0000072e418b60c6dabd272bc2728b17b352b8104f068d11365d50134f96a4199609",
                 "type": "Native",
@@ -263,7 +263,7 @@
                 "name": "Binance Coin",
                 "symbol": "BNB",
                 "targetTokenName": "Wrapped Binance Coin",
-                "targetTokenSymbol": "WBNB",
+                "targetTokenSymbol": "aeBNB",
                 "poolAddressFrom": "0xc1c77bD5adb581bDeF19cd1eb0f8d941D1c576Ea",
                 "poolAddressTo": "00008dd22e7496e86901e9b276a1be6f9512eb09980cc04c7b76495ef37d5666a709",
                 "type": "Native",
