@@ -61,13 +61,13 @@ class PopupTemplate extends StatelessWidget {
                             child: SelectionArea(
                               child: Text(
                                 popupTitle,
-                                style: Theme.of(context).textTheme.titleLarge,
+                                style: Theme.of(context).textTheme.titleMedium,
+                                overflow: TextOverflow.ellipsis,
                               ),
                             ),
                           ),
                           Expanded(
                             child: Container(
-                              width: 50,
                               height: 1,
                               decoration: BoxDecoration(
                                 gradient: BridgeThemeBase.gradient,
