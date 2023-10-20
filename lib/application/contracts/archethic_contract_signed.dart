@@ -73,6 +73,11 @@ class ArchethicContractSigned with TransactionBridgeMixin {
     return Result.guard(
       () async {
         Transaction? transactionTransfer;
+        final blockchainTxVersion = int.parse(
+          (await sl.get<ApiService>().getBlockchainVersion())
+              .version
+              .transaction,
+        );
         debugPrint(
           'provisionSignedHTLC: [$htlcGenesisAddress, $amount, $userAddress, $chainId]',
         );
@@ -82,27 +87,31 @@ class ArchethicContractSigned with TransactionBridgeMixin {
           args: [htlcGenesisAddress, amount, userAddress, chainId],
         );
         if (tokenAddress.isEmpty) {
-          transactionTransfer =
-              Transaction(type: 'transfer', data: Transaction.initData())
-                  .addUCOTransfer(htlcGenesisAddress, toBigInt(amount))
-                  .addRecipient(
-                    recipient.address!,
-                    action: recipient.action,
-                    args: recipient.args,
-                  );
+          transactionTransfer = Transaction(
+            type: 'transfer',
+            version: blockchainTxVersion,
+            data: Transaction.initData(),
+          ).addUCOTransfer(htlcGenesisAddress, toBigInt(amount)).addRecipient(
+                recipient.address!,
+                action: recipient.action,
+                args: recipient.args,
+              );
         } else {
-          transactionTransfer =
-              Transaction(type: 'transfer', data: Transaction.initData())
-                  .addTokenTransfer(
-                    htlcGenesisAddress,
-                    toBigInt(amount),
-                    tokenAddress,
-                  )
-                  .addRecipient(
-                    recipient.address!,
-                    action: recipient.action,
-                    args: recipient.args,
-                  );
+          transactionTransfer = Transaction(
+            type: 'transfer',
+            version: blockchainTxVersion,
+            data: Transaction.initData(),
+          )
+              .addTokenTransfer(
+                htlcGenesisAddress,
+                toBigInt(amount),
+                tokenAddress,
+              )
+              .addRecipient(
+                recipient.address!,
+                action: recipient.action,
+                args: recipient.args,
+              );
         }
 
         final currentNameAccount = await getCurrentAccount();
@@ -137,9 +146,17 @@ class ArchethicContractSigned with TransactionBridgeMixin {
       () async {
         debugPrint('requestSecretFromSignedHTLC - PoolAddress: $poolAddress');
         debugPrint('requestSecretFromSignedHTLC - HTLCAddress: $htlcAddress');
-        var transaction =
-            Transaction(type: 'transfer', data: Transaction.initData())
-                .addRecipient(
+        final blockchainTxVersion = int.parse(
+          (await sl.get<ApiService>().getBlockchainVersion())
+              .version
+              .transaction,
+        );
+
+        var transaction = Transaction(
+          type: 'transfer',
+          version: blockchainTxVersion,
+          data: Transaction.initData(),
+        ).addRecipient(
           poolAddress,
           action: 'reveal_secret',
           args: [htlcAddress],

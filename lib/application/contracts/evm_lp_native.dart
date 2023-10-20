@@ -62,7 +62,7 @@ class EVMLPNative with EVMBridgeProcessMixin {
         );
 
         await subscription.asFuture().timeout(
-          const Duration(seconds: 20),
+          const Duration(seconds: 60),
           onTimeout: () {
             debugPrint('Event FundsReceived = timeout');
             return timeout = true;
@@ -131,7 +131,7 @@ class EVMLPNative with EVMBridgeProcessMixin {
           );
 
           await subscription.asFuture().timeout(
-            const Duration(seconds: 20),
+            const Duration(seconds: 60),
             onTimeout: () {
               debugPrint('Event Withdrawn = timeout');
               return timeout = true;
