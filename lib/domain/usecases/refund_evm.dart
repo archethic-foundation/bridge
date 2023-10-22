@@ -22,7 +22,7 @@ class RefunEVMCase {
       htlcContractAddress,
       chaindId,
       web3ClientProvided: web3Client,
-    ).refund();
+    ).refund(ref);
     result.map(
       success: (refundTxAddress) {
         refundNotifier

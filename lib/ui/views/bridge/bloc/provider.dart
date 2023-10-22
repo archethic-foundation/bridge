@@ -353,15 +353,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     await storeBridge();
   }
 
-  Future<void> setWaitForWalletConfirmation(
-    bool waitForWalletConfirmation,
-  ) async {
-    state = state.copyWith(
-      waitForWalletConfirmation: waitForWalletConfirmation,
-    );
-    await storeBridge();
-  }
-
   Future<void> setWalletConfirmation(
     WalletConfirmation? walletConfirmation,
   ) async {
@@ -401,7 +392,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       tokenBridgedBalance: 0,
       poolTargetBalance: 0,
       tokenToBridgeDecimals: 8,
-      waitForWalletConfirmation: null,
       timestampExec: null,
       htlcAEAddress: null,
       htlcEVMAddress: null,

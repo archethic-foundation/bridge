@@ -7,23 +7,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class BridgeInProgressError extends ConsumerWidget {
-  const BridgeInProgressError({
+class BridgeInProgressInfosBanner extends ConsumerWidget {
+  const BridgeInProgressInfosBanner({
     super.key,
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
-
-    if (bridge.waitForWalletConfirmation == true) {
-      return InfoBanner(
-        AppLocalizations.of(context)!.bridgeInProgressWaitConfirmWallet,
-        InfoBannerType.request,
-        width: MediaQuery.of(context).size.width * 0.9,
-        waitAnimation: true,
-      );
-    }
 
     if (bridge.walletConfirmation == WalletConfirmation.archethic) {
       return InfoBanner(
@@ -41,26 +32,30 @@ class BridgeInProgressError extends ConsumerWidget {
       );
     }
 
-    if (bridge.failure == null) {
-      if (bridge.isTransferInProgress == false) {
-        return InfoBanner(
-          AppLocalizations.of(context)!.bridgeInProgressInfoFinished,
-          InfoBannerType.success,
-          width: MediaQuery.of(context).size.width * 0.9,
-        );
-      }
-      return const SizedBox(
-        height: 40,
+    if (bridge.failure == null && bridge.isTransferInProgress == false) {
+      return InfoBanner(
+        AppLocalizations.of(context)!.bridgeInProgressInfoFinished,
+        InfoBannerType.success,
+        width: MediaQuery.of(context).size.width * 0.9,
+      );
+    }
+
+    if (bridge.failure != null) {
+      return InfoBanner(
+        FailureMessage(
+          context: context,
+          failure: bridge.failure,
+        ).getMessage(),
+        InfoBannerType.error,
+        width: MediaQuery.of(context).size.width * 0.9,
       );
     }
 
     return InfoBanner(
-      FailureMessage(
-        context: context,
-        failure: bridge.failure,
-      ).getMessage(),
-      InfoBannerType.error,
+      AppLocalizations.of(context)!.bridgeInProgressWaitConfirmWallet,
+      InfoBannerType.request,
       width: MediaQuery.of(context).size.width * 0.9,
+      waitAnimation: true,
     );
   }
 }

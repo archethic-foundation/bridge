@@ -6,6 +6,7 @@ import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -50,8 +51,6 @@ class EVMLPERC with EVMBridgeProcessMixin {
           maxGas: 1000000,
         );
 
-        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-
         var timeout = false;
         late StreamSubscription<FilterEvent> subscription;
         try {
@@ -68,16 +67,16 @@ class EVMLPERC with EVMBridgeProcessMixin {
               debugPrint('Event Transfer = $event');
             },
           );
-
+          final bridgeNotifier =
+              ref.read(BridgeFormProvider.bridgeForm.notifier);
+          await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
           await sendTransactionWithErrorManagement(
             web3Client!,
             evmWalletProvider.credentials!,
             transactionTransfer,
             chainId,
           );
-
-          await bridgeNotifier.setWaitForWalletConfirmation(true);
-
+          await bridgeNotifier.setWalletConfirmation(null);
           await subscription.asFuture().timeout(
             const Duration(seconds: 240),
             onTimeout: () {
@@ -86,11 +85,9 @@ class EVMLPERC with EVMBridgeProcessMixin {
             },
           );
           await subscription.cancel();
-          await bridgeNotifier.setWaitForWalletConfirmation(false);
         } catch (e) {
           debugPrint('e $e');
           await subscription.cancel();
-          await bridgeNotifier.setWaitForWalletConfirmation(false);
           rethrow;
         }
         if (timeout) {
@@ -129,8 +126,6 @@ class EVMLPERC with EVMBridgeProcessMixin {
           maxGas: 1000000,
         );
 
-        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-
         var withdrawTx = '';
         var timeout = false;
         late StreamSubscription<FilterEvent> subscription;
@@ -147,15 +142,16 @@ class EVMLPERC with EVMBridgeProcessMixin {
             debugPrint('Event Withdrawn = $event');
           });
 
+          final bridgeNotifier =
+              ref.read(BridgeFormProvider.bridgeForm.notifier);
+          await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
           withdrawTx = await sendTransactionWithErrorManagement(
             web3Client!,
             evmWalletProvider.credentials!,
             transactionWithdraw,
             chainId,
           );
-
-          await bridgeNotifier.setWaitForWalletConfirmation(true);
-
+          await bridgeNotifier.setWalletConfirmation(null);
           await subscription.asFuture().timeout(
             const Duration(seconds: 240),
             onTimeout: () {
@@ -164,11 +160,9 @@ class EVMLPERC with EVMBridgeProcessMixin {
             },
           );
           await subscription.cancel();
-          await bridgeNotifier.setWaitForWalletConfirmation(false);
         } catch (e) {
           debugPrint('e $e');
           await subscription.cancel();
-          await bridgeNotifier.setWaitForWalletConfirmation(false);
           rethrow;
         }
         if (timeout) {

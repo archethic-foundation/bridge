@@ -4,8 +4,8 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_circular_step_progress_indicator.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_contracts.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_current_step.dart';
-import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_error.dart';
-import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_infos.dart';
+import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_infos_banner.dart';
+import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_infos_header.dart';
 import 'package:aebridge/ui/views/bridge_in_progress/components/bridge_in_progress_resume_btn.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/components/popup_close_button.dart';
@@ -57,10 +57,10 @@ class BridgeInProgressPopup {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 mainAxisSize: MainAxisSize.min,
                                 children: <Widget>[
-                                  BridgeInProgressInfos(),
+                                  BridgeInProgressInfosHeader(),
                                   BridgeInProgressCircularStepProgressIndicator(),
                                   BridgeInProgressCurrentStep(),
-                                  BridgeInProgressError(),
+                                  BridgeInProgressInfosBanner(),
                                   BridgeInProgressContracts(),
                                   Spacer(),
                                   BridgeInProgressResumeBtn(),

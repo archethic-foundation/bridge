@@ -6,6 +6,7 @@ import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -33,7 +34,9 @@ class EVMHTLC with EVMBridgeProcessMixin {
   Web3Client? web3ClientProvided;
   final int chainId;
 
-  Future<Result<String, Failure>> refund() async {
+  Future<Result<String, Failure>> refund(
+    WidgetRef ref,
+  ) async {
     return Result.guard(
       () async {
         final evmWalletProvider = sl.get<EVMWalletProvider>();
@@ -65,12 +68,18 @@ class EVMHTLC with EVMBridgeProcessMixin {
               debugPrint('Event ContractMinted = $event');
             },
           );
+          final bridgeNotifier =
+              ref.read(BridgeFormProvider.bridgeForm.notifier);
+          await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
           refundTx = await sendTransactionWithErrorManagement(
             web3Client!,
             evmWalletProvider.credentials!,
             transactionRefund,
             chainId,
           );
+
+          await bridgeNotifier.setWalletConfirmation(null);
+
           await subscription.asFuture().timeout(
             const Duration(seconds: 240),
             onTimeout: () {
@@ -218,8 +227,6 @@ class EVMHTLC with EVMBridgeProcessMixin {
           maxGas: 1000000,
         );
 
-        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-
         var withdrawTx = '';
         var timeout = false;
         late StreamSubscription<FilterEvent> subscription;
@@ -237,14 +244,16 @@ class EVMHTLC with EVMBridgeProcessMixin {
               debugPrint('Event Withdrawn = $event');
             },
           );
+          final bridgeNotifier =
+              ref.read(BridgeFormProvider.bridgeForm.notifier);
+          await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
           withdrawTx = await sendTransactionWithErrorManagement(
             web3Client!,
             evmWalletProvider.credentials!,
             transactionWithdraw,
             chainId,
           );
-
-          await bridgeNotifier.setWaitForWalletConfirmation(true);
+          await bridgeNotifier.setWalletConfirmation(null);
 
           await subscription.asFuture().timeout(
             const Duration(seconds: 240),
@@ -254,11 +263,9 @@ class EVMHTLC with EVMBridgeProcessMixin {
             },
           );
           await subscription.cancel();
-          await bridgeNotifier.setWaitForWalletConfirmation(false);
         } catch (e) {
           debugPrint('e $e');
           await subscription.cancel();
-          await bridgeNotifier.setWaitForWalletConfirmation(false);
           rethrow;
         }
         if (timeout) {

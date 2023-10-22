@@ -4,6 +4,7 @@ import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:aebridge/util/transaction_bridge_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -28,9 +29,6 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
   ) async {
     return Result.guard(
       () async {
-        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-        await bridgeNotifier.setWaitForWalletConfirmation(true);
-
         final code = await sl.get<ApiService>().callSCFunction(
               jsonRPCRequest: SCCallFunctionRequest(
                 method: 'contract_fun',
@@ -51,8 +49,6 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
                 ),
               ),
             );
-
-        await bridgeNotifier.setWaitForWalletConfirmation(false);
 
         final recipient = Recipient(
           address: poolAddress.toUpperCase(),
@@ -148,25 +144,24 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
           ],
         );
 
+        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+        await bridgeNotifier
+            .setWalletConfirmation(WalletConfirmation.archethic);
         transaction = (await signTx(
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transaction],
         ))
             .first;
+        await bridgeNotifier.setWalletConfirmation(null);
 
         debugPrint(
           'revealSecretToChargeableHTLC - Tx address: ${transaction.address!.address!}',
         );
 
-        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-        await bridgeNotifier.setWaitForWalletConfirmation(true);
-
         await sendTransactions(
           <Transaction>[transaction],
         );
-
-        await bridgeNotifier.setWaitForWalletConfirmation(false);
 
         return transaction.address!.address!;
       },

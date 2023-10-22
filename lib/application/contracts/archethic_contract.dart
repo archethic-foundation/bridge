@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:aebridge/util/transaction_bridge_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -106,25 +107,22 @@ class ArchethicContract with TransactionBridgeMixin {
 
         final currentNameAccount = await getCurrentAccount();
 
+        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+        await bridgeNotifier
+            .setWalletConfirmation(WalletConfirmation.archethic);
         transactionTransfer = (await signTx(
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionTransfer],
         ))
             .first;
-
+        await bridgeNotifier.setWalletConfirmation(null);
         debugPrint(
           'deployHTLC - Tx address : ${transactionTransfer.address!.address!}',
         );
-
-        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-        await bridgeNotifier.setWaitForWalletConfirmation(true);
-
         await sendTransactions(
           <Transaction>[transactionTransfer, transactionFinal],
         );
-
-        await bridgeNotifier.setWaitForWalletConfirmation(false);
       },
     );
   }
