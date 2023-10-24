@@ -287,7 +287,7 @@ mixin EVMBridgeProcessMixin {
       debugPrint('transactionHash $transactionHash');
       return transactionHash;
     } catch (e) {
-      debugPrint('error provisionChargeableHTLC $e');
+      debugPrint('error $e');
 
       if (e is EthereumUserRejected) {
         throw const Failure.userRejected();

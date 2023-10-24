@@ -58,12 +58,12 @@ class MyApp extends ConsumerWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         brightness: Brightness.dark,
-        fontFamily: 'Telegraf',
+        fontFamily: 'PPTelegraf',
         useMaterial3: true,
       ),
       darkTheme: ThemeData(
         brightness: Brightness.dark,
-        fontFamily: 'Telegraf',
+        fontFamily: 'PPTelegraf',
         useMaterial3: true,
       ),
       supportedLocales: const <Locale>[

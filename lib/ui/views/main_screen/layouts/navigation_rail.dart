@@ -51,8 +51,7 @@ class _NavigationRailMainScreenState
         if (Responsive.isDesktop(context))
           Padding(
             padding: const EdgeInsets.only(
-              top: 10,
-              bottom: 10,
+              bottom: 30,
             ),
             child: Column(
               children: [
@@ -60,6 +59,8 @@ class _NavigationRailMainScreenState
                   'assets/images/AELogo-Public Blockchain-White.svg',
                   semanticsLabel: 'AE Logo',
                   height: 22,
+                  colorFilter:
+                      const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                 ),
               ],
             ),
