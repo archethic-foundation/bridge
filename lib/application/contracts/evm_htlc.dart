@@ -47,7 +47,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
         final transactionRefund = Transaction.callContract(
           contract: contractHTLC,
           function: contractHTLC.function('refund'),
-          maxGas: 1000000,
+          maxGas: 1500000,
           parameters: [],
         );
 
@@ -224,7 +224,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
           parameters: [
             hexToBytes(secret),
           ],
-          maxGas: 1000000,
+          maxGas: 1500000,
         );
 
         var withdrawTx = '';

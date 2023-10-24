@@ -48,7 +48,7 @@ class EVMLPERC with EVMBridgeProcessMixin {
             EthereumAddress.fromHex(htlcContractAddress),
             ethAmount.getInWei,
           ],
-          maxGas: 1000000,
+          maxGas: 1500000,
         );
 
         var timeout = false;
@@ -123,7 +123,7 @@ class EVMLPERC with EVMBridgeProcessMixin {
             hexToBytes(secret.secretSignature!.s!),
             BigInt.from(secret.secretSignature!.v!),
           ],
-          maxGas: 1000000,
+          maxGas: 1500000,
         );
 
         var withdrawTx = '';

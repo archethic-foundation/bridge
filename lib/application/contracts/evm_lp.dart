@@ -39,7 +39,7 @@ class EVMLP with EVMBridgeProcessMixin {
       ],
       from: EthereumAddress.fromHex(addressFrom),
       gasPrice: EtherAmount.fromInt(EtherUnit.gwei, 20),
-      maxGas: 1000000,
+      maxGas: 1500000,
       value: isERC20 == false ? ethAmount : null,
     );
     return transactionMintHTLC;
@@ -207,7 +207,7 @@ class EVMLP with EVMBridgeProcessMixin {
             hexToBytes(secretHash.secretHashSignature!.s!),
             BigInt.from(secretHash.secretHashSignature!.v!),
           ],
-          maxGas: 1000000,
+          maxGas: 1500000,
         );
 
         debugPrint('contractLP provisionHTLC ok');

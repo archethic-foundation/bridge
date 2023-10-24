@@ -61,7 +61,7 @@ class EVMLPNative with EVMBridgeProcessMixin {
           Transaction(
             to: EthereumAddress.fromHex(htlcContractAddress),
             gasPrice: EtherAmount.fromInt(EtherUnit.gwei, 10),
-            maxGas: 1000000,
+            maxGas: 1500000,
             value: ethAmount,
           ),
           chainId,
@@ -113,7 +113,7 @@ class EVMLPNative with EVMBridgeProcessMixin {
             hexToBytes(secret.secretSignature!.s!),
             BigInt.from(secret.secretSignature!.v!),
           ],
-          maxGas: 1000000,
+          maxGas: 1500000,
         );
 
         var withdrawTx = '';
