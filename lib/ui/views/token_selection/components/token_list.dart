@@ -78,8 +78,8 @@ class _SingleToken extends StatelessWidget {
               width: 10,
             ),
             Container(
-              width: 20,
-              height: 20,
+              width: 30,
+              height: 30,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.white.withOpacity(0.2),
@@ -88,7 +88,7 @@ class _SingleToken extends StatelessWidget {
                 child: Text(
                   token.symbol,
                   style: const TextStyle(
-                    fontSize: 6,
+                    fontSize: 8,
                     color: Colors.white,
                   ),
                 ),
