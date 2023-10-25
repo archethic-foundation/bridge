@@ -48,8 +48,6 @@ mixin ArchethicBridgeProcessMixin {
   ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-    await bridgeNotifier.setCurrentStep(1);
-
     final session = ref.read(SessionProviders.session);
     final walletFrom = session.walletFrom;
 
@@ -91,7 +89,6 @@ mixin ArchethicBridgeProcessMixin {
   ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-    await bridgeNotifier.setCurrentStep(3);
 
     late String htlcAddress;
     final resultDeployChargeableHTLCAE =
@@ -129,8 +126,6 @@ mixin ArchethicBridgeProcessMixin {
   ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-    await bridgeNotifier.setCurrentStep(2);
-
     final session = ref.read(SessionProviders.session);
     final walletFrom = session.walletFrom;
 
@@ -208,7 +203,6 @@ mixin ArchethicBridgeProcessMixin {
   ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-    await bridgeNotifier.setCurrentStep(5);
     final session = ref.read(SessionProviders.session);
     final walletFrom = session.walletFrom;
 
@@ -232,9 +226,6 @@ mixin ArchethicBridgeProcessMixin {
   }
 
   Future<Secret> revealAESecret(WidgetRef ref, String htlcAddress) async {
-    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-    await bridgeNotifier.setCurrentStep(6);
-
     // TODO(reddwarf03): Berk
     await Future.delayed(const Duration(seconds: 10));
 

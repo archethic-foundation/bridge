@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:aebridge/application/contracts/evm_htlc.dart';
+import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
@@ -21,6 +22,7 @@ class BridgeEVMToArchethicUseCase
   }) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+    await bridgeNotifier.setCurrentStep(0);
 
     Uint8List? secret;
     if (recoverySecret != null) {
@@ -50,6 +52,7 @@ class BridgeEVMToArchethicUseCase
     // 1) Deploy EVM HTLC
     if (recoveryStep <= 1) {
       try {
+        await bridgeNotifier.setCurrentStep(1);
         final deployEVMHTLCResult = await deployEVMHTLC(ref, secretHash);
         htlcEVMAddress = deployEVMHTLCResult.htlcAddress;
         txAddress = deployEVMHTLCResult.txAddress;
@@ -63,38 +66,52 @@ class BridgeEVMToArchethicUseCase
       await bridgeNotifier.setBlockchainFrom(blockchainFrom);
     }
 
-    final htlc = EVMHTLC(
-      bridge.blockchainFrom!.providerEndpoint,
-      htlcEVMAddress!,
-      bridge.blockchainFrom!.chainId,
-    );
-    final resultGetHTLCLockTime = await htlc.getHTLCLockTime();
-    resultGetHTLCLockTime.map(
-      success: (htlcLockTime) {
-        endTime = htlcLockTime;
-      },
-      failure: (failure) {
-        return;
-      },
-    );
+    // 2) Get HTLC Lock time
+    if (recoveryStep <= 3) {
+      await bridgeNotifier.setCurrentStep(2);
+      final htlc = EVMHTLC(
+        bridge.blockchainFrom!.providerEndpoint,
+        htlcEVMAddress!,
+        bridge.blockchainFrom!.chainId,
+      );
+      final resultGetHTLCLockTime = await htlc.getHTLCLockTime();
+      await resultGetHTLCLockTime.map(
+        success: (htlcLockTime) {
+          endTime = htlcLockTime;
+        },
+        failure: (failure) async {
+          await bridgeNotifier.setFailure(const Failure.invalidValue());
+          await bridgeNotifier.setTransferInProgress(false);
+          return;
+        },
+      );
+    }
 
-    // 2) Provision HTLC
-    if (recoveryStep <= 2 && bridge.tokenToBridge!.type != 'Native') {
+    // 3) Provision HTLC
+    if (recoveryStep <= 3 && bridge.tokenToBridge!.type != 'Native') {
       try {
-        await provisionEVMHTLC(ref, htlcEVMAddress);
+        await bridgeNotifier.setCurrentStep(3);
+        await provisionEVMHTLC(ref, htlcEVMAddress!);
       } catch (e) {
         return;
       }
     }
 
-    // 3) Deploy Archethic HTLC
+    // 4) Get amount from HTLC
     double? amount;
-    if (recoveryStep <= 3) {
-      try {
-        amount = await getEVMHTLCAmount(ref, htlcEVMAddress);
-        amount ??= bridge.tokenToBridgeAmount;
-        debugPrint('Archethic HTLC amount $amount');
+    if (recoveryStep <= 5) {
+      await bridgeNotifier.setCurrentStep(4);
+      amount = await getEVMHTLCAmount(ref, htlcEVMAddress!);
+      debugPrint('Archethic HTLC amount $amount');
+      if (amount == null) {
+        await bridgeNotifier.setFailure(const Failure.invalidValue());
+        await bridgeNotifier.setTransferInProgress(false);
+        return;
+      }
 
+      // 5) Deploy Archethic HTLC
+      try {
+        await bridgeNotifier.setCurrentStep(5);
         htlcAEAddress = await deployAEChargeableHTLC(
           ref,
           secretHash,
@@ -112,19 +129,22 @@ class BridgeEVMToArchethicUseCase
       await bridgeNotifier.setBlockchainTo(blockchainTo);
     }
 
-    // 4) Withdraw
-    if (recoveryStep <= 4) {
+    // 6) Withdraw
+    if (recoveryStep <= 6) {
+      await bridgeNotifier.setCurrentStep(6);
       try {
-        await withdrawEVM(ref, htlcEVMAddress, secret);
+        await withdrawEVM(ref, htlcEVMAddress!, secret);
       } catch (e) {
         return;
       }
     }
-    // 5) Reveal secret to Archethic HTLC
-    if (recoveryStep <= 5) {
+
+    // 7) Reveal secret to Archethic HTLC
+    if (recoveryStep <= 7) {
       try {
+        await bridgeNotifier.setCurrentStep(7);
         if (amount == null) {
-          amount = await getEVMHTLCAmount(ref, htlcEVMAddress);
+          amount = await getEVMHTLCAmount(ref, htlcEVMAddress!);
           amount ??= bridge.tokenToBridgeAmount;
           debugPrint('Archethic HTLC amount $amount');
         }
@@ -139,6 +159,8 @@ class BridgeEVMToArchethicUseCase
         return;
       }
     }
+
+    await bridgeNotifier.setCurrentStep(8);
   }
 
   String getStepLabel(

@@ -54,6 +54,10 @@ mixin EVMBridgeProcessMixin {
         return AppLocalizations.of(context)!.evmBridgeProcessStep5;
       case 6:
         return AppLocalizations.of(context)!.evmBridgeProcessStep6;
+      case 7:
+        return AppLocalizations.of(context)!.evmBridgeProcessStep7;
+      case 8:
+        return AppLocalizations.of(context)!.evmBridgeProcessStep8;
       default:
         return AppLocalizations.of(context)!.evmBridgeProcessStep0;
     }
@@ -71,7 +75,6 @@ mixin EVMBridgeProcessMixin {
   ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-    await bridgeNotifier.setCurrentStep(4);
     final evmLP = EVMLP(bridge.blockchainTo!.providerEndpoint);
     debugPrint(
       'bridge.blockchainTo!.providerEndpoint ${bridge.blockchainTo!.providerEndpoint}',
@@ -122,7 +125,6 @@ mixin EVMBridgeProcessMixin {
   ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-    await bridgeNotifier.setCurrentStep(1);
 
     final evmLP = EVMLP(bridge.blockchainFrom!.providerEndpoint);
     final resultDeployChargeableHTLCEVM = await evmLP.deployChargeableHTLC(
@@ -155,7 +157,6 @@ mixin EVMBridgeProcessMixin {
   Future<void> provisionEVMHTLC(WidgetRef ref, String htlcAddress) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-    await bridgeNotifier.setCurrentStep(2);
 
     Result<void, Failure>? resultProvisionChargeableHTLC;
     if (bridge.tokenToBridge!.type == 'ERC20') {
@@ -199,7 +200,7 @@ mixin EVMBridgeProcessMixin {
   ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-    await bridgeNotifier.setCurrentStep(4);
+
     final htlc = EVMHTLC(
       bridge.blockchainFrom!.providerEndpoint,
       htlcAddress,
@@ -246,7 +247,6 @@ mixin EVMBridgeProcessMixin {
     String poolAddress,
   ) async {
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-    await bridgeNotifier.setCurrentStep(5);
     final session = ref.read(SessionProviders.session);
     final walletTo = session.walletTo;
     final resultRevealSecretToChargeableHTLC =
@@ -262,7 +262,6 @@ mixin EVMBridgeProcessMixin {
     await bridgeNotifier.setTransferInProgress(false);
     await resultRevealSecretToChargeableHTLC.map(
       success: (success) async {
-        await bridgeNotifier.setCurrentStep(6);
         return;
       },
       failure: (failure) async {
@@ -377,7 +376,6 @@ mixin EVMBridgeProcessMixin {
   Future<String> withdrawAE(WidgetRef ref, String htlc, Secret secret) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-    await bridgeNotifier.setCurrentStep(7);
 
     Result<String, Failure>? resultSignedWithdraw;
     debugPrint('bridge.tokenToBridge!.type: ${bridge.tokenToBridge!.type}');
@@ -418,7 +416,6 @@ mixin EVMBridgeProcessMixin {
     late String txAddress;
     await resultSignedWithdraw.map(
       success: (success) async {
-        await bridgeNotifier.setCurrentStep(8);
         await bridgeNotifier.setWalletConfirmation(null);
         await bridgeNotifier.setTransferInProgress(false);
         txAddress = success;

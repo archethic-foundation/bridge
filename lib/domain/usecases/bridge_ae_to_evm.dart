@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:aebridge/application/contracts/archethic_contract.dart';
+import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
@@ -42,6 +43,7 @@ class BridgeArchethicToEVMUseCase
     // 1) Deploy Archethic HTLC
     if (recoveryStep <= 1) {
       try {
+        await bridgeNotifier.setCurrentStep(1);
         await deployAESignedHTLC(
           ref,
           htlcAEAddress,
@@ -55,6 +57,7 @@ class BridgeArchethicToEVMUseCase
     // 2) Provision Archethic HTLC
     if (recoveryStep <= 2) {
       try {
+        await bridgeNotifier.setCurrentStep(2);
         await provisionAEHTLC(
           ref,
           htlcAEAddress,
@@ -71,16 +74,32 @@ class BridgeArchethicToEVMUseCase
     if (recoveryStep <= 4) {
       try {
         // 3) Get Secret Hash from API
+        await bridgeNotifier.setCurrentStep(3);
         final resultGetAEHTLCData = await getAEHTLCData(ref, htlcAEAddress);
         secretHash = resultGetAEHTLCData.secretHash;
         endTime = resultGetAEHTLCData.endTime;
         amount = resultGetAEHTLCData.amount;
+        if (endTime == 0 ||
+            amount == 0 ||
+            secretHash.secretHash == null ||
+            secretHash.secretHashSignature == null) {
+          await bridgeNotifier.setFailure(
+            const Failure.invalidValue(),
+          );
+          await bridgeNotifier.setTransferInProgress(false);
+          return;
+        }
       } catch (e) {
         debugPrint(e.toString());
+        await bridgeNotifier.setFailure(
+          Failure.other(cause: e.toString()),
+        );
+        await bridgeNotifier.setTransferInProgress(false);
         return;
       }
 
       // 4) Deploy EVM HTLC + Provision
+      await bridgeNotifier.setCurrentStep(4);
       try {
         final deployEVMHTCLAndProvisionResult =
             await deployEVMHTCLAndProvision(ref, secretHash, endTime, amount);
@@ -97,6 +116,7 @@ class BridgeArchethicToEVMUseCase
 
     // 5) Request Secret from Archethic LP
     if (recoveryStep <= 5) {
+      await bridgeNotifier.setCurrentStep(5);
       try {
         await requestAESecretFromLP(
           ref,
@@ -111,6 +131,7 @@ class BridgeArchethicToEVMUseCase
 
     late Secret secret;
     if (recoveryStep <= 7) {
+      await bridgeNotifier.setCurrentStep(6);
       try {
         // 6) Reveal Secret
         secret = await revealAESecret(ref, htlcAEAddress);
@@ -119,11 +140,14 @@ class BridgeArchethicToEVMUseCase
       }
 
       // 7) Reveal Secret EVM (Withdraw)
+      await bridgeNotifier.setCurrentStep(7);
       try {
         await withdrawAE(ref, htlcEVMAddress, secret);
       } catch (e) {
         return;
       }
+
+      await bridgeNotifier.setCurrentStep(8);
     }
   }
 
