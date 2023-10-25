@@ -189,13 +189,13 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       case 'aeETH':
         coinId = 'ethereum';
         break;
-      case 'BSC':
-      case 'aeBSC':
-        coinId = 'binance-usd';
+      case 'BNB':
+      case 'aeBNB':
+        coinId = 'binancecoin';
         break;
       case 'MATIC':
       case 'aeMATIC':
-        coinId = 'polygon';
+        coinId = 'matic-network';
         break;
       default:
         state = state.copyWith(coingeckoPrice: 0);

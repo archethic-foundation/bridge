@@ -33,11 +33,13 @@ Future<double> _getPriceFromSymbol(
     case 'aeETH':
       coinId = 'ethereum';
       break;
-    case 'BSC':
-      coinId = 'binance-usd';
+    case 'BNB':
+    case 'aeBNB':
+      coinId = 'binancecoin';
       break;
     case 'MATIC':
-      coinId = 'polygon';
+    case 'aeMATIC':
+      coinId = 'matic-network';
       break;
   }
   if (coinId == null) {
