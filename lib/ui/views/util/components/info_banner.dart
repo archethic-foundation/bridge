@@ -66,7 +66,9 @@ class InfoBanner extends StatelessWidget {
                         gradient: BridgeThemeBase.gradientInfoBannerBackground,
                       ),
                       child: Container(
-                        padding: const EdgeInsets.only(left: 10),
+                        padding: const EdgeInsets.only(
+                          left: 10,
+                        ),
                         height: 45,
                         alignment: Alignment.centerLeft,
                         child: Row(
@@ -81,18 +83,24 @@ class InfoBanner extends StatelessWidget {
                             Expanded(
                               child: Row(
                                 children: [
-                                  Text(
-                                    message,
-                                    style: TextStyle(
-                                      color: infoBannerType ==
-                                              InfoBannerType.error
-                                          ? Theme.of(context).colorScheme.error
-                                          : infoBannerType ==
-                                                  InfoBannerType.request
-                                              ? Theme.of(context)
-                                                  .colorScheme
-                                                  .primary
-                                              : BridgeThemeBase.statusOK,
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.only(top: 2, right: 5),
+                                    child: Text(
+                                      message,
+                                      style: TextStyle(
+                                        color: infoBannerType ==
+                                                InfoBannerType.error
+                                            ? Theme.of(context)
+                                                .colorScheme
+                                                .error
+                                            : infoBannerType ==
+                                                    InfoBannerType.request
+                                                ? Theme.of(context)
+                                                    .colorScheme
+                                                    .primary
+                                                : BridgeThemeBase.statusOK,
+                                      ),
                                     ),
                                   ),
                                   if (waitAnimation)
