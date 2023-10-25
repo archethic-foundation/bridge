@@ -27,7 +27,7 @@ class BridgeConfirmBackButton extends ConsumerWidget {
               ? null
               : () {
                   ref
-                      .watch(BridgeFormProvider.bridgeForm.notifier)
+                      .read(BridgeFormProvider.bridgeForm.notifier)
                       .setBridgeProcessStep(
                         BridgeProcessStep.form,
                       );

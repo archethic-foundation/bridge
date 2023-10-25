@@ -79,7 +79,7 @@ class FormatAddressLinkCopy extends ConsumerWidget {
         const SizedBox(width: 5),
         InkWell(
           onTap: () async {
-            final blockchain = await ref.watch(
+            final blockchain = await ref.read(
               BridgeBlockchainsProviders.getBlockchainFromChainId(
                 chainId,
               ).future,

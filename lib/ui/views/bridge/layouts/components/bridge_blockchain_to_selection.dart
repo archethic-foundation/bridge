@@ -92,7 +92,7 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
                 ),
               ),
               onTap: () async {
-                final blockchainSelectionNotifier = ref.watch(
+                final blockchainSelectionNotifier = ref.read(
                   BlockchainSelectionFormProvider
                       .blockchainSelectionForm.notifier,
                 );
@@ -107,17 +107,17 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
                 );
                 if (blockchain == null) return;
 
+                final bridgeFormNotifier =
+                    ref.read(BridgeFormProvider.bridgeForm.notifier);
+
                 // We want to swap values
                 if (bridge.blockchainFrom != null &&
                     blockchain.chainId == bridge.blockchainFrom!.chainId) {
-                  await ref
-                      .watch(BridgeFormProvider.bridgeForm.notifier)
-                      .swapDirections();
+                  await bridgeFormNotifier.swapDirections();
                   return;
                 }
 
-                await ref
-                    .watch(BridgeFormProvider.bridgeForm.notifier)
+                await bridgeFormNotifier
                     .setBlockchainToWithConnection(blockchain);
               },
             ),

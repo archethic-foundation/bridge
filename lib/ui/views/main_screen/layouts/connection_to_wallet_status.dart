@@ -232,8 +232,8 @@ class MenuConnectionToWalletStatus extends ConsumerWidget {
               ],
             ),
           ),
-          onPressed: () {
-            showDialog(
+          onPressed: () async {
+            await showDialog(
               context: context,
               builder: (context) {
                 return ScaffoldMessenger(
@@ -284,7 +284,7 @@ class MenuConnectionToWalletStatus extends ConsumerWidget {
                                     AppButton(
                                       labelBtn:
                                           AppLocalizations.of(context)!.no,
-                                      onPressed: () async {
+                                      onPressed: () {
                                         Navigator.of(context).pop();
                                       },
                                     ),

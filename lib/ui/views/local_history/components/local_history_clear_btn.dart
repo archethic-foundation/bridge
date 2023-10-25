@@ -104,7 +104,7 @@ class LocalHistoryClearButton extends ConsumerWidget {
                                                   context,
                                                 )!
                                                     .no,
-                                                onPressed: () async {
+                                                onPressed: () {
                                                   Navigator.of(context).pop();
                                                 },
                                               ),
@@ -113,7 +113,7 @@ class LocalHistoryClearButton extends ConsumerWidget {
                                                   context,
                                                 )!
                                                     .yes,
-                                                onPressed: () async {
+                                                onPressed: () {
                                                   ref.read(
                                                     BridgeHistoryProviders
                                                         .clearBridgesList,

@@ -24,7 +24,7 @@ class LocalHistoryCardOptionsRefund extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 10),
       child: InkWell(
-        onTap: () async {
+        onTap: () {
           ref
               .read(
                 MainScreenWidgetDisplayedProviders
