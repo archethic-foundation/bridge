@@ -161,6 +161,29 @@ mixin TransactionBridgeMixin {
     return newTransactions;
   }
 
+  Future<bool> waitForManualTxConfirmation(
+    String txChainAddress,
+    int targetIndex, {
+    int nbTrials = 60,
+  }) async {
+    final apiService = sl.get<ApiService>();
+
+    for (var i = 0; i < nbTrials; i++) {
+      final txIndexMap = await apiService.getTransactionIndex([txChainAddress]);
+      if (txIndexMap[txChainAddress] != null &&
+          txIndexMap[txChainAddress] == targetIndex) {
+        debugPrint('waitForManualTxConfirmation : ok');
+        return true;
+      }
+
+      debugPrint('waitForManualTxConfirmation : wait');
+      await Future.delayed(const Duration(seconds: 1));
+    }
+
+    debugPrint('waitForManualTxConfirmation : timeout');
+    return false;
+  }
+
   Future<String> getCurrentAccount() async {
     var accountName = '';
 

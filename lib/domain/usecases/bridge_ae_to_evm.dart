@@ -7,11 +7,15 @@ import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/util/transaction_bridge_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BridgeArchethicToEVMUseCase
-    with ArchethicBridgeProcessMixin, EVMBridgeProcessMixin {
+    with
+        ArchethicBridgeProcessMixin,
+        EVMBridgeProcessMixin,
+        TransactionBridgeMixin {
   Future<void> run(
     WidgetRef ref, {
     int recoveryStep = 0,
@@ -62,6 +66,13 @@ class BridgeArchethicToEVMUseCase
           ref,
           htlcAEAddress,
         );
+
+        // Wait for AE HTLC Update
+        if (await waitForManualTxConfirmation(htlcAEAddress, 2) == false) {
+          await bridgeNotifier.setFailure(const Failure.timeout());
+          await bridgeNotifier.setTransferInProgress(false);
+          return;
+        }
       } catch (e) {
         return;
       }
@@ -124,7 +135,20 @@ class BridgeArchethicToEVMUseCase
           htlcEVMAddress,
           txAddress,
         );
+
+        // Wait for AE HTLC Update
+        if (await waitForManualTxConfirmation(
+              htlcAEAddress,
+              3,
+            ) ==
+            false) {
+          await bridgeNotifier.setFailure(const Failure.timeout());
+          await bridgeNotifier.setTransferInProgress(false);
+          return;
+        }
       } catch (e) {
+        await bridgeNotifier.setFailure(Failure.other(cause: e.toString()));
+        await bridgeNotifier.setTransferInProgress(false);
         return;
       }
     }

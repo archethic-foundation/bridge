@@ -163,12 +163,6 @@ mixin ArchethicBridgeProcessMixin {
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(3);
 
-    //final updater = APIDataUpdater()..htlcAddressBefore = archethicHTLCAddress;
-    //await updater.waitForHTLCUpdate(archethicHTLCAddress);
-
-    // TODO(reddwarf03): Fix this
-    await Future.delayed(const Duration(seconds: 10));
-
     final htlcDataMap = await sl.get<archethic.ApiService>().callSCFunction(
           jsonRPCRequest: archethic.SCCallFunctionRequest(
             method: 'contract_fun',
@@ -226,9 +220,6 @@ mixin ArchethicBridgeProcessMixin {
   }
 
   Future<Secret> revealAESecret(WidgetRef ref, String htlcAddress) async {
-    // TODO(reddwarf03): Berk
-    await Future.delayed(const Duration(seconds: 10));
-
     final secretMap = await sl.get<archethic.ApiService>().callSCFunction(
           jsonRPCRequest: archethic.SCCallFunctionRequest(
             method: 'contract_fun',
@@ -252,53 +243,6 @@ mixin ArchethicBridgeProcessMixin {
         s: '0x${secretMap["secret_signature"]["s"]}',
         v: secretMap['secret_signature']['v'],
       ),
-    );
-  }
-}
-
-class APIDataUpdater {
-  int retryCount = 0;
-  String? htlcAddressBefore;
-
-  Future<String> fetchData(String htlcGenesisAddress) async {
-    final htlcAddressAfterMap = await sl
-        .get<archethic.ApiService>()
-        .getLastTransaction([htlcGenesisAddress], request: 'address');
-    return htlcAddressAfterMap[htlcGenesisAddress]!.address!.address!;
-  }
-
-  Future<String> waitForHTLCUpdate(String htlcGenesisAddress) async {
-    const maxRetries = 5;
-    const retryInterval = Duration(seconds: 5);
-    const timeout = Duration(seconds: 5);
-
-    final completer = Completer<String>();
-
-    Future<void> checkData() async {
-      final htlcAddressAfter = await fetchData(htlcGenesisAddress);
-      if (htlcAddressAfter != htlcAddressBefore) {
-        debugPrint('waitForHTLCUpdate ok');
-        completer.complete(htlcAddressAfter);
-      } else {
-        if (retryCount < maxRetries) {
-          retryCount++;
-          debugPrint('waitForHTLCUpdate Retry $retryCount');
-          Timer(retryInterval, checkData);
-        } else {
-          debugPrint('waitForHTLCUpdate Number of retries exceeded');
-          completer.completeError(Exception('Number of retries exceeded'));
-        }
-      }
-    }
-
-    Timer(retryInterval, checkData);
-
-    return completer.future.timeout(
-      timeout,
-      onTimeout: () {
-        retryCount = maxRetries;
-        throw Exception('Timeout');
-      },
     );
   }
 }
