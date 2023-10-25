@@ -39,7 +39,7 @@ class LocalHistoryCardTrfInfos extends ConsumerWidget {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         return SelectableText(
-                          '${bridge.tokenToBridgeAmount.toString().formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data} ${AppLocalizations.of(context)!.localHistoryToLbl}',
+                          '${bridge.tokenToBridgeAmount.formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data} ${AppLocalizations.of(context)!.localHistoryToLbl}',
                           style: const TextStyle(
                             fontSize: 13,
                           ),

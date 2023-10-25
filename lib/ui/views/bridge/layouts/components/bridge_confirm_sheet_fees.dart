@@ -75,7 +75,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Text(
-                    '${bridge.tokenToBridgeReceived.toStringAsFixed(4).formatNumber()} ${bridge.tokenToBridge!.targetTokenSymbol} ${snapshot.data}',
+                    '${bridge.tokenToBridgeReceived.formatNumber()} ${bridge.tokenToBridge!.targetTokenSymbol} ${snapshot.data}',
                   );
                 }
                 return const SizedBox();
@@ -128,7 +128,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Text(
-                    '-${bridge.safetyModuleFees.toStringAsFixed(4).formatNumber()} ${bridge.safetyModuleSymbol} ${snapshot.data}',
+                    '-${bridge.safetyModuleFees.formatNumber()} ${bridge.safetyModuleSymbol} ${snapshot.data}',
                   );
                 }
                 return const SizedBox();
@@ -191,7 +191,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return Text(
-                    '-${bridge.archethicProtocolFees.toStringAsFixed(4).formatNumber()} ${bridge.archethicProtocolSymbol} ${snapshot.data}',
+                    '-${bridge.archethicProtocolFees.formatNumber()} ${bridge.archethicProtocolSymbol} ${snapshot.data}',
                   );
                 }
                 return const SizedBox();

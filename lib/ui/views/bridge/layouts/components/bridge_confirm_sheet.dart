@@ -17,6 +17,9 @@ class BridgeConfirmSheet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    if (bridge.blockchainFrom == null) {
+      return const SizedBox.shrink();
+    }
 
     return Expanded(
       child: Column(
@@ -65,7 +68,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return Text(
-                      '${bridge.tokenToBridgeAmount.toString().formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data}',
+                      '${bridge.tokenToBridgeAmount.formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data}',
                     );
                   }
                   return const SizedBox();

@@ -30,7 +30,7 @@ class BridgeTokenBridgedPoolBalance extends ConsumerWidget {
         if (snapshot.hasData) {
           return Flexible(
             child: Text(
-              '${AppLocalizations.of(context)!.pool_balance_title_infos} ${bridge.poolTargetBalance.toStringAsFixed(2).replaceAll(RegExp(r"0*$"), "").replaceAll(RegExp(r"\.$"), "").formatNumber()} ${bridge.tokenToBridge!.targetTokenSymbol} ${snapshot.data}',
+              '${AppLocalizations.of(context)!.pool_balance_title_infos} ${bridge.poolTargetBalance.formatNumber()} ${bridge.tokenToBridge!.targetTokenSymbol} ${snapshot.data}',
               overflow: TextOverflow.visible,
               textAlign: TextAlign.end,
             ),

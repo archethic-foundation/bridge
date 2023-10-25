@@ -29,7 +29,7 @@ class BridgeTokenToBridgeBalance extends ConsumerWidget {
         if (snapshot.hasData) {
           return Flexible(
             child: Text(
-              '${AppLocalizations.of(context)!.balance_title_infos} ${bridge.tokenToBridgeBalance.toStringAsFixed(2).replaceAll(RegExp(r"0*$"), "").replaceAll(RegExp(r"\.$"), "").formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data}',
+              '${AppLocalizations.of(context)!.balance_title_infos} ${bridge.tokenToBridgeBalance.formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data}',
               overflow: TextOverflow.visible,
             ),
           );

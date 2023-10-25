@@ -16,16 +16,16 @@ class FiatValue {
           ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
 
       final fiatValue = archethicOracleUCO.usd * amount;
-      return '(\$${fiatValue.toStringAsFixed(2).formatNumber()})';
+      return '(\$${fiatValue.formatNumber(precision: 2)})';
     } else {
       final price =
           await ref.watch(MarketProviders.getPriceFromSymbol(symbol).future);
 
       final fiatValue = price * amount;
       if (withParenthesis) {
-        return '(\$${fiatValue.toStringAsFixed(2).formatNumber()})';
+        return '(\$${fiatValue.formatNumber(precision: 2)})';
       } else {
-        return '\$${fiatValue.toStringAsFixed(2).formatNumber()}';
+        return '\$${fiatValue.formatNumber(precision: 2)}';
       }
     }
   }
