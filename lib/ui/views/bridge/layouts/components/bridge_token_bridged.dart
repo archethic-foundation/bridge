@@ -79,7 +79,7 @@ class BridgeTokenBridged extends ConsumerWidget {
                                               width: 10,
                                             ),
                                             Container(
-                                              width: 30,
+                                              width: 50,
                                               height: 30,
                                               decoration: BoxDecoration(
                                                 shape: BoxShape.circle,
