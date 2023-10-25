@@ -399,7 +399,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       secret: null,
       archethicOracleUCO: null,
       safetyModuleFeesAddress: '',
-      changeDirectionInProgress: false,
       archethicProtocolFeesAddress: '',
     );
   }
