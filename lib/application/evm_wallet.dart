@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:html';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
@@ -188,7 +189,7 @@ class EVMWalletProvider extends ChangeNotifier {
 
           final abiTokenStringJson = jsonDecode(
             await rootBundle
-                .loadString('contracts/evm/build/contracts/IERC20.json'),
+                .loadString('contracts/evm/build/contracts/ERC20.json'),
           );
 
           final contractToken = DeployedContract(
@@ -206,15 +207,15 @@ class EVMWalletProvider extends ChangeNotifier {
           );
 
           debugPrint(
-            '${decimalsResponse[0]}',
+            'decimalsResponse ${decimalsResponse[0]}',
           );
 
-          return decimalsResponse[0].toInt();
+          return min(defaultDecimal, decimalsResponse[0].toInt());
         default:
           return defaultDecimal;
       }
     } catch (e) {
-      debugPrint(e.toString());
+      debugPrint('decimalsResponse $e');
       return defaultDecimal;
     }
   }

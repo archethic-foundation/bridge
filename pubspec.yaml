@@ -121,6 +121,7 @@ flutter:
     - contracts/evm/build/contracts/IHTLC.json
     - contracts/evm/build/contracts/HTLC_ERC.json
     - contracts/evm/build/contracts/IERC20.json
+    - contracts/evm/build/contracts/ERC20.json
     - contracts/evm/build/contracts/SignedHTLC_ERC.json
     - contracts/evm/build/contracts/SignedHTLC_ETH.json
     - contracts/evm/build/contracts/ChargeableHTLC_ERC.json

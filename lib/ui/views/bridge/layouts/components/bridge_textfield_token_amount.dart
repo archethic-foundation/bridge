@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
-import 'package:aebridge/ui/views/util/components/fiat_value.dart';
 import 'package:aebridge/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -146,7 +145,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.only(right: 10),
+              padding: const EdgeInsets.only(right: 10, top: 3),
               child: InkWell(
                 onTap: () async {
                   await ref
@@ -166,33 +165,6 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                       duration: const Duration(milliseconds: 500),
                     ),
               ),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              '${AppLocalizations.of(context)!.bridge_token_bridged_decimals_lbl} ${bridge.tokenToBridgeDecimals}',
-            ),
-            FutureBuilder<String>(
-              future: FiatValue().display(
-                ref,
-                bridge.tokenToBridge!.symbol,
-                bridge.tokenToBridgeAmount,
-                withParenthesis: false,
-              ),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      '${snapshot.data}',
-                    ),
-                  );
-                }
-                return const SizedBox();
-              },
             ),
           ],
         ),
