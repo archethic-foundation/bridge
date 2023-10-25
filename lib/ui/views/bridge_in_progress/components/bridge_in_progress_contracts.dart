@@ -49,35 +49,45 @@ class BridgeInProgressContracts extends ConsumerWidget {
               ],
             ),
           const SizedBox(height: 10),
-          if (bridge.blockchainFrom != null &&
-              bridge.blockchainFrom!.htlcAddress != null &&
-              bridge.blockchainFrom!.htlcAddress!.isNotEmpty)
-            SelectableText(
-              '${bridge.blockchainFrom!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
-            ),
-          if (bridge.blockchainFrom != null &&
-              bridge.blockchainFrom!.htlcAddress != null &&
-              bridge.blockchainFrom!.htlcAddress!.isNotEmpty)
-            FormatAddressLinkCopy(
-              address: bridge.blockchainFrom!.htlcAddress!,
-              chainId: bridge.blockchainFrom!.chainId,
-            ),
+          Row(
+            children: [
+              if (bridge.blockchainFrom != null &&
+                  bridge.blockchainFrom!.htlcAddress != null &&
+                  bridge.blockchainFrom!.htlcAddress!.isNotEmpty)
+                SelectableText(
+                  '${bridge.blockchainFrom!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
+                ),
+              if (bridge.blockchainFrom != null &&
+                  bridge.blockchainFrom!.htlcAddress != null &&
+                  bridge.blockchainFrom!.htlcAddress!.isNotEmpty)
+                FormatAddressLinkCopy(
+                  address: bridge.blockchainFrom!.htlcAddress!,
+                  chainId: bridge.blockchainFrom!.chainId,
+                  reduceAddress: true,
+                ),
+            ],
+          ),
           const SizedBox(
             height: 10,
           ),
-          if (bridge.blockchainTo != null &&
-              bridge.blockchainTo!.htlcAddress != null &&
-              bridge.blockchainTo!.htlcAddress!.isNotEmpty)
-            SelectableText(
-              '${bridge.blockchainTo!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
-            ),
-          if (bridge.blockchainTo != null &&
-              bridge.blockchainTo!.htlcAddress != null &&
-              bridge.blockchainTo!.htlcAddress!.isNotEmpty)
-            FormatAddressLinkCopy(
-              address: bridge.blockchainTo!.htlcAddress!,
-              chainId: bridge.blockchainTo!.chainId,
-            ),
+          Row(
+            children: [
+              if (bridge.blockchainTo != null &&
+                  bridge.blockchainTo!.htlcAddress != null &&
+                  bridge.blockchainTo!.htlcAddress!.isNotEmpty)
+                SelectableText(
+                  '${bridge.blockchainTo!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
+                ),
+              if (bridge.blockchainTo != null &&
+                  bridge.blockchainTo!.htlcAddress != null &&
+                  bridge.blockchainTo!.htlcAddress!.isNotEmpty)
+                FormatAddressLinkCopy(
+                  address: bridge.blockchainTo!.htlcAddress!,
+                  chainId: bridge.blockchainTo!.chainId,
+                  reduceAddress: true,
+                ),
+            ],
+          ),
           const SizedBox(
             height: 30,
           ),
