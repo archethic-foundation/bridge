@@ -2,7 +2,7 @@ name: aebridge
 description: Enable interoperability and facilitate the transfer of data and assets between the two blockchains.
 publish_to: "none"
 
-version: 0.0.9+14
+version: 0.0.9+15
 
 environment:
   sdk: ">=3.1.0 <4.0.0"
@@ -135,4 +135,19 @@ flutter:
         - asset: assets/fonts/Iconsax.ttf
     - family: PPTelegraf
       fonts:
+        - asset: assets/fonts/PPTelegraf-Ultralight.otf
+          weight: 200
+        - asset: assets/fonts/PPTelegraf-Light.otf
+          weight: 300
         - asset: assets/fonts/PPTelegraf-Regular.otf
+          weight: 400
+        - asset: assets/fonts/PPTelegraf-Medium.otf
+          weight: 500
+        - asset: assets/fonts/PPTelegraf-Semibold.otf
+          weight: 600
+        - asset: assets/fonts/PPTelegraf-Bold.otf
+          weight: 700
+        - asset: assets/fonts/PPTelegraf-Ultrabold.otf
+          weight: 800
+        - asset: assets/fonts/PPTelegraf-Black.otf
+          weight: 900
