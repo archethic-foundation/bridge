@@ -150,8 +150,6 @@ class BridgeArchethicToEVMUseCase
           return;
         }
       } catch (e) {
-        await bridgeNotifier.setFailure(Failure.other(cause: e.toString()));
-        await bridgeNotifier.setTransferInProgress(false);
         return;
       }
     }
