@@ -37,15 +37,36 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
   }
 
   Future<BridgeFormState> resume(BridgeFormState bridgeFormState) async {
+    await setBlockchainFromWithConnection(bridgeFormState.blockchainFrom!);
+    await setBlockchainToWithConnection(bridgeFormState.blockchainTo!);
     state = bridgeFormState.copyWith(
+      archethicOracleUCO: bridgeFormState.archethicOracleUCO,
+      archethicProtocolFeesAddress:
+          bridgeFormState.archethicProtocolFeesAddress,
+      archethicProtocolFeesRate: bridgeFormState.archethicProtocolFeesRate,
+      archethicTransactionFees: bridgeFormState.archethicTransactionFees,
+      htlcAEAddress: bridgeFormState.htlcAEAddress,
+      htlcEVMAddress: bridgeFormState.htlcEVMAddress,
+      htlcEVMTxAddress: bridgeFormState.htlcEVMTxAddress,
+      poolTargetBalance: bridgeFormState.poolTargetBalance,
+      safetyModuleFeesAddress: bridgeFormState.safetyModuleFeesAddress,
+      safetyModuleFeesRate: bridgeFormState.safetyModuleFeesRate,
+      secret: bridgeFormState.secret,
+      targetAddress: bridgeFormState.targetAddress,
+      tokenBridgedBalance: bridgeFormState.tokenBridgedBalance,
+      tokenToBridge: bridgeFormState.tokenToBridge,
+      tokenToBridgeAmount: bridgeFormState.tokenToBridgeAmount,
+      tokenToBridgeBalance: bridgeFormState.tokenBridgedBalance,
+      tokenToBridgeDecimals: bridgeFormState.tokenToBridgeDecimals,
       resumeProcess: true,
       bridgeProcessStep: BridgeProcessStep.confirmation,
       isTransferInProgress: false,
+      changeDirectionInProgress: false,
+      walletConfirmation: null,
+      timestampExec: bridgeFormState.timestampExec,
     );
-
-    await setBlockchainFromWithConnection(bridgeFormState.blockchainFrom!);
-    await setBlockchainToWithConnection(bridgeFormState.blockchainTo!);
     await setFailure(bridgeFormState.failure);
+
     debugPrint('$state');
     return state;
   }
