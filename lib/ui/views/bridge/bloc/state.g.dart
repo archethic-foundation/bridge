@@ -48,6 +48,7 @@ _$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
               const ArchethicOracleUCOJsonConverter().fromJson),
       htlcAEAddress: json['htlcAEAddress'] as String?,
       htlcEVMAddress: json['htlcEVMAddress'] as String?,
+      htlcEVMTxAddress: json['htlcEVMTxAddress'] as String?,
       secret: (json['secret'] as List<dynamic>?)?.map((e) => e as int).toList(),
       safetyModuleFeesRate:
           (json['safetyModuleFeesRate'] as num?)?.toDouble() ?? 0.0,
@@ -97,6 +98,7 @@ Map<String, dynamic> _$$BridgeFormStateImplToJson(
               const ArchethicOracleUCOJsonConverter().toJson),
       'htlcAEAddress': instance.htlcAEAddress,
       'htlcEVMAddress': instance.htlcEVMAddress,
+      'htlcEVMTxAddress': instance.htlcEVMTxAddress,
       'secret': instance.secret,
       'safetyModuleFeesRate': instance.safetyModuleFeesRate,
       'safetyModuleFeesAddress': instance.safetyModuleFeesAddress,

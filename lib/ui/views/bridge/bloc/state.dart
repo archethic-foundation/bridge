@@ -36,6 +36,7 @@ class BridgeFormState with _$BridgeFormState {
     @ArchethicOracleUCOJsonConverter() ArchethicOracleUCO? archethicOracleUCO,
     String? htlcAEAddress,
     String? htlcEVMAddress,
+    String? htlcEVMTxAddress,
     List<int>? secret,
     @Default(0.0) double safetyModuleFeesRate,
     @Default('') String safetyModuleFeesAddress,

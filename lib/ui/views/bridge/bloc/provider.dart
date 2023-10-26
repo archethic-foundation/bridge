@@ -496,16 +496,23 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     state = state.copyWith(timestampExec: timestampExec);
   }
 
-  Future<void> setHTLCAEAddress(String htlcAEAddress) async {
+  Future<void> setHTLCAEAddress(String? htlcAEAddress) async {
     state = state.copyWith(
       htlcAEAddress: htlcAEAddress,
     );
     await storeBridge();
   }
 
-  Future<void> setHTLCEVMAddress(String htlcEVMAddress) async {
+  Future<void> setHTLCEVMAddress(String? htlcEVMAddress) async {
     state = state.copyWith(
       htlcEVMAddress: htlcEVMAddress,
+    );
+    await storeBridge();
+  }
+
+  Future<void> setHTLCEVMTxAddress(String htlcEVMTxAddress) async {
+    state = state.copyWith(
+      htlcEVMTxAddress: htlcEVMTxAddress,
     );
     await storeBridge();
   }

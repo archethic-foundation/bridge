@@ -48,6 +48,7 @@ mixin _$BridgeFormState {
       throw _privateConstructorUsedError;
   String? get htlcAEAddress => throw _privateConstructorUsedError;
   String? get htlcEVMAddress => throw _privateConstructorUsedError;
+  String? get htlcEVMTxAddress => throw _privateConstructorUsedError;
   List<int>? get secret => throw _privateConstructorUsedError;
   double get safetyModuleFeesRate => throw _privateConstructorUsedError;
   String get safetyModuleFeesAddress => throw _privateConstructorUsedError;
@@ -89,6 +90,7 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       @ArchethicOracleUCOJsonConverter() ArchethicOracleUCO? archethicOracleUCO,
       String? htlcAEAddress,
       String? htlcEVMAddress,
+      String? htlcEVMTxAddress,
       List<int>? secret,
       double safetyModuleFeesRate,
       String safetyModuleFeesAddress,
@@ -137,6 +139,7 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? archethicOracleUCO = freezed,
     Object? htlcAEAddress = freezed,
     Object? htlcEVMAddress = freezed,
+    Object? htlcEVMTxAddress = freezed,
     Object? secret = freezed,
     Object? safetyModuleFeesRate = null,
     Object? safetyModuleFeesAddress = null,
@@ -228,6 +231,10 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
       htlcEVMAddress: freezed == htlcEVMAddress
           ? _value.htlcEVMAddress
           : htlcEVMAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      htlcEVMTxAddress: freezed == htlcEVMTxAddress
+          ? _value.htlcEVMTxAddress
+          : htlcEVMTxAddress // ignore: cast_nullable_to_non_nullable
               as String?,
       secret: freezed == secret
           ? _value.secret
@@ -348,6 +355,7 @@ abstract class _$$BridgeFormStateImplCopyWith<$Res>
       @ArchethicOracleUCOJsonConverter() ArchethicOracleUCO? archethicOracleUCO,
       String? htlcAEAddress,
       String? htlcEVMAddress,
+      String? htlcEVMTxAddress,
       List<int>? secret,
       double safetyModuleFeesRate,
       String safetyModuleFeesAddress,
@@ -399,6 +407,7 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
     Object? archethicOracleUCO = freezed,
     Object? htlcAEAddress = freezed,
     Object? htlcEVMAddress = freezed,
+    Object? htlcEVMTxAddress = freezed,
     Object? secret = freezed,
     Object? safetyModuleFeesRate = null,
     Object? safetyModuleFeesAddress = null,
@@ -491,6 +500,10 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
           ? _value.htlcEVMAddress
           : htlcEVMAddress // ignore: cast_nullable_to_non_nullable
               as String?,
+      htlcEVMTxAddress: freezed == htlcEVMTxAddress
+          ? _value.htlcEVMTxAddress
+          : htlcEVMTxAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
       secret: freezed == secret
           ? _value._secret
           : secret // ignore: cast_nullable_to_non_nullable
@@ -544,6 +557,7 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
       @ArchethicOracleUCOJsonConverter() this.archethicOracleUCO,
       this.htlcAEAddress,
       this.htlcEVMAddress,
+      this.htlcEVMTxAddress,
       final List<int>? secret,
       this.safetyModuleFeesRate = 0.0,
       this.safetyModuleFeesAddress = '',
@@ -615,6 +629,8 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
   final String? htlcAEAddress;
   @override
   final String? htlcEVMAddress;
+  @override
+  final String? htlcEVMTxAddress;
   final List<int>? _secret;
   @override
   List<int>? get secret {
@@ -643,7 +659,7 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
 
   @override
   String toString() {
-    return 'BridgeFormState(resumeProcess: $resumeProcess, bridgeProcessStep: $bridgeProcessStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, poolTargetBalance: $poolTargetBalance, tokenToBridgeDecimals: $tokenToBridgeDecimals, coingeckoPrice: $coingeckoPrice, failure: $failure, isTransferInProgress: $isTransferInProgress, walletConfirmation: $walletConfirmation, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, secret: $secret, safetyModuleFeesRate: $safetyModuleFeesRate, safetyModuleFeesAddress: $safetyModuleFeesAddress, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees)';
+    return 'BridgeFormState(resumeProcess: $resumeProcess, bridgeProcessStep: $bridgeProcessStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, poolTargetBalance: $poolTargetBalance, tokenToBridgeDecimals: $tokenToBridgeDecimals, coingeckoPrice: $coingeckoPrice, failure: $failure, isTransferInProgress: $isTransferInProgress, walletConfirmation: $walletConfirmation, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, htlcEVMTxAddress: $htlcEVMTxAddress, secret: $secret, safetyModuleFeesRate: $safetyModuleFeesRate, safetyModuleFeesAddress: $safetyModuleFeesAddress, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees)';
   }
 
   @override
@@ -693,6 +709,8 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
                 other.htlcAEAddress == htlcAEAddress) &&
             (identical(other.htlcEVMAddress, htlcEVMAddress) ||
                 other.htlcEVMAddress == htlcEVMAddress) &&
+            (identical(other.htlcEVMTxAddress, htlcEVMTxAddress) ||
+                other.htlcEVMTxAddress == htlcEVMTxAddress) &&
             const DeepCollectionEquality().equals(other._secret, _secret) &&
             (identical(other.safetyModuleFeesRate, safetyModuleFeesRate) ||
                 other.safetyModuleFeesRate == safetyModuleFeesRate) &&
@@ -736,6 +754,7 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
         archethicOracleUCO,
         htlcAEAddress,
         htlcEVMAddress,
+        htlcEVMTxAddress,
         const DeepCollectionEquality().hash(_secret),
         safetyModuleFeesRate,
         safetyModuleFeesAddress,
@@ -783,6 +802,7 @@ abstract class _BridgeFormState extends BridgeFormState {
       final ArchethicOracleUCO? archethicOracleUCO,
       final String? htlcAEAddress,
       final String? htlcEVMAddress,
+      final String? htlcEVMTxAddress,
       final List<int>? secret,
       final double safetyModuleFeesRate,
       final String safetyModuleFeesAddress,
@@ -841,6 +861,8 @@ abstract class _BridgeFormState extends BridgeFormState {
   String? get htlcAEAddress;
   @override
   String? get htlcEVMAddress;
+  @override
+  String? get htlcEVMTxAddress;
   @override
   List<int>? get secret;
   @override

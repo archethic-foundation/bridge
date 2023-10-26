@@ -178,7 +178,7 @@ class _GetPriceFromCoinIdProviderElement
 }
 
 String _$getPriceFromSymbolHash() =>
-    r'54948be80940dc006785dd0c80c6461c69cdfed9';
+    r'624b8ccf552d0609ba14ab0c18fe265b895d2c25';
 
 /// See also [_getPriceFromSymbol].
 @ProviderFor(_getPriceFromSymbol)

@@ -38,11 +38,12 @@ class BridgeEVMToArchethicUseCase
 
     String? htlcEVMAddress;
     String? htlcAEAddress;
-    late String txAddress;
+    String? htlcEVMTxAddress;
     int? endTime;
     if (recoveryHTLCEVMAddress != null) {
       htlcEVMAddress = recoveryHTLCEVMAddress;
       await bridgeNotifier.setHTLCEVMAddress(htlcEVMAddress);
+      htlcEVMTxAddress = bridge.htlcEVMTxAddress;
     }
     if (recoveryHTLCAEAddress != null) {
       htlcAEAddress = recoveryHTLCAEAddress;
@@ -55,8 +56,9 @@ class BridgeEVMToArchethicUseCase
         await bridgeNotifier.setCurrentStep(1);
         final deployEVMHTLCResult = await deployEVMHTLC(ref, secretHash);
         htlcEVMAddress = deployEVMHTLCResult.htlcAddress;
-        txAddress = deployEVMHTLCResult.txAddress;
+        htlcEVMTxAddress = deployEVMHTLCResult.txAddress;
         await bridgeNotifier.setHTLCEVMAddress(htlcEVMAddress);
+        await bridgeNotifier.setHTLCEVMTxAddress(htlcEVMTxAddress);
       } catch (e) {
         return;
       }
@@ -112,13 +114,32 @@ class BridgeEVMToArchethicUseCase
       // 5) Deploy Archethic HTLC
       try {
         await bridgeNotifier.setCurrentStep(5);
+        if (endTime == null) {
+          final htlc = EVMHTLC(
+            bridge.blockchainFrom!.providerEndpoint,
+            htlcEVMAddress,
+            bridge.blockchainFrom!.chainId,
+          );
+          final resultGetHTLCLockTime = await htlc.getHTLCLockTime();
+          await resultGetHTLCLockTime.map(
+            success: (htlcLockTime) {
+              endTime = htlcLockTime;
+            },
+            failure: (failure) async {
+              await bridgeNotifier.setFailure(const Failure.invalidValue());
+              await bridgeNotifier.setTransferInProgress(false);
+              return;
+            },
+          );
+        }
+
         htlcAEAddress = await deployAEChargeableHTLC(
           ref,
           secretHash,
           amount,
           endTime!,
           htlcEVMAddress,
-          txAddress,
+          htlcEVMTxAddress!,
         );
         await bridgeNotifier.setHTLCAEAddress(htlcAEAddress);
       } catch (e) {

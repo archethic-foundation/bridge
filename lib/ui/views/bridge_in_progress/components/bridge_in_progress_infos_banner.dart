@@ -16,6 +16,17 @@ class BridgeInProgressInfosBanner extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
 
+    if (bridge.failure != null) {
+      return InfoBanner(
+        FailureMessage(
+          context: context,
+          failure: bridge.failure,
+        ).getMessage(),
+        InfoBannerType.error,
+        width: MediaQuery.of(context).size.width * 0.9,
+      );
+    }
+
     if (bridge.walletConfirmation == WalletConfirmation.archethic) {
       return InfoBanner(
         AppLocalizations.of(context)!.bridgeInProgressConfirmAEWallet,
@@ -36,17 +47,6 @@ class BridgeInProgressInfosBanner extends ConsumerWidget {
       return InfoBanner(
         AppLocalizations.of(context)!.bridgeInProgressInfoFinished,
         InfoBannerType.success,
-        width: MediaQuery.of(context).size.width * 0.9,
-      );
-    }
-
-    if (bridge.failure != null) {
-      return InfoBanner(
-        FailureMessage(
-          context: context,
-          failure: bridge.failure,
-        ).getMessage(),
-        InfoBannerType.error,
         width: MediaQuery.of(context).size.width * 0.9,
       );
     }
