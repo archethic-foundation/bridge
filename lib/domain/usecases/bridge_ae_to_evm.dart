@@ -42,10 +42,6 @@ class BridgeArchethicToEVMUseCase
       seedHTLC = resultDefineHTLCAddress.seedHTLC;
     }
 
-    var blockchainFrom = ref.read(BridgeFormProvider.bridgeForm).blockchainFrom;
-    blockchainFrom = blockchainFrom!.copyWith(htlcAddress: htlcAEAddress);
-    await bridgeNotifier.setBlockchainFrom(blockchainFrom);
-
     // 1) Deploy Archethic HTLC
     if (recoveryStep <= 1) {
       try {
@@ -59,6 +55,10 @@ class BridgeArchethicToEVMUseCase
         return;
       }
     }
+    var blockchainFrom = ref.read(BridgeFormProvider.bridgeForm).blockchainFrom;
+    blockchainFrom = blockchainFrom!.copyWith(htlcAddress: htlcAEAddress);
+    await bridgeNotifier.setBlockchainFrom(blockchainFrom);
+
     await bridgeNotifier.setHTLCAEAddress(htlcAEAddress);
 
     // 2) Provision Archethic HTLC
