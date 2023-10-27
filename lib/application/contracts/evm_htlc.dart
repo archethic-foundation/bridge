@@ -204,6 +204,22 @@ class EVMHTLC with EVMBridgeProcessMixin {
     return events[0].address!.hex;
   }
 
+  Future<int> getStatus() async {
+    final contractHTLC =
+        await getDeployedContract(contractNameIHTLC, htlcContractAddress);
+
+    final statusResult = await web3Client!.call(
+      contract: contractHTLC,
+      function: contractHTLC.function('status'),
+      params: [],
+    );
+
+    final BigInt status = statusResult[0];
+    debugPrint('HTLC status: $status');
+
+    return status.toInt();
+  }
+
   Future<Result<String, Failure>> withdraw(
     WidgetRef ref,
     String secret,

@@ -42,7 +42,7 @@ class BridgeInProgressPopup {
                                 left: 8,
                               ),
                               padding: const EdgeInsets.all(20),
-                              height: 500,
+                              height: 400,
                               width: BridgeThemeBase.sizeBoxComponentWidth,
                               decoration: BoxDecoration(
                                 color: BridgeThemeBase.backgroundPopupColor,

@@ -34,6 +34,8 @@ Failure _$FailureFromJson(Map<String, dynamic> json) {
       return Unauthorized.fromJson(json);
     case 'invalidValue':
       return InvalidValue.fromJson(json);
+    case 'htlcWithoutFunds':
+      return HTLCWithoutFunds.fromJson(json);
     case 'wrongNetwork':
       return WrongNetwork.fromJson(json);
     case 'userRejected':
@@ -68,6 +70,7 @@ mixin _$Failure {
     required TResult Function() insufficientPoolFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
+    required TResult Function() htlcWithoutFunds,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
@@ -88,6 +91,7 @@ mixin _$Failure {
     TResult? Function()? insufficientPoolFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
+    TResult? Function()? htlcWithoutFunds,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
@@ -108,6 +112,7 @@ mixin _$Failure {
     TResult Function()? insufficientPoolFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
+    TResult Function()? htlcWithoutFunds,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
@@ -130,6 +135,7 @@ mixin _$Failure {
         insufficientPoolFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(HTLCWithoutFunds value) htlcWithoutFunds,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
@@ -151,6 +157,7 @@ mixin _$Failure {
     TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -171,6 +178,7 @@ mixin _$Failure {
     TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -257,6 +265,7 @@ class _$LoggedOutImpl extends LoggedOut {
     required TResult Function() insufficientPoolFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
+    required TResult Function() htlcWithoutFunds,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
@@ -280,6 +289,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult? Function()? insufficientPoolFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
+    TResult? Function()? htlcWithoutFunds,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
@@ -303,6 +313,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult Function()? insufficientPoolFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
+    TResult Function()? htlcWithoutFunds,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
@@ -331,6 +342,7 @@ class _$LoggedOutImpl extends LoggedOut {
         insufficientPoolFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(HTLCWithoutFunds value) htlcWithoutFunds,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
@@ -355,6 +367,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -378,6 +391,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -465,6 +479,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     required TResult Function() insufficientPoolFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
+    required TResult Function() htlcWithoutFunds,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
@@ -488,6 +503,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult? Function()? insufficientPoolFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
+    TResult? Function()? htlcWithoutFunds,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
@@ -511,6 +527,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult Function()? insufficientPoolFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
+    TResult Function()? htlcWithoutFunds,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
@@ -539,6 +556,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
         insufficientPoolFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(HTLCWithoutFunds value) htlcWithoutFunds,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
@@ -563,6 +581,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -586,6 +605,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -702,6 +722,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     required TResult Function() insufficientPoolFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
+    required TResult Function() htlcWithoutFunds,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
@@ -725,6 +746,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult? Function()? insufficientPoolFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
+    TResult? Function()? htlcWithoutFunds,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
@@ -748,6 +770,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult Function()? insufficientPoolFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
+    TResult Function()? htlcWithoutFunds,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
@@ -776,6 +799,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
         insufficientPoolFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(HTLCWithoutFunds value) htlcWithoutFunds,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
@@ -800,6 +824,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -823,6 +848,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -916,6 +942,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     required TResult Function() insufficientPoolFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
+    required TResult Function() htlcWithoutFunds,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
@@ -939,6 +966,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult? Function()? insufficientPoolFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
+    TResult? Function()? htlcWithoutFunds,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
@@ -962,6 +990,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult Function()? insufficientPoolFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
+    TResult Function()? htlcWithoutFunds,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
@@ -990,6 +1019,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
         insufficientPoolFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(HTLCWithoutFunds value) htlcWithoutFunds,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
@@ -1014,6 +1044,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -1037,6 +1068,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -1125,6 +1157,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     required TResult Function() insufficientPoolFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
+    required TResult Function() htlcWithoutFunds,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
@@ -1148,6 +1181,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult? Function()? insufficientPoolFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
+    TResult? Function()? htlcWithoutFunds,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
@@ -1171,6 +1205,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult Function()? insufficientPoolFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
+    TResult Function()? htlcWithoutFunds,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
@@ -1199,6 +1234,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
         insufficientPoolFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(HTLCWithoutFunds value) htlcWithoutFunds,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
@@ -1223,6 +1259,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -1246,6 +1283,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -1333,6 +1371,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     required TResult Function() insufficientPoolFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
+    required TResult Function() htlcWithoutFunds,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
@@ -1356,6 +1395,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult? Function()? insufficientPoolFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
+    TResult? Function()? htlcWithoutFunds,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
@@ -1379,6 +1419,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult Function()? insufficientPoolFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
+    TResult Function()? htlcWithoutFunds,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
@@ -1407,6 +1448,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
         insufficientPoolFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(HTLCWithoutFunds value) htlcWithoutFunds,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
@@ -1431,6 +1473,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -1454,6 +1497,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -1543,6 +1587,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     required TResult Function() insufficientPoolFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
+    required TResult Function() htlcWithoutFunds,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
@@ -1566,6 +1611,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     TResult? Function()? insufficientPoolFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
+    TResult? Function()? htlcWithoutFunds,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
@@ -1589,6 +1635,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     TResult Function()? insufficientPoolFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
+    TResult Function()? htlcWithoutFunds,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
@@ -1617,6 +1664,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
         insufficientPoolFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(HTLCWithoutFunds value) htlcWithoutFunds,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
@@ -1641,6 +1689,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -1664,6 +1713,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -1751,6 +1801,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     required TResult Function() insufficientPoolFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
+    required TResult Function() htlcWithoutFunds,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
@@ -1774,6 +1825,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult? Function()? insufficientPoolFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
+    TResult? Function()? htlcWithoutFunds,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
@@ -1797,6 +1849,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult Function()? insufficientPoolFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
+    TResult Function()? htlcWithoutFunds,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
@@ -1825,6 +1878,7 @@ class _$UnauthorizedImpl extends Unauthorized {
         insufficientPoolFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(HTLCWithoutFunds value) htlcWithoutFunds,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
@@ -1849,6 +1903,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -1872,6 +1927,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -1959,6 +2015,7 @@ class _$InvalidValueImpl extends InvalidValue {
     required TResult Function() insufficientPoolFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
+    required TResult Function() htlcWithoutFunds,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
@@ -1982,6 +2039,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult? Function()? insufficientPoolFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
+    TResult? Function()? htlcWithoutFunds,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
@@ -2005,6 +2063,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult Function()? insufficientPoolFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
+    TResult Function()? htlcWithoutFunds,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
@@ -2033,6 +2092,7 @@ class _$InvalidValueImpl extends InvalidValue {
         insufficientPoolFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(HTLCWithoutFunds value) htlcWithoutFunds,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
@@ -2057,6 +2117,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -2080,6 +2141,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -2109,6 +2171,220 @@ abstract class InvalidValue extends Failure {
 
   factory InvalidValue.fromJson(Map<String, dynamic> json) =
       _$InvalidValueImpl.fromJson;
+}
+
+/// @nodoc
+abstract class _$$HTLCWithoutFundsImplCopyWith<$Res> {
+  factory _$$HTLCWithoutFundsImplCopyWith(_$HTLCWithoutFundsImpl value,
+          $Res Function(_$HTLCWithoutFundsImpl) then) =
+      __$$HTLCWithoutFundsImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$HTLCWithoutFundsImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$HTLCWithoutFundsImpl>
+    implements _$$HTLCWithoutFundsImplCopyWith<$Res> {
+  __$$HTLCWithoutFundsImplCopyWithImpl(_$HTLCWithoutFundsImpl _value,
+      $Res Function(_$HTLCWithoutFundsImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$HTLCWithoutFundsImpl extends HTLCWithoutFunds {
+  const _$HTLCWithoutFundsImpl({final String? $type})
+      : $type = $type ?? 'htlcWithoutFunds',
+        super._();
+
+  factory _$HTLCWithoutFundsImpl.fromJson(Map<String, dynamic> json) =>
+      _$$HTLCWithoutFundsImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'Failure.htlcWithoutFunds()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$HTLCWithoutFundsImpl);
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loggedOut,
+    required TResult Function() network,
+    required TResult Function(DateTime? cooldownEndDate) quotaExceeded,
+    required TResult Function() serviceNotFound,
+    required TResult Function() serviceAlreadyExists,
+    required TResult Function() insufficientFunds,
+    required TResult Function() insufficientPoolFunds,
+    required TResult Function() unauthorized,
+    required TResult Function() invalidValue,
+    required TResult Function() htlcWithoutFunds,
+    required TResult Function(String cause) wrongNetwork,
+    required TResult Function() userRejected,
+    required TResult Function() connectivityArchethic,
+    required TResult Function() connectivityEVM,
+    required TResult Function() timeout,
+    required TResult Function(String? cause) rpcErrorEVM,
+    required TResult Function(String? cause, String? stack) other,
+  }) {
+    return htlcWithoutFunds();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loggedOut,
+    TResult? Function()? network,
+    TResult? Function(DateTime? cooldownEndDate)? quotaExceeded,
+    TResult? Function()? serviceNotFound,
+    TResult? Function()? serviceAlreadyExists,
+    TResult? Function()? insufficientFunds,
+    TResult? Function()? insufficientPoolFunds,
+    TResult? Function()? unauthorized,
+    TResult? Function()? invalidValue,
+    TResult? Function()? htlcWithoutFunds,
+    TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? userRejected,
+    TResult? Function()? connectivityArchethic,
+    TResult? Function()? connectivityEVM,
+    TResult? Function()? timeout,
+    TResult? Function(String? cause)? rpcErrorEVM,
+    TResult? Function(String? cause, String? stack)? other,
+  }) {
+    return htlcWithoutFunds?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loggedOut,
+    TResult Function()? network,
+    TResult Function(DateTime? cooldownEndDate)? quotaExceeded,
+    TResult Function()? serviceNotFound,
+    TResult Function()? serviceAlreadyExists,
+    TResult Function()? insufficientFunds,
+    TResult Function()? insufficientPoolFunds,
+    TResult Function()? unauthorized,
+    TResult Function()? invalidValue,
+    TResult Function()? htlcWithoutFunds,
+    TResult Function(String cause)? wrongNetwork,
+    TResult Function()? userRejected,
+    TResult Function()? connectivityArchethic,
+    TResult Function()? connectivityEVM,
+    TResult Function()? timeout,
+    TResult Function(String? cause)? rpcErrorEVM,
+    TResult Function(String? cause, String? stack)? other,
+    required TResult orElse(),
+  }) {
+    if (htlcWithoutFunds != null) {
+      return htlcWithoutFunds();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoggedOut value) loggedOut,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(QuotaExceededFailure value) quotaExceeded,
+    required TResult Function(ServiceNotFound value) serviceNotFound,
+    required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(InsufficientPoolFunds value)
+        insufficientPoolFunds,
+    required TResult Function(Unauthorized value) unauthorized,
+    required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(HTLCWithoutFunds value) htlcWithoutFunds,
+    required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ConnectivityArchethic value)
+        connectivityArchethic,
+    required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(Timeout value) timeout,
+    required TResult Function(RPCErrorEVM value) rpcErrorEVM,
+    required TResult Function(OtherFailure value) other,
+  }) {
+    return htlcWithoutFunds(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoggedOut value)? loggedOut,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult? Function(ServiceNotFound value)? serviceNotFound,
+    TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
+    TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(HTLCWithoutFunds value)? htlcWithoutFunds,
+    TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(Timeout value)? timeout,
+    TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
+    TResult? Function(OtherFailure value)? other,
+  }) {
+    return htlcWithoutFunds?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoggedOut value)? loggedOut,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult Function(ServiceNotFound value)? serviceNotFound,
+    TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
+    TResult Function(Unauthorized value)? unauthorized,
+    TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(HTLCWithoutFunds value)? htlcWithoutFunds,
+    TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(UserRejected value)? userRejected,
+    TResult Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(Timeout value)? timeout,
+    TResult Function(RPCErrorEVM value)? rpcErrorEVM,
+    TResult Function(OtherFailure value)? other,
+    required TResult orElse(),
+  }) {
+    if (htlcWithoutFunds != null) {
+      return htlcWithoutFunds(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$HTLCWithoutFundsImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class HTLCWithoutFunds extends Failure {
+  const factory HTLCWithoutFunds() = _$HTLCWithoutFundsImpl;
+  const HTLCWithoutFunds._() : super._();
+
+  factory HTLCWithoutFunds.fromJson(Map<String, dynamic> json) =
+      _$HTLCWithoutFundsImpl.fromJson;
 }
 
 /// @nodoc
@@ -2193,6 +2469,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     required TResult Function() insufficientPoolFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
+    required TResult Function() htlcWithoutFunds,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
@@ -2216,6 +2493,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult? Function()? insufficientPoolFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
+    TResult? Function()? htlcWithoutFunds,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
@@ -2239,6 +2517,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult Function()? insufficientPoolFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
+    TResult Function()? htlcWithoutFunds,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
@@ -2267,6 +2546,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
         insufficientPoolFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(HTLCWithoutFunds value) htlcWithoutFunds,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
@@ -2291,6 +2571,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -2314,6 +2595,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -2406,6 +2688,7 @@ class _$UserRejectedImpl extends UserRejected {
     required TResult Function() insufficientPoolFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
+    required TResult Function() htlcWithoutFunds,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
@@ -2429,6 +2712,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult? Function()? insufficientPoolFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
+    TResult? Function()? htlcWithoutFunds,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
@@ -2452,6 +2736,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult Function()? insufficientPoolFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
+    TResult Function()? htlcWithoutFunds,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
@@ -2480,6 +2765,7 @@ class _$UserRejectedImpl extends UserRejected {
         insufficientPoolFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(HTLCWithoutFunds value) htlcWithoutFunds,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
@@ -2504,6 +2790,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -2527,6 +2814,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -2616,6 +2904,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     required TResult Function() insufficientPoolFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
+    required TResult Function() htlcWithoutFunds,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
@@ -2639,6 +2928,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult? Function()? insufficientPoolFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
+    TResult? Function()? htlcWithoutFunds,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
@@ -2662,6 +2952,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult Function()? insufficientPoolFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
+    TResult Function()? htlcWithoutFunds,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
@@ -2690,6 +2981,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
         insufficientPoolFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(HTLCWithoutFunds value) htlcWithoutFunds,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
@@ -2714,6 +3006,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -2737,6 +3030,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -2824,6 +3118,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     required TResult Function() insufficientPoolFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
+    required TResult Function() htlcWithoutFunds,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
@@ -2847,6 +3142,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     TResult? Function()? insufficientPoolFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
+    TResult? Function()? htlcWithoutFunds,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
@@ -2870,6 +3166,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     TResult Function()? insufficientPoolFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
+    TResult Function()? htlcWithoutFunds,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
@@ -2898,6 +3195,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
         insufficientPoolFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(HTLCWithoutFunds value) htlcWithoutFunds,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
@@ -2922,6 +3220,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -2945,6 +3244,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -3032,6 +3332,7 @@ class _$TimeoutImpl extends Timeout {
     required TResult Function() insufficientPoolFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
+    required TResult Function() htlcWithoutFunds,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
@@ -3055,6 +3356,7 @@ class _$TimeoutImpl extends Timeout {
     TResult? Function()? insufficientPoolFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
+    TResult? Function()? htlcWithoutFunds,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
@@ -3078,6 +3380,7 @@ class _$TimeoutImpl extends Timeout {
     TResult Function()? insufficientPoolFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
+    TResult Function()? htlcWithoutFunds,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
@@ -3106,6 +3409,7 @@ class _$TimeoutImpl extends Timeout {
         insufficientPoolFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(HTLCWithoutFunds value) htlcWithoutFunds,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
@@ -3130,6 +3434,7 @@ class _$TimeoutImpl extends Timeout {
     TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -3153,6 +3458,7 @@ class _$TimeoutImpl extends Timeout {
     TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -3265,6 +3571,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     required TResult Function() insufficientPoolFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
+    required TResult Function() htlcWithoutFunds,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
@@ -3288,6 +3595,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     TResult? Function()? insufficientPoolFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
+    TResult? Function()? htlcWithoutFunds,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
@@ -3311,6 +3619,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     TResult Function()? insufficientPoolFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
+    TResult Function()? htlcWithoutFunds,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
@@ -3339,6 +3648,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
         insufficientPoolFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(HTLCWithoutFunds value) htlcWithoutFunds,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
@@ -3363,6 +3673,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -3386,6 +3697,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -3512,6 +3824,7 @@ class _$OtherFailureImpl extends OtherFailure {
     required TResult Function() insufficientPoolFunds,
     required TResult Function() unauthorized,
     required TResult Function() invalidValue,
+    required TResult Function() htlcWithoutFunds,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
     required TResult Function() connectivityArchethic,
@@ -3535,6 +3848,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult? Function()? insufficientPoolFunds,
     TResult? Function()? unauthorized,
     TResult? Function()? invalidValue,
+    TResult? Function()? htlcWithoutFunds,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
     TResult? Function()? connectivityArchethic,
@@ -3558,6 +3872,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult Function()? insufficientPoolFunds,
     TResult Function()? unauthorized,
     TResult Function()? invalidValue,
+    TResult Function()? htlcWithoutFunds,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
     TResult Function()? connectivityArchethic,
@@ -3586,6 +3901,7 @@ class _$OtherFailureImpl extends OtherFailure {
         insufficientPoolFunds,
     required TResult Function(Unauthorized value) unauthorized,
     required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(HTLCWithoutFunds value) htlcWithoutFunds,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
     required TResult Function(ConnectivityArchethic value)
@@ -3610,6 +3926,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult? Function(Unauthorized value)? unauthorized,
     TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
@@ -3633,6 +3950,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
     TResult Function(Unauthorized value)? unauthorized,
     TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(HTLCWithoutFunds value)? htlcWithoutFunds,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,

@@ -49,7 +49,8 @@ class BridgeInProgressContracts extends ConsumerWidget {
               ],
             ),
           const SizedBox(height: 10),
-          Row(
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               if (bridge.blockchainFrom != null &&
                   bridge.blockchainFrom!.htlcAddress != null &&
@@ -70,7 +71,8 @@ class BridgeInProgressContracts extends ConsumerWidget {
           const SizedBox(
             height: 10,
           ),
-          Row(
+          Wrap(
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               if (bridge.blockchainTo != null &&
                   bridge.blockchainTo!.htlcAddress != null &&

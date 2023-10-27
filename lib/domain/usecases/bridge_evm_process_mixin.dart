@@ -24,17 +24,26 @@ import 'package:webthree/webthree.dart';
 
 enum EVMBridgeProcessStep { none, deploy }
 
-const contractNameIHTLC = 'IHTLC';
-const contractNameHTLCERC = 'HTLC_ERC';
-const contractNameHTLCETH = 'HTLC_ETH';
+const contractNameIHTLC =
+    'contracts/evm/artifacts/interfaces/IHTLC.sol/IHTLC.json';
+const contractNameHTLCERC =
+    'contracts/evm/artifacts/contracts/HTLC/HTLC_ERC.sol/HTLC_ERC.json';
+const contractNameHTLCETH =
+    'contracts/evm/artifacts/contracts/HTLC/HTLC_ETH.sol/HTLC_ETH.json';
 
-const contractNameIPool = 'IPool';
-const contractNamePoolBase = 'PoolBase';
+const contractNameIPool =
+    'contracts/evm/artifacts/interfaces/IPool.sol/IPool.json';
+const contractNamePoolBase =
+    'contracts/evm/artifacts/contracts/Pool/PoolBase.sol/PoolBase.json';
 
-const contractNameIERC20 = 'IERC20';
-const contractNameSignedHTLCERC = 'SignedHTLC_ERC';
-const contractNameSignedHTLCETH = 'SignedHTLC_ETH';
-const contractNameChargeableHTLCERC = 'ChargeableHTLC_ERC';
+const contractNameIERC20 =
+    'contracts/evm/artifacts/@openzeppelin/contracts/token/ERC20/IERC20.sol/IERC20.json';
+const contractNameSignedHTLCERC =
+    'contracts/evm/artifacts/contracts/HTLC/SignedHTLC_ERC.sol/SignedHTLC_ERC.json';
+const contractNameSignedHTLCETH =
+    'contracts/evm/artifacts/contracts/HTLC/SignedHTLC_ETH.sol/SignedHTLC_ETH.json';
+const contractNameChargeableHTLCERC =
+    'contracts/evm/artifacts/contracts/HTLC/ChargeableHTLC_ERC.sol/ChargeableHTLC_ERC.json';
 
 mixin EVMBridgeProcessMixin {
   String getEVMStepLabel(
@@ -360,8 +369,7 @@ mixin EVMBridgeProcessMixin {
     String address,
   ) async {
     final abiLPERCStringJson = jsonDecode(
-      await rootBundle
-          .loadString('contracts/evm/build/contracts/$contractName.json'),
+      await rootBundle.loadString(contractName),
     );
 
     return DeployedContract(

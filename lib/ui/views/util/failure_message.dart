@@ -39,6 +39,10 @@ class FailureMessage {
       return AppLocalizations.of(context)!.failurePoolInsufficientFunds;
     }
 
+    if (failure is HTLCWithoutFunds) {
+      return AppLocalizations.of(context)!.failureHTLCWithoutFunds;
+    }
+
     if (failure is RPCErrorEVM) {
       return (failure! as RPCErrorEVM).cause.toString();
     }

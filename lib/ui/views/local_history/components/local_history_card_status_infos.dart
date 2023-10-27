@@ -53,6 +53,7 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             Text('${AppLocalizations.of(context)!.localHistoryStatus}: '),
             Text(
@@ -87,6 +88,7 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Wrap(
+          crossAxisAlignment: WrapCrossAlignment.center,
           children: [
             Text('${AppLocalizations.of(context)!.localHistoryStatus}: '),
             Text(

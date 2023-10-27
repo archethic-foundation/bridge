@@ -29,6 +29,7 @@ class LocalHistoryCardTrfInfos extends ConsumerWidget {
           children: [
             Flexible(
               child: Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   FutureBuilder<String>(
                     future: FiatValue().display(

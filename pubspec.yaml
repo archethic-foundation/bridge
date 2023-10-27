@@ -2,7 +2,7 @@ name: aebridge
 description: Enable interoperability and facilitate the transfer of data and assets between the two blockchains.
 publish_to: "none"
 
-version: 0.0.9+17
+version: 0.0.9+18
 
 environment:
   sdk: ">=3.1.0 <4.0.0"
@@ -116,15 +116,16 @@ flutter:
     - assets/images/bc-logos/
     - lib/domain/repositories/blockchains_list.json
     - lib/domain/repositories/tokens_list_per_bridge.json
-    - contracts/evm/build/contracts/IPool.json
-    - contracts/evm/build/contracts/PoolBase.json
-    - contracts/evm/build/contracts/IHTLC.json
-    - contracts/evm/build/contracts/HTLC_ERC.json
-    - contracts/evm/build/contracts/IERC20.json
-    - contracts/evm/build/contracts/ERC20.json
-    - contracts/evm/build/contracts/SignedHTLC_ERC.json
-    - contracts/evm/build/contracts/SignedHTLC_ETH.json
-    - contracts/evm/build/contracts/ChargeableHTLC_ERC.json
+    - contracts/evm/artifacts/contracts/Pool/PoolBase.sol/PoolBase.json
+    - contracts/evm/artifacts/interfaces/IHTLC.sol/IHTLC.json
+    - contracts/evm/artifacts/contracts/HTLC/HTLC_ERC.sol/HTLC_ERC.json
+    - contracts/evm/artifacts/contracts/HTLC/HTLC_ETH.sol/HTLC_ETH.json
+    - contracts/evm/artifacts/interfaces/IPool.sol/IPool.json
+    - contracts/evm/artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json
+    - contracts/evm/artifacts/@openzeppelin/contracts/token/ERC20/IERC20.sol/IERC20.json
+    - contracts/evm/artifacts/contracts/HTLC/SignedHTLC_ERC.sol/SignedHTLC_ERC.json
+    - contracts/evm/artifacts/contracts/HTLC/SignedHTLC_ETH.sol/SignedHTLC_ETH.json
+    - contracts/evm/artifacts/contracts/HTLC/ChargeableHTLC_ERC.sol/ChargeableHTLC_ERC.json
 
   fonts:
     - family: Roboto

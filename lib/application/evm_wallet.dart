@@ -123,8 +123,9 @@ class EVMWalletProvider extends ChangeNotifier {
           debugPrint('erc20address $erc20address');
 
           final abiTokenStringJson = jsonDecode(
-            await rootBundle
-                .loadString('contracts/evm/build/contracts/IERC20.json'),
+            await rootBundle.loadString(
+              'contracts/evm/artifacts/@openzeppelin/contracts/token/ERC20/IERC20.sol/IERC20.json',
+            ),
           );
 
           final contractToken = DeployedContract(
@@ -188,8 +189,9 @@ class EVMWalletProvider extends ChangeNotifier {
           debugPrint('erc20address $erc20address');
 
           final abiTokenStringJson = jsonDecode(
-            await rootBundle
-                .loadString('contracts/evm/build/contracts/ERC20.json'),
+            await rootBundle.loadString(
+              'contracts/evm/artifacts/@openzeppelin/contracts/token/ERC20/IERC20.sol/IERC20.json',
+            ),
           );
 
           final contractToken = DeployedContract(

@@ -26,22 +26,14 @@ class FormatAddressLinkCopy extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     Widget _address() {
       return Padding(
-        padding: const EdgeInsets.only(bottom: 1),
-        child: reduceAddress
-            ? Text(
-                reduceAddress ? AddressUtil.reduceAddress(address) : address,
-                style: TextStyle(
-                  fontSize: fontSize,
-                  fontFamily: BridgeThemeBase.addressFont,
-                ),
-              )
-            : SelectableText(
-                reduceAddress ? AddressUtil.reduceAddress(address) : address,
-                style: TextStyle(
-                  fontSize: fontSize,
-                  fontFamily: BridgeThemeBase.addressFont,
-                ),
-              ),
+        padding: const EdgeInsets.only(bottom: 2.3),
+        child: Text(
+          reduceAddress ? AddressUtil.reduceAddress(address) : address,
+          style: TextStyle(
+            fontSize: fontSize,
+            fontFamily: BridgeThemeBase.addressFont,
+          ),
+        ),
       );
     }
 
@@ -71,9 +63,12 @@ class FormatAddressLinkCopy extends ConsumerWidget {
               ),
             );
           },
-          child: Icon(
-            Iconsax.copy,
-            size: fontSize - 1,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 3),
+            child: Icon(
+              Iconsax.copy,
+              size: fontSize - 1,
+            ),
           ),
         ),
         const SizedBox(width: 5),
@@ -91,9 +86,12 @@ class FormatAddressLinkCopy extends ConsumerWidget {
               ),
             );
           },
-          child: Icon(
-            Iconsax.export_3,
-            size: fontSize - 1,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 3),
+            child: Icon(
+              Iconsax.export_3,
+              size: fontSize - 1,
+            ),
           ),
         ),
       ],

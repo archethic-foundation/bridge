@@ -100,6 +100,7 @@
   "failureInsufficientFunds": "Funds are not sufficient.",
   "failureTimeout": "Timeout occurred.",
   "failurePoolInsufficientFunds": "The funds of the pool are not sufficient. Please resume your transaction later.",
+  "failureHTLCWithoutFunds": "The contract has not received the expected funds",
   "refundFormTitle": "Refund",
   "btn_refund": "Refund",
   "btn_refund_evm_connect": "Connect EVM Wallet",
@@ -137,5 +138,10 @@
         "type": "String"
       }
     }
-  }
+  },
+  "htlcStatusLabelPending": "Pending",
+  "htlcStatusLabelWithdrawn": "Withdrawn",
+  "htlcStatusLabelRefunded": "Refunded",
+  "htlcStatusLabelUnknown": "Unknown",
+  "htlcStatusHeader": "Status"
 }

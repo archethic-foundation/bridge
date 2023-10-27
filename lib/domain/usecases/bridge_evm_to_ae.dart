@@ -7,12 +7,18 @@ import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/util/generic/get_it_instance.dart';
+import 'package:aebridge/util/transaction_bridge_util.dart';
+import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BridgeEVMToArchethicUseCase
-    with ArchethicBridgeProcessMixin, EVMBridgeProcessMixin {
+    with
+        ArchethicBridgeProcessMixin,
+        EVMBridgeProcessMixin,
+        TransactionBridgeMixin {
   Future<void> run(
     WidgetRef ref, {
     int recoveryStep = 0,
@@ -141,7 +147,15 @@ class BridgeEVMToArchethicUseCase
           htlcEVMAddress,
           htlcEVMTxAddress!,
         );
+
         await bridgeNotifier.setHTLCAEAddress(htlcAEAddress);
+
+        // Wait for AE HTLC Update
+        if (await waitForManualTxConfirmation(htlcAEAddress, 2) == false) {
+          await bridgeNotifier.setFailure(const Failure.timeout());
+          await bridgeNotifier.setTransferInProgress(false);
+          return;
+        }
       } catch (e) {
         return;
       }
@@ -152,6 +166,28 @@ class BridgeEVMToArchethicUseCase
 
     // 6) Withdraw
     if (recoveryStep <= 6) {
+      var checkAmount = 0.0;
+      final balanceGetResponseMap =
+          await sl.get<ApiService>().fetchBalance([htlcAEAddress!]);
+      final balanceGetResponse = balanceGetResponseMap[htlcAEAddress];
+      if (bridge.tokenToBridge!.type == 'ERC20') {
+        checkAmount = fromBigInt(balanceGetResponse!.uco).toDouble();
+        debugPrint('amount: $amount, checkAmount: $checkAmount');
+      } else {
+        for (final balanceToken in balanceGetResponse!.token) {
+          if (balanceToken.address!.toUpperCase() ==
+              bridge.tokenToBridge!.tokenAddressTarget.toUpperCase()) {
+            checkAmount = fromBigInt(balanceToken.amount).toDouble();
+            debugPrint('amount: $amount, checkAmount: $checkAmount');
+          }
+        }
+      }
+      if (checkAmount < amount!) {
+        await bridgeNotifier.setFailure(const Failure.htlcWithoutFunds());
+        await bridgeNotifier.setTransferInProgress(false);
+        return;
+      }
+
       await bridgeNotifier.setCurrentStep(6);
       try {
         await withdrawEVM(ref, htlcEVMAddress!, secret);

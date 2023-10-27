@@ -81,7 +81,8 @@ class InfoBanner extends StatelessWidget {
                             if (infoBannerType == InfoBannerType.error)
                               const SizedBox(width: 5),
                             Expanded(
-                              child: Row(
+                              child: Wrap(
+                                crossAxisAlignment: WrapCrossAlignment.center,
                                 children: [
                                   Padding(
                                     padding:

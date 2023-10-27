@@ -111,6 +111,18 @@ Map<String, dynamic> _$$InvalidValueImplToJson(_$InvalidValueImpl instance) =>
       'runtimeType': instance.$type,
     };
 
+_$HTLCWithoutFundsImpl _$$HTLCWithoutFundsImplFromJson(
+        Map<String, dynamic> json) =>
+    _$HTLCWithoutFundsImpl(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$HTLCWithoutFundsImplToJson(
+        _$HTLCWithoutFundsImpl instance) =>
+    <String, dynamic>{
+      'runtimeType': instance.$type,
+    };
+
 _$WrongNetworkImpl _$$WrongNetworkImplFromJson(Map<String, dynamic> json) =>
     _$WrongNetworkImpl(
       json['cause'] as String,
