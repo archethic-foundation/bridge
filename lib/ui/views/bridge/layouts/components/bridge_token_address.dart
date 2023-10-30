@@ -14,14 +14,14 @@ class BridgeTokenAddress extends ConsumerWidget {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
 
     if (bridge.blockchainTo == null || bridge.tokenToBridge == null) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         if (bridge.tokenToBridge!.tokenAddressSource.isEmpty)
-          const SizedBox()
+          const SizedBox.shrink()
         else
           FormatAddressLinkCopy(
             address: bridge.tokenToBridge!.tokenAddressSource,
@@ -29,7 +29,7 @@ class BridgeTokenAddress extends ConsumerWidget {
             reduceAddress: true,
           ),
         if (bridge.tokenToBridge!.tokenAddressTarget.isEmpty)
-          const SizedBox()
+          const SizedBox.shrink()
         else
           FormatAddressLinkCopy(
             address: bridge.tokenToBridge!.tokenAddressTarget,

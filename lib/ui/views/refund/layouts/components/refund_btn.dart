@@ -21,7 +21,7 @@ class RefundButton extends ConsumerWidget {
         refund.refundTxAddress != null ||
         (refund.isAlreadyRefunded != null &&
             refund.isAlreadyRefunded == true)) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
 
     return refund.htlcCanRefund == false

@@ -17,7 +17,7 @@ class BridgeTokenBridgedPoolBalance extends ConsumerWidget {
     if (bridge.blockchainFrom == null ||
         bridge.tokenToBridge == null ||
         bridge.blockchainFrom!.isArchethic == false) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
 
     return FutureBuilder<String>(
@@ -36,7 +36,7 @@ class BridgeTokenBridgedPoolBalance extends ConsumerWidget {
             ),
           );
         }
-        return const SizedBox();
+        return const SizedBox.shrink();
       },
     );
   }

@@ -17,7 +17,7 @@ class BridgeTokenToBridgeArchethicOracleUco extends ConsumerWidget {
     final archethicOracleUCO =
         ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
     if (archethicOracleUCO.usd == 0) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
     final timestamp = DateFormat.yMMMEd(
       Localizations.localeOf(context).languageCode,

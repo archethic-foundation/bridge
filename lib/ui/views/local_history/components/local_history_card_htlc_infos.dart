@@ -14,7 +14,7 @@ class LocalHistoryCardHTLCInfos extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (bridge.blockchainFrom == null || bridge.blockchainTo == null) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
 
     return Padding(

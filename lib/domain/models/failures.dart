@@ -31,6 +31,7 @@ class Failure with _$Failure implements Exception {
   const factory Failure.unauthorized() = Unauthorized;
   const factory Failure.invalidValue() = InvalidValue;
   const factory Failure.htlcWithoutFunds() = HTLCWithoutFunds;
+  const factory Failure.notHTLC() = NotHTLC;
   const factory Failure.wrongNetwork(
     String cause,
   ) = WrongNetwork;

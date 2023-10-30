@@ -21,7 +21,7 @@ class LocalHistoryCardOptionsResume extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (bridge.failure == null) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
 
     return Row(

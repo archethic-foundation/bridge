@@ -12,7 +12,7 @@ class RefundInfosWallet extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final refund = ref.watch(RefundFormProvider.refundForm);
     if (refund.evmWallet == null) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,

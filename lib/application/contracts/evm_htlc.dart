@@ -175,7 +175,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
         );
         currency = 'UCO';
       } catch (e) {
-        debugPrint(e.toString());
+        debugPrint('getAmountCurrency: $e');
       }
 
       return currency;
@@ -207,7 +207,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
 
   Future<String> getTxRefund() async {
     final contractHTLC =
-        await getDeployedContract(contractNameHTLCERC, htlcContractAddress);
+        await getDeployedContract(contractNameHTLCBase, htlcContractAddress);
 
     final events = await web3Client!.getLogs(
       FilterOptions.events(

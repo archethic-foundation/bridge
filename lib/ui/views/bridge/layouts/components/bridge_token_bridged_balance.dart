@@ -15,7 +15,7 @@ class BridgeTokenBridgedBalance extends ConsumerWidget {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
 
     if (bridge.blockchainFrom == null || bridge.tokenToBridge == null) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
 
     return FutureBuilder<String>(
@@ -34,7 +34,7 @@ class BridgeTokenBridgedBalance extends ConsumerWidget {
             ),
           );
         }
-        return const SizedBox();
+        return const SizedBox.shrink();
       },
     );
   }

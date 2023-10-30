@@ -14,8 +14,8 @@ import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
-class EVMLPERC with EVMBridgeProcessMixin {
-  EVMLPERC(
+class EVMHTLCERC with EVMBridgeProcessMixin {
+  EVMHTLCERC(
     this.providerEndpoint,
     this.htlcContractAddress,
     this.chainId,

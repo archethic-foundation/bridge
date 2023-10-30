@@ -14,8 +14,8 @@ import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
-class EVMLPNative with EVMBridgeProcessMixin {
-  EVMLPNative(
+class EVMHTLCNative with EVMBridgeProcessMixin {
+  EVMHTLCNative(
     this.providerEndpoint,
     this.htlcContractAddress,
     this.chainId,
@@ -163,6 +163,29 @@ class EVMLPNative with EVMBridgeProcessMixin {
 
         debugPrint('signedWithdrawTx: $withdrawTx');
         return withdrawTx;
+      },
+    );
+  }
+
+  Future<Result<double, Failure>> getFee() async {
+    return Result.guard(
+      () async {
+        final contractHTLC = await getDeployedContract(
+          contractNameChargeableHTLCERC,
+          htlcContractAddress,
+        );
+
+        final feeMap = await web3Client!.call(
+          contract: contractHTLC,
+          function: contractHTLC.function('fee'),
+          params: [],
+        );
+
+        final BigInt fee = feeMap[0];
+        debugPrint('HTLC fee: $fee');
+
+        final etherAmount = EtherAmount.fromBigInt(EtherUnit.wei, fee);
+        return etherAmount.getValueInUnit(EtherUnit.ether);
       },
     );
   }

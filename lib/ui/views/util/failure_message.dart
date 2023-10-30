@@ -43,6 +43,10 @@ class FailureMessage {
       return AppLocalizations.of(context)!.failureHTLCWithoutFunds;
     }
 
+    if (failure is NotHTLC) {
+      return AppLocalizations.of(context)!.failureNotHTLC;
+    }
+
     if (failure is RPCErrorEVM) {
       return (failure! as RPCErrorEVM).cause.toString();
     }

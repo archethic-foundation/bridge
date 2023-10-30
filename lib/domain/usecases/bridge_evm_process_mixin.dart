@@ -5,9 +5,9 @@ import 'dart:math';
 
 import 'package:aebridge/application/contracts/archethic_contract_chargeable.dart';
 import 'package:aebridge/application/contracts/evm_htlc.dart';
+import 'package:aebridge/application/contracts/evm_htlc_erc.dart';
+import 'package:aebridge/application/contracts/evm_htlc_native.dart';
 import 'package:aebridge/application/contracts/evm_lp.dart';
-import 'package:aebridge/application/contracts/evm_lp_erc.dart';
-import 'package:aebridge/application/contracts/evm_lp_native.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
@@ -44,6 +44,8 @@ const contractNameSignedHTLCETH =
     'contracts/evm/artifacts/contracts/HTLC/SignedHTLC_ETH.sol/SignedHTLC_ETH.json';
 const contractNameChargeableHTLCERC =
     'contracts/evm/artifacts/contracts/HTLC/ChargeableHTLC_ERC.sol/ChargeableHTLC_ERC.json';
+const contractNameChargeableHTLCETH =
+    'contracts/evm/artifacts/contracts/HTLC/ChargeableHTLC_ETH.sol/ChargeableHTLC_ETH.json';
 
 mixin EVMBridgeProcessMixin {
   String getEVMStepLabel(
@@ -169,12 +171,12 @@ mixin EVMBridgeProcessMixin {
 
     Result<void, Failure>? resultProvisionChargeableHTLC;
     if (bridge.tokenToBridge!.type == 'ERC20') {
-      final evmLPERC = EVMLPERC(
+      final evmHTLCERC = EVMHTLCERC(
         bridge.blockchainFrom!.providerEndpoint,
         htlcAddress,
         bridge.blockchainFrom!.chainId,
       );
-      resultProvisionChargeableHTLC = await evmLPERC.provisionChargeableHTLC(
+      resultProvisionChargeableHTLC = await evmHTLCERC.provisionChargeableHTLC(
         ref,
         bridge.tokenToBridgeAmount,
         bridge.tokenToBridge!.tokenAddressSource,
@@ -182,12 +184,13 @@ mixin EVMBridgeProcessMixin {
     }
 
     if (bridge.tokenToBridge!.type == 'Native') {
-      final evmLPNative = EVMLPNative(
+      final evmHTLCNative = EVMHTLCNative(
         bridge.blockchainFrom!.providerEndpoint,
         htlcAddress,
         bridge.blockchainFrom!.chainId,
       );
-      resultProvisionChargeableHTLC = await evmLPNative.provisionChargeableHTLC(
+      resultProvisionChargeableHTLC =
+          await evmHTLCNative.provisionChargeableHTLC(
         ref,
         bridge.tokenToBridgeAmount,
       );
@@ -389,26 +392,26 @@ mixin EVMBridgeProcessMixin {
     Result<String, Failure>? resultSignedWithdraw;
     debugPrint('bridge.tokenToBridge!.type: ${bridge.tokenToBridge!.type}');
     if (bridge.tokenToBridge!.type == 'Native') {
-      final evmLPERC = EVMLPERC(
+      final evmHTLCERC = EVMHTLCERC(
         bridge.blockchainTo!.providerEndpoint,
         htlc,
         bridge.blockchainFrom!.chainId,
       );
 
-      resultSignedWithdraw = await evmLPERC.signedWithdraw(
+      resultSignedWithdraw = await evmHTLCERC.signedWithdraw(
         ref,
         secret,
       );
     }
 
     if (bridge.tokenToBridge!.type == 'Wrapped') {
-      final evmLPNative = EVMLPNative(
+      final evmHTLCNative = EVMHTLCNative(
         bridge.blockchainTo!.providerEndpoint,
         htlc,
         bridge.blockchainFrom!.chainId,
       );
 
-      resultSignedWithdraw = await evmLPNative.signedWithdraw(
+      resultSignedWithdraw = await evmHTLCNative.signedWithdraw(
         ref,
         secret,
       );

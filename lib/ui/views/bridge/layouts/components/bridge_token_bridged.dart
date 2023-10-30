@@ -22,7 +22,7 @@ class BridgeTokenBridged extends ConsumerWidget {
     if (bridge.blockchainFrom == null ||
         bridge.blockchainTo == null ||
         session.allWalletsIsConnected == false) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
 
     return Align(
@@ -70,7 +70,7 @@ class BridgeTokenBridged extends ConsumerWidget {
                               child: Align(
                                 alignment: Alignment.centerLeft,
                                 child: bridge.tokenToBridge == null
-                                    ? const SizedBox()
+                                    ? const SizedBox.shrink()
                                     : Opacity(
                                         opacity: 0.5,
                                         child: Row(

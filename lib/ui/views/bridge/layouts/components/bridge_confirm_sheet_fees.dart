@@ -78,7 +78,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
                     '${bridge.tokenToBridgeReceived.formatNumber()} ${bridge.tokenToBridge!.targetTokenSymbol} ${snapshot.data}',
                   );
                 }
-                return const SizedBox();
+                return const SizedBox.shrink();
               },
             ),
           ],
@@ -93,7 +93,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
   ) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
     if (bridge.blockchainFrom!.isArchethic == true) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -131,7 +131,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
                     '-${bridge.safetyModuleFees.formatNumber()} ${bridge.safetyModuleSymbol} ${snapshot.data}',
                   );
                 }
-                return const SizedBox();
+                return const SizedBox.shrink();
               },
             ),
           ],
@@ -194,7 +194,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
                     '-${bridge.archethicProtocolFees.formatNumber()} ${bridge.archethicProtocolSymbol} ${snapshot.data}',
                   );
                 }
-                return const SizedBox();
+                return const SizedBox.shrink();
               },
             ),
           ],

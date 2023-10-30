@@ -123,6 +123,16 @@ Map<String, dynamic> _$$HTLCWithoutFundsImplToJson(
       'runtimeType': instance.$type,
     };
 
+_$NotHTLCImpl _$$NotHTLCImplFromJson(Map<String, dynamic> json) =>
+    _$NotHTLCImpl(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$NotHTLCImplToJson(_$NotHTLCImpl instance) =>
+    <String, dynamic>{
+      'runtimeType': instance.$type,
+    };
+
 _$WrongNetworkImpl _$$WrongNetworkImplFromJson(Map<String, dynamic> json) =>
     _$WrongNetworkImpl(
       json['cause'] as String,

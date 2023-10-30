@@ -16,7 +16,7 @@ class BridgeTokenToBridgeCoingeckoPrice extends ConsumerWidget {
     if (bridge.tokenToBridge == null ||
         bridge.tokenToBridge!.symbol == 'UCO' ||
         bridge.coingeckoPrice == 0) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
 
     final timestamp = DateFormat.yMMMEd(

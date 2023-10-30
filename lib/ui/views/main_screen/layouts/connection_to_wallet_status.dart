@@ -57,11 +57,11 @@ class _ConnectionToWalletStatusState
 
     if (session.walletFrom == null ||
         session.walletFrom!.isConnected == false) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
 
     if (session.walletTo == null || session.walletTo!.isConnected == false) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
 
     if (Responsive.isDesktop(context) || Responsive.isTablet(context)) {

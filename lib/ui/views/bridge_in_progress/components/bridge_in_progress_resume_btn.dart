@@ -33,6 +33,6 @@ class BridgeInProgressResumeBtn extends ConsumerWidget {
         },
       );
     }
-    return const SizedBox();
+    return const SizedBox.shrink();
   }
 }

@@ -69,7 +69,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
     if (bridge.blockchainFrom == null ||
         bridge.blockchainFrom == null ||
         bridge.tokenToBridge == null) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
 
     return Column(
@@ -190,7 +190,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                       ),
                     );
                   }
-                  return const SizedBox();
+                  return const SizedBox.shrink();
                 },
               ),
             ],

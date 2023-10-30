@@ -46,7 +46,7 @@ class LocalHistoryCardTrfInfos extends ConsumerWidget {
                           ),
                         );
                       }
-                      return const SizedBox();
+                      return const SizedBox.shrink();
                     },
                   ),
                   FormatAddressLinkCopy(
@@ -61,6 +61,6 @@ class LocalHistoryCardTrfInfos extends ConsumerWidget {
       );
     }
 
-    return const SizedBox();
+    return const SizedBox.shrink();
   }
 }

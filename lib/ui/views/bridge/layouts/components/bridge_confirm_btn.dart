@@ -20,7 +20,7 @@ class BridgeConfirmButton extends ConsumerWidget {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
     final session = ref.watch(SessionProviders.session);
     if (session.allWalletsIsConnected == false) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
     if (bridge.tokenToBridge == null) {
       return AppButton(

@@ -36,10 +36,10 @@ class BlockchainLabel extends ConsumerWidget {
         );
       },
       error: (Object error, StackTrace stackTrace) {
-        return const SizedBox();
+        return const SizedBox.shrink();
       },
       loading: () {
-        return const SizedBox();
+        return const SizedBox.shrink();
       },
     );
   }

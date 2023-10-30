@@ -71,7 +71,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
                       '${bridge.tokenToBridgeAmount.formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data}',
                     );
                   }
-                  return const SizedBox();
+                  return const SizedBox.shrink();
                 },
               ),
             ],

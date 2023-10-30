@@ -1,6 +1,7 @@
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/contracts/evm_htlc.dart';
-import 'package:aebridge/application/contracts/evm_lp_erc.dart';
+import 'package:aebridge/application/contracts/evm_htlc_erc.dart';
+import 'package:aebridge/application/contracts/evm_htlc_native.dart';
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
@@ -54,6 +55,12 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       return;
     }
 
+    state = state.copyWith(
+      refundTxAddress: null,
+      isAlreadyRefunded: false,
+      isAlreadyWithdrawn: false,
+    );
+
     final chainId = sl.get<EVMWalletProvider>().currentChain ?? 0;
 
     if (await control()) {
@@ -62,6 +69,28 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         state.htlcAddress,
         chainId,
       );
+
+      int? status;
+      try {
+        status = await evmHTLC.getStatus();
+      } catch (e) {
+        setFailure(const Failure.notHTLC());
+        throw const Failure.notHTLC();
+      }
+      if (status == 2) {
+        final refundTxAddress = await evmHTLC.getTxRefund();
+
+        state = state.copyWith(
+          refundTxAddress: refundTxAddress,
+          isAlreadyRefunded: true,
+        );
+        return;
+      }
+      if (status == 1) {
+        state = state.copyWith(
+          isAlreadyWithdrawn: true,
+        );
+      }
 
       final resultLockTime = await evmHTLC.getHTLCLockTimeAndRefundState();
       resultLockTime.map(
@@ -72,14 +101,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
           );
         },
         failure: setFailure,
-      );
-
-      await evmHTLC.getStatus();
-
-      final evmLPERC = EVMLPERC(
-        state.evmWallet!.providerEndpoint!,
-        state.htlcAddress,
-        chainId,
       );
 
       final resultAmount = await evmHTLC.getAmount();
@@ -103,18 +124,31 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         failure: setFailure,
       );
 
-      final resultFee = await evmLPERC.getFee();
-      resultFee.map(
-        success: (fee) {
-          setFee(fee);
-        },
-        failure: setFailure,
-      );
-      final refundTxAddress = await evmHTLC.getTxRefund();
-      if (refundTxAddress.isNotEmpty) {
-        state = state.copyWith(
-          refundTxAddress: refundTxAddress,
-          isAlreadyRefunded: true,
+      if (state.amountCurrency == 'UCO') {
+        final evmHTLCERC = EVMHTLCERC(
+          state.evmWallet!.providerEndpoint!,
+          state.htlcAddress,
+          chainId,
+        );
+        final resultFee = await evmHTLCERC.getFee();
+        resultFee.map(
+          success: (fee) {
+            setFee(fee);
+          },
+          failure: setFailure,
+        );
+      } else {
+        final evmHTLCNative = EVMHTLCNative(
+          state.evmWallet!.providerEndpoint!,
+          state.htlcAddress,
+          chainId,
+        );
+        final resultFee = await evmHTLCNative.getFee();
+        resultFee.map(
+          success: (fee) {
+            setFee(fee);
+          },
+          failure: setFailure,
         );
       }
     }

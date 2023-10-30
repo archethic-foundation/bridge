@@ -40,6 +40,22 @@ class RefundMessage extends ConsumerWidget {
       );
     }
 
+    if (refund.isAlreadyWithdrawn != null &&
+        refund.isAlreadyWithdrawn == true) {
+      return SizedBox(
+        height: 40,
+        child: InfoBanner(
+          FailureMessage(
+            context: context,
+            failure: Failure.other(
+              cause: AppLocalizations.of(context)!.refundAlreadyWithdrawnInfo,
+            ),
+          ).getMessage(),
+          InfoBannerType.request,
+        ),
+      );
+    }
+
     if (refund.failure == null) {
       return const SizedBox(height: 40);
     }

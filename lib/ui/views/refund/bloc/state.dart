@@ -11,6 +11,7 @@ class RefundFormState with _$RefundFormState {
     String? refundTxAddress,
     int? chainId,
     bool? isAlreadyRefunded,
+    bool? isAlreadyWithdrawn,
     @Default(false) refundOk,
     bool? addressOk,
     int? htlcDateLock,
@@ -28,4 +29,6 @@ class RefundFormState with _$RefundFormState {
       htlcAddress.isNotEmpty &&
       addressOk != null &&
       addressOk == true;
+
+  double get totalAmountToRefund => amount + fee;
 }

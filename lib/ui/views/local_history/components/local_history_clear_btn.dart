@@ -18,7 +18,7 @@ class LocalHistoryClearButton extends ConsumerWidget {
     return ref.watch(BridgeHistoryProviders.fetchBridgesList()).map(
           data: (data) {
             if (data.value.isEmpty) {
-              return const SizedBox();
+              return const SizedBox.shrink();
             }
             return Column(
               children: [
@@ -139,8 +139,8 @@ class LocalHistoryClearButton extends ConsumerWidget {
               ],
             );
           },
-          error: (error) => const SizedBox(),
-          loading: (loading) => const SizedBox(),
+          error: (error) => const SizedBox.shrink(),
+          loading: (loading) => const SizedBox.shrink(),
         );
   }
 }

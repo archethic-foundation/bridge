@@ -8,12 +8,15 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+enum TypeAddress { address, transaction }
+
 class FormatAddressLinkCopy extends ConsumerWidget {
   const FormatAddressLinkCopy({
     required this.address,
     required this.chainId,
     this.reduceAddress = false,
     this.fontSize = 13,
+    this.typeAddress = TypeAddress.address,
     super.key,
   });
 
@@ -21,6 +24,7 @@ class FormatAddressLinkCopy extends ConsumerWidget {
   final String address;
   final bool reduceAddress;
   final double fontSize;
+  final TypeAddress typeAddress;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -79,12 +83,19 @@ class FormatAddressLinkCopy extends ConsumerWidget {
                 chainId,
               ).future,
             );
-
-            await launchUrl(
-              Uri.parse(
-                '${blockchain!.urlExplorer}$address',
-              ),
-            );
+            if (typeAddress == TypeAddress.transaction) {
+              await launchUrl(
+                Uri.parse(
+                  '${blockchain!.urlExplorerTransaction}$address',
+                ),
+              );
+            } else {
+              await launchUrl(
+                Uri.parse(
+                  '${blockchain!.urlExplorerAddress}$address',
+                ),
+              );
+            }
           },
           child: Padding(
             padding: const EdgeInsets.only(bottom: 3),

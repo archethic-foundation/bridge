@@ -53,7 +53,7 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
     if (bridge.blockchainFrom == null ||
         bridge.blockchainTo == null ||
         bridge.tokenToBridge == null) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
 
     final maxLines = bridge.blockchainTo!.isArchethic == true ? 2 : 1;

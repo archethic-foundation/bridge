@@ -18,7 +18,7 @@ class BridgeInProgressCircularStepProgressIndicator extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
     if (bridge.blockchainFrom == null) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
 
     if (Responsive.isMobile(context) == true) {

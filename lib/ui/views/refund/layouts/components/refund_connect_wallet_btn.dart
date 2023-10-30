@@ -16,7 +16,7 @@ class RefundConnectWalletButton extends ConsumerWidget {
     final refund = ref.watch(RefundFormProvider.refundForm);
 
     if (refund.evmWallet != null && refund.evmWallet!.isConnected) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
 
     return AppButton(

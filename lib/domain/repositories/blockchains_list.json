@@ -5,7 +5,8 @@
             "chainId": -1,
             "env": "1-mainnet",
             "icon": "Archethic.svg",
-            "urlExplorer": "https://mainnet.archethic.net/explorer/transaction/",
+            "urlExplorerAddress": "https://mainnet.archethic.net/explorer/transaction/",
+            "urlExplorerTransaction": "https://mainnet.archethic.net/explorer/transaction/",
             "isArchethic": true,
             "archethicFactoryAddress": "",
             "nativeCurrency": "UCO"
@@ -15,7 +16,8 @@
             "chainId": -2,
             "env": "2-testnet",
             "icon": "Archethic.svg",
-            "urlExplorer": "https://testnet.archethic.net/explorer/transaction/",
+            "urlExplorerAddress": "https://testnet.archethic.net/explorer/transaction/",
+            "urlExplorerTransaction": "https://testnet.archethic.net/explorer/transaction/",
             "isArchethic": true,
             "archethicFactoryAddress": "0000795bfd6ca2f5ea9f378c20775caf798e9bfbff6aec94bf87ad8d59233b4fa299",
             "nativeCurrency": "UCO"
@@ -25,7 +27,8 @@
             "chainId": -3,
             "env": "3-devnet",
             "icon": "Archethic.svg",
-            "urlExplorer": "http://localhost:4000/explorer/transaction/",
+            "urlExplorerAddress": "http://localhost:4000/explorer/transaction/",
+            "urlExplorerTransaction": "http://localhost:4000/explorer/transaction/",
             "isArchethic": true,
             "archethicFactoryAddress": "00004f53ed49c11ee3ff80d0abf608180bde9954dee20ede4dfa092a8c93d6ca26a9",
             "nativeCurrency": "UCO"
@@ -35,7 +38,8 @@
             "chainId": 1,
             "env": "1-mainnet",
             "icon": "Ethereum.svg",
-            "urlExplorer": "https://etherscan.io/address/",
+            "urlExplorerAddress": "https://etherscan.io/address/",
+            "urlExplorerTransaction": "https://etherscan.io/tx/",
             "providerEndpoint": "https://mainnet.infura.io/v3/3a7a2dbdbec046a4961550ddf8c7d78a",
             "isArchethic": false,
             "nativeCurrency": "ETH"
@@ -45,7 +49,8 @@
             "chainId": 11155111,
             "env": "2-testnet",
             "icon": "Ethereum.svg",
-            "urlExplorer": "https://sepolia.etherscan.io/address/",
+            "urlExplorerAddress": "https://sepolia.etherscan.io/address/",
+            "urlExplorerTransaction": "https://sepolia.etherscan.io/tx/",
             "providerEndpoint": "https://sepolia.infura.io/v3/3a7a2dbdbec046a4961550ddf8c7d78a",
             "isArchethic": false,
             "nativeCurrency": "ETH"
@@ -64,7 +69,8 @@
             "chainId": 137,
             "env": "1-mainnet",
             "icon": "Polygon.svg",
-            "urlExplorer": "https://polygonscan.com/address/",
+            "urlExplorerAddress": "https://polygonscan.com/address/",
+            "urlExplorerTransaction": "https://polygonscan.com/tx/",
             "providerEndpoint": "https://polygon-mainnet.g.alchemy.com/v2/DynWKvz6PUFaeZNmlxPXNiV1nK4Ac_2D",
             "isArchethic": false,
             "nativeCurrency": "MATIC"
@@ -74,7 +80,8 @@
             "chainId": 80001,
             "env": "2-testnet",
             "icon": "Polygon.svg",
-            "urlExplorer": "https://mumbai.polygonscan.com/address/",
+            "urlExplorerAddress": "https://mumbai.polygonscan.com/address/",
+            "urlExplorerTransaction": "https://mumbai.polygonscan.com/tx/",
             "providerEndpoint": "https://polygon-mumbai.g.alchemy.com/v2/DynWKvz6PUFaeZNmlxPXNiV1nK4Ac_2D",
             "isArchethic": false,
             "nativeCurrency": "MATIC"
@@ -84,7 +91,8 @@
             "chainId": 56,
             "env": "1-mainnet",
             "icon": "BSC.svg",
-            "urlExplorer": "https://bscscan.com/address/",
+            "urlExplorerAddress": "https://bscscan.com/address/",
+            "urlExplorerTransaction": "https://bscscan.com/tx/",
             "providerEndpoint": "https://bsc-dataseed1.binance.org/",
             "isArchethic": false,
             "nativeCurrency": "BNB"
@@ -94,7 +102,8 @@
             "chainId": 97,
             "env": "2-testnet",
             "icon": "BSC.svg",
-            "urlExplorer": "https://testnet.bscscan.com/address/",
+            "urlExplorerAddress": "https://testnet.bscscan.com/address/",
+            "urlExplorerTransaction": "https://testnet.bscscan.com/tx/",
             "providerEndpoint": "https://data-seed-prebsc-1-s1.binance.org:8545",
             "isArchethic": false,
             "nativeCurrency": "BNB"

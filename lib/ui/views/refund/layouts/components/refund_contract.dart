@@ -14,7 +14,7 @@ class RefundTransaction extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final refund = ref.watch(RefundFormProvider.refundForm);
     if (refund.refundTxAddress == null) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
 
     return Padding(
@@ -28,6 +28,7 @@ class RefundTransaction extends ConsumerWidget {
           FormatAddressLinkCopy(
             address: refund.refundTxAddress!,
             chainId: refund.chainId ?? 0,
+            typeAddress: TypeAddress.transaction,
           ),
           const SizedBox(
             height: 10,

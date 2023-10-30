@@ -114,20 +114,21 @@ class LocalHistorySheet extends ConsumerWidget {
                               as Map<String, dynamic>,
                         );
                         if (localHistory.processCompletedIncluded == false &&
-                            bridge.failure == null) return const SizedBox();
+                            bridge.failure == null)
+                          return const SizedBox.shrink();
                         if (localHistory.filterPeriodStart != null &&
                             bridge.timestampExec != null &&
                             DateTime.fromMillisecondsSinceEpoch(
                               bridge.timestampExec!,
                             ).isBefore(localHistory.filterPeriodStart!)) {
-                          return const SizedBox();
+                          return const SizedBox.shrink();
                         }
                         if (localHistory.filterPeriodEnd != null &&
                             bridge.timestampExec != null &&
                             DateTime.fromMillisecondsSinceEpoch(
                               bridge.timestampExec!,
                             ).isAfter(localHistory.filterPeriodEnd!)) {
-                          return const SizedBox();
+                          return const SizedBox.shrink();
                         }
 
                         return LocalHistoryCard(bridge: bridge);
@@ -136,8 +137,8 @@ class LocalHistorySheet extends ConsumerWidget {
                   ),
                 );
               },
-              error: (error) => const SizedBox(),
-              loading: (loading) => const SizedBox(),
+              error: (error) => const SizedBox.shrink(),
+              loading: (loading) => const SizedBox.shrink(),
             ),
           ],
         ),

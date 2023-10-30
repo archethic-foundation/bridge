@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
+import 'package:aebridge/ui/views/util/generic/formatters.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -15,22 +16,28 @@ class RefundCanRefundInfo extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final refund = ref.watch(RefundFormProvider.refundForm);
+    if (refund.isAlreadyRefunded == true || refund.isAlreadyWithdrawn == true) {
+      return const SizedBox.shrink();
+    }
 
     if (refund.htlcCanRefund) {
       return Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Icon(
-            Iconsax.tick_circle5,
-            size: 12,
-            color: ArchethicThemeBase.systemPositive500,
+          Padding(
+            padding: const EdgeInsets.only(bottom: 2),
+            child: Icon(
+              Iconsax.tick_circle5,
+              size: 12,
+              color: ArchethicThemeBase.systemPositive500,
+            ),
           ),
           const SizedBox(
             width: 3,
           ),
           Flexible(
             child: Text(
-              '${AppLocalizations.of(context)!.refundCanRefundYes} ${refund.amount} ${refund.amountCurrency}',
+              '${AppLocalizations.of(context)!.refundCanRefundYes} ${refund.totalAmountToRefund.formatNumber()} ${refund.amountCurrency}',
               style: TextStyle(color: ArchethicThemeBase.systemPositive500),
               textAlign: TextAlign.end,
             ),
@@ -42,10 +49,13 @@ class RefundCanRefundInfo extends ConsumerWidget {
         return Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            Icon(
-              Iconsax.close_circle5,
-              size: 12,
-              color: ArchethicThemeBase.systemDanger300,
+            Padding(
+              padding: const EdgeInsets.only(bottom: 2),
+              child: Icon(
+                Iconsax.close_circle5,
+                size: 12,
+                color: ArchethicThemeBase.systemDanger300,
+              ),
             ),
             const SizedBox(
               width: 3,
@@ -56,7 +66,7 @@ class RefundCanRefundInfo extends ConsumerWidget {
                     .refundCanRefundDateLock
                     .replaceAll(
                       '%1',
-                      '${refund.amount} ${refund.amountCurrency}',
+                      '${refund.totalAmountToRefund.formatNumber()} ${refund.amountCurrency}',
                     )
                     .replaceAll(
                       '%2',

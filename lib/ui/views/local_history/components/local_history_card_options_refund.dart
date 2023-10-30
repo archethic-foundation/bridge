@@ -18,7 +18,7 @@ class LocalHistoryCardOptionsRefund extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (bridge.failure == null || bridge.htlcEVMAddress == null) {
-      return const SizedBox();
+      return const SizedBox.shrink();
     }
 
     return Padding(

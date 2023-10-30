@@ -86,12 +86,18 @@ class _SessionNotifier extends Notifier<Session> {
       );
       _fillState(bridgeWallet, from);
 
-      final archethicDAppClient = awc.ArchethicDAppClient.auto(
-        origin: const awc.RequestOrigin(
-          name: 'aebridge',
-        ),
-        replyBaseUrl: 'aebridge://archethic.tech',
-      );
+      awc.ArchethicDAppClient? archethicDAppClient;
+      try {
+        archethicDAppClient = awc.ArchethicDAppClient.auto(
+          origin: const awc.RequestOrigin(
+            name: 'aebridge',
+          ),
+          replyBaseUrl: 'aebridge://archethic.tech',
+        );
+      } catch (e) {
+        debugPrint('$e');
+        throw const Failure.connectivityArchethic();
+      }
 
       final endpointResponse = await archethicDAppClient.getEndpoint();
       await endpointResponse.when(
@@ -165,7 +171,7 @@ class _SessionNotifier extends Notifier<Session> {
 
           bridgeWallet = bridgeWallet.copyWith(endpoint: result.endpointUrl);
           connectionStatusSubscription =
-              archethicDAppClient.connectionStateStream.listen((event) {
+              archethicDAppClient!.connectionStateStream.listen((event) {
             event.when(
               disconnected: () {
                 debugPrint('Disconnected');
@@ -211,7 +217,7 @@ class _SessionNotifier extends Notifier<Session> {
             await sl.unregister<awc.ArchethicDAppClient>();
           }
           sl.registerLazySingleton<awc.ArchethicDAppClient>(
-            () => archethicDAppClient,
+            () => archethicDAppClient!,
           );
           setupServiceLocatorApiService(result.endpointUrl);
           final subscription =

@@ -20,7 +20,7 @@ class TokenList extends ConsumerWidget {
         data: (data) {
           return _TokensList(tokens: data.value);
         },
-        error: (error) => const SizedBox(),
+        error: (error) => const SizedBox.shrink(),
         loading: (loading) => const Center(
           child: SizedBox(
             height: 20,
