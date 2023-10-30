@@ -7,7 +7,8 @@
             "icon": "Archethic.svg",
             "urlExplorer": "https://mainnet.archethic.net/explorer/transaction/",
             "isArchethic": true,
-            "archethicFactoryAddress": ""
+            "archethicFactoryAddress": "",
+            "nativeCurrency": "UCO"
         },
         {
             "name": "Archethic Testnet",
@@ -16,7 +17,8 @@
             "icon": "Archethic.svg",
             "urlExplorer": "https://testnet.archethic.net/explorer/transaction/",
             "isArchethic": true,
-            "archethicFactoryAddress": "0000795bfd6ca2f5ea9f378c20775caf798e9bfbff6aec94bf87ad8d59233b4fa299"
+            "archethicFactoryAddress": "0000795bfd6ca2f5ea9f378c20775caf798e9bfbff6aec94bf87ad8d59233b4fa299",
+            "nativeCurrency": "UCO"
         },
         {
             "name": "Archethic Devnet",
@@ -25,7 +27,8 @@
             "icon": "Archethic.svg",
             "urlExplorer": "http://localhost:4000/explorer/transaction/",
             "isArchethic": true,
-            "archethicFactoryAddress": "00004f53ed49c11ee3ff80d0abf608180bde9954dee20ede4dfa092a8c93d6ca26a9"
+            "archethicFactoryAddress": "00004f53ed49c11ee3ff80d0abf608180bde9954dee20ede4dfa092a8c93d6ca26a9",
+            "nativeCurrency": "UCO"
         },
         {
             "name": "Ethereum",
@@ -34,7 +37,8 @@
             "icon": "Ethereum.svg",
             "urlExplorer": "https://etherscan.io/address/",
             "providerEndpoint": "https://mainnet.infura.io/v3/3a7a2dbdbec046a4961550ddf8c7d78a",
-            "isArchethic": false
+            "isArchethic": false,
+            "nativeCurrency": "ETH"
         },
         {
             "name": "Sepolia Ethereum Testnet",
@@ -43,7 +47,8 @@
             "icon": "Ethereum.svg",
             "urlExplorer": "https://sepolia.etherscan.io/address/",
             "providerEndpoint": "https://sepolia.infura.io/v3/3a7a2dbdbec046a4961550ddf8c7d78a",
-            "isArchethic": false
+            "isArchethic": false,
+            "nativeCurrency": "ETH"
         },
         {
             "name": "Ethereum Devnet",
@@ -51,7 +56,8 @@
             "env": "3-devnet",
             "icon": "Ethereum.svg",
             "providerEndpoint": "http://127.0.0.1:8545",
-            "isArchethic": false
+            "isArchethic": false,
+            "nativeCurrency": "ETH"
         },
         {
             "name": "Polygon",
@@ -60,7 +66,8 @@
             "icon": "Polygon.svg",
             "urlExplorer": "https://polygonscan.com/address/",
             "providerEndpoint": "https://polygon-mainnet.g.alchemy.com/v2/DynWKvz6PUFaeZNmlxPXNiV1nK4Ac_2D",
-            "isArchethic": false
+            "isArchethic": false,
+            "nativeCurrency": "MATIC"
         },
         {
             "name": "Mumbai Polygon Testnet",
@@ -69,7 +76,8 @@
             "icon": "Polygon.svg",
             "urlExplorer": "https://mumbai.polygonscan.com/address/",
             "providerEndpoint": "https://polygon-mumbai.g.alchemy.com/v2/DynWKvz6PUFaeZNmlxPXNiV1nK4Ac_2D",
-            "isArchethic": false
+            "isArchethic": false,
+            "nativeCurrency": "MATIC"
         },
         {
             "name": "Binance Smart Chain",
@@ -78,7 +86,8 @@
             "icon": "BSC.svg",
             "urlExplorer": "https://bscscan.com/address/",
             "providerEndpoint": "https://bsc-dataseed1.binance.org/",
-            "isArchethic": false
+            "isArchethic": false,
+            "nativeCurrency": "BNB"
         },
         {
             "name": "Binance Smart Chain Testnet",
@@ -87,7 +96,8 @@
             "icon": "BSC.svg",
             "urlExplorer": "https://testnet.bscscan.com/address/",
             "providerEndpoint": "https://data-seed-prebsc-1-s1.binance.org:8545",
-            "isArchethic": false
+            "isArchethic": false,
+            "nativeCurrency": "BNB"
         }
     ]
 }

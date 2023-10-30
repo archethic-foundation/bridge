@@ -108,7 +108,7 @@
   "refund_contract_address_lbl": "Address of the HTLC contract containing the bridged funds",
   "refundTypeAddressMalformatedAddress": "Malformated address",
   "refundCanRefundYes": "You can refund",
-  "refundCanRefundDateLock": "You can refund after %1",
+  "refundCanRefundDateLock": "You can refund %1 after %2",
   "refundTxAddressLbl": "Transaction",
   "refundSuccessInfo": "The refund has been performed successfully",
   "refundAlreadyDoneInfo": "This contract has already been refunded",

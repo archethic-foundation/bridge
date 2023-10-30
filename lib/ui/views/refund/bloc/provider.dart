@@ -57,11 +57,13 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     final chainId = sl.get<EVMWalletProvider>().currentChain ?? 0;
 
     if (await control()) {
-      final resultLockTime = await EVMHTLC(
+      final evmHTLC = EVMHTLC(
         state.evmWallet!.providerEndpoint,
         state.htlcAddress,
         chainId,
-      ).getHTLCLockTimeAndRefundState();
+      );
+
+      final resultLockTime = await evmHTLC.getHTLCLockTimeAndRefundState();
       resultLockTime.map(
         success: (locktime) {
           state = state.copyWith(
@@ -72,11 +74,8 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         failure: setFailure,
       );
 
-      final evmHTLC = EVMHTLC(
-        state.evmWallet!.providerEndpoint,
-        state.htlcAddress,
-        chainId,
-      );
+      await evmHTLC.getStatus();
+
       final evmLPERC = EVMLPERC(
         state.evmWallet!.providerEndpoint!,
         state.htlcAddress,
@@ -90,6 +89,20 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         },
         failure: setFailure,
       );
+
+      final blockchain = await ref.read(
+        BridgeBlockchainsProviders.getBlockchainFromChainId(chainId).future,
+      );
+
+      final resultAmountCurrency =
+          await evmHTLC.getAmountCurrency(blockchain!.nativeCurrency);
+      resultAmountCurrency.map(
+        success: (currency) {
+          setAmountCurrency(currency);
+        },
+        failure: setFailure,
+      );
+
       final resultFee = await evmLPERC.getFee();
       resultFee.map(
         success: (fee) {
@@ -117,6 +130,10 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
 
   void setAmount(double amount) {
     state = state.copyWith(amount: amount);
+  }
+
+  void setAmountCurrency(String amountCurrency) {
+    state = state.copyWith(amountCurrency: amountCurrency);
   }
 
   void setFee(double fee) {
@@ -179,26 +196,15 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
 
   Future<void> refund(BuildContext context, WidgetRef ref) async {
     //
-    if (await control() == false) {
+    if (await control() == false || state.chainId == null) {
       return;
     }
-    late int currentChain;
-    if (sl.isRegistered<EVMWalletProvider>()) {
-      currentChain = await sl.get<EVMWalletProvider>().getChainId();
-    } else {
-      currentChain = await EVMWalletProvider().getChainId();
-      final evmWalletProvider = EVMWalletProvider();
-      await evmWalletProvider.connect(currentChain);
-      sl.registerLazySingleton<EVMWalletProvider>(
-        () => evmWalletProvider,
-      );
-    }
 
-    await EVMWalletProvider().connect(currentChain);
     await RefunEVMCase().run(
       ref,
+      state.evmWallet!.providerEndpoint!,
       state.htlcAddress,
-      currentChain,
+      state.chainId!,
     );
   }
 
@@ -215,7 +221,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
 
         try {
           final currentChainId = await evmWalletProvider.getChainId();
-
           final bridgeBlockchain = await ref.read(
             BridgeBlockchainsProviders.getBlockchainFromChainId(
               currentChainId,
@@ -231,8 +236,12 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
               nameAccount: evmWalletProvider.accountName!,
               genesisAddress: evmWalletProvider.currentAddress!,
               endpoint: bridgeBlockchain!.name,
+              providerEndpoint: bridgeBlockchain.providerEndpoint,
             );
-            state = state.copyWith(evmWallet: evmWallet);
+            state = state.copyWith(
+              evmWallet: evmWallet,
+              chainId: currentChainId,
+            );
             if (sl.isRegistered<EVMWalletProvider>()) {
               await sl.unregister<EVMWalletProvider>();
             }

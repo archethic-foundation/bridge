@@ -16,6 +16,7 @@ _$BridgeBlockchainImpl _$$BridgeBlockchainImplFromJson(
       urlExplorer: json['urlExplorer'] as String? ?? '',
       providerEndpoint: json['providerEndpoint'] as String? ?? '',
       isArchethic: json['isArchethic'] as bool? ?? false,
+      nativeCurrency: json['nativeCurrency'] as String? ?? '',
       htlcAddress: json['htlcAddress'] as String?,
       archethicFactoryAddress: json['archethicFactoryAddress'] as String?,
     );
@@ -30,6 +31,7 @@ Map<String, dynamic> _$$BridgeBlockchainImplToJson(
       'urlExplorer': instance.urlExplorer,
       'providerEndpoint': instance.providerEndpoint,
       'isArchethic': instance.isArchethic,
+      'nativeCurrency': instance.nativeCurrency,
       'htlcAddress': instance.htlcAddress,
       'archethicFactoryAddress': instance.archethicFactoryAddress,
     };

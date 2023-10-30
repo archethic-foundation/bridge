@@ -27,6 +27,7 @@ mixin _$BridgeBlockchain {
   String get urlExplorer => throw _privateConstructorUsedError;
   String get providerEndpoint => throw _privateConstructorUsedError;
   bool get isArchethic => throw _privateConstructorUsedError;
+  String get nativeCurrency => throw _privateConstructorUsedError;
   String? get htlcAddress => throw _privateConstructorUsedError;
   String? get archethicFactoryAddress => throw _privateConstructorUsedError;
 
@@ -50,6 +51,7 @@ abstract class $BridgeBlockchainCopyWith<$Res> {
       String urlExplorer,
       String providerEndpoint,
       bool isArchethic,
+      String nativeCurrency,
       String? htlcAddress,
       String? archethicFactoryAddress});
 }
@@ -74,6 +76,7 @@ class _$BridgeBlockchainCopyWithImpl<$Res, $Val extends BridgeBlockchain>
     Object? urlExplorer = null,
     Object? providerEndpoint = null,
     Object? isArchethic = null,
+    Object? nativeCurrency = null,
     Object? htlcAddress = freezed,
     Object? archethicFactoryAddress = freezed,
   }) {
@@ -106,6 +109,10 @@ class _$BridgeBlockchainCopyWithImpl<$Res, $Val extends BridgeBlockchain>
           ? _value.isArchethic
           : isArchethic // ignore: cast_nullable_to_non_nullable
               as bool,
+      nativeCurrency: null == nativeCurrency
+          ? _value.nativeCurrency
+          : nativeCurrency // ignore: cast_nullable_to_non_nullable
+              as String,
       htlcAddress: freezed == htlcAddress
           ? _value.htlcAddress
           : htlcAddress // ignore: cast_nullable_to_non_nullable
@@ -134,6 +141,7 @@ abstract class _$$BridgeBlockchainImplCopyWith<$Res>
       String urlExplorer,
       String providerEndpoint,
       bool isArchethic,
+      String nativeCurrency,
       String? htlcAddress,
       String? archethicFactoryAddress});
 }
@@ -156,6 +164,7 @@ class __$$BridgeBlockchainImplCopyWithImpl<$Res>
     Object? urlExplorer = null,
     Object? providerEndpoint = null,
     Object? isArchethic = null,
+    Object? nativeCurrency = null,
     Object? htlcAddress = freezed,
     Object? archethicFactoryAddress = freezed,
   }) {
@@ -188,6 +197,10 @@ class __$$BridgeBlockchainImplCopyWithImpl<$Res>
           ? _value.isArchethic
           : isArchethic // ignore: cast_nullable_to_non_nullable
               as bool,
+      nativeCurrency: null == nativeCurrency
+          ? _value.nativeCurrency
+          : nativeCurrency // ignore: cast_nullable_to_non_nullable
+              as String,
       htlcAddress: freezed == htlcAddress
           ? _value.htlcAddress
           : htlcAddress // ignore: cast_nullable_to_non_nullable
@@ -211,6 +224,7 @@ class _$BridgeBlockchainImpl extends _BridgeBlockchain {
       this.urlExplorer = '',
       this.providerEndpoint = '',
       this.isArchethic = false,
+      this.nativeCurrency = '',
       this.htlcAddress,
       this.archethicFactoryAddress})
       : super._();
@@ -240,13 +254,16 @@ class _$BridgeBlockchainImpl extends _BridgeBlockchain {
   @JsonKey()
   final bool isArchethic;
   @override
+  @JsonKey()
+  final String nativeCurrency;
+  @override
   final String? htlcAddress;
   @override
   final String? archethicFactoryAddress;
 
   @override
   String toString() {
-    return 'BridgeBlockchain(name: $name, chainId: $chainId, env: $env, icon: $icon, urlExplorer: $urlExplorer, providerEndpoint: $providerEndpoint, isArchethic: $isArchethic, htlcAddress: $htlcAddress, archethicFactoryAddress: $archethicFactoryAddress)';
+    return 'BridgeBlockchain(name: $name, chainId: $chainId, env: $env, icon: $icon, urlExplorer: $urlExplorer, providerEndpoint: $providerEndpoint, isArchethic: $isArchethic, nativeCurrency: $nativeCurrency, htlcAddress: $htlcAddress, archethicFactoryAddress: $archethicFactoryAddress)';
   }
 
   @override
@@ -264,6 +281,8 @@ class _$BridgeBlockchainImpl extends _BridgeBlockchain {
                 other.providerEndpoint == providerEndpoint) &&
             (identical(other.isArchethic, isArchethic) ||
                 other.isArchethic == isArchethic) &&
+            (identical(other.nativeCurrency, nativeCurrency) ||
+                other.nativeCurrency == nativeCurrency) &&
             (identical(other.htlcAddress, htlcAddress) ||
                 other.htlcAddress == htlcAddress) &&
             (identical(
@@ -282,6 +301,7 @@ class _$BridgeBlockchainImpl extends _BridgeBlockchain {
       urlExplorer,
       providerEndpoint,
       isArchethic,
+      nativeCurrency,
       htlcAddress,
       archethicFactoryAddress);
 
@@ -309,6 +329,7 @@ abstract class _BridgeBlockchain extends BridgeBlockchain {
       final String urlExplorer,
       final String providerEndpoint,
       final bool isArchethic,
+      final String nativeCurrency,
       final String? htlcAddress,
       final String? archethicFactoryAddress}) = _$BridgeBlockchainImpl;
   const _BridgeBlockchain._() : super._();
@@ -330,6 +351,8 @@ abstract class _BridgeBlockchain extends BridgeBlockchain {
   String get providerEndpoint;
   @override
   bool get isArchethic;
+  @override
+  String get nativeCurrency;
   @override
   String? get htlcAddress;
   @override

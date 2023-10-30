@@ -210,12 +210,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
         },
       );
     }
-
-    final session = ref.read(SessionProviders.session);
-    if (session.walletTo != null &&
-        session.walletTo!.genesisAddress.isNotEmpty) {
-      await setTargetAddress(session.walletTo!.genesisAddress);
-    }
   }
 
   Future<void> setTransferInProgress(bool isTransferInProgress) async {
@@ -264,6 +258,10 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     );
     await storeBridge();
     final session = ref.read(SessionProviders.session);
+    if (session.walletTo != null &&
+        session.walletTo!.genesisAddress.isNotEmpty) {
+      await setTargetAddress(session.walletTo!.genesisAddress);
+    }
 
     if (tokenToBridge == null) return;
 

@@ -24,8 +24,8 @@ import 'package:webthree/webthree.dart';
 
 enum EVMBridgeProcessStep { none, deploy }
 
-const contractNameIHTLC =
-    'contracts/evm/artifacts/interfaces/IHTLC.sol/IHTLC.json';
+const contractNameHTLCBase =
+    'contracts/evm/artifacts/contracts/HTLC/HTLCBase.sol/HTLCBase.json';
 const contractNameHTLCERC =
     'contracts/evm/artifacts/contracts/HTLC/HTLC_ERC.sol/HTLC_ERC.json';
 const contractNameHTLCETH =
@@ -240,6 +240,7 @@ mixin EVMBridgeProcessMixin {
       htlcAddress,
       bridge.blockchainFrom!.chainId,
     );
+
     final resultAmount = await htlc.getAmount();
     resultAmount.map(
       success: (amount) => etlcAmount = amount,

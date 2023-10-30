@@ -30,7 +30,7 @@ class RefundCanRefundInfo extends ConsumerWidget {
           ),
           Flexible(
             child: Text(
-              '${AppLocalizations.of(context)!.refundCanRefundYes} ${refund.amount + refund.fee} UCO',
+              '${AppLocalizations.of(context)!.refundCanRefundYes} ${refund.amount} ${refund.amountCurrency}',
               style: TextStyle(color: ArchethicThemeBase.systemPositive500),
               textAlign: TextAlign.end,
             ),
@@ -56,9 +56,13 @@ class RefundCanRefundInfo extends ConsumerWidget {
                     .refundCanRefundDateLock
                     .replaceAll(
                       '%1',
+                      '${refund.amount} ${refund.amountCurrency}',
+                    )
+                    .replaceAll(
+                      '%2',
                       DateFormat.yMd(
                         Localizations.localeOf(context).languageCode,
-                      ).add_Hms().format(
+                      ).add_Hm().format(
                             DateTime.fromMillisecondsSinceEpoch(
                               refund.htlcDateLock! * 1000,
                             ).toLocal(),

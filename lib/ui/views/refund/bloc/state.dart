@@ -15,6 +15,7 @@ class RefundFormState with _$RefundFormState {
     bool? addressOk,
     int? htlcDateLock,
     @Default(0) double amount,
+    @Default('') String amountCurrency,
     @Default(0) double fee,
     @Default(false) htlcCanRefund,
     BridgeWallet? evmWallet,

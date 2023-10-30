@@ -1,4 +1,5 @@
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
+import 'package:aebridge/ui/views/util/components/format_address_link_copy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -16,10 +17,14 @@ class RefundInfosWallet extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          refund.evmWallet!.nameAccount,
-          textAlign: TextAlign.end,
-        ),
+        if (refund.chainId != null)
+          Align(
+            alignment: Alignment.centerRight,
+            child: FormatAddressLinkCopy(
+              address: refund.evmWallet!.nameAccount,
+              chainId: refund.chainId!,
+            ),
+          ),
         Text(
           refund.evmWallet!.endpoint,
           textAlign: TextAlign.end,

@@ -2,7 +2,7 @@ name: aebridge
 description: Enable interoperability and facilitate the transfer of data and assets between the two blockchains.
 publish_to: "none"
 
-version: 0.0.9+18
+version: 0.0.9+19
 
 environment:
   sdk: ">=3.1.0 <4.0.0"
@@ -117,7 +117,7 @@ flutter:
     - lib/domain/repositories/blockchains_list.json
     - lib/domain/repositories/tokens_list_per_bridge.json
     - contracts/evm/artifacts/contracts/Pool/PoolBase.sol/PoolBase.json
-    - contracts/evm/artifacts/interfaces/IHTLC.sol/IHTLC.json
+    - contracts/evm/artifacts/contracts/HTLC/HTLCBase.sol/HTLCBase.json
     - contracts/evm/artifacts/contracts/HTLC/HTLC_ERC.sol/HTLC_ERC.json
     - contracts/evm/artifacts/contracts/HTLC/HTLC_ETH.sol/HTLC_ETH.json
     - contracts/evm/artifacts/interfaces/IPool.sol/IPool.json

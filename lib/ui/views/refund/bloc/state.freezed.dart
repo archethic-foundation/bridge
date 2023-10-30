@@ -24,6 +24,7 @@ mixin _$RefundFormState {
   bool? get addressOk => throw _privateConstructorUsedError;
   int? get htlcDateLock => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
+  String get amountCurrency => throw _privateConstructorUsedError;
   double get fee => throw _privateConstructorUsedError;
   dynamic get htlcCanRefund => throw _privateConstructorUsedError;
   BridgeWallet? get evmWallet => throw _privateConstructorUsedError;
@@ -50,6 +51,7 @@ abstract class $RefundFormStateCopyWith<$Res> {
       bool? addressOk,
       int? htlcDateLock,
       double amount,
+      String amountCurrency,
       double fee,
       dynamic htlcCanRefund,
       BridgeWallet? evmWallet,
@@ -80,6 +82,7 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
     Object? addressOk = freezed,
     Object? htlcDateLock = freezed,
     Object? amount = null,
+    Object? amountCurrency = null,
     Object? fee = null,
     Object? htlcCanRefund = freezed,
     Object? evmWallet = freezed,
@@ -118,6 +121,10 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double,
+      amountCurrency: null == amountCurrency
+          ? _value.amountCurrency
+          : amountCurrency // ignore: cast_nullable_to_non_nullable
+              as String,
       fee: null == fee
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
@@ -179,6 +186,7 @@ abstract class _$$RefundFormStateImplCopyWith<$Res>
       bool? addressOk,
       int? htlcDateLock,
       double amount,
+      String amountCurrency,
       double fee,
       dynamic htlcCanRefund,
       BridgeWallet? evmWallet,
@@ -209,6 +217,7 @@ class __$$RefundFormStateImplCopyWithImpl<$Res>
     Object? addressOk = freezed,
     Object? htlcDateLock = freezed,
     Object? amount = null,
+    Object? amountCurrency = null,
     Object? fee = null,
     Object? htlcCanRefund = freezed,
     Object? evmWallet = freezed,
@@ -244,6 +253,10 @@ class __$$RefundFormStateImplCopyWithImpl<$Res>
           ? _value.amount
           : amount // ignore: cast_nullable_to_non_nullable
               as double,
+      amountCurrency: null == amountCurrency
+          ? _value.amountCurrency
+          : amountCurrency // ignore: cast_nullable_to_non_nullable
+              as String,
       fee: null == fee
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
@@ -274,6 +287,7 @@ class _$RefundFormStateImpl extends _RefundFormState {
       this.addressOk,
       this.htlcDateLock,
       this.amount = 0,
+      this.amountCurrency = '',
       this.fee = 0,
       this.htlcCanRefund = false,
       this.evmWallet,
@@ -301,6 +315,9 @@ class _$RefundFormStateImpl extends _RefundFormState {
   final double amount;
   @override
   @JsonKey()
+  final String amountCurrency;
+  @override
+  @JsonKey()
   final double fee;
   @override
   @JsonKey()
@@ -313,7 +330,7 @@ class _$RefundFormStateImpl extends _RefundFormState {
 
   @override
   String toString() {
-    return 'RefundFormState(htlcAddress: $htlcAddress, refundTxAddress: $refundTxAddress, chainId: $chainId, isAlreadyRefunded: $isAlreadyRefunded, refundOk: $refundOk, addressOk: $addressOk, htlcDateLock: $htlcDateLock, amount: $amount, fee: $fee, htlcCanRefund: $htlcCanRefund, evmWallet: $evmWallet, failure: $failure)';
+    return 'RefundFormState(htlcAddress: $htlcAddress, refundTxAddress: $refundTxAddress, chainId: $chainId, isAlreadyRefunded: $isAlreadyRefunded, refundOk: $refundOk, addressOk: $addressOk, htlcDateLock: $htlcDateLock, amount: $amount, amountCurrency: $amountCurrency, fee: $fee, htlcCanRefund: $htlcCanRefund, evmWallet: $evmWallet, failure: $failure)';
   }
 
   @override
@@ -334,6 +351,8 @@ class _$RefundFormStateImpl extends _RefundFormState {
             (identical(other.htlcDateLock, htlcDateLock) ||
                 other.htlcDateLock == htlcDateLock) &&
             (identical(other.amount, amount) || other.amount == amount) &&
+            (identical(other.amountCurrency, amountCurrency) ||
+                other.amountCurrency == amountCurrency) &&
             (identical(other.fee, fee) || other.fee == fee) &&
             const DeepCollectionEquality()
                 .equals(other.htlcCanRefund, htlcCanRefund) &&
@@ -353,6 +372,7 @@ class _$RefundFormStateImpl extends _RefundFormState {
       addressOk,
       htlcDateLock,
       amount,
+      amountCurrency,
       fee,
       const DeepCollectionEquality().hash(htlcCanRefund),
       evmWallet,
@@ -376,6 +396,7 @@ abstract class _RefundFormState extends RefundFormState {
       final bool? addressOk,
       final int? htlcDateLock,
       final double amount,
+      final String amountCurrency,
       final double fee,
       final dynamic htlcCanRefund,
       final BridgeWallet? evmWallet,
@@ -398,6 +419,8 @@ abstract class _RefundFormState extends RefundFormState {
   int? get htlcDateLock;
   @override
   double get amount;
+  @override
+  String get amountCurrency;
   @override
   double get fee;
   @override

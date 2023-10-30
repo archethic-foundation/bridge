@@ -18,14 +18,9 @@ class EVMHTLC with EVMBridgeProcessMixin {
   EVMHTLC(
     this.providerEndpoint,
     this.htlcContractAddress,
-    this.chainId, {
-    this.web3ClientProvided,
-  }) {
-    if (web3ClientProvided != null) {
-      web3Client = web3ClientProvided;
-    } else {
-      web3Client = Web3Client(providerEndpoint!, Client());
-    }
+    this.chainId,
+  ) {
+    web3Client = Web3Client(providerEndpoint!, Client());
   }
 
   final String? providerEndpoint;
@@ -41,8 +36,10 @@ class EVMHTLC with EVMBridgeProcessMixin {
       () async {
         final evmWalletProvider = sl.get<EVMWalletProvider>();
 
-        final contractHTLC =
-            await getDeployedContract(contractNameIHTLC, htlcContractAddress);
+        final contractHTLC = await getDeployedContract(
+          contractNameHTLCBase,
+          htlcContractAddress,
+        );
 
         final transactionRefund = Transaction.callContract(
           contract: contractHTLC,
@@ -143,8 +140,10 @@ class EVMHTLC with EVMBridgeProcessMixin {
   Future<Result<double, Failure>> getAmount() async {
     return Result.guard(
       () async {
-        final contractHTLC =
-            await getDeployedContract(contractNameIHTLC, htlcContractAddress);
+        final contractHTLC = await getDeployedContract(
+          contractNameHTLCBase,
+          htlcContractAddress,
+        );
 
         final amountMap = await web3Client!.call(
           contract: contractHTLC,
@@ -161,15 +160,37 @@ class EVMHTLC with EVMBridgeProcessMixin {
     );
   }
 
+  Future<Result<String, Failure>> getAmountCurrency(
+    String nativeCurrency,
+  ) async {
+    return Result.guard(() async {
+      final contractHTLCERC =
+          await getDeployedContract(contractNameHTLCERC, htlcContractAddress);
+      var currency = nativeCurrency;
+      try {
+        await web3Client!.call(
+          contract: contractHTLCERC,
+          function: contractHTLCERC.function('token'),
+          params: [],
+        );
+        currency = 'UCO';
+      } catch (e) {
+        debugPrint(e.toString());
+      }
+
+      return currency;
+    });
+  }
+
   Future<int> _getDateLockTime() async {
     final contract =
-        await getDeployedContract(contractNameIHTLC, htlcContractAddress);
+        await getDeployedContract(contractNameHTLCBase, htlcContractAddress);
     return _getLockTime(contract);
   }
 
   Future<bool> _isCanRefund() async {
     final contract =
-        await getDeployedContract(contractNameIHTLC, htlcContractAddress);
+        await getDeployedContract(contractNameHTLCBase, htlcContractAddress);
     final canRefundMap = await web3Client!.call(
       contract: contract,
       function: contract.function('canRefund'),
@@ -206,7 +227,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
 
   Future<int> getStatus() async {
     final contractHTLC =
-        await getDeployedContract(contractNameIHTLC, htlcContractAddress);
+        await getDeployedContract(contractNameHTLCBase, htlcContractAddress);
 
     final statusResult = await web3Client!.call(
       contract: contractHTLC,
