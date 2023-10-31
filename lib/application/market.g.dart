@@ -23,7 +23,7 @@ final _marketRepositoryProvider =
 
 typedef _MarketRepositoryRef = AutoDisposeProviderRef<MarketRepository>;
 String _$getPriceFromCoinIdHash() =>
-    r'3cf19e37bc7dc6adeb700b86212fc3bb41311331';
+    r'e733a49f3cf9def2d0f88ba60991026a2808b4dd';
 
 /// Copied from Dart SDK
 class _SystemHash {

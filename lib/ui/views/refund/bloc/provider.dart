@@ -14,25 +14,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webthree/webthree.dart' as webthree;
 
-final _initialRefundFormProvider = Provider<RefundFormState>(
-  (ref) {
-    throw UnimplementedError();
-  },
-);
-
-final _refundFormProvider =
+final _refundFormNotifierProvider =
     NotifierProvider.autoDispose<RefundFormNotifier, RefundFormState>(
   () {
     return RefundFormNotifier();
   },
-  dependencies: [
-    RefundFormProvider.initialRefundForm,
-  ],
 );
 
 class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
-  RefundFormNotifier();
-
   @override
   RefundFormState build() {
     if (sl.isRegistered<EVMWalletProvider>()) {
@@ -40,9 +29,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     }
     ref.read(SessionProviders.session.notifier).cancelAllWalletsConnection();
 
-    return ref.watch(
-      RefundFormProvider.initialRefundForm,
-    );
+    return const RefundFormState();
   }
 
   Future<void> setContractAddress(String htlcAddress) async {
@@ -154,12 +141,24 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     }
   }
 
+  void setWalletConfirmation(
+    WalletConfirmationRefund? walletConfirmation,
+  ) {
+    state = state.copyWith(
+      walletConfirmation: walletConfirmation,
+    );
+  }
+
   void setFailure(
-    Failure failure,
+    Failure? failure,
   ) {
     state = state.copyWith(
       failure: failure,
     );
+  }
+
+  void setRefundInProgress(bool refundInProgress) {
+    state = state.copyWith(refundInProgress: refundInProgress);
   }
 
   void setAmount(double amount) {
@@ -178,7 +177,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     state = state.copyWith(refundOk: refundOk);
   }
 
-  void setRefundTxAddress(String refundTxAddress) {
+  void setRefundTxAddress(String? refundTxAddress) {
     state = state.copyWith(refundTxAddress: refundTxAddress);
   }
 
@@ -230,7 +229,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
 
   Future<void> refund(BuildContext context, WidgetRef ref) async {
     //
-    if (await control() == false || state.chainId == null) {
+    if (state.chainId == null) {
       return;
     }
 
@@ -262,7 +261,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
           );
           await evmWalletProvider.connect(currentChainId);
           if (evmWalletProvider.walletConnected) {
-            debugPrint('Connected to ${evmWalletProvider.accountName}');
             evmWallet = evmWallet.copyWith(
               wallet: 'evmWallet',
               isConnected: true,
@@ -293,6 +291,5 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
 }
 
 abstract class RefundFormProvider {
-  static final refundForm = _refundFormProvider;
-  static final initialRefundForm = _initialRefundFormProvider;
+  static final refundForm = _refundFormNotifierProvider;
 }

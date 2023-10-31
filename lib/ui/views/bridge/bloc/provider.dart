@@ -66,8 +66,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       timestampExec: bridgeFormState.timestampExec,
     );
     await setFailure(bridgeFormState.failure);
-
-    debugPrint('$state');
     return state;
   }
 
@@ -109,7 +107,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     );
     await setFailure(null);
     if (blockchainFrom.isArchethic) {
-      debugPrint('connect to Archethic Wallet');
       final connection = await sessionNotifier.connectToArchethicWallet(
         true,
         blockchainFrom,
@@ -125,7 +122,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
         },
       );
     } else {
-      debugPrint('connect to EVM Wallet');
       final connection =
           await sessionNotifier.connectToEVMWallet(blockchainFrom, true);
       await connection.map(
@@ -173,7 +169,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
 
     await setFailure(null);
     if (blockchainTo.isArchethic) {
-      debugPrint('connect to Archethic Wallet');
       final connection = await sessionNotifier.connectToArchethicWallet(
         false,
         blockchainTo,
@@ -189,7 +184,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
         },
       );
     } else {
-      debugPrint('connect to EVM Wallet');
       final connection =
           await sessionNotifier.connectToEVMWallet(blockchainTo, false);
       await connection.map(
@@ -321,7 +315,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
           providerEndpoint: state.blockchainTo!.providerEndpoint,
         ).future,
       );
-      debugPrint('poolTargetBalance $poolTargetBalance');
       setPoolTargetBalance(poolTargetBalance);
     }
   }
@@ -620,8 +613,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       );
       return false;
     }
-    debugPrint('state.tokenToBridgeBalance ${state.tokenToBridgeBalance}');
-    debugPrint('state.bridgeProcessStep ${state.bridgeProcessStep.name}');
 
     if (state.tokenToBridgeBalance < state.tokenToBridgeAmount) {
       await setFailure(
@@ -713,7 +704,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       );
     }
     setResumeProcess(false);
-    debugPrint('Bridge process finished');
     await setTransferInProgress(false);
   }
 }

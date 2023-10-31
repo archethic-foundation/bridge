@@ -26,7 +26,6 @@ class LocalHistoryCardOptionsLogs extends ConsumerWidget {
         onTap: () async {
           final formattedJson =
               const JsonEncoder.withIndent('  ').convert(bridge);
-          debugPrint('$formattedJson}');
           await LocalHistoryLogsPopup.getDialog(
             context,
             ref,

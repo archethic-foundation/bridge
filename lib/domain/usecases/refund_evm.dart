@@ -12,8 +12,12 @@ class RefunEVMCase {
     String htlcContractAddress,
     int chaindId,
   ) async {
-    final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier);
-
+    final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier)
+      ..setRefundTxAddress(null)
+      ..setRefundInProgress(true)
+      ..setFailure(null)
+      ..setRefundOk(false)
+      ..setWalletConfirmation(null);
     final result = await EVMHTLC(
       providerEndPoint,
       htlcContractAddress,
@@ -23,9 +27,19 @@ class RefunEVMCase {
       success: (refundTxAddress) {
         refundNotifier
           ..setRefundTxAddress(refundTxAddress)
-          ..setRefundOk(true);
+          ..setRefundInProgress(false)
+          ..setFailure(null)
+          ..setRefundOk(true)
+          ..setWalletConfirmation(null);
       },
-      failure: refundNotifier.setFailure,
+      failure: (failure) {
+        refundNotifier
+          ..setRefundTxAddress(null)
+          ..setRefundInProgress(false)
+          ..setFailure(failure)
+          ..setRefundOk(false)
+          ..setWalletConfirmation(null);
+      },
     );
   }
 }

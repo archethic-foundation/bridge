@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
+import 'dart:developer' as dev;
 import 'dart:math';
 
 import 'package:aebridge/application/evm_wallet.dart';
@@ -10,7 +11,6 @@ import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
@@ -84,7 +84,6 @@ class EVMLP with EVMBridgeProcessMixin {
   }) async {
     return Result.guard(() async {
       final evmWalletProvider = sl.get<EVMWalletProvider>();
-      debugPrint('providerEndpoint: $providerEndpoint');
       final web3Client = Web3Client(providerEndpoint!, Client());
       late String htlcContractAddress;
 
@@ -99,8 +98,6 @@ class EVMLP with EVMBridgeProcessMixin {
         isERC20,
         evmWalletProvider.currentAddress!,
       );
-
-      debugPrint('contractLP mintHTLC ok');
 
       late String txAddress;
       var timeout = false;
@@ -118,7 +115,7 @@ class EVMLP with EVMBridgeProcessMixin {
             .take(1)
             .listen(
           (event) {
-            debugPrint('Event ContractMinted = $event');
+            dev.log('Event ContractMinted = $event');
           },
         );
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
@@ -134,22 +131,18 @@ class EVMLP with EVMBridgeProcessMixin {
         await subscription.asFuture().timeout(
           const Duration(seconds: 240),
           onTimeout: () {
-            debugPrint('Event ContractMinted = timeout');
             return timeout = true;
           },
         );
         await subscription.cancel();
-      } catch (e) {
-        debugPrint('e $e');
+      } catch (e, stackTrace) {
+        dev.log('$e', stackTrace: stackTrace);
         await subscription.cancel();
         rethrow;
       }
       if (timeout) {
-        debugPrint('timeout');
         throw const Failure.timeout();
       }
-
-      debugPrint('HTLC Contract deployed');
 
       // Get HTLC address
       final transactionMintedSwapsHashes = await web3Client.call(
@@ -161,8 +154,6 @@ class EVMLP with EVMBridgeProcessMixin {
       );
 
       htlcContractAddress = transactionMintedSwapsHashes[0].hex;
-      debugPrint('HTLC address: $htlcContractAddress');
-
       return (htlcContractAddress: htlcContractAddress, txAddress: txAddress);
     });
   }
@@ -179,7 +170,6 @@ class EVMLP with EVMBridgeProcessMixin {
     return Result.guard(
       () async {
         final evmWalletProvider = sl.get<EVMWalletProvider>();
-        debugPrint('providerEndpoint: $providerEndpoint');
         final web3Client = Web3Client(providerEndpoint!, Client());
         late String htlcContractAddress;
 
@@ -188,14 +178,6 @@ class EVMLP with EVMBridgeProcessMixin {
 
         final bigIntValue = BigInt.from(amount * pow(10, 18));
         final ethAmount = EtherAmount.fromBigInt(EtherUnit.wei, bigIntValue);
-
-        debugPrint('${hexToBytes(secretHash.secretHash!)}');
-        debugPrint('${ethAmount.getInWei}');
-        debugPrint('${BigInt.from(endTime)}');
-        debugPrint('${hexToBytes(secretHash.secretHashSignature!.r!)}');
-        debugPrint('${hexToBytes(secretHash.secretHashSignature!.s!)}');
-        debugPrint('${BigInt.from(secretHash.secretHashSignature!.v!)}');
-
         final transactionProvisionHTLC = Transaction.callContract(
           contract: contractLP,
           function: contractLP.function('provisionHTLC'),
@@ -209,8 +191,6 @@ class EVMLP with EVMBridgeProcessMixin {
           ],
           maxGas: 1500000,
         );
-
-        debugPrint('contractLP provisionHTLC ok');
 
         late String txAddress;
         var timeout = false;
@@ -228,7 +208,7 @@ class EVMLP with EVMBridgeProcessMixin {
               .take(1)
               .listen(
             (event) {
-              debugPrint('Event ContractProvisioned = $event');
+              dev.log('Event ContractProvisioned = $event');
             },
           );
           final bridgeNotifier =
@@ -245,24 +225,20 @@ class EVMLP with EVMBridgeProcessMixin {
           await subscription.asFuture().timeout(
             const Duration(seconds: 240),
             onTimeout: () {
-              debugPrint('Event ContractProvisioned = timeout');
               return timeout = true;
             },
           );
           await subscription.cancel();
-        } catch (e) {
-          debugPrint('e $e');
+        } catch (e, stackTrace) {
+          dev.log('$e', stackTrace: stackTrace);
 
           await subscription.cancel();
           rethrow;
         }
         if (timeout) {
-          debugPrint('timeout');
           throw const Failure.timeout();
         }
 
-        debugPrint('HTLC Contract deployed');
-        debugPrint('secretHash : ${hexToBytes(secretHash.secretHash!)}');
         // Get HTLC address
         final transactionProvisionedSwapsHashes = await web3Client.call(
           contract: contractLP,
@@ -272,8 +248,8 @@ class EVMLP with EVMBridgeProcessMixin {
           ],
         );
 
+        // TODO(reddwarf03): .. check
         htlcContractAddress = transactionProvisionedSwapsHashes[0].hex;
-        debugPrint('HTLC address: $htlcContractAddress');
         if (htlcContractAddress ==
             '0x0000000000000000000000000000000000000000') {
           throw const Failure.insufficientPoolFunds();
@@ -301,8 +277,6 @@ class EVMLP with EVMBridgeProcessMixin {
         );
 
         final BigInt safetyModuleFeeRate = safetyModuleFeeRateMap[0];
-        debugPrint('HTLC safetyModuleFeeRate: $safetyModuleFeeRate');
-
         return safetyModuleFeeRate.toDouble() / 100000 * 100;
       },
     );
@@ -325,8 +299,6 @@ class EVMLP with EVMBridgeProcessMixin {
         );
 
         final EthereumAddress safetyModuleAddress = safetyModuleAddressMap[0];
-        debugPrint('HTLC safetyModuleAddress: $safetyModuleAddress');
-
         return safetyModuleAddress.hexEip55;
       },
     );

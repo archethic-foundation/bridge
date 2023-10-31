@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
+import 'dart:developer' as dev;
 
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/domain/models/failures.dart';
@@ -102,8 +103,8 @@ class BridgeArchethicToEVMUseCase
           await bridgeNotifier.setTransferInProgress(false);
           return;
         }
-      } catch (e) {
-        debugPrint(e.toString());
+      } catch (e, stackTrace) {
+        dev.log('$e', stackTrace: stackTrace);
         await bridgeNotifier.setFailure(
           Failure.other(cause: e.toString()),
         );

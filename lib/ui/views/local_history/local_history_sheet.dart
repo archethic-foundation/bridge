@@ -107,15 +107,15 @@ class LocalHistorySheet extends ConsumerWidget {
                       padding: const EdgeInsets.all(8),
                       itemCount: data.value.length,
                       itemBuilder: (context, index) {
-                        debugPrint(json.encode(data.value[index]));
                         // Conversion LinkedMap to Map
                         final bridge = BridgeFormState.fromJson(
                           json.decode(json.encode(data.value[index]))
                               as Map<String, dynamic>,
                         );
                         if (localHistory.processCompletedIncluded == false &&
-                            bridge.failure == null)
+                            bridge.failure == null) {
                           return const SizedBox.shrink();
+                        }
                         if (localHistory.filterPeriodStart != null &&
                             bridge.timestampExec != null &&
                             DateTime.fromMillisecondsSinceEpoch(

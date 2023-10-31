@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:developer' as dev;
 import 'dart:html';
 import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
@@ -23,7 +25,6 @@ class EVMWalletProvider extends ChangeNotifier {
         eth = window.ethereum;
 
         if (eth == null) {
-          debugPrint('EVM Wallet is not available');
           throw Exception('EVM Wallet is not available');
         }
 
@@ -34,9 +35,6 @@ class EVMWalletProvider extends ChangeNotifier {
           throw Exception('EVM Wallet is not available');
         }
         final currentChain = await web3Client!.getChainId();
-        debugPrint(
-          'currentChain: $currentChain',
-        );
         return currentChain.toInt();
       } catch (e) {
         throw Exception('Please, connect your Wallet.');
@@ -81,7 +79,7 @@ class EVMWalletProvider extends ChangeNotifier {
         notifyListeners();
         return true;
       } catch (e) {
-        debugPrint(e.toString());
+        dev.log(e.toString());
         return false;
       }
     }
@@ -120,8 +118,6 @@ class EVMWalletProvider extends ChangeNotifier {
             Client(),
           );
 
-          debugPrint('erc20address $erc20address');
-
           final abiTokenStringJson = jsonDecode(
             await rootBundle.loadString(
               'contracts/evm/artifacts/@openzeppelin/contracts/token/ERC20/IERC20.sol/IERC20.json',
@@ -136,7 +132,6 @@ class EVMWalletProvider extends ChangeNotifier {
             EthereumAddress.fromHex(erc20address),
           );
 
-          debugPrint('currentAddress $currentAddress');
           final balanceResponse = await client.call(
             contract: contractToken,
             function: contractToken.function('balanceOf'),
@@ -144,20 +139,13 @@ class EVMWalletProvider extends ChangeNotifier {
               EthereumAddress.fromHex(address),
             ],
           );
-
-          debugPrint(
-            EtherAmount.inWei(balanceResponse[0])
-                .getValueInUnit(EtherUnit.ether)
-                .toString(),
-          );
-
           return EtherAmount.inWei(balanceResponse[0])
               .getValueInUnit(EtherUnit.ether);
         default:
           return 0.0;
       }
-    } catch (e) {
-      debugPrint(e.toString());
+    } catch (e, stackTrace) {
+      dev.log('$e', stackTrace: stackTrace);
       return 0.0;
     }
   }
@@ -186,8 +174,6 @@ class EVMWalletProvider extends ChangeNotifier {
             Client(),
           );
 
-          debugPrint('erc20address $erc20address');
-
           final abiTokenStringJson = jsonDecode(
             await rootBundle.loadString(
               'contracts/evm/artifacts/@openzeppelin/contracts/token/ERC20/IERC20.sol/IERC20.json',
@@ -208,16 +194,12 @@ class EVMWalletProvider extends ChangeNotifier {
             params: [],
           );
 
-          debugPrint(
-            'decimalsResponse ${decimalsResponse[0]}',
-          );
-
           return min(defaultDecimal, decimalsResponse[0].toInt());
         default:
           return defaultDecimal;
       }
-    } catch (e) {
-      debugPrint('decimalsResponse $e');
+    } catch (e, stackTrace) {
+      dev.log('$e', stackTrace: stackTrace);
       return defaultDecimal;
     }
   }

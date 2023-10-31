@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 import 'dart:convert';
+import 'dart:developer' as dev;
 import 'dart:math';
 
 import 'package:aebridge/application/contracts/archethic_contract_chargeable.dart';
@@ -87,14 +88,6 @@ mixin EVMBridgeProcessMixin {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     final evmLP = EVMLP(bridge.blockchainTo!.providerEndpoint);
-    debugPrint(
-      'bridge.blockchainTo!.providerEndpoint ${bridge.blockchainTo!.providerEndpoint}',
-    );
-    debugPrint(
-      'bridge.tokenToBridge!.poolAddressTo: ${bridge.tokenToBridge!.poolAddressTo}',
-    );
-    debugPrint('bridge.blockchainTo!.chainId: ${bridge.blockchainTo!.chainId}');
-
     final resultDeployAndProvisionSignedHTLC =
         await evmLP.deployAndProvisionSignedHTLC(
       ref,
@@ -296,10 +289,9 @@ mixin EVMBridgeProcessMixin {
         transaction,
         chainId: chainId,
       );
-      debugPrint('transactionHash $transactionHash');
       return transactionHash;
-    } catch (e) {
-      debugPrint('error $e');
+    } catch (e, stackTrace) {
+      dev.log('$e', stackTrace: stackTrace);
 
       if (e is EthereumUserRejected) {
         throw const Failure.userRejected();
@@ -319,40 +311,6 @@ mixin EVMBridgeProcessMixin {
       }
       throw Failure.other(cause: e.toString());
     }
-  }
-
-// wait and report:
-  Future<TransactionReceipt> watchTxStatus(
-    Web3Client web3client,
-    String txHash, {
-    int delay = 1,
-    int retries = 10,
-  }) async {
-    TransactionReceipt? receipt;
-    try {
-      debugPrint('async watch tx status');
-      receipt = await web3client.getTransactionReceipt(txHash);
-    } catch (err) {
-      debugPrint('could not get $txHash receipt, try again');
-    }
-
-    var _delay = delay;
-    var _retries = retries;
-    while (receipt == null) {
-      debugPrint('retry: waiting for receipt');
-      await Future.delayed(Duration(seconds: _delay));
-      _delay *= 2;
-      _retries--;
-      if (_retries == 0) {
-        throw Exception('Transaction $txHash not mined yet...');
-      }
-      try {
-        receipt = await web3client.getTransactionReceipt(txHash);
-      } catch (err) {
-        debugPrint('could not get $txHash receipt, try again');
-      }
-    }
-    return receipt;
   }
 
   Future<BigInt> estimateGas(
@@ -390,7 +348,6 @@ mixin EVMBridgeProcessMixin {
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
 
     Result<String, Failure>? resultSignedWithdraw;
-    debugPrint('bridge.tokenToBridge!.type: ${bridge.tokenToBridge!.type}');
     if (bridge.tokenToBridge!.type == 'Native') {
       final evmHTLCERC = EVMHTLCERC(
         bridge.blockchainTo!.providerEndpoint,

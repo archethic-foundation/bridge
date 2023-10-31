@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer' as dev;
 
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
@@ -8,7 +9,6 @@ import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
@@ -50,7 +50,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
             )
             .take(1)
             .listen((event) {
-          debugPrint('Event FundsReceived = $event');
+          dev.log('Event FundsReceived = $event');
         });
 
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
@@ -71,18 +71,16 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
         await subscription.asFuture().timeout(
           const Duration(seconds: 240),
           onTimeout: () {
-            debugPrint('Event FundsReceived = timeout');
             return timeout = true;
           },
         );
         await subscription.cancel();
-      } catch (e) {
-        debugPrint('e $e');
+      } catch (e, stackTrace) {
+        dev.log('e $e', stackTrace: stackTrace);
         await subscription.cancel();
         rethrow;
       }
       if (timeout) {
-        debugPrint('timeout');
         throw const Failure.timeout();
       }
     });
@@ -129,7 +127,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
               )
               .take(1)
               .listen((event) {
-            debugPrint('Event Withdrawn = $event');
+            dev.log('Event Withdrawn = $event');
           });
 
           final bridgeNotifier =
@@ -146,22 +144,18 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
           await subscription.asFuture().timeout(
             const Duration(seconds: 240),
             onTimeout: () {
-              debugPrint('Event Withdrawn = timeout');
               return timeout = true;
             },
           );
           await subscription.cancel();
-        } catch (e) {
-          debugPrint('e $e');
+        } catch (e, stackTrace) {
+          dev.log('e $e', stackTrace: stackTrace);
           await subscription.cancel();
           rethrow;
         }
         if (timeout) {
-          debugPrint('timeout');
           throw const Failure.timeout();
         }
-
-        debugPrint('signedWithdrawTx: $withdrawTx');
         return withdrawTx;
       },
     );
@@ -170,22 +164,24 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
   Future<Result<double, Failure>> getFee() async {
     return Result.guard(
       () async {
-        final contractHTLC = await getDeployedContract(
-          contractNameChargeableHTLCERC,
-          htlcContractAddress,
-        );
+        try {
+          final contractHTLC = await getDeployedContract(
+            contractNameChargeableHTLCERC,
+            htlcContractAddress,
+          );
 
-        final feeMap = await web3Client!.call(
-          contract: contractHTLC,
-          function: contractHTLC.function('fee'),
-          params: [],
-        );
+          final feeMap = await web3Client!.call(
+            contract: contractHTLC,
+            function: contractHTLC.function('fee'),
+            params: [],
+          );
 
-        final BigInt fee = feeMap[0];
-        debugPrint('HTLC fee: $fee');
-
-        final etherAmount = EtherAmount.fromBigInt(EtherUnit.wei, fee);
-        return etherAmount.getValueInUnit(EtherUnit.ether);
+          final BigInt fee = feeMap[0];
+          final etherAmount = EtherAmount.fromBigInt(EtherUnit.wei, fee);
+          return etherAmount.getValueInUnit(EtherUnit.ether);
+        } catch (e) {
+          throw const Failure.notHTLC();
+        }
       },
     );
   }

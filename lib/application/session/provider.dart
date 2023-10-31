@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
+import 'dart:developer' as dev;
 
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/state.dart';
@@ -12,7 +13,6 @@ import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:aebridge/util/service_locator.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
-import 'package:flutter/cupertino.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
@@ -24,7 +24,6 @@ class _SessionNotifier extends Notifier<Session> {
   @override
   Session build() {
     ref.onDispose(() {
-      debugPrint('dispose SessionNotifier');
       connectionStatusSubscription?.cancel();
     });
     return const Session();
@@ -48,8 +47,6 @@ class _SessionNotifier extends Notifier<Session> {
         try {
           await evmWalletProvider.connect(blockchain.chainId);
           if (evmWalletProvider.walletConnected) {
-            debugPrint('Connected to ${blockchain.name}');
-
             bridgeWallet = bridgeWallet.copyWith(
               wallet: 'evmWallet',
               isConnected: true,
@@ -94,15 +91,14 @@ class _SessionNotifier extends Notifier<Session> {
           ),
           replyBaseUrl: 'aebridge://archethic.tech',
         );
-      } catch (e) {
-        debugPrint('$e');
+      } catch (e, stackTrace) {
+        dev.log('$e', stackTrace: stackTrace);
         throw const Failure.connectivityArchethic();
       }
 
       final endpointResponse = await archethicDAppClient.getEndpoint();
       await endpointResponse.when(
         failure: (failure) {
-          debugPrint(failure.message ?? 'Connection failed');
           bridgeWallet = bridgeWallet.copyWith(
             isConnected: false,
             error: 'Please, open your Archethic Wallet.',
@@ -111,8 +107,6 @@ class _SessionNotifier extends Notifier<Session> {
           throw const Failure.connectivityArchethic();
         },
         success: (result) async {
-          debugPrint('DApp is connected to archethic wallet.');
-
           switch (blockchain.env) {
             case '1-mainnet':
               if (result.endpointUrl != 'https://mainnet.archethic.net') {
@@ -174,7 +168,6 @@ class _SessionNotifier extends Notifier<Session> {
               archethicDAppClient!.connectionStateStream.listen((event) {
             event.when(
               disconnected: () {
-                debugPrint('Disconnected');
                 bridgeWallet = bridgeWallet.copyWith(
                   wallet: '',
                   endpoint: '',
@@ -187,7 +180,6 @@ class _SessionNotifier extends Notifier<Session> {
                 _fillState(bridgeWallet, from);
               },
               connected: () {
-                debugPrint('Connected');
                 bridgeWallet = bridgeWallet.copyWith(
                   wallet: 'archethic',
                   isConnected: true,
@@ -196,7 +188,6 @@ class _SessionNotifier extends Notifier<Session> {
                 _fillState(bridgeWallet, from);
               },
               connecting: () {
-                debugPrint('Connecting');
                 bridgeWallet = bridgeWallet.copyWith(
                   wallet: '',
                   endpoint: '',
@@ -241,7 +232,6 @@ class _SessionNotifier extends Notifier<Session> {
                     _fillState(bridgeWallet, from);
                     return;
                   }
-                  debugPrint('event.genesisAddress ${event.genesisAddress}');
                   bridgeWallet = bridgeWallet.copyWith(
                     oldNameAccount: bridgeWallet.nameAccount,
                     genesisAddress: event.genesisAddress,

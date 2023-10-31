@@ -8,7 +8,6 @@ import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:aebridge/util/transaction_bridge_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ArchethicContractChargeable with TransactionBridgeMixin {
@@ -79,7 +78,6 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
         resultDeployHTLC.map(
           success: (success) {},
           failure: (failure) {
-            debugPrint('deployChargeableHTLC - $failure');
             throw failure;
           },
         );
@@ -154,11 +152,6 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
         ))
             .first;
         await bridgeNotifier.setWalletConfirmation(null);
-
-        debugPrint(
-          'revealSecretToChargeableHTLC - Tx address: ${transaction.address!.address!}',
-        );
-
         await sendTransactions(
           <Transaction>[transaction],
         );

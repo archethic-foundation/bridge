@@ -13,8 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gradient_borders/gradient_borders.dart';
 
 class RefundFormSheet extends ConsumerWidget {
-  const RefundFormSheet({this.htlcAddress, super.key});
-  final String? htlcAddress;
+  const RefundFormSheet({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Align(
@@ -54,30 +53,30 @@ class RefundFormSheet extends ConsumerWidget {
               return ArchethicScrollbar(
                 child: Container(
                   constraints: BoxConstraints(minHeight: constraint.maxHeight),
-                  child: IntrinsicHeight(
+                  child: const IntrinsicHeight(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const RefundInfo(),
-                        const SizedBox(
+                        RefundInfo(),
+                        SizedBox(
                           height: 10,
                         ),
-                        RefundContractAddress(contractAddress: htlcAddress),
-                        const RefundInfosWallet(),
-                        const RefundCanRefundInfo(),
-                        const SizedBox(
+                        RefundContractAddress(),
+                        RefundInfosWallet(),
+                        RefundCanRefundInfo(),
+                        SizedBox(
                           height: 20,
                         ),
-                        const Spacer(),
-                        const RefundMessage(),
-                        const SizedBox(
+                        Spacer(),
+                        RefundMessage(),
+                        SizedBox(
                           height: 20,
                         ),
-                        const RefundTransaction(),
-                        const RefundConnectWalletButton(),
-                        const RefundButton(),
-                        const SizedBox(
+                        RefundTransaction(),
+                        RefundConnectWalletButton(),
+                        RefundButton(),
+                        SizedBox(
                           height: 10,
                         ),
                       ],

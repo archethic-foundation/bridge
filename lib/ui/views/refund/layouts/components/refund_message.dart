@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
+import 'package:aebridge/ui/views/refund/bloc/state.dart';
 import 'package:aebridge/ui/views/util/components/info_banner.dart';
 import 'package:aebridge/ui/views/util/failure_message.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,15 @@ class RefundMessage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final refund = ref.watch(RefundFormProvider.refundForm);
+
+    if (refund.walletConfirmation == WalletConfirmationRefund.evm) {
+      return InfoBanner(
+        AppLocalizations.of(context)!.bridgeInProgressConfirmEVMWallet,
+        InfoBannerType.request,
+        width: MediaQuery.of(context).size.width * 0.9,
+      );
+    }
+
     if (refund.refundOk) {
       return SizedBox(
         height: 40,

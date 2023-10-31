@@ -37,9 +37,6 @@ class _BridgeSheetState extends ConsumerState<BridgeSheet> {
   @override
   Widget build(BuildContext context) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
-
-    debugPrint('bridgeSheet: ${bridge.bridgeProcessStep}');
-
     return Align(
       child: Container(
         width: 650,

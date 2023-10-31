@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
+import 'dart:developer' as dev;
 
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
@@ -7,8 +8,9 @@ import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
+import 'package:aebridge/ui/views/refund/bloc/provider.dart';
+import 'package:aebridge/ui/views/refund/bloc/state.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
@@ -51,6 +53,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
         var refundTx = '';
         var timeout = false;
         late StreamSubscription<FilterEvent> subscription;
+        final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier);
         try {
           subscription = web3Client!
               .events(
@@ -62,12 +65,11 @@ class EVMHTLC with EVMBridgeProcessMixin {
               .take(1)
               .listen(
             (event) {
-              debugPrint('Event ContractMinted = $event');
+              dev.log('Event ContractMinted = $event');
             },
           );
-          final bridgeNotifier =
-              ref.read(BridgeFormProvider.bridgeForm.notifier);
-          await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
+
+          refundNotifier.setWalletConfirmation(WalletConfirmationRefund.evm);
           refundTx = await sendTransactionWithErrorManagement(
             web3Client!,
             evmWalletProvider.credentials!,
@@ -75,27 +77,25 @@ class EVMHTLC with EVMBridgeProcessMixin {
             chainId,
           );
 
-          await bridgeNotifier.setWalletConfirmation(null);
+          refundNotifier.setWalletConfirmation(null);
 
           await subscription.asFuture().timeout(
             const Duration(seconds: 240),
             onTimeout: () {
-              debugPrint('Event ContractMinted = timeout');
               return timeout = true;
             },
           );
           await subscription.cancel();
-        } catch (e) {
-          debugPrint('e $e');
+        } catch (e, stackTrace) {
+          dev.log('e $e', stackTrace: stackTrace);
           await subscription.cancel();
+          refundNotifier.setWalletConfirmation(null);
           rethrow;
         }
         if (timeout) {
-          debugPrint('timeout');
+          refundNotifier.setWalletConfirmation(null);
           throw const Failure.timeout();
         }
-
-        debugPrint('refundTx: $refundTx');
         return refundTx;
       },
     );
@@ -131,9 +131,6 @@ class EVMHTLC with EVMBridgeProcessMixin {
     );
 
     final BigInt lockTime = lockTimeMap[0];
-    debugPrint('HTLC lockTime: $lockTime');
-    debugPrint('Now : ${DateTime.now().millisecondsSinceEpoch ~/ 1000}');
-
     return lockTime.toInt();
   }
 
@@ -152,8 +149,6 @@ class EVMHTLC with EVMBridgeProcessMixin {
         );
 
         final BigInt amount = amountMap[0];
-        debugPrint('HTLC amount: $amount');
-
         final etherAmount = EtherAmount.fromBigInt(EtherUnit.wei, amount);
         return etherAmount.getValueInUnit(EtherUnit.ether);
       },
@@ -174,8 +169,8 @@ class EVMHTLC with EVMBridgeProcessMixin {
           params: [],
         );
         currency = 'UCO';
-      } catch (e) {
-        debugPrint('getAmountCurrency: $e');
+      } catch (e, stackTrace) {
+        dev.log('$e', stackTrace: stackTrace);
       }
 
       return currency;
@@ -200,12 +195,19 @@ class EVMHTLC with EVMBridgeProcessMixin {
     );
 
     final bool canRefund = canRefundMap[0];
-    debugPrint('HTLC canRefund: $canRefund');
-
     return canRefund;
   }
 
   Future<String> getTxRefund() async {
+    /*final evmWalletProvider = sl.get<EVMWalletProvider>();
+    await evmWalletProvider.eth!.rawRequest(
+      'eth_getFilterLogs',
+      params: [
+        htlcContractAddress,
+        JSrawRequestParams(chainId: '0x${chainId.toRadixString(16)}'),
+      ],
+    );
+
     final contractHTLC =
         await getDeployedContract(contractNameHTLCBase, htlcContractAddress);
 
@@ -215,14 +217,12 @@ class EVMHTLC with EVMBridgeProcessMixin {
         event: contractHTLC.event('Refunded'),
       ),
     );
-
-    debugPrint('events: $events');
-
     if (events.isEmpty || events[0].address == null) {
       return '';
     }
 
-    return events[0].address!.hex;
+    return events[0].address!.hex;*/
+    return '';
   }
 
   Future<int> getStatus() async {
@@ -236,8 +236,6 @@ class EVMHTLC with EVMBridgeProcessMixin {
     );
 
     final BigInt status = statusResult[0];
-    debugPrint('HTLC status: $status');
-
     return status.toInt();
   }
 
@@ -278,7 +276,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
               .take(1)
               .listen(
             (event) {
-              debugPrint('Event Withdrawn = $event');
+              dev.log('Event Withdrawn = $event');
             },
           );
           final bridgeNotifier =
@@ -295,18 +293,16 @@ class EVMHTLC with EVMBridgeProcessMixin {
           await subscription.asFuture().timeout(
             const Duration(seconds: 240),
             onTimeout: () {
-              debugPrint('Event Withdrawn = timeout');
               return timeout = true;
             },
           );
           await subscription.cancel();
-        } catch (e) {
-          debugPrint('e $e');
+        } catch (e, stackTrace) {
+          dev.log('$e', stackTrace: stackTrace);
           await subscription.cancel();
           rethrow;
         }
         if (timeout) {
-          debugPrint('timeout');
           throw const Failure.timeout();
         }
 

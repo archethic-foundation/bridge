@@ -110,7 +110,6 @@ class BridgeEVMToArchethicUseCase
     if (recoveryStep <= 5) {
       await bridgeNotifier.setCurrentStep(4);
       amount = await getEVMHTLCAmount(ref, htlcEVMAddress!);
-      debugPrint('Archethic HTLC amount $amount');
       if (amount == null) {
         await bridgeNotifier.setFailure(const Failure.invalidValue());
         await bridgeNotifier.setTransferInProgress(false);
@@ -172,13 +171,11 @@ class BridgeEVMToArchethicUseCase
       final balanceGetResponse = balanceGetResponseMap[htlcAEAddress];
       if (bridge.tokenToBridge!.type == 'ERC20') {
         checkAmount = fromBigInt(balanceGetResponse!.uco).toDouble();
-        debugPrint('amount: $amount, checkAmount: $checkAmount');
       } else {
         for (final balanceToken in balanceGetResponse!.token) {
           if (balanceToken.address!.toUpperCase() ==
               bridge.tokenToBridge!.tokenAddressTarget.toUpperCase()) {
             checkAmount = fromBigInt(balanceToken.amount).toDouble();
-            debugPrint('amount: $amount, checkAmount: $checkAmount');
           }
         }
       }
@@ -203,7 +200,6 @@ class BridgeEVMToArchethicUseCase
         if (amount == null) {
           amount = await getEVMHTLCAmount(ref, htlcEVMAddress!);
           amount ??= bridge.tokenToBridgeAmount;
-          debugPrint('Archethic HTLC amount $amount');
         }
         await revealEVMSecret(
           ref,

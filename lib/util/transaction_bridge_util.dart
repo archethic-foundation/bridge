@@ -1,10 +1,10 @@
 import 'dart:async';
+import 'dart:developer' as dev;
 
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
-import 'package:flutter/material.dart';
 
 mixin TransactionBridgeMixin {
   Future<double> calculateFees(
@@ -13,14 +13,7 @@ mixin TransactionBridgeMixin {
   }) async {
     final transactionFee =
         await sl.get<ApiService>().getTransactionFee(transaction);
-    debugPrint(
-      'Transaction ${transaction.address} : $transactionFee UCO',
-    );
-
     final fees = fromBigInt(transactionFee.fee) * slippage;
-    debugPrint(
-      'Transaction ${transaction.address} *slippage : $fees UCO',
-    );
     return fees;
   }
 
@@ -61,13 +54,11 @@ mixin TransactionBridgeMixin {
             '${sl.get<ApiService>().endpoint}/socket/websocket',
         websocketEndpoint: websocketEndpoint,
       );
-      debugPrint('Send ${transaction.address!.address}');
-
       await transactionRepository.send(
         transaction: transaction,
         onConfirmation: (confirmation) async {
           if (confirmation.isEnoughConfirmed) {
-            debugPrint(
+            dev.log(
               'nbConfirmations: ${confirmation.nbConfirmations}, transactionAddress: ${confirmation.transactionAddress}, maxConfirmations: ${confirmation.maxConfirmations}',
             );
             transactionRepository.close();
@@ -104,7 +95,7 @@ mixin TransactionBridgeMixin {
 
       while (next == false && errorDetail.isEmpty) {
         await Future.delayed(const Duration(seconds: 1));
-        debugPrint('wait...');
+        dev.log('wait...');
       }
     }
 
@@ -132,10 +123,6 @@ mixin TransactionBridgeMixin {
         await sl.get<awc.ArchethicDAppClient>().signTransactions(payload);
     result.when(
       failure: (failure) {
-        debugPrint(
-          'Signature failed $failure',
-        );
-        debugPrint('signTx: $failure');
         if (failure.code == 4001) {
           throw const Failure.userRejected();
         }
@@ -172,15 +159,12 @@ mixin TransactionBridgeMixin {
       final txIndexMap = await apiService.getTransactionIndex([txChainAddress]);
       if (txIndexMap[txChainAddress] != null &&
           txIndexMap[txChainAddress] == targetIndex) {
-        debugPrint('waitForManualTxConfirmation : ok');
         return true;
       }
 
-      debugPrint('waitForManualTxConfirmation : wait');
       await Future.delayed(const Duration(seconds: 1));
     }
 
-    debugPrint('waitForManualTxConfirmation : timeout');
     return false;
   }
 
@@ -199,8 +183,8 @@ mixin TransactionBridgeMixin {
           accountName = result.shortName;
         },
       );
-    } catch (exc) {
-      debugPrint(exc.toString());
+    } catch (e, stackTrace) {
+      dev.log('$e', stackTrace: stackTrace);
     }
 
     return accountName;

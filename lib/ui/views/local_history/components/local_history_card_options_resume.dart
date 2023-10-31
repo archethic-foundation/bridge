@@ -47,7 +47,6 @@ class LocalHistoryCardOptionsResume extends ConsumerWidget {
                           ref,
                         );
                   } catch (exc) {
-                    debugPrint(exc.toString());
                     if (!context.mounted) return;
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(

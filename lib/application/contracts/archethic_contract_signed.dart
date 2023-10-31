@@ -8,7 +8,6 @@ import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:aebridge/util/transaction_bridge_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ArchethicContractSigned with TransactionBridgeMixin {
@@ -27,9 +26,6 @@ class ArchethicContractSigned with TransactionBridgeMixin {
   ) async {
     return Result.guard(
       () async {
-        debugPrint(
-          'deploySignedHTLC: [$userAddress, $poolAddress, $tokenAddress, $amount]',
-        );
         final code = await sl.get<ApiService>().callSCFunction(
               jsonRPCRequest: SCCallFunctionRequest(
                 method: 'contract_fun',
@@ -84,9 +80,6 @@ class ArchethicContractSigned with TransactionBridgeMixin {
               .version
               .transaction,
         );
-        debugPrint(
-          'provisionSignedHTLC: [$htlcGenesisAddress, $amount, $userAddress, $chainId]',
-        );
         final recipient = Recipient(
           address: poolAddress.toUpperCase(),
           action: 'request_secret_hash',
@@ -121,10 +114,6 @@ class ArchethicContractSigned with TransactionBridgeMixin {
         }
 
         final currentNameAccount = await getCurrentAccount();
-        debugPrint(
-          'provisionSignedHTLC - currentNameAccount: $currentNameAccount',
-        );
-
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
         await bridgeNotifier
             .setWalletConfirmation(WalletConfirmation.archethic);
@@ -140,11 +129,6 @@ class ArchethicContractSigned with TransactionBridgeMixin {
         await sendTransactions(
           <Transaction>[transactionTransfer],
         );
-
-        debugPrint(
-          'provisionSignedHTLC - Tx address ${transactionTransfer.address!.address!}',
-        );
-
         return;
       },
     );
@@ -160,8 +144,6 @@ class ArchethicContractSigned with TransactionBridgeMixin {
   ) async {
     return Result.guard(
       () async {
-        debugPrint('requestSecretFromSignedHTLC - PoolAddress: $poolAddress');
-        debugPrint('requestSecretFromSignedHTLC - HTLCAddress: $htlcAddress');
         final blockchainTxVersion = int.parse(
           (await sl.get<ApiService>().getBlockchainVersion())
               .version
@@ -193,11 +175,6 @@ class ArchethicContractSigned with TransactionBridgeMixin {
         ))
             .first;
         await bridgeNotifier.setWalletConfirmation(null);
-
-        debugPrint(
-          'requestSecretFromSignedHTLC - Tx address: ${transaction.address!.address!}',
-        );
-
         await sendTransactions(
           <Transaction>[transaction],
         );

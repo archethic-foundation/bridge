@@ -49,85 +49,97 @@ class LocalHistoryClearButton extends ConsumerWidget {
                           key: scaffoldMessengerKey,
                           child: Builder(
                             builder: (context) {
-                              return Scaffold(
-                                backgroundColor: Colors.transparent,
-                                body: AlertDialog(
-                                  backgroundColor:
-                                      BridgeThemeBase.backgroundPopupColor,
-                                  contentPadding: const EdgeInsets.only(
-                                    top: 10,
-                                  ),
-                                  content: Container(
-                                    color: Colors.transparent,
-                                    padding: const EdgeInsets.symmetric(
-                                      horizontal: 10,
-                                    ),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: Text(
-                                            AppLocalizations.of(context)!
-                                                .confirmationPopupTitle,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .titleMedium,
-                                          ),
+                              return Consumer(
+                                builder: (context, ref, _) {
+                                  return Scaffold(
+                                    backgroundColor: Colors.transparent,
+                                    body: AlertDialog(
+                                      backgroundColor:
+                                          BridgeThemeBase.backgroundPopupColor,
+                                      contentPadding: const EdgeInsets.only(
+                                        top: 10,
+                                      ),
+                                      content: Container(
+                                        color: Colors.transparent,
+                                        padding: const EdgeInsets.symmetric(
+                                          horizontal: 10,
                                         ),
-                                        Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: Text(
-                                            AppLocalizations.of(context)!
-                                                .bridgesListClearWarning,
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .bodyMedium,
-                                          ),
-                                        ),
-                                        const SizedBox(
-                                          height: 20,
-                                        ),
-                                        Container(
-                                          width: double.infinity,
-                                          padding: const EdgeInsets.only(
-                                            bottom: 20,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              AppButton(
-                                                labelBtn: AppLocalizations.of(
-                                                  context,
-                                                )!
-                                                    .no,
-                                                onPressed: () {
-                                                  Navigator.of(context).pop();
-                                                },
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: <Widget>[
+                                            Padding(
+                                              padding: const EdgeInsets.all(10),
+                                              child: Text(
+                                                AppLocalizations.of(context)!
+                                                    .confirmationPopupTitle,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium,
                                               ),
-                                              AppButton(
-                                                labelBtn: AppLocalizations.of(
-                                                  context,
-                                                )!
-                                                    .yes,
-                                                onPressed: () {
-                                                  ref.read(
-                                                    BridgeHistoryProviders
-                                                        .clearBridgesList,
-                                                  );
-                                                  Navigator.of(context).pop();
-                                                },
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.all(10),
+                                              child: Text(
+                                                AppLocalizations.of(context)!
+                                                    .bridgesListClearWarning,
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyMedium,
                                               ),
-                                            ],
-                                          ),
+                                            ),
+                                            const SizedBox(
+                                              height: 20,
+                                            ),
+                                            Container(
+                                              width: double.infinity,
+                                              padding: const EdgeInsets.only(
+                                                bottom: 20,
+                                              ),
+                                              child: Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                children: [
+                                                  AppButton(
+                                                    labelBtn:
+                                                        AppLocalizations.of(
+                                                      context,
+                                                    )!
+                                                            .no,
+                                                    onPressed: () {
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  ),
+                                                  AppButton(
+                                                    labelBtn:
+                                                        AppLocalizations.of(
+                                                      context,
+                                                    )!
+                                                            .yes,
+                                                    onPressed: () async {
+                                                      ref.read(
+                                                        BridgeHistoryProviders
+                                                            .clearBridgesList,
+                                                      );
+
+                                                      if (!context.mounted) {
+                                                        return;
+                                                      }
+                                                      Navigator.of(context)
+                                                          .pop();
+                                                    },
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                      ],
+                                      ),
                                     ),
-                                  ),
-                                ),
+                                  );
+                                },
                               );
                             },
                           ),

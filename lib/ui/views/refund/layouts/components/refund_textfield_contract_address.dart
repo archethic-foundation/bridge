@@ -9,11 +9,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RefundContractAddress extends ConsumerStatefulWidget {
   const RefundContractAddress({
-    this.contractAddress,
     super.key,
   });
-
-  final String? contractAddress;
 
   @override
   ConsumerState<RefundContractAddress> createState() =>

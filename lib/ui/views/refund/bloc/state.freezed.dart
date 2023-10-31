@@ -22,12 +22,15 @@ mixin _$RefundFormState {
   bool? get isAlreadyRefunded => throw _privateConstructorUsedError;
   bool? get isAlreadyWithdrawn => throw _privateConstructorUsedError;
   dynamic get refundOk => throw _privateConstructorUsedError;
+  dynamic get refundInProgress => throw _privateConstructorUsedError;
   bool? get addressOk => throw _privateConstructorUsedError;
   int? get htlcDateLock => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
   String get amountCurrency => throw _privateConstructorUsedError;
   double get fee => throw _privateConstructorUsedError;
   dynamic get htlcCanRefund => throw _privateConstructorUsedError;
+  WalletConfirmationRefund? get walletConfirmation =>
+      throw _privateConstructorUsedError;
   BridgeWallet? get evmWallet => throw _privateConstructorUsedError;
   @FailureJsonConverter()
   Failure? get failure => throw _privateConstructorUsedError;
@@ -50,12 +53,14 @@ abstract class $RefundFormStateCopyWith<$Res> {
       bool? isAlreadyRefunded,
       bool? isAlreadyWithdrawn,
       dynamic refundOk,
+      dynamic refundInProgress,
       bool? addressOk,
       int? htlcDateLock,
       double amount,
       String amountCurrency,
       double fee,
       dynamic htlcCanRefund,
+      WalletConfirmationRefund? walletConfirmation,
       BridgeWallet? evmWallet,
       @FailureJsonConverter() Failure? failure});
 
@@ -82,12 +87,14 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
     Object? isAlreadyRefunded = freezed,
     Object? isAlreadyWithdrawn = freezed,
     Object? refundOk = freezed,
+    Object? refundInProgress = freezed,
     Object? addressOk = freezed,
     Object? htlcDateLock = freezed,
     Object? amount = null,
     Object? amountCurrency = null,
     Object? fee = null,
     Object? htlcCanRefund = freezed,
+    Object? walletConfirmation = freezed,
     Object? evmWallet = freezed,
     Object? failure = freezed,
   }) {
@@ -116,6 +123,10 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
           ? _value.refundOk
           : refundOk // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      refundInProgress: freezed == refundInProgress
+          ? _value.refundInProgress
+          : refundInProgress // ignore: cast_nullable_to_non_nullable
+              as dynamic,
       addressOk: freezed == addressOk
           ? _value.addressOk
           : addressOk // ignore: cast_nullable_to_non_nullable
@@ -140,6 +151,10 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
           ? _value.htlcCanRefund
           : htlcCanRefund // ignore: cast_nullable_to_non_nullable
               as dynamic,
+      walletConfirmation: freezed == walletConfirmation
+          ? _value.walletConfirmation
+          : walletConfirmation // ignore: cast_nullable_to_non_nullable
+              as WalletConfirmationRefund?,
       evmWallet: freezed == evmWallet
           ? _value.evmWallet
           : evmWallet // ignore: cast_nullable_to_non_nullable
@@ -191,12 +206,14 @@ abstract class _$$RefundFormStateImplCopyWith<$Res>
       bool? isAlreadyRefunded,
       bool? isAlreadyWithdrawn,
       dynamic refundOk,
+      dynamic refundInProgress,
       bool? addressOk,
       int? htlcDateLock,
       double amount,
       String amountCurrency,
       double fee,
       dynamic htlcCanRefund,
+      WalletConfirmationRefund? walletConfirmation,
       BridgeWallet? evmWallet,
       @FailureJsonConverter() Failure? failure});
 
@@ -223,12 +240,14 @@ class __$$RefundFormStateImplCopyWithImpl<$Res>
     Object? isAlreadyRefunded = freezed,
     Object? isAlreadyWithdrawn = freezed,
     Object? refundOk = freezed,
+    Object? refundInProgress = freezed,
     Object? addressOk = freezed,
     Object? htlcDateLock = freezed,
     Object? amount = null,
     Object? amountCurrency = null,
     Object? fee = null,
     Object? htlcCanRefund = freezed,
+    Object? walletConfirmation = freezed,
     Object? evmWallet = freezed,
     Object? failure = freezed,
   }) {
@@ -254,6 +273,9 @@ class __$$RefundFormStateImplCopyWithImpl<$Res>
           : isAlreadyWithdrawn // ignore: cast_nullable_to_non_nullable
               as bool?,
       refundOk: freezed == refundOk ? _value.refundOk! : refundOk,
+      refundInProgress: freezed == refundInProgress
+          ? _value.refundInProgress!
+          : refundInProgress,
       addressOk: freezed == addressOk
           ? _value.addressOk
           : addressOk // ignore: cast_nullable_to_non_nullable
@@ -276,6 +298,10 @@ class __$$RefundFormStateImplCopyWithImpl<$Res>
               as double,
       htlcCanRefund:
           freezed == htlcCanRefund ? _value.htlcCanRefund! : htlcCanRefund,
+      walletConfirmation: freezed == walletConfirmation
+          ? _value.walletConfirmation
+          : walletConfirmation // ignore: cast_nullable_to_non_nullable
+              as WalletConfirmationRefund?,
       evmWallet: freezed == evmWallet
           ? _value.evmWallet
           : evmWallet // ignore: cast_nullable_to_non_nullable
@@ -298,12 +324,14 @@ class _$RefundFormStateImpl extends _RefundFormState {
       this.isAlreadyRefunded,
       this.isAlreadyWithdrawn,
       this.refundOk = false,
+      this.refundInProgress = false,
       this.addressOk,
       this.htlcDateLock,
       this.amount = 0,
       this.amountCurrency = '',
       this.fee = 0,
       this.htlcCanRefund = false,
+      this.walletConfirmation,
       this.evmWallet,
       @FailureJsonConverter() this.failure})
       : super._();
@@ -323,6 +351,9 @@ class _$RefundFormStateImpl extends _RefundFormState {
   @JsonKey()
   final dynamic refundOk;
   @override
+  @JsonKey()
+  final dynamic refundInProgress;
+  @override
   final bool? addressOk;
   @override
   final int? htlcDateLock;
@@ -339,6 +370,8 @@ class _$RefundFormStateImpl extends _RefundFormState {
   @JsonKey()
   final dynamic htlcCanRefund;
   @override
+  final WalletConfirmationRefund? walletConfirmation;
+  @override
   final BridgeWallet? evmWallet;
   @override
   @FailureJsonConverter()
@@ -346,7 +379,7 @@ class _$RefundFormStateImpl extends _RefundFormState {
 
   @override
   String toString() {
-    return 'RefundFormState(htlcAddress: $htlcAddress, refundTxAddress: $refundTxAddress, chainId: $chainId, isAlreadyRefunded: $isAlreadyRefunded, isAlreadyWithdrawn: $isAlreadyWithdrawn, refundOk: $refundOk, addressOk: $addressOk, htlcDateLock: $htlcDateLock, amount: $amount, amountCurrency: $amountCurrency, fee: $fee, htlcCanRefund: $htlcCanRefund, evmWallet: $evmWallet, failure: $failure)';
+    return 'RefundFormState(htlcAddress: $htlcAddress, refundTxAddress: $refundTxAddress, chainId: $chainId, isAlreadyRefunded: $isAlreadyRefunded, isAlreadyWithdrawn: $isAlreadyWithdrawn, refundOk: $refundOk, refundInProgress: $refundInProgress, addressOk: $addressOk, htlcDateLock: $htlcDateLock, amount: $amount, amountCurrency: $amountCurrency, fee: $fee, htlcCanRefund: $htlcCanRefund, walletConfirmation: $walletConfirmation, evmWallet: $evmWallet, failure: $failure)';
   }
 
   @override
@@ -364,6 +397,8 @@ class _$RefundFormStateImpl extends _RefundFormState {
             (identical(other.isAlreadyWithdrawn, isAlreadyWithdrawn) ||
                 other.isAlreadyWithdrawn == isAlreadyWithdrawn) &&
             const DeepCollectionEquality().equals(other.refundOk, refundOk) &&
+            const DeepCollectionEquality()
+                .equals(other.refundInProgress, refundInProgress) &&
             (identical(other.addressOk, addressOk) ||
                 other.addressOk == addressOk) &&
             (identical(other.htlcDateLock, htlcDateLock) ||
@@ -374,6 +409,8 @@ class _$RefundFormStateImpl extends _RefundFormState {
             (identical(other.fee, fee) || other.fee == fee) &&
             const DeepCollectionEquality()
                 .equals(other.htlcCanRefund, htlcCanRefund) &&
+            (identical(other.walletConfirmation, walletConfirmation) ||
+                other.walletConfirmation == walletConfirmation) &&
             (identical(other.evmWallet, evmWallet) ||
                 other.evmWallet == evmWallet) &&
             (identical(other.failure, failure) || other.failure == failure));
@@ -388,12 +425,14 @@ class _$RefundFormStateImpl extends _RefundFormState {
       isAlreadyRefunded,
       isAlreadyWithdrawn,
       const DeepCollectionEquality().hash(refundOk),
+      const DeepCollectionEquality().hash(refundInProgress),
       addressOk,
       htlcDateLock,
       amount,
       amountCurrency,
       fee,
       const DeepCollectionEquality().hash(htlcCanRefund),
+      walletConfirmation,
       evmWallet,
       failure);
 
@@ -413,12 +452,14 @@ abstract class _RefundFormState extends RefundFormState {
       final bool? isAlreadyRefunded,
       final bool? isAlreadyWithdrawn,
       final dynamic refundOk,
+      final dynamic refundInProgress,
       final bool? addressOk,
       final int? htlcDateLock,
       final double amount,
       final String amountCurrency,
       final double fee,
       final dynamic htlcCanRefund,
+      final WalletConfirmationRefund? walletConfirmation,
       final BridgeWallet? evmWallet,
       @FailureJsonConverter() final Failure? failure}) = _$RefundFormStateImpl;
   const _RefundFormState._() : super._();
@@ -436,6 +477,8 @@ abstract class _RefundFormState extends RefundFormState {
   @override
   dynamic get refundOk;
   @override
+  dynamic get refundInProgress;
+  @override
   bool? get addressOk;
   @override
   int? get htlcDateLock;
@@ -447,6 +490,8 @@ abstract class _RefundFormState extends RefundFormState {
   double get fee;
   @override
   dynamic get htlcCanRefund;
+  @override
+  WalletConfirmationRefund? get walletConfirmation;
   @override
   BridgeWallet? get evmWallet;
   @override

@@ -145,5 +145,8 @@
   "htlcStatusLabelWithdrawn": "Withdrawn",
   "htlcStatusLabelRefunded": "Refunded",
   "htlcStatusLabelUnknown": "Unknown",
-  "htlcStatusHeader": "Status"
+  "htlcStatusHeader": "Status",
+  "refundProcessInterruptionWarning": "Are you sure you want to stop the refund process?",
+  "refundProcessInProgress": "Refund in progress. Please wait.",
+  "refundInProgressConfirmEVMWallet": "Please, confirm a transaction in your EVM Wallet"
 }

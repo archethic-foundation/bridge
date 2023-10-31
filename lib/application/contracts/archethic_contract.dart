@@ -9,7 +9,6 @@ import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:aebridge/util/transaction_bridge_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ArchethicContract with TransactionBridgeMixin {
@@ -23,7 +22,6 @@ class ArchethicContract with TransactionBridgeMixin {
       // ignore: use_string_buffers
       seedSC += chars[rng.nextInt(chars.length)];
     }
-    debugPrint('HTLC - Seed SC: $seedSC');
     final genesisAddressHTLC = deriveAddress(seedSC, 0);
     return (seedHTLC: seedSC, genesisAddressHTLC: genesisAddressHTLC);
   }
@@ -60,9 +58,6 @@ class ArchethicContract with TransactionBridgeMixin {
             await apiService.getTransactionIndex([htlcGenesisAddress]);
         final index = indexMap[htlcGenesisAddress] ?? 0;
         final originPrivateKey = apiService.getOriginKey();
-
-        debugPrint('deployHTLC - HTLC Genesis Address: $htlcGenesisAddress');
-
         final transactionSC = Transaction(
           type: 'contract',
           version: blockchainTxVersion,
@@ -73,7 +68,7 @@ class ArchethicContract with TransactionBridgeMixin {
           ),
           [scAuthorizedKey],
         );
-        debugPrint('index $index');
+
         late Transaction transactionFinal;
         if (recipient != null) {
           transactionFinal = transactionSC
@@ -117,9 +112,6 @@ class ArchethicContract with TransactionBridgeMixin {
         ))
             .first;
         await bridgeNotifier.setWalletConfirmation(null);
-        debugPrint(
-          'deployHTLC - Tx address : ${transactionTransfer.address!.address!}',
-        );
         await sendTransactions(
           <Transaction>[transactionTransfer, transactionFinal],
         );

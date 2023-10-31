@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:aebridge/application/oracle/state.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'provider.g.dart';
@@ -16,7 +15,6 @@ class _ArchethicOracleUCONotifier extends Notifier<ArchethicOracleUCO> {
   @override
   ArchethicOracleUCO build() {
     ref.onDispose(() {
-      debugPrint('dispose ArchethicOracleUCONotifier');
       if (archethicOracle != null) {
         sl
             .get<OracleService>()
@@ -45,7 +43,6 @@ class _ArchethicOracleUCONotifier extends Notifier<ArchethicOracleUCO> {
   }
 
   void _fillInfo(OracleUcoPrice oracleUcoPrice) {
-    debugPrint('Oracle: ${oracleUcoPrice.timestamp}, ${oracleUcoPrice.uco}');
     state = state.copyWith(
       timestamp: oracleUcoPrice.timestamp ?? 0,
       eur: oracleUcoPrice.uco!.eur ?? 0,

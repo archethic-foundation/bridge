@@ -60,7 +60,6 @@ class LocalHistoryPeriodFilter extends ConsumerWidget {
           );
         },
       );
-      debugPrint(picked.toString());
       return picked;
     }
 

@@ -68,7 +68,6 @@ mixin ArchethicBridgeProcessMixin {
     await resultDeploySignedHTLC.map(
       success: (success) {
         archethicHTLCAddress = success;
-        debugPrint('htlc: $archethicHTLCAddress');
       },
       failure: (failure) async {
         await bridgeNotifier.setFailure(failure);
@@ -174,7 +173,6 @@ mixin ArchethicBridgeProcessMixin {
           ),
           resultMap: true,
         ) as Map<String, dynamic>;
-    debugPrint('htlcDataMap: $htlcDataMap');
     return (
       secretHash: SecretHash(
         secretHash: htlcDataMap['secret_hash'],
@@ -232,10 +230,6 @@ mixin ArchethicBridgeProcessMixin {
           resultMap: true,
         ) as Map<String, dynamic>;
 
-    debugPrint('secret: $secretMap');
-    debugPrint(
-      'secret without archethic prefix ${secretMap["secret"]}',
-    );
     return Secret(
       secret: '0x${secretMap['secret']}',
       secretSignature: SecretSignature(

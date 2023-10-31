@@ -2,7 +2,6 @@ import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/domain/repositories/market.repository.dart';
 import 'package:aebridge/infrastructure/market.repository.dart';
-import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'market.g.dart';
@@ -16,7 +15,6 @@ Future<Result<double, Failure>> _getPriceFromCoinId(
   _GetPriceFromCoinIdRef ref,
   String coinId,
 ) async {
-  debugPrint('_getPriceFromCoinId');
   return ref.read(_marketRepositoryProvider).getPrice(
         coinId,
       );

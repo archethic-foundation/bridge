@@ -1,5 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:async';
+
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
+import 'package:aebridge/ui/views/refund/layouts/components/refund_in_progress_popup.dart';
 import 'package:aebridge/ui/views/util/components/app_button.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +20,6 @@ class RefundButton extends ConsumerWidget {
     if (refund.evmWallet == null ||
         refund.evmWallet!.isConnected == false ||
         refund.htlcAddress.isEmpty ||
-        refund.failure != null ||
         refund.refundTxAddress != null ||
         (refund.isAlreadyRefunded != null &&
             refund.isAlreadyRefunded == true)) {
@@ -36,7 +38,11 @@ class RefundButton extends ConsumerWidget {
             onPressed: () async {
               final refundNotifier =
                   ref.read(RefundFormProvider.refundForm.notifier);
-              await refundNotifier.refund(context, ref);
+              unawaited(refundNotifier.refund(context, ref));
+              await RefundInProgressPopup.getDialog(
+                context,
+                ref,
+              );
             },
           );
   }
