@@ -92,7 +92,7 @@
                 "targetTokenName": "Polygon",
                 "targetTokenSymbol": "MATIC",
                 "poolAddressFrom": "0000072e418b60c6dabd272bc2728b17b352b8104f068d11365d50134f96a4199609",
-                "poolAddressTo": "0xb7b2e4de4D386B73afa7F79C9769beda06EA6B4F",
+                "poolAddressTo": "0x56c86b45fCe906af9dF535EB27968aE46CBF170E",
                 "type": "Wrapped",
                 "tokenAddressSource": "00001A4AB7AD0CE2B494C965C66FF2962692A5FE5ECB71B345ABB53BAD88A83A01F1"
             },
@@ -102,7 +102,7 @@
                 "targetTokenName": "ERC20 - Universal Coin",
                 "targetTokenSymbol": "UCO",
                 "poolAddressFrom": "000018d60115ece0c7558a46b4693749bf6beab524fddccf9b10b910619e4ee08801",
-                "poolAddressTo": "0xcfBA4FA32527bFf23E073406c772e9a8b8D02650",
+                "poolAddressTo": "0xe55915D112711127339f073e75185E6311Dd72C8",
                 "type": "Native",
                 "tokenAddressTarget": "0x51279e98d99AA8D65763a885BEFA5463dCd84Af6"
             }
@@ -242,7 +242,7 @@
                 "symbol": "MATIC",
                 "targetTokenName": "Wrapped Polygon",
                 "targetTokenSymbol": "aeMATIC",
-                "poolAddressFrom": "0xb7b2e4de4D386B73afa7F79C9769beda06EA6B4F",
+                "poolAddressFrom": "0x56c86b45fCe906af9dF535EB27968aE46CBF170E",
                 "poolAddressTo": "0000072e418b60c6dabd272bc2728b17b352b8104f068d11365d50134f96a4199609",
                 "type": "Native",
                 "tokenAddressTarget": "00001A4AB7AD0CE2B494C965C66FF2962692A5FE5ECB71B345ABB53BAD88A83A01F1"
@@ -252,7 +252,7 @@
                 "symbol": "UCO",
                 "targetTokenName": "Universal Coin",
                 "targetTokenSymbol": "UCO",
-                "poolAddressFrom": "0xcfBA4FA32527bFf23E073406c772e9a8b8D02650",
+                "poolAddressFrom": "0xe55915D112711127339f073e75185E6311Dd72C8",
                 "poolAddressTo": "000018d60115ece0c7558a46b4693749bf6beab524fddccf9b10b910619e4ee08801",
                 "type": "ERC20",
                 "tokenAddressSource": "0x51279e98d99AA8D65763a885BEFA5463dCd84Af6"
