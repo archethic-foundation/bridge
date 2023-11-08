@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer' as dev;
 import 'dart:math';
 
 import 'package:aebridge/application/contracts/archethic_contract_chargeable.dart';
@@ -14,6 +13,8 @@ import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/util/custom_logs.dart';
+import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -291,7 +292,11 @@ mixin EVMBridgeProcessMixin {
       );
       return transactionHash;
     } catch (e, stackTrace) {
-      dev.log('$e', stackTrace: stackTrace);
+      sl.get<LogManager>().log(
+            '$e',
+            stackTrace: stackTrace,
+            level: LogLevel.error,
+          );
 
       if (e is EthereumUserRejected) {
         throw const Failure.userRejected();

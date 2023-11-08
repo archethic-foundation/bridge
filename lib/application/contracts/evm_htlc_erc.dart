@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer' as dev;
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
@@ -7,6 +6,7 @@ import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
+import 'package:aebridge/util/custom_logs.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
@@ -61,7 +61,10 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
               .take(1)
               .listen(
             (event) {
-              dev.log('Event Transfer = $event');
+              sl.get<LogManager>().log(
+                    'Event Transfer = $event',
+                    level: LogLevel.debug,
+                  );
             },
           );
           final bridgeNotifier =
@@ -82,7 +85,11 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
           );
           await subscription.cancel();
         } catch (e, stackTrace) {
-          dev.log('e $e', stackTrace: stackTrace);
+          sl.get<LogManager>().log(
+                'e $e',
+                stackTrace: stackTrace,
+                level: LogLevel.error,
+              );
           await subscription.cancel();
           rethrow;
         }
@@ -134,7 +141,10 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
               )
               .take(1)
               .listen((event) {
-            dev.log('Event Withdrawn = $event');
+            sl.get<LogManager>().log(
+                  'Event Withdrawn = $event',
+                  level: LogLevel.debug,
+                );
           });
 
           final bridgeNotifier =
@@ -155,7 +165,11 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
           );
           await subscription.cancel();
         } catch (e, stackTrace) {
-          dev.log('e $e', stackTrace: stackTrace);
+          sl.get<LogManager>().log(
+                'e $e',
+                stackTrace: stackTrace,
+                level: LogLevel.error,
+              );
           await subscription.cancel();
           rethrow;
         }

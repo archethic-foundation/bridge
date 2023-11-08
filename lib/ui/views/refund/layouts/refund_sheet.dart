@@ -20,11 +20,13 @@ class _RefundSheetState extends ConsumerState<RefundSheet> {
   @override
   void initState() {
     super.initState();
-    if (widget.htlcAddress != null && widget.htlcAddress!.isNotEmpty) {
-      ref
-          .read(RefundFormProvider.refundForm.notifier)
-          .setContractAddress(widget.htlcAddress!);
-    }
+    Future.delayed(Duration.zero, () {
+      if (widget.htlcAddress != null && widget.htlcAddress!.isNotEmpty) {
+        ref
+            .read(RefundFormProvider.refundForm.notifier)
+            .setContractAddress(widget.htlcAddress!);
+      }
+    });
   }
 
   @override

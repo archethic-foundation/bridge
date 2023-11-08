@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'dart:developer' as dev;
 
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/state.dart';
@@ -9,6 +8,7 @@ import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/domain/repositories/features_flags.dart';
+import 'package:aebridge/util/custom_logs.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:aebridge/util/service_locator.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -92,7 +92,11 @@ class _SessionNotifier extends Notifier<Session> {
           replyBaseUrl: 'aebridge://archethic.tech',
         );
       } catch (e, stackTrace) {
-        dev.log('$e', stackTrace: stackTrace);
+        sl.get<LogManager>().log(
+              '$e',
+              stackTrace: stackTrace,
+              level: LogLevel.error,
+            );
         throw const Failure.connectivityArchethic();
       }
 

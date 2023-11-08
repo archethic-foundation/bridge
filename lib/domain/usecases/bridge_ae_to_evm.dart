@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'dart:developer' as dev;
 
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/domain/models/failures.dart';
@@ -8,6 +7,8 @@ import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/util/custom_logs.dart';
+import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:aebridge/util/transaction_bridge_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -104,7 +105,11 @@ class BridgeArchethicToEVMUseCase
           return;
         }
       } catch (e, stackTrace) {
-        dev.log('$e', stackTrace: stackTrace);
+        sl.get<LogManager>().log(
+              '$e',
+              stackTrace: stackTrace,
+              level: LogLevel.error,
+            );
         await bridgeNotifier.setFailure(
           Failure.other(cause: e.toString()),
         );

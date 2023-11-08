@@ -1,8 +1,9 @@
 import 'dart:convert';
-import 'dart:developer' as dev;
 import 'dart:html';
 import 'dart:math';
 
+import 'package:aebridge/util/custom_logs.dart';
+import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
@@ -79,7 +80,10 @@ class EVMWalletProvider extends ChangeNotifier {
         notifyListeners();
         return true;
       } catch (e) {
-        dev.log(e.toString());
+        sl.get<LogManager>().log(
+              e.toString(),
+              level: LogLevel.error,
+            );
         return false;
       }
     }
@@ -145,7 +149,11 @@ class EVMWalletProvider extends ChangeNotifier {
           return 0.0;
       }
     } catch (e, stackTrace) {
-      dev.log('$e', stackTrace: stackTrace);
+      sl.get<LogManager>().log(
+            '$e',
+            stackTrace: stackTrace,
+            level: LogLevel.error,
+          );
       return 0.0;
     }
   }
@@ -199,7 +207,9 @@ class EVMWalletProvider extends ChangeNotifier {
           return defaultDecimal;
       }
     } catch (e, stackTrace) {
-      dev.log('$e', stackTrace: stackTrace);
+      sl
+          .get<LogManager>()
+          .log('$e', stackTrace: stackTrace, level: LogLevel.error);
       return defaultDecimal;
     }
   }

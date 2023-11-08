@@ -1,10 +1,11 @@
 import 'dart:async';
 import 'dart:developer' as dev;
-
 import 'package:aebridge/domain/models/failures.dart';
+import 'package:aebridge/util/custom_logs.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
+import 'package:flutter/foundation.dart';
 
 mixin TransactionBridgeMixin {
   Future<double> calculateFees(
@@ -58,9 +59,10 @@ mixin TransactionBridgeMixin {
         transaction: transaction,
         onConfirmation: (confirmation) async {
           if (confirmation.isEnoughConfirmed) {
-            dev.log(
-              'nbConfirmations: ${confirmation.nbConfirmations}, transactionAddress: ${confirmation.transactionAddress}, maxConfirmations: ${confirmation.maxConfirmations}',
-            );
+            sl.get<LogManager>().log(
+                  'nbConfirmations: ${confirmation.nbConfirmations}, transactionAddress: ${confirmation.transactionAddress}, maxConfirmations: ${confirmation.maxConfirmations}',
+                  level: LogLevel.debug,
+                );
             transactionRepository.close();
             next = true;
           }
@@ -95,7 +97,7 @@ mixin TransactionBridgeMixin {
 
       while (next == false && errorDetail.isEmpty) {
         await Future.delayed(const Duration(seconds: 1));
-        dev.log('wait...');
+        if (kDebugMode) dev.log('wait...');
       }
     }
 
@@ -184,7 +186,11 @@ mixin TransactionBridgeMixin {
         },
       );
     } catch (e, stackTrace) {
-      dev.log('$e', stackTrace: stackTrace);
+      sl.get<LogManager>().log(
+            '$e',
+            stackTrace: stackTrace,
+            level: LogLevel.error,
+          );
     }
 
     return accountName;
