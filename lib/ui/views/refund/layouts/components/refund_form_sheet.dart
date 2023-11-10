@@ -1,7 +1,6 @@
 import 'package:aebridge/ui/views/refund/layouts/components/refund_btn.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_can_refund_info.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_connect_wallet_btn.dart';
-import 'package:aebridge/ui/views/refund/layouts/components/refund_contract.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_infos.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_infos_wallet.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_message.dart';
@@ -73,7 +72,7 @@ class RefundFormSheet extends ConsumerWidget {
                         SizedBox(
                           height: 20,
                         ),
-                        RefundTransaction(),
+                        //RefundTransaction(),
                         RefundConnectWalletButton(),
                         RefundButton(),
                         SizedBox(

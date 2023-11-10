@@ -1,8 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/oracle/provider.dart';
 import 'package:aebridge/infrastructure/hive/db_helper.hive.dart';
+import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/main_screen.dart';
 import 'package:aebridge/ui/views/welcome/welcome_screen.dart';
+import 'package:aebridge/util/custom_logs.dart';
+import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:aebridge/util/generic/providers_observer.dart';
 import 'package:aebridge/util/service_locator.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +18,10 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DBHelper.setupDatabase();
   setupServiceLocator();
+
+  final preferences = await HivePreferencesDatasource.getInstance();
+  sl.get<LogManager>().logsActived = preferences.isLogsActived();
+
   runApp(
     ProviderScope(
       observers: [

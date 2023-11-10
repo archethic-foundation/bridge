@@ -9,6 +9,7 @@ class LogManager {
   LogManager({
     this.sendInterval = const Duration(seconds: 60),
     this.batchSize = 1,
+    this.logsActived = true,
   }) {
     if (!kDebugMode) {
       _timer = Timer.periodic(sendInterval, (Timer t) => _sendLogs());
@@ -16,6 +17,7 @@ class LogManager {
   }
   final Duration sendInterval;
   final int batchSize;
+  bool logsActived;
   List<Map<String, dynamic>> _logQueue = [];
   Timer? _timer;
 
@@ -25,6 +27,7 @@ class LogManager {
     StackTrace? stackTrace,
     LogLevel level = LogLevel.info,
   }) {
+    if (logsActived == false) return;
     if (message.isEmpty) return;
     if (kDebugMode) {
       if (name != null) {

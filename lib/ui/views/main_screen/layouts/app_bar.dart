@@ -1,15 +1,19 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/preferences.dart';
 import 'package:aebridge/application/version.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/connection_to_wallet_status.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/header.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
+import 'package:aebridge/util/custom_logs.dart';
+import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class AppBarMainScreen extends StatelessWidget implements PreferredSizeWidget {
+class AppBarMainScreen extends ConsumerStatefulWidget
+    implements PreferredSizeWidget {
   const AppBarMainScreen({
     super.key,
     required this.onAEMenuTapped,
@@ -18,7 +22,23 @@ class AppBarMainScreen extends StatelessWidget implements PreferredSizeWidget {
   final Function() onAEMenuTapped;
 
   @override
+  Size get preferredSize => AppBar().preferredSize;
+
+  @override
+  ConsumerState<AppBarMainScreen> createState() => _AppBarMainScreenState();
+}
+
+class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
+  @override
   Widget build(BuildContext context) {
+    final thumbIcon = MaterialStateProperty.resolveWith<Icon?>(
+      (Set<MaterialState> states) {
+        if (states.contains(MaterialState.selected)) {
+          return const Icon(Icons.check);
+        }
+        return const Icon(Icons.close);
+      },
+    );
     return AppBar(
       backgroundColor: Colors.transparent,
       elevation: 0,
@@ -176,6 +196,100 @@ class AppBarMainScreen extends StatelessWidget implements PreferredSizeWidget {
                 );
               },
             ),
+            MenuItemButton(
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Iconsax.menu_board,
+                      size: 16,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Row(
+                      children: [
+                        Text(AppLocalizations.of(context)!.menu_logs_activated),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        FutureBuilder<bool>(
+                          future: ref
+                              .watch(
+                                PreferencesProviders.preferencesRepository,
+                              )
+                              .isLogsActived(),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData) {
+                              return SizedBox(
+                                height: 20,
+                                child: FittedBox(
+                                  fit: BoxFit.fill,
+                                  child: Switch(
+                                    thumbIcon: thumbIcon,
+                                    value: snapshot.data!,
+                                    onChanged: (value) {
+                                      ref
+                                          .read(
+                                            PreferencesProviders
+                                                .preferencesRepository,
+                                          )
+                                          .setLogsActived(value);
+                                      sl.get<LogManager>().logsActived = value;
+                                      setState(() {});
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+                            return const SizedBox.shrink();
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+              onPressed: () {
+                launchUrl(
+                  Uri.parse(
+                    'https://www.archethic.net/privacy-policy-bridge',
+                  ),
+                );
+              },
+            ),
+            MenuItemButton(
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Iconsax.shield_tick,
+                      size: 16,
+                    ),
+                    const SizedBox(
+                      width: 10,
+                    ),
+                    Text(AppLocalizations.of(context)!.menu_privacy_policy),
+                    const SizedBox(
+                      width: 8,
+                    ),
+                    const Icon(
+                      Iconsax.export_3,
+                      size: 12,
+                    ),
+                  ],
+                ),
+              ),
+              onPressed: () {
+                launchUrl(
+                  Uri.parse(
+                    'https://www.archethic.net/privacy-policy-bridge',
+                  ),
+                );
+              },
+            ),
             const Divider(),
             Padding(
               padding: const EdgeInsets.only(
@@ -205,7 +319,7 @@ class AppBarMainScreen extends StatelessWidget implements PreferredSizeWidget {
         ),
         IconButton(
           icon: const Icon(Iconsax.element_3),
-          onPressed: onAEMenuTapped,
+          onPressed: widget.onAEMenuTapped,
         ),
         const SizedBox(
           width: 16,
@@ -213,7 +327,4 @@ class AppBarMainScreen extends StatelessWidget implements PreferredSizeWidget {
       ],
     );
   }
-
-  @override
-  Size get preferredSize => AppBar().preferredSize;
 }

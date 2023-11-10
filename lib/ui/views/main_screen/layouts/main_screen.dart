@@ -1,11 +1,13 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/main_screen_widget_displayed.dart';
+import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/local_history/local_history_sheet.dart';
 import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/app_bar.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/body.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
+import 'package:aebridge/ui/views/main_screen/layouts/privacy_popup.dart';
 import 'package:aebridge/ui/views/refund/layouts/refund_sheet.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/components/main_screen_background.dart';
@@ -27,6 +29,24 @@ class MainScreen extends ConsumerStatefulWidget {
 class MainScreenState extends ConsumerState<MainScreen> {
   bool _isSubMenuOpen = false;
   List<(String, IconData)> listNavigationLabelIcon = [];
+
+  @override
+  void initState() {
+    super.initState();
+
+    HivePreferencesDatasource.getInstance().then((value) {
+      if (value.isFirstConnection()) {
+        Future.delayed(Duration.zero, () {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const PrivacyPopup();
+            },
+          );
+        });
+      }
+    });
+  }
 
   @override
   void didChangeDependencies() {

@@ -94,6 +94,14 @@ class RefundInProgressPopup {
                                   ..setFailure(null)
                                   ..setRefundOk(false)
                                   ..setWalletConfirmation(null);
+
+                                if (refund.refundInProgress == false) {
+                                  ref.read(
+                                    RefundFormProvider.refundForm.notifier,
+                                  )
+                                    ..setContractAddress('')
+                                    ..setAmount(0);
+                                }
                               },
                             ),
                           ),
