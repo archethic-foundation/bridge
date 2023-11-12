@@ -3,6 +3,7 @@ import 'package:aebridge/application/preferences.dart';
 import 'package:aebridge/application/version.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/connection_to_wallet_status.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/header.dart';
+import 'package:aebridge/ui/views/main_screen/layouts/privacy_popup.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:aebridge/util/custom_logs.dart';
@@ -244,6 +245,25 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                               );
                             }
                             return const SizedBox.shrink();
+                          },
+                        ),
+                        const SizedBox(
+                          width: 8,
+                        ),
+                        InkWell(
+                          child: const Icon(
+                            Icons.help_outline_outlined,
+                            size: 14,
+                          ),
+                          onTap: () {
+                            Future.delayed(Duration.zero, () {
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return const PrivacyPopup();
+                                },
+                              );
+                            });
                           },
                         ),
                       ],
