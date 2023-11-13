@@ -118,6 +118,7 @@ class EVMLP with EVMBridgeProcessMixin {
             sl.get<LogManager>().log(
                   'Event ContractMinted = $event',
                   level: LogLevel.debug,
+                  name: 'EVMLP - deployChargeableHTLC',
                 );
           },
         );
@@ -143,6 +144,7 @@ class EVMLP with EVMBridgeProcessMixin {
               '$e',
               stackTrace: stackTrace,
               level: LogLevel.error,
+              name: 'EVMLP - deployChargeableHTLC',
             );
         await subscription.cancel();
         rethrow;
@@ -218,6 +220,7 @@ class EVMLP with EVMBridgeProcessMixin {
               sl.get<LogManager>().log(
                     'Event ContractProvisioned = $event',
                     level: LogLevel.debug,
+                    name: 'EVMLP - deployAndProvisionSignedHTLC',
                   );
             },
           );
@@ -244,6 +247,7 @@ class EVMLP with EVMBridgeProcessMixin {
                 '$e',
                 stackTrace: stackTrace,
                 level: LogLevel.error,
+                name: 'EVMLP - deployAndProvisionSignedHTLC',
               );
 
           await subscription.cancel();

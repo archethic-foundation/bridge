@@ -83,6 +83,7 @@ class EVMWalletProvider extends ChangeNotifier {
         sl.get<LogManager>().log(
               e.toString(),
               level: LogLevel.error,
+              name: 'EVMWalletProvider - changeChainId',
             );
         return false;
       }
@@ -153,6 +154,7 @@ class EVMWalletProvider extends ChangeNotifier {
             '$e',
             stackTrace: stackTrace,
             level: LogLevel.error,
+            name: 'EVMWalletProvider - getBalance',
           );
       return 0.0;
     }
@@ -207,9 +209,12 @@ class EVMWalletProvider extends ChangeNotifier {
           return defaultDecimal;
       }
     } catch (e, stackTrace) {
-      sl
-          .get<LogManager>()
-          .log('$e', stackTrace: stackTrace, level: LogLevel.error);
+      sl.get<LogManager>().log(
+            '$e',
+            stackTrace: stackTrace,
+            level: LogLevel.error,
+            name: 'EVMWalletProvider - getTokenDecimals',
+          );
       return defaultDecimal;
     }
   }

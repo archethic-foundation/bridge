@@ -62,6 +62,7 @@ mixin TransactionBridgeMixin {
             sl.get<LogManager>().log(
                   'nbConfirmations: ${confirmation.nbConfirmations}, transactionAddress: ${confirmation.transactionAddress}, maxConfirmations: ${confirmation.maxConfirmations}',
                   level: LogLevel.debug,
+                  name: 'TransactionBridgeMixin - sendTransactions',
                 );
             transactionRepository.close();
             next = true;
@@ -190,6 +191,7 @@ mixin TransactionBridgeMixin {
             '$e',
             stackTrace: stackTrace,
             level: LogLevel.error,
+            name: 'TransactionBridgeMixin - getCurrentAccount',
           );
     }
 

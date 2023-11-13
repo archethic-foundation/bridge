@@ -51,6 +51,7 @@ class LogManager {
         'level': level.toString(),
         'timestamp': DateTime.now().toIso8601String(),
         'stacktrace': stackTrace.toString(),
+        'name': name ?? '',
       };
       _logQueue.add(logEntry);
       if (_logQueue.length >= batchSize) {

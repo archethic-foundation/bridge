@@ -68,6 +68,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
               sl.get<LogManager>().log(
                     'Event ContractMinted = $event',
                     level: LogLevel.debug,
+                    name: 'EVMHTLC - refund',
                   );
             },
           );
@@ -94,6 +95,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
                 'e $e',
                 stackTrace: stackTrace,
                 level: LogLevel.error,
+                name: 'EVMHTLC - refund',
               );
           await subscription.cancel();
           refundNotifier.setWalletConfirmation(null);
@@ -181,6 +183,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
               '$e',
               stackTrace: stackTrace,
               level: LogLevel.error,
+              name: 'EVMHTLC - getAmountCurrency',
             );
       }
 
@@ -290,6 +293,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
               sl.get<LogManager>().log(
                     'Event Withdrawn = $event',
                     level: LogLevel.debug,
+                    name: 'EVMHTLC - withdraw',
                   );
             },
           );
@@ -316,6 +320,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
                 '$e',
                 stackTrace: stackTrace,
                 level: LogLevel.error,
+                name: 'EVMHTLC - withdraw',
               );
           await subscription.cancel();
           rethrow;

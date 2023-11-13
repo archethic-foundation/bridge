@@ -53,6 +53,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
           sl.get<LogManager>().log(
                 'Event FundsReceived = $event',
                 level: LogLevel.debug,
+                name: 'EVMHTLCNative - provisionChargeableHTLC',
               );
         });
 
@@ -83,6 +84,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
               'e $e',
               stackTrace: stackTrace,
               level: LogLevel.error,
+              name: 'EVMHTLCNative - provisionChargeableHTLC',
             );
         await subscription.cancel();
         rethrow;
@@ -137,6 +139,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
             sl.get<LogManager>().log(
                   'Event Withdrawn = $event',
                   level: LogLevel.debug,
+                  name: 'EVMHTLCNative - signedWithdraw',
                 );
           });
 
@@ -163,6 +166,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
                 'e $e',
                 stackTrace: stackTrace,
                 level: LogLevel.error,
+                name: 'EVMHTLCNative - signedWithdraw',
               );
           await subscription.cancel();
           rethrow;

@@ -96,6 +96,7 @@ class _SessionNotifier extends Notifier<Session> {
               '$e',
               stackTrace: stackTrace,
               level: LogLevel.error,
+              name: '_SessionNotifier - connectToArchethicWallet',
             );
         throw const Failure.connectivityArchethic();
       }

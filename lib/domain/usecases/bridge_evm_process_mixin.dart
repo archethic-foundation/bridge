@@ -296,6 +296,7 @@ mixin EVMBridgeProcessMixin {
             '$e',
             stackTrace: stackTrace,
             level: LogLevel.error,
+            name: 'EVMBridgeProcessMixin - sendTransactionWithErrorManagement',
           );
 
       if (e is EthereumUserRejected) {

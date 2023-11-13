@@ -64,6 +64,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
               sl.get<LogManager>().log(
                     'Event Transfer = $event',
                     level: LogLevel.debug,
+                    name: 'EVMHTLCERC - provisionChargeableHTLC',
                   );
             },
           );
@@ -89,6 +90,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
                 'e $e',
                 stackTrace: stackTrace,
                 level: LogLevel.error,
+                name: 'EVMHTLCERC - provisionChargeableHTLC',
               );
           await subscription.cancel();
           rethrow;
@@ -144,6 +146,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             sl.get<LogManager>().log(
                   'Event Withdrawn = $event',
                   level: LogLevel.debug,
+                  name: 'EVMHTLCERC - signedWithdraw',
                 );
           });
 
@@ -169,6 +172,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
                 'e $e',
                 stackTrace: stackTrace,
                 level: LogLevel.error,
+                name: 'EVMHTLCERC - signedWithdraw',
               );
           await subscription.cancel();
           rethrow;

@@ -109,6 +109,7 @@ class BridgeArchethicToEVMUseCase
               '$e',
               stackTrace: stackTrace,
               level: LogLevel.error,
+              name: 'BridgeArchethicToEVMUseCase - run',
             );
         await bridgeNotifier.setFailure(
           Failure.other(cause: e.toString()),
