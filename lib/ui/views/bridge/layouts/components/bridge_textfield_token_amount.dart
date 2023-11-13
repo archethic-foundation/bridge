@@ -126,7 +126,9 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                                     precision: bridge.tokenToBridgeDecimals,
                                   ),
                                   LengthLimitingTextInputFormatter(
-                                    bridge.tokenToBridgeBalance.toInt() +
+                                    bridge.tokenToBridgeBalance
+                                            .formatNumber(precision: 0)
+                                            .length +
                                         bridge.tokenToBridgeDecimals +
                                         1,
                                   ),
