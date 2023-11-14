@@ -16,6 +16,7 @@ import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_to_evm.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_to_ae.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
+import 'package:aebridge/ui/views/util/generic/formatters.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -626,9 +627,9 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     if (state.blockchainFrom!.isArchethic &&
         state.poolTargetBalance < state.tokenToBridgeAmount) {
       await setFailure(
-        const Failure.other(
+        Failure.other(
           cause:
-              "Sorry, but your amount exceeds the current pool's balance.\nPlease adjust your amount or try later.",
+              "Sorry, but your request can't be completed due to insufficient liquidity on the destination chain. The current available liquidity is ${state.poolTargetBalance.formatNumber()} ${state.tokenToBridge!.targetTokenSymbol}.",
         ),
       );
       return false;

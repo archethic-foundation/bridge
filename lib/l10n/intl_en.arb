@@ -36,7 +36,7 @@
   "menu_logs_activated": "Send Logs ?",
   "menu_section_infos": "Informations",
   "balance_title_infos": "Balance: ",
-  "pool_balance_title_infos": "Pool - Balance: ",
+  "pool_balance_title_infos": "Pool's balance: ",
   "btn_selectBlockchain": "Select blockchain",
   "btn_selectToken": "Select token",
   "btn_bridge": "Bridge",
