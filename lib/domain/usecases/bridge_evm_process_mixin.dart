@@ -285,9 +285,15 @@ mixin EVMBridgeProcessMixin {
     int chainId,
   ) async {
     try {
+      var newTransaction = transaction;
+      if (transaction.gasPrice == null) {
+        final gasPrice = await web3Client.getGasPrice();
+        newTransaction = newTransaction.copyWith(gasPrice: gasPrice);
+      }
+
       final transactionHash = await web3Client.sendTransaction(
         credentials,
-        transaction,
+        newTransaction,
         chainId: chainId,
       );
       return transactionHash;
