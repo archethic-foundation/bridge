@@ -32,17 +32,15 @@ class LogManager {
     if (kDebugMode) {
       if (name != null) {
         if (stackTrace != null) {
-          developer.log(message, name: name, stackTrace: stackTrace);
+          debugPrint('$message, $name, $stackTrace');
         } else {
-          developer.log(message, name: name);
+          debugPrint('$message, $name');
         }
       } else {
         if (stackTrace != null) {
-          developer.log(message, stackTrace: stackTrace);
+          debugPrint('$message, $stackTrace');
         } else {
-          developer.log(
-            message,
-          );
+          debugPrint(message);
         }
       }
     } else {
