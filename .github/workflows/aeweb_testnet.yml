@@ -11,6 +11,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Check files
+        run: |
+          ls -R
+
       - name: Clone and copy bridge-contracts repository
         run: |
           git clone https://github.com/archethic-foundation/bridge-contracts.git
