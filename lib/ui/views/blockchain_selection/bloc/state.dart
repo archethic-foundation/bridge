@@ -7,6 +7,7 @@ part 'state.freezed.dart';
 class BlockchainSelectionFormState with _$BlockchainSelectionFormState {
   const factory BlockchainSelectionFormState({
     @Default(false) bool testnetIncluded,
+    @Default(false) bool forceChoiceTestnetIncluded,
   }) = _BlockchainSelectionFormState;
   const BlockchainSelectionFormState._();
 }

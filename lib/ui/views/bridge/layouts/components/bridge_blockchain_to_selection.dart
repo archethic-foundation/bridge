@@ -104,6 +104,7 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
                 final blockchain = await BlockchainSelectionPopup.getDialog(
                   context,
                   ref,
+                  false,
                 );
                 if (blockchain == null) return;
 

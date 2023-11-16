@@ -27,6 +27,17 @@ class BlockchainSelectionFormNotifier
       BridgeBlockchainsProviders.getBlockchainsList,
     );
   }
+
+  void setForceChoiceTestnetIncluded(
+    bool forceChoiceTestnetIncluded,
+  ) {
+    state = state.copyWith(
+      forceChoiceTestnetIncluded: forceChoiceTestnetIncluded,
+    );
+    ref.invalidate(
+      BridgeBlockchainsProviders.getBlockchainsList,
+    );
+  }
 }
 
 abstract class BlockchainSelectionFormProvider {

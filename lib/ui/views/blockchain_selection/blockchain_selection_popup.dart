@@ -11,6 +11,7 @@ class BlockchainSelectionPopup {
   static Future<BridgeBlockchain?> getDialog(
     BuildContext context,
     WidgetRef ref,
+    bool isFrom,
   ) async {
     return showDialog<BridgeBlockchain>(
       context: context,
@@ -18,19 +19,19 @@ class BlockchainSelectionPopup {
         return PopupTemplate(
           popupTitle: AppLocalizations.of(context)!.blockchain_selection_title,
           popupHeight: 350,
-          popupContent: const Column(
+          popupContent: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Align(
+              const Align(
                 alignment: Alignment.centerRight,
                 child: BlockchainTestnetIncludedSwitch(),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Expanded(
-                child: BlockchainList(),
+                child: BlockchainList(isFrom: isFrom),
               ),
             ],
           ),

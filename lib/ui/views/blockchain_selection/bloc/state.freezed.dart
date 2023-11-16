@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$BlockchainSelectionFormState {
   bool get testnetIncluded => throw _privateConstructorUsedError;
+  bool get forceChoiceTestnetIncluded => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $BlockchainSelectionFormStateCopyWith<BlockchainSelectionFormState>
@@ -31,7 +32,7 @@ abstract class $BlockchainSelectionFormStateCopyWith<$Res> {
       _$BlockchainSelectionFormStateCopyWithImpl<$Res,
           BlockchainSelectionFormState>;
   @useResult
-  $Res call({bool testnetIncluded});
+  $Res call({bool testnetIncluded, bool forceChoiceTestnetIncluded});
 }
 
 /// @nodoc
@@ -49,11 +50,16 @@ class _$BlockchainSelectionFormStateCopyWithImpl<$Res,
   @override
   $Res call({
     Object? testnetIncluded = null,
+    Object? forceChoiceTestnetIncluded = null,
   }) {
     return _then(_value.copyWith(
       testnetIncluded: null == testnetIncluded
           ? _value.testnetIncluded
           : testnetIncluded // ignore: cast_nullable_to_non_nullable
+              as bool,
+      forceChoiceTestnetIncluded: null == forceChoiceTestnetIncluded
+          ? _value.forceChoiceTestnetIncluded
+          : forceChoiceTestnetIncluded // ignore: cast_nullable_to_non_nullable
               as bool,
     ) as $Val);
   }
@@ -68,7 +74,7 @@ abstract class _$$BlockchainSelectionFormStateImplCopyWith<$Res>
       __$$BlockchainSelectionFormStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool testnetIncluded});
+  $Res call({bool testnetIncluded, bool forceChoiceTestnetIncluded});
 }
 
 /// @nodoc
@@ -85,11 +91,16 @@ class __$$BlockchainSelectionFormStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? testnetIncluded = null,
+    Object? forceChoiceTestnetIncluded = null,
   }) {
     return _then(_$BlockchainSelectionFormStateImpl(
       testnetIncluded: null == testnetIncluded
           ? _value.testnetIncluded
           : testnetIncluded // ignore: cast_nullable_to_non_nullable
+              as bool,
+      forceChoiceTestnetIncluded: null == forceChoiceTestnetIncluded
+          ? _value.forceChoiceTestnetIncluded
+          : forceChoiceTestnetIncluded // ignore: cast_nullable_to_non_nullable
               as bool,
     ));
   }
@@ -98,16 +109,20 @@ class __$$BlockchainSelectionFormStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$BlockchainSelectionFormStateImpl extends _BlockchainSelectionFormState {
-  const _$BlockchainSelectionFormStateImpl({this.testnetIncluded = false})
+  const _$BlockchainSelectionFormStateImpl(
+      {this.testnetIncluded = false, this.forceChoiceTestnetIncluded = false})
       : super._();
 
   @override
   @JsonKey()
   final bool testnetIncluded;
+  @override
+  @JsonKey()
+  final bool forceChoiceTestnetIncluded;
 
   @override
   String toString() {
-    return 'BlockchainSelectionFormState(testnetIncluded: $testnetIncluded)';
+    return 'BlockchainSelectionFormState(testnetIncluded: $testnetIncluded, forceChoiceTestnetIncluded: $forceChoiceTestnetIncluded)';
   }
 
   @override
@@ -116,11 +131,16 @@ class _$BlockchainSelectionFormStateImpl extends _BlockchainSelectionFormState {
         (other.runtimeType == runtimeType &&
             other is _$BlockchainSelectionFormStateImpl &&
             (identical(other.testnetIncluded, testnetIncluded) ||
-                other.testnetIncluded == testnetIncluded));
+                other.testnetIncluded == testnetIncluded) &&
+            (identical(other.forceChoiceTestnetIncluded,
+                    forceChoiceTestnetIncluded) ||
+                other.forceChoiceTestnetIncluded ==
+                    forceChoiceTestnetIncluded));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, testnetIncluded);
+  int get hashCode =>
+      Object.hash(runtimeType, testnetIncluded, forceChoiceTestnetIncluded);
 
   @JsonKey(ignore: true)
   @override
@@ -133,12 +153,15 @@ class _$BlockchainSelectionFormStateImpl extends _BlockchainSelectionFormState {
 
 abstract class _BlockchainSelectionFormState
     extends BlockchainSelectionFormState {
-  const factory _BlockchainSelectionFormState({final bool testnetIncluded}) =
+  const factory _BlockchainSelectionFormState(
+          {final bool testnetIncluded, final bool forceChoiceTestnetIncluded}) =
       _$BlockchainSelectionFormStateImpl;
   const _BlockchainSelectionFormState._() : super._();
 
   @override
   bool get testnetIncluded;
+  @override
+  bool get forceChoiceTestnetIncluded;
   @override
   @JsonKey(ignore: true)
   _$$BlockchainSelectionFormStateImplCopyWith<

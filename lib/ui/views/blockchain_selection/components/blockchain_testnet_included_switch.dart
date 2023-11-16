@@ -54,7 +54,16 @@ class _BlockchainTestnetIncludedSwitchState
                   child: Switch(
                     thumbIcon: thumbIcon,
                     value: blockchainSelectionProvider.testnetIncluded,
-                    onChanged: blockchainSelectionNotifier.setTestnetIncluded,
+                    onChanged: (value) {
+                      Future.delayed(
+                        Duration.zero,
+                        () {
+                          blockchainSelectionNotifier
+                            ..setTestnetIncluded(value)
+                            ..setForceChoiceTestnetIncluded(true);
+                        },
+                      );
+                    },
                   ),
                 ),
               ),
