@@ -312,29 +312,49 @@ mixin EVMBridgeProcessMixin {
       );
       return transactionHash;
     } catch (e, stackTrace) {
-      sl.get<LogManager>().log(
-            '$e',
-            stackTrace: stackTrace,
-            level: LogLevel.error,
-            name: 'EVMBridgeProcessMixin - sendTransactionWithErrorManagement',
-          );
-
       if (e is EthereumUserRejected) {
         throw const Failure.userRejected();
       }
       if (e is EthereumException) {
+        sl.get<LogManager>().log(
+              '$e',
+              stackTrace: stackTrace,
+              level: LogLevel.error,
+              name:
+                  'EVMBridgeProcessMixin - sendTransactionWithErrorManagement',
+            );
         throw Failure.other(cause: e.data, stack: e.message);
       }
       if (e is EthersException) {
+        sl.get<LogManager>().log(
+              '$e',
+              stackTrace: stackTrace,
+              level: LogLevel.error,
+              name:
+                  'EVMBridgeProcessMixin - sendTransactionWithErrorManagement',
+            );
         throw Failure.other(cause: e.rawError.toString(), stack: e.reason);
       }
       if (e is RPCError) {
+        sl.get<LogManager>().log(
+              '$e',
+              stackTrace: stackTrace,
+              level: LogLevel.error,
+              name:
+                  'EVMBridgeProcessMixin - sendTransactionWithErrorManagement',
+            );
         const encoder = JsonEncoder.withIndent('  ');
         final validJson = encoder.convert(e.data);
         final Map<String, dynamic> jsonMap = json.decode(validJson);
 
         throw Failure.rpcErrorEVM(jsonMap.entries.first.value);
       }
+      sl.get<LogManager>().log(
+            '$e',
+            stackTrace: stackTrace,
+            level: LogLevel.error,
+            name: 'EVMBridgeProcessMixin - sendTransactionWithErrorManagement',
+          );
       throw Failure.other(cause: e.toString());
     }
   }
