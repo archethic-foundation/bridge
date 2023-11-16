@@ -11,15 +11,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Check files
-        run: |
-          ls -R
-
-      - name: Clone bridge-contracts repository
+      - name: Clone and copy bridge-contracts repository
         run: |
           git clone https://github.com/archethic-foundation/bridge-contracts.git
-          ln -s bridge-contracts contracts
-
+          cp -r bridge-contracts/* contracts/
+        
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
