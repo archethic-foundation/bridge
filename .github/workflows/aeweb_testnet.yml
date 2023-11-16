@@ -17,9 +17,7 @@ jobs:
 
       - name: Clone and copy bridge-contracts repository
         run: |
-          if [ -f "contracts" ]; then
-            rm contracts
-          fi
+          rm contracts
           git clone https://github.com/archethic-foundation/bridge-contracts.git
           mkdir contracts
           cp -r bridge-contracts/* contracts/
