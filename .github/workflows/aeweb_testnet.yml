@@ -11,10 +11,6 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Check files
-        run: |
-          ls -R
-
       - name: Clone and copy bridge-contracts repository
         run: |
           rm contracts
@@ -30,6 +26,10 @@ jobs:
 
       - name: Install dependencies
         run: flutter pub get
+
+      - name: Check files
+        run: |
+          ls -R
 
       - name: Build web app
         run: flutter build web --web-renderer canvaskit --release
