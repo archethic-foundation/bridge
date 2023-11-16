@@ -17,10 +17,11 @@ jobs:
 
       - name: Clone and copy bridge-contracts repository
         run: |
-          if [ ! -d "contracts" ]; then
-            mkdir contracts
+          if [ -f "contracts" ]; then
+            rm contracts
           fi
           git clone https://github.com/archethic-foundation/bridge-contracts.git
+          mkdir contracts
           cp -r bridge-contracts/* contracts/
         
       - name: Set up Flutter
