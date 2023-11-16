@@ -100,6 +100,7 @@
   "failureUserRejected": "The request has been declined.",
   "failureConnectivityArchethic": "Please, open your Archethic Wallet and allow DApps connection.",
   "failureConnectivityEVM": "Please, open your EVM Wallet.",
+  "failureParamEVMChain": "You have selected a network that is not set up in your wallet. Please configure it to use the bridge.",
   "failureInsufficientFunds": "Funds are not sufficient.",
   "failureTimeout": "Timeout occurred.",
   "failurePoolInsufficientFunds": "The funds of the pool are not sufficient. Please resume your transaction later.",

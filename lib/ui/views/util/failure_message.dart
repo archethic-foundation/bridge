@@ -27,6 +27,10 @@ class FailureMessage {
       return AppLocalizations.of(context)!.failureConnectivityEVM;
     }
 
+    if (failure is ParamEVMChain) {
+      return AppLocalizations.of(context)!.failureParamEVMChain;
+    }
+
     if (failure is Timeout) {
       return AppLocalizations.of(context)!.failureTimeout;
     }

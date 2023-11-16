@@ -65,6 +65,9 @@ class _SessionNotifier extends Notifier<Session> {
 
           _fillState(bridgeWallet, from);
         } catch (e) {
+          if (e.toString().toLowerCase().contains('unrecognized chain')) {
+            throw const Failure.paramEVMChain();
+          }
           throw const Failure.connectivityEVM();
         }
       },

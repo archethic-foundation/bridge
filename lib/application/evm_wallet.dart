@@ -50,10 +50,7 @@ class EVMWalletProvider extends ChangeNotifier {
     try {
       currentChain = await getChainId();
       if (currentChain != chainId) {
-        final changeOk = await changeChainId(chainId);
-        if (changeOk == false) {
-          return;
-        }
+        await changeChainId(chainId);
       }
 
       credentials = await eth!.requestAccount();
@@ -66,30 +63,20 @@ class EVMWalletProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> changeChainId(int chainId) async {
-    if (chainId != currentChain) {
-      try {
-        await eth!.rawRequest(
-          'wallet_switchEthereumChain',
-          params: [
-            JSrawRequestParams(chainId: '0x${chainId.toRadixString(16)}'),
-          ],
-        );
+  Future<void> changeChainId(int chainId) async {
+    try {
+      await eth!.rawRequest(
+        'wallet_switchEthereumChain',
+        params: [
+          JSrawRequestParams(chainId: '0x${chainId.toRadixString(16)}'),
+        ],
+      );
 
-        currentChain = chainId;
-        notifyListeners();
-        return true;
-      } catch (e) {
-        sl.get<LogManager>().log(
-              e.toString(),
-              level: LogLevel.error,
-              name: 'EVMWalletProvider - changeChainId',
-            );
-        return false;
-      }
+      currentChain = chainId;
+      notifyListeners();
+    } catch (e) {
+      throw Exception(e);
     }
-
-    return false;
   }
 
   Future<void> disconnect() async {

@@ -179,6 +179,16 @@ Map<String, dynamic> _$$ConnectivityEVMImplToJson(
       'runtimeType': instance.$type,
     };
 
+_$ParamEVMChainImpl _$$ParamEVMChainImplFromJson(Map<String, dynamic> json) =>
+    _$ParamEVMChainImpl(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$ParamEVMChainImplToJson(_$ParamEVMChainImpl instance) =>
+    <String, dynamic>{
+      'runtimeType': instance.$type,
+    };
+
 _$TimeoutImpl _$$TimeoutImplFromJson(Map<String, dynamic> json) =>
     _$TimeoutImpl(
       $type: json['runtimeType'] as String?,
