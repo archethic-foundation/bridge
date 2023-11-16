@@ -1,27 +1,26 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'provider.dart';
+part of 'coingecko.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$bridgeFormNotifierHash() =>
-    r'b324b40c903677eb19f0621525c5739ae91cbf6b';
+String _$coinPriceNotifierHash() => r'f3b5fd302f2f4bd6fd37a77761e43ad8d33d11de';
 
-/// See also [_BridgeFormNotifier].
-@ProviderFor(_BridgeFormNotifier)
-final _bridgeFormNotifierProvider =
-    AutoDisposeNotifierProvider<_BridgeFormNotifier, BridgeFormState>.internal(
-  _BridgeFormNotifier.new,
-  name: r'_bridgeFormNotifierProvider',
+/// See also [_CoinPriceNotifier].
+@ProviderFor(_CoinPriceNotifier)
+final _coinPriceNotifierProvider =
+    NotifierProvider<_CoinPriceNotifier, Map<String, double?>>.internal(
+  _CoinPriceNotifier.new,
+  name: r'_coinPriceNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$bridgeFormNotifierHash,
+      : _$coinPriceNotifierHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$BridgeFormNotifier = AutoDisposeNotifier<BridgeFormState>;
+typedef _$CoinPriceNotifier = Notifier<Map<String, double?>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

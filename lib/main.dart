@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/coingecko.dart';
 import 'package:aebridge/application/oracle/provider.dart';
 import 'package:aebridge/infrastructure/hive/db_helper.hive.dart';
 import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
@@ -38,6 +39,7 @@ class MyApp extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     ref.read(ArchethicOracleUCOProviders.archethicOracleUCO.notifier).init();
+    ref.read(CoinPriceProviders.coinPrice.notifier).init();
 
     // GoRouter configuration
     final _router = GoRouter(

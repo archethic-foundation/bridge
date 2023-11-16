@@ -6,7 +6,6 @@ import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/application/contracts/archethic_factory.dart';
 import 'package:aebridge/application/contracts/evm_lp.dart';
-import 'package:aebridge/application/market.dart';
 import 'package:aebridge/application/oracle/state.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/application/token_decimals.dart';
@@ -212,39 +211,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     await storeBridge();
   }
 
-  Future<void> setCoingeckoPrice() async {
-    if (state.tokenToBridge == null) {
-      state = state.copyWith(coingeckoPrice: 0);
-    }
-    String? coinId;
-    switch (state.tokenToBridge!.symbol) {
-      case 'ETH':
-      case 'aeETH':
-        coinId = 'ethereum';
-        break;
-      case 'BNB':
-      case 'aeBNB':
-        coinId = 'binancecoin';
-        break;
-      case 'MATIC':
-      case 'aeMATIC':
-        coinId = 'matic-network';
-        break;
-      default:
-        state = state.copyWith(coingeckoPrice: 0);
-        return;
-    }
-
-    final coingeckoPriceResult =
-        await ref.read(MarketProviders.marketRepository).getPrice(coinId);
-    coingeckoPriceResult.map(
-      success: (coingeckoPrice) =>
-          state = state.copyWith(coingeckoPrice: coingeckoPrice),
-      failure: (failure) => state = state.copyWith(coingeckoPrice: 0),
-    );
-    await storeBridge();
-  }
-
   Future<void> setTokenToBridge(
     BridgeToken? tokenToBridge,
   ) async {
@@ -259,8 +225,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     }
 
     if (tokenToBridge == null) return;
-
-    await setCoingeckoPrice();
 
     final balance = await ref.read(
       BalanceProviders.getBalance(
@@ -422,7 +386,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
       archethicTransactionFees: 0,
       targetAddress: '',
       tokenToBridge: null,
-      coingeckoPrice: 0,
       tokenToBridgeAmount: 0,
       tokenToBridgeBalance: 0,
       tokenBridgedBalance: 0,
@@ -665,7 +628,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     ).calculateArchethicProtocolFees();
     await setArchethicProtocolFeesRate(archethicProtocolFees.rate);
     await setArchethicProtocolFeesAddress(archethicProtocolFees.address);
-    await setCoingeckoPrice();
 
     //final aeHTLCFees = await ArchethicContract().estimateDeployHTLCFees();
 

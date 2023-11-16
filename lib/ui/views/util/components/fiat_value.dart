@@ -1,4 +1,4 @@
-import 'package:aebridge/application/market.dart';
+import 'package:aebridge/application/coingecko.dart';
 import 'package:aebridge/application/oracle/provider.dart';
 import 'package:aebridge/ui/views/util/generic/formatters.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,8 +18,23 @@ class FiatValue {
       final fiatValue = archethicOracleUCO.usd * amount;
       return '(\$${fiatValue.formatNumber(precision: 2)})';
     } else {
-      final price =
-          await ref.watch(MarketProviders.getPriceFromSymbol(symbol).future);
+      final prices = ref.watch(CoinPriceProviders.coinPrice);
+      var price = 0.0;
+
+      switch (symbol) {
+        case 'ETH':
+        case 'aeETH':
+          if (prices['ethereum'] != null) price = prices['ethereum']!;
+          break;
+        case 'BNB':
+        case 'aeBNB':
+          if (prices['binancecoin'] != null) price = prices['binancecoin']!;
+          break;
+        case 'MATIC':
+        case 'aeMATIC':
+          if (prices['matic-network'] != null) price = prices['matic-network']!;
+          break;
+      }
 
       final fiatValue = price * amount;
       if (withParenthesis) {
