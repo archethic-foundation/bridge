@@ -1,12 +1,12 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'coingecko.dart';
+part of 'coin_price.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$coinPriceNotifierHash() => r'f3b5fd302f2f4bd6fd37a77761e43ad8d33d11de';
+String _$coinPriceNotifierHash() => r'd2da6b8b75bcfb8063af48204111fd6555332aa6';
 
 /// See also [_CoinPriceNotifier].
 @ProviderFor(_CoinPriceNotifier)

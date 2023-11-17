@@ -1,4 +1,4 @@
-import 'package:aebridge/application/coingecko.dart';
+import 'package:aebridge/application/coin_price.dart';
 import 'package:aebridge/application/oracle/provider.dart';
 import 'package:aebridge/ui/views/util/generic/formatters.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -28,11 +28,11 @@ class FiatValue {
           break;
         case 'BNB':
         case 'aeBNB':
-          if (prices['binancecoin'] != null) price = prices['binancecoin']!;
+          if (prices['bnb'] != null) price = prices['bnb']!;
           break;
         case 'MATIC':
         case 'aeMATIC':
-          if (prices['matic-network'] != null) price = prices['matic-network']!;
+          if (prices['polygon'] != null) price = prices['polygon']!;
           break;
       }
 

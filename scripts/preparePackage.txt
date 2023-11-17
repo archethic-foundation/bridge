@@ -4,3 +4,6 @@ dart fix --dry-run
 flutter run -d web-server
 flutter build web --web-renderer canvaskit --release
 firebase deploy
+
+// Disable local security
+in chrome.dart, add: '--disable-web-security',
