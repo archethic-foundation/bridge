@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/coingecko.dart';
+import 'package:aebridge/application/coin_price.dart';
 import 'package:aebridge/application/oracle/provider.dart';
 import 'package:aebridge/infrastructure/hive/db_helper.hive.dart';
 import 'package:aebridge/infrastructure/hive/preferences.hive.dart';

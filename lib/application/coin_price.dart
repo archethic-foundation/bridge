@@ -37,12 +37,6 @@ class _CoinPriceNotifier extends Notifier<Map<String, double?>> {
     for (final pair in pairs) {
       final price = await _fetchPrice(pair);
       if (price != null) {
-        sl.get<LogManager>().log(
-              '$pair = $price',
-              level: LogLevel.debug,
-              name: 'CoinPriceNotifier - _fetchPrices',
-            );
-
         state[pair] = price;
       }
     }
@@ -53,10 +47,8 @@ class _CoinPriceNotifier extends Notifier<Map<String, double?>> {
   Future<dynamic> _fetchPrice(String coin) async {
     final url = 'https://coinmarketcap.com/currencies/$coin/markets/';
     final headers = {
-      "Access-Control-Allow-Origin": "*",
-      "Access-Control-Allow-Headers": "Access-Control-Allow-Origin, Accept",
-      'User-Agent':
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.169 Safari/537.36',
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Access-Control-Allow-Origin, Accept',
       'Accept': 'text/html',
       'Accept-Language': 'en-US,en;q=0.9',
       'Upgrade-Insecure-Requests': '1',
