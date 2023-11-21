@@ -82,6 +82,9 @@ dependencies:
   # Flutter plugin for launching a URL. Supports web, phone, SMS, and email schemes
   url_launcher: ^6.1.12
 
+  # Wave animation
+  wave: ^0.2.2
+
   # Dart library to connect to Ethereum clients. Send transactions and interact with smart contracts!
   #webthree: ^2.5.11
   webthree:
