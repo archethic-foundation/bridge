@@ -1,8 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-
-import 'package:aebridge/util/custom_logs.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:html/dom.dart';
 import 'package:html/parser.dart';
 import 'package:http/http.dart' as http;
@@ -59,13 +56,14 @@ class _CoinPriceNotifier extends Notifier<Map<String, double?>> {
       if (response.statusCode == 200) {
         return _extractPriceMethods(response.body);
       }
+      // ignore: unused_catch_stack
     } catch (e, stacktrace) {
-      sl.get<LogManager>().log(
+      /*  sl.get<LogManager>().log(
             e.toString(),
             stackTrace: stacktrace,
             level: LogLevel.error,
             name: 'CoinPriceNotifier - _fetchPrices',
-          );
+          );*/
     }
     return null;
   }
