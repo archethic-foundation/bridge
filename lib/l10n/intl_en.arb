@@ -98,6 +98,7 @@
   "aeBridgeProcessStep7": "Withdraw",
   "aeBridgeProcessStep8": "Process finished",
   "failureUserRejected": "The request has been declined.",
+  "failureChainSwitchNotSupported": "Your EVM wallet doesn't support automatic network switching. Please change it manually in your wallet first.",
   "failureConnectivityArchethic": "Please, open your Archethic Wallet and allow DApps connection.",
   "failureConnectivityEVM": "Please, open your EVM Wallet.",
   "failureParamEVMChain": "You have selected a network that is not set up in your wallet. Please configure it to use the bridge.",

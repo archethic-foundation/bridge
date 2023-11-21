@@ -17,21 +17,19 @@ class EVMWalletProvider extends ChangeNotifier {
   int? currentChain;
   bool walletConnected = false;
   Ethereum? eth;
+  BinanceChainWallet? bsc;
+  OkxWallet? okx;
+
   Web3Client? web3Client;
   CredentialsWithKnownAddress? credentials;
 
   Future<int> getChainId() async {
-    if (window.ethereum != null) {
+    if (window.OkxChainWallet != null) {
       try {
-        eth = window.ethereum;
+        okx = window.OkxChainWallet;
+        final okxRPC = okx!.asRpcService();
 
-        if (eth == null) {
-          throw Exception('EVM Wallet is not available');
-        }
-
-        final ethRPC = eth!.asRpcService();
-
-        web3Client = Web3Client.custom(ethRPC);
+        web3Client = Web3Client.custom(okxRPC);
         if (web3Client == null) {
           throw Exception('EVM Wallet is not available');
         }
@@ -41,42 +39,98 @@ class EVMWalletProvider extends ChangeNotifier {
         throw Exception('Please, connect your Wallet.');
       }
     } else {
-      throw Exception('No provider installed');
+      if (window.BinanceChain != null) {
+        try {
+          bsc = window.BinanceChain;
+          final bscRPC = bsc!.asRpcService();
+
+          web3Client = Web3Client.custom(bscRPC);
+          if (web3Client == null) {
+            throw Exception('EVM Wallet is not available');
+          }
+          final currentChain = await web3Client!.getChainId();
+          return currentChain.toInt();
+        } catch (e) {
+          throw Exception('Please, connect your Wallet.');
+        }
+      } else {
+        if (window.ethereum != null) {
+          try {
+            eth = window.ethereum;
+            final ethRPC = eth!.asRpcService();
+
+            web3Client = Web3Client.custom(ethRPC);
+            if (web3Client == null) {
+              throw Exception('EVM Wallet is not available');
+            }
+            final currentChain = await web3Client!.getChainId();
+            return currentChain.toInt();
+          } catch (e) {
+            throw Exception('Please, connect your Wallet.');
+          }
+        } else {
+          throw Exception('No provider installed');
+        }
+      }
     }
   }
 
   Future<void> connect(int chainId) async {
     walletConnected = false;
-    try {
-      currentChain = await getChainId();
-      if (currentChain != chainId) {
-        await changeChainId(chainId);
-      }
 
-      credentials = await eth!.requestAccount();
-      currentAddress = credentials!.address.hex;
-      walletConnected = true;
-    } catch (e) {
-      throw Exception(e);
+    currentChain = await getChainId();
+    if (currentChain != chainId) {
+      await changeChainId(chainId);
     }
+
+    if (okx != null) {
+      credentials = await okx!.requestAccount();
+    } else {
+      if (bsc != null) {
+        credentials = await bsc!.requestAccount();
+      } else {
+        if (eth != null) {
+          credentials = await eth!.requestAccount();
+        }
+      }
+    }
+
+    currentAddress = credentials!.address.hex;
+    walletConnected = true;
 
     notifyListeners();
   }
 
   Future<void> changeChainId(int chainId) async {
-    try {
-      await eth!.rawRequest(
+    if (okx != null) {
+      await okx!.rawRequest(
         'wallet_switchEthereumChain',
         params: [
           JSrawRequestParams(chainId: '0x${chainId.toRadixString(16)}'),
         ],
       );
-
-      currentChain = chainId;
-      notifyListeners();
-    } catch (e) {
-      throw Exception(e);
+    } else {
+      if (bsc != null) {
+        await bsc!.rawRequest(
+          'wallet_switchEthereumChain',
+          params: [
+            JSrawRequestParams(chainId: '0x${chainId.toRadixString(16)}'),
+          ],
+        );
+      } else {
+        if (eth != null) {
+          await eth!.rawRequest(
+            'wallet_switchEthereumChain',
+            params: [
+              JSrawRequestParams(chainId: '0x${chainId.toRadixString(16)}'),
+            ],
+          );
+        }
+      }
     }
+
+    currentChain = chainId;
+    notifyListeners();
   }
 
   Future<void> disconnect() async {
@@ -173,7 +227,7 @@ class EVMWalletProvider extends ChangeNotifier {
 
           final abiTokenStringJson = jsonDecode(
             await rootBundle.loadString(
-              'contracts/evm/artifacts/@openzeppelin/contracts/token/ERC20/IERC20.sol/IERC20.json',
+              'contracts/evm/artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json',
             ),
           );
 

@@ -38,8 +38,6 @@ class EVMLP with EVMBridgeProcessMixin {
         ethAmount.getInWei,
       ],
       from: EthereumAddress.fromHex(addressFrom),
-      gasPrice: EtherAmount.fromInt(EtherUnit.gwei, 20),
-      maxGas: 1500000,
       value: isERC20 == false ? ethAmount : null,
     );
     return transactionMintHTLC;
@@ -140,12 +138,15 @@ class EVMLP with EVMBridgeProcessMixin {
         );
         await subscription.cancel();
       } catch (e, stackTrace) {
-        sl.get<LogManager>().log(
-              '$e',
-              stackTrace: stackTrace,
-              level: LogLevel.error,
-              name: 'EVMLP - deployChargeableHTLC',
-            );
+        if (e != const Failure.userRejected()) {
+          sl.get<LogManager>().log(
+                '$e',
+                stackTrace: stackTrace,
+                level: LogLevel.error,
+                name: 'EVMLP - deployChargeableHTLC',
+              );
+        }
+
         await subscription.cancel();
         rethrow;
       }

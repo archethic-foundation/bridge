@@ -14,6 +14,7 @@ import 'package:aebridge/util/service_locator.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:webthree/webthree.dart';
 
 part 'provider.g.dart';
 
@@ -65,6 +66,9 @@ class _SessionNotifier extends Notifier<Session> {
 
           _fillState(bridgeWallet, from);
         } catch (e) {
+          if (e is EthereumChainSwitchNotSupported) {
+            throw const Failure.chainSwitchNotSupported();
+          }
           if (e.toString().toLowerCase().contains('unrecognized chain')) {
             throw const Failure.paramEVMChain();
           }

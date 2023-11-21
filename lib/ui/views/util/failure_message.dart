@@ -19,6 +19,10 @@ class FailureMessage {
       return AppLocalizations.of(context)!.failureUserRejected;
     }
 
+    if (failure is ChainSwitchNotSupported) {
+      return AppLocalizations.of(context)!.failureChainSwitchNotSupported;
+    }
+
     if (failure is ConnectivityArchethic) {
       return AppLocalizations.of(context)!.failureConnectivityArchethic;
     }

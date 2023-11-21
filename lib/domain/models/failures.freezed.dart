@@ -42,6 +42,8 @@ Failure _$FailureFromJson(Map<String, dynamic> json) {
       return WrongNetwork.fromJson(json);
     case 'userRejected':
       return UserRejected.fromJson(json);
+    case 'chainSwitchNotSupported':
+      return ChainSwitchNotSupported.fromJson(json);
     case 'connectivityArchethic':
       return ConnectivityArchethic.fromJson(json);
     case 'connectivityEVM':
@@ -78,6 +80,7 @@ mixin _$Failure {
     required TResult Function() notHTLC,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
@@ -101,6 +104,7 @@ mixin _$Failure {
     TResult? Function()? notHTLC,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
@@ -124,6 +128,7 @@ mixin _$Failure {
     TResult Function()? notHTLC,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
@@ -149,6 +154,8 @@ mixin _$Failure {
     required TResult Function(NotHTLC value) notHTLC,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
@@ -173,6 +180,7 @@ mixin _$Failure {
     TResult? Function(NotHTLC value)? notHTLC,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
@@ -196,6 +204,7 @@ mixin _$Failure {
     TResult Function(NotHTLC value)? notHTLC,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
@@ -285,6 +294,7 @@ class _$LoggedOutImpl extends LoggedOut {
     required TResult Function() notHTLC,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
@@ -311,6 +321,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult? Function()? notHTLC,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
@@ -337,6 +348,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult Function()? notHTLC,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
@@ -368,6 +380,8 @@ class _$LoggedOutImpl extends LoggedOut {
     required TResult Function(NotHTLC value) notHTLC,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
@@ -395,6 +409,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult? Function(NotHTLC value)? notHTLC,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
@@ -421,6 +436,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult Function(NotHTLC value)? notHTLC,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
@@ -511,6 +527,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     required TResult Function() notHTLC,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
@@ -537,6 +554,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult? Function()? notHTLC,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
@@ -563,6 +581,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult Function()? notHTLC,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
@@ -594,6 +613,8 @@ class _$NetworkFailureImpl extends NetworkFailure {
     required TResult Function(NotHTLC value) notHTLC,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
@@ -621,6 +642,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult? Function(NotHTLC value)? notHTLC,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
@@ -647,6 +669,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult Function(NotHTLC value)? notHTLC,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
@@ -766,6 +789,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     required TResult Function() notHTLC,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
@@ -792,6 +816,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult? Function()? notHTLC,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
@@ -818,6 +843,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult Function()? notHTLC,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
@@ -849,6 +875,8 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     required TResult Function(NotHTLC value) notHTLC,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
@@ -876,6 +904,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult? Function(NotHTLC value)? notHTLC,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
@@ -902,6 +931,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult Function(NotHTLC value)? notHTLC,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
@@ -998,6 +1028,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     required TResult Function() notHTLC,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
@@ -1024,6 +1055,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult? Function()? notHTLC,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
@@ -1050,6 +1082,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult Function()? notHTLC,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
@@ -1081,6 +1114,8 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     required TResult Function(NotHTLC value) notHTLC,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
@@ -1108,6 +1143,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult? Function(NotHTLC value)? notHTLC,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
@@ -1134,6 +1170,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult Function(NotHTLC value)? notHTLC,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
@@ -1225,6 +1262,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     required TResult Function() notHTLC,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
@@ -1251,6 +1289,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult? Function()? notHTLC,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
@@ -1277,6 +1316,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult Function()? notHTLC,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
@@ -1308,6 +1348,8 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     required TResult Function(NotHTLC value) notHTLC,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
@@ -1335,6 +1377,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult? Function(NotHTLC value)? notHTLC,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
@@ -1361,6 +1404,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult Function(NotHTLC value)? notHTLC,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
@@ -1451,6 +1495,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     required TResult Function() notHTLC,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
@@ -1477,6 +1522,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult? Function()? notHTLC,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
@@ -1503,6 +1549,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult Function()? notHTLC,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
@@ -1534,6 +1581,8 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     required TResult Function(NotHTLC value) notHTLC,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
@@ -1561,6 +1610,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult? Function(NotHTLC value)? notHTLC,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
@@ -1587,6 +1637,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult Function(NotHTLC value)? notHTLC,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
@@ -1679,6 +1730,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     required TResult Function() notHTLC,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
@@ -1705,6 +1757,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     TResult? Function()? notHTLC,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
@@ -1731,6 +1784,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     TResult Function()? notHTLC,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
@@ -1762,6 +1816,8 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     required TResult Function(NotHTLC value) notHTLC,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
@@ -1789,6 +1845,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     TResult? Function(NotHTLC value)? notHTLC,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
@@ -1815,6 +1872,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     TResult Function(NotHTLC value)? notHTLC,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
@@ -1905,6 +1963,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     required TResult Function() notHTLC,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
@@ -1931,6 +1990,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult? Function()? notHTLC,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
@@ -1957,6 +2017,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult Function()? notHTLC,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
@@ -1988,6 +2049,8 @@ class _$UnauthorizedImpl extends Unauthorized {
     required TResult Function(NotHTLC value) notHTLC,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
@@ -2015,6 +2078,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult? Function(NotHTLC value)? notHTLC,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
@@ -2041,6 +2105,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult Function(NotHTLC value)? notHTLC,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
@@ -2131,6 +2196,7 @@ class _$InvalidValueImpl extends InvalidValue {
     required TResult Function() notHTLC,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
@@ -2157,6 +2223,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult? Function()? notHTLC,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
@@ -2183,6 +2250,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult Function()? notHTLC,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
@@ -2214,6 +2282,8 @@ class _$InvalidValueImpl extends InvalidValue {
     required TResult Function(NotHTLC value) notHTLC,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
@@ -2241,6 +2311,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult? Function(NotHTLC value)? notHTLC,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
@@ -2267,6 +2338,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult Function(NotHTLC value)? notHTLC,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
@@ -2357,6 +2429,7 @@ class _$HTLCWithoutFundsImpl extends HTLCWithoutFunds {
     required TResult Function() notHTLC,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
@@ -2383,6 +2456,7 @@ class _$HTLCWithoutFundsImpl extends HTLCWithoutFunds {
     TResult? Function()? notHTLC,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
@@ -2409,6 +2483,7 @@ class _$HTLCWithoutFundsImpl extends HTLCWithoutFunds {
     TResult Function()? notHTLC,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
@@ -2440,6 +2515,8 @@ class _$HTLCWithoutFundsImpl extends HTLCWithoutFunds {
     required TResult Function(NotHTLC value) notHTLC,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
@@ -2467,6 +2544,7 @@ class _$HTLCWithoutFundsImpl extends HTLCWithoutFunds {
     TResult? Function(NotHTLC value)? notHTLC,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
@@ -2493,6 +2571,7 @@ class _$HTLCWithoutFundsImpl extends HTLCWithoutFunds {
     TResult Function(NotHTLC value)? notHTLC,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
@@ -2583,6 +2662,7 @@ class _$NotHTLCImpl extends NotHTLC {
     required TResult Function() notHTLC,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
@@ -2609,6 +2689,7 @@ class _$NotHTLCImpl extends NotHTLC {
     TResult? Function()? notHTLC,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
@@ -2635,6 +2716,7 @@ class _$NotHTLCImpl extends NotHTLC {
     TResult Function()? notHTLC,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
@@ -2666,6 +2748,8 @@ class _$NotHTLCImpl extends NotHTLC {
     required TResult Function(NotHTLC value) notHTLC,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
@@ -2693,6 +2777,7 @@ class _$NotHTLCImpl extends NotHTLC {
     TResult? Function(NotHTLC value)? notHTLC,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
@@ -2719,6 +2804,7 @@ class _$NotHTLCImpl extends NotHTLC {
     TResult Function(NotHTLC value)? notHTLC,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
@@ -2834,6 +2920,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     required TResult Function() notHTLC,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
@@ -2860,6 +2947,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult? Function()? notHTLC,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
@@ -2886,6 +2974,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult Function()? notHTLC,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
@@ -2917,6 +3006,8 @@ class _$WrongNetworkImpl extends WrongNetwork {
     required TResult Function(NotHTLC value) notHTLC,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
@@ -2944,6 +3035,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult? Function(NotHTLC value)? notHTLC,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
@@ -2970,6 +3062,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult Function(NotHTLC value)? notHTLC,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
@@ -3065,6 +3158,7 @@ class _$UserRejectedImpl extends UserRejected {
     required TResult Function() notHTLC,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
@@ -3091,6 +3185,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult? Function()? notHTLC,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
@@ -3117,6 +3212,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult Function()? notHTLC,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
@@ -3148,6 +3244,8 @@ class _$UserRejectedImpl extends UserRejected {
     required TResult Function(NotHTLC value) notHTLC,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
@@ -3175,6 +3273,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult? Function(NotHTLC value)? notHTLC,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
@@ -3201,6 +3300,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult Function(NotHTLC value)? notHTLC,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
@@ -3229,6 +3329,242 @@ abstract class UserRejected extends Failure {
 
   factory UserRejected.fromJson(Map<String, dynamic> json) =
       _$UserRejectedImpl.fromJson;
+}
+
+/// @nodoc
+abstract class _$$ChainSwitchNotSupportedImplCopyWith<$Res> {
+  factory _$$ChainSwitchNotSupportedImplCopyWith(
+          _$ChainSwitchNotSupportedImpl value,
+          $Res Function(_$ChainSwitchNotSupportedImpl) then) =
+      __$$ChainSwitchNotSupportedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$ChainSwitchNotSupportedImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$ChainSwitchNotSupportedImpl>
+    implements _$$ChainSwitchNotSupportedImplCopyWith<$Res> {
+  __$$ChainSwitchNotSupportedImplCopyWithImpl(
+      _$ChainSwitchNotSupportedImpl _value,
+      $Res Function(_$ChainSwitchNotSupportedImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$ChainSwitchNotSupportedImpl extends ChainSwitchNotSupported {
+  const _$ChainSwitchNotSupportedImpl({final String? $type})
+      : $type = $type ?? 'chainSwitchNotSupported',
+        super._();
+
+  factory _$ChainSwitchNotSupportedImpl.fromJson(Map<String, dynamic> json) =>
+      _$$ChainSwitchNotSupportedImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'Failure.chainSwitchNotSupported()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ChainSwitchNotSupportedImpl);
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loggedOut,
+    required TResult Function() network,
+    required TResult Function(DateTime? cooldownEndDate) quotaExceeded,
+    required TResult Function() serviceNotFound,
+    required TResult Function() serviceAlreadyExists,
+    required TResult Function() insufficientFunds,
+    required TResult Function() insufficientPoolFunds,
+    required TResult Function() unauthorized,
+    required TResult Function() invalidValue,
+    required TResult Function() htlcWithoutFunds,
+    required TResult Function() notHTLC,
+    required TResult Function(String cause) wrongNetwork,
+    required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
+    required TResult Function() connectivityArchethic,
+    required TResult Function() connectivityEVM,
+    required TResult Function() paramEVMChain,
+    required TResult Function() timeout,
+    required TResult Function(String? cause) rpcErrorEVM,
+    required TResult Function(String? cause, String? stack) other,
+  }) {
+    return chainSwitchNotSupported();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loggedOut,
+    TResult? Function()? network,
+    TResult? Function(DateTime? cooldownEndDate)? quotaExceeded,
+    TResult? Function()? serviceNotFound,
+    TResult? Function()? serviceAlreadyExists,
+    TResult? Function()? insufficientFunds,
+    TResult? Function()? insufficientPoolFunds,
+    TResult? Function()? unauthorized,
+    TResult? Function()? invalidValue,
+    TResult? Function()? htlcWithoutFunds,
+    TResult? Function()? notHTLC,
+    TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
+    TResult? Function()? connectivityArchethic,
+    TResult? Function()? connectivityEVM,
+    TResult? Function()? paramEVMChain,
+    TResult? Function()? timeout,
+    TResult? Function(String? cause)? rpcErrorEVM,
+    TResult? Function(String? cause, String? stack)? other,
+  }) {
+    return chainSwitchNotSupported?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loggedOut,
+    TResult Function()? network,
+    TResult Function(DateTime? cooldownEndDate)? quotaExceeded,
+    TResult Function()? serviceNotFound,
+    TResult Function()? serviceAlreadyExists,
+    TResult Function()? insufficientFunds,
+    TResult Function()? insufficientPoolFunds,
+    TResult Function()? unauthorized,
+    TResult Function()? invalidValue,
+    TResult Function()? htlcWithoutFunds,
+    TResult Function()? notHTLC,
+    TResult Function(String cause)? wrongNetwork,
+    TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
+    TResult Function()? connectivityArchethic,
+    TResult Function()? connectivityEVM,
+    TResult Function()? paramEVMChain,
+    TResult Function()? timeout,
+    TResult Function(String? cause)? rpcErrorEVM,
+    TResult Function(String? cause, String? stack)? other,
+    required TResult orElse(),
+  }) {
+    if (chainSwitchNotSupported != null) {
+      return chainSwitchNotSupported();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoggedOut value) loggedOut,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(QuotaExceededFailure value) quotaExceeded,
+    required TResult Function(ServiceNotFound value) serviceNotFound,
+    required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(InsufficientPoolFunds value)
+        insufficientPoolFunds,
+    required TResult Function(Unauthorized value) unauthorized,
+    required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(HTLCWithoutFunds value) htlcWithoutFunds,
+    required TResult Function(NotHTLC value) notHTLC,
+    required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
+    required TResult Function(ConnectivityArchethic value)
+        connectivityArchethic,
+    required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(ParamEVMChain value) paramEVMChain,
+    required TResult Function(Timeout value) timeout,
+    required TResult Function(RPCErrorEVM value) rpcErrorEVM,
+    required TResult Function(OtherFailure value) other,
+  }) {
+    return chainSwitchNotSupported(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoggedOut value)? loggedOut,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult? Function(ServiceNotFound value)? serviceNotFound,
+    TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
+    TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(HTLCWithoutFunds value)? htlcWithoutFunds,
+    TResult? Function(NotHTLC value)? notHTLC,
+    TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
+    TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(ParamEVMChain value)? paramEVMChain,
+    TResult? Function(Timeout value)? timeout,
+    TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
+    TResult? Function(OtherFailure value)? other,
+  }) {
+    return chainSwitchNotSupported?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoggedOut value)? loggedOut,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult Function(ServiceNotFound value)? serviceNotFound,
+    TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
+    TResult Function(Unauthorized value)? unauthorized,
+    TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(HTLCWithoutFunds value)? htlcWithoutFunds,
+    TResult Function(NotHTLC value)? notHTLC,
+    TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
+    TResult Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(ParamEVMChain value)? paramEVMChain,
+    TResult Function(Timeout value)? timeout,
+    TResult Function(RPCErrorEVM value)? rpcErrorEVM,
+    TResult Function(OtherFailure value)? other,
+    required TResult orElse(),
+  }) {
+    if (chainSwitchNotSupported != null) {
+      return chainSwitchNotSupported(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$ChainSwitchNotSupportedImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class ChainSwitchNotSupported extends Failure {
+  const factory ChainSwitchNotSupported() = _$ChainSwitchNotSupportedImpl;
+  const ChainSwitchNotSupported._() : super._();
+
+  factory ChainSwitchNotSupported.fromJson(Map<String, dynamic> json) =
+      _$ChainSwitchNotSupportedImpl.fromJson;
 }
 
 /// @nodoc
@@ -3293,6 +3629,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     required TResult Function() notHTLC,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
@@ -3319,6 +3656,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult? Function()? notHTLC,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
@@ -3345,6 +3683,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult Function()? notHTLC,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
@@ -3376,6 +3715,8 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     required TResult Function(NotHTLC value) notHTLC,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
@@ -3403,6 +3744,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult? Function(NotHTLC value)? notHTLC,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
@@ -3429,6 +3771,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult Function(NotHTLC value)? notHTLC,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
@@ -3519,6 +3862,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     required TResult Function() notHTLC,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
@@ -3545,6 +3889,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     TResult? Function()? notHTLC,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
@@ -3571,6 +3916,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     TResult Function()? notHTLC,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
@@ -3602,6 +3948,8 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     required TResult Function(NotHTLC value) notHTLC,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
@@ -3629,6 +3977,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     TResult? Function(NotHTLC value)? notHTLC,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
@@ -3655,6 +4004,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     TResult Function(NotHTLC value)? notHTLC,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
@@ -3745,6 +4095,7 @@ class _$ParamEVMChainImpl extends ParamEVMChain {
     required TResult Function() notHTLC,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
@@ -3771,6 +4122,7 @@ class _$ParamEVMChainImpl extends ParamEVMChain {
     TResult? Function()? notHTLC,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
@@ -3797,6 +4149,7 @@ class _$ParamEVMChainImpl extends ParamEVMChain {
     TResult Function()? notHTLC,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
@@ -3828,6 +4181,8 @@ class _$ParamEVMChainImpl extends ParamEVMChain {
     required TResult Function(NotHTLC value) notHTLC,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
@@ -3855,6 +4210,7 @@ class _$ParamEVMChainImpl extends ParamEVMChain {
     TResult? Function(NotHTLC value)? notHTLC,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
@@ -3881,6 +4237,7 @@ class _$ParamEVMChainImpl extends ParamEVMChain {
     TResult Function(NotHTLC value)? notHTLC,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
@@ -3971,6 +4328,7 @@ class _$TimeoutImpl extends Timeout {
     required TResult Function() notHTLC,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
@@ -3997,6 +4355,7 @@ class _$TimeoutImpl extends Timeout {
     TResult? Function()? notHTLC,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
@@ -4023,6 +4382,7 @@ class _$TimeoutImpl extends Timeout {
     TResult Function()? notHTLC,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
@@ -4054,6 +4414,8 @@ class _$TimeoutImpl extends Timeout {
     required TResult Function(NotHTLC value) notHTLC,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
@@ -4081,6 +4443,7 @@ class _$TimeoutImpl extends Timeout {
     TResult? Function(NotHTLC value)? notHTLC,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
@@ -4107,6 +4470,7 @@ class _$TimeoutImpl extends Timeout {
     TResult Function(NotHTLC value)? notHTLC,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
@@ -4222,6 +4586,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     required TResult Function() notHTLC,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
@@ -4248,6 +4613,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     TResult? Function()? notHTLC,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
@@ -4274,6 +4640,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     TResult Function()? notHTLC,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
@@ -4305,6 +4672,8 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     required TResult Function(NotHTLC value) notHTLC,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
@@ -4332,6 +4701,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     TResult? Function(NotHTLC value)? notHTLC,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
@@ -4358,6 +4728,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     TResult Function(NotHTLC value)? notHTLC,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
@@ -4487,6 +4858,7 @@ class _$OtherFailureImpl extends OtherFailure {
     required TResult Function() notHTLC,
     required TResult Function(String cause) wrongNetwork,
     required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
     required TResult Function() connectivityArchethic,
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
@@ -4513,6 +4885,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult? Function()? notHTLC,
     TResult? Function(String cause)? wrongNetwork,
     TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
     TResult? Function()? connectivityArchethic,
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
@@ -4539,6 +4912,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult Function()? notHTLC,
     TResult Function(String cause)? wrongNetwork,
     TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
     TResult Function()? connectivityArchethic,
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
@@ -4570,6 +4944,8 @@ class _$OtherFailureImpl extends OtherFailure {
     required TResult Function(NotHTLC value) notHTLC,
     required TResult Function(WrongNetwork value) wrongNetwork,
     required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
     required TResult Function(ConnectivityArchethic value)
         connectivityArchethic,
     required TResult Function(ConnectivityEVM value) connectivityEVM,
@@ -4597,6 +4973,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult? Function(NotHTLC value)? notHTLC,
     TResult? Function(WrongNetwork value)? wrongNetwork,
     TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
@@ -4623,6 +5000,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult Function(NotHTLC value)? notHTLC,
     TResult Function(WrongNetwork value)? wrongNetwork,
     TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
     TResult Function(ConnectivityArchethic value)? connectivityArchethic,
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,

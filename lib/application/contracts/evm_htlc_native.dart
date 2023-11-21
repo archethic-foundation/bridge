@@ -64,8 +64,6 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
           evmWalletProvider.credentials!,
           Transaction(
             to: EthereumAddress.fromHex(htlcContractAddress),
-            gasPrice: EtherAmount.fromInt(EtherUnit.gwei, 20),
-            maxGas: 1500000,
             value: ethAmount,
           ),
           chainId,

@@ -155,6 +155,18 @@ Map<String, dynamic> _$$UserRejectedImplToJson(_$UserRejectedImpl instance) =>
       'runtimeType': instance.$type,
     };
 
+_$ChainSwitchNotSupportedImpl _$$ChainSwitchNotSupportedImplFromJson(
+        Map<String, dynamic> json) =>
+    _$ChainSwitchNotSupportedImpl(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$ChainSwitchNotSupportedImplToJson(
+        _$ChainSwitchNotSupportedImpl instance) =>
+    <String, dynamic>{
+      'runtimeType': instance.$type,
+    };
+
 _$ConnectivityArchethicImpl _$$ConnectivityArchethicImplFromJson(
         Map<String, dynamic> json) =>
     _$ConnectivityArchethicImpl(

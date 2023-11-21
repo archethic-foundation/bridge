@@ -288,7 +288,12 @@ mixin EVMBridgeProcessMixin {
       var newTransaction = transaction;
       if (transaction.gasPrice == null) {
         final gasPrice = await web3Client.getGasPrice();
-        newTransaction = newTransaction.copyWith(gasPrice: gasPrice);
+        const slippage = 1.5;
+        final gasPriceInWei = gasPrice.getInWei.toDouble();
+        final newGasPriceInWei = gasPriceInWei * slippage;
+        final newGasPrice =
+            EtherAmount.fromDouble(EtherUnit.wei, newGasPriceInWei);
+        newTransaction = newTransaction.copyWith(gasPrice: newGasPrice);
       }
       if (transaction.maxPriorityFeePerGas == null) {
         final maxPriorityFeePerGas = await _getMaxPriorityFeePerGas();
@@ -349,6 +354,10 @@ mixin EVMBridgeProcessMixin {
 
         throw Failure.rpcErrorEVM(jsonMap.entries.first.value);
       }
+      if (e is BinanceWalletException) {
+        throw Failure.other(cause: e.error);
+      }
+
       sl.get<LogManager>().log(
             '$e',
             stackTrace: stackTrace,

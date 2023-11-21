@@ -9,7 +9,7 @@ environment:
 
 dependencies:
   # A client dart library to interact with Archethic Wallet RPC API.
-  archethic_wallet_client: ^1.0.7
+  archethic_wallet_client: ^1.0.0
   #archethic_wallet_client:
   #  git:
   #    url: https://github.com/archethic-foundation/archethic-wallet-client-dart.git
@@ -17,9 +17,6 @@ dependencies:
 
   # Centralized loading widget management
   busy: ^1.0.2
-
-  # Dart package that provides simple access to the CoinGecko API (Version 3)
-  coingecko_api: ^1.1.1+1
 
   # Implementations of SHA, MD5, and HMAC cryptographic functions
   crypto: ^3.0.3
@@ -40,7 +37,7 @@ dependencies:
   flutter_riverpod: ^2.3.6
 
   # An SVG rendering and widget library for Flutter, which allows painting and displaying Scalable Vector Graphics 1.1 files.
-  flutter_svg: ^2.0.5
+  flutter_svg: ^2.0.9
 
   # Annotations for freezed
   freezed_annotation: ^2.4.1
@@ -90,7 +87,7 @@ dependencies:
   webthree:
     git:
       url: https://github.com/redDwarf03/webthree.git
-      ref: fix-20231016
+      ref: add-wallets-support
 
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.

@@ -36,6 +36,7 @@ class Failure with _$Failure implements Exception {
     String cause,
   ) = WrongNetwork;
   const factory Failure.userRejected() = UserRejected;
+  const factory Failure.chainSwitchNotSupported() = ChainSwitchNotSupported;
   const factory Failure.connectivityArchethic() = ConnectivityArchethic;
   const factory Failure.connectivityEVM() = ConnectivityEVM;
   const factory Failure.paramEVMChain() = ParamEVMChain;
