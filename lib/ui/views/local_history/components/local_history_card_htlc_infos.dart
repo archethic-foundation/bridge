@@ -29,15 +29,11 @@ class LocalHistoryCardHTLCInfos extends StatelessWidget {
             Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                SelectableText(
-                  '${bridge.blockchainFrom!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
-                  style: const TextStyle(
-                    fontSize: 13,
-                  ),
-                ),
                 FormatAddressLinkCopy(
                   address: bridge.blockchainFrom!.htlcAddress!,
                   chainId: bridge.blockchainFrom!.chainId,
+                  header:
+                      '${bridge.blockchainFrom!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
                 ),
                 if (bridge.blockchainFrom!.isArchethic == false)
                   EVMHTLCStatus(
@@ -53,15 +49,11 @@ class LocalHistoryCardHTLCInfos extends StatelessWidget {
             Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                SelectableText(
-                  '${bridge.blockchainTo!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
-                  style: const TextStyle(
-                    fontSize: 13,
-                  ),
-                ),
                 FormatAddressLinkCopy(
                   address: bridge.blockchainTo!.htlcAddress!,
                   chainId: bridge.blockchainTo!.chainId,
+                  header:
+                      '${bridge.blockchainTo!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
                 ),
                 if (bridge.blockchainTo!.isArchethic == false)
                   EVMHTLCStatus(

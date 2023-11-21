@@ -22,13 +22,11 @@ class RefundTransaction extends ConsumerWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SelectableText(
-            '${AppLocalizations.of(context)!.refundTxAddressLbl}:',
-          ),
           FormatAddressLinkCopy(
             address: refund.refundTxAddress!,
             chainId: refund.chainId ?? 0,
             typeAddress: TypeAddress.transaction,
+            header: '${AppLocalizations.of(context)!.refundTxAddressLbl}:',
           ),
           const SizedBox(
             height: 10,

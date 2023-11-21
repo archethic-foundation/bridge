@@ -49,15 +49,8 @@ class BridgeInProgressContracts extends ConsumerWidget {
               ],
             ),
           const SizedBox(height: 10),
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
+          Row(
             children: [
-              if (bridge.blockchainFrom != null &&
-                  bridge.blockchainFrom!.htlcAddress != null &&
-                  bridge.blockchainFrom!.htlcAddress!.isNotEmpty)
-                SelectableText(
-                  '${bridge.blockchainFrom!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
-                ),
               if (bridge.blockchainFrom != null &&
                   bridge.blockchainFrom!.htlcAddress != null &&
                   bridge.blockchainFrom!.htlcAddress!.isNotEmpty)
@@ -65,21 +58,16 @@ class BridgeInProgressContracts extends ConsumerWidget {
                   address: bridge.blockchainFrom!.htlcAddress!,
                   chainId: bridge.blockchainFrom!.chainId,
                   reduceAddress: true,
+                  header:
+                      '${bridge.blockchainFrom!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
                 ),
             ],
           ),
           const SizedBox(
             height: 10,
           ),
-          Wrap(
-            crossAxisAlignment: WrapCrossAlignment.center,
+          Row(
             children: [
-              if (bridge.blockchainTo != null &&
-                  bridge.blockchainTo!.htlcAddress != null &&
-                  bridge.blockchainTo!.htlcAddress!.isNotEmpty)
-                SelectableText(
-                  '${bridge.blockchainTo!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
-                ),
               if (bridge.blockchainTo != null &&
                   bridge.blockchainTo!.htlcAddress != null &&
                   bridge.blockchainTo!.htlcAddress!.isNotEmpty)
@@ -87,6 +75,8 @@ class BridgeInProgressContracts extends ConsumerWidget {
                   address: bridge.blockchainTo!.htlcAddress!,
                   chainId: bridge.blockchainTo!.chainId,
                   reduceAddress: true,
+                  header:
+                      '${bridge.blockchainTo!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
                 ),
             ],
           ),

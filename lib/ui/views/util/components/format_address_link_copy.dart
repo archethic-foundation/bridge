@@ -1,5 +1,4 @@
 import 'package:aebridge/application/bridge_blockchain.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:aebridge/util/address_util.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +16,7 @@ class FormatAddressLinkCopy extends ConsumerWidget {
     this.reduceAddress = false,
     this.fontSize = 13,
     this.typeAddress = TypeAddress.address,
+    this.header,
     super.key,
   });
 
@@ -25,26 +25,27 @@ class FormatAddressLinkCopy extends ConsumerWidget {
   final bool reduceAddress;
   final double fontSize;
   final TypeAddress typeAddress;
+  final String? header;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    Widget _address() {
-      return Padding(
-        padding: const EdgeInsets.only(bottom: 2.3),
-        child: Text(
-          reduceAddress ? AddressUtil.reduceAddress(address) : address,
-          style: TextStyle(
-            fontSize: fontSize,
-            fontFamily: BridgeThemeBase.addressFont,
-          ),
-        ),
-      );
-    }
-
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        _address(),
+        if (header != null)
+          SelectableText(
+            '$header ${reduceAddress ? AddressUtil.reduceAddress(address) : address}',
+            style: TextStyle(
+              fontSize: fontSize,
+            ),
+          )
+        else
+          SelectableText(
+            reduceAddress ? AddressUtil.reduceAddress(address) : address,
+            style: TextStyle(
+              fontSize: fontSize,
+            ),
+          ),
         const SizedBox(width: 5),
         InkWell(
           onTap: () {
