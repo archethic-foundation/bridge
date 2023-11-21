@@ -103,7 +103,7 @@ class BridgeInProgressPopup {
                                             35000,
                                             19440,
                                             10800,
-                                            6000
+                                            6000,
                                           ],
                                           heightPercentages: [
                                             0.20,
