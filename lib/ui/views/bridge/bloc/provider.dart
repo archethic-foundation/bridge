@@ -16,6 +16,7 @@ import 'package:aebridge/domain/usecases/bridge_ae_to_evm.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_to_ae.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/util/generic/formatters.dart';
+import 'package:aebridge/util/transaction_bridge_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,7 +26,8 @@ import 'package:webthree/webthree.dart' as webthree;
 part 'provider.g.dart';
 
 @riverpod
-class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
+class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
+    with TransactionBridgeMixin {
   @override
   BridgeFormState build() {
     return const BridgeFormState();
@@ -668,6 +670,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState> {
     }
     setResumeProcess(false);
     await setTransferInProgress(false);
+    unawaited(refreshCurrentAccountInfoWallet());
   }
 }
 
