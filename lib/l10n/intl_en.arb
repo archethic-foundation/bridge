@@ -100,6 +100,7 @@
   "failureUserRejected": "The request has been declined.",
   "failureChainSwitchNotSupported": "Your EVM wallet doesn't support automatic network switching. Please change it manually in your wallet first.",
   "failureConnectivityArchethic": "Please, open your Archethic Wallet and allow DApps connection.",
+  "failureConnectivityArchethicBrave": "Please, open your Archethic Wallet, allow DApps connection and disable Brave's shield.",
   "failureConnectivityEVM": "Please, open your EVM Wallet.",
   "failureParamEVMChain": "You have selected a network that is not set up in your wallet. Please configure it to use the bridge.",
   "failureInsufficientFunds": "Funds are not sufficient.",
