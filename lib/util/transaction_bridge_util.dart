@@ -197,4 +197,14 @@ mixin TransactionBridgeMixin {
 
     return accountName;
   }
+
+  Future<void> refreshCurrentAccountInfoWallet() async {
+    try {
+      await sl.get<awc.ArchethicDAppClient>().refreshCurrentAccount();
+    } catch (e) {
+      // No need to notify error
+    }
+
+    return;
+  }
 }
