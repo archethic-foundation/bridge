@@ -32,6 +32,9 @@ class LocalHistoryCardHTLCInfos extends StatelessWidget {
                 FormatAddressLinkCopy(
                   address: bridge.blockchainFrom!.htlcAddress!,
                   chainId: bridge.blockchainFrom!.chainId,
+                  typeAddress: bridge.blockchainFrom!.isArchethic
+                      ? TypeAddress.chain
+                      : TypeAddress.address,
                   header:
                       '${bridge.blockchainFrom!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
                 ),
@@ -52,6 +55,9 @@ class LocalHistoryCardHTLCInfos extends StatelessWidget {
                 FormatAddressLinkCopy(
                   address: bridge.blockchainTo!.htlcAddress!,
                   chainId: bridge.blockchainTo!.chainId,
+                  typeAddress: bridge.blockchainTo!.isArchethic
+                      ? TypeAddress.chain
+                      : TypeAddress.address,
                   header:
                       '${bridge.blockchainTo!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
                 ),

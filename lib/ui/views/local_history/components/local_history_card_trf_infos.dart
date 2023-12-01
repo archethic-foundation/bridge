@@ -52,6 +52,9 @@ class LocalHistoryCardTrfInfos extends ConsumerWidget {
                   FormatAddressLinkCopy(
                     address: bridge.targetAddress,
                     chainId: bridge.blockchainTo!.chainId,
+                    typeAddress: bridge.blockchainTo!.isArchethic
+                        ? TypeAddress.chain
+                        : TypeAddress.address,
                   ),
                 ],
               ),
