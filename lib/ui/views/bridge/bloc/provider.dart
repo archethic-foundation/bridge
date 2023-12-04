@@ -580,7 +580,8 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
       return false;
     }
 
-    if (state.tokenToBridgeBalance < state.tokenToBridgeAmount) {
+    if (state.resumeProcess == false &&
+        state.tokenToBridgeBalance < state.tokenToBridgeAmount) {
       await setFailure(
         const Failure.other(
           cause: 'Your amount exceeds your balance. Please adjust your amount.',
