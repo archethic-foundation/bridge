@@ -31,7 +31,9 @@ jobs:
       - run: flutter --version
 
       - name: Install dependencies
-        run: flutter pub get
+        run: |
+          flutter clean
+          flutter pub get
 
       - name: Check files
         run: |
