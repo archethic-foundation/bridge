@@ -20,6 +20,7 @@ jobs:
         run: |
           cd contracts/evm
           npm install
+          npx hardhat compile
           cd -
 
       - name: Set up Flutter
