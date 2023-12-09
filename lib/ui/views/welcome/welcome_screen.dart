@@ -1,11 +1,14 @@
-import 'package:aebridge/ui/views/util/components/scrollbar.dart';
-import 'package:aebridge/ui/views/util/generic/responsive.dart';
+import 'dart:ui';
+
+import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
+import 'package:aebridge/ui/views/main_screen/layouts/app_bar_welcome.dart';
+import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
+import 'package:aebridge/ui/views/util/components/bridge_background.dart';
+import 'package:aebridge/ui/views/util/components/bridge_main_menu_app.dart';
 import 'package:aebridge/ui/views/welcome/components/welcome_bridge_btn.dart';
-import 'package:aebridge/ui/views/welcome/components/welcome_info_version.dart';
-import 'package:aebridge/ui/views/welcome/components/welcome_infos.dart';
-import 'package:aebridge/ui/views/welcome/header_welcome_screen.dart';
+import 'package:aebridge/ui/views/welcome/components/welcome_title.dart';
+import 'package:busy/busy.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class WelcomeScreen extends ConsumerStatefulWidget {
@@ -18,187 +21,60 @@ class WelcomeScreen extends ConsumerStatefulWidget {
 }
 
 class _WelcomeScreenState extends ConsumerState<WelcomeScreen> {
-  late int selectedPage;
-  late final PageController pageController;
-
-  @override
-  void initState() {
-    selectedPage = 0;
-    pageController = PageController(initialPage: selectedPage);
-
-    super.initState();
-  }
+  bool _isSubMenuOpen = false;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-            decoration: const BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(
-                  'assets/images/background-welcome.png',
-                ),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  const Color(0x00000000),
-                  const Color(0xFFCC00FF).withOpacity(0.1),
-                ],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-              ),
-            ),
-          ),
-          _WelcomeScreenResponsiveWidget(),
-        ],
-      ),
-    );
-  }
-}
-
-class _WelcomeScreenResponsiveWidget extends ConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return Positioned.fill(
-      child: LayoutBuilder(
-        builder: (context, constraint) {
-          return ArchethicScrollbar(
-            child: Responsive(
-              mobile: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 20),
-                        child: HeaderWelcomeScreen(),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(top: 60),
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      children: _infosGroup(context),
-                    ),
-                  ),
-                  const WelcomeBridgeBtn(),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width - 300,
-                    ),
-                    child: const WelcomeInfoVersion(),
-                  ),
-                ],
-              ),
-              tablet: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  const Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(top: 20),
-                        child: HeaderWelcomeScreen(),
-                      ),
-                    ],
-                  ),
-                  Container(
-                    padding: const EdgeInsets.only(top: 60),
-                    width: MediaQuery.of(context).size.width,
-                    child: Column(
-                      children: _infosGroup(context),
-                    ),
-                  ),
-                  const WelcomeBridgeBtn(),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width - 300,
-                    ),
-                    child: const WelcomeInfoVersion(),
-                  ),
-                ],
-              ),
-              desktop: Container(
-                constraints: BoxConstraints(minHeight: constraint.maxHeight),
-                child: IntrinsicHeight(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.only(top: 20),
-                            child: HeaderWelcomeScreen(),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        constraints: const BoxConstraints(maxHeight: 420),
-                        padding: const EdgeInsets.only(top: 60),
-                        width: MediaQuery.of(context).size.width,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: _infosGroup(context),
-                        ),
-                      ),
-                      const Spacer(),
-                      const WelcomeBridgeBtn(),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: MediaQuery.of(context).size.width - 300,
-                        ),
-                        child: const WelcomeInfoVersion(),
-                      ),
-                      const SizedBox(
-                        height: 16,
-                      ),
-                    ],
-                  ),
+    return GestureDetector(
+      onTap: _closeSubMenu,
+      child: BusyScaffold(
+        isBusy: ref.watch(isLoadingMainScreenProvider),
+        scaffold: Scaffold(
+          extendBodyBehindAppBar: true,
+          backgroundColor: BridgeThemeBase.backgroundColor,
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(70),
+            child: ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: AppBarWelcome(
+                  onAEMenuTapped: _toggleSubMenu,
                 ),
               ),
             ),
-          );
-        },
+          ),
+          body: Stack(
+            children: [
+              const BridgeBackground(
+                withAnimation: true,
+              ),
+              const Column(
+                children: [
+                  WelcomeTitle(),
+                  WelcomeBridgeBtn(),
+                ],
+              ),
+              if (_isSubMenuOpen)
+                const BridgeMainMenuApp(
+                  withFaucet: false,
+                ),
+            ],
+          ),
+        ),
       ),
     );
   }
 
-  List<Widget> _infosGroup(BuildContext context) {
-    return [
-      WelcomeInfos(
-        welcomeArgTitle: AppLocalizations.of(context)!.welcomeArg1Title,
-        welcomeArgDesc: AppLocalizations.of(context)!.welcomeArg1Desc,
-      ),
-      const SizedBox(height: 10),
-      WelcomeInfos(
-        welcomeArgTitle: AppLocalizations.of(context)!.welcomeArg2Title,
-        welcomeArgDesc: AppLocalizations.of(context)!.welcomeArg2Desc,
-        animationDuration: 250,
-      ),
-      const SizedBox(height: 10),
-      WelcomeInfos(
-        welcomeArgTitle: AppLocalizations.of(context)!.welcomeArg3Title,
-        welcomeArgDesc: AppLocalizations.of(context)!.welcomeArg3Desc,
-        animationDuration: 300,
-      ),
-      const SizedBox(height: 10),
-      WelcomeInfos(
-        welcomeArgTitle: AppLocalizations.of(context)!.welcomeArg4Title,
-        welcomeArgDesc: AppLocalizations.of(context)!.welcomeArg4Desc,
-        animationDuration: 350,
-      ),
-    ];
+  void _toggleSubMenu() {
+    setState(() {
+      _isSubMenuOpen = !_isSubMenuOpen;
+    });
+    return;
+  }
+
+  void _closeSubMenu() {
+    setState(() {
+      _isSubMenuOpen = false;
+    });
   }
 }

@@ -24,7 +24,7 @@ class LocalHistorySheet extends ConsumerWidget {
         ref.watch(BridgeHistoryProviders.fetchBridgesList(asc: false));
 
     return Padding(
-      padding: const EdgeInsets.only(top: 50),
+      padding: const EdgeInsets.only(top: 90),
       child: Align(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

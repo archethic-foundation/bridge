@@ -67,7 +67,7 @@ class RefundMessage extends ConsumerWidget {
     }
 
     if (refund.failure == null) {
-      return const SizedBox(height: 40);
+      return const SizedBox.shrink();
     }
 
     return SizedBox(

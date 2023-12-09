@@ -64,7 +64,7 @@ class _ConnectionToWalletStatusState
       return const SizedBox.shrink();
     }
 
-    if (Responsive.isDesktop(context) || Responsive.isTablet(context)) {
+    if (Responsive.isDesktop(context)) {
       return Container(
         constraints: const BoxConstraints(maxWidth: 300),
         child: MenuAnchor(

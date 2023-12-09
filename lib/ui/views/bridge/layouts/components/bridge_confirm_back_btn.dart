@@ -22,7 +22,7 @@ class BridgeConfirmBackButton extends ConsumerWidget {
             style: Theme.of(context).textTheme.titleLarge,
           ),
         ),
-        TextButton(
+        BackButton(
           onPressed: bridge.tokenToBridge == null
               ? null
               : () {
@@ -32,10 +32,6 @@ class BridgeConfirmBackButton extends ConsumerWidget {
                         BridgeProcessStep.form,
                       );
                 },
-          child: Text(
-            '< ${AppLocalizations.of(context)!.btn_back}',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
         ),
       ],
     );

@@ -18,7 +18,6 @@ class RefundFormSheet extends ConsumerWidget {
     return Align(
       child: Container(
         width: 650,
-        constraints: const BoxConstraints(minHeight: 400, maxHeight: 600),
         decoration: BoxDecoration(
           gradient: BridgeThemeBase.gradientSheetBackground,
           border: GradientBoxBorder(
@@ -51,7 +50,10 @@ class RefundFormSheet extends ConsumerWidget {
             builder: (context, constraint) {
               return ArchethicScrollbar(
                 child: Container(
-                  constraints: BoxConstraints(minHeight: constraint.maxHeight),
+                  constraints: BoxConstraints(
+                    minHeight: 100,
+                    maxHeight: constraint.maxHeight,
+                  ),
                   child: const IntrinsicHeight(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

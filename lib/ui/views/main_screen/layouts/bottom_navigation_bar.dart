@@ -1,3 +1,10 @@
+import 'dart:ui';
+
+import 'package:aebridge/application/main_screen_widget_displayed.dart';
+import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
+import 'package:aebridge/ui/views/local_history/local_history_sheet.dart';
+import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
+import 'package:aebridge/ui/views/refund/layouts/refund_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -6,12 +13,10 @@ class BottomNavigationBarMainScreen extends ConsumerStatefulWidget {
     super.key,
     required this.navDrawerIndex,
     required this.listNavigationLabelIcon,
-    required this.onDestinationSelected,
   });
 
   final int navDrawerIndex;
   final List<(String, IconData)> listNavigationLabelIcon;
-  final Function(int) onDestinationSelected;
 
   @override
   ConsumerState<BottomNavigationBarMainScreen> createState() =>
@@ -22,17 +27,63 @@ class _BottomNavigationBarMainScreenState
     extends ConsumerState<BottomNavigationBarMainScreen> {
   @override
   Widget build(BuildContext context) {
-    return BottomNavigationBar(
-      items: widget.listNavigationLabelIcon
-          .map(
-            (item) => BottomNavigationBarItem(
-              label: item.$1,
-              icon: Icon(item.$2),
-            ),
-          )
-          .toList(),
-      currentIndex: widget.navDrawerIndex,
-      onTap: widget.onDestinationSelected,
+    return ClipRRect(
+      child: BackdropFilter(
+        filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+        child: BottomNavigationBar(
+          elevation: 0,
+          backgroundColor: Colors.transparent,
+          items: widget.listNavigationLabelIcon
+              .map(
+                (item) => BottomNavigationBarItem(
+                  label: item.$1,
+                  icon: Icon(item.$2),
+                ),
+              )
+              .toList(),
+          currentIndex: widget.navDrawerIndex,
+          onTap: (int selectedIndex) {
+            setState(() {
+              ref.read(navigationIndexMainScreenProvider.notifier).state =
+                  selectedIndex;
+            });
+
+            switch (selectedIndex) {
+              case 0:
+                ref
+                    .read(
+                      MainScreenWidgetDisplayedProviders
+                          .mainScreenWidgetDisplayedProvider.notifier,
+                    )
+                    .setWidget(const BridgeSheet(), ref);
+
+                break;
+              case 1:
+                ref
+                    .read(
+                      MainScreenWidgetDisplayedProviders
+                          .mainScreenWidgetDisplayedProvider.notifier,
+                    )
+                    .setWidget(const LocalHistorySheet(), ref);
+
+                break;
+
+              case 2:
+                ref
+                    .read(
+                      MainScreenWidgetDisplayedProviders
+                          .mainScreenWidgetDisplayedProvider.notifier,
+                    )
+                    .setWidget(const RefundSheet(), ref);
+
+                break;
+
+              default:
+                break;
+            }
+          },
+        ),
+      ),
     );
   }
 }

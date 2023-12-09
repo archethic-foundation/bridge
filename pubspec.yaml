@@ -2,7 +2,7 @@ name: aebridge
 description: Enable interoperability and facilitate the transfer of data and assets between the two blockchains.
 publish_to: "none"
 
-version: 0.0.9+17
+version: 0.0.9+18
 
 environment:
   sdk: ">=3.1.0 <4.0.0"
@@ -63,6 +63,9 @@ dependencies:
 
   # Defines the annotations used by json_serializable to create code for JSON serialization and deserialization.
   json_annotation: ^4.8.1
+
+  # A Flutter plugin for rendering an animated and customizable starfield on a dark background.
+  lit_starfield: ^0.1.1
 
   # Loading animation or loading spiner or loader. It's used to show loading animation when the app is in loading state or something is processing for uncertain time.
   loading_animation_widget: ^1.2.0+4

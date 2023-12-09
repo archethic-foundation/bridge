@@ -3,7 +3,6 @@ import 'package:aebridge/application/main_screen_widget_displayed.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
-import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -24,7 +23,7 @@ class WelcomeBridgeBtnState extends ConsumerState<WelcomeBridgeBtn> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 40),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 100),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -75,23 +74,12 @@ class WelcomeBridgeBtnState extends ConsumerState<WelcomeBridgeBtn> {
                       ),
                     ],
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Iconsax.recovery_convert,
-                        color: Theme.of(context).textTheme.labelMedium!.color,
-                        size: 20,
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        AppLocalizations.of(context)!.btn_bridge,
-                        style: TextStyle(
-                          color: Theme.of(context).textTheme.labelMedium!.color,
-                          fontSize: 15,
-                        ),
-                      ),
-                    ],
+                  child: Text(
+                    AppLocalizations.of(context)!.btn_bridge,
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.labelMedium!.color,
+                      fontSize: 17,
+                    ),
                   ),
                 ).animate(target: _over ? 0 : 1).fade(end: 0.8),
               ),
