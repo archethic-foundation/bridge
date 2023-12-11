@@ -11,6 +11,7 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/util/custom_logs.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
@@ -186,8 +187,9 @@ class EVMLP with EVMBridgeProcessMixin {
         final contractLP =
             await getDeployedContract(contractNameIPool, poolAddress);
 
-        final bigIntValue = BigInt.from(amount * pow(10, 18));
-        final ethAmount = EtherAmount.fromBigInt(EtherUnit.wei, bigIntValue);
+        final bigIntValue = Decimal.parse((amount * pow(10, 18)).toString());
+        final ethAmount =
+            EtherAmount.fromBigInt(EtherUnit.wei, bigIntValue.toBigInt());
         final transactionProvisionHTLC = Transaction.callContract(
           contract: contractLP,
           function: contractLP.function('provisionHTLC'),
@@ -244,12 +246,14 @@ class EVMLP with EVMBridgeProcessMixin {
           );
           await subscription.cancel();
         } catch (e, stackTrace) {
-          sl.get<LogManager>().log(
-                '$e',
-                stackTrace: stackTrace,
-                level: LogLevel.error,
-                name: 'EVMLP - deployAndProvisionSignedHTLC',
-              );
+          if (e != const Failure.userRejected()) {
+            sl.get<LogManager>().log(
+                  '$e',
+                  stackTrace: stackTrace,
+                  level: LogLevel.error,
+                  name: 'EVMLP - deployAndProvisionSignedHTLC',
+                );
+          }
 
           await subscription.cancel();
           rethrow;
