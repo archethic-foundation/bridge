@@ -91,12 +91,14 @@ class EVMHTLC with EVMBridgeProcessMixin {
           );
           await subscription.cancel();
         } catch (e, stackTrace) {
-          sl.get<LogManager>().log(
-                'e $e',
-                stackTrace: stackTrace,
-                level: LogLevel.error,
-                name: 'EVMHTLC - refund',
-              );
+          if (e != const Failure.userRejected()) {
+            sl.get<LogManager>().log(
+                  'e $e',
+                  stackTrace: stackTrace,
+                  level: LogLevel.error,
+                  name: 'EVMHTLC - refund',
+                );
+          }
           await subscription.cancel();
           refundNotifier.setWalletConfirmation(null);
           rethrow;
@@ -316,12 +318,14 @@ class EVMHTLC with EVMBridgeProcessMixin {
           );
           await subscription.cancel();
         } catch (e, stackTrace) {
-          sl.get<LogManager>().log(
-                '$e',
-                stackTrace: stackTrace,
-                level: LogLevel.error,
-                name: 'EVMHTLC - withdraw',
-              );
+          if (e != const Failure.userRejected()) {
+            sl.get<LogManager>().log(
+                  '$e',
+                  stackTrace: stackTrace,
+                  level: LogLevel.error,
+                  name: 'EVMHTLC - withdraw',
+                );
+          }
           await subscription.cancel();
           rethrow;
         }

@@ -78,12 +78,14 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
         );
         await subscription.cancel();
       } catch (e, stackTrace) {
-        sl.get<LogManager>().log(
-              'e $e',
-              stackTrace: stackTrace,
-              level: LogLevel.error,
-              name: 'EVMHTLCNative - provisionChargeableHTLC',
-            );
+        if (e != const Failure.userRejected()) {
+          sl.get<LogManager>().log(
+                'e $e',
+                stackTrace: stackTrace,
+                level: LogLevel.error,
+                name: 'EVMHTLCNative - provisionChargeableHTLC',
+              );
+        }
         await subscription.cancel();
         rethrow;
       }
@@ -160,12 +162,14 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
           );
           await subscription.cancel();
         } catch (e, stackTrace) {
-          sl.get<LogManager>().log(
-                'e $e',
-                stackTrace: stackTrace,
-                level: LogLevel.error,
-                name: 'EVMHTLCNative - signedWithdraw',
-              );
+          if (e != const Failure.userRejected()) {
+            sl.get<LogManager>().log(
+                  'e $e',
+                  stackTrace: stackTrace,
+                  level: LogLevel.error,
+                  name: 'EVMHTLCNative - signedWithdraw',
+                );
+          }
           await subscription.cancel();
           rethrow;
         }

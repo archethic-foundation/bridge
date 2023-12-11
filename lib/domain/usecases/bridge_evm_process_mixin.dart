@@ -21,7 +21,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webthree/crypto.dart';
-import 'package:webthree/json_rpc.dart';
 import 'package:webthree/webthree.dart';
 
 enum EVMBridgeProcessStep { none, deploy }
@@ -340,7 +339,7 @@ mixin EVMBridgeProcessMixin {
             );
         throw Failure.other(cause: e.rawError.toString(), stack: e.reason);
       }
-      if (e is RPCError) {
+      if (e is WebThreeRPCError) {
         sl.get<LogManager>().log(
               '$e',
               stackTrace: stackTrace,

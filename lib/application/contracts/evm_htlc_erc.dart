@@ -86,12 +86,14 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
           );
           await subscription.cancel();
         } catch (e, stackTrace) {
-          sl.get<LogManager>().log(
-                'e $e',
-                stackTrace: stackTrace,
-                level: LogLevel.error,
-                name: 'EVMHTLCERC - provisionChargeableHTLC',
-              );
+          if (e != const Failure.userRejected()) {
+            sl.get<LogManager>().log(
+                  'e $e',
+                  stackTrace: stackTrace,
+                  level: LogLevel.error,
+                  name: 'EVMHTLCERC - provisionChargeableHTLC',
+                );
+          }
           await subscription.cancel();
           rethrow;
         }
@@ -168,12 +170,14 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
           );
           await subscription.cancel();
         } catch (e, stackTrace) {
-          sl.get<LogManager>().log(
-                'e $e',
-                stackTrace: stackTrace,
-                level: LogLevel.error,
-                name: 'EVMHTLCERC - signedWithdraw',
-              );
+          if (e != const Failure.userRejected()) {
+            sl.get<LogManager>().log(
+                  'e $e',
+                  stackTrace: stackTrace,
+                  level: LogLevel.error,
+                  name: 'EVMHTLCERC - signedWithdraw',
+                );
+          }
           await subscription.cancel();
           rethrow;
         }
