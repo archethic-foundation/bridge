@@ -117,10 +117,10 @@ packages:
     dependency: "direct dev"
     description:
       name: build_runner
-      sha256: "10c6bcdbf9d049a0b666702cf1cee4ddfdc38f02a19d35ae392863b47519848b"
+      sha256: "67d591d602906ef9201caf93452495ad1812bea2074f04e25dbd7c133785821b"
       url: "https://pub.dev"
     source: hosted
-    version: "2.4.6"
+    version: "2.4.7"
   build_runner_core:
     dependency: transitive
     description:
@@ -290,7 +290,7 @@ packages:
     source: hosted
     version: "2.3.4"
   decimal:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: decimal
       sha256: "24a261d5d5c87e86c7651c417a5dbdf8bcd7080dd592533910e8d0505a279f21"
@@ -1137,10 +1137,10 @@ packages:
     dependency: "direct main"
     description:
       name: url_launcher
-      sha256: b1c9e98774adf8820c96fbc7ae3601231d324a7d5ebd8babe27b6dfac91357ba
+      sha256: e9aa5ea75c84cf46b3db4eea212523591211c3cf2e13099ee4ec147f54201c86
       url: "https://pub.dev"
     source: hosted
-    version: "6.2.1"
+    version: "6.2.2"
   url_launcher_android:
     dependency: transitive
     description:
@@ -1289,19 +1289,19 @@ packages:
     dependency: "direct main"
     description:
       path: "."
-      ref: add-wallets-support
-      resolved-ref: "5044f59190cc721b784c48255aed61e2ed3d2ddd"
+      ref: uuid_version_issue
+      resolved-ref: d552592366bbcc141e59cfbc7bf82d5eae5d4d6c
       url: "https://github.com/redDwarf03/webthree.git"
     source: git
-    version: "2.6.0"
+    version: "2.7.1"
   win32:
     dependency: transitive
     description:
       name: win32
-      sha256: "7c99c0e1e2fa190b48d25c81ca5e42036d5cac81430ef249027d97b0935c553f"
+      sha256: b0f37db61ba2f2e9b7a78a1caece0052564d1bc70668156cf3a29d676fe4e574
       url: "https://pub.dev"
     source: hosted
-    version: "5.1.0"
+    version: "5.1.1"
   x25519:
     dependency: transitive
     description:

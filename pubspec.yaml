@@ -24,6 +24,9 @@ dependencies:
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
 
+  # The decimal package allows you to deal with decimal numbers without losing precision
+  decimal: ^2.3.3
+
   flutter:
     sdk: flutter
 
@@ -89,11 +92,11 @@ dependencies:
   wave: ^0.2.2
 
   # Dart library to connect to Ethereum clients. Send transactions and interact with smart contracts!
-  #webthree: ^2.5.11
+  #webthree: ^2.7.0
   webthree:
     git:
       url: https://github.com/redDwarf03/webthree.git
-      ref: add-wallets-support
+      ref: uuid_version_issue
 
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.

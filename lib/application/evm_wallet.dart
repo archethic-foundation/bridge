@@ -83,22 +83,26 @@ class EVMWalletProvider extends ChangeNotifier {
       await changeChainId(chainId);
     }
 
+    var credentialsList = <CredentialsWithKnownAddress>[];
     if (okx != null) {
-      credentials = await okx!.requestAccount();
+      credentialsList = await okx!.requestAccounts();
     } else {
       if (bsc != null) {
-        credentials = await bsc!.requestAccount();
+        credentialsList = await bsc!.requestAccounts();
       } else {
         if (eth != null) {
-          credentials = await eth!.requestAccount();
+          credentialsList = await eth!.requestAccounts();
         }
       }
     }
 
-    currentAddress = credentials!.address.hex;
-    walletConnected = true;
+    if (credentialsList.isNotEmpty) {
+      credentials = credentialsList.first;
+      currentAddress = credentials!.address.hex;
+      walletConnected = true;
 
-    notifyListeners();
+      notifyListeners();
+    }
   }
 
   Future<void> changeChainId(int chainId) async {
