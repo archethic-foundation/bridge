@@ -24,7 +24,7 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (bridge.failure == null)
+          if (bridge.failure == null && bridge.currentStep == 8)
             _transferCompleted(context)
           else if (bridge.failure != null &&
               bridge.failure is UserRejected == true)
@@ -73,12 +73,13 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
               ),
           ],
         ),
-        Text(
-          '${AppLocalizations.of(context)!.localHistoryCause}: ${FailureMessage(
-            context: context,
-            failure: bridge.failure,
-          ).getMessage()}',
-        ),
+        if (bridge.failure != null)
+          Text(
+            '${AppLocalizations.of(context)!.localHistoryCause}: ${FailureMessage(
+              context: context,
+              failure: bridge.failure,
+            ).getMessage()}',
+          ),
       ],
     );
   }
@@ -100,12 +101,13 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
             ),
           ],
         ),
-        Text(
-          '${AppLocalizations.of(context)!.localHistoryCause}: ${FailureMessage(
-            context: context,
-            failure: bridge.failure,
-          ).getMessage()}',
-        ),
+        if (bridge.failure != null)
+          Text(
+            '${AppLocalizations.of(context)!.localHistoryCause}: ${FailureMessage(
+              context: context,
+              failure: bridge.failure,
+            ).getMessage()}',
+          ),
       ],
     );
   }

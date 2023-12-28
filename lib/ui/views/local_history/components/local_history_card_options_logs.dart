@@ -17,9 +17,6 @@ class LocalHistoryCardOptionsLogs extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (bridge.failure == null) {
-      return const SizedBox.shrink();
-    }
     return Padding(
       padding: const EdgeInsets.only(left: 10),
       child: InkWell(

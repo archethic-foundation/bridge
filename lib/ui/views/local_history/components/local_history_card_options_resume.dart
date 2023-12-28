@@ -20,7 +20,7 @@ class LocalHistoryCardOptionsResume extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    if (bridge.failure == null) {
+    if (bridge.failure == null && bridge.currentStep == 8) {
       return const SizedBox.shrink();
     }
 
