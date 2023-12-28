@@ -113,7 +113,8 @@ class LocalHistorySheet extends ConsumerWidget {
                               as Map<String, dynamic>,
                         );
                         if (localHistory.processCompletedIncluded == false &&
-                            bridge.failure == null) {
+                            bridge.failure == null &&
+                            bridge.currentStep == 8) {
                           return const SizedBox.shrink();
                         }
                         if (localHistory.filterPeriodStart != null &&
