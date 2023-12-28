@@ -43,7 +43,7 @@ Widget _buildDisplay(BuildContext context, BridgeFormState bridge) {
             alignment: Alignment.center,
             children: [
               CircularStepProgressIndicator(
-                totalSteps: bridge.blockchainFrom!.isArchethic ? 8 : 8,
+                totalSteps: 8,
                 currentStep: bridge.currentStep,
                 width: 35,
                 height: 35,
@@ -106,7 +106,7 @@ Widget _buildSmallDisplay(BuildContext context, BridgeFormState bridge) {
               alignment: Alignment.center,
               children: [
                 CircularStepProgressIndicator(
-                  totalSteps: bridge.blockchainFrom!.isArchethic ? 8 : 8,
+                  totalSteps: 8,
                   currentStep: bridge.currentStep,
                   width: 35,
                   height: 35,
