@@ -3,6 +3,7 @@ import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/components/app_button.dart';
+import 'package:aebridge/ui/views/util/components/format_address_link_copy.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
 import 'package:flutter/material.dart';
@@ -64,100 +65,53 @@ class _ConnectionToWalletStatusState
       return const SizedBox.shrink();
     }
 
-    if (Responsive.isDesktop(context)) {
-      return Container(
-        constraints: const BoxConstraints(maxWidth: 300),
-        child: MenuAnchor(
-          style: MenuStyle(
-            shape: MaterialStateProperty.all(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-            ),
-          ),
-          alignmentOffset: const Offset(0, 10),
-          builder: (context, controller, child) {
-            return FilledButton.tonal(
-              onPressed: () {
-                if (controller.isOpen) {
-                  controller.close();
-                } else {
-                  controller.open();
-                }
-              },
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(
-                    Iconsax.user,
-                    size: 18,
-                  ),
-                  const SizedBox(
-                    width: 16,
-                  ),
-                  Flexible(
-                    child: Text(
-                      overflow: TextOverflow.ellipsis,
-                      session.walletFrom!.nameAccountDisplayed,
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  const Icon(
-                    Iconsax.arrow_right_1,
-                    size: 10,
-                  ),
-                  const SizedBox(
-                    width: 4,
-                  ),
-                  Flexible(
-                    child: Text(
-                      overflow: TextOverflow.ellipsis,
-                      session.walletTo!.nameAccountDisplayed,
-                      style: const TextStyle(fontSize: 12),
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-          menuChildren: const [
-            MenuConnectionToWalletStatus(),
-          ],
-        ),
-      );
-    }
-
-    return MenuAnchor(
-      style: MenuStyle(
-        shape: MaterialStateProperty.all(
-          RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-      ),
-      alignmentOffset: const Offset(0, 10),
-      builder: (context, controller, child) {
-        return IconButton(
-          onPressed: () {
-            if (controller.isOpen) {
-              controller.close();
-            } else {
-              controller.open();
-            }
-          },
-          icon: const Icon(
+    return Container(
+      constraints: const BoxConstraints(maxWidth: 500),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
             Iconsax.user,
-            //size: 18,
+            size: 18,
           ),
-        );
-      },
-      menuChildren: const [
-        MenuConnectionToWalletStatus(),
-      ],
+          const SizedBox(
+            width: 16,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Tooltip(
+                message: session.walletFrom!.genesisAddress,
+                child: Text(
+                  overflow: TextOverflow.ellipsis,
+                  session.walletFrom!.nameAccountDisplayed,
+                  style: const TextStyle(fontSize: 12),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 3),
+                child: Icon(
+                  Iconsax.arrow_down,
+                  size: 10,
+                ),
+              ),
+              Tooltip(
+                message: session.walletTo!.genesisAddress,
+                child: Text(
+                  overflow: TextOverflow.ellipsis,
+                  session.walletTo!.nameAccountDisplayed,
+                  style: const TextStyle(fontSize: 12),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(
+            width: 4,
+          ),
+        ],
+      ),
     );
   }
 }
