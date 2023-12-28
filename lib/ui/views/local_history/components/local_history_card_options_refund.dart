@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/application/main_screen_widget_displayed.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/refund/layouts/refund_sheet.dart';
@@ -24,26 +25,39 @@ class LocalHistoryCardOptionsRefund extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    return Padding(
-      padding: const EdgeInsets.only(left: 10),
-      child: InkWell(
-        onTap: () {
-          ref
-              .read(
-                MainScreenWidgetDisplayedProviders
-                    .mainScreenWidgetDisplayedProvider.notifier,
-              )
-              .setWidget(
-                RefundSheet(htlcAddress: bridge.htlcEVMAddress),
-                ref,
-              );
-        },
-        child: IconAnimated(
-          icon: Iconsax.empty_wallet_change,
-          color: Colors.white,
-          tooltip: AppLocalizations.of(context)!.local_history_option_refund,
-        ),
-      ),
+    return FutureBuilder<int>(
+      future: EVMHTLC(
+        bridge.blockchainFrom!.providerEndpoint,
+        bridge.blockchainFrom!.htlcAddress!,
+        bridge.blockchainFrom!.chainId,
+      ).getStatus(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData && snapshot.data != 1 && snapshot.data != 2) {
+          return Padding(
+            padding: const EdgeInsets.only(left: 10),
+            child: InkWell(
+              onTap: () {
+                ref
+                    .read(
+                      MainScreenWidgetDisplayedProviders
+                          .mainScreenWidgetDisplayedProvider.notifier,
+                    )
+                    .setWidget(
+                      RefundSheet(htlcAddress: bridge.htlcEVMAddress),
+                      ref,
+                    );
+              },
+              child: IconAnimated(
+                icon: Iconsax.empty_wallet_change,
+                color: Colors.white,
+                tooltip:
+                    AppLocalizations.of(context)!.local_history_option_refund,
+              ),
+            ),
+          );
+        }
+        return const SizedBox.shrink();
+      },
     );
   }
 }
