@@ -7,7 +7,6 @@ import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
-import 'package:aebridge/domain/repositories/features_flags.dart';
 import 'package:aebridge/util/custom_logs.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:aebridge/util/service_locator.dart';
@@ -162,17 +161,6 @@ class _SessionNotifier extends Notifier<Session> {
               );
               _fillState(bridgeWallet, from);
               throw Failure.wrongNetwork(bridgeWallet.error);
-          }
-
-          if (FeatureFlags.mainnetActive == false &&
-              result.endpointUrl == 'https://mainnet.archethic.net') {
-            bridgeWallet = bridgeWallet.copyWith(
-              isConnected: false,
-              error:
-                  'AEBridge is not currently available on the Archethic mainnet.',
-            );
-            _fillState(bridgeWallet, from);
-            throw Failure.other(cause: bridgeWallet.error);
           }
 
           bridgeWallet = bridgeWallet.copyWith(endpoint: result.endpointUrl);
