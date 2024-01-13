@@ -113,7 +113,7 @@ class _$BridgeHistoryImpl extends _BridgeHistory {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BridgeHistoryImpl &&

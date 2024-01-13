@@ -125,7 +125,7 @@ class _$BridgeTokensPerBridgeImpl implements _BridgeTokensPerBridge {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BridgeTokensPerBridgeImpl &&
@@ -404,7 +404,7 @@ class _$TokenDataImpl implements _TokenData {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TokenDataImpl &&

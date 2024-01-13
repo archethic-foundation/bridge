@@ -138,7 +138,7 @@ class _$SecretImpl implements _Secret {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SecretImpl &&
@@ -305,7 +305,7 @@ class _$SecretSignatureImpl implements _SecretSignature {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SecretSignatureImpl &&
@@ -481,7 +481,7 @@ class _$SecretHashImpl implements _SecretHash {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SecretHashImpl &&
@@ -650,7 +650,7 @@ class _$SecretHashSignatureImpl implements _SecretHashSignature {
   }
 
   @override
-  bool operator ==(dynamic other) {
+  bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SecretHashSignatureImpl &&
