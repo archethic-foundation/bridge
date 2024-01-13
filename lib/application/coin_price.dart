@@ -1,60 +1,50 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'package:html/dom.dart';
-import 'package:html/parser.dart';
+import 'dart:convert';
+import 'package:aebridge/domain/models/crypto_price.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'coin_price.g.dart';
 
 @Riverpod(keepAlive: true)
-class _CoinPriceNotifier extends Notifier<Map<String, double?>> {
+class _CoinPriceNotifier extends Notifier<CryptoPrice> {
   Timer? _timer;
 
   @override
-  Map<String, double?> build() {
+  CryptoPrice build() {
     ref.onDispose(() {
       if (_timer != null) {
         _timer!.cancel();
       }
     });
-    return <String, double?>{};
+    return CryptoPrice();
   }
 
   Future<void> init() async {
-    await fetchPrices(['polygon', 'ethereum', 'bnb']);
+    await fetchPrices();
     _timer = Timer.periodic(const Duration(minutes: 1), (_) async {
-      await fetchPrices(['polygon', 'ethereum', 'bnb']);
+      await fetchPrices();
     });
   }
 
-  Future<Map<String, dynamic>> fetchPrices(List<String> pairs) async {
-    final prices = <String, dynamic>{};
-
-    for (final pair in pairs) {
-      final price = await _fetchPrice(pair);
-      if (price != null) {
-        state[pair] = price;
-      }
-    }
-
-    return prices;
-  }
-
-  Future<dynamic> _fetchPrice(String coin) async {
-    final url = 'https://coinmarketcap.com/currencies/$coin/markets/';
+  Future<CryptoPrice?> fetchPrices() async {
+    // UCIDs
+    // 3890 : Polygon
+    // 1027 : Ethereum
+    // 1839 : BSC
+    const url =
+        'http://fas.archethic.net/api/v1/quotes/latest?ucids=1027,3890,1839';
     final headers = {
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Headers': 'Access-Control-Allow-Origin, Accept',
-      'Accept': 'text/html',
-      'Accept-Language': 'en-US,en;q=0.9',
-      'Upgrade-Insecure-Requests': '1',
+      'Content-type': 'application/json',
+      'Accept': 'application/json',
     };
 
     try {
       final response = await http.get(Uri.parse(url), headers: headers);
       if (response.statusCode == 200) {
-        return _extractPriceMethods(response.body);
+        final pricesMap = _extractPriceMethods(response.body);
+        return CryptoPrice.fromJson(pricesMap);
       }
       // ignore: unused_catch_stack
     } catch (e, stacktrace) {
@@ -65,47 +55,17 @@ class _CoinPriceNotifier extends Notifier<Map<String, double?>> {
             name: 'CoinPriceNotifier - _fetchPrices',
           );*/
     }
-    return null;
+
+    return CryptoPrice();
   }
 
-  dynamic _extractPriceMethods(String body) {
-    final document = parse(body);
-
-    var price = _extractMethod1(document);
-    if (price != null) {
-      return price;
-    }
-    price = _extractMethod2(document);
-    if (price != null) {
-      return price;
-    }
-    throw Exception('Failed to parse price');
-  }
-
-  double? _extractMethod1(Document document) {
-    final descriptionElement =
-        document.querySelector("meta[name='description']");
-    if (descriptionElement != null) {
-      final match = RegExp('price today is (.+) with a')
-          .firstMatch(descriptionElement.attributes['content']!);
-      if (match != null) {
-        return double.tryParse(_filterNumbers(match.group(1)!));
-      }
-    }
-    return null;
-  }
-
-  double? _extractMethod2(Document document) {
-    final priceElement =
-        document.querySelector('div.priceTitle > div.priceValue > span');
-    if (priceElement != null) {
-      return double.tryParse(_filterNumbers(priceElement.text));
-    }
-    return null;
-  }
-
-  String _filterNumbers(String input) {
-    return input.replaceAll(RegExp('[^0-9.]'), '');
+  Map<String, double> _extractPriceMethods(String responseBody) {
+    final jsonData = json.decode(responseBody) as Map<String, dynamic>;
+    return {
+      'polygon': jsonData['3890'],
+      'ethereum': jsonData['1027'],
+      'bsc': jsonData['1839'],
+    };
   }
 }
 

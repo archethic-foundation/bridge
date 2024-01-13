@@ -25,15 +25,15 @@ class BridgeTokenToBridgeCoingeckoPrice extends ConsumerWidget {
     switch (bridge.tokenToBridge!.symbol) {
       case 'ETH':
       case 'aeETH':
-        if (prices['ethereum'] != null) price = prices['ethereum']!;
+        price = prices.ethereum;
         break;
       case 'BNB':
       case 'aeBNB':
-        if (prices['binancecoin'] != null) price = prices['binancecoin']!;
+        price = prices.bsc;
         break;
       case 'MATIC':
       case 'aeMATIC':
-        if (prices['matic-network'] != null) price = prices['matic-network']!;
+        price = prices.polygon;
         break;
     }
     if (price == 0) {

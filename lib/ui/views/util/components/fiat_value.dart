@@ -24,15 +24,15 @@ class FiatValue {
       switch (symbol) {
         case 'ETH':
         case 'aeETH':
-          if (prices['ethereum'] != null) price = prices['ethereum']!;
+          price = price = prices.ethereum;
           break;
         case 'BNB':
         case 'aeBNB':
-          if (prices['bnb'] != null) price = prices['bnb']!;
+          price = price = prices.bsc;
           break;
         case 'MATIC':
         case 'aeMATIC':
-          if (prices['polygon'] != null) price = prices['polygon']!;
+          price = price = prices.polygon;
           break;
       }
 
