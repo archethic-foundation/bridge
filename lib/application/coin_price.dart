@@ -34,7 +34,7 @@ class _CoinPriceNotifier extends Notifier<CryptoPrice> {
     // 1027 : Ethereum
     // 1839 : BSC
     const url =
-        'http://fas.archethic.net/api/v1/quotes/latest?ucids=1027,3890,1839';
+        'https://fas.archethic.net/api/v1/quotes/latest?ucids=1027,3890,1839';
     final headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
