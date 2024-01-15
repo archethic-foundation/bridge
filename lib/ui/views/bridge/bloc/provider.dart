@@ -16,6 +16,7 @@ import 'package:aebridge/domain/usecases/bridge_ae_to_evm.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_to_ae.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/util/generic/formatters.dart';
+import 'package:aebridge/util/browser_util.dart';
 import 'package:aebridge/util/transaction_bridge_util.dart';
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:decimal/decimal.dart';
@@ -522,6 +523,14 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
 
   Future<bool> control() async {
     await setFailure(null);
+
+    if (BrowserUtil().isEdgeBrowser() ||
+        BrowserUtil().isInternetExplorerBrowser()) {
+      await setFailure(
+        const Failure.incompatibleBrowser(),
+      );
+      return false;
+    }
 
     if (state.blockchainFrom == null && state.blockchainFrom!.name.isEmpty) {
       await setFailure(

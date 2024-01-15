@@ -6,12 +6,14 @@ import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/app_bar.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/body.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
+import 'package:aebridge/ui/views/main_screen/layouts/browser_popup.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/privacy_popup.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/components/bridge_background.dart';
 import 'package:aebridge/ui/views/util/components/bridge_main_menu_app.dart';
 import 'package:aebridge/ui/views/util/generic/responsive.dart';
 import 'package:aebridge/ui/views/util/iconsax.dart';
+import 'package:aebridge/util/browser_util.dart';
 import 'package:busy/busy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -30,6 +32,18 @@ class MainScreenState extends ConsumerState<MainScreen> {
   @override
   void initState() {
     super.initState();
+
+    if (BrowserUtil().isEdgeBrowser() ||
+        BrowserUtil().isInternetExplorerBrowser()) {
+      Future.delayed(Duration.zero, () {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return const BrowserPopup();
+          },
+        );
+      });
+    }
 
     HivePreferencesDatasource.getInstance().then((value) {
       if (value.isFirstConnection()) {

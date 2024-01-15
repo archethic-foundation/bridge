@@ -41,6 +41,7 @@ class Failure with _$Failure implements Exception {
   const factory Failure.connectivityEVM() = ConnectivityEVM;
   const factory Failure.paramEVMChain() = ParamEVMChain;
   const factory Failure.timeout() = Timeout;
+  const factory Failure.incompatibleBrowser() = IncompatibleBrowser;
   const factory Failure.rpcErrorEVM(
     String? cause,
   ) = RPCErrorEVM;

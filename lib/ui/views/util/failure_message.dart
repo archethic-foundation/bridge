@@ -75,6 +75,10 @@ class FailureMessage {
       return (failure! as OtherFailure).cause.toString();
     }
 
+    if (failure is IncompatibleBrowser) {
+      return AppLocalizations.of(context)!.failureIncompatibleBrowser;
+    }
+
     return failure.toString();
   }
 }

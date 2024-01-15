@@ -9,6 +9,7 @@ import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/domain/usecases/refund_evm.dart';
 import 'package:aebridge/ui/views/refund/bloc/state.dart';
+import 'package:aebridge/util/browser_util.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -212,6 +213,14 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       failure: null,
       addressOk: null,
     );
+
+    if (BrowserUtil().isEdgeBrowser() ||
+        BrowserUtil().isInternetExplorerBrowser()) {
+      setFailure(
+        const Failure.incompatibleBrowser(),
+      );
+      return false;
+    }
 
     final controlAddress = _controlAddress();
     if (controlAddress.failure != null) {

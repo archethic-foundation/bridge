@@ -211,6 +211,18 @@ Map<String, dynamic> _$$TimeoutImplToJson(_$TimeoutImpl instance) =>
       'runtimeType': instance.$type,
     };
 
+_$IncompatibleBrowserImpl _$$IncompatibleBrowserImplFromJson(
+        Map<String, dynamic> json) =>
+    _$IncompatibleBrowserImpl(
+      $type: json['runtimeType'] as String?,
+    );
+
+Map<String, dynamic> _$$IncompatibleBrowserImplToJson(
+        _$IncompatibleBrowserImpl instance) =>
+    <String, dynamic>{
+      'runtimeType': instance.$type,
+    };
+
 _$RPCErrorEVMImpl _$$RPCErrorEVMImplFromJson(Map<String, dynamic> json) =>
     _$RPCErrorEVMImpl(
       json['cause'] as String?,

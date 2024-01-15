@@ -52,6 +52,8 @@ Failure _$FailureFromJson(Map<String, dynamic> json) {
       return ParamEVMChain.fromJson(json);
     case 'timeout':
       return Timeout.fromJson(json);
+    case 'incompatibleBrowser':
+      return IncompatibleBrowser.fromJson(json);
     case 'rpcErrorEVM':
       return RPCErrorEVM.fromJson(json);
     case 'other':
@@ -85,6 +87,7 @@ mixin _$Failure {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) =>
@@ -109,6 +112,7 @@ mixin _$Failure {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) =>
@@ -133,6 +137,7 @@ mixin _$Failure {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -161,6 +166,7 @@ mixin _$Failure {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) =>
@@ -185,6 +191,7 @@ mixin _$Failure {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) =>
@@ -209,6 +216,7 @@ mixin _$Failure {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -299,6 +307,7 @@ class _$LoggedOutImpl extends LoggedOut {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -326,6 +335,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -353,6 +363,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -387,6 +398,7 @@ class _$LoggedOutImpl extends LoggedOut {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -414,6 +426,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -441,6 +454,7 @@ class _$LoggedOutImpl extends LoggedOut {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -532,6 +546,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -559,6 +574,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -586,6 +602,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -620,6 +637,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -647,6 +665,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -674,6 +693,7 @@ class _$NetworkFailureImpl extends NetworkFailure {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -794,6 +814,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -821,6 +842,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -848,6 +870,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -882,6 +905,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -909,6 +933,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -936,6 +961,7 @@ class _$QuotaExceededFailureImpl extends QuotaExceededFailure {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -1033,6 +1059,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -1060,6 +1087,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -1087,6 +1115,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -1121,6 +1150,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -1148,6 +1178,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -1175,6 +1206,7 @@ class _$ServiceNotFoundImpl extends ServiceNotFound {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -1267,6 +1299,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -1294,6 +1327,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -1321,6 +1355,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -1355,6 +1390,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -1382,6 +1418,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -1409,6 +1446,7 @@ class _$ServiceAlreadyExistsImpl extends ServiceAlreadyExists {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -1500,6 +1538,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -1527,6 +1566,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -1554,6 +1594,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -1588,6 +1629,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -1615,6 +1657,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -1642,6 +1685,7 @@ class _$InsufficientFundsImpl extends InsufficientFunds {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -1735,6 +1779,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -1762,6 +1807,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -1789,6 +1835,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -1823,6 +1870,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -1850,6 +1898,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -1877,6 +1926,7 @@ class _$InsufficientPoolFundsImpl extends InsufficientPoolFunds {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -1968,6 +2018,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -1995,6 +2046,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -2022,6 +2074,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -2056,6 +2109,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -2083,6 +2137,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -2110,6 +2165,7 @@ class _$UnauthorizedImpl extends Unauthorized {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -2201,6 +2257,7 @@ class _$InvalidValueImpl extends InvalidValue {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -2228,6 +2285,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -2255,6 +2313,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -2289,6 +2348,7 @@ class _$InvalidValueImpl extends InvalidValue {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -2316,6 +2376,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -2343,6 +2404,7 @@ class _$InvalidValueImpl extends InvalidValue {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -2434,6 +2496,7 @@ class _$HTLCWithoutFundsImpl extends HTLCWithoutFunds {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -2461,6 +2524,7 @@ class _$HTLCWithoutFundsImpl extends HTLCWithoutFunds {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -2488,6 +2552,7 @@ class _$HTLCWithoutFundsImpl extends HTLCWithoutFunds {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -2522,6 +2587,7 @@ class _$HTLCWithoutFundsImpl extends HTLCWithoutFunds {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -2549,6 +2615,7 @@ class _$HTLCWithoutFundsImpl extends HTLCWithoutFunds {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -2576,6 +2643,7 @@ class _$HTLCWithoutFundsImpl extends HTLCWithoutFunds {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -2667,6 +2735,7 @@ class _$NotHTLCImpl extends NotHTLC {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -2694,6 +2763,7 @@ class _$NotHTLCImpl extends NotHTLC {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -2721,6 +2791,7 @@ class _$NotHTLCImpl extends NotHTLC {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -2755,6 +2826,7 @@ class _$NotHTLCImpl extends NotHTLC {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -2782,6 +2854,7 @@ class _$NotHTLCImpl extends NotHTLC {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -2809,6 +2882,7 @@ class _$NotHTLCImpl extends NotHTLC {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -2925,6 +2999,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -2952,6 +3027,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -2979,6 +3055,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -3013,6 +3090,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -3040,6 +3118,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -3067,6 +3146,7 @@ class _$WrongNetworkImpl extends WrongNetwork {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -3163,6 +3243,7 @@ class _$UserRejectedImpl extends UserRejected {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -3190,6 +3271,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -3217,6 +3299,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -3251,6 +3334,7 @@ class _$UserRejectedImpl extends UserRejected {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -3278,6 +3362,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -3305,6 +3390,7 @@ class _$UserRejectedImpl extends UserRejected {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -3399,6 +3485,7 @@ class _$ChainSwitchNotSupportedImpl extends ChainSwitchNotSupported {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -3426,6 +3513,7 @@ class _$ChainSwitchNotSupportedImpl extends ChainSwitchNotSupported {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -3453,6 +3541,7 @@ class _$ChainSwitchNotSupportedImpl extends ChainSwitchNotSupported {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -3487,6 +3576,7 @@ class _$ChainSwitchNotSupportedImpl extends ChainSwitchNotSupported {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -3514,6 +3604,7 @@ class _$ChainSwitchNotSupportedImpl extends ChainSwitchNotSupported {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -3541,6 +3632,7 @@ class _$ChainSwitchNotSupportedImpl extends ChainSwitchNotSupported {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -3634,6 +3726,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -3661,6 +3754,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -3688,6 +3782,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -3722,6 +3817,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -3749,6 +3845,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -3776,6 +3873,7 @@ class _$ConnectivityArchethicImpl extends ConnectivityArchethic {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -3867,6 +3965,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -3894,6 +3993,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -3921,6 +4021,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -3955,6 +4056,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -3982,6 +4084,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -4009,6 +4112,7 @@ class _$ConnectivityEVMImpl extends ConnectivityEVM {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -4100,6 +4204,7 @@ class _$ParamEVMChainImpl extends ParamEVMChain {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -4127,6 +4232,7 @@ class _$ParamEVMChainImpl extends ParamEVMChain {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -4154,6 +4260,7 @@ class _$ParamEVMChainImpl extends ParamEVMChain {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -4188,6 +4295,7 @@ class _$ParamEVMChainImpl extends ParamEVMChain {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -4215,6 +4323,7 @@ class _$ParamEVMChainImpl extends ParamEVMChain {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -4242,6 +4351,7 @@ class _$ParamEVMChainImpl extends ParamEVMChain {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -4333,6 +4443,7 @@ class _$TimeoutImpl extends Timeout {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -4360,6 +4471,7 @@ class _$TimeoutImpl extends Timeout {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -4387,6 +4499,7 @@ class _$TimeoutImpl extends Timeout {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -4421,6 +4534,7 @@ class _$TimeoutImpl extends Timeout {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -4448,6 +4562,7 @@ class _$TimeoutImpl extends Timeout {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -4475,6 +4590,7 @@ class _$TimeoutImpl extends Timeout {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -4498,6 +4614,246 @@ abstract class Timeout extends Failure {
   const Timeout._() : super._();
 
   factory Timeout.fromJson(Map<String, dynamic> json) = _$TimeoutImpl.fromJson;
+}
+
+/// @nodoc
+abstract class _$$IncompatibleBrowserImplCopyWith<$Res> {
+  factory _$$IncompatibleBrowserImplCopyWith(_$IncompatibleBrowserImpl value,
+          $Res Function(_$IncompatibleBrowserImpl) then) =
+      __$$IncompatibleBrowserImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$IncompatibleBrowserImplCopyWithImpl<$Res>
+    extends _$FailureCopyWithImpl<$Res, _$IncompatibleBrowserImpl>
+    implements _$$IncompatibleBrowserImplCopyWith<$Res> {
+  __$$IncompatibleBrowserImplCopyWithImpl(_$IncompatibleBrowserImpl _value,
+      $Res Function(_$IncompatibleBrowserImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$IncompatibleBrowserImpl extends IncompatibleBrowser {
+  const _$IncompatibleBrowserImpl({final String? $type})
+      : $type = $type ?? 'incompatibleBrowser',
+        super._();
+
+  factory _$IncompatibleBrowserImpl.fromJson(Map<String, dynamic> json) =>
+      _$$IncompatibleBrowserImplFromJson(json);
+
+  @JsonKey(name: 'runtimeType')
+  final String $type;
+
+  @override
+  String toString() {
+    return 'Failure.incompatibleBrowser()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$IncompatibleBrowserImpl);
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() loggedOut,
+    required TResult Function() network,
+    required TResult Function(DateTime? cooldownEndDate) quotaExceeded,
+    required TResult Function() serviceNotFound,
+    required TResult Function() serviceAlreadyExists,
+    required TResult Function() insufficientFunds,
+    required TResult Function() insufficientPoolFunds,
+    required TResult Function() unauthorized,
+    required TResult Function() invalidValue,
+    required TResult Function() htlcWithoutFunds,
+    required TResult Function() notHTLC,
+    required TResult Function(String cause) wrongNetwork,
+    required TResult Function() userRejected,
+    required TResult Function() chainSwitchNotSupported,
+    required TResult Function() connectivityArchethic,
+    required TResult Function() connectivityEVM,
+    required TResult Function() paramEVMChain,
+    required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
+    required TResult Function(String? cause) rpcErrorEVM,
+    required TResult Function(String? cause, String? stack) other,
+  }) {
+    return incompatibleBrowser();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? loggedOut,
+    TResult? Function()? network,
+    TResult? Function(DateTime? cooldownEndDate)? quotaExceeded,
+    TResult? Function()? serviceNotFound,
+    TResult? Function()? serviceAlreadyExists,
+    TResult? Function()? insufficientFunds,
+    TResult? Function()? insufficientPoolFunds,
+    TResult? Function()? unauthorized,
+    TResult? Function()? invalidValue,
+    TResult? Function()? htlcWithoutFunds,
+    TResult? Function()? notHTLC,
+    TResult? Function(String cause)? wrongNetwork,
+    TResult? Function()? userRejected,
+    TResult? Function()? chainSwitchNotSupported,
+    TResult? Function()? connectivityArchethic,
+    TResult? Function()? connectivityEVM,
+    TResult? Function()? paramEVMChain,
+    TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
+    TResult? Function(String? cause)? rpcErrorEVM,
+    TResult? Function(String? cause, String? stack)? other,
+  }) {
+    return incompatibleBrowser?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? loggedOut,
+    TResult Function()? network,
+    TResult Function(DateTime? cooldownEndDate)? quotaExceeded,
+    TResult Function()? serviceNotFound,
+    TResult Function()? serviceAlreadyExists,
+    TResult Function()? insufficientFunds,
+    TResult Function()? insufficientPoolFunds,
+    TResult Function()? unauthorized,
+    TResult Function()? invalidValue,
+    TResult Function()? htlcWithoutFunds,
+    TResult Function()? notHTLC,
+    TResult Function(String cause)? wrongNetwork,
+    TResult Function()? userRejected,
+    TResult Function()? chainSwitchNotSupported,
+    TResult Function()? connectivityArchethic,
+    TResult Function()? connectivityEVM,
+    TResult Function()? paramEVMChain,
+    TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
+    TResult Function(String? cause)? rpcErrorEVM,
+    TResult Function(String? cause, String? stack)? other,
+    required TResult orElse(),
+  }) {
+    if (incompatibleBrowser != null) {
+      return incompatibleBrowser();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(LoggedOut value) loggedOut,
+    required TResult Function(NetworkFailure value) network,
+    required TResult Function(QuotaExceededFailure value) quotaExceeded,
+    required TResult Function(ServiceNotFound value) serviceNotFound,
+    required TResult Function(ServiceAlreadyExists value) serviceAlreadyExists,
+    required TResult Function(InsufficientFunds value) insufficientFunds,
+    required TResult Function(InsufficientPoolFunds value)
+        insufficientPoolFunds,
+    required TResult Function(Unauthorized value) unauthorized,
+    required TResult Function(InvalidValue value) invalidValue,
+    required TResult Function(HTLCWithoutFunds value) htlcWithoutFunds,
+    required TResult Function(NotHTLC value) notHTLC,
+    required TResult Function(WrongNetwork value) wrongNetwork,
+    required TResult Function(UserRejected value) userRejected,
+    required TResult Function(ChainSwitchNotSupported value)
+        chainSwitchNotSupported,
+    required TResult Function(ConnectivityArchethic value)
+        connectivityArchethic,
+    required TResult Function(ConnectivityEVM value) connectivityEVM,
+    required TResult Function(ParamEVMChain value) paramEVMChain,
+    required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
+    required TResult Function(RPCErrorEVM value) rpcErrorEVM,
+    required TResult Function(OtherFailure value) other,
+  }) {
+    return incompatibleBrowser(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(LoggedOut value)? loggedOut,
+    TResult? Function(NetworkFailure value)? network,
+    TResult? Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult? Function(ServiceNotFound value)? serviceNotFound,
+    TResult? Function(ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult? Function(InsufficientFunds value)? insufficientFunds,
+    TResult? Function(InsufficientPoolFunds value)? insufficientPoolFunds,
+    TResult? Function(Unauthorized value)? unauthorized,
+    TResult? Function(InvalidValue value)? invalidValue,
+    TResult? Function(HTLCWithoutFunds value)? htlcWithoutFunds,
+    TResult? Function(NotHTLC value)? notHTLC,
+    TResult? Function(WrongNetwork value)? wrongNetwork,
+    TResult? Function(UserRejected value)? userRejected,
+    TResult? Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
+    TResult? Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult? Function(ConnectivityEVM value)? connectivityEVM,
+    TResult? Function(ParamEVMChain value)? paramEVMChain,
+    TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
+    TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
+    TResult? Function(OtherFailure value)? other,
+  }) {
+    return incompatibleBrowser?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(LoggedOut value)? loggedOut,
+    TResult Function(NetworkFailure value)? network,
+    TResult Function(QuotaExceededFailure value)? quotaExceeded,
+    TResult Function(ServiceNotFound value)? serviceNotFound,
+    TResult Function(ServiceAlreadyExists value)? serviceAlreadyExists,
+    TResult Function(InsufficientFunds value)? insufficientFunds,
+    TResult Function(InsufficientPoolFunds value)? insufficientPoolFunds,
+    TResult Function(Unauthorized value)? unauthorized,
+    TResult Function(InvalidValue value)? invalidValue,
+    TResult Function(HTLCWithoutFunds value)? htlcWithoutFunds,
+    TResult Function(NotHTLC value)? notHTLC,
+    TResult Function(WrongNetwork value)? wrongNetwork,
+    TResult Function(UserRejected value)? userRejected,
+    TResult Function(ChainSwitchNotSupported value)? chainSwitchNotSupported,
+    TResult Function(ConnectivityArchethic value)? connectivityArchethic,
+    TResult Function(ConnectivityEVM value)? connectivityEVM,
+    TResult Function(ParamEVMChain value)? paramEVMChain,
+    TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
+    TResult Function(RPCErrorEVM value)? rpcErrorEVM,
+    TResult Function(OtherFailure value)? other,
+    required TResult orElse(),
+  }) {
+    if (incompatibleBrowser != null) {
+      return incompatibleBrowser(this);
+    }
+    return orElse();
+  }
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$IncompatibleBrowserImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class IncompatibleBrowser extends Failure {
+  const factory IncompatibleBrowser() = _$IncompatibleBrowserImpl;
+  const IncompatibleBrowser._() : super._();
+
+  factory IncompatibleBrowser.fromJson(Map<String, dynamic> json) =
+      _$IncompatibleBrowserImpl.fromJson;
 }
 
 /// @nodoc
@@ -4591,6 +4947,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -4618,6 +4975,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -4645,6 +5003,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -4679,6 +5038,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -4706,6 +5066,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -4733,6 +5094,7 @@ class _$RPCErrorEVMImpl extends RPCErrorEVM {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),
@@ -4863,6 +5225,7 @@ class _$OtherFailureImpl extends OtherFailure {
     required TResult Function() connectivityEVM,
     required TResult Function() paramEVMChain,
     required TResult Function() timeout,
+    required TResult Function() incompatibleBrowser,
     required TResult Function(String? cause) rpcErrorEVM,
     required TResult Function(String? cause, String? stack) other,
   }) {
@@ -4890,6 +5253,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult? Function()? connectivityEVM,
     TResult? Function()? paramEVMChain,
     TResult? Function()? timeout,
+    TResult? Function()? incompatibleBrowser,
     TResult? Function(String? cause)? rpcErrorEVM,
     TResult? Function(String? cause, String? stack)? other,
   }) {
@@ -4917,6 +5281,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult Function()? connectivityEVM,
     TResult Function()? paramEVMChain,
     TResult Function()? timeout,
+    TResult Function()? incompatibleBrowser,
     TResult Function(String? cause)? rpcErrorEVM,
     TResult Function(String? cause, String? stack)? other,
     required TResult orElse(),
@@ -4951,6 +5316,7 @@ class _$OtherFailureImpl extends OtherFailure {
     required TResult Function(ConnectivityEVM value) connectivityEVM,
     required TResult Function(ParamEVMChain value) paramEVMChain,
     required TResult Function(Timeout value) timeout,
+    required TResult Function(IncompatibleBrowser value) incompatibleBrowser,
     required TResult Function(RPCErrorEVM value) rpcErrorEVM,
     required TResult Function(OtherFailure value) other,
   }) {
@@ -4978,6 +5344,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult? Function(ConnectivityEVM value)? connectivityEVM,
     TResult? Function(ParamEVMChain value)? paramEVMChain,
     TResult? Function(Timeout value)? timeout,
+    TResult? Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult? Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult? Function(OtherFailure value)? other,
   }) {
@@ -5005,6 +5372,7 @@ class _$OtherFailureImpl extends OtherFailure {
     TResult Function(ConnectivityEVM value)? connectivityEVM,
     TResult Function(ParamEVMChain value)? paramEVMChain,
     TResult Function(Timeout value)? timeout,
+    TResult Function(IncompatibleBrowser value)? incompatibleBrowser,
     TResult Function(RPCErrorEVM value)? rpcErrorEVM,
     TResult Function(OtherFailure value)? other,
     required TResult orElse(),

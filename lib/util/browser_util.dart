@@ -6,4 +6,19 @@ class BrowserUtil {
     return js.context.hasProperty('navigator') &&
         js.context['navigator'].hasProperty('brave');
   }
+
+  bool isEdgeBrowser() {
+    return js.context.hasProperty('navigator') &&
+        js.context['navigator'].hasProperty('userAgent') &&
+        js.context['navigator']['userAgent'].toString().contains('Edg/');
+  }
+
+  bool isInternetExplorerBrowser() {
+    return js.context.hasProperty('navigator') &&
+        js.context['navigator'].hasProperty('userAgent') &&
+        (js.context['navigator']['userAgent'].toString().contains('MSIE ') ||
+            js.context['navigator']['userAgent']
+                .toString()
+                .contains('Trident/'));
+  }
 }
