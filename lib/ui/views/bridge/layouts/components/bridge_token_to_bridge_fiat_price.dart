@@ -1,12 +1,13 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/coin_price.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/util/generic/formatters.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class BridgeTokenToBridgeCoingeckoPrice extends ConsumerWidget {
-  const BridgeTokenToBridgeCoingeckoPrice({
+class BridgeTokenToBridgeFiatPrice extends ConsumerWidget {
+  const BridgeTokenToBridgeFiatPrice({
     super.key,
   });
 
@@ -47,7 +48,7 @@ class BridgeTokenToBridgeCoingeckoPrice extends ConsumerWidget {
         );
 
     return Text(
-      '1 ${bridge.tokenToBridge!.symbol} = \$$price ($timestamp)',
+      '1 ${bridge.tokenToBridge!.symbol} = \$${price.formatNumber(precision: 2)} ($timestamp)',
       style: TextStyle(
         fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
       ),
