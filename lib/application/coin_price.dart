@@ -2,6 +2,8 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:aebridge/domain/models/crypto_price.dart';
+import 'package:aebridge/util/custom_logs.dart';
+import 'package:aebridge/util/generic/get_it_instance.dart';
 import 'package:http/http.dart' as http;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -42,8 +44,16 @@ class _CoinPriceNotifier extends Notifier<CryptoPrice> {
 
     try {
       final response = await http.get(Uri.parse(url), headers: headers);
+      sl.get<LogManager>().log(
+            'response.statusCode = ${response.statusCode}',
+            name: 'fetchPrices',
+          );
       if (response.statusCode == 200) {
         final pricesMap = _extractPriceMethods(response.body);
+        sl.get<LogManager>().log(
+              'response.body = ${response.body}',
+              name: 'fetchPrices',
+            );
         return CryptoPrice.fromJson(pricesMap);
       }
       // ignore: unused_catch_stack
