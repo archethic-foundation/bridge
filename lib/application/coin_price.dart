@@ -38,7 +38,6 @@ class _CoinPriceNotifier extends Notifier<CryptoPrice> {
     final headers = {
       'Content-type': 'application/json',
       'Accept': 'application/json',
-      'Access-Control-Allow-Origin': '*',
     };
 
     try {
