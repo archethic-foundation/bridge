@@ -31,6 +31,7 @@
             "icon": "Archethic.svg",
             "urlExplorerAddress": "http://localhost:4000/explorer/transaction/",
             "urlExplorerTransaction": "http://localhost:4000/explorer/transaction/",
+            "urlExplorerChain": "http://localhost:4000/explorer/chain?address=",
             "isArchethic": true,
             "archethicFactoryAddress": "00004f53ed49c11ee3ff80d0abf608180bde9954dee20ede4dfa092a8c93d6ca26a9",
             "nativeCurrency": "UCO"
