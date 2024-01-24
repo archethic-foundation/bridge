@@ -1,11 +1,11 @@
 {
-    "name": "Archethic Bridge",
-    "short_name": "AEBridge",
+    "name": "aeBridge",
+    "short_name": "aeBridge",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Archethic Bridge",
+    "description": "aeBridge",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

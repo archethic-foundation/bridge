@@ -37,7 +37,7 @@ class Header extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.only(top: 5),
           child: Text(
-            'Bridge',
+            'aeBridge',
             style: TextStyle(
               fontSize: 30,
               color: ArchethicThemeBase.blue200,
