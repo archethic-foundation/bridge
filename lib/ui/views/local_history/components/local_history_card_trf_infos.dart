@@ -1,5 +1,4 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/oracle/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/util/components/fiat_value.dart';
 import 'package:aebridge/ui/views/util/components/format_address_link_copy.dart';
@@ -17,12 +16,6 @@ class LocalHistoryCardTrfInfos extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     if (bridge.tokenToBridge != null && bridge.blockchainTo != null) {
-      final archethicOracleUCO =
-          ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
-
-      final tokenToBridgeAmountFiat =
-          archethicOracleUCO.usd * bridge.tokenToBridgeAmount;
-
       return Padding(
         padding: const EdgeInsets.only(top: 5),
         child: Row(
@@ -35,7 +28,7 @@ class LocalHistoryCardTrfInfos extends ConsumerWidget {
                     future: FiatValue().display(
                       ref,
                       bridge.tokenToBridge!.symbol,
-                      tokenToBridgeAmountFiat,
+                      bridge.tokenToBridgeAmount,
                     ),
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
