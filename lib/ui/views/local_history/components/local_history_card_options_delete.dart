@@ -80,8 +80,8 @@ class LocalHistoryCardOptionsDelete extends ConsumerWidget {
                                   ),
                                   AppButton(
                                     labelBtn: AppLocalizations.of(context)!.yes,
-                                    onPressed: () {
-                                      ref
+                                    onPressed: () async {
+                                      await ref
                                           .read(
                                             BridgeHistoryProviders
                                                 .bridgeHistoryRepository,
@@ -90,10 +90,13 @@ class LocalHistoryCardOptionsDelete extends ConsumerWidget {
                                             timestampExec:
                                                 bridge.timestampExec!,
                                           );
+
                                       ref.invalidate(
                                         BridgeHistoryProviders.fetchBridgesList,
                                       );
-                                      Navigator.of(context).pop();
+                                      if (context.mounted) {
+                                        Navigator.of(context).pop();
+                                      }
                                     },
                                   ),
                                 ],
