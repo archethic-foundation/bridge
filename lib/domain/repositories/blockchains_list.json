@@ -107,7 +107,7 @@
             "icon": "BSC.svg",
             "urlExplorerAddress": "https://testnet.bscscan.com/address/",
             "urlExplorerTransaction": "https://testnet.bscscan.com/tx/",
-            "providerEndpoint": "https://data-seed-prebsc-1-s1.binance.org:8545",
+            "providerEndpoint": "https://bsc-testnet.publicnode.com",
             "isArchethic": false,
             "nativeCurrency": "BNB"
         }
