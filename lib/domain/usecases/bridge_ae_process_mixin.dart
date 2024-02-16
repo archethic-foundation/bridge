@@ -7,7 +7,8 @@ import 'package:aebridge/application/contracts/archethic_contract_signed.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
@@ -162,17 +163,18 @@ mixin ArchethicBridgeProcessMixin {
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     await bridgeNotifier.setCurrentStep(3);
 
-    final htlcDataMap = await sl.get<archethic.ApiService>().callSCFunction(
-          jsonRPCRequest: archethic.SCCallFunctionRequest(
-            method: 'contract_fun',
-            params: archethic.SCCallFunctionParams(
-              contract: archethicHTLCAddress,
-              function: 'get_htlc_data',
-              args: [],
-            ),
-          ),
-          resultMap: true,
-        ) as Map<String, dynamic>;
+    final htlcDataMap =
+        await aedappfm.sl.get<archethic.ApiService>().callSCFunction(
+              jsonRPCRequest: archethic.SCCallFunctionRequest(
+                method: 'contract_fun',
+                params: archethic.SCCallFunctionParams(
+                  contract: archethicHTLCAddress,
+                  function: 'get_htlc_data',
+                  args: [],
+                ),
+              ),
+              resultMap: true,
+            ) as Map<String, dynamic>;
     return (
       secretHash: SecretHash(
         secretHash: htlcDataMap['secret_hash'],
@@ -218,17 +220,18 @@ mixin ArchethicBridgeProcessMixin {
   }
 
   Future<Secret> revealAESecret(WidgetRef ref, String htlcAddress) async {
-    final secretMap = await sl.get<archethic.ApiService>().callSCFunction(
-          jsonRPCRequest: archethic.SCCallFunctionRequest(
-            method: 'contract_fun',
-            params: archethic.SCCallFunctionParams(
-              contract: htlcAddress,
-              function: 'get_secret',
-              args: [],
-            ),
-          ),
-          resultMap: true,
-        ) as Map<String, dynamic>;
+    final secretMap =
+        await aedappfm.sl.get<archethic.ApiService>().callSCFunction(
+              jsonRPCRequest: archethic.SCCallFunctionRequest(
+                method: 'contract_fun',
+                params: archethic.SCCallFunctionParams(
+                  contract: htlcAddress,
+                  function: 'get_secret',
+                  args: [],
+                ),
+              ),
+              resultMap: true,
+            ) as Map<String, dynamic>;
 
     return Secret(
       secret: '0x${secretMap['secret']}',

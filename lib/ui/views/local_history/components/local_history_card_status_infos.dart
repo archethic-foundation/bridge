@@ -1,10 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_to_evm.usecase.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_to_ae.usecase.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
+
 import 'package:aebridge/ui/views/util/failure_message.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 
@@ -27,7 +28,7 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
           if (bridge.failure == null && bridge.currentStep == 8)
             _transferCompleted(context)
           else if (bridge.failure != null &&
-              bridge.failure is UserRejected == true)
+              bridge.failure is aedappfm.UserRejected == true)
             _transferInterrupted(context)
           else
             _transferError(context),
@@ -39,10 +40,10 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
   Widget _transferCompleted(BuildContext context) {
     return Row(
       children: [
-        Text('${AppLocalizations.of(context)!.localHistoryStatus}: '),
-        Text(
+        SelectableText('${AppLocalizations.of(context)!.localHistoryStatus}: '),
+        SelectableText(
           'Transfer completed',
-          style: TextStyle(color: BridgeThemeBase.statusOK),
+          style: TextStyle(color: aedappfm.AppThemeBase.statusOK),
         ),
       ],
     );
@@ -55,26 +56,28 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
         Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            Text('${AppLocalizations.of(context)!.localHistoryStatus}: '),
-            Text(
+            SelectableText(
+              '${AppLocalizations.of(context)!.localHistoryStatus}: ',
+            ),
+            SelectableText(
               'Transfer interrupted at step ${bridge.currentStep}',
               style: TextStyle(
-                color: BridgeThemeBase.statusInProgress,
+                color: aedappfm.AppThemeBase.statusInProgress,
               ),
             ),
             if (bridge.blockchainFrom != null &&
                 bridge.blockchainFrom!.isArchethic)
-              Text(
+              SelectableText(
                 ' (${BridgeArchethicToEVMUseCase().getStepLabel(context, bridge.currentStep)})',
               )
             else
-              Text(
+              SelectableText(
                 ' (${BridgeEVMToArchethicUseCase().getStepLabel(context, bridge.currentStep)})',
               ),
           ],
         ),
         if (bridge.failure != null)
-          Text(
+          SelectableText(
             '${AppLocalizations.of(context)!.localHistoryCause}: ${FailureMessage(
               context: context,
               failure: bridge.failure,
@@ -91,18 +94,20 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
         Wrap(
           crossAxisAlignment: WrapCrossAlignment.center,
           children: [
-            Text('${AppLocalizations.of(context)!.localHistoryStatus}: '),
-            Text(
-              'Transfer stopped at step ${bridge.currentStep}',
-              style: TextStyle(color: BridgeThemeBase.statusKO),
+            SelectableText(
+              '${AppLocalizations.of(context)!.localHistoryStatus}: ',
             ),
-            Text(
+            SelectableText(
+              'Transfer stopped at step ${bridge.currentStep}',
+              style: TextStyle(color: aedappfm.AppThemeBase.statusKO),
+            ),
+            SelectableText(
               ' (${BridgeArchethicToEVMUseCase().getStepLabel(context, bridge.currentStep)})',
             ),
           ],
         ),
         if (bridge.failure != null)
-          Text(
+          SelectableText(
             '${AppLocalizations.of(context)!.localHistoryCause}: ${FailureMessage(
               context: context,
               failure: bridge.failure,

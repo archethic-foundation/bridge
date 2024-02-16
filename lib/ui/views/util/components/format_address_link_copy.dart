@@ -1,6 +1,6 @@
 import 'package:aebridge/application/bridge_blockchain.dart';
-import 'package:aebridge/ui/views/util/iconsax.dart';
-import 'package:aebridge/util/address_util.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -32,20 +32,24 @@ class FormatAddressLinkCopy extends ConsumerWidget {
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        if (header != null)
-          SelectableText(
-            '$header ${reduceAddress ? AddressUtil.reduceAddress(address) : address}',
-            style: TextStyle(
-              fontSize: fontSize,
-            ),
-          )
-        else
-          SelectableText(
-            reduceAddress ? AddressUtil.reduceAddress(address) : address,
-            style: TextStyle(
-              fontSize: fontSize,
-            ),
-          ),
+        Tooltip(
+          message: address,
+          child: header != null
+              ? SelectableText(
+                  '$header ${reduceAddress ? aedappfm.AddressUtil.reduceAddress(address) : address}',
+                  style: TextStyle(
+                    fontSize: fontSize,
+                  ),
+                )
+              : SelectableText(
+                  reduceAddress
+                      ? aedappfm.AddressUtil.reduceAddress(address)
+                      : address,
+                  style: TextStyle(
+                    fontSize: fontSize,
+                  ),
+                ),
+        ),
         const SizedBox(width: 5),
         InkWell(
           onTap: () {
@@ -56,7 +60,7 @@ class FormatAddressLinkCopy extends ConsumerWidget {
               SnackBar(
                 backgroundColor:
                     Theme.of(context).snackBarTheme.backgroundColor,
-                content: Text(
+                content: SelectableText(
                   AppLocalizations.of(context)!.addressCopied,
                   style: Theme.of(context).snackBarTheme.contentTextStyle,
                 ),
@@ -71,7 +75,7 @@ class FormatAddressLinkCopy extends ConsumerWidget {
           child: Padding(
             padding: const EdgeInsets.only(bottom: 3),
             child: Icon(
-              Iconsax.copy,
+              aedappfm.Iconsax.copy,
               size: fontSize - 1,
             ),
           ),
@@ -109,7 +113,7 @@ class FormatAddressLinkCopy extends ConsumerWidget {
           child: Padding(
             padding: const EdgeInsets.only(bottom: 3),
             child: Icon(
-              Iconsax.export_3,
+              aedappfm.Iconsax.export_3,
               size: fontSize - 1,
             ),
           ),

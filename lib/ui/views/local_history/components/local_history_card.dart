@@ -1,4 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:ui';
+
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_direction_infos.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_htlc_infos.dart';
@@ -8,9 +10,9 @@ import 'package:aebridge/ui/views/local_history/components/local_history_card_op
 import 'package:aebridge/ui/views/local_history/components/local_history_card_options_resume.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_status_infos.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_trf_infos.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
-import 'package:gradient_borders/gradient_borders.dart';
 import 'package:intl/intl.dart';
 
 class LocalHistoryCard extends StatelessWidget {
@@ -24,66 +26,58 @@ class LocalHistoryCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 50),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: BridgeThemeBase.gradientSheetBackground,
-          border: GradientBoxBorder(
-            gradient: BridgeThemeBase.gradientSheetBorder,
-          ),
-          borderRadius: BorderRadius.circular(24),
-          image: const DecorationImage(
-            image: AssetImage(
-              'assets/images/background-sheet.png',
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: aedappfm.AppThemeBase.sheetBackground,
+              border: Border.all(
+                color: aedappfm.AppThemeBase.sheetBorder,
+              ),
+              borderRadius: BorderRadius.circular(20),
             ),
-            fit: BoxFit.cover,
-          ),
-          boxShadow: [
-            BoxShadow(
-              color: ArchethicThemeBase.neutral900,
-              blurRadius: 40,
-              spreadRadius: 10,
-              offset: const Offset(1, 10),
-            ),
-          ],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Align(
-            alignment: Alignment.centerLeft,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      DateFormat.yMd(
-                        Localizations.localeOf(context).languageCode,
-                      ).add_Hms().format(
-                            DateTime.fromMillisecondsSinceEpoch(
-                              bridge.timestampExec!,
-                            ).toLocal(),
-                          ),
-                      textAlign: TextAlign.center,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        LocalHistoryCardOptionsDelete(bridge: bridge),
-                        LocalHistoryCardOptionsResume(bridge: bridge),
-                        LocalHistoryCardOptionsRefund(bridge: bridge),
-                        LocalHistoryCardOptionsLogs(bridge: bridge),
+                        Text(
+                          DateFormat.yMd(
+                            Localizations.localeOf(context).languageCode,
+                          ).add_Hms().format(
+                                DateTime.fromMillisecondsSinceEpoch(
+                                  bridge.timestampExec!,
+                                ).toLocal(),
+                              ),
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Row(
+                          children: [
+                            LocalHistoryCardOptionsDelete(bridge: bridge),
+                            LocalHistoryCardOptionsResume(bridge: bridge),
+                            LocalHistoryCardOptionsRefund(bridge: bridge),
+                            LocalHistoryCardOptionsLogs(bridge: bridge),
+                          ],
+                        ),
                       ],
                     ),
+                    LocalHistoryCardStatusInfos(bridge: bridge),
+                    LocalHistoryCardDirectionInfos(bridge: bridge),
+                    LocalHistoryCardTrfInfos(bridge: bridge),
+                    LocalHistoryCardHTLCInfos(bridge: bridge),
                   ],
                 ),
-                LocalHistoryCardStatusInfos(bridge: bridge),
-                LocalHistoryCardDirectionInfos(bridge: bridge),
-                LocalHistoryCardTrfInfos(bridge: bridge),
-                LocalHistoryCardHTLCInfos(bridge: bridge),
-              ],
+              ),
             ),
           ),
         ),

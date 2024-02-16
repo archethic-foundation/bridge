@@ -1,68 +1,72 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/coin_price.dart';
-import 'package:aebridge/application/oracle/provider.dart';
 import 'package:aebridge/infrastructure/hive/db_helper.hive.dart';
 import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
-import 'package:aebridge/ui/views/main_screen/layouts/main_screen.dart';
-import 'package:aebridge/ui/views/welcome/welcome_screen.dart';
-import 'package:aebridge/util/custom_logs.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
-import 'package:aebridge/util/generic/providers_observer.dart';
+import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
+import 'package:aebridge/ui/views/util/router.dart';
 import 'package:aebridge/util/service_locator.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:url_strategy/url_strategy.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DBHelper.setupDatabase();
   setupServiceLocator();
+  setPathUrlStrategy();
 
   final preferences = await HivePreferencesDatasource.getInstance();
-  sl.get<LogManager>().logsActived = preferences.isLogsActived();
+  aedappfm.sl.get<aedappfm.LogManager>().logsActived =
+      preferences.isLogsActived();
 
   runApp(
     ProviderScope(
       observers: [
-        ProvidersLogger(logger: false),
+        aedappfm.ProvidersLogger(logger: false),
       ],
       child: const MyApp(),
     ),
   );
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends ConsumerStatefulWidget {
   const MyApp({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    ref.read(ArchethicOracleUCOProviders.archethicOracleUCO.notifier).init();
-    ref.read(CoinPriceProviders.coinPrice.notifier).init();
+  ConsumerState<MyApp> createState() => _MyAppState();
+}
 
-    // GoRouter configuration
-    final _router = GoRouter(
-      routes: [
-        GoRoute(
-          path: '/',
-          builder: (context, state) {
-            return const WelcomeScreen();
-          },
-        ),
-        GoRoute(
-          path: '/main',
-          builder: (context, state) => const MainScreen(),
-        ),
-        GoRoute(
-          path: '/welcome',
-          builder: (context, state) => const WelcomeScreen(),
-        ),
-      ],
-    );
+class _MyAppState extends ConsumerState<MyApp> {
+  static final GlobalKey<NavigatorState> rootNavigatorKey =
+      GlobalKey<NavigatorState>();
+  final router = RoutesPath(rootNavigatorKey).createRouter();
 
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      await ref
+          .read(
+            aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO.notifier,
+          )
+          .init();
+      await ref.read(aedappfm.CoinPriceProviders.coinPrice.notifier).init();
+
+      if (context.mounted) {
+        context.go(BridgeSheet.routerPage, extra: <String, dynamic>{});
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MaterialApp.router(
-      routerConfig: _router,
+      routerConfig: router,
       title: 'aebridge',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
@@ -75,12 +79,9 @@ class MyApp extends ConsumerWidget {
         fontFamily: 'PPTelegraf',
         useMaterial3: true,
       ),
-      supportedLocales: const <Locale>[
-        // add here all the supported languages in the app (intl files)
-        Locale('en'),
-      ],
       localizationsDelegates: const [
         AppLocalizations.delegate,
+        aedappfm.AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,

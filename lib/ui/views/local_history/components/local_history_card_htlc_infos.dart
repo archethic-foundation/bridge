@@ -37,6 +37,7 @@ class LocalHistoryCardHTLCInfos extends StatelessWidget {
                       : TypeAddress.address,
                   header:
                       '${bridge.blockchainFrom!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
+                  reduceAddress: true,
                 ),
                 if (bridge.blockchainFrom!.isArchethic == false)
                   EVMHTLCStatus(
@@ -60,6 +61,7 @@ class LocalHistoryCardHTLCInfos extends StatelessWidget {
                       : TypeAddress.address,
                   header:
                       '${bridge.blockchainTo!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
+                  reduceAddress: true,
                 ),
                 if (bridge.blockchainTo!.isArchethic == false)
                   EVMHTLCStatus(

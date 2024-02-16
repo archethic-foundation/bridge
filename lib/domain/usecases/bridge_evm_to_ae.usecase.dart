@@ -3,12 +3,11 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:aebridge/application/contracts/evm_htlc.dart';
-import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
-import 'package:aebridge/util/transaction_bridge_util.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +17,7 @@ class BridgeEVMToArchethicUseCase
     with
         ArchethicBridgeProcessMixin,
         EVMBridgeProcessMixin,
-        TransactionBridgeMixin {
+        aedappfm.TransactionMixin {
   Future<void> run(
     WidgetRef ref, {
     int recoveryStep = 0,
@@ -88,7 +87,8 @@ class BridgeEVMToArchethicUseCase
           endTime = htlcLockTime;
         },
         failure: (failure) async {
-          await bridgeNotifier.setFailure(const Failure.invalidValue());
+          await bridgeNotifier
+              .setFailure(const aedappfm.Failure.invalidValue());
           await bridgeNotifier.setTransferInProgress(false);
           return;
         },
@@ -111,7 +111,7 @@ class BridgeEVMToArchethicUseCase
       await bridgeNotifier.setCurrentStep(4);
       amount = await getEVMHTLCAmount(ref, htlcEVMAddress!);
       if (amount == null) {
-        await bridgeNotifier.setFailure(const Failure.invalidValue());
+        await bridgeNotifier.setFailure(const aedappfm.Failure.invalidValue());
         await bridgeNotifier.setTransferInProgress(false);
         return;
       }
@@ -131,7 +131,8 @@ class BridgeEVMToArchethicUseCase
               endTime = htlcLockTime;
             },
             failure: (failure) async {
-              await bridgeNotifier.setFailure(const Failure.invalidValue());
+              await bridgeNotifier
+                  .setFailure(const aedappfm.Failure.invalidValue());
               await bridgeNotifier.setTransferInProgress(false);
               return;
             },
@@ -151,7 +152,7 @@ class BridgeEVMToArchethicUseCase
 
         // Wait for AE HTLC Update
         if (await waitForManualTxConfirmation(htlcAEAddress, 2) == false) {
-          await bridgeNotifier.setFailure(const Failure.timeout());
+          await bridgeNotifier.setFailure(const aedappfm.Failure.timeout());
           await bridgeNotifier.setTransferInProgress(false);
           return;
         }
@@ -167,7 +168,7 @@ class BridgeEVMToArchethicUseCase
     if (recoveryStep <= 6) {
       var checkAmount = 0.0;
       final balanceGetResponseMap =
-          await sl.get<ApiService>().fetchBalance([htlcAEAddress!]);
+          await aedappfm.sl.get<ApiService>().fetchBalance([htlcAEAddress!]);
       final balanceGetResponse = balanceGetResponseMap[htlcAEAddress];
       if (bridge.tokenToBridge!.type == 'ERC20') {
         checkAmount = fromBigInt(balanceGetResponse!.uco).toDouble();
@@ -180,7 +181,8 @@ class BridgeEVMToArchethicUseCase
         }
       }
       if (checkAmount < amount!) {
-        await bridgeNotifier.setFailure(const Failure.htlcWithoutFunds());
+        await bridgeNotifier
+            .setFailure(const aedappfm.Failure.htlcWithoutFunds());
         await bridgeNotifier.setTransferInProgress(false);
         return;
       }

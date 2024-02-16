@@ -1,6 +1,7 @@
 import 'package:aebridge/ui/views/main_screen/layouts/header.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
-import 'package:aebridge/ui/views/util/iconsax.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,7 +28,7 @@ class _AppBarWelcomeState extends ConsumerState<AppBarWelcome> {
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(1),
           child: Container(
-            color: ArchethicThemeBase.neutral0.withOpacity(0.2),
+            color: aedappfm.ArchethicThemeBase.neutral0.withOpacity(0.2),
             height: 1,
           ),
         ),
@@ -37,7 +38,7 @@ class _AppBarWelcomeState extends ConsumerState<AppBarWelcome> {
         leadingWidth: MediaQuery.of(context).size.width,
         actions: [
           IconButton(
-            icon: const Icon(Iconsax.element_3),
+            icon: const Icon(aedappfm.Iconsax.element_3),
             onPressed: widget.onAEMenuTapped,
           ),
           const SizedBox(

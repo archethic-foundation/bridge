@@ -5,12 +5,12 @@ import 'package:aebridge/application/contracts/evm_htlc_native.dart';
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
-import 'package:aebridge/domain/models/failures.dart';
-import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/domain/usecases/refund_evm.usecase.dart';
 import 'package:aebridge/ui/views/refund/bloc/state.dart';
-import 'package:aebridge/util/browser_util.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
+import 'package:aebridge/util/browser_util_desktop.dart'
+    if (dart.library.js) 'package:aebridge/util/browser_util_web.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webthree/webthree.dart' as webthree;
@@ -25,8 +25,8 @@ final _refundFormNotifierProvider =
 class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
   @override
   RefundFormState build() {
-    if (sl.isRegistered<EVMWalletProvider>()) {
-      sl.unregister<EVMWalletProvider>();
+    if (aedappfm.sl.isRegistered<EVMWalletProvider>()) {
+      aedappfm.sl.unregister<EVMWalletProvider>();
     }
     ref.read(SessionProviders.session.notifier).cancelAllWalletsConnection();
 
@@ -49,7 +49,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       isAlreadyWithdrawn: false,
     );
 
-    final chainId = sl.get<EVMWalletProvider>().currentChain ?? 0;
+    final chainId = aedappfm.sl.get<EVMWalletProvider>().currentChain ?? 0;
 
     if (await control()) {
       final evmHTLC = EVMHTLC(
@@ -62,8 +62,8 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       try {
         status = await evmHTLC.getStatus();
       } catch (e) {
-        setFailure(const Failure.notHTLC());
-        throw const Failure.notHTLC();
+        setFailure(const aedappfm.Failure.notHTLC());
+        throw const aedappfm.Failure.notHTLC();
       }
       if (status == 2) {
         final refundTxAddress = await evmHTLC.getTxRefund();
@@ -151,7 +151,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
   }
 
   void setFailure(
-    Failure? failure,
+    aedappfm.Failure? failure,
   ) {
     state = state.copyWith(
       failure: failure,
@@ -182,11 +182,13 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     state = state.copyWith(refundTxAddress: refundTxAddress);
   }
 
-  ({bool result, Failure? failure}) _controlAddress() {
+  ({bool result, aedappfm.Failure? failure}) _controlAddress() {
     if (state.htlcAddress.isEmpty) {
       return (
         result: false,
-        failure: const Failure.other(cause: 'Please enter a contract address.'),
+        failure: const aedappfm.Failure.other(
+          cause: 'Please enter a contract address.',
+        ),
       );
     }
 
@@ -195,7 +197,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     } catch (e) {
       return (
         result: false,
-        failure: const Failure.other(cause: 'Malformated address.'),
+        failure: const aedappfm.Failure.other(cause: 'Malformated address.'),
       );
     }
 
@@ -217,7 +219,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     if (BrowserUtil().isEdgeBrowser() ||
         BrowserUtil().isInternetExplorerBrowser()) {
       setFailure(
-        const Failure.incompatibleBrowser(),
+        const aedappfm.Failure.incompatibleBrowser(),
       );
       return false;
     }
@@ -250,8 +252,8 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     );
   }
 
-  Future<Result<void, Failure>> connectToEVMWallet() async {
-    return Result.guard(
+  Future<aedappfm.Result<void, aedappfm.Failure>> connectToEVMWallet() async {
+    return aedappfm.Result.guard(
       () async {
         var evmWallet = const BridgeWallet();
         evmWallet = evmWallet.copyWith(
@@ -283,16 +285,16 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
               evmWallet: evmWallet,
               chainId: currentChainId,
             );
-            if (sl.isRegistered<EVMWalletProvider>()) {
-              await sl.unregister<EVMWalletProvider>();
+            if (aedappfm.sl.isRegistered<EVMWalletProvider>()) {
+              await aedappfm.sl.unregister<EVMWalletProvider>();
             }
-            sl.registerLazySingleton<EVMWalletProvider>(
+            aedappfm.sl.registerLazySingleton<EVMWalletProvider>(
               () => evmWalletProvider,
             );
             await setStatus();
           }
         } catch (e) {
-          throw const Failure.connectivityEVM();
+          throw const aedappfm.Failure.connectivityEVM();
         }
       },
     );

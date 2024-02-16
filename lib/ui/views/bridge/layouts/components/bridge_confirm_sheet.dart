@@ -6,7 +6,8 @@ import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_sheet
 import 'package:aebridge/ui/views/util/components/blockchain_label.dart';
 import 'package:aebridge/ui/views/util/components/fiat_value.dart';
 import 'package:aebridge/ui/views/util/components/format_address_link_copy.dart';
-import 'package:aebridge/ui/views/util/generic/formatters.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -30,7 +31,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              SelectableText(
                 AppLocalizations.of(context)!.bridge_blockchain_from_lbl,
               ),
               const SizedBox(width: 8),
@@ -43,7 +44,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              SelectableText(
                 AppLocalizations.of(context)!.bridge_blockchain_to_lbl,
               ),
               const SizedBox(width: 8),
@@ -56,7 +57,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              SelectableText(
                 AppLocalizations.of(context)!.bridge_token_amount_lbl,
               ),
               FutureBuilder<String>(
@@ -67,7 +68,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
                 ),
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
-                    return Text(
+                    return SelectableText(
                       '${bridge.tokenToBridgeAmount.formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data}',
                     );
                   }
@@ -84,7 +85,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Flexible(
-                  child: Text(
+                  child: SelectableText(
                     AppLocalizations.of(context)!.bridge_target_address_lbl,
                   ),
                 ),

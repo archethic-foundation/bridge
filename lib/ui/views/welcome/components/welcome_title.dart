@@ -1,6 +1,5 @@
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
-import 'package:aebridge/ui/views/util/components/gradient_text.dart';
-import 'package:aebridge/ui/views/util/components/scale_size.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 
@@ -24,13 +23,13 @@ class WelcomeTitle extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                SelectableText(
                   'Discover a ',
                   style: const TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.w400,
                   ),
-                  textScaleFactor: ScaleSize.textScaleFactor(context),
+                  textScaleFactor: aedappfm.ScaleSize.textScaleFactor(context),
                 )
                     .animate(delay: 100.ms)
                     .fadeIn(duration: 400.ms, delay: 300.ms)
@@ -38,13 +37,13 @@ class WelcomeTitle extends StatelessWidget {
                       begin: const Offset(-16, 0),
                       curve: Curves.easeOutQuad,
                     ),
-                GradientText(
+                aedappfm.GradientText(
                   'seamless',
                   style: const TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.w600,
                   ),
-                  gradient: BridgeThemeBase.gradientWelcomeTxt,
+                  gradient: aedappfm.AppThemeBase.gradientWelcomeTxt,
                 )
                     .animate(delay: 200.ms)
                     .fadeIn(duration: 400.ms, delay: 200.ms)
@@ -60,13 +59,13 @@ class WelcomeTitle extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                GradientText(
+                aedappfm.GradientText(
                   'transfer',
                   style: const TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.w600,
                   ),
-                  gradient: BridgeThemeBase.gradientWelcomeTxt,
+                  gradient: aedappfm.AppThemeBase.gradientWelcomeTxt,
                 )
                     .animate(delay: 300.ms)
                     .fadeIn(duration: 400.ms, delay: 300.ms)
@@ -74,13 +73,13 @@ class WelcomeTitle extends StatelessWidget {
                       begin: const Offset(-16, 0),
                       curve: Curves.easeOutQuad,
                     ),
-                Text(
+                SelectableText(
                   ' of assets',
                   style: const TextStyle(
                     fontSize: 40,
                     fontWeight: FontWeight.w400,
                   ),
-                  textScaleFactor: ScaleSize.textScaleFactor(context),
+                  textScaleFactor: aedappfm.ScaleSize.textScaleFactor(context),
                 )
                     .animate(delay: 400.ms)
                     .fadeIn(duration: 400.ms, delay: 400.ms)

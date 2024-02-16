@@ -3,8 +3,9 @@ import 'dart:math';
 
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/token_selection/token_selection_popup.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -36,13 +37,13 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Text(
+            child: SelectableText(
               AppLocalizations.of(context)!.bridge_token_selection_lbl,
             ),
           ),
           SizedBox(
             width: min(
-              BridgeThemeBase.sizeBoxComponentWidth / 2 - 40,
+              aedappfm.AppThemeBase.sizeBoxComponentWidth / 2 - 40,
               MediaQuery.of(context).size.width / 3 - 5,
             ),
             child: Row(
@@ -66,8 +67,8 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
                                     .primaryContainer,
                                 width: 0.5,
                               ),
-                              gradient:
-                                  BridgeThemeBase.gradientInputFormBackground,
+                              gradient: aedappfm
+                                  .AppThemeBase.gradientInputFormBackground,
                             ),
                             child: InkWell(
                               child: SizedBox(
@@ -78,7 +79,7 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
                                       ? Padding(
                                           padding:
                                               const EdgeInsets.only(left: 15),
-                                          child: Text(
+                                          child: SelectableText(
                                             AppLocalizations.of(context)!
                                                 .btn_selectToken,
                                             style: textTheme.titleMedium,
@@ -98,7 +99,7 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
                                                     .withOpacity(0.2),
                                               ),
                                               child: Center(
-                                                child: Text(
+                                                child: SelectableText(
                                                   bridge.tokenToBridge!.symbol,
                                                   style: const TextStyle(
                                                     fontSize: 8,
@@ -133,7 +134,7 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
                                                     ],
                                                   ),
                                                   Flexible(
-                                                    child: Text(
+                                                    child: SelectableText(
                                                       bridge.tokenToBridge!
                                                           .symbol,
                                                       style: Theme.of(context)

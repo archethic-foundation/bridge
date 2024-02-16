@@ -25,7 +25,7 @@ class RefundInfosWallet extends ConsumerWidget {
               chainId: refund.chainId!,
             ),
           ),
-        Text(
+        SelectableText(
           refund.evmWallet!.endpoint,
           textAlign: TextAlign.end,
         ),

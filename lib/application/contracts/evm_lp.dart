@@ -3,14 +3,13 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:aebridge/application/evm_wallet.dart';
-import 'package:aebridge/domain/models/failures.dart';
-import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
-import 'package:aebridge/util/custom_logs.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
@@ -44,14 +43,15 @@ class EVMLP with EVMBridgeProcessMixin {
     return transactionMintHTLC;
   }
 
-  Future<Result<double, Failure>> estimateDeployChargeableHTLC(
+  Future<aedappfm.Result<double, aedappfm.Failure>>
+      estimateDeployChargeableHTLC(
     String poolAddress,
     String hash,
     double amount,
     bool isERC20,
     String addressFrom,
   ) async {
-    return Result.guard(() async {
+    return aedappfm.Result.guard(() async {
       final web3Client = Web3Client(providerEndpoint!, Client());
       final contract =
           await getDeployedContract(contractNameIPool, poolAddress);
@@ -72,8 +72,9 @@ class EVMLP with EVMBridgeProcessMixin {
     });
   }
 
-  Future<Result<({String htlcContractAddress, String txAddress}), Failure>>
-      deployChargeableHTLC(
+  Future<
+      aedappfm.Result<({String htlcContractAddress, String txAddress}),
+          aedappfm.Failure>> deployChargeableHTLC(
     WidgetRef ref,
     String poolAddress,
     String hash,
@@ -81,8 +82,8 @@ class EVMLP with EVMBridgeProcessMixin {
     bool isERC20, {
     int chainId = 31337,
   }) async {
-    return Result.guard(() async {
-      final evmWalletProvider = sl.get<EVMWalletProvider>();
+    return aedappfm.Result.guard(() async {
+      final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
       final web3Client = Web3Client(providerEndpoint!, Client());
       late String htlcContractAddress;
 
@@ -114,9 +115,9 @@ class EVMLP with EVMBridgeProcessMixin {
             .take(1)
             .listen(
           (event) {
-            sl.get<LogManager>().log(
+            aedappfm.sl.get<aedappfm.LogManager>().log(
                   'Event ContractMinted = $event',
-                  level: LogLevel.debug,
+                  level: aedappfm.LogLevel.debug,
                   name: 'EVMLP - deployChargeableHTLC',
                 );
           },
@@ -139,11 +140,11 @@ class EVMLP with EVMBridgeProcessMixin {
         );
         await subscription.cancel();
       } catch (e, stackTrace) {
-        if (e != const Failure.userRejected()) {
-          sl.get<LogManager>().log(
+        if (e != const aedappfm.Failure.userRejected()) {
+          aedappfm.sl.get<aedappfm.LogManager>().log(
                 '$e',
                 stackTrace: stackTrace,
-                level: LogLevel.error,
+                level: aedappfm.LogLevel.error,
                 name: 'EVMLP - deployChargeableHTLC',
               );
         }
@@ -152,7 +153,7 @@ class EVMLP with EVMBridgeProcessMixin {
         rethrow;
       }
       if (timeout) {
-        throw const Failure.timeout();
+        throw const aedappfm.Failure.timeout();
       }
 
       // Get HTLC address
@@ -169,8 +170,9 @@ class EVMLP with EVMBridgeProcessMixin {
     });
   }
 
-  Future<Result<({String htlcContractAddress, String txAddress}), Failure>>
-      deployAndProvisionSignedHTLC(
+  Future<
+      aedappfm.Result<({String htlcContractAddress, String txAddress}),
+          aedappfm.Failure>> deployAndProvisionSignedHTLC(
     WidgetRef ref,
     String poolAddress,
     SecretHash secretHash,
@@ -178,9 +180,9 @@ class EVMLP with EVMBridgeProcessMixin {
     int endTime, {
     int chainId = 31337,
   }) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
-        final evmWalletProvider = sl.get<EVMWalletProvider>();
+        final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
         final web3Client = Web3Client(providerEndpoint!, Client());
         late String htlcContractAddress;
 
@@ -220,9 +222,9 @@ class EVMLP with EVMBridgeProcessMixin {
               .take(1)
               .listen(
             (event) {
-              sl.get<LogManager>().log(
+              aedappfm.sl.get<aedappfm.LogManager>().log(
                     'Event ContractProvisioned = $event',
-                    level: LogLevel.debug,
+                    level: aedappfm.LogLevel.debug,
                     name: 'EVMLP - deployAndProvisionSignedHTLC',
                   );
             },
@@ -246,11 +248,11 @@ class EVMLP with EVMBridgeProcessMixin {
           );
           await subscription.cancel();
         } catch (e, stackTrace) {
-          if (e != const Failure.userRejected()) {
-            sl.get<LogManager>().log(
+          if (e != const aedappfm.Failure.userRejected()) {
+            aedappfm.sl.get<aedappfm.LogManager>().log(
                   '$e',
                   stackTrace: stackTrace,
-                  level: LogLevel.error,
+                  level: aedappfm.LogLevel.error,
                   name: 'EVMLP - deployAndProvisionSignedHTLC',
                 );
           }
@@ -259,7 +261,7 @@ class EVMLP with EVMBridgeProcessMixin {
           rethrow;
         }
         if (timeout) {
-          throw const Failure.timeout();
+          throw const aedappfm.Failure.timeout();
         }
 
         // Get HTLC address
@@ -275,7 +277,7 @@ class EVMLP with EVMBridgeProcessMixin {
         htlcContractAddress = transactionProvisionedSwapsHashes[0].hex;
         if (htlcContractAddress ==
             '0x0000000000000000000000000000000000000000') {
-          throw const Failure.insufficientPoolFunds();
+          throw const aedappfm.Failure.insufficientPoolFunds();
         }
 
         return (htlcContractAddress: htlcContractAddress, txAddress: txAddress);
@@ -283,10 +285,10 @@ class EVMLP with EVMBridgeProcessMixin {
     );
   }
 
-  Future<Result<double, Failure>> getSafetyModuleFeeRate(
+  Future<aedappfm.Result<double, aedappfm.Failure>> getSafetyModuleFeeRate(
     String poolAddress,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         final web3Client = Web3Client(providerEndpoint!, Client());
 
@@ -305,10 +307,10 @@ class EVMLP with EVMBridgeProcessMixin {
     );
   }
 
-  Future<Result<String, Failure>> getSafetyModuleAddress(
+  Future<aedappfm.Result<String, aedappfm.Failure>> getSafetyModuleAddress(
     String poolAddress,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         final web3Client = Web3Client(providerEndpoint!, Client());
 

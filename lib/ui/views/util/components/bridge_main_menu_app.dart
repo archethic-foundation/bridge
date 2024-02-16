@@ -1,5 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -23,7 +25,7 @@ class BridgeMainMenuApp extends StatelessWidget {
           _buildSubMenu(
             AppLocalizations.of(context)!.archethicDashboardMenuDEXItem,
             AppLocalizations.of(context)!.archethicDashboardMenuDEXDesc,
-            'https://bridge.archethic.net',
+            'https://swap.testnet.archethic.net',
           ).animate(delay: 300.ms).fadeIn(duration: 400.ms, delay: 200.ms).move(
                 begin: const Offset(-16, 0),
                 curve: Curves.easeOutQuad,
@@ -60,7 +62,7 @@ class BridgeMainMenuApp extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             image: DecorationImage(
               colorFilter: ColorFilter.mode(
-                ArchethicThemeBase.blue800,
+                aedappfm.ArchethicThemeBase.blue700,
                 BlendMode.modulate,
               ),
               image: const AssetImage(
@@ -70,7 +72,7 @@ class BridgeMainMenuApp extends StatelessWidget {
             ),
             boxShadow: [
               BoxShadow(
-                color: ArchethicThemeBase.neutral900,
+                color: aedappfm.ArchethicThemeBase.neutral900,
                 blurRadius: 40,
                 spreadRadius: 10,
                 offset: const Offset(1, 10),
@@ -85,7 +87,7 @@ class BridgeMainMenuApp extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
+                SelectableText(
                   label,
                   textAlign: TextAlign.end,
                   style: const TextStyle(

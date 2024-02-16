@@ -1,13 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/preferences.dart';
-import 'package:aebridge/application/version.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/connection_to_wallet_status.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/header.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/privacy_popup.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
-import 'package:aebridge/ui/views/util/iconsax.dart';
-import 'package:aebridge/util/custom_logs.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,13 +41,6 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: AppBar(
-        bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(1),
-          child: Container(
-            color: ArchethicThemeBase.neutral0.withOpacity(0.2),
-            height: 1,
-          ),
-        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
         leading: const Header(),
@@ -61,6 +52,8 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
           ),
           MenuAnchor(
             style: MenuStyle(
+              elevation: MaterialStateProperty.all(0),
+              backgroundColor: MaterialStateProperty.all(Colors.black),
               shape: MaterialStateProperty.all(
                 RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(20),
@@ -87,18 +80,20 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                   child: Row(
                     children: [
                       const Icon(
-                        Iconsax.document_text,
+                        aedappfm.Iconsax.document_text,
                         size: 16,
                       ),
                       const SizedBox(
                         width: 10,
                       ),
-                      Text(AppLocalizations.of(context)!.menu_documentation),
+                      Text(
+                        AppLocalizations.of(context)!.menu_documentation,
+                      ),
                       const SizedBox(
                         width: 8,
                       ),
                       const Icon(
-                        Iconsax.export_3,
+                        aedappfm.Iconsax.export_3,
                         size: 12,
                       ),
                     ],
@@ -118,18 +113,20 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                   child: Row(
                     children: [
                       const Icon(
-                        Iconsax.code_circle,
+                        aedappfm.Iconsax.code_circle,
                         size: 16,
                       ),
                       const SizedBox(
                         width: 10,
                       ),
-                      Text(AppLocalizations.of(context)!.menu_sourceCode),
+                      Text(
+                        AppLocalizations.of(context)!.menu_sourceCode,
+                      ),
                       const SizedBox(
                         width: 8,
                       ),
                       const Icon(
-                        Iconsax.export_3,
+                        aedappfm.Iconsax.export_3,
                         size: 12,
                       ),
                     ],
@@ -149,7 +146,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                   child: Row(
                     children: [
                       const Icon(
-                        Iconsax.message_question,
+                        aedappfm.Iconsax.message_question,
                         size: 16,
                       ),
                       const SizedBox(
@@ -160,7 +157,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                         width: 8,
                       ),
                       const Icon(
-                        Iconsax.export_3,
+                        aedappfm.Iconsax.export_3,
                         size: 12,
                       ),
                     ],
@@ -169,7 +166,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                 onPressed: () {
                   launchUrl(
                     Uri.parse(
-                      'https://wiki.archethic.net/category/FAQ',
+                      'https://wiki.archethic.net/FAQ/bridge-2-ways',
                     ),
                   );
                 },
@@ -180,7 +177,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                   child: Row(
                     children: [
                       const Icon(
-                        Iconsax.video_play,
+                        aedappfm.Iconsax.video_play,
                         size: 16,
                       ),
                       const SizedBox(
@@ -191,7 +188,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                         width: 8,
                       ),
                       const Icon(
-                        Iconsax.export_3,
+                        aedappfm.Iconsax.export_3,
                         size: 12,
                       ),
                     ],
@@ -200,7 +197,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                 onPressed: () {
                   launchUrl(
                     Uri.parse(
-                      'https://wiki.archethic.net',
+                      'https://wiki.archethic.net/participate/bridge/usage/bridge-front',
                     ),
                   );
                 },
@@ -211,7 +208,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                   child: Row(
                     children: [
                       const Icon(
-                        Iconsax.menu_board,
+                        aedappfm.Iconsax.menu_board,
                         size: 16,
                       ),
                       const SizedBox(
@@ -247,8 +244,9 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                                                   .preferencesRepository,
                                             )
                                             .setLogsActived(value);
-                                        sl.get<LogManager>().logsActived =
-                                            value;
+                                        aedappfm.sl
+                                            .get<aedappfm.LogManager>()
+                                            .logsActived = value;
                                         setState(() {});
                                       },
                                     ),
@@ -296,18 +294,20 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                   child: Row(
                     children: [
                       const Icon(
-                        Iconsax.shield_tick,
+                        aedappfm.Iconsax.shield_tick,
                         size: 16,
                       ),
                       const SizedBox(
                         width: 10,
                       ),
-                      Text(AppLocalizations.of(context)!.menu_privacy_policy),
+                      Text(
+                        AppLocalizations.of(context)!.menu_privacy_policy,
+                      ),
                       const SizedBox(
                         width: 8,
                       ),
                       const Icon(
-                        Iconsax.export_3,
+                        aedappfm.Iconsax.export_3,
                         size: 12,
                       ),
                     ],
@@ -332,11 +332,11 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
                 child: Consumer(
                   builder: (context, ref, child) {
                     final asyncVersionString = ref.watch(
-                      versionStringProvider(
-                        AppLocalizations.of(context)!,
+                      aedappfm.versionStringProvider(
+                        aedappfm.AppLocalizations.of(context)!,
                       ),
                     );
-                    return Text(
+                    return SelectableText(
                       asyncVersionString.asData?.value ?? '',
                       style: Theme.of(context).textTheme.labelSmall,
                     );
@@ -349,7 +349,7 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
             width: 8,
           ),
           IconButton(
-            icon: const Icon(Iconsax.element_3),
+            icon: const Icon(aedappfm.Iconsax.element_3),
             onPressed: widget.onAEMenuTapped,
           ),
           const SizedBox(

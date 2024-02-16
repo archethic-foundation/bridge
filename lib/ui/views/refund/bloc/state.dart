@@ -1,5 +1,5 @@
 import 'package:aebridge/domain/models/bridge_wallet.dart';
-import 'package:aebridge/domain/models/failures.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'state.freezed.dart';

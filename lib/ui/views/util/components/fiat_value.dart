@@ -1,6 +1,5 @@
-import 'package:aebridge/application/coin_price.dart';
-import 'package:aebridge/application/oracle/provider.dart';
-import 'package:aebridge/ui/views/util/generic/formatters.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// SPDX-License-Identifier: AGPL-3.0-or-later
@@ -13,12 +12,12 @@ class FiatValue {
   }) async {
     if (symbol == 'UCO') {
       final archethicOracleUCO =
-          ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
+          ref.watch(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
 
       final fiatValue = archethicOracleUCO.usd * amount;
       return '(\$${fiatValue.formatNumber(precision: 2)})';
     } else {
-      final prices = ref.watch(CoinPriceProviders.coinPrice);
+      final prices = ref.watch(aedappfm.CoinPriceProviders.coinPrice);
       var price = 0.0;
 
       switch (symbol) {

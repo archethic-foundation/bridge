@@ -9,12 +9,11 @@ import 'package:aebridge/application/contracts/evm_htlc_erc.dart';
 import 'package:aebridge/application/contracts/evm_htlc_native.dart';
 import 'package:aebridge/application/contracts/evm_lp.dart';
 import 'package:aebridge/application/session/provider.dart';
-import 'package:aebridge/domain/models/failures.dart';
-import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/util/custom_logs.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -162,7 +161,7 @@ mixin EVMBridgeProcessMixin {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
 
-    Result<void, Failure>? resultProvisionChargeableHTLC;
+    aedappfm.Result<void, aedappfm.Failure>? resultProvisionChargeableHTLC;
     if (bridge.tokenToBridge!.type == 'ERC20') {
       final evmHTLCERC = EVMHTLCERC(
         bridge.blockchainFrom!.providerEndpoint,
@@ -304,7 +303,7 @@ mixin EVMBridgeProcessMixin {
           newTransaction = newTransaction.copyWith(maxFeePerGas: maxFeePerGas);
         }
       }
-      sl.get<LogManager>().log(
+      aedappfm.sl.get<aedappfm.LogManager>().log(
             'gasPrice=${newTransaction.gasPrice}, maxPriorityFeePerGas=${newTransaction.maxPriorityFeePerGas}, maxFeePerGas=${newTransaction.maxFeePerGas}',
             name: 'EVMBridgeProcessMixin - sendTransactionWithErrorManagement',
           );
@@ -317,33 +316,36 @@ mixin EVMBridgeProcessMixin {
       return transactionHash;
     } catch (e, stackTrace) {
       if (e is EthereumUserRejected) {
-        throw const Failure.userRejected();
+        throw const aedappfm.Failure.userRejected();
       }
       if (e is EthereumException) {
-        sl.get<LogManager>().log(
+        aedappfm.sl.get<aedappfm.LogManager>().log(
               '$e',
               stackTrace: stackTrace,
-              level: LogLevel.error,
+              level: aedappfm.LogLevel.error,
               name:
                   'EVMBridgeProcessMixin - sendTransactionWithErrorManagement',
             );
-        throw Failure.other(cause: e.data, stack: e.message);
+        throw aedappfm.Failure.other(cause: e.data, stack: e.message);
       }
       if (e is EthersException) {
-        sl.get<LogManager>().log(
+        aedappfm.sl.get<aedappfm.LogManager>().log(
               '$e',
               stackTrace: stackTrace,
-              level: LogLevel.error,
+              level: aedappfm.LogLevel.error,
               name:
                   'EVMBridgeProcessMixin - sendTransactionWithErrorManagement',
             );
-        throw Failure.other(cause: e.rawError.toString(), stack: e.reason);
+        throw aedappfm.Failure.other(
+          cause: e.rawError.toString(),
+          stack: e.reason,
+        );
       }
       if (e is WebThreeRPCError) {
-        sl.get<LogManager>().log(
+        aedappfm.sl.get<aedappfm.LogManager>().log(
               '$e',
               stackTrace: stackTrace,
-              level: LogLevel.error,
+              level: aedappfm.LogLevel.error,
               name:
                   'EVMBridgeProcessMixin - sendTransactionWithErrorManagement',
             );
@@ -351,19 +353,19 @@ mixin EVMBridgeProcessMixin {
         final validJson = encoder.convert(e.data);
         final Map<String, dynamic> jsonMap = json.decode(validJson);
 
-        throw Failure.rpcErrorEVM(jsonMap.entries.first.value);
+        throw aedappfm.Failure.rpcErrorEVM(jsonMap.entries.first.value);
       }
       if (e is BinanceWalletException) {
-        throw Failure.other(cause: e.error);
+        throw aedappfm.Failure.other(cause: e.error);
       }
 
-      sl.get<LogManager>().log(
+      aedappfm.sl.get<aedappfm.LogManager>().log(
             '$e',
             stackTrace: stackTrace,
-            level: LogLevel.error,
+            level: aedappfm.LogLevel.error,
             name: 'EVMBridgeProcessMixin - sendTransactionWithErrorManagement',
           );
-      throw Failure.other(cause: e.toString());
+      throw aedappfm.Failure.other(cause: e.toString());
     }
   }
 
@@ -401,7 +403,7 @@ mixin EVMBridgeProcessMixin {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
 
-    Result<String, Failure>? resultSignedWithdraw;
+    aedappfm.Result<String, aedappfm.Failure>? resultSignedWithdraw;
     if (bridge.tokenToBridge!.type == 'Native') {
       final evmHTLCERC = EVMHTLCERC(
         bridge.blockchainTo!.providerEndpoint,
@@ -430,7 +432,7 @@ mixin EVMBridgeProcessMixin {
 
     if (resultSignedWithdraw == null) {
       const failure =
-          Failure.other(cause: 'An error occurs while the withdraw.');
+          aedappfm.Failure.other(cause: 'An error occurs while the withdraw.');
       await bridgeNotifier.setFailure(failure);
       await bridgeNotifier.setTransferInProgress(false);
       throw failure;

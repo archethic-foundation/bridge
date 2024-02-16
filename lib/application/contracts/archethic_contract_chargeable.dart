@@ -1,19 +1,18 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
+
 import 'package:aebridge/application/contracts/archethic_contract.dart';
-import 'package:aebridge/domain/models/failures.dart';
-import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
-import 'package:aebridge/util/transaction_bridge_util.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ArchethicContractChargeable with TransactionBridgeMixin {
+class ArchethicContractChargeable with aedappfm.TransactionMixin {
   ArchethicContractChargeable();
 
-  Future<Result<String, Failure>> deployChargeableHTLC(
+  Future<aedappfm.Result<String, aedappfm.Failure>> deployChargeableHTLC(
     WidgetRef ref,
     String factoryAddress,
     String poolAddress,
@@ -26,9 +25,9 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
     String htlcEVMAddress,
     String txAddress,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
-        final code = await sl.get<ApiService>().callSCFunction(
+        final code = await aedappfm.sl.get<ApiService>().callSCFunction(
               jsonRPCRequest: SCCallFunctionRequest(
                 method: 'contract_fun',
                 params: SCCallFunctionParams(
@@ -87,7 +86,8 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
     );
   }
 
-  Future<Result<String, Failure>> revealSecretToChargeableHTLC(
+  Future<aedappfm.Result<String, aedappfm.Failure>>
+      revealSecretToChargeableHTLC(
     WidgetRef ref,
     String userGenesisAddress,
     String currentNameAccount,
@@ -96,9 +96,9 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
     double amount,
     String poolAddress,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
-        final apiService = sl.get<ApiService>();
+        final apiService = aedappfm.sl.get<ApiService>();
 
         // ignore: unused_local_variable
         var htlcAddressBefore = htlcAddress;
@@ -120,7 +120,7 @@ class ArchethicContractChargeable with TransactionBridgeMixin {
             if (genesisAddressFrom.address != null &&
                 genesisAddressFrom.address == poolAddress.toUpperCase()) {
               if (fromBigInt(input.amount) != amount) {
-                throw const Failure.insufficientFunds();
+                throw const aedappfm.Failure.insufficientFunds();
               }
             }
           }

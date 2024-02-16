@@ -2,15 +2,14 @@
 import 'dart:async';
 
 import 'package:aebridge/application/evm_wallet.dart';
-import 'package:aebridge/domain/models/failures.dart';
-import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:aebridge/ui/views/refund/bloc/state.dart';
-import 'package:aebridge/util/custom_logs.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
@@ -31,12 +30,12 @@ class EVMHTLC with EVMBridgeProcessMixin {
   Web3Client? web3ClientProvided;
   final int chainId;
 
-  Future<Result<String, Failure>> refund(
+  Future<aedappfm.Result<String, aedappfm.Failure>> refund(
     WidgetRef ref,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
-        final evmWalletProvider = sl.get<EVMWalletProvider>();
+        final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
 
         final contractHTLC = await getDeployedContract(
           contractNameHTLCBase,
@@ -65,9 +64,9 @@ class EVMHTLC with EVMBridgeProcessMixin {
               .take(1)
               .listen(
             (event) {
-              sl.get<LogManager>().log(
+              aedappfm.sl.get<aedappfm.LogManager>().log(
                     'Event ContractMinted = $event',
-                    level: LogLevel.debug,
+                    level: aedappfm.LogLevel.debug,
                     name: 'EVMHTLC - refund',
                   );
             },
@@ -91,11 +90,11 @@ class EVMHTLC with EVMBridgeProcessMixin {
           );
           await subscription.cancel();
         } catch (e, stackTrace) {
-          if (e != const Failure.userRejected()) {
-            sl.get<LogManager>().log(
+          if (e != const aedappfm.Failure.userRejected()) {
+            aedappfm.sl.get<aedappfm.LogManager>().log(
                   'e $e',
                   stackTrace: stackTrace,
-                  level: LogLevel.error,
+                  level: aedappfm.LogLevel.error,
                   name: 'EVMHTLC - refund',
                 );
           }
@@ -105,16 +104,18 @@ class EVMHTLC with EVMBridgeProcessMixin {
         }
         if (timeout) {
           refundNotifier.setWalletConfirmation(null);
-          throw const Failure.timeout();
+          throw const aedappfm.Failure.timeout();
         }
         return refundTx;
       },
     );
   }
 
-  Future<Result<({int dateLockTime, bool canRefund}), Failure>>
+  Future<
+          aedappfm
+          .Result<({int dateLockTime, bool canRefund}), aedappfm.Failure>>
       getHTLCLockTimeAndRefundState() async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         return (
           dateLockTime: await _getDateLockTime(),
@@ -124,8 +125,8 @@ class EVMHTLC with EVMBridgeProcessMixin {
     );
   }
 
-  Future<Result<int, Failure>> getHTLCLockTime() async {
-    return Result.guard(
+  Future<aedappfm.Result<int, aedappfm.Failure>> getHTLCLockTime() async {
+    return aedappfm.Result.guard(
       () async {
         return _getDateLockTime();
       },
@@ -145,8 +146,8 @@ class EVMHTLC with EVMBridgeProcessMixin {
     return lockTime.toInt();
   }
 
-  Future<Result<double, Failure>> getAmount() async {
-    return Result.guard(
+  Future<aedappfm.Result<double, aedappfm.Failure>> getAmount() async {
+    return aedappfm.Result.guard(
       () async {
         final contractHTLC = await getDeployedContract(
           contractNameHTLCBase,
@@ -166,10 +167,10 @@ class EVMHTLC with EVMBridgeProcessMixin {
     );
   }
 
-  Future<Result<String, Failure>> getAmountCurrency(
+  Future<aedappfm.Result<String, aedappfm.Failure>> getAmountCurrency(
     String nativeCurrency,
   ) async {
-    return Result.guard(() async {
+    return aedappfm.Result.guard(() async {
       final contractHTLCERC =
           await getDeployedContract(contractNameHTLCERC, htlcContractAddress);
       var currency = nativeCurrency;
@@ -181,10 +182,10 @@ class EVMHTLC with EVMBridgeProcessMixin {
         );
         currency = 'UCO';
       } catch (e, stackTrace) {
-        sl.get<LogManager>().log(
+        aedappfm.sl.get<aedappfm.LogManager>().log(
               '$e',
               stackTrace: stackTrace,
-              level: LogLevel.error,
+              level: aedappfm.LogLevel.error,
               name: 'EVMHTLC - getAmountCurrency',
             );
       }
@@ -215,7 +216,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
   }
 
   Future<String> getTxRefund() async {
-    /*final evmWalletProvider = sl.get<EVMWalletProvider>();
+    /*final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
     await evmWalletProvider.eth!.rawRequest(
       'eth_getFilterLogs',
       params: [
@@ -255,13 +256,13 @@ class EVMHTLC with EVMBridgeProcessMixin {
     return status.toInt();
   }
 
-  Future<Result<String, Failure>> withdraw(
+  Future<aedappfm.Result<String, aedappfm.Failure>> withdraw(
     WidgetRef ref,
     String secret,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
-        final evmWalletProvider = sl.get<EVMWalletProvider>();
+        final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
 
         final contractHTLC = await getDeployedContract(
           contractNameHTLCERC,
@@ -292,9 +293,9 @@ class EVMHTLC with EVMBridgeProcessMixin {
               .take(1)
               .listen(
             (event) {
-              sl.get<LogManager>().log(
+              aedappfm.sl.get<aedappfm.LogManager>().log(
                     'Event Withdrawn = $event',
-                    level: LogLevel.debug,
+                    level: aedappfm.LogLevel.debug,
                     name: 'EVMHTLC - withdraw',
                   );
             },
@@ -318,11 +319,11 @@ class EVMHTLC with EVMBridgeProcessMixin {
           );
           await subscription.cancel();
         } catch (e, stackTrace) {
-          if (e != const Failure.userRejected()) {
-            sl.get<LogManager>().log(
+          if (e != const aedappfm.Failure.userRejected()) {
+            aedappfm.sl.get<aedappfm.LogManager>().log(
                   '$e',
                   stackTrace: stackTrace,
-                  level: LogLevel.error,
+                  level: aedappfm.LogLevel.error,
                   name: 'EVMHTLC - withdraw',
                 );
           }
@@ -330,7 +331,7 @@ class EVMHTLC with EVMBridgeProcessMixin {
           rethrow;
         }
         if (timeout) {
-          throw const Failure.timeout();
+          throw const aedappfm.Failure.timeout();
         }
 
         return withdrawTx;

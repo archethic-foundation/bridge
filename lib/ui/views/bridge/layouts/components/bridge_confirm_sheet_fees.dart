@@ -1,13 +1,12 @@
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
+
 import 'package:aebridge/ui/views/util/components/fiat_value.dart';
 import 'package:aebridge/ui/views/util/components/format_address_link_copy.dart';
-import 'package:aebridge/ui/views/util/components/icon_button_animated.dart';
-import 'package:aebridge/ui/views/util/generic/formatters.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class BridgeConfirmSheetFees extends ConsumerWidget {
   const BridgeConfirmSheetFees({super.key});
@@ -21,21 +20,8 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
       children: [
         Row(
           children: [
-            Text(
+            SelectableText(
               AppLocalizations.of(context)!.bridgeConfirm_fees_lbl,
-            ),
-            IconButtonAnimated(
-              icon: const Icon(
-                Icons.help,
-              ),
-              onPressed: () {
-                launchUrl(
-                  Uri.parse(
-                    'https://wiki.archethic.net/FAQ/',
-                  ),
-                );
-              },
-              color: Colors.white,
             ),
             const SizedBox(
               width: 5,
@@ -45,7 +31,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
                 width: 50,
                 height: 1,
                 decoration: BoxDecoration(
-                  gradient: BridgeThemeBase.gradient,
+                  gradient: aedappfm.AppThemeBase.gradient,
                 ),
               ),
             ),
@@ -62,7 +48,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            SelectableText(
               AppLocalizations.of(context)!
                   .bridgeConfirm_fees_receive_value_lbl,
             ),
@@ -74,7 +60,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
               ),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return Text(
+                  return SelectableText(
                     '${bridge.tokenToBridgeReceived.formatNumber()} ${bridge.tokenToBridge!.targetTokenSymbol} ${snapshot.data}',
                   );
                 }
@@ -105,11 +91,11 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!
                         .bridgeConfirmEVMSafetyModuleLbl,
                   ),
-                  Text(
+                  SelectableText(
                     '${bridge.safetyModuleFeesRate}${AppLocalizations.of(context)!.bridgeConfirmFeesSafetyModuleChargeable}',
                     style: Theme.of(context).textTheme.labelSmall,
                   ),
@@ -127,7 +113,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
               ),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return Text(
+                  return SelectableText(
                     '-${bridge.safetyModuleFees.formatNumber()} ${bridge.safetyModuleSymbol} ${snapshot.data}',
                   );
                 }
@@ -162,17 +148,17 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
+                  SelectableText(
                     AppLocalizations.of(context)!
                         .bridgeConfirmArchethicProtocolLbl,
                   ),
                   if (bridge.blockchainFrom!.isArchethic)
-                    Text(
+                    SelectableText(
                       '${bridge.archethicProtocolFeesRate}${AppLocalizations.of(context)!.bridgeConfirmFeesAEProtocolSigned}',
                       style: Theme.of(context).textTheme.labelSmall,
                     )
                   else
-                    Text(
+                    SelectableText(
                       '${bridge.archethicProtocolFeesRate}${AppLocalizations.of(context)!.bridgeConfirmFeesAEProtocolChargeable}',
                       style: Theme.of(context).textTheme.labelSmall,
                     ),
@@ -190,7 +176,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
               ),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  return Text(
+                  return SelectableText(
                     '-${bridge.archethicProtocolFees.formatNumber()} ${bridge.archethicProtocolSymbol} ${snapshot.data}',
                   );
                 }
@@ -215,7 +201,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
             height: 1,
             child: Container(
               decoration: BoxDecoration(
-                gradient: BridgeThemeBase.gradient,
+                gradient: aedappfm.AppThemeBase.gradient,
               ),
             ),
           ),

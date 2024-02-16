@@ -1,14 +1,12 @@
 import 'dart:async';
 
 import 'package:aebridge/application/evm_wallet.dart';
-import 'package:aebridge/domain/models/failures.dart';
-import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
-import 'package:aebridge/util/custom_logs.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
@@ -27,12 +25,12 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
   Web3Client? web3Client;
   final int chainId;
 
-  Future<Result<void, Failure>> provisionChargeableHTLC(
+  Future<aedappfm.Result<void, aedappfm.Failure>> provisionChargeableHTLC(
     WidgetRef ref,
     double amount,
   ) async {
-    return Result.guard(() async {
-      final evmWalletProvider = sl.get<EVMWalletProvider>();
+    return aedappfm.Result.guard(() async {
+      final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
       final ethAmount = EtherAmount.fromDouble(EtherUnit.ether, amount);
 
       var timeout = false;
@@ -50,9 +48,9 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
             )
             .take(1)
             .listen((event) {
-          sl.get<LogManager>().log(
+          aedappfm.sl.get<aedappfm.LogManager>().log(
                 'Event FundsReceived = $event',
-                level: LogLevel.debug,
+                level: aedappfm.LogLevel.debug,
                 name: 'EVMHTLCNative - provisionChargeableHTLC',
               );
         });
@@ -78,11 +76,11 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
         );
         await subscription.cancel();
       } catch (e, stackTrace) {
-        if (e != const Failure.userRejected()) {
-          sl.get<LogManager>().log(
+        if (e != const aedappfm.Failure.userRejected()) {
+          aedappfm.sl.get<aedappfm.LogManager>().log(
                 'e $e',
                 stackTrace: stackTrace,
-                level: LogLevel.error,
+                level: aedappfm.LogLevel.error,
                 name: 'EVMHTLCNative - provisionChargeableHTLC',
               );
         }
@@ -90,18 +88,18 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
         rethrow;
       }
       if (timeout) {
-        throw const Failure.timeout();
+        throw const aedappfm.Failure.timeout();
       }
     });
   }
 
-  Future<Result<String, Failure>> signedWithdraw(
+  Future<aedappfm.Result<String, aedappfm.Failure>> signedWithdraw(
     WidgetRef ref,
     Secret secret,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
-        final evmWalletProvider = sl.get<EVMWalletProvider>();
+        final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
 
         final contractHTLCETH = await getDeployedContract(
           contractNameSignedHTLCETH,
@@ -136,9 +134,9 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
               )
               .take(1)
               .listen((event) {
-            sl.get<LogManager>().log(
+            aedappfm.sl.get<aedappfm.LogManager>().log(
                   'Event Withdrawn = $event',
-                  level: LogLevel.debug,
+                  level: aedappfm.LogLevel.debug,
                   name: 'EVMHTLCNative - signedWithdraw',
                 );
           });
@@ -162,11 +160,11 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
           );
           await subscription.cancel();
         } catch (e, stackTrace) {
-          if (e != const Failure.userRejected()) {
-            sl.get<LogManager>().log(
+          if (e != const aedappfm.Failure.userRejected()) {
+            aedappfm.sl.get<aedappfm.LogManager>().log(
                   'e $e',
                   stackTrace: stackTrace,
-                  level: LogLevel.error,
+                  level: aedappfm.LogLevel.error,
                   name: 'EVMHTLCNative - signedWithdraw',
                 );
           }
@@ -174,15 +172,15 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
           rethrow;
         }
         if (timeout) {
-          throw const Failure.timeout();
+          throw const aedappfm.Failure.timeout();
         }
         return withdrawTx;
       },
     );
   }
 
-  Future<Result<double, Failure>> getFee() async {
-    return Result.guard(
+  Future<aedappfm.Result<double, aedappfm.Failure>> getFee() async {
+    return aedappfm.Result.guard(
       () async {
         try {
           final contractHTLC = await getDeployedContract(
@@ -200,7 +198,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
           final etherAmount = EtherAmount.fromBigInt(EtherUnit.wei, fee);
           return etherAmount.getValueInUnit(EtherUnit.ether);
         } catch (e) {
-          throw const Failure.notHTLC();
+          throw const aedappfm.Failure.notHTLC();
         }
       },
     );

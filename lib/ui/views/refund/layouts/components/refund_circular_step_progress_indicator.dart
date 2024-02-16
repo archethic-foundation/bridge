@@ -1,7 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
-import 'package:aebridge/ui/views/util/iconsax.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
@@ -30,11 +31,11 @@ class RefundCircularStepProgressIndicator extends ConsumerWidget {
               roundedCap: (_, isSelected) => isSelected,
               gradientColor: refund.refundInProgress == false
                   ? refund.failure == null
-                      ? BridgeThemeBase
+                      ? aedappfm.AppThemeBase
                           .gradientCircularStepProgressIndicatorFinished
-                      : BridgeThemeBase
+                      : aedappfm.AppThemeBase
                           .gradientCircularStepProgressIndicatorError
-                  : BridgeThemeBase.gradientCircularStepProgressIndicator,
+                  : aedappfm.AppThemeBase.gradientCircularStepProgressIndicator,
               selectedColor: Colors.white,
               unselectedColor: Colors.white.withOpacity(0.2),
               removeRoundedCapExtraAngle: true,
@@ -52,7 +53,7 @@ class RefundCircularStepProgressIndicator extends ConsumerWidget {
                     ),
                   ),
                 const Icon(
-                  Iconsax.timer,
+                  aedappfm.Iconsax.timer,
                   size: 16,
                 ),
               ],

@@ -1,8 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
-import 'package:aebridge/ui/views/util/generic/formatters.dart';
-import 'package:aebridge/ui/views/util/iconsax.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,18 +27,20 @@ class RefundCanRefundInfo extends ConsumerWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 2),
             child: Icon(
-              Iconsax.tick_circle5,
+              aedappfm.Iconsax.tick_circle5,
               size: 12,
-              color: ArchethicThemeBase.systemPositive500,
+              color: aedappfm.ArchethicThemeBase.systemPositive500,
             ),
           ),
           const SizedBox(
             width: 3,
           ),
           Flexible(
-            child: Text(
+            child: SelectableText(
               '${AppLocalizations.of(context)!.refundCanRefundYes} ${refund.totalAmountToRefund.formatNumber()} ${refund.amountCurrency}',
-              style: TextStyle(color: ArchethicThemeBase.systemPositive500),
+              style: TextStyle(
+                color: aedappfm.ArchethicThemeBase.systemPositive500,
+              ),
               textAlign: TextAlign.end,
             ),
           ),
@@ -52,16 +54,16 @@ class RefundCanRefundInfo extends ConsumerWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 2),
               child: Icon(
-                Iconsax.close_circle5,
+                aedappfm.Iconsax.close_circle5,
                 size: 12,
-                color: ArchethicThemeBase.systemDanger300,
+                color: aedappfm.ArchethicThemeBase.systemDanger300,
               ),
             ),
             const SizedBox(
               width: 3,
             ),
             Flexible(
-              child: Text(
+              child: SelectableText(
                 AppLocalizations.of(context)!
                     .refundCanRefundDateLock
                     .replaceAll(
@@ -78,7 +80,9 @@ class RefundCanRefundInfo extends ConsumerWidget {
                             ).toLocal(),
                           ),
                     ),
-                style: TextStyle(color: ArchethicThemeBase.systemDanger300),
+                style: TextStyle(
+                  color: aedappfm.ArchethicThemeBase.systemDanger300,
+                ),
                 textAlign: TextAlign.end,
               ),
             ),

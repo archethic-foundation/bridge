@@ -1,11 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_circular_step_progress_indicator.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
+
 import 'package:aebridge/ui/views/util/components/in_progress_banner.dart';
-import 'package:aebridge/ui/views/util/components/popup_close_button.dart';
-import 'package:aebridge/ui/views/util/components/scrollbar.dart';
 import 'package:aebridge/ui/views/util/failure_message.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -31,7 +31,7 @@ class RefundInProgressPopup {
                       elevation: 0,
                       content: Stack(
                         children: <Widget>[
-                          ArchethicScrollbar(
+                          aedappfm.ArchethicScrollbar(
                             child: Container(
                               margin: const EdgeInsets.only(
                                 top: 30,
@@ -40,9 +40,11 @@ class RefundInProgressPopup {
                               ),
                               padding: const EdgeInsets.all(20),
                               height: 300,
-                              width: BridgeThemeBase.sizeBoxComponentWidth,
+                              width:
+                                  aedappfm.AppThemeBase.sizeBoxComponentWidth,
                               decoration: BoxDecoration(
-                                color: BridgeThemeBase.backgroundPopupColor,
+                                color:
+                                    aedappfm.AppThemeBase.backgroundPopupColor,
                                 borderRadius: BorderRadius.circular(16),
                                 boxShadow: const <BoxShadow>[
                                   BoxShadow(
@@ -81,7 +83,7 @@ class RefundInProgressPopup {
                           ),
                           Positioned(
                             right: 0,
-                            child: PopupCloseButton(
+                            child: aedappfm.PopupCloseButton(
                               warningCloseWarning: refund.refundInProgress,
                               warningCloseLabel: refund.refundInProgress == true
                                   ? AppLocalizations.of(context)!

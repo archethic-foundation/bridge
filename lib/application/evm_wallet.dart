@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'dart:html';
 import 'dart:math';
-
-import 'package:aebridge/util/custom_logs.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
@@ -195,10 +194,10 @@ class EVMWalletProvider extends ChangeNotifier {
           return 0.0;
       }
     } catch (e, stackTrace) {
-      sl.get<LogManager>().log(
+      aedappfm.sl.get<aedappfm.LogManager>().log(
             '$e',
             stackTrace: stackTrace,
-            level: LogLevel.error,
+            level: aedappfm.LogLevel.error,
             name: 'EVMWalletProvider - getBalance',
           );
       return 0.0;
@@ -254,10 +253,10 @@ class EVMWalletProvider extends ChangeNotifier {
           return defaultDecimal;
       }
     } catch (e, stackTrace) {
-      sl.get<LogManager>().log(
+      aedappfm.sl.get<aedappfm.LogManager>().log(
             '$e',
             stackTrace: stackTrace,
-            level: LogLevel.error,
+            level: aedappfm.LogLevel.error,
             name: 'EVMWalletProvider - getTokenDecimals',
           );
       return defaultDecimal;

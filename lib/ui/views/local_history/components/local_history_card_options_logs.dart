@@ -2,8 +2,8 @@
 import 'dart:convert';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_logs_popup.dart';
-import 'package:aebridge/ui/views/util/components/icon_animated.dart';
-import 'package:aebridge/ui/views/util/iconsax.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,8 +29,8 @@ class LocalHistoryCardOptionsLogs extends ConsumerWidget {
             formattedJson,
           );
         },
-        child: IconAnimated(
-          icon: Iconsax.code,
+        child: aedappfm.IconAnimated(
+          icon: aedappfm.Iconsax.code,
           color: Colors.white,
           tooltip: AppLocalizations.of(context)!.local_history_option_logs,
         ),
