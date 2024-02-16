@@ -49,9 +49,6 @@ dependencies:
   # A declarative router for Flutter based on Navigation 2 supporting deep linking, data-driven routes and more
   go_router: ^13.2.0
 
-  # Gradient borders for inputs and containers. Borders package integrated with a basic flutter widgets as a container and input decorations. Easy in use, platform independent.
-  gradient_borders: ^1.0.0
-
   # Hive is a lightweight and blazing fast key-value database written in pure Dart
   hive: ^2.2.3
   hive_flutter: ^1.1.0
@@ -65,9 +62,6 @@ dependencies:
   # Defines the annotations used by json_serializable to create code for JSON serialization and deserialization.
   json_annotation: ^4.8.1
 
-  # A Flutter plugin for rendering an animated and customizable starfield on a dark background.
-  lit_starfield: ^0.1.1
-
   # Flutter plugin for getting commonly used locations on host platform file systems, such as the temp and app data directories.
   path_provider: ^2.1.2
 
@@ -79,9 +73,6 @@ dependencies:
 
   # Flutter package that allows setting the web app URL strategy with a single line of code.
   url_strategy: ^0.2.0
-
-  # Wave animation
-  wave: ^0.2.2
 
   # Dart library to connect to Ethereum clients. Send transactions and interact with smart contracts!
   #webthree: ^2.7.0
