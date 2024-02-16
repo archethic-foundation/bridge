@@ -1,8 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'package:aebridge/domain/models/failures.dart';
-import 'package:aebridge/domain/models/result.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
 class ArchethicFactory {
@@ -32,24 +31,26 @@ class ArchethicFactory {
     return (rate: rate, address: address);
   }
 
-  Future<Result<double, Failure>> _getProtocolFeeRate() async {
-    return Result.guard(
+  Future<aedappfm.Result<double, aedappfm.Failure>>
+      _getProtocolFeeRate() async {
+    return aedappfm.Result.guard(
       () async {
-        final protocolFeeRate = await sl.get<ApiService>().callSCFunction(
-              jsonRPCRequest: SCCallFunctionRequest(
-                method: 'contract_fun',
-                params: SCCallFunctionParams(
-                  contract: factoryAddress.toUpperCase(),
-                  function: 'get_protocol_fee',
-                  args: [],
-                ),
-              ),
-            );
+        final protocolFeeRate =
+            await aedappfm.sl.get<ApiService>().callSCFunction(
+                  jsonRPCRequest: SCCallFunctionRequest(
+                    method: 'contract_fun',
+                    params: SCCallFunctionParams(
+                      contract: factoryAddress.toUpperCase(),
+                      function: 'get_protocol_fee',
+                      args: [],
+                    ),
+                  ),
+                );
         try {
           final protocolFeeRateValue = double.parse(protocolFeeRate.toString());
           return protocolFeeRateValue;
         } catch (e) {
-          throw const Failure.other(
+          throw const aedappfm.Failure.other(
             cause: 'Protocol fees could not be recovered',
           );
         }
@@ -57,19 +58,21 @@ class ArchethicFactory {
     );
   }
 
-  Future<Result<String, Failure>> _getProtocolAddress() async {
-    return Result.guard(
+  Future<aedappfm.Result<String, aedappfm.Failure>>
+      _getProtocolAddress() async {
+    return aedappfm.Result.guard(
       () async {
-        final protocolAddress = await sl.get<ApiService>().callSCFunction(
-              jsonRPCRequest: SCCallFunctionRequest(
-                method: 'contract_fun',
-                params: SCCallFunctionParams(
-                  contract: factoryAddress.toUpperCase(),
-                  function: 'get_protocol_fee_address',
-                  args: [],
-                ),
-              ),
-            );
+        final protocolAddress =
+            await aedappfm.sl.get<ApiService>().callSCFunction(
+                  jsonRPCRequest: SCCallFunctionRequest(
+                    method: 'contract_fun',
+                    params: SCCallFunctionParams(
+                      contract: factoryAddress.toUpperCase(),
+                      function: 'get_protocol_fee_address',
+                      args: [],
+                    ),
+                  ),
+                );
         return protocolAddress.toString();
       },
     );

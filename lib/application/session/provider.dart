@@ -5,11 +5,10 @@ import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/state.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
-import 'package:aebridge/domain/models/failures.dart';
-import 'package:aebridge/domain/models/result.dart';
-import 'package:aebridge/util/custom_logs.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
+
 import 'package:aebridge/util/service_locator.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -29,11 +28,11 @@ class _SessionNotifier extends Notifier<Session> {
     return const Session();
   }
 
-  Future<Result<void, Failure>> connectToEVMWallet(
+  Future<aedappfm.Result<void, aedappfm.Failure>> connectToEVMWallet(
     BridgeBlockchain blockchain,
     bool from,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         var bridgeWallet = const BridgeWallet();
         bridgeWallet = bridgeWallet.copyWith(
@@ -55,10 +54,10 @@ class _SessionNotifier extends Notifier<Session> {
               genesisAddress: evmWalletProvider.currentAddress!,
               endpoint: blockchain.name,
             );
-            if (sl.isRegistered<EVMWalletProvider>()) {
-              await sl.unregister<EVMWalletProvider>();
+            if (aedappfm.sl.isRegistered<EVMWalletProvider>()) {
+              await aedappfm.sl.unregister<EVMWalletProvider>();
             }
-            sl.registerLazySingleton<EVMWalletProvider>(
+            aedappfm.sl.registerLazySingleton<EVMWalletProvider>(
               () => evmWalletProvider,
             );
           }
@@ -66,22 +65,22 @@ class _SessionNotifier extends Notifier<Session> {
           _fillState(bridgeWallet, from);
         } catch (e) {
           if (e is EthereumChainSwitchNotSupported) {
-            throw const Failure.chainSwitchNotSupported();
+            throw const aedappfm.Failure.chainSwitchNotSupported();
           }
           if (e.toString().toLowerCase().contains('unrecognized chain')) {
-            throw const Failure.paramEVMChain();
+            throw const aedappfm.Failure.paramEVMChain();
           }
-          throw const Failure.connectivityEVM();
+          throw const aedappfm.Failure.connectivityEVM();
         }
       },
     );
   }
 
-  Future<Result<void, Failure>> connectToArchethicWallet(
+  Future<aedappfm.Result<void, aedappfm.Failure>> connectToArchethicWallet(
     bool from,
     BridgeBlockchain blockchain,
   ) async {
-    return Result.guard(() async {
+    return aedappfm.Result.guard(() async {
       var bridgeWallet = const BridgeWallet();
       bridgeWallet = bridgeWallet.copyWith(
         isConnected: false,
@@ -98,13 +97,13 @@ class _SessionNotifier extends Notifier<Session> {
           replyBaseUrl: 'aebridge://archethic.tech',
         );
       } catch (e, stackTrace) {
-        sl.get<LogManager>().log(
+        aedappfm.sl.get<aedappfm.LogManager>().log(
               '$e',
               stackTrace: stackTrace,
-              level: LogLevel.error,
+              level: aedappfm.LogLevel.error,
               name: '_SessionNotifier - connectToArchethicWallet',
             );
-        throw const Failure.connectivityArchethic();
+        throw const aedappfm.Failure.connectivityArchethic();
       }
 
       final endpointResponse = await archethicDAppClient.getEndpoint();
@@ -115,7 +114,7 @@ class _SessionNotifier extends Notifier<Session> {
             error: 'Please, open your Archethic Wallet.',
           );
           _fillState(bridgeWallet, from);
-          throw const Failure.connectivityArchethic();
+          throw const aedappfm.Failure.connectivityArchethic();
         },
         success: (result) async {
           switch (blockchain.env) {
@@ -127,7 +126,7 @@ class _SessionNotifier extends Notifier<Session> {
                       'Please, connect your Archethic wallet to the Mainnet network.',
                 );
                 _fillState(bridgeWallet, from);
-                throw Failure.wrongNetwork(bridgeWallet.error);
+                throw aedappfm.Failure.wrongNetwork(bridgeWallet.error);
               }
               break;
             case '2-testnet':
@@ -138,7 +137,7 @@ class _SessionNotifier extends Notifier<Session> {
                       'Please, connect your Archethic wallet to the Testnet network.',
                 );
                 _fillState(bridgeWallet, from);
-                throw Failure.wrongNetwork(bridgeWallet.error);
+                throw aedappfm.Failure.wrongNetwork(bridgeWallet.error);
               }
               break;
             case '3-devnet':
@@ -150,7 +149,7 @@ class _SessionNotifier extends Notifier<Session> {
                       'Please, connect your Archethic wallet to the Devnet network.',
                 );
                 _fillState(bridgeWallet, from);
-                throw Failure.wrongNetwork(bridgeWallet.error);
+                throw aedappfm.Failure.wrongNetwork(bridgeWallet.error);
               }
               break;
             default:
@@ -160,7 +159,7 @@ class _SessionNotifier extends Notifier<Session> {
                     'Please, connect your Archethic wallet to the right network.',
               );
               _fillState(bridgeWallet, from);
-              throw Failure.wrongNetwork(bridgeWallet.error);
+              throw aedappfm.Failure.wrongNetwork(bridgeWallet.error);
           }
 
           bridgeWallet = bridgeWallet.copyWith(endpoint: result.endpointUrl);
@@ -201,13 +200,13 @@ class _SessionNotifier extends Notifier<Session> {
               },
             );
           });
-          if (sl.isRegistered<ApiService>()) {
-            await sl.unregister<ApiService>();
+          if (aedappfm.sl.isRegistered<ApiService>()) {
+            await aedappfm.sl.unregister<ApiService>();
           }
-          if (sl.isRegistered<awc.ArchethicDAppClient>()) {
-            await sl.unregister<awc.ArchethicDAppClient>();
+          if (aedappfm.sl.isRegistered<awc.ArchethicDAppClient>()) {
+            await aedappfm.sl.unregister<awc.ArchethicDAppClient>();
           }
-          sl.registerLazySingleton<awc.ArchethicDAppClient>(
+          aedappfm.sl.registerLazySingleton<awc.ArchethicDAppClient>(
             () => archethicDAppClient!,
           );
           setupServiceLocatorApiService(result.endpointUrl);
@@ -248,7 +247,7 @@ class _SessionNotifier extends Notifier<Session> {
                 error: failure.message ?? 'Connection failed',
               );
               _fillState(bridgeWallet, from);
-              throw Failure.other(cause: bridgeWallet.error);
+              throw aedappfm.Failure.other(cause: bridgeWallet.error);
             },
           );
         },
@@ -287,13 +286,13 @@ class _SessionNotifier extends Notifier<Session> {
   }
 
   Future<void> cancelArchethicConnection() async {
-    if (sl.isRegistered<awc.ArchethicDAppClient>()) {
-      await sl.get<awc.ArchethicDAppClient>().close();
-      await sl.unregister<awc.ArchethicDAppClient>();
+    if (aedappfm.sl.isRegistered<awc.ArchethicDAppClient>()) {
+      await aedappfm.sl.get<awc.ArchethicDAppClient>().close();
+      await aedappfm.sl.unregister<awc.ArchethicDAppClient>();
     }
 
-    if (sl.isRegistered<ApiService>()) {
-      await sl.unregister<ApiService>();
+    if (aedappfm.sl.isRegistered<ApiService>()) {
+      await aedappfm.sl.unregister<ApiService>();
     }
 
     if (state.walletFrom != null && state.walletFrom!.wallet == 'archethic') {
@@ -332,8 +331,8 @@ class _SessionNotifier extends Notifier<Session> {
   }
 
   Future<void> cancelEVMWalletConnection() async {
-    if (sl.isRegistered<EVMWalletProvider>()) {
-      await sl.get<EVMWalletProvider>().disconnect();
+    if (aedappfm.sl.isRegistered<EVMWalletProvider>()) {
+      await aedappfm.sl.get<EVMWalletProvider>().disconnect();
     }
     if (state.walletFrom != null && state.walletFrom!.wallet == 'evmWallet') {
       var walletFrom = state.walletFrom;

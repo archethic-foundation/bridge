@@ -1,7 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/components/format_address_link_copy.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,7 +43,7 @@ class BridgeInProgressContracts extends ConsumerWidget {
                     width: 50,
                     height: 1,
                     decoration: BoxDecoration(
-                      gradient: BridgeThemeBase.gradient,
+                      gradient: aedappfm.AppThemeBase.gradient,
                     ),
                   ),
                 ),

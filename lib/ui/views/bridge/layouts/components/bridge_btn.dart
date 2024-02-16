@@ -1,8 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/ui/views/util/components/app_button.dart';
-import 'package:aebridge/ui/views/util/iconsax.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,9 +23,8 @@ class BridgeButton extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    return AppButton(
+    return aedappfm.AppButton(
       labelBtn: AppLocalizations.of(context)!.btn_bridge,
-      icon: Iconsax.recovery_convert,
       onPressed: () async {
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
         await bridgeNotifier.validateForm();

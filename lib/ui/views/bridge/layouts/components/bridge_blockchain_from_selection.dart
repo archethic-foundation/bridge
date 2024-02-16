@@ -4,7 +4,8 @@ import 'dart:math';
 import 'package:aebridge/ui/views/blockchain_selection/bloc/provider.dart';
 import 'package:aebridge/ui/views/blockchain_selection/blockchain_selection_popup.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -27,13 +28,13 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
       children: [
         Padding(
           padding: const EdgeInsets.only(bottom: 5),
-          child: Text(
+          child: SelectableText(
             AppLocalizations.of(context)!.bridge_blockchain_from_lbl,
           ),
         ),
         SizedBox(
           width: min(
-            BridgeThemeBase.sizeBoxComponentWidth / 2 - 40,
+            aedappfm.AppThemeBase.sizeBoxComponentWidth / 2 - 40,
             MediaQuery.of(context).size.width / 3 - 5,
           ),
           child: DecoratedBox(
@@ -45,7 +46,7 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
                 color: Theme.of(context).colorScheme.primaryContainer,
                 width: 0.5,
               ),
-              gradient: BridgeThemeBase.gradientInputFormBackground,
+              gradient: aedappfm.AppThemeBase.gradientInputFormBackground,
             ),
             child: InkWell(
               child: Container(
@@ -54,7 +55,7 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
                 child: Align(
                   alignment: Alignment.centerLeft,
                   child: bridge.changeDirectionInProgress == true
-                      ? const Text('')
+                      ? const SelectableText('')
                       : bridge.blockchainFrom == null
                           ? Padding(
                               padding: const EdgeInsets.only(left: 5),

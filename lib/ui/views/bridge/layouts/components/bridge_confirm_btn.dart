@@ -3,9 +3,9 @@ import 'dart:async';
 
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/ui/views/bridge_in_progress/bridge_in_progress_popup.dart';
-import 'package:aebridge/ui/views/util/components/app_button.dart';
-import 'package:aebridge/ui/views/util/iconsax.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_in_progress_popup.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,17 +23,15 @@ class BridgeConfirmButton extends ConsumerWidget {
       return const SizedBox.shrink();
     }
     if (bridge.tokenToBridge == null) {
-      return AppButton(
+      return aedappfm.AppButton(
         labelBtn: AppLocalizations.of(context)!.btn_confirm_bridge,
-        icon: Iconsax.recovery_convert,
         disabled: true,
       );
     }
 
     if (bridge.currentStep > 0) {
-      return AppButton(
+      return aedappfm.AppButton(
         labelBtn: AppLocalizations.of(context)!.btn_resume_bridge,
-        icon: Iconsax.recovery_convert,
         onPressed: () async {
           ref
               .read(BridgeFormProvider.bridgeForm.notifier)
@@ -53,9 +51,8 @@ class BridgeConfirmButton extends ConsumerWidget {
       );
     }
 
-    return AppButton(
+    return aedappfm.AppButton(
       labelBtn: AppLocalizations.of(context)!.btn_confirm_bridge,
-      icon: Iconsax.recovery_convert,
       onPressed: () async {
         ref
             .read(BridgeFormProvider.bridgeForm.notifier)

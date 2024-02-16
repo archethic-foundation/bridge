@@ -1,8 +1,7 @@
 import 'package:aebridge/application/preferences.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
-import 'package:aebridge/ui/views/util/components/app_button.dart';
-import 'package:aebridge/ui/views/util/components/scrollbar.dart';
-import 'package:aebridge/ui/views/util/iconsax.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -26,7 +25,7 @@ class PrivacyPopup extends ConsumerWidget {
           padding: const EdgeInsets.all(20),
           width: MediaQuery.of(context).size.width * 0.6,
           decoration: BoxDecoration(
-            color: BridgeThemeBase.backgroundPopupColor,
+            color: aedappfm.AppThemeBase.backgroundPopupColor,
             borderRadius: BorderRadius.circular(16),
             boxShadow: const <BoxShadow>[
               BoxShadow(
@@ -34,18 +33,18 @@ class PrivacyPopup extends ConsumerWidget {
               ),
             ],
           ),
-          child: ArchethicScrollbar(
+          child: aedappfm.ArchethicScrollbar(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text('Information - Testnet'),
+                const SelectableText('Information - Testnet'),
                 const SizedBox(height: 40),
-                const Text(
+                const SelectableText(
                   'During the testnet phase, Archethic collects logs, both functional and technical, to analyze anomalies in the Apps operation.',
                 ),
                 const SizedBox(height: 20),
-                const Text(
+                const SelectableText(
                   'These logs may contain information related to the transactions performed but do not in any way allow us to alter or interfere with the transactions. These logs do not contain sensitive information such as seed or private keys.',
                 ),
                 const SizedBox(height: 20),
@@ -69,9 +68,8 @@ class PrivacyPopup extends ConsumerWidget {
                   ),
                 ),
                 const SizedBox(height: 40),
-                AppButton(
+                aedappfm.AppButton(
                   labelBtn: AppLocalizations.of(context)!.btn_understand,
-                  icon: Iconsax.close_square,
                   onPressed: () async {
                     await ref
                         .read(

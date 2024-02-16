@@ -1,5 +1,6 @@
 import 'package:aebridge/application/contracts/evm_htlc.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 
@@ -28,10 +29,10 @@ class EVMHTLCStatus extends StatelessWidget {
           return Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              Text(
+              SelectableText(
                 ' - ${AppLocalizations.of(context)!.htlcStatusHeader}: ',
               ),
-              Text(
+              SelectableText(
                 _htlcStatusLabel(context, snapshot.data),
                 style: TextStyle(color: _htlcColor(snapshot.data)),
               ),
@@ -45,17 +46,17 @@ class EVMHTLCStatus extends StatelessWidget {
 
   Color _htlcColor(int? status) {
     if (status == null) {
-      return ArchethicThemeBase.neutral0;
+      return aedappfm.ArchethicThemeBase.neutral0;
     }
     switch (status) {
       case 0:
-        return ArchethicThemeBase.systemWarning800;
+        return aedappfm.ArchethicThemeBase.systemWarning600;
       case 1:
-        return ArchethicThemeBase.systemPositive500;
+        return aedappfm.ArchethicThemeBase.systemPositive500;
       case 2:
-        return ArchethicThemeBase.systemPositive500;
+        return aedappfm.ArchethicThemeBase.systemPositive500;
       default:
-        return ArchethicThemeBase.neutral0;
+        return aedappfm.ArchethicThemeBase.neutral0;
     }
   }
 

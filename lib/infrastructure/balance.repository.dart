@@ -1,6 +1,7 @@
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/repositories/balance.repository.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
 class BalanceRepositoryImpl implements BalanceRepository {
@@ -14,7 +15,7 @@ class BalanceRepositoryImpl implements BalanceRepository {
   }) async {
     if (isArchethic) {
       final balanceGetResponseMap =
-          await sl.get<ApiService>().fetchBalance([address]);
+          await aedappfm.sl.get<ApiService>().fetchBalance([address]);
       if (balanceGetResponseMap[address] == null) {
         return 0.0;
       }
@@ -31,7 +32,7 @@ class BalanceRepositoryImpl implements BalanceRepository {
     } else {
       switch (typeToken) {
         case 'Native':
-          final balance = await sl.get<EVMWalletProvider>().getBalance(
+          final balance = await aedappfm.sl.get<EVMWalletProvider>().getBalance(
                 address,
                 providerEndpoint!,
                 typeToken,
@@ -40,7 +41,7 @@ class BalanceRepositoryImpl implements BalanceRepository {
 
         case 'ERC20':
         case 'Wrapped':
-          final balance = await sl.get<EVMWalletProvider>().getBalance(
+          final balance = await aedappfm.sl.get<EVMWalletProvider>().getBalance(
                 address,
                 providerEndpoint!,
                 typeToken,

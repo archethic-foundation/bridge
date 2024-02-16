@@ -10,9 +10,9 @@ _$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
         Map<String, dynamic> json) =>
     _$BridgeFormStateImpl(
       resumeProcess: json['resumeProcess'] as bool? ?? false,
-      bridgeProcessStep: $enumDecodeNullable(
-              _$BridgeProcessStepEnumMap, json['bridgeProcessStep']) ??
-          BridgeProcessStep.form,
+      processStep:
+          $enumDecodeNullable(_$ProcessStepEnumMap, json['processStep']) ??
+              ProcessStep.form,
       blockchainFrom:
           _$JsonConverterFromJson<Map<String, dynamic>, BridgeBlockchain>(
               json['blockchainFrom'],
@@ -64,8 +64,7 @@ Map<String, dynamic> _$$BridgeFormStateImplToJson(
         _$BridgeFormStateImpl instance) =>
     <String, dynamic>{
       'resumeProcess': instance.resumeProcess,
-      'bridgeProcessStep':
-          _$BridgeProcessStepEnumMap[instance.bridgeProcessStep]!,
+      'processStep': _$ProcessStepEnumMap[instance.processStep]!,
       'blockchainFrom':
           _$JsonConverterToJson<Map<String, dynamic>, BridgeBlockchain>(
               instance.blockchainFrom,
@@ -105,9 +104,9 @@ Map<String, dynamic> _$$BridgeFormStateImplToJson(
       'archethicTransactionFees': instance.archethicTransactionFees,
     };
 
-const _$BridgeProcessStepEnumMap = {
-  BridgeProcessStep.form: 'form',
-  BridgeProcessStep.confirmation: 'confirmation',
+const _$ProcessStepEnumMap = {
+  ProcessStep.form: 'form',
+  ProcessStep.confirmation: 'confirmation',
 };
 
 Value? _$JsonConverterFromJson<Json, Value>(

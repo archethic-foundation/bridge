@@ -9,7 +9,7 @@ class RefundInfo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Text(
+    return SelectableText(
       AppLocalizations.of(context)!.refundInfo,
     );
   }

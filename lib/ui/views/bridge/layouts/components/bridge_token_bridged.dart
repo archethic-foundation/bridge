@@ -3,7 +3,8 @@ import 'dart:math';
 
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -32,13 +33,13 @@ class BridgeTokenBridged extends ConsumerWidget {
         children: [
           Padding(
             padding: const EdgeInsets.only(top: 5, bottom: 5),
-            child: Text(
+            child: SelectableText(
               AppLocalizations.of(context)!.bridge_token_bridged_lbl,
             ),
           ),
           SizedBox(
             width: min(
-              BridgeThemeBase.sizeBoxComponentWidth / 2 - 40,
+              aedappfm.AppThemeBase.sizeBoxComponentWidth / 2 - 40,
               MediaQuery.of(context).size.width / 3 - 5,
             ),
             child: Row(
@@ -62,8 +63,8 @@ class BridgeTokenBridged extends ConsumerWidget {
                                     .primaryContainer,
                                 width: 0.5,
                               ),
-                              gradient:
-                                  BridgeThemeBase.gradientInputFormBackground,
+                              gradient: aedappfm
+                                  .AppThemeBase.gradientInputFormBackground,
                             ),
                             child: SizedBox(
                               height: 45,
@@ -87,7 +88,7 @@ class BridgeTokenBridged extends ConsumerWidget {
                                                     .withOpacity(0.2),
                                               ),
                                               child: Center(
-                                                child: Text(
+                                                child: SelectableText(
                                                   bridge.tokenToBridge!.symbol,
                                                   style: const TextStyle(
                                                     fontSize: 8,

@@ -3,8 +3,8 @@ import 'dart:async';
 
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_in_progress_popup.dart';
-import 'package:aebridge/ui/views/util/components/app_button.dart';
-import 'package:aebridge/ui/views/util/iconsax.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -27,14 +27,12 @@ class RefundButton extends ConsumerWidget {
     }
 
     return refund.htlcCanRefund == false
-        ? AppButton(
+        ? aedappfm.AppButton(
             labelBtn: AppLocalizations.of(context)!.btn_refund,
-            icon: Iconsax.empty_wallet_change,
             disabled: true,
           )
-        : AppButton(
+        : aedappfm.AppButton(
             labelBtn: AppLocalizations.of(context)!.btn_refund,
-            icon: Iconsax.empty_wallet_change,
             onPressed: () async {
               final refundNotifier =
                   ref.read(RefundFormProvider.refundForm.notifier);

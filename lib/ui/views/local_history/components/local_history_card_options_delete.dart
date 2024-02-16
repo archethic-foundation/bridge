@@ -1,10 +1,9 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
-import 'package:aebridge/ui/views/util/components/app_button.dart';
-import 'package:aebridge/ui/views/util/components/icon_animated.dart';
-import 'package:aebridge/ui/views/util/iconsax.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,7 +31,8 @@ class LocalHistoryCardOptionsDelete extends ConsumerWidget {
                   return Scaffold(
                     backgroundColor: Colors.transparent,
                     body: AlertDialog(
-                      backgroundColor: BridgeThemeBase.backgroundPopupColor,
+                      backgroundColor:
+                          aedappfm.AppThemeBase.backgroundPopupColor,
                       contentPadding: const EdgeInsets.only(
                         top: 10,
                       ),
@@ -47,7 +47,7 @@ class LocalHistoryCardOptionsDelete extends ConsumerWidget {
                           children: <Widget>[
                             Padding(
                               padding: const EdgeInsets.all(10),
-                              child: Text(
+                              child: SelectableText(
                                 AppLocalizations.of(context)!
                                     .confirmationPopupTitle,
                                 style: Theme.of(context).textTheme.titleMedium,
@@ -55,7 +55,7 @@ class LocalHistoryCardOptionsDelete extends ConsumerWidget {
                             ),
                             Padding(
                               padding: const EdgeInsets.all(10),
-                              child: Text(
+                              child: SelectableText(
                                 AppLocalizations.of(context)!
                                     .bridgeClearWarning,
                                 style: Theme.of(context).textTheme.bodyMedium,
@@ -72,13 +72,13 @@ class LocalHistoryCardOptionsDelete extends ConsumerWidget {
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  AppButton(
+                                  aedappfm.AppButton(
                                     labelBtn: AppLocalizations.of(context)!.no,
                                     onPressed: () async {
                                       Navigator.of(context).pop();
                                     },
                                   ),
-                                  AppButton(
+                                  aedappfm.AppButton(
                                     labelBtn: AppLocalizations.of(context)!.yes,
                                     onPressed: () async {
                                       await ref
@@ -113,8 +113,8 @@ class LocalHistoryCardOptionsDelete extends ConsumerWidget {
           },
         );
       },
-      child: IconAnimated(
-        icon: Iconsax.trash,
+      child: aedappfm.IconAnimated(
+        icon: aedappfm.Iconsax.trash,
         color: Colors.white,
         tooltip: AppLocalizations.of(context)!.local_history_option_delete,
       ),

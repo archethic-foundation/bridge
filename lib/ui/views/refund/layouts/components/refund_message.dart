@@ -1,9 +1,9 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:aebridge/ui/views/refund/bloc/state.dart';
-import 'package:aebridge/ui/views/util/components/info_banner.dart';
 import 'package:aebridge/ui/views/util/failure_message.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,9 +18,9 @@ class RefundMessage extends ConsumerWidget {
     final refund = ref.watch(RefundFormProvider.refundForm);
 
     if (refund.walletConfirmation == WalletConfirmationRefund.evm) {
-      return InfoBanner(
+      return aedappfm.InfoBanner(
         AppLocalizations.of(context)!.bridgeInProgressConfirmEVMWallet,
-        InfoBannerType.request,
+        aedappfm.InfoBannerType.request,
         width: MediaQuery.of(context).size.width * 0.9,
       );
     }
@@ -28,9 +28,9 @@ class RefundMessage extends ConsumerWidget {
     if (refund.refundOk) {
       return SizedBox(
         height: 40,
-        child: InfoBanner(
+        child: aedappfm.InfoBanner(
           AppLocalizations.of(context)!.refundSuccessInfo,
-          InfoBannerType.success,
+          aedappfm.InfoBannerType.success,
         ),
       );
     }
@@ -38,14 +38,14 @@ class RefundMessage extends ConsumerWidget {
     if (refund.isAlreadyRefunded != null && refund.isAlreadyRefunded == true) {
       return SizedBox(
         height: 40,
-        child: InfoBanner(
+        child: aedappfm.InfoBanner(
           FailureMessage(
             context: context,
-            failure: Failure.other(
+            failure: aedappfm.Failure.other(
               cause: AppLocalizations.of(context)!.refundAlreadyDoneInfo,
             ),
           ).getMessage(),
-          InfoBannerType.request,
+          aedappfm.InfoBannerType.request,
         ),
       );
     }
@@ -54,14 +54,14 @@ class RefundMessage extends ConsumerWidget {
         refund.isAlreadyWithdrawn == true) {
       return SizedBox(
         height: 40,
-        child: InfoBanner(
+        child: aedappfm.InfoBanner(
           FailureMessage(
             context: context,
-            failure: Failure.other(
+            failure: aedappfm.Failure.other(
               cause: AppLocalizations.of(context)!.refundAlreadyWithdrawnInfo,
             ),
           ).getMessage(),
-          InfoBannerType.request,
+          aedappfm.InfoBannerType.request,
         ),
       );
     }
@@ -72,12 +72,12 @@ class RefundMessage extends ConsumerWidget {
 
     return SizedBox(
       height: 40,
-      child: InfoBanner(
+      child: aedappfm.InfoBanner(
         FailureMessage(
           context: context,
           failure: refund.failure,
         ).getMessage(),
-        InfoBannerType.error,
+        aedappfm.InfoBannerType.error,
       ),
     );
   }

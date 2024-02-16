@@ -6,18 +6,17 @@ import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/application/contracts/archethic_factory.dart';
 import 'package:aebridge/application/contracts/evm_lp.dart';
-import 'package:aebridge/application/oracle/state.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/application/token_decimals.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/domain/models/bridge_token.dart';
-import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_to_evm.usecase.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_to_ae.usecase.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
-import 'package:aebridge/ui/views/util/generic/formatters.dart';
-import 'package:aebridge/util/browser_util.dart';
-import 'package:aebridge/util/transaction_bridge_util.dart';
+import 'package:aebridge/util/browser_util_desktop.dart'
+    if (dart.library.js) 'package:aebridge/util/browser_util_web.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +28,7 @@ part 'provider.g.dart';
 
 @riverpod
 class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
-    with TransactionBridgeMixin {
+    with aedappfm.TransactionMixin {
   @override
   BridgeFormState build() {
     return const BridgeFormState();
@@ -63,7 +62,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
       tokenToBridgeBalance: bridgeFormState.tokenBridgedBalance,
       tokenToBridgeDecimals: bridgeFormState.tokenToBridgeDecimals,
       resumeProcess: true,
-      bridgeProcessStep: BridgeProcessStep.confirmation,
+      processStep: aedappfm.ProcessStep.confirmation,
       isTransferInProgress: false,
       changeDirectionInProgress: false,
       walletConfirmation: null,
@@ -333,7 +332,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
   }
 
   Future<void> setFailure(
-    Failure? failure,
+    aedappfm.Failure? failure,
   ) async {
     state = state.copyWith(
       failure: failure,
@@ -368,13 +367,15 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
     await storeBridge();
   }
 
-  Future<void> setBridgeProcessStep(BridgeProcessStep bridgeProcessStep) async {
-    if (bridgeProcessStep == BridgeProcessStep.confirmation &&
+  Future<void> setBridgeProcessStep(
+    aedappfm.ProcessStep bridgeProcessStep,
+  ) async {
+    if (bridgeProcessStep == aedappfm.ProcessStep.confirmation &&
         await control() == false) {
       return;
     }
     state = state.copyWith(
-      bridgeProcessStep: bridgeProcessStep,
+      processStep: bridgeProcessStep,
     );
     await storeBridge();
   }
@@ -383,7 +384,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
     state = state.copyWith(
       blockchainFrom: null,
       blockchainTo: null,
-      bridgeProcessStep: BridgeProcessStep.form,
+      processStep: aedappfm.ProcessStep.form,
       currentStep: 0,
       failure: null,
       isTransferInProgress: false,
@@ -512,7 +513,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
     double usd,
   ) async {
     state = state.copyWith(
-      archethicOracleUCO: ArchethicOracleUCO(
+      archethicOracleUCO: aedappfm.ArchethicOracleUCO(
         timestamp: timestamp,
         eur: eur,
         usd: usd,
@@ -527,20 +528,22 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
     if (BrowserUtil().isEdgeBrowser() ||
         BrowserUtil().isInternetExplorerBrowser()) {
       await setFailure(
-        const Failure.incompatibleBrowser(),
+        const aedappfm.Failure.incompatibleBrowser(),
       );
       return false;
     }
 
     if (state.blockchainFrom == null && state.blockchainFrom!.name.isEmpty) {
       await setFailure(
-        const Failure.other(cause: 'Please select the issuing blockchain.'),
+        const aedappfm.Failure.other(
+          cause: 'Please select the issuing blockchain.',
+        ),
       );
       return false;
     }
     if (state.blockchainTo == null && state.blockchainTo!.name.isEmpty) {
       await setFailure(
-        const Failure.other(
+        const aedappfm.Failure.other(
           cause: 'Please select the receiving blockchain.',
         ),
       );
@@ -548,13 +551,15 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
     }
     if (state.tokenToBridge == null && state.tokenToBridge!.name.isEmpty) {
       await setFailure(
-        const Failure.other(cause: 'Please select the token to transfer.'),
+        const aedappfm.Failure.other(
+          cause: 'Please select the token to transfer.',
+        ),
       );
       return false;
     }
     if (state.targetAddress.isEmpty) {
       await setFailure(
-        const Failure.other(
+        const aedappfm.Failure.other(
           cause:
               'Please enter your receiving address on the target blockchain.',
         ),
@@ -564,7 +569,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
     if (state.blockchainTo!.isArchethic) {
       if (archethic.Address(address: state.targetAddress).isValid() == false) {
         await setFailure(
-          const Failure.other(
+          const aedappfm.Failure.other(
             cause: 'Please enter a valid Archethic address.',
           ),
         );
@@ -577,7 +582,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
         );
       } catch (e) {
         await setFailure(
-          const Failure.other(cause: 'Please enter a valid address.'),
+          const aedappfm.Failure.other(cause: 'Please enter a valid address.'),
         );
         return false;
       }
@@ -585,7 +590,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
 
     if (state.tokenToBridgeAmount.isNaN || state.tokenToBridgeAmount <= 0) {
       await setFailure(
-        const Failure.other(
+        const aedappfm.Failure.other(
           cause: 'Please enter the amount of tokens to transfer.',
         ),
       );
@@ -595,7 +600,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
     if (state.resumeProcess == false &&
         state.tokenToBridgeBalance < state.tokenToBridgeAmount) {
       await setFailure(
-        const Failure.other(
+        const aedappfm.Failure.other(
           cause: 'Your amount exceeds your balance. Please adjust your amount.',
         ),
       );
@@ -605,7 +610,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
     if (state.blockchainFrom!.isArchethic &&
         state.poolTargetBalance < state.tokenToBridgeAmount) {
       await setFailure(
-        Failure.other(
+        aedappfm.Failure.other(
           cause:
               "Sorry, but your request can't be completed due to insufficient liquidity on the destination chain. The current available liquidity is ${state.poolTargetBalance.formatNumber()} ${state.tokenToBridge!.targetTokenSymbol}.",
         ),
@@ -647,7 +652,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
     //final aeHTLCFees = await ArchethicContract().estimateDeployHTLCFees();
 
     await setBridgeProcessStep(
-      BridgeProcessStep.confirmation,
+      aedappfm.ProcessStep.confirmation,
     );
   }
 

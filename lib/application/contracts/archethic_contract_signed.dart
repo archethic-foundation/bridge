@@ -1,19 +1,18 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
+
 import 'package:aebridge/application/contracts/archethic_contract.dart';
-import 'package:aebridge/domain/models/failures.dart';
-import 'package:aebridge/domain/models/result.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
-import 'package:aebridge/util/transaction_bridge_util.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ArchethicContractSigned with TransactionBridgeMixin {
+class ArchethicContractSigned with aedappfm.TransactionMixin {
   ArchethicContractSigned();
 
-  Future<Result<String, Failure>> deploySignedHTLC(
+  Future<aedappfm.Result<String, aedappfm.Failure>> deploySignedHTLC(
     WidgetRef ref,
     String htlcGenesisAddress,
     String seedSC,
@@ -24,9 +23,9 @@ class ArchethicContractSigned with TransactionBridgeMixin {
     String tokenAddress,
     int chainId,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
-        final code = await sl.get<ApiService>().callSCFunction(
+        final code = await aedappfm.sl.get<ApiService>().callSCFunction(
               jsonRPCRequest: SCCallFunctionRequest(
                 method: 'contract_fun',
                 params: SCCallFunctionParams(
@@ -63,7 +62,7 @@ class ArchethicContractSigned with TransactionBridgeMixin {
     );
   }
 
-  Future<Result<void, Failure>> provisionSignedHTLC(
+  Future<aedappfm.Result<void, aedappfm.Failure>> provisionSignedHTLC(
     WidgetRef ref,
     double amount,
     String tokenAddress,
@@ -72,11 +71,11 @@ class ArchethicContractSigned with TransactionBridgeMixin {
     String userAddress,
     int chainId,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         Transaction? transactionTransfer;
         final blockchainTxVersion = int.parse(
-          (await sl.get<ApiService>().getBlockchainVersion())
+          (await aedappfm.sl.get<ApiService>().getBlockchainVersion())
               .version
               .transaction,
         );
@@ -134,7 +133,7 @@ class ArchethicContractSigned with TransactionBridgeMixin {
     );
   }
 
-  Future<Result<String, Failure>> requestSecretFromSignedHTLC(
+  Future<aedappfm.Result<String, aedappfm.Failure>> requestSecretFromSignedHTLC(
     WidgetRef ref,
     String currentNameAccount,
     String htlcAddress,
@@ -142,10 +141,10 @@ class ArchethicContractSigned with TransactionBridgeMixin {
     String htlcEVMAddress,
     String txAddress,
   ) async {
-    return Result.guard(
+    return aedappfm.Result.guard(
       () async {
         final blockchainTxVersion = int.parse(
-          (await sl.get<ApiService>().getBlockchainVersion())
+          (await aedappfm.sl.get<ApiService>().getBlockchainVersion())
               .version
               .transaction,
         );

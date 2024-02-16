@@ -1,9 +1,9 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
-import 'package:aebridge/ui/views/util/components/app_button.dart';
-import 'package:aebridge/ui/views/util/iconsax.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -42,7 +42,7 @@ class _ConnectionToWalletStatusState
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Theme.of(context).snackBarTheme.backgroundColor,
-            content: Text(
+            content: SelectableText(
               AppLocalizations.of(context)!.changeCurrentAccountWarning,
               style: Theme.of(context).snackBarTheme.contentTextStyle,
             ),
@@ -70,7 +70,7 @@ class _ConnectionToWalletStatusState
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const Icon(
-            Iconsax.user,
+            aedappfm.Iconsax.user,
             size: 18,
           ),
           const SizedBox(
@@ -91,7 +91,7 @@ class _ConnectionToWalletStatusState
               const Padding(
                 padding: EdgeInsets.only(bottom: 3),
                 child: Icon(
-                  Iconsax.arrow_down,
+                  aedappfm.Iconsax.arrow_down,
                   size: 10,
                 ),
               ),
@@ -132,13 +132,13 @@ class MenuConnectionToWalletStatus extends ConsumerWidget {
           child: Column(
             children: [
               Center(
-                child: Text(
+                child: SelectableText(
                   session.walletFrom!.endpoint,
                   textAlign: TextAlign.center,
                 ),
               ),
               Center(
-                child: Text(
+                child: SelectableText(
                   session.walletFrom!.nameAccount,
                   textAlign: TextAlign.center,
                 ),
@@ -153,13 +153,13 @@ class MenuConnectionToWalletStatus extends ConsumerWidget {
           child: Column(
             children: [
               Center(
-                child: Text(
+                child: SelectableText(
                   session.walletTo!.endpoint,
                   textAlign: TextAlign.center,
                 ),
               ),
               Center(
-                child: Text(
+                child: SelectableText(
                   session.walletTo!.nameAccount,
                   textAlign: TextAlign.center,
                 ),
@@ -174,13 +174,13 @@ class MenuConnectionToWalletStatus extends ConsumerWidget {
             child: Row(
               children: [
                 const Icon(
-                  Iconsax.logout,
+                  aedappfm.Iconsax.logout,
                   size: 16,
                 ),
                 const SizedBox(
                   width: 10,
                 ),
-                Text(AppLocalizations.of(context)!.logout),
+                SelectableText(AppLocalizations.of(context)!.logout),
               ],
             ),
           ),
@@ -192,7 +192,8 @@ class MenuConnectionToWalletStatus extends ConsumerWidget {
                   child: Builder(
                     builder: (context) {
                       return AlertDialog(
-                        backgroundColor: BridgeThemeBase.backgroundPopupColor,
+                        backgroundColor:
+                            aedappfm.AppThemeBase.backgroundPopupColor,
                         contentPadding: const EdgeInsets.only(
                           top: 10,
                         ),
@@ -207,7 +208,7 @@ class MenuConnectionToWalletStatus extends ConsumerWidget {
                             children: <Widget>[
                               Padding(
                                 padding: const EdgeInsets.all(10),
-                                child: Text(
+                                child: SelectableText(
                                   AppLocalizations.of(context)!
                                       .confirmationPopupTitle,
                                   style:
@@ -216,7 +217,7 @@ class MenuConnectionToWalletStatus extends ConsumerWidget {
                               ),
                               Padding(
                                 padding: const EdgeInsets.all(10),
-                                child: Text(
+                                child: SelectableText(
                                   AppLocalizations.of(context)!
                                       .connectionWalletDisconnectWarning,
                                   style: Theme.of(context).textTheme.bodyMedium,
@@ -233,14 +234,14 @@ class MenuConnectionToWalletStatus extends ConsumerWidget {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    AppButton(
+                                    aedappfm.AppButton(
                                       labelBtn:
                                           AppLocalizations.of(context)!.no,
                                       onPressed: () {
                                         Navigator.of(context).pop();
                                       },
                                     ),
-                                    AppButton(
+                                    aedappfm.AppButton(
                                       labelBtn:
                                           AppLocalizations.of(context)!.yes,
                                       onPressed: () async {

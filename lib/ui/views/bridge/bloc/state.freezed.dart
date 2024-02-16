@@ -12,7 +12,7 @@ part of 'state.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 BridgeFormState _$BridgeFormStateFromJson(Map<String, dynamic> json) {
   return _BridgeFormState.fromJson(json);
@@ -21,7 +21,7 @@ BridgeFormState _$BridgeFormStateFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$BridgeFormState {
   bool get resumeProcess => throw _privateConstructorUsedError;
-  BridgeProcessStep get bridgeProcessStep => throw _privateConstructorUsedError;
+  ProcessStep get processStep => throw _privateConstructorUsedError;
   @BridgeBlockchainJsonConverter()
   BridgeBlockchain? get blockchainFrom => throw _privateConstructorUsedError;
   @BridgeBlockchainJsonConverter()
@@ -69,7 +69,7 @@ abstract class $BridgeFormStateCopyWith<$Res> {
   @useResult
   $Res call(
       {bool resumeProcess,
-      BridgeProcessStep bridgeProcessStep,
+      ProcessStep processStep,
       @BridgeBlockchainJsonConverter() BridgeBlockchain? blockchainFrom,
       @BridgeBlockchainJsonConverter() BridgeBlockchain? blockchainTo,
       @BridgeTokenJsonConverter() BridgeToken? tokenToBridge,
@@ -117,7 +117,7 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
   @override
   $Res call({
     Object? resumeProcess = null,
-    Object? bridgeProcessStep = null,
+    Object? processStep = null,
     Object? blockchainFrom = freezed,
     Object? blockchainTo = freezed,
     Object? tokenToBridge = freezed,
@@ -149,10 +149,10 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
           ? _value.resumeProcess
           : resumeProcess // ignore: cast_nullable_to_non_nullable
               as bool,
-      bridgeProcessStep: null == bridgeProcessStep
-          ? _value.bridgeProcessStep
-          : bridgeProcessStep // ignore: cast_nullable_to_non_nullable
-              as BridgeProcessStep,
+      processStep: null == processStep
+          ? _value.processStep
+          : processStep // ignore: cast_nullable_to_non_nullable
+              as ProcessStep,
       blockchainFrom: freezed == blockchainFrom
           ? _value.blockchainFrom
           : blockchainFrom // ignore: cast_nullable_to_non_nullable
@@ -328,7 +328,7 @@ abstract class _$$BridgeFormStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {bool resumeProcess,
-      BridgeProcessStep bridgeProcessStep,
+      ProcessStep processStep,
       @BridgeBlockchainJsonConverter() BridgeBlockchain? blockchainFrom,
       @BridgeBlockchainJsonConverter() BridgeBlockchain? blockchainTo,
       @BridgeTokenJsonConverter() BridgeToken? tokenToBridge,
@@ -379,7 +379,7 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? resumeProcess = null,
-    Object? bridgeProcessStep = null,
+    Object? processStep = null,
     Object? blockchainFrom = freezed,
     Object? blockchainTo = freezed,
     Object? tokenToBridge = freezed,
@@ -411,10 +411,10 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
           ? _value.resumeProcess
           : resumeProcess // ignore: cast_nullable_to_non_nullable
               as bool,
-      bridgeProcessStep: null == bridgeProcessStep
-          ? _value.bridgeProcessStep
-          : bridgeProcessStep // ignore: cast_nullable_to_non_nullable
-              as BridgeProcessStep,
+      processStep: null == processStep
+          ? _value.processStep
+          : processStep // ignore: cast_nullable_to_non_nullable
+              as ProcessStep,
       blockchainFrom: freezed == blockchainFrom
           ? _value.blockchainFrom
           : blockchainFrom // ignore: cast_nullable_to_non_nullable
@@ -524,7 +524,7 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
 class _$BridgeFormStateImpl extends _BridgeFormState {
   const _$BridgeFormStateImpl(
       {this.resumeProcess = false,
-      this.bridgeProcessStep = BridgeProcessStep.form,
+      this.processStep = ProcessStep.form,
       @BridgeBlockchainJsonConverter() this.blockchainFrom,
       @BridgeBlockchainJsonConverter() this.blockchainTo,
       @BridgeTokenJsonConverter() this.tokenToBridge,
@@ -561,7 +561,7 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
   final bool resumeProcess;
   @override
   @JsonKey()
-  final BridgeProcessStep bridgeProcessStep;
+  final ProcessStep processStep;
   @override
   @BridgeBlockchainJsonConverter()
   final BridgeBlockchain? blockchainFrom;
@@ -642,7 +642,7 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
 
   @override
   String toString() {
-    return 'BridgeFormState(resumeProcess: $resumeProcess, bridgeProcessStep: $bridgeProcessStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, poolTargetBalance: $poolTargetBalance, tokenToBridgeDecimals: $tokenToBridgeDecimals, failure: $failure, isTransferInProgress: $isTransferInProgress, walletConfirmation: $walletConfirmation, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, htlcEVMTxAddress: $htlcEVMTxAddress, secret: $secret, safetyModuleFeesRate: $safetyModuleFeesRate, safetyModuleFeesAddress: $safetyModuleFeesAddress, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees)';
+    return 'BridgeFormState(resumeProcess: $resumeProcess, processStep: $processStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, poolTargetBalance: $poolTargetBalance, tokenToBridgeDecimals: $tokenToBridgeDecimals, failure: $failure, isTransferInProgress: $isTransferInProgress, walletConfirmation: $walletConfirmation, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, htlcEVMTxAddress: $htlcEVMTxAddress, secret: $secret, safetyModuleFeesRate: $safetyModuleFeesRate, safetyModuleFeesAddress: $safetyModuleFeesAddress, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees)';
   }
 
   @override
@@ -652,8 +652,8 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
             other is _$BridgeFormStateImpl &&
             (identical(other.resumeProcess, resumeProcess) ||
                 other.resumeProcess == resumeProcess) &&
-            (identical(other.bridgeProcessStep, bridgeProcessStep) ||
-                other.bridgeProcessStep == bridgeProcessStep) &&
+            (identical(other.processStep, processStep) ||
+                other.processStep == processStep) &&
             (identical(other.blockchainFrom, blockchainFrom) ||
                 other.blockchainFrom == blockchainFrom) &&
             (identical(other.blockchainTo, blockchainTo) ||
@@ -715,7 +715,7 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
   int get hashCode => Object.hashAll([
         runtimeType,
         resumeProcess,
-        bridgeProcessStep,
+        processStep,
         blockchainFrom,
         blockchainTo,
         tokenToBridge,
@@ -761,7 +761,7 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
 abstract class _BridgeFormState extends BridgeFormState {
   const factory _BridgeFormState(
       {final bool resumeProcess,
-      final BridgeProcessStep bridgeProcessStep,
+      final ProcessStep processStep,
       @BridgeBlockchainJsonConverter() final BridgeBlockchain? blockchainFrom,
       @BridgeBlockchainJsonConverter() final BridgeBlockchain? blockchainTo,
       @BridgeTokenJsonConverter() final BridgeToken? tokenToBridge,
@@ -796,7 +796,7 @@ abstract class _BridgeFormState extends BridgeFormState {
   @override
   bool get resumeProcess;
   @override
-  BridgeProcessStep get bridgeProcessStep;
+  ProcessStep get processStep;
   @override
   @BridgeBlockchainJsonConverter()
   BridgeBlockchain? get blockchainFrom;

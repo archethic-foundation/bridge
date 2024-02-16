@@ -1,8 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/oracle/provider.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_fiat_price.dart';
-import 'package:aebridge/ui/views/util/components/icon_button_animated.dart';
-import 'package:aebridge/ui/views/util/generic/formatters.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -16,7 +15,7 @@ class BridgeTokenToBridgeArchethicOracleUco extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final archethicOracleUCO =
-        ref.watch(ArchethicOracleUCOProviders.archethicOracleUCO);
+        ref.watch(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
     if (archethicOracleUCO.usd == 0) {
       return const SizedBox.shrink();
     }
@@ -30,7 +29,7 @@ class BridgeTokenToBridgeArchethicOracleUco extends ConsumerWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        IconButtonAnimated(
+        aedappfm.IconButtonAnimated(
           icon: const Icon(
             Icons.help,
             size: 16,
@@ -38,7 +37,7 @@ class BridgeTokenToBridgeArchethicOracleUco extends ConsumerWidget {
           onPressed: () {
             launchUrl(
               Uri.parse(
-                'https://wiki.archethic.net/category/faq/bridge-2-ways#how-is-the-price-of-uco-estimated',
+                'https://wiki.archethic.net/FAQ/bridge-2-ways#how-is-the-price-of-uco-estimated',
               ),
             );
           },
@@ -48,7 +47,7 @@ class BridgeTokenToBridgeArchethicOracleUco extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             const BridgeTokenToBridgeFiatPrice(),
-            Text(
+            SelectableText(
               '1 UCO = \$${archethicOracleUCO.usd.formatNumber(precision: 2)} ($timestamp)',
               style: TextStyle(
                 fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,

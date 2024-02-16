@@ -1,6 +1,7 @@
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/repositories/token_decimals.repository.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
 class TokenDecimalsRepositoryImpl implements TokenDecimalsRepository {
@@ -12,7 +13,7 @@ class TokenDecimalsRepositoryImpl implements TokenDecimalsRepository {
     String? providerEndpoint,
   }) async {
     if (isArchethic) {
-      final balanceGetResponseMap = await sl
+      final balanceGetResponseMap = await aedappfm.sl
           .get<ApiService>()
           .getToken([tokenAddress], request: 'decimals');
       if (balanceGetResponseMap[tokenAddress] == null) {
@@ -23,19 +24,21 @@ class TokenDecimalsRepositoryImpl implements TokenDecimalsRepository {
     } else {
       switch (typeToken) {
         case 'Native':
-          final decimals = await sl.get<EVMWalletProvider>().getTokenDecimals(
-                providerEndpoint!,
-                typeToken,
-              );
+          final decimals =
+              await aedappfm.sl.get<EVMWalletProvider>().getTokenDecimals(
+                    providerEndpoint!,
+                    typeToken,
+                  );
           return decimals;
 
         case 'ERC20':
         case 'Wrapped':
-          final decimals = await sl.get<EVMWalletProvider>().getTokenDecimals(
-                providerEndpoint!,
-                typeToken,
-                erc20address: tokenAddress,
-              );
+          final decimals =
+              await aedappfm.sl.get<EVMWalletProvider>().getTokenDecimals(
+                    providerEndpoint!,
+                    typeToken,
+                    erc20address: tokenAddress,
+                  );
           return decimals;
         default:
       }

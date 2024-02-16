@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/ui/views/util/iconsax.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,7 +21,7 @@ class BridgeBlockchainIconDirection extends ConsumerWidget {
       return Padding(
         padding: const EdgeInsets.only(top: 25),
         child: Icon(
-          Iconsax.arrow_swap_horizontal,
+          aedappfm.Iconsax.arrow_swap_horizontal,
           color: Colors.white.withOpacity(0.2),
         ),
       );
@@ -32,7 +33,7 @@ class BridgeBlockchainIconDirection extends ConsumerWidget {
         onPressed: () async {
           await bridgeForm.swapDirections();
         },
-        icon: const Icon(Iconsax.arrow_swap_horizontal),
+        icon: const Icon(aedappfm.Iconsax.arrow_swap_horizontal),
       ),
     );
   }

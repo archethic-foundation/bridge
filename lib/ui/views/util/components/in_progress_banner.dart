@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/ui/views/util/components/info_banner.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 
 class InProgressBanner extends StatelessWidget {
@@ -21,20 +22,20 @@ class InProgressBanner extends StatelessWidget {
         Container(
           alignment: Alignment.center,
           padding: const EdgeInsets.only(bottom: 10),
-          child: Text(
+          child: SelectableText(
             stepLabel,
             style: const TextStyle(fontSize: 11),
           ),
         ),
         if (errorMessage.isNotEmpty)
-          InfoBanner(
+          aedappfm.InfoBanner(
             errorMessage,
-            InfoBannerType.error,
+            aedappfm.InfoBannerType.error,
           )
         else if (infoMessage.isNotEmpty)
-          InfoBanner(
+          aedappfm.InfoBanner(
             infoMessage,
-            InfoBannerType.request,
+            aedappfm.InfoBannerType.request,
           ),
       ],
     );

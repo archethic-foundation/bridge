@@ -1,14 +1,15 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/main_screen_widget_displayed.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/local_history/local_history_sheet.dart';
 import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/refund/layouts/refund_sheet.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
-import 'package:aebridge/ui/views/util/generic/responsive.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class Header extends ConsumerWidget {
   const Header({
@@ -27,106 +28,144 @@ class Header extends ConsumerWidget {
         const SizedBox(
           width: 16,
         ),
-        Image.asset(
-          'assets/images/logo_crystal.png',
-          height: 50,
+        SvgPicture.asset(
+          'assets/images/AELogo.svg',
+          height: 34,
         ),
         const SizedBox(
           width: 8,
         ),
         Padding(
-          padding: const EdgeInsets.only(top: 5),
-          child: Text(
+          padding: const EdgeInsets.only(bottom: 4),
+          child: SelectableText(
             'aeBridge',
             style: TextStyle(
-              fontSize: 30,
-              color: ArchethicThemeBase.blue200,
+              fontSize: 33,
+              color: aedappfm.ArchethicThemeBase.neutral0,
             ),
           ),
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 5, bottom: 20),
-          child: Text(
+          padding: const EdgeInsets.only(left: 5, bottom: 26),
+          child: SelectableText(
             'Beta',
             style: Theme.of(context).textTheme.labelMedium,
           ),
         ),
-        if (withMenu && Responsive.isMobile(context) == false)
+        if (withMenu &&
+            aedappfm.Responsive.isMobile(context) == false &&
+            aedappfm.Responsive.isTablet(context) == false)
           Row(
             children: [
               const SizedBox(
                 width: 50,
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: TextButton(
-                  onPressed: () {
-                    ref.read(navigationIndexMainScreenProvider.notifier).state =
-                        0;
-                    ref
-                        .read(
-                          MainScreenWidgetDisplayedProviders
-                              .mainScreenWidgetDisplayedProvider.notifier,
-                        )
-                        .setWidget(const BridgeSheet(), ref);
-                  },
-                  child: Text(
-                    AppLocalizations.of(context)!.menu_bridge,
-                    style: TextStyle(
-                      fontSize: 16,
+                padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        ref
+                            .read(navigationIndexMainScreenProvider.notifier)
+                            .state = 0;
+                        context.go(
+                          BridgeSheet.routerPage,
+                        );
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.menu_bridge,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w300,
+                          color: indexMenu == 0
+                              ? aedappfm.ArchethicThemeBase.raspberry200
+                              : aedappfm.ArchethicThemeBase.neutral0,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 5),
+                      height: 0.5,
+                      width: 60,
                       color: indexMenu == 0
-                          ? ArchethicThemeBase.blue50
-                          : ArchethicThemeBase.blue200,
+                          ? aedappfm.ArchethicThemeBase.raspberry200
+                          : Colors.transparent,
                     ),
-                  ),
+                  ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: TextButton(
-                  onPressed: () {
-                    ref.read(navigationIndexMainScreenProvider.notifier).state =
-                        1;
-                    ref
-                        .read(
-                          MainScreenWidgetDisplayedProviders
-                              .mainScreenWidgetDisplayedProvider.notifier,
-                        )
-                        .setWidget(const LocalHistorySheet(), ref);
-                  },
-                  child: Text(
-                    AppLocalizations.of(context)!.menu_local_history,
-                    style: TextStyle(
-                      fontSize: 16,
+                padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        ref
+                            .read(navigationIndexMainScreenProvider.notifier)
+                            .state = 1;
+                        context.go(
+                          LocalHistorySheet.routerPage,
+                        );
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.menu_local_history,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w300,
+                          color: indexMenu == 1
+                              ? aedappfm.ArchethicThemeBase.raspberry200
+                              : aedappfm.ArchethicThemeBase.neutral0,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 5),
+                      height: 0.5,
+                      width: 110,
                       color: indexMenu == 1
-                          ? ArchethicThemeBase.blue50
-                          : ArchethicThemeBase.blue200,
+                          ? aedappfm.ArchethicThemeBase.raspberry200
+                          : Colors.transparent,
                     ),
-                  ),
+                  ],
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                child: TextButton(
-                  onPressed: () {
-                    ref.read(navigationIndexMainScreenProvider.notifier).state =
-                        2;
-                    ref
-                        .read(
-                          MainScreenWidgetDisplayedProviders
-                              .mainScreenWidgetDisplayedProvider.notifier,
-                        )
-                        .setWidget(const RefundSheet(), ref);
-                  },
-                  child: Text(
-                    AppLocalizations.of(context)!.menu_refund,
-                    style: TextStyle(
-                      fontSize: 16,
-                      color: indexMenu == 2
-                          ? ArchethicThemeBase.blue50
-                          : ArchethicThemeBase.blue200,
+                padding: const EdgeInsets.only(top: 10, left: 20, right: 20),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        ref
+                            .read(navigationIndexMainScreenProvider.notifier)
+                            .state = 2;
+                        context.go(
+                          RefundSheet.routerPage,
+                        );
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.menu_refund,
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w300,
+                          color: indexMenu == 2
+                              ? aedappfm.ArchethicThemeBase.raspberry200
+                              : aedappfm.ArchethicThemeBase.neutral0,
+                        ),
+                      ),
                     ),
-                  ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 5),
+                      height: 0.5,
+                      width: 60,
+                      color: indexMenu == 2
+                          ? aedappfm.ArchethicThemeBase.raspberry200
+                          : Colors.transparent,
+                    ),
+                  ],
                 ),
               ),
             ],

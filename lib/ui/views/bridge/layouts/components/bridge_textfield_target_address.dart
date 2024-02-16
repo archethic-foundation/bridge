@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -62,12 +63,12 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
       children: [
         Padding(
           padding: const EdgeInsets.only(bottom: 5),
-          child: Text(
+          child: SelectableText(
             AppLocalizations.of(context)!.bridge_target_address_lbl,
           ),
         ),
         SizedBox(
-          width: BridgeThemeBase.sizeBoxComponentWidth,
+          width: aedappfm.AppThemeBase.sizeBoxComponentWidth,
           child: Row(
             children: [
               Expanded(
@@ -89,13 +90,13 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
                                   .primaryContainer,
                               width: 0.5,
                             ),
-                            gradient:
-                                BridgeThemeBase.gradientInputFormBackground,
+                            gradient: aedappfm
+                                .AppThemeBase.gradientInputFormBackground,
                           ),
                           child: TextField(
                             maxLines: maxLines,
                             style: TextStyle(
-                              fontFamily: BridgeThemeBase.addressFont,
+                              fontFamily: aedappfm.AppThemeBase.addressFont,
                               fontSize: 14,
                             ),
                             autocorrect: false,

@@ -2,7 +2,8 @@
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/util/components/fiat_value.dart';
 import 'package:aebridge/ui/views/util/components/format_address_link_copy.dart';
-import 'package:aebridge/ui/views/util/generic/formatters.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -48,6 +49,7 @@ class LocalHistoryCardTrfInfos extends ConsumerWidget {
                     typeAddress: bridge.blockchainTo!.isArchethic
                         ? TypeAddress.chain
                         : TypeAddress.address,
+                    reduceAddress: true,
                   ),
                 ],
               ),

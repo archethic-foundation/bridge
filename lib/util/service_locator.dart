@@ -1,13 +1,18 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/infrastructure/hive/db_helper.hive.dart';
-import 'package:aebridge/util/custom_logs.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
 void setupServiceLocator() {
-  sl
+  aedappfm.sl
     ..registerLazySingleton<DBHelper>(DBHelper.new)
-    ..registerLazySingleton<LogManager>(LogManager.new)
+    ..registerLazySingleton<aedappfm.LogManager>(
+      () => aedappfm.LogManager(
+        url:
+            'https://faas-fra1-afec6ce7.doserverless.co/api/v1/web/fn-b200dcda-cd45-406c-acb1-8a7642f462c2/default/app-log',
+      ),
+    )
     ..registerLazySingleton<OracleService>(
       () =>
           OracleService('https://mainnet.archethic.net', logsActivation: false),
@@ -15,7 +20,7 @@ void setupServiceLocator() {
 }
 
 void setupServiceLocatorApiService(String endpoint) {
-  sl.registerLazySingleton<ApiService>(
+  aedappfm.sl.registerLazySingleton<ApiService>(
     () => ApiService(endpoint, logsActivation: false),
   );
 }

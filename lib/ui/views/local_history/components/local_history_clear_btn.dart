@@ -1,7 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/bridge_history.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
-import 'package:aebridge/ui/views/util/components/app_button.dart';
+
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -54,8 +55,8 @@ class LocalHistoryClearButton extends ConsumerWidget {
                                   return Scaffold(
                                     backgroundColor: Colors.transparent,
                                     body: AlertDialog(
-                                      backgroundColor:
-                                          BridgeThemeBase.backgroundPopupColor,
+                                      backgroundColor: aedappfm
+                                          .AppThemeBase.backgroundPopupColor,
                                       contentPadding: const EdgeInsets.only(
                                         top: 10,
                                       ),
@@ -71,7 +72,7 @@ class LocalHistoryClearButton extends ConsumerWidget {
                                           children: <Widget>[
                                             Padding(
                                               padding: const EdgeInsets.all(10),
-                                              child: Text(
+                                              child: SelectableText(
                                                 AppLocalizations.of(context)!
                                                     .confirmationPopupTitle,
                                                 style: Theme.of(context)
@@ -81,7 +82,7 @@ class LocalHistoryClearButton extends ConsumerWidget {
                                             ),
                                             Padding(
                                               padding: const EdgeInsets.all(10),
-                                              child: Text(
+                                              child: SelectableText(
                                                 AppLocalizations.of(context)!
                                                     .bridgesListClearWarning,
                                                 style: Theme.of(context)
@@ -101,7 +102,7 @@ class LocalHistoryClearButton extends ConsumerWidget {
                                                 mainAxisAlignment:
                                                     MainAxisAlignment.center,
                                                 children: [
-                                                  AppButton(
+                                                  aedappfm.AppButton(
                                                     labelBtn:
                                                         AppLocalizations.of(
                                                       context,
@@ -112,7 +113,7 @@ class LocalHistoryClearButton extends ConsumerWidget {
                                                           .pop();
                                                     },
                                                   ),
-                                                  AppButton(
+                                                  aedappfm.AppButton(
                                                     labelBtn:
                                                         AppLocalizations.of(
                                                       context,

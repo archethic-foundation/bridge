@@ -1,7 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
-import 'package:aebridge/ui/views/util/components/app_button.dart';
-import 'package:aebridge/ui/views/util/iconsax.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,9 +19,8 @@ class RefundConnectWalletButton extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    return AppButton(
+    return aedappfm.AppButton(
       labelBtn: AppLocalizations.of(context)!.btn_refund_evm_connect,
-      icon: Iconsax.empty_wallet,
       onPressed: () async {
         await ref
             .read(RefundFormProvider.refundForm.notifier)

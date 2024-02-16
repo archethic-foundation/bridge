@@ -2,7 +2,8 @@
 import 'dart:math';
 
 import 'package:aebridge/ui/views/local_history/bloc/provider.dart';
-import 'package:aebridge/ui/views/util/iconsax.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -71,7 +72,7 @@ class LocalHistoryPeriodFilter extends ConsumerWidget {
         child: Row(
           children: [
             const Icon(
-              Iconsax.filter,
+              aedappfm.Iconsax.filter,
               size: 16,
             ),
             const SizedBox(

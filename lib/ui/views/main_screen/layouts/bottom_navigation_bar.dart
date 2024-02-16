@@ -1,12 +1,11 @@
 import 'dart:ui';
-
-import 'package:aebridge/application/main_screen_widget_displayed.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/local_history/local_history_sheet.dart';
 import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/refund/layouts/refund_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class BottomNavigationBarMainScreen extends ConsumerStatefulWidget {
   const BottomNavigationBarMainScreen({
@@ -44,40 +43,22 @@ class _BottomNavigationBarMainScreenState
           currentIndex: widget.navDrawerIndex,
           onTap: (int selectedIndex) {
             setState(() {
-              ref.read(navigationIndexMainScreenProvider.notifier).state =
-                  selectedIndex;
+              ref
+                  .read(
+                    navigationIndexMainScreenProvider.notifier,
+                  )
+                  .state = selectedIndex;
             });
-
             switch (selectedIndex) {
               case 0:
-                ref
-                    .read(
-                      MainScreenWidgetDisplayedProviders
-                          .mainScreenWidgetDisplayedProvider.notifier,
-                    )
-                    .setWidget(const BridgeSheet(), ref);
-
+                context.go(BridgeSheet.routerPage);
                 break;
               case 1:
-                ref
-                    .read(
-                      MainScreenWidgetDisplayedProviders
-                          .mainScreenWidgetDisplayedProvider.notifier,
-                    )
-                    .setWidget(const LocalHistorySheet(), ref);
-
+                context.go(LocalHistorySheet.routerPage);
                 break;
-
               case 2:
-                ref
-                    .read(
-                      MainScreenWidgetDisplayedProviders
-                          .mainScreenWidgetDisplayedProvider.notifier,
-                    )
-                    .setWidget(const RefundSheet(), ref);
-
+                context.go(RefundSheet.routerPage);
                 break;
-
               default:
                 break;
             }

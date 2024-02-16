@@ -2,14 +2,12 @@
 import 'dart:async';
 
 import 'package:aebridge/application/contracts/archethic_contract.dart';
-import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/util/custom_logs.dart';
-import 'package:aebridge/util/generic/get_it_instance.dart';
-import 'package:aebridge/util/transaction_bridge_util.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -17,7 +15,7 @@ class BridgeArchethicToEVMUseCase
     with
         ArchethicBridgeProcessMixin,
         EVMBridgeProcessMixin,
-        TransactionBridgeMixin {
+        aedappfm.TransactionMixin {
   Future<void> run(
     WidgetRef ref, {
     int recoveryStep = 0,
@@ -74,7 +72,7 @@ class BridgeArchethicToEVMUseCase
 
         // Wait for AE HTLC Update
         if (await waitForManualTxConfirmation(htlcAEAddress, 2) == false) {
-          await bridgeNotifier.setFailure(const Failure.timeout());
+          await bridgeNotifier.setFailure(const aedappfm.Failure.timeout());
           await bridgeNotifier.setTransferInProgress(false);
           return;
         }
@@ -99,20 +97,20 @@ class BridgeArchethicToEVMUseCase
             secretHash.secretHash == null ||
             secretHash.secretHashSignature == null) {
           await bridgeNotifier.setFailure(
-            const Failure.invalidValue(),
+            const aedappfm.Failure.invalidValue(),
           );
           await bridgeNotifier.setTransferInProgress(false);
           return;
         }
       } catch (e, stackTrace) {
-        sl.get<LogManager>().log(
+        aedappfm.sl.get<aedappfm.LogManager>().log(
               '$e',
               stackTrace: stackTrace,
-              level: LogLevel.error,
+              level: aedappfm.LogLevel.error,
               name: 'BridgeArchethicToEVMUseCase - run',
             );
         await bridgeNotifier.setFailure(
-          Failure.other(cause: e.toString()),
+          aedappfm.Failure.other(cause: e.toString()),
         );
         await bridgeNotifier.setTransferInProgress(false);
         return;
@@ -152,7 +150,7 @@ class BridgeArchethicToEVMUseCase
               3,
             ) ==
             false) {
-          await bridgeNotifier.setFailure(const Failure.timeout());
+          await bridgeNotifier.setFailure(const aedappfm.Failure.timeout());
           await bridgeNotifier.setTransferInProgress(false);
           return;
         }

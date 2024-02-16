@@ -1,12 +1,12 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
+
 import 'package:aebridge/ui/views/util/components/fiat_value.dart';
-import 'package:aebridge/ui/views/util/generic/formatters.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BridgeTokenAmount extends ConsumerStatefulWidget {
@@ -33,12 +33,14 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     tokenAmountController = TextEditingController();
     tokenAmountController.value =
-        AmountTextInputFormatter(precision: 8).formatEditUpdate(
+        aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
       TextEditingValue.empty,
       TextEditingValue(
         text: bridge.tokenToBridgeAmount == 0
             ? ''
-            : bridge.tokenToBridgeAmount.toString(),
+            : bridge.tokenToBridgeAmount
+                .formatNumber(precision: 8)
+                .replaceAll(',', ''),
       ),
     );
   }
@@ -79,7 +81,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
           alignment: Alignment.centerRight,
           children: [
             SizedBox(
-              width: BridgeThemeBase.sizeBoxComponentWidth,
+              width: aedappfm.AppThemeBase.sizeBoxComponentWidth,
               child: Row(
                 children: [
                   Expanded(
@@ -101,8 +103,8 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                                       .primaryContainer,
                                   width: 0.5,
                                 ),
-                                gradient:
-                                    BridgeThemeBase.gradientInputFormBackground,
+                                gradient: aedappfm
+                                    .AppThemeBase.gradientInputFormBackground,
                               ),
                               child: TextField(
                                 style: textTheme.titleMedium,
@@ -122,7 +124,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                                 textInputAction: TextInputAction.next,
                                 keyboardType: TextInputType.text,
                                 inputFormatters: <TextInputFormatter>[
-                                  AmountTextInputFormatter(
+                                  aedappfm.AmountTextInputFormatter(
                                     precision: bridge.tokenToBridgeDecimals,
                                   ),
                                   LengthLimitingTextInputFormatter(
@@ -147,26 +149,17 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(right: 10, top: 3),
-              child: InkWell(
+            Container(
+              width: 80,
+              padding: const EdgeInsets.only(right: 10),
+              child: aedappfm.ButtonMax(
+                balanceAmount: bridge.tokenBridgedBalance,
                 onTap: () async {
                   await ref
                       .read(BridgeFormProvider.bridgeForm.notifier)
                       .setMaxAmount();
                   _updateAmountTextController();
                 },
-                child: Text(
-                  AppLocalizations.of(context)!.btn_max,
-                  style: TextStyle(color: BridgeThemeBase.maxButtonColor),
-                )
-                    .animate()
-                    .fade(
-                      duration: const Duration(milliseconds: 500),
-                    )
-                    .scale(
-                      duration: const Duration(milliseconds: 500),
-                    ),
               ),
             ),
           ],
@@ -187,7 +180,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                   if (snapshot.hasData) {
                     return Align(
                       alignment: Alignment.centerRight,
-                      child: Text(
+                      child: SelectableText(
                         '${snapshot.data}',
                       ),
                     );

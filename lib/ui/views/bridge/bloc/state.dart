@@ -1,14 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/oracle/state.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/domain/models/bridge_token.dart';
-import 'package:aebridge/domain/models/failures.dart';
+import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'state.freezed.dart';
 part 'state.g.dart';
-
-enum BridgeProcessStep { form, confirmation }
 
 enum WalletConfirmation { evm, archethic }
 
@@ -16,7 +13,7 @@ enum WalletConfirmation { evm, archethic }
 class BridgeFormState with _$BridgeFormState {
   const factory BridgeFormState({
     @Default(false) bool resumeProcess,
-    @Default(BridgeProcessStep.form) BridgeProcessStep bridgeProcessStep,
+    @Default(ProcessStep.form) ProcessStep processStep,
     @BridgeBlockchainJsonConverter() BridgeBlockchain? blockchainFrom,
     @BridgeBlockchainJsonConverter() BridgeBlockchain? blockchainTo,
     @BridgeTokenJsonConverter() BridgeToken? tokenToBridge,
