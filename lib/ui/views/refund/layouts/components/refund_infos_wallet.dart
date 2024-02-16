@@ -1,5 +1,5 @@
+import 'package:aebridge/ui/util/components/format_address_link_copy.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
-import 'package:aebridge/ui/views/util/components/format_address_link_copy.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 

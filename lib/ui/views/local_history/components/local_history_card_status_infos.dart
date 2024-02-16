@@ -1,9 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/domain/usecases/bridge_ae_to_evm.usecase.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_to_ae.usecase.dart';
+import 'package:aebridge/ui/util/failure_message.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
-
-import 'package:aebridge/ui/views/util/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
