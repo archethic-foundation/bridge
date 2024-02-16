@@ -1,8 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/infrastructure/hive/db_helper.hive.dart';
 import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
+import 'package:aebridge/ui/util/router.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
-import 'package:aebridge/ui/views/util/router.dart';
 import 'package:aebridge/util/service_locator.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;

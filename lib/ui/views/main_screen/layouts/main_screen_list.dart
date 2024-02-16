@@ -2,12 +2,12 @@
 import 'dart:ui';
 
 import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
+import 'package:aebridge/ui/util/components/bridge_main_menu_app.dart';
 import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/app_bar.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/browser_popup.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/privacy_popup.dart';
-import 'package:aebridge/ui/views/util/components/bridge_main_menu_app.dart';
 import 'package:aebridge/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aebridge/util/browser_util_web.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'

@@ -1,9 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/ui/util/components/in_progress_banner.dart';
+import 'package:aebridge/ui/util/failure_message.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_circular_step_progress_indicator.dart';
-
-import 'package:aebridge/ui/views/util/components/in_progress_banner.dart';
-import 'package:aebridge/ui/views/util/failure_message.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
