@@ -1,7 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/domain/models/failures.dart';
-import 'package:aebridge/domain/usecases/bridge_ae_to_evm.dart';
-import 'package:aebridge/domain/usecases/bridge_evm_to_ae.dart';
+import 'package:aebridge/domain/usecases/bridge_ae_to_evm.usecase.dart';
+import 'package:aebridge/domain/usecases/bridge_evm_to_ae.usecase.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/themes/bridge_theme_base.dart';
 import 'package:aebridge/ui/views/util/failure_message.dart';

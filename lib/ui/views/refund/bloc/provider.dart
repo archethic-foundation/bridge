@@ -7,7 +7,7 @@ import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:aebridge/domain/models/failures.dart';
 import 'package:aebridge/domain/models/result.dart';
-import 'package:aebridge/domain/usecases/refund_evm.dart';
+import 'package:aebridge/domain/usecases/refund_evm.usecase.dart';
 import 'package:aebridge/ui/views/refund/bloc/state.dart';
 import 'package:aebridge/util/browser_util.dart';
 import 'package:aebridge/util/generic/get_it_instance.dart';
