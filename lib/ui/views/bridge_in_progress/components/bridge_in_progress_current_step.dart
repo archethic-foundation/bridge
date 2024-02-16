@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/domain/usecases/bridge_ae_to_evm.dart';
-import 'package:aebridge/domain/usecases/bridge_evm_to_ae.dart';
+import 'package:aebridge/domain/usecases/bridge_ae_to_evm.usecase.dart';
+import 'package:aebridge/domain/usecases/bridge_evm_to_ae.usecase.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
