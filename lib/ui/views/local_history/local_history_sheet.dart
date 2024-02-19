@@ -57,16 +57,8 @@ Widget _body(BuildContext context, WidgetRef ref) {
                 child: Container(
                   width: 25,
                   height: 1,
-                  decoration: const BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        Color(0x003C89B9),
-                        Color(0xFFCC00FF),
-                      ],
-                      stops: [0, 1],
-                      begin: AlignmentDirectional.centerEnd,
-                      end: AlignmentDirectional.centerStart,
-                    ),
+                  decoration: BoxDecoration(
+                    gradient: aedappfm.AppThemeBase.gradient,
                   ),
                 ),
               ),
