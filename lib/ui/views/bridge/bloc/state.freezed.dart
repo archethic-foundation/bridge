@@ -39,6 +39,7 @@ mixin _$BridgeFormState {
   bool get isTransferInProgress => throw _privateConstructorUsedError;
   WalletConfirmation? get walletConfirmation =>
       throw _privateConstructorUsedError;
+  bool get bridgeOk => throw _privateConstructorUsedError;
   int get currentStep => throw _privateConstructorUsedError;
   bool get changeDirectionInProgress => throw _privateConstructorUsedError;
   int? get timestampExec => throw _privateConstructorUsedError;
@@ -82,6 +83,7 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       @FailureJsonConverter() Failure? failure,
       bool isTransferInProgress,
       WalletConfirmation? walletConfirmation,
+      bool bridgeOk,
       int currentStep,
       bool changeDirectionInProgress,
       int? timestampExec,
@@ -130,6 +132,7 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? failure = freezed,
     Object? isTransferInProgress = null,
     Object? walletConfirmation = freezed,
+    Object? bridgeOk = null,
     Object? currentStep = null,
     Object? changeDirectionInProgress = null,
     Object? timestampExec = freezed,
@@ -201,6 +204,10 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
           ? _value.walletConfirmation
           : walletConfirmation // ignore: cast_nullable_to_non_nullable
               as WalletConfirmation?,
+      bridgeOk: null == bridgeOk
+          ? _value.bridgeOk
+          : bridgeOk // ignore: cast_nullable_to_non_nullable
+              as bool,
       currentStep: null == currentStep
           ? _value.currentStep
           : currentStep // ignore: cast_nullable_to_non_nullable
@@ -341,6 +348,7 @@ abstract class _$$BridgeFormStateImplCopyWith<$Res>
       @FailureJsonConverter() Failure? failure,
       bool isTransferInProgress,
       WalletConfirmation? walletConfirmation,
+      bool bridgeOk,
       int currentStep,
       bool changeDirectionInProgress,
       int? timestampExec,
@@ -392,6 +400,7 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
     Object? failure = freezed,
     Object? isTransferInProgress = null,
     Object? walletConfirmation = freezed,
+    Object? bridgeOk = null,
     Object? currentStep = null,
     Object? changeDirectionInProgress = null,
     Object? timestampExec = freezed,
@@ -463,6 +472,10 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
           ? _value.walletConfirmation
           : walletConfirmation // ignore: cast_nullable_to_non_nullable
               as WalletConfirmation?,
+      bridgeOk: null == bridgeOk
+          ? _value.bridgeOk
+          : bridgeOk // ignore: cast_nullable_to_non_nullable
+              as bool,
       currentStep: null == currentStep
           ? _value.currentStep
           : currentStep // ignore: cast_nullable_to_non_nullable
@@ -537,6 +550,7 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
       @FailureJsonConverter() this.failure,
       this.isTransferInProgress = false,
       this.walletConfirmation,
+      this.bridgeOk = false,
       this.currentStep = 0,
       this.changeDirectionInProgress = false,
       this.timestampExec,
@@ -599,6 +613,9 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
   final WalletConfirmation? walletConfirmation;
   @override
   @JsonKey()
+  final bool bridgeOk;
+  @override
+  @JsonKey()
   final int currentStep;
   @override
   @JsonKey()
@@ -642,7 +659,7 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
 
   @override
   String toString() {
-    return 'BridgeFormState(resumeProcess: $resumeProcess, processStep: $processStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, poolTargetBalance: $poolTargetBalance, tokenToBridgeDecimals: $tokenToBridgeDecimals, failure: $failure, isTransferInProgress: $isTransferInProgress, walletConfirmation: $walletConfirmation, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, htlcEVMTxAddress: $htlcEVMTxAddress, secret: $secret, safetyModuleFeesRate: $safetyModuleFeesRate, safetyModuleFeesAddress: $safetyModuleFeesAddress, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees)';
+    return 'BridgeFormState(resumeProcess: $resumeProcess, processStep: $processStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, poolTargetBalance: $poolTargetBalance, tokenToBridgeDecimals: $tokenToBridgeDecimals, failure: $failure, isTransferInProgress: $isTransferInProgress, walletConfirmation: $walletConfirmation, bridgeOk: $bridgeOk, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, htlcEVMTxAddress: $htlcEVMTxAddress, secret: $secret, safetyModuleFeesRate: $safetyModuleFeesRate, safetyModuleFeesAddress: $safetyModuleFeesAddress, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees)';
   }
 
   @override
@@ -677,6 +694,8 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
                 other.isTransferInProgress == isTransferInProgress) &&
             (identical(other.walletConfirmation, walletConfirmation) ||
                 other.walletConfirmation == walletConfirmation) &&
+            (identical(other.bridgeOk, bridgeOk) ||
+                other.bridgeOk == bridgeOk) &&
             (identical(other.currentStep, currentStep) ||
                 other.currentStep == currentStep) &&
             (identical(other.changeDirectionInProgress,
@@ -728,6 +747,7 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
         failure,
         isTransferInProgress,
         walletConfirmation,
+        bridgeOk,
         currentStep,
         changeDirectionInProgress,
         timestampExec,
@@ -774,6 +794,7 @@ abstract class _BridgeFormState extends BridgeFormState {
       @FailureJsonConverter() final Failure? failure,
       final bool isTransferInProgress,
       final WalletConfirmation? walletConfirmation,
+      final bool bridgeOk,
       final int currentStep,
       final bool changeDirectionInProgress,
       final int? timestampExec,
@@ -825,6 +846,8 @@ abstract class _BridgeFormState extends BridgeFormState {
   bool get isTransferInProgress;
   @override
   WalletConfirmation? get walletConfirmation;
+  @override
+  bool get bridgeOk;
   @override
   int get currentStep;
   @override

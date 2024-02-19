@@ -216,6 +216,7 @@ class BridgeEVMToArchethicUseCase
     }
 
     await bridgeNotifier.setCurrentStep(8);
+    bridgeNotifier.setBridgeOk(true);
   }
 
   String getStepLabel(

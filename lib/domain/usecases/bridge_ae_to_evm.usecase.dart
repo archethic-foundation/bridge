@@ -178,6 +178,7 @@ class BridgeArchethicToEVMUseCase
       }
 
       await bridgeNotifier.setCurrentStep(8);
+      bridgeNotifier.setBridgeOk(true);
     }
   }
 
