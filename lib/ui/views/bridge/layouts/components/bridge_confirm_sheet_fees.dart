@@ -60,7 +60,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   return SelectableText(
-                    '${bridge.tokenToBridgeReceived.formatNumber()} ${bridge.tokenToBridge!.targetTokenSymbol} ${snapshot.data}',
+                    '${bridge.tokenToBridgeReceived.formatNumber(precision: 8)} ${bridge.tokenToBridge!.targetTokenSymbol} ${snapshot.data}',
                   );
                 }
                 return const SizedBox.shrink();

@@ -58,11 +58,22 @@ class BridgeInProgressPopup {
         successTxt: AppLocalizations.of(context)!.bridgeSuccessInfo,
       ),
       const BridgeInProgressContracts(),
-      if (bridge.htlcAEAddress != null && bridge.bridgeOk)
+      if (bridge.htlcAEAddress != null &&
+          bridge.bridgeOk &&
+          bridge.blockchainFrom != null)
         BridgeFinalAmount(
-          address: bridge.htlcAEAddress!,
+          directionAEToEVM: bridge.blockchainFrom!.isArchethic,
+          address: bridge.blockchainFrom!.isArchethic
+              ? bridge.htlcEVMAddress!
+              : bridge.htlcAEAddress!,
           isUCO: bridge.tokenToBridge!.targetTokenSymbol.toUpperCase() == 'UCO',
           to: bridge.targetAddress,
+          chainId: bridge.blockchainFrom!.isArchethic
+              ? bridge.blockchainTo!.chainId
+              : null,
+          providerEndpoint: bridge.blockchainFrom!.isArchethic
+              ? bridge.blockchainTo!.providerEndpoint
+              : null,
         ),
       const Spacer(),
       aedappfm.InProgressResumeBtn(
