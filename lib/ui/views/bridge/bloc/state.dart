@@ -26,6 +26,7 @@ class BridgeFormState with _$BridgeFormState {
     @FailureJsonConverter() Failure? failure,
     @Default(false) bool isTransferInProgress,
     WalletConfirmation? walletConfirmation,
+    @Default(false) bool bridgeOk,
     @Default(0) int currentStep,
     @Default(false) bool changeDirectionInProgress,
     int? timestampExec,

@@ -4,6 +4,7 @@ import 'package:aebridge/domain/usecases/bridge_evm_to_ae.usecase.dart';
 import 'package:aebridge/ui/util/failure_message.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_final_amount.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_in_progress_contracts.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -57,6 +58,12 @@ class BridgeInProgressPopup {
         successTxt: AppLocalizations.of(context)!.bridgeSuccessInfo,
       ),
       const BridgeInProgressContracts(),
+      if (bridge.htlcAEAddress != null && bridge.bridgeOk)
+        BridgeFinalAmount(
+          address: bridge.htlcAEAddress!,
+          isUCO: bridge.tokenToBridge!.targetTokenSymbol.toUpperCase() == 'UCO',
+          to: bridge.targetAddress,
+        ),
       const Spacer(),
       aedappfm.InProgressResumeBtn(
         currentStep: bridge.currentStep,

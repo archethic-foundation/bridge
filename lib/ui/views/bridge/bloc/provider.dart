@@ -349,6 +349,12 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
     await storeBridge();
   }
 
+  void setBridgeOk(bool bridgeOk) {
+    state = state.copyWith(
+      bridgeOk: bridgeOk,
+    );
+  }
+
   Future<void> setMaxAmount() async {
     state = state.copyWith(
       tokenToBridgeAmount: Decimal.parse(state.tokenToBridgeBalance.toString())
@@ -657,8 +663,12 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
   }
 
   Future<void> bridge(BuildContext context, WidgetRef ref) async {
+    setBridgeOk(false);
+    await setTransferInProgress(true);
+
     //
     if (await control() == false) {
+      await setTransferInProgress(false);
       return;
     }
 
@@ -669,7 +679,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
           .addBridge(bridge: state.toJson());
     }
 
-    await setTransferInProgress(true);
     if (state.blockchainFrom!.isArchethic) {
       await BridgeArchethicToEVMUseCase().run(
         ref,

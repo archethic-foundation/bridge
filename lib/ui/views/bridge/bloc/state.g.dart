@@ -37,6 +37,7 @@ _$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
       isTransferInProgress: json['isTransferInProgress'] as bool? ?? false,
       walletConfirmation: $enumDecodeNullable(
           _$WalletConfirmationEnumMap, json['walletConfirmation']),
+      bridgeOk: json['bridgeOk'] as bool? ?? false,
       currentStep: json['currentStep'] as int? ?? 0,
       changeDirectionInProgress:
           json['changeDirectionInProgress'] as bool? ?? false,
@@ -86,6 +87,7 @@ Map<String, dynamic> _$$BridgeFormStateImplToJson(
       'isTransferInProgress': instance.isTransferInProgress,
       'walletConfirmation':
           _$WalletConfirmationEnumMap[instance.walletConfirmation],
+      'bridgeOk': instance.bridgeOk,
       'currentStep': instance.currentStep,
       'changeDirectionInProgress': instance.changeDirectionInProgress,
       'timestampExec': instance.timestampExec,
