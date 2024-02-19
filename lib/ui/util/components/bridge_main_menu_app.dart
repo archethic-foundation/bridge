@@ -57,56 +57,38 @@ class BridgeMainMenuApp extends StatelessWidget {
             Uri.parse(url),
           );
         },
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            image: DecorationImage(
-              colorFilter: ColorFilter.mode(
-                aedappfm.ArchethicThemeBase.blue700,
-                BlendMode.modulate,
-              ),
-              image: const AssetImage(
-                'assets/images/background-sub-menu.png',
-              ),
-              fit: BoxFit.cover,
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: aedappfm.ArchethicThemeBase.neutral900,
-                blurRadius: 40,
-                spreadRadius: 10,
-                offset: const Offset(1, 10),
-              ),
-            ],
-          ),
+        child: SizedBox(
           width: 250,
           height: 100,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 20, bottom: 3),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                SelectableText(
-                  label,
-                  textAlign: TextAlign.end,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16,
-                  ),
-                ),
-                SizedBox(
-                  width: 200,
-                  child: Text(
-                    description,
+          child: aedappfm.SingleCard(
+            globalPadding: 0,
+            cardContent: Padding(
+              padding: const EdgeInsets.only(right: 20, bottom: 3),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  SelectableText(
+                    label,
                     textAlign: TextAlign.end,
-                    softWrap: true,
                     style: const TextStyle(
-                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16,
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    width: 200,
+                    child: Text(
+                      description,
+                      textAlign: TextAlign.end,
+                      softWrap: true,
+                      style: const TextStyle(
+                        fontSize: 11,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
