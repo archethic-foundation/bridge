@@ -79,7 +79,7 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
                                       ? Padding(
                                           padding:
                                               const EdgeInsets.only(left: 15),
-                                          child: SelectableText(
+                                          child: Text(
                                             AppLocalizations.of(context)!
                                                 .btn_selectToken,
                                             style: textTheme.titleMedium,
