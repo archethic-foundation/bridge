@@ -364,6 +364,18 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
     await storeBridge();
   }
 
+  Future<void> setMaxHalf() async {
+    state = state.copyWith(
+      tokenToBridgeAmount:
+          (Decimal.parse(state.tokenToBridgeBalance.toString()) /
+                  Decimal.parse('2'))
+              .toDecimal()
+              .floor(scale: state.tokenToBridgeDecimals)
+              .toDouble(),
+    );
+    await storeBridge();
+  }
+
   Future<void> setWalletConfirmation(
     WalletConfirmation? walletConfirmation,
   ) async {

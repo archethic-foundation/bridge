@@ -148,19 +148,37 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                 ],
               ),
             ),
-            Container(
-              width: 80,
-              padding: const EdgeInsets.only(right: 10),
-              child: aedappfm.ButtonMax(
-                balanceAmount: bridge.tokenBridgedBalance,
-                onTap: () async {
-                  await ref
-                      .read(BridgeFormProvider.bridgeForm.notifier)
-                      .setMaxAmount();
-                  _updateAmountTextController();
-                },
-              ),
-            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  width: 80,
+                  padding: const EdgeInsets.only(right: 10),
+                  child: aedappfm.ButtonHalf(
+                    balanceAmount: bridge.tokenBridgedBalance,
+                    onTap: () async {
+                      await ref
+                          .read(BridgeFormProvider.bridgeForm.notifier)
+                          .setMaxHalf();
+                      _updateAmountTextController();
+                    },
+                  ),
+                ),
+                Container(
+                  width: 80,
+                  padding: const EdgeInsets.only(right: 10),
+                  child: aedappfm.ButtonMax(
+                    balanceAmount: bridge.tokenBridgedBalance,
+                    onTap: () async {
+                      await ref
+                          .read(BridgeFormProvider.bridgeForm.notifier)
+                          .setMaxAmount();
+                      _updateAmountTextController();
+                    },
+                  ),
+                ),
+              ],
+            )
           ],
         ),
         Padding(
