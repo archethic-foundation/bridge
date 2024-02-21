@@ -2,7 +2,6 @@
 import 'package:aebridge/infrastructure/hive/db_helper.hive.dart';
 import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
 import 'package:aebridge/ui/util/router.dart';
-import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/util/service_locator.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -10,7 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:url_strategy/url_strategy.dart';
 
 Future<void> main() async {
@@ -41,10 +39,6 @@ class MyApp extends ConsumerStatefulWidget {
 }
 
 class _MyAppState extends ConsumerState<MyApp> {
-  static final GlobalKey<NavigatorState> rootNavigatorKey =
-      GlobalKey<NavigatorState>();
-  final router = RoutesPath(rootNavigatorKey).createRouter();
-
   @override
   void initState() {
     super.initState();
@@ -56,15 +50,13 @@ class _MyAppState extends ConsumerState<MyApp> {
           )
           .init();
       await ref.read(aedappfm.CoinPriceProviders.coinPrice.notifier).init();
-
-      if (context.mounted) {
-        context.go(BridgeSheet.routerPage, extra: <String, dynamic>{});
-      }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    final router = ref.watch(routerProvider);
+
     return MaterialApp.router(
       routerConfig: router,
       title: 'aebridge',

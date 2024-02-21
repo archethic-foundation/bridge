@@ -8,6 +8,7 @@ import 'package:aebridge/ui/views/local_history/components/local_history_bridge_
 import 'package:aebridge/ui/views/local_history/components/local_history_card.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_clear_btn.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_period_filter.dart';
+import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/main_screen_list.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -15,7 +16,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class LocalHistorySheet extends ConsumerWidget {
+class LocalHistorySheet extends ConsumerStatefulWidget {
   const LocalHistorySheet({
     super.key,
   });
@@ -23,7 +24,22 @@ class LocalHistorySheet extends ConsumerWidget {
   static const routerPage = '/localHistory';
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<LocalHistorySheet> createState() => _LocalHistorySheetState();
+}
+
+class _LocalHistorySheetState extends ConsumerState<LocalHistorySheet> {
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () async {
+      ref.read(navigationIndexMainScreenProvider.notifier).state =
+          NavigationIndex.localHistory;
+    });
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return MainScreenList(
       body: _body(context, ref),
     );

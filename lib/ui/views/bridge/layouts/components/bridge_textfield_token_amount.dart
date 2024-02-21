@@ -178,7 +178,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                   ),
                 ),
               ],
-            )
+            ),
           ],
         ),
         Padding(

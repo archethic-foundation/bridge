@@ -38,7 +38,7 @@ packages:
     description:
       path: "."
       ref: main
-      resolved-ref: "2e0efa86a9c2f86a8a9a5a5003333e301cb9536c"
+      resolved-ref: "8c7bff0e0312b811b9a18493a1b559cd00ccf0cc"
       url: "https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git"
     source: git
     version: "0.0.1+1"
@@ -150,10 +150,10 @@ packages:
     dependency: transitive
     description:
       name: built_value
-      sha256: a3ec2e0f967bc47f69f95009bb93db936288d61d5343b9436e378b28a2f830c6
+      sha256: fedde275e0a6b798c3296963c5cd224e3e1b55d0e478d5b7e65e6b540f363a0e
       url: "https://pub.dev"
     source: hosted
-    version: "8.9.0"
+    version: "8.9.1"
   characters:
     dependency: transitive
     description:
@@ -262,18 +262,18 @@ packages:
     dependency: transitive
     description:
       name: custom_lint
-      sha256: f89ff83efdba7c8996e86bb3bad0b759d58f9b19ae4d0e277a386ddd8b481217
+      sha256: "445242371d91d2e24bd7b82e3583a2c05610094ba2d0575262484ad889c8f981"
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.0"
+    version: "0.6.2"
   custom_lint_core:
     dependency: transitive
     description:
       name: custom_lint_core
-      sha256: "1e9128e095ad5e0973469bdaac1ead8bfc86c485954c23cf617299de5e6fa029"
+      sha256: ce5d6215f4e143f7780ce53f73dfa6fc503f39d2d30bef76c48be9ac1a09d9a6
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.1"
+    version: "0.6.2"
   dart_style:
     dependency: transitive
     description:
@@ -384,10 +384,10 @@ packages:
     dependency: "direct main"
     description:
       name: flutter_svg
-      sha256: d39e7f95621fc84376bc0f7d504f05c3a41488c562f4a8ad410569127507402c
+      sha256: "7b4ca6cf3304575fe9c8ec64813c8d02ee41d2afe60bcfe0678bcb5375d596a2"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.9"
+    version: "2.0.10+1"
   flutter_web_plugins:
     dependency: transitive
     description: flutter
@@ -445,18 +445,18 @@ packages:
     dependency: transitive
     description:
       name: gql
-      sha256: "5b39e4f5262e0a9675a97da1da3adae6a33eaa935513b074a2e5940327ffc058"
+      sha256: f820a3c6bdd1ceecce405a70dd6f4ef97666e0103f7f6424b795afcdaa4f7cce
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1-alpha+1706372327764"
+    version: "1.0.1-alpha+1708195451519"
   gql_dedupe_link:
     dependency: transitive
     description:
       name: gql_dedupe_link
-      sha256: e5359dd0c7a38f95e2b12f6ab305989a4e30028e4032825c8e9f610150999c69
+      sha256: "2e7ca0f2aa94ac749b61265b25ba1c5d5b840be94ad30aad37bbc2649e7a6272"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.4-alpha+1705114623057"
+    version: "2.0.4-alpha+1708195451601"
   gql_error_link:
     dependency: transitive
     description:
@@ -485,10 +485,10 @@ packages:
     dependency: transitive
     description:
       name: gql_link
-      sha256: e97f41d0841ed7e40c766f2b9037af2c5adf36166e28c634fceb695b2a7a9ea7
+      sha256: "0d4f537bf6736c32e676a27c11a01e4155d4668da87b09701a341b1282828aec"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1-alpha+1706372327781"
+    version: "1.0.1-alpha+1708195451534"
   gql_transform_link:
     dependency: transitive
     description:
@@ -1194,26 +1194,26 @@ packages:
     dependency: transitive
     description:
       name: vector_graphics
-      sha256: "4ac59808bbfca6da38c99f415ff2d3a5d7ca0a6b4809c71d9cf30fba5daf9752"
+      sha256: "32c3c684e02f9bc0afb0ae0aa653337a2fe022e8ab064bcd7ffda27a74e288e3"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.10+1"
+    version: "1.1.11+1"
   vector_graphics_codec:
     dependency: transitive
     description:
       name: vector_graphics_codec
-      sha256: f3247e7ab0ec77dc759263e68394990edc608fb2b480b80db8aa86ed09279e33
+      sha256: c86987475f162fadff579e7320c7ddda04cd2fdeffbe1129227a85d9ac9e03da
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.10+1"
+    version: "1.1.11+1"
   vector_graphics_compiler:
     dependency: transitive
     description:
       name: vector_graphics_compiler
-      sha256: "18489bdd8850de3dd7ca8a34e0c446f719ec63e2bab2e7a8cc66a9028dd76c5a"
+      sha256: "12faff3f73b1741a36ca7e31b292ddeb629af819ca9efe9953b70bd63fc8cd81"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.10+1"
+    version: "1.1.11+1"
   vector_math:
     dependency: transitive
     description:

@@ -14,7 +14,7 @@ class BottomNavigationBarMainScreen extends ConsumerStatefulWidget {
     required this.listNavigationLabelIcon,
   });
 
-  final int navDrawerIndex;
+  final NavigationIndex navDrawerIndex;
   final List<(String, IconData)> listNavigationLabelIcon;
 
   @override
@@ -40,23 +40,37 @@ class _BottomNavigationBarMainScreenState
                 ),
               )
               .toList(),
-          currentIndex: widget.navDrawerIndex,
+          currentIndex: widget.navDrawerIndex.index,
           onTap: (int selectedIndex) {
-            setState(() {
-              ref
-                  .read(
-                    navigationIndexMainScreenProvider.notifier,
-                  )
-                  .state = selectedIndex;
-            });
             switch (selectedIndex) {
               case 0:
+                setState(() {
+                  ref
+                      .read(
+                        navigationIndexMainScreenProvider.notifier,
+                      )
+                      .state = NavigationIndex.bridge;
+                });
                 context.go(BridgeSheet.routerPage);
                 break;
               case 1:
+                setState(() {
+                  ref
+                      .read(
+                        navigationIndexMainScreenProvider.notifier,
+                      )
+                      .state = NavigationIndex.localHistory;
+                });
                 context.go(LocalHistorySheet.routerPage);
                 break;
               case 2:
+                setState(() {
+                  ref
+                      .read(
+                        navigationIndexMainScreenProvider.notifier,
+                      )
+                      .state = NavigationIndex.refund;
+                });
                 context.go(RefundSheet.routerPage);
                 break;
               default:

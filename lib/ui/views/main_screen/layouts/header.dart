@@ -67,9 +67,6 @@ class Header extends ConsumerWidget {
                   children: [
                     TextButton(
                       onPressed: () {
-                        ref
-                            .read(navigationIndexMainScreenProvider.notifier)
-                            .state = 0;
                         context.go(
                           BridgeSheet.routerPage,
                         );
@@ -79,7 +76,7 @@ class Header extends ConsumerWidget {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w300,
-                          color: indexMenu == 0
+                          color: indexMenu == NavigationIndex.bridge
                               ? aedappfm.ArchethicThemeBase.raspberry200
                               : aedappfm.ArchethicThemeBase.neutral0,
                         ),
@@ -89,7 +86,7 @@ class Header extends ConsumerWidget {
                       margin: const EdgeInsets.only(top: 5),
                       height: 0.5,
                       width: 60,
-                      color: indexMenu == 0
+                      color: indexMenu == NavigationIndex.bridge
                           ? aedappfm.ArchethicThemeBase.raspberry200
                           : Colors.transparent,
                     ),
@@ -103,9 +100,6 @@ class Header extends ConsumerWidget {
                   children: [
                     TextButton(
                       onPressed: () {
-                        ref
-                            .read(navigationIndexMainScreenProvider.notifier)
-                            .state = 1;
                         context.go(
                           LocalHistorySheet.routerPage,
                         );
@@ -115,7 +109,7 @@ class Header extends ConsumerWidget {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w300,
-                          color: indexMenu == 1
+                          color: indexMenu == NavigationIndex.localHistory
                               ? aedappfm.ArchethicThemeBase.raspberry200
                               : aedappfm.ArchethicThemeBase.neutral0,
                         ),
@@ -125,7 +119,7 @@ class Header extends ConsumerWidget {
                       margin: const EdgeInsets.only(top: 5),
                       height: 0.5,
                       width: 110,
-                      color: indexMenu == 1
+                      color: indexMenu == NavigationIndex.localHistory
                           ? aedappfm.ArchethicThemeBase.raspberry200
                           : Colors.transparent,
                     ),
@@ -139,9 +133,6 @@ class Header extends ConsumerWidget {
                   children: [
                     TextButton(
                       onPressed: () {
-                        ref
-                            .read(navigationIndexMainScreenProvider.notifier)
-                            .state = 2;
                         context.go(
                           RefundSheet.routerPage,
                         );
@@ -151,7 +142,7 @@ class Header extends ConsumerWidget {
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w300,
-                          color: indexMenu == 2
+                          color: indexMenu == NavigationIndex.refund
                               ? aedappfm.ArchethicThemeBase.raspberry200
                               : aedappfm.ArchethicThemeBase.neutral0,
                         ),
@@ -161,7 +152,7 @@ class Header extends ConsumerWidget {
                       margin: const EdgeInsets.only(top: 5),
                       height: 0.5,
                       width: 60,
-                      color: indexMenu == 2
+                      color: indexMenu == NavigationIndex.refund
                           ? aedappfm.ArchethicThemeBase.raspberry200
                           : Colors.transparent,
                     ),
