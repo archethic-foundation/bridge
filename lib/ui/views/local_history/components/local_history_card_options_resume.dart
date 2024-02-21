@@ -2,7 +2,6 @@
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
-import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -33,10 +32,17 @@ class LocalHistoryCardOptionsResume extends ConsumerWidget {
                 final state = await ref
                     .read(BridgeFormProvider.bridgeForm.notifier)
                     .resume(bridge);
-                ref.read(navigationIndexMainScreenProvider.notifier).state = 0;
                 if (!context.mounted) return;
-                context
-                    .go(BridgeSheet.routerPage, extra: {'initialState': state});
+                final helper = aedappfm.QueryParameterHelper();
+                final initialStateEncoded = helper.encodeQueryParameter(state);
+                context.go(
+                  Uri(
+                    path: BridgeSheet.routerPage,
+                    queryParameters: {
+                      'initialState': initialStateEncoded,
+                    },
+                  ).toString(),
+                );
               } catch (exc) {
                 if (!context.mounted) return;
                 ScaffoldMessenger.of(context).showSnackBar(

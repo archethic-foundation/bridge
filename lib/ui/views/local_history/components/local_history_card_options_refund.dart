@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
-import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/refund/layouts/refund_sheet.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
@@ -38,9 +37,16 @@ class LocalHistoryCardOptionsRefund extends ConsumerWidget {
             padding: const EdgeInsets.only(left: 10),
             child: InkWell(
               onTap: () {
-                ref.read(navigationIndexMainScreenProvider.notifier).state = 2;
+                final helper = aedappfm.QueryParameterHelper();
+                final htlcAddressEncoded = helper
+                    .encodeQueryParameter(bridge.blockchainFrom!.htlcAddress!);
                 context.go(
-                  RefundSheet.routerPage,
+                  Uri(
+                    path: RefundSheet.routerPage,
+                    queryParameters: {
+                      'htlcAddress': htlcAddressEncoded,
+                    },
+                  ).toString(),
                 );
               },
               child: aedappfm.IconAnimated(

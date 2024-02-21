@@ -4,6 +4,7 @@ import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_sheet.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_form_sheet.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_archethic_oracle_uco.dart';
+import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/main_screen_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,12 +26,15 @@ class BridgeSheet extends ConsumerStatefulWidget {
 class _BridgeSheetState extends ConsumerState<BridgeSheet> {
   @override
   void initState() {
-    if (widget.initialState != null) {
-      WidgetsBinding.instance.addPostFrameCallback((_) {
+    Future.delayed(Duration.zero, () {
+      ref.read(navigationIndexMainScreenProvider.notifier).state =
+          NavigationIndex.bridge;
+
+      if (widget.initialState != null) {
         ref.read(BridgeFormProvider.bridgeForm.notifier).currentState =
             widget.initialState!;
-      });
-    }
+      }
+    });
     super.initState();
   }
 

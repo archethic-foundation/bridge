@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
-import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -50,8 +49,6 @@ class WelcomeBridgeBtnState extends ConsumerState<WelcomeBridgeBtn> {
                   final sessionNotifier =
                       ref.read(SessionProviders.session.notifier);
                   await sessionNotifier.cancelAllWalletsConnection();
-                  ref.read(navigationIndexMainScreenProvider.notifier).state =
-                      0;
                   if (!context.mounted) return;
                   context.go(
                     BridgeSheet.routerPage,
