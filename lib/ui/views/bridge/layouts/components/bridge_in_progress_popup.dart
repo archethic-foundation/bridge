@@ -112,7 +112,7 @@ class BridgeInProgressPopup {
         final bridgeNotifier = ref.read(
           BridgeFormProvider.bridgeForm.notifier,
         );
-        if (bridge.failure == null) {
+        if (bridge.failure == null && bridge.isTransferInProgress) {
           await bridgeNotifier.setFailure(
             const aedappfm.Failure.userRejected(),
           );
