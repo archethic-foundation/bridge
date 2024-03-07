@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - testnet
+      - mainnet
 
 jobs:
   deploy_to_aeHosting:
@@ -50,11 +50,11 @@ jobs:
         id: deploy
         uses: archethic-foundation/aeweb-github-action@v1.8.1
         with:
-          seed: ${{ secrets.ARCH_BASE_SEED }}
-          endpoint: "https://testnet.archethic.net"
+          seed: ${{ secrets.ARCH_BASE_SEED_MAINNET }}
+          endpoint: "https://mainnet.archethic.net"
           path: "build/web"
-          sslCertificateFile: "certificate_bridge_testnet.crt"
-          sslKey: ${{ secrets.SSL_KEY_TESTNET }}
+          sslCertificateFile: "certificate_bridge_mainnet.crt"
+          sslKey: ${{ secrets.SSL_KEY_MAINNET }}
           keychainFundingService: "archethic-wallet-ARCHETHIC.NET"
           keychainWebsiteService: "aeweb-BRIDGE"
        
