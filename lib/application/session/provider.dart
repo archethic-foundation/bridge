@@ -5,6 +5,7 @@ import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/state.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
+import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
 
 import 'package:aebridge/util/service_locator.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -200,9 +201,6 @@ class _SessionNotifier extends Notifier<Session> {
               },
             );
           });
-          if (aedappfm.sl.isRegistered<ApiService>()) {
-            await aedappfm.sl.unregister<ApiService>();
-          }
           if (aedappfm.sl.isRegistered<awc.ArchethicDAppClient>()) {
             await aedappfm.sl.unregister<awc.ArchethicDAppClient>();
           }
@@ -210,6 +208,10 @@ class _SessionNotifier extends Notifier<Session> {
             () => archethicDAppClient!,
           );
           setupServiceLocatorApiService(result.endpointUrl);
+          final preferences = await HivePreferencesDatasource.getInstance();
+          aedappfm.sl.get<aedappfm.LogManager>().logsActived =
+              preferences.isLogsActived();
+
           final subscription =
               await archethicDAppClient.subscribeCurrentAccount();
 

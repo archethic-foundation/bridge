@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/infrastructure/hive/db_helper.hive.dart';
-import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
 import 'package:aebridge/ui/util/router.dart';
 import 'package:aebridge/util/service_locator.dart';
 import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
@@ -16,10 +15,6 @@ Future<void> main() async {
   await DBHelper.setupDatabase();
   setupServiceLocator();
   setPathUrlStrategy();
-
-  final preferences = await HivePreferencesDatasource.getInstance();
-  aedappfm.sl.get<aedappfm.LogManager>().logsActived =
-      preferences.isLogsActived();
 
   runApp(
     ProviderScope(
