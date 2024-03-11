@@ -4,7 +4,7 @@ import 'package:aebridge/ui/util/components/bridge_main_menu_app.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/app_bar_welcome.dart';
 import 'package:aebridge/ui/views/welcome/components/welcome_bridge_btn.dart';
 import 'package:aebridge/ui/views/welcome/components/welcome_title.dart';
-import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -2,7 +2,7 @@
 import 'package:aebridge/infrastructure/hive/db_helper.hive.dart';
 import 'package:aebridge/ui/util/router.dart';
 import 'package:aebridge/util/service_locator.dart';
-import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';

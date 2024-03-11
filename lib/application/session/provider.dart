@@ -8,7 +8,7 @@ import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
 
 import 'package:aebridge/util/service_locator.dart';
-import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;

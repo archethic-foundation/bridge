@@ -8,7 +8,7 @@ import 'package:aebridge/ui/views/local_history/components/local_history_card_op
 import 'package:aebridge/ui/views/local_history/components/local_history_card_options_resume.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_status_infos.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_trf_infos.dart';
-import 'package:archethic_dapp_framework_flutter/archethic-dapp-framework-flutter.dart'
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
