@@ -1245,8 +1245,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.2.2"
-<<<<<<< HEAD
-=======
   web:
     dependency: transitive
     description:
@@ -1255,7 +1253,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.5.1"
->>>>>>> 1acf9a3 (⬆️ Upgrade flutter & dart version)
   web_socket_channel:
     dependency: transitive
     description:
@@ -1322,10 +1319,5 @@ packages:
     source: hosted
     version: "3.1.2"
 sdks:
-<<<<<<< HEAD
-  dart: ">=3.2.0-0 <4.0.0"
-  flutter: ">=3.13.0"
-=======
   dart: ">=3.3.0 <4.0.0"
   flutter: ">=3.19.0"
->>>>>>> 1acf9a3 (⬆️ Upgrade flutter & dart version)
