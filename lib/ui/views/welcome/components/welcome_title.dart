@@ -29,7 +29,9 @@ class WelcomeTitle extends StatelessWidget {
                     fontSize: 40,
                     fontWeight: FontWeight.w400,
                   ),
-                  textScaleFactor: aedappfm.ScaleSize.textScaleFactor(context),
+                  textScaler: TextScaler.linear(
+                    aedappfm.ScaleSize.textScaleFactor(context),
+                  ),
                 )
                     .animate(delay: 100.ms)
                     .fadeIn(duration: 400.ms, delay: 300.ms)
@@ -79,7 +81,9 @@ class WelcomeTitle extends StatelessWidget {
                     fontSize: 40,
                     fontWeight: FontWeight.w400,
                   ),
-                  textScaleFactor: aedappfm.ScaleSize.textScaleFactor(context),
+                  textScaler: TextScaler.linear(
+                    aedappfm.ScaleSize.textScaleFactor(context),
+                  ),
                 )
                     .animate(delay: 400.ms)
                     .fadeIn(duration: 400.ms, delay: 400.ms)

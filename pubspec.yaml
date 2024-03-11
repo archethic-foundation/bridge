@@ -2,10 +2,10 @@ name: aebridge
 description: Enable interoperability and facilitate the transfer of data and assets between the two blockchains.
 publish_to: "none"
 
-version: 0.0.11+27
+version: 0.0.11+28
 
 environment:
-  sdk: ">=3.1.0 <4.0.0"
+  sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
   archethic_dapp_framework_flutter: ^0.0.0
@@ -39,10 +39,10 @@ dependencies:
     sdk: flutter
 
   # State management
-  flutter_riverpod: ^2.4.10
+  flutter_riverpod: ^2.5.1
 
   # An SVG rendering and widget library for Flutter, which allows painting and displaying Scalable Vector Graphics 1.1 files.
-  flutter_svg: ^2.0.9
+  flutter_svg: ^2.0.10+1
 
   # Annotations for freezed
   freezed_annotation: ^2.4.1
@@ -55,10 +55,10 @@ dependencies:
   hive_flutter: ^1.1.0
 
   # A composable, multi-platform, Future-based API for HTTP requests
-  http: ^1.0.0
+  http: ^1.2.1
 
   # Contains code to deal with internationalized/localized messages, date and number formatting and parsing, bi-directional text, and other internationalization issues.
-  intl: any
+  intl: ^0.18.0
 
   # Defines the annotations used by json_serializable to create code for JSON serialization and deserialization.
   json_annotation: ^4.8.1
@@ -67,10 +67,10 @@ dependencies:
   path_provider: ^2.1.2
 
   # A package exposing annotations for riverpod_generator
-  riverpod_annotation: ^2.3.4
+  riverpod_annotation: ^2.3.5
 
   # Flutter plugin for launching a URL. Supports web, phone, SMS, and email schemes
-  url_launcher: ^6.2.4
+  url_launcher: ^6.2.5
 
   # Flutter package that allows setting the web app URL strategy with a single line of code.
   url_strategy: ^0.2.0
@@ -84,7 +84,7 @@ dependencies:
 
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.
-  build_runner: ^2.4.6
+  build_runner: ^2.4.8
   # A tool to help you find missing, under-promoted, over-promoted, and unused dependencies.
   # Code generation for immutable classes that has a simple syntax/API without compromising on the features.
   freezed: ^2.4.7
@@ -93,9 +93,9 @@ dev_dependencies:
   # Automatically generate code for converting to and from JSON by annotating Dart classes.
   json_serializable: ^6.7.1
   # A code generator for Riverpod. This both simplifies the syntax empowers it, such as allowing stateful hot-reload.
-  riverpod_generator: ^2.3.11
+  riverpod_generator: ^2.4.0
   # A full featured library for writing and running Dart tests across platforms.
-  test: ^1.24.9
+  test: ^1.25.2
 
 flutter:
   generate: true
