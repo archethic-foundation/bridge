@@ -105,6 +105,17 @@
                 "poolAddressTo": "0xe55915D112711127339f073e75185E6311Dd72C8",
                 "type": "Native",
                 "tokenAddressTarget": "0x51279e98d99AA8D65763a885BEFA5463dCd84Af6"
+            },
+            {
+                "name": "Wrapped Ether",
+                "symbol": "aeETH",
+                "targetTokenName": "Wrapped Ether",
+                "targetTokenSymbol": "WETH",
+                "poolAddressFrom": "000066706d704329ca8c2a4153991e2ddacc968622ca10217ca14952eb7abb966c30",
+                "poolAddressTo": "0x3Fa0d410064FcE2744e4feebB3Be338e1fA3C967",
+                "type": "Wrapped",
+                "tokenAddressSource": "00003DF600E329199BF3EE8FBE2B8223413D70BCDD97E15089E6A74D94DE3F1173B4",
+                "tokenAddressTarget": "0xA6FA4fB5f76172d178d61B04b0ecd319C5d1C0aa"
             }
         ],
         "-2->97": [
@@ -256,6 +267,17 @@
                 "poolAddressTo": "000018d60115ece0c7558a46b4693749bf6beab524fddccf9b10b910619e4ee08801",
                 "type": "ERC20",
                 "tokenAddressSource": "0x51279e98d99AA8D65763a885BEFA5463dCd84Af6"
+            },
+            {
+                "name": "Wrapped Ether",
+                "symbol": "WETH",
+                "targetTokenName": "Archethic Ether",
+                "targetTokenSymbol": "aeETH",
+                "poolAddressFrom": "0x3Fa0d410064FcE2744e4feebB3Be338e1fA3C967",
+                "poolAddressTo": "000066706d704329ca8c2a4153991e2ddacc968622ca10217ca14952eb7abb966c30",
+                "type": "ERC20",
+                "tokenAddressSource": "0xA6FA4fB5f76172d178d61B04b0ecd319C5d1C0aa",
+                "tokenAddressTarget": "00003DF600E329199BF3EE8FBE2B8223413D70BCDD97E15089E6A74D94DE3F1173B4"
             }
         ],
         "97->-2": [
