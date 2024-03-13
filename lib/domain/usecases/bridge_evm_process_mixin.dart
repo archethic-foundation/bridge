@@ -352,6 +352,10 @@ mixin EVMBridgeProcessMixin {
         const encoder = JsonEncoder.withIndent('  ');
         final validJson = encoder.convert(e.data);
         final Map<String, dynamic> jsonMap = json.decode(validJson);
+        if (jsonMap.entries.first.value is Map) {
+          throw aedappfm.Failure.rpcErrorEVM(
+              (jsonMap.entries.first.value as Map).entries.first.value);
+        }
 
         throw aedappfm.Failure.rpcErrorEVM(jsonMap.entries.first.value);
       }
