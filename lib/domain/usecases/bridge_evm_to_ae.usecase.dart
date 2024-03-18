@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
+import 'package:aebridge/infrastructure/balance.repository.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -12,6 +13,7 @@ import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 class BridgeEVMToArchethicUseCase
     with
@@ -114,6 +116,42 @@ class BridgeEVMToArchethicUseCase
         await bridgeNotifier.setFailure(const aedappfm.Failure.invalidValue());
         await bridgeNotifier.setTransferInProgress(false);
         return;
+      }
+
+      // before 5) Faucet is necessary
+      try {
+        await bridgeNotifier.setCurrentStep(5);
+        final balanceUCO = await BalanceRepositoryImpl()
+            .getBalance(true, bridge.targetAddress, '', '');
+        if (balanceUCO == 0) {
+          final signature = await signTxFaucetUCO();
+          final uri = Uri.http('localhost:8080', '/api/faucet', {
+            'archethic_address': bridge.targetAddress,
+            'evm_contract': htlcEVMAddress,
+            'evm_chain_id': bridge.blockchainFrom!.chainId.toString(),
+            'evm_signature': '0x${uint8ListToHex(signature)}',
+          });
+
+          final response = await http.get(uri);
+          if (response.statusCode == 200) {
+          } else {
+            await bridgeNotifier.setFailure(
+              aedappfm.Failure.other(
+                cause:
+                    'Faucet error - response.statusCode ${response.statusCode}',
+              ),
+            );
+            await bridgeNotifier.setTransferInProgress(false);
+            return;
+          }
+        }
+        // ignore: unused_catch_stack
+      } catch (e, stack) {
+        // Because of CORS policy, i comment these lines...
+        //await bridgeNotifier.setFailure(
+        //    aedappfm.Failure.other(cause: e.toString() + stack.toString()));
+        //await bridgeNotifier.setTransferInProgress(false);
+        //return;
       }
 
       // 5) Deploy Archethic HTLC
