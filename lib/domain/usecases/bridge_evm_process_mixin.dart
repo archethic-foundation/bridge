@@ -8,6 +8,7 @@ import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/application/contracts/evm_htlc_erc.dart';
 import 'package:aebridge/application/contracts/evm_htlc_native.dart';
 import 'package:aebridge/application/contracts/evm_lp.dart';
+import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
@@ -354,7 +355,8 @@ mixin EVMBridgeProcessMixin {
         final Map<String, dynamic> jsonMap = json.decode(validJson);
         if (jsonMap.entries.first.value is Map) {
           throw aedappfm.Failure.rpcErrorEVM(
-              (jsonMap.entries.first.value as Map).entries.first.value);
+            (jsonMap.entries.first.value as Map).entries.first.value,
+          );
         }
 
         throw aedappfm.Failure.rpcErrorEVM(jsonMap.entries.first.value);
@@ -479,6 +481,15 @@ mixin EVMBridgeProcessMixin {
 
     return EtherAmount.inWei(
       baseFeePerGas.getInWei * BigInt.from(2) + maxPriorityFeePerGas,
+    );
+  }
+
+  Future<Uint8List> signTxFaucetUCO() async {
+    final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+    const payload =
+        "To help you join the Archethic ecosystem, we're offering you free Archethic transaction fees. For security reasons, this requires your signature. Thank you for joining us, and happy exploring!";
+    return evmWalletProvider.credentials!.signPersonalMessage(
+      utf8.encode(payload),
     );
   }
 }
