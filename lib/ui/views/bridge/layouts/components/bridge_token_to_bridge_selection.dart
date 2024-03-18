@@ -82,7 +82,16 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
                                           child: Text(
                                             AppLocalizations.of(context)!
                                                 .btn_selectToken,
-                                            style: textTheme.titleMedium,
+                                            style:
+                                                textTheme.titleMedium!.copyWith(
+                                              fontSize: aedappfm.Responsive
+                                                  .fontSizeFromTextStyle(
+                                                context,
+                                                Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium!,
+                                              ),
+                                            ),
                                           ),
                                         )
                                       : Row(
@@ -101,8 +110,13 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
                                               child: Center(
                                                 child: SelectableText(
                                                   bridge.tokenToBridge!.symbol,
-                                                  style: const TextStyle(
-                                                    fontSize: 8,
+                                                  style: TextStyle(
+                                                    fontSize:
+                                                        aedappfm.Responsive
+                                                            .fontSizeFromValue(
+                                                      context,
+                                                      desktopValue: 8,
+                                                    ),
                                                     color: Colors.white,
                                                   ),
                                                 ),
@@ -126,7 +140,19 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
                                                           style:
                                                               Theme.of(context)
                                                                   .textTheme
-                                                                  .labelSmall,
+                                                                  .labelSmall!
+                                                                  .copyWith(
+                                                                    fontSize: aedappfm
+                                                                            .Responsive
+                                                                        .fontSizeFromTextStyle(
+                                                                      context,
+                                                                      Theme.of(
+                                                                        context,
+                                                                      )
+                                                                          .textTheme
+                                                                          .labelSmall!,
+                                                                    ),
+                                                                  ),
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                         ),
@@ -139,7 +165,17 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
                                                           .symbol,
                                                       style: Theme.of(context)
                                                           .textTheme
-                                                          .labelSmall,
+                                                          .labelSmall!
+                                                          .copyWith(
+                                                            fontSize: aedappfm
+                                                                    .Responsive
+                                                                .fontSizeFromTextStyle(
+                                                              context,
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .labelSmall!,
+                                                            ),
+                                                          ),
                                                     ),
                                                   ),
                                                 ],

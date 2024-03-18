@@ -28,30 +28,50 @@ class Header extends ConsumerWidget {
         const SizedBox(
           width: 16,
         ),
-        SvgPicture.asset(
-          'assets/images/AELogo.svg',
-          height: 34,
-        ),
-        const SizedBox(
-          width: 8,
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 4),
-          child: SelectableText(
-            'aeBridge',
-            style: TextStyle(
-              fontSize: 33,
-              color: aedappfm.ArchethicThemeBase.neutral0,
+        if (aedappfm.Responsive.isMobile(context) == false)
+          SvgPicture.asset(
+            'assets/images/AELogo.svg',
+            height: 34,
+          )
+        else
+          Padding(
+            padding: const EdgeInsets.only(left: 5),
+            child: SvgPicture.asset(
+              'assets/images/AELogo.svg',
+              height: 24,
             ),
           ),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(left: 5, bottom: 26),
-          child: SelectableText(
-            'Beta',
-            style: Theme.of(context).textTheme.labelMedium,
+        if (aedappfm.Responsive.isMobile(context) == false)
+          const SizedBox(
+            width: 8,
           ),
-        ),
+        if (aedappfm.Responsive.isMobile(context) == false)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 4),
+            child: SelectableText(
+              'aeBridge',
+              style: TextStyle(
+                fontSize: aedappfm.Responsive.fontSizeFromValue(
+                  context,
+                  desktopValue: 33,
+                ),
+                color: aedappfm.ArchethicThemeBase.neutral0,
+              ),
+            ),
+          ),
+        if (aedappfm.Responsive.isMobile(context) == false)
+          Padding(
+            padding: const EdgeInsets.only(left: 5, bottom: 26),
+            child: SelectableText(
+              'Beta',
+              style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                      context,
+                      Theme.of(context).textTheme.labelMedium!,
+                    ),
+                  ),
+            ),
+          ),
         if (withMenu &&
             aedappfm.Responsive.isMobile(context) == false &&
             aedappfm.Responsive.isTablet(context) == false)
@@ -74,7 +94,10 @@ class Header extends ConsumerWidget {
                       child: Text(
                         AppLocalizations.of(context)!.menu_bridge,
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: aedappfm.Responsive.fontSizeFromValue(
+                            context,
+                            desktopValue: 18,
+                          ),
                           fontWeight: FontWeight.w300,
                           color: indexMenu == NavigationIndex.bridge
                               ? aedappfm.ArchethicThemeBase.raspberry200
@@ -107,7 +130,10 @@ class Header extends ConsumerWidget {
                       child: Text(
                         AppLocalizations.of(context)!.menu_local_history,
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: aedappfm.Responsive.fontSizeFromValue(
+                            context,
+                            desktopValue: 18,
+                          ),
                           fontWeight: FontWeight.w300,
                           color: indexMenu == NavigationIndex.localHistory
                               ? aedappfm.ArchethicThemeBase.raspberry200
@@ -140,7 +166,10 @@ class Header extends ConsumerWidget {
                       child: Text(
                         AppLocalizations.of(context)!.menu_refund,
                         style: TextStyle(
-                          fontSize: 18,
+                          fontSize: aedappfm.Responsive.fontSizeFromValue(
+                            context,
+                            desktopValue: 18,
+                          ),
                           fontWeight: FontWeight.w300,
                           color: indexMenu == NavigationIndex.refund
                               ? aedappfm.ArchethicThemeBase.raspberry200

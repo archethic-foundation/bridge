@@ -73,7 +73,10 @@ class WelcomeBridgeBtnState extends ConsumerState<WelcomeBridgeBtn> {
                     AppLocalizations.of(context)!.btn_bridge,
                     style: TextStyle(
                       color: Theme.of(context).textTheme.labelMedium!.color,
-                      fontSize: 17,
+                      fontSize: aedappfm.Responsive.fontSizeFromValue(
+                        context,
+                        desktopValue: 17,
+                      ),
                     ),
                   ),
                 ).animate(target: _over ? 0 : 1).fade(end: 0.8),

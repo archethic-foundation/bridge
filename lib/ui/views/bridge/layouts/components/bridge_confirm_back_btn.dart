@@ -20,7 +20,12 @@ class BridgeConfirmBackButton extends ConsumerWidget {
         Center(
           child: SelectableText(
             AppLocalizations.of(context)!.bridgeConfirmTitle,
-            style: Theme.of(context).textTheme.titleLarge,
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                    context,
+                    Theme.of(context).textTheme.titleLarge!,
+                  ),
+                ),
           ),
         ),
         BackButton(

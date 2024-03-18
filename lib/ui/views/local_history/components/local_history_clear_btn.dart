@@ -77,7 +77,17 @@ class LocalHistoryClearButton extends ConsumerWidget {
                                                     .confirmationPopupTitle,
                                                 style: Theme.of(context)
                                                     .textTheme
-                                                    .titleMedium,
+                                                    .titleMedium!
+                                                    .copyWith(
+                                                      fontSize: aedappfm
+                                                              .Responsive
+                                                          .fontSizeFromTextStyle(
+                                                        context,
+                                                        Theme.of(context)
+                                                            .textTheme
+                                                            .titleMedium!,
+                                                      ),
+                                                    ),
                                               ),
                                             ),
                                             Padding(
@@ -87,7 +97,17 @@ class LocalHistoryClearButton extends ConsumerWidget {
                                                     .bridgesListClearWarning,
                                                 style: Theme.of(context)
                                                     .textTheme
-                                                    .bodyMedium,
+                                                    .bodyMedium!
+                                                    .copyWith(
+                                                      fontSize: aedappfm
+                                                              .Responsive
+                                                          .fontSizeFromTextStyle(
+                                                        context,
+                                                        Theme.of(context)
+                                                            .textTheme
+                                                            .bodyMedium!,
+                                                      ),
+                                                    ),
                                               ),
                                             ),
                                             const SizedBox(

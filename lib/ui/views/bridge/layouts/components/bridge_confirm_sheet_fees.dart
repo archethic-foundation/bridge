@@ -96,7 +96,12 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
                   ),
                   SelectableText(
                     '${bridge.safetyModuleFeesRate}${AppLocalizations.of(context)!.bridgeConfirmFeesSafetyModuleChargeable}',
-                    style: Theme.of(context).textTheme.labelSmall,
+                    style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.labelSmall!,
+                          ),
+                        ),
                   ),
                 ],
               ),
@@ -154,12 +159,22 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
                   if (bridge.blockchainFrom!.isArchethic)
                     SelectableText(
                       '${bridge.archethicProtocolFeesRate}${AppLocalizations.of(context)!.bridgeConfirmFeesAEProtocolSigned}',
-                      style: Theme.of(context).textTheme.labelSmall,
+                      style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.labelSmall!,
+                            ),
+                          ),
                     )
                   else
                     SelectableText(
                       '${bridge.archethicProtocolFeesRate}${AppLocalizations.of(context)!.bridgeConfirmFeesAEProtocolChargeable}',
-                      style: Theme.of(context).textTheme.labelSmall,
+                      style: Theme.of(context).textTheme.labelSmall!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.labelSmall!,
+                            ),
+                          ),
                     ),
                 ],
               ),

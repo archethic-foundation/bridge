@@ -90,8 +90,13 @@ class BridgeTokenBridged extends ConsumerWidget {
                                               child: Center(
                                                 child: SelectableText(
                                                   bridge.tokenToBridge!.symbol,
-                                                  style: const TextStyle(
-                                                    fontSize: 8,
+                                                  style: TextStyle(
+                                                    fontSize:
+                                                        aedappfm.Responsive
+                                                            .fontSizeFromValue(
+                                                      context,
+                                                      desktopValue: 8,
+                                                    ),
                                                     color: Colors.white,
                                                   ),
                                                 ),
@@ -115,7 +120,19 @@ class BridgeTokenBridged extends ConsumerWidget {
                                                           style:
                                                               Theme.of(context)
                                                                   .textTheme
-                                                                  .labelSmall,
+                                                                  .labelSmall!
+                                                                  .copyWith(
+                                                                    fontSize: aedappfm
+                                                                            .Responsive
+                                                                        .fontSizeFromTextStyle(
+                                                                      context,
+                                                                      Theme.of(
+                                                                        context,
+                                                                      )
+                                                                          .textTheme
+                                                                          .labelSmall!,
+                                                                    ),
+                                                                  ),
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                         ),
@@ -128,7 +145,17 @@ class BridgeTokenBridged extends ConsumerWidget {
                                                           .targetTokenSymbol,
                                                       style: Theme.of(context)
                                                           .textTheme
-                                                          .labelSmall,
+                                                          .labelSmall!
+                                                          .copyWith(
+                                                            fontSize: aedappfm
+                                                                    .Responsive
+                                                                .fontSizeFromTextStyle(
+                                                              context,
+                                                              Theme.of(context)
+                                                                  .textTheme
+                                                                  .labelSmall!,
+                                                            ),
+                                                          ),
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                     ),

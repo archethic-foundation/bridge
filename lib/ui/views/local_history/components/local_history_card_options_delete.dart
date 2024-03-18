@@ -50,7 +50,18 @@ class LocalHistoryCardOptionsDelete extends ConsumerWidget {
                               child: SelectableText(
                                 AppLocalizations.of(context)!
                                     .confirmationPopupTitle,
-                                style: Theme.of(context).textTheme.titleMedium,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .titleMedium!
+                                    .copyWith(
+                                      fontSize: aedappfm.Responsive
+                                          .fontSizeFromTextStyle(
+                                        context,
+                                        Theme.of(context)
+                                            .textTheme
+                                            .titleMedium!,
+                                      ),
+                                    ),
                               ),
                             ),
                             Padding(
@@ -58,7 +69,16 @@ class LocalHistoryCardOptionsDelete extends ConsumerWidget {
                               child: SelectableText(
                                 AppLocalizations.of(context)!
                                     .bridgeClearWarning,
-                                style: Theme.of(context).textTheme.bodyMedium,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium!
+                                    .copyWith(
+                                      fontSize: aedappfm.Responsive
+                                          .fontSizeFromTextStyle(
+                                        context,
+                                        Theme.of(context).textTheme.bodyMedium!,
+                                      ),
+                                    ),
                               ),
                             ),
                             const SizedBox(

@@ -25,8 +25,11 @@ class WelcomeTitle extends StatelessWidget {
               children: [
                 SelectableText(
                   'Discover a ',
-                  style: const TextStyle(
-                    fontSize: 40,
+                  style: TextStyle(
+                    fontSize: aedappfm.Responsive.fontSizeFromValue(
+                      context,
+                      desktopValue: 40,
+                    ),
                     fontWeight: FontWeight.w400,
                   ),
                   textScaler: TextScaler.linear(
@@ -41,8 +44,11 @@ class WelcomeTitle extends StatelessWidget {
                     ),
                 aedappfm.GradientText(
                   'seamless',
-                  style: const TextStyle(
-                    fontSize: 40,
+                  style: TextStyle(
+                    fontSize: aedappfm.Responsive.fontSizeFromValue(
+                      context,
+                      desktopValue: 40,
+                    ),
                     fontWeight: FontWeight.w600,
                   ),
                   gradient: aedappfm.AppThemeBase.gradientWelcomeTxt,
@@ -63,8 +69,11 @@ class WelcomeTitle extends StatelessWidget {
               children: [
                 aedappfm.GradientText(
                   'transfer',
-                  style: const TextStyle(
-                    fontSize: 40,
+                  style: TextStyle(
+                    fontSize: aedappfm.Responsive.fontSizeFromValue(
+                      context,
+                      desktopValue: 40,
+                    ),
                     fontWeight: FontWeight.w600,
                   ),
                   gradient: aedappfm.AppThemeBase.gradientWelcomeTxt,
@@ -77,8 +86,11 @@ class WelcomeTitle extends StatelessWidget {
                     ),
                 SelectableText(
                   ' of assets',
-                  style: const TextStyle(
-                    fontSize: 40,
+                  style: TextStyle(
+                    fontSize: aedappfm.Responsive.fontSizeFromValue(
+                      context,
+                      desktopValue: 40,
+                    ),
                     fontWeight: FontWeight.w400,
                   ),
                   textScaler: TextScaler.linear(

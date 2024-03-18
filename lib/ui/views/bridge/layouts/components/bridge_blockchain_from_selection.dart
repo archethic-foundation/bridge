@@ -65,7 +65,15 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
                                     child: Text(
                                       AppLocalizations.of(context)!
                                           .btn_selectBlockchain,
-                                      style: textTheme.titleMedium,
+                                      style: textTheme.titleMedium!.copyWith(
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromTextStyle(
+                                          context,
+                                          Theme.of(context)
+                                              .textTheme
+                                              .titleMedium!,
+                                        ),
+                                      ),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
@@ -84,7 +92,15 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
                                 Flexible(
                                   child: Text(
                                     bridge.blockchainFrom!.name,
-                                    style: textTheme.titleMedium,
+                                    style: textTheme.titleMedium!.copyWith(
+                                      fontSize: aedappfm.Responsive
+                                          .fontSizeFromTextStyle(
+                                        context,
+                                        Theme.of(context)
+                                            .textTheme
+                                            .titleMedium!,
+                                      ),
+                                    ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),

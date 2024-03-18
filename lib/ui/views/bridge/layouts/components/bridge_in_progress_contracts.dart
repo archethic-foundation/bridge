@@ -34,7 +34,12 @@ class BridgeInProgressContracts extends ConsumerWidget {
                     child: Text(
                       AppLocalizations.of(context)!
                           .bridgeInProgressContractsLink,
-                      style: Theme.of(context).textTheme.titleSmall,
+                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).textTheme.titleSmall!,
+                            ),
+                          ),
                     ),
                   ),
                 ),

@@ -50,7 +50,11 @@ class BridgeTokenToBridgeArchethicOracleUco extends ConsumerWidget {
             SelectableText(
               '1 UCO = \$${archethicOracleUCO.usd.formatNumber(precision: 2)} ($timestamp)',
               style: TextStyle(
-                fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
+                fontSize: aedappfm.Responsive.fontSizeFromValue(
+                  context,
+                  desktopValue:
+                      Theme.of(context).textTheme.labelSmall!.fontSize!,
+                ),
               ),
             ),
           ],

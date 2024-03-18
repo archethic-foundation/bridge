@@ -65,7 +65,12 @@ Widget _body(BuildContext context, WidgetRef ref) {
                 child: SelectionArea(
                   child: SelectableText(
                     AppLocalizations.of(context)!.bridgesListTitle,
-                    style: Theme.of(context).textTheme.titleSmall,
+                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                            context,
+                            Theme.of(context).textTheme.titleSmall!,
+                          ),
+                        ),
                   ),
                 ),
               ),

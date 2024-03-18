@@ -106,19 +106,25 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
     return finalAmount != null
         ? SelectableText(
             'Amount bridged: ${finalAmount!.formatNumber(precision: 8)} ${bridge.tokenToBridge!.targetTokenSymbol}',
-            style: const TextStyle(
-              fontSize: 13,
+            style: TextStyle(
+              fontSize: aedappfm.Responsive.fontSizeFromValue(
+                context,
+                desktopValue: 13,
+              ),
             ),
           )
-        : const Row(
+        : Row(
             children: [
               SelectableText(
                 'Amount bridged: ',
                 style: TextStyle(
-                  fontSize: 13,
+                  fontSize: aedappfm.Responsive.fontSizeFromValue(
+                    context,
+                    desktopValue: 13,
+                  ),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10,
                 width: 10,
                 child: CircularProgressIndicator(strokeWidth: 1),

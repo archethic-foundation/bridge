@@ -24,7 +24,12 @@ class InProgressBanner extends StatelessWidget {
           padding: const EdgeInsets.only(bottom: 10),
           child: SelectableText(
             stepLabel,
-            style: const TextStyle(fontSize: 11),
+            style: TextStyle(
+              fontSize: aedappfm.Responsive.fontSizeFromValue(
+                context,
+                desktopValue: 11,
+              ),
+            ),
           ),
         ),
         if (errorMessage.isNotEmpty)

@@ -106,7 +106,13 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                                     .AppThemeBase.gradientInputFormBackground,
                               ),
                               child: TextField(
-                                style: textTheme.titleMedium,
+                                style: textTheme.titleMedium!.copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.titleMedium!,
+                                  ),
+                                ),
                                 autocorrect: false,
                                 controller: tokenAmountController,
                                 onChanged: (text) async {

@@ -44,7 +44,12 @@ class _ConnectionToWalletStatusState
             backgroundColor: Theme.of(context).snackBarTheme.backgroundColor,
             content: SelectableText(
               AppLocalizations.of(context)!.changeCurrentAccountWarning,
-              style: Theme.of(context).snackBarTheme.contentTextStyle,
+              style: Theme.of(context).snackBarTheme.contentTextStyle!.copyWith(
+                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                      context,
+                      Theme.of(context).snackBarTheme.contentTextStyle!,
+                    ),
+                  ),
             ),
             duration: const Duration(seconds: 3),
           ),
@@ -85,7 +90,12 @@ class _ConnectionToWalletStatusState
                 child: Text(
                   overflow: TextOverflow.ellipsis,
                   session.walletFrom!.nameAccountDisplayed,
-                  style: const TextStyle(fontSize: 12),
+                  style: TextStyle(
+                    fontSize: aedappfm.Responsive.fontSizeFromValue(
+                      context,
+                      desktopValue: 12,
+                    ),
+                  ),
                 ),
               ),
               const Padding(
@@ -100,7 +110,12 @@ class _ConnectionToWalletStatusState
                 child: Text(
                   overflow: TextOverflow.ellipsis,
                   session.walletTo!.nameAccountDisplayed,
-                  style: const TextStyle(fontSize: 12),
+                  style: TextStyle(
+                    fontSize: aedappfm.Responsive.fontSizeFromValue(
+                      context,
+                      desktopValue: 12,
+                    ),
+                  ),
                 ),
               ),
             ],
@@ -211,8 +226,18 @@ class MenuConnectionToWalletStatus extends ConsumerWidget {
                                 child: SelectableText(
                                   AppLocalizations.of(context)!
                                       .confirmationPopupTitle,
-                                  style:
-                                      Theme.of(context).textTheme.titleMedium,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleMedium!
+                                      .copyWith(
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromTextStyle(
+                                          context,
+                                          Theme.of(context)
+                                              .textTheme
+                                              .titleMedium!,
+                                        ),
+                                      ),
                                 ),
                               ),
                               Padding(
@@ -220,7 +245,18 @@ class MenuConnectionToWalletStatus extends ConsumerWidget {
                                 child: SelectableText(
                                   AppLocalizations.of(context)!
                                       .connectionWalletDisconnectWarning,
-                                  style: Theme.of(context).textTheme.bodyMedium,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyMedium!
+                                      .copyWith(
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromTextStyle(
+                                          context,
+                                          Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!,
+                                        ),
+                                      ),
                                 ),
                               ),
                               const SizedBox(

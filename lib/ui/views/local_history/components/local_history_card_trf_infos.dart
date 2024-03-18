@@ -35,8 +35,11 @@ class LocalHistoryCardTrfInfos extends ConsumerWidget {
                       if (snapshot.hasData) {
                         return SelectableText(
                           '${bridge.tokenToBridgeAmount.formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data} ${AppLocalizations.of(context)!.localHistoryToLbl}',
-                          style: const TextStyle(
-                            fontSize: 13,
+                          style: TextStyle(
+                            fontSize: aedappfm.Responsive.fontSizeFromValue(
+                              context,
+                              desktopValue: 13,
+                            ),
                           ),
                         );
                       }

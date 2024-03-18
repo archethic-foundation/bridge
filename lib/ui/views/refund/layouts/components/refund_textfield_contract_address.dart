@@ -89,7 +89,10 @@ class _RefundContractAddressState extends ConsumerState<RefundContractAddress> {
                           child: TextField(
                             style: TextStyle(
                               fontFamily: aedappfm.AppThemeBase.addressFont,
-                              fontSize: 14,
+                              fontSize: aedappfm.Responsive.fontSizeFromValue(
+                                context,
+                                desktopValue: 14,
+                              ),
                             ),
                             autocorrect: false,
                             controller: addressController,

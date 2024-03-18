@@ -38,7 +38,10 @@ class FormatAddressLinkCopy extends ConsumerWidget {
               ? SelectableText(
                   '$header ${reduceAddress ? aedappfm.AddressUtil.reduceAddress(address) : address}',
                   style: TextStyle(
-                    fontSize: fontSize,
+                    fontSize: aedappfm.Responsive.fontSizeFromValue(
+                      context,
+                      desktopValue: fontSize,
+                    ),
                   ),
                 )
               : SelectableText(
@@ -46,7 +49,10 @@ class FormatAddressLinkCopy extends ConsumerWidget {
                       ? aedappfm.AddressUtil.reduceAddress(address)
                       : address,
                   style: TextStyle(
-                    fontSize: fontSize,
+                    fontSize: aedappfm.Responsive.fontSizeFromValue(
+                      context,
+                      desktopValue: fontSize,
+                    ),
                   ),
                 ),
         ),
@@ -62,7 +68,15 @@ class FormatAddressLinkCopy extends ConsumerWidget {
                     Theme.of(context).snackBarTheme.backgroundColor,
                 content: SelectableText(
                   AppLocalizations.of(context)!.addressCopied,
-                  style: Theme.of(context).snackBarTheme.contentTextStyle,
+                  style: Theme.of(context)
+                      .snackBarTheme
+                      .contentTextStyle!
+                      .copyWith(
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).snackBarTheme.contentTextStyle!,
+                        ),
+                      ),
                 ),
                 duration: const Duration(seconds: 3),
                 action: SnackBarAction(

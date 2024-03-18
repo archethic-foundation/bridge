@@ -97,7 +97,10 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
                             maxLines: maxLines,
                             style: TextStyle(
                               fontFamily: aedappfm.AppThemeBase.addressFont,
-                              fontSize: 14,
+                              fontSize: aedappfm.Responsive.fontSizeFromValue(
+                                context,
+                                desktopValue: 14,
+                              ),
                             ),
                             autocorrect: false,
                             controller: addressController,

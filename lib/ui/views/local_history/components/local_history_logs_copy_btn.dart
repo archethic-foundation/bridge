@@ -26,7 +26,12 @@ class LocalHistoryLogCopyBtn extends StatelessWidget {
             backgroundColor: Theme.of(context).snackBarTheme.backgroundColor,
             content: SelectableText(
               AppLocalizations.of(context)!.local_history_logs_copied,
-              style: Theme.of(context).snackBarTheme.contentTextStyle,
+              style: Theme.of(context).snackBarTheme.contentTextStyle!.copyWith(
+                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                      context,
+                      Theme.of(context).snackBarTheme.contentTextStyle!,
+                    ),
+                  ),
             ),
             duration: const Duration(seconds: 3),
             action: SnackBarAction(

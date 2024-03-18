@@ -50,7 +50,10 @@ class BridgeTokenToBridgeFiatPrice extends ConsumerWidget {
     return SelectableText(
       '1 ${bridge.tokenToBridge!.symbol} = \$${price.formatNumber(precision: 2)} ($timestamp)',
       style: TextStyle(
-        fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
+        fontSize: aedappfm.Responsive.fontSizeFromValue(
+          context,
+          desktopValue: Theme.of(context).textTheme.labelSmall!.fontSize!,
+        ),
       ),
     );
   }

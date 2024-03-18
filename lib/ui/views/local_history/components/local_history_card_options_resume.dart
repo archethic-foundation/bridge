@@ -52,7 +52,15 @@ class LocalHistoryCardOptionsResume extends ConsumerWidget {
                     content: Text(
                       AppLocalizations.of(context)!
                           .anErrorOccurred(exc.toString()),
-                      style: Theme.of(context).snackBarTheme.contentTextStyle,
+                      style: Theme.of(context)
+                          .snackBarTheme
+                          .contentTextStyle!
+                          .copyWith(
+                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                              context,
+                              Theme.of(context).snackBarTheme.contentTextStyle!,
+                            ),
+                          ),
                     ),
                     duration: const Duration(seconds: 3),
                     action: SnackBarAction(

@@ -48,20 +48,26 @@ class PrivacyPopup extends ConsumerWidget {
                   'These logs may contain information related to the transactions performed but do not in any way allow us to alter or interfere with the transactions. These logs do not contain sensitive information such as seed or private keys.',
                 ),
                 const SizedBox(height: 20),
-                const Text.rich(
+                Text.rich(
                   TextSpan(
                     style: TextStyle(
-                      fontSize: 14,
+                      fontSize: aedappfm.Responsive.fontSizeFromValue(
+                        context,
+                        desktopValue: 14,
+                      ),
                     ),
                     children: [
-                      TextSpan(
+                      const TextSpan(
                         text:
                             'You can disable or activate logs when you want in the info menu ',
                       ),
                       WidgetSpan(
                         child: Icon(
                           Icons.info_outlined,
-                          size: 14,
+                          size: aedappfm.Responsive.fontSizeFromValue(
+                            context,
+                            desktopValue: 14,
+                          ),
                         ),
                       ),
                     ],
