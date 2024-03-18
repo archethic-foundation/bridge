@@ -7,6 +7,7 @@ import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/infrastructure/balance.repository.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/util/faucet_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
@@ -125,14 +126,14 @@ class BridgeEVMToArchethicUseCase
             .getBalance(true, bridge.targetAddress, '', '');
         if (balanceUCO == 0) {
           final signature = await signTxFaucetUCO();
-          // TODO(Reddwarf03): MAINNET URL
-          final uri = Uri.http('localhost:8080', '/api/faucet', {
+          final queryParameters = {
             'archethic_address': bridge.targetAddress,
             'evm_contract': htlcEVMAddress,
             'evm_chain_id': bridge.blockchainFrom!.chainId.toString(),
             'evm_signature': '0x${uint8ListToHex(signature)}',
-          });
+          };
 
+          final uri = FaucetUtil.getUrl(queryParameters);
           final response = await http.get(uri);
           if (response.statusCode == 200) {
           } else {
