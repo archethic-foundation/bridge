@@ -23,6 +23,7 @@ class FiatValue {
       switch (symbol) {
         case 'ETH':
         case 'aeETH':
+        case 'wETH':
           price = price = prices.ethereum;
           break;
         case 'BNB':
