@@ -125,6 +125,7 @@ class BridgeEVMToArchethicUseCase
             .getBalance(true, bridge.targetAddress, '', '');
         if (balanceUCO == 0) {
           final signature = await signTxFaucetUCO();
+          // TODO(Reddwarf03): MAINNET URL
           final uri = Uri.http('localhost:8080', '/api/faucet', {
             'archethic_address': bridge.targetAddress,
             'evm_contract': htlcEVMAddress,
