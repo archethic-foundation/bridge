@@ -37,10 +37,10 @@ packages:
     dependency: "direct main"
     description:
       name: archethic_dapp_framework_flutter
-      sha256: "573a7255eb1a4cfdea5497e1b14cc6caa6e8a6ac45b30b3ab5ca881066931349"
+      sha256: a2212dc60e645f13dc21b5e5f304b331128da2ee63bfd823a98fa250fac3a229
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.1"
+    version: "0.0.4"
   archethic_lib_dart:
     dependency: transitive
     description:
@@ -177,22 +177,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.3"
-  ci:
-    dependency: transitive
-    description:
-      name: ci
-      sha256: "145d095ce05cddac4d797a158bc4cf3b6016d1fe63d8c3d2fbd7212590adca13"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.0"
-  cli_util:
-    dependency: transitive
-    description:
-      name: cli_util
-      sha256: c05b7406fdabc7a49a3929d4af76bcaccbbffcbcdcf185b082e1ae07da323d19
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.4.1"
   clock:
     dependency: transitive
     description:
@@ -257,22 +241,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
-  custom_lint:
-    dependency: transitive
-    description:
-      name: custom_lint
-      sha256: "445242371d91d2e24bd7b82e3583a2c05610094ba2d0575262484ad889c8f981"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.6.2"
   custom_lint_core:
     dependency: transitive
     description:
       name: custom_lint_core
-      sha256: ce5d6215f4e143f7780ce53f73dfa6fc503f39d2d30bef76c48be9ac1a09d9a6
+      sha256: a85e8f78f4c52f6c63cdaf8c872eb573db0231dcdf3c3a5906d493c1f8bc20e6
       url: "https://pub.dev"
     source: hosted
-    version: "0.6.2"
+    version: "0.6.3"
   dart_style:
     dependency: transitive
     description:
@@ -436,10 +412,10 @@ packages:
     dependency: "direct main"
     description:
       name: go_router
-      sha256: "170c46e237d6eb0e6e9f0e8b3f56101e14fb64f787016e42edd74c39cf8b176a"
+      sha256: "7ecb2f391edbca5473db591b48555a8912dde60edd0fb3013bd6743033b2d3f8"
       url: "https://pub.dev"
     source: hosted
-    version: "13.2.0"
+    version: "13.2.1"
   gql:
     dependency: transitive
     description:
@@ -1280,12 +1256,11 @@ packages:
   webthree:
     dependency: "direct main"
     description:
-      path: "."
-      ref: master
-      resolved-ref: c23a69b066d9a89c3926b28874e5079e3c290e65
-      url: "https://github.com/redDwarf03/webthree.git"
-    source: git
-    version: "2.7.3"
+      name: webthree
+      sha256: "7b1c743690931559d91227f512d60965752b6753c5dec75eccb489505a6fcbad"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.7.4"
   win32:
     dependency: transitive
     description:
