@@ -155,7 +155,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                   width: 80,
                   padding: const EdgeInsets.only(right: 10),
                   child: aedappfm.ButtonHalf(
-                    balanceAmount: bridge.tokenBridgedBalance,
+                    balanceAmount: bridge.tokenToBridgeBalance,
                     onTap: () async {
                       await ref
                           .read(BridgeFormProvider.bridgeForm.notifier)
@@ -168,7 +168,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                   width: 80,
                   padding: const EdgeInsets.only(right: 10),
                   child: aedappfm.ButtonMax(
-                    balanceAmount: bridge.tokenBridgedBalance,
+                    balanceAmount: bridge.tokenToBridgeBalance,
                     onTap: () async {
                       await ref
                           .read(BridgeFormProvider.bridgeForm.notifier)
