@@ -34,7 +34,7 @@ class BridgeInProgressPopup {
         )
       else
         aedappfm.InProgressCurrentStep(
-          steplabel: BridgeEVMToArchethicUseCase().getAEStepLabel(
+          steplabel: BridgeEVMToArchethicUseCase().getEVMStepLabel(
             context,
             bridge.currentStep,
           ),
