@@ -16,7 +16,8 @@ _$BridgeTokenImpl _$$BridgeTokenImplFromJson(Map<String, dynamic> json) =>
       targetTokenSymbol: json['targetTokenSymbol'] as String? ?? '',
       poolAddressFrom: json['poolAddressFrom'] as String? ?? '',
       poolAddressTo: json['poolAddressTo'] as String? ?? '',
-      type: json['type'] as String? ?? '',
+      typeSource: json['typeSource'] as String? ?? '',
+      typeTarget: json['typeTarget'] as String? ?? '',
     );
 
 Map<String, dynamic> _$$BridgeTokenImplToJson(_$BridgeTokenImpl instance) =>
@@ -29,5 +30,6 @@ Map<String, dynamic> _$$BridgeTokenImplToJson(_$BridgeTokenImpl instance) =>
       'targetTokenSymbol': instance.targetTokenSymbol,
       'poolAddressFrom': instance.poolAddressFrom,
       'poolAddressTo': instance.poolAddressTo,
-      'type': instance.type,
+      'typeSource': instance.typeSource,
+      'typeTarget': instance.typeTarget,
     };
