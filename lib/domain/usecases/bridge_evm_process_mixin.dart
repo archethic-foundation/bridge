@@ -136,7 +136,7 @@ mixin EVMBridgeProcessMixin {
       bridge.tokenToBridge!.poolAddressFrom,
       secretHash.toString(),
       bridge.tokenToBridgeAmount,
-      bridge.tokenToBridge!.type != 'Native',
+      bridge.tokenToBridge!.typeSource != 'Native',
       chainId: bridge.blockchainFrom!.chainId,
     );
     late String htlcAddress;
@@ -163,7 +163,7 @@ mixin EVMBridgeProcessMixin {
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
 
     aedappfm.Result<void, aedappfm.Failure>? resultProvisionChargeableHTLC;
-    if (bridge.tokenToBridge!.type == 'ERC20') {
+    if (bridge.tokenToBridge!.typeSource == 'Wrapped') {
       final evmHTLCERC = EVMHTLCERC(
         bridge.blockchainFrom!.providerEndpoint,
         htlcAddress,
@@ -176,7 +176,7 @@ mixin EVMBridgeProcessMixin {
       );
     }
 
-    if (bridge.tokenToBridge!.type == 'Native') {
+    if (bridge.tokenToBridge!.typeSource == 'Native') {
       final evmHTLCNative = EVMHTLCNative(
         bridge.blockchainFrom!.providerEndpoint,
         htlcAddress,
@@ -410,7 +410,7 @@ mixin EVMBridgeProcessMixin {
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
 
     aedappfm.Result<String, aedappfm.Failure>? resultSignedWithdraw;
-    if (bridge.tokenToBridge!.type == 'Native') {
+    if (bridge.tokenToBridge!.typeSource == 'Native') {
       final evmHTLCERC = EVMHTLCERC(
         bridge.blockchainTo!.providerEndpoint,
         htlc,
@@ -423,7 +423,7 @@ mixin EVMBridgeProcessMixin {
       );
     }
 
-    if (bridge.tokenToBridge!.type == 'Wrapped') {
+    if (bridge.tokenToBridge!.typeSource == 'Wrapped') {
       final evmHTLCNative = EVMHTLCNative(
         bridge.blockchainTo!.providerEndpoint,
         htlc,

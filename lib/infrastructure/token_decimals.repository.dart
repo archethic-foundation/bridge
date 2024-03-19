@@ -30,8 +30,6 @@ class TokenDecimalsRepositoryImpl implements TokenDecimalsRepository {
                     typeToken,
                   );
           return decimals;
-
-        case 'ERC20':
         case 'Wrapped':
           final decimals =
               await aedappfm.sl.get<EVMWalletProvider>().getTokenDecimals(

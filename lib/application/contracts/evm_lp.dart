@@ -26,7 +26,7 @@ class EVMLP with EVMBridgeProcessMixin {
     String poolAddress,
     String hash,
     double amount,
-    bool isERC20,
+    bool isWrapped,
     String addressFrom,
   ) async {
     final ethAmount = EtherAmount.fromDouble(EtherUnit.ether, amount);
@@ -38,7 +38,7 @@ class EVMLP with EVMBridgeProcessMixin {
         ethAmount.getInWei,
       ],
       from: EthereumAddress.fromHex(addressFrom),
-      value: isERC20 == false ? ethAmount : null,
+      value: isWrapped == false ? ethAmount : null,
     );
     return transactionMintHTLC;
   }
@@ -48,7 +48,7 @@ class EVMLP with EVMBridgeProcessMixin {
     String poolAddress,
     String hash,
     double amount,
-    bool isERC20,
+    bool isWrapped,
     String addressFrom,
   ) async {
     return aedappfm.Result.guard(() async {
@@ -61,7 +61,7 @@ class EVMLP with EVMBridgeProcessMixin {
         poolAddress,
         hash,
         amount,
-        isERC20,
+        isWrapped,
         addressFrom,
       );
 
@@ -79,7 +79,7 @@ class EVMLP with EVMBridgeProcessMixin {
     String poolAddress,
     String hash,
     double amount,
-    bool isERC20, {
+    bool isWrapped, {
     int chainId = 31337,
   }) async {
     return aedappfm.Result.guard(() async {
@@ -95,7 +95,7 @@ class EVMLP with EVMBridgeProcessMixin {
         poolAddress,
         hash,
         amount,
-        isERC20,
+        isWrapped,
         evmWalletProvider.currentAddress!,
       );
 
