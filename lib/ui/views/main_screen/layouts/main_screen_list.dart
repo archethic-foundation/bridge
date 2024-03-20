@@ -2,7 +2,6 @@
 import 'dart:ui';
 
 import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
-import 'package:aebridge/ui/util/components/bridge_main_menu_app.dart';
 import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/app_bar.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
@@ -26,7 +25,6 @@ class MainScreenList extends ConsumerStatefulWidget {
 }
 
 class MainScreenListState extends ConsumerState<MainScreenList> {
-  bool _isSubMenuOpen = false;
   List<(String, IconData)> listNavigationLabelIcon = [];
 
   @override
@@ -79,68 +77,49 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
     ];
   }
 
-  void _toggleSubMenu() {
-    setState(() {
-      _isSubMenuOpen = !_isSubMenuOpen;
-    });
-    return;
-  }
-
-  void _closeSubMenu() {
-    setState(() {
-      _isSubMenuOpen = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _closeSubMenu,
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        extendBody: true,
-        backgroundColor: aedappfm.AppThemeBase.backgroundColor,
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(70),
-          child: ClipRRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: AppBarMainScreen(
-                onAEMenuTapped: _toggleSubMenu,
-              ),
-            ),
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      extendBody: true,
+      backgroundColor: aedappfm.AppThemeBase.backgroundColor,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(70),
+        child: ClipRRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: const AppBarMainScreen(),
           ),
         ),
-        body: Stack(
-          alignment: Alignment.topRight,
-          children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                const aedappfm.AppBackground(
-                  backgroundImage: 'assets/images/background-welcome.png',
-                ),
-                widget.body
-                    .animate()
-                    .fade(
-                      duration: const Duration(milliseconds: 200),
-                    )
-                    .scale(
-                      duration: const Duration(milliseconds: 200),
-                    ),
-                if (_isSubMenuOpen) const BridgeMainMenuApp(),
-              ],
-            ),
-          ],
-        ),
-        bottomNavigationBar: aedappfm.Responsive.isMobile(context) ||
-                aedappfm.Responsive.isTablet(context)
-            ? BottomNavigationBarMainScreen(
-                listNavigationLabelIcon: listNavigationLabelIcon,
-                navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),
-              )
-            : null,
       ),
+      body: Stack(
+        alignment: Alignment.topRight,
+        children: [
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              const aedappfm.AppBackground(
+                backgroundImage: 'assets/images/background-welcome.png',
+              ),
+              widget.body
+                  .animate()
+                  .fade(
+                    duration: const Duration(milliseconds: 200),
+                  )
+                  .scale(
+                    duration: const Duration(milliseconds: 200),
+                  ),
+            ],
+          ),
+        ],
+      ),
+      bottomNavigationBar: aedappfm.Responsive.isMobile(context) ||
+              aedappfm.Responsive.isTablet(context)
+          ? BottomNavigationBarMainScreen(
+              listNavigationLabelIcon: listNavigationLabelIcon,
+              navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),
+            )
+          : null,
     );
   }
 }

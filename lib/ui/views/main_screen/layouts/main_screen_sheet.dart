@@ -2,7 +2,6 @@
 import 'dart:ui';
 
 import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
-import 'package:aebridge/ui/util/components/bridge_main_menu_app.dart';
 import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/app_bar.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
@@ -35,7 +34,6 @@ class MainScreenSheet extends ConsumerStatefulWidget {
 }
 
 class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
-  bool _isSubMenuOpen = false;
   List<(String, IconData)> listNavigationLabelIcon = [];
 
   @override
@@ -88,118 +86,99 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
     ];
   }
 
-  void _toggleSubMenu() {
-    setState(() {
-      _isSubMenuOpen = !_isSubMenuOpen;
-    });
-    return;
-  }
-
-  void _closeSubMenu() {
-    setState(() {
-      _isSubMenuOpen = false;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: _closeSubMenu,
-      child: Scaffold(
-        extendBodyBehindAppBar: true,
-        extendBody: true,
-        backgroundColor: aedappfm.AppThemeBase.backgroundColor,
-        appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(70),
-          child: ClipRRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: AppBarMainScreen(
-                onAEMenuTapped: _toggleSubMenu,
-              ),
-            ),
+    return Scaffold(
+      extendBodyBehindAppBar: true,
+      extendBody: true,
+      backgroundColor: aedappfm.AppThemeBase.backgroundColor,
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(70),
+        child: ClipRRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: const AppBarMainScreen(),
           ),
         ),
-        body: Stack(
-          alignment: Alignment.topRight,
-          children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                const aedappfm.AppBackground(
-                  backgroundImage: 'assets/images/background-welcome.png',
-                ),
-                Align(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                      child: Container(
-                        width: 650,
-                        decoration: BoxDecoration(
-                          color: aedappfm.AppThemeBase.sheetBackground,
-                          border: Border.all(
-                            color: aedappfm.AppThemeBase.sheetBorder,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
+      ),
+      body: Stack(
+        alignment: Alignment.topRight,
+        children: [
+          Stack(
+            alignment: Alignment.center,
+            children: [
+              const aedappfm.AppBackground(
+                backgroundImage: 'assets/images/background-welcome.png',
+              ),
+              Align(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                    child: Container(
+                      width: 650,
+                      decoration: BoxDecoration(
+                        color: aedappfm.AppThemeBase.sheetBackground,
+                        border: Border.all(
+                          color: aedappfm.AppThemeBase.sheetBorder,
                         ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            left: 30,
-                            right: 30,
-                            top: 11,
-                            bottom: 5,
-                          ),
-                          child: LayoutBuilder(
-                            builder: (context, constraint) {
-                              return aedappfm.ArchethicScrollbar(
-                                child: Container(
-                                  constraints: BoxConstraints(
-                                    minHeight: 100,
-                                    maxHeight: constraint.maxHeight,
-                                  ),
-                                  child: IntrinsicHeight(
-                                    child: Column(
-                                      children: [
-                                        if (widget.currentStep ==
-                                            aedappfm.ProcessStep.form)
-                                          widget.formSheet
-                                        else
-                                          widget.confirmSheet,
-                                        if (widget.bottomWidget != null)
-                                          widget.bottomWidget!,
-                                      ],
-                                    ),
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 30,
+                          right: 30,
+                          top: 11,
+                          bottom: 5,
+                        ),
+                        child: LayoutBuilder(
+                          builder: (context, constraint) {
+                            return aedappfm.ArchethicScrollbar(
+                              child: Container(
+                                constraints: BoxConstraints(
+                                  minHeight: 100,
+                                  maxHeight: constraint.maxHeight,
+                                ),
+                                child: IntrinsicHeight(
+                                  child: Column(
+                                    children: [
+                                      if (widget.currentStep ==
+                                          aedappfm.ProcessStep.form)
+                                        widget.formSheet
+                                      else
+                                        widget.confirmSheet,
+                                      if (widget.bottomWidget != null)
+                                        widget.bottomWidget!,
+                                    ],
                                   ),
                                 ),
-                              );
-                            },
-                          ),
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ),
                   ),
-                )
-                    .animate()
-                    .fade(
-                      duration: const Duration(milliseconds: 200),
-                    )
-                    .scale(
-                      duration: const Duration(milliseconds: 200),
-                    ),
-                if (_isSubMenuOpen) const BridgeMainMenuApp(),
-              ],
-            ),
-          ],
-        ),
-        bottomNavigationBar: aedappfm.Responsive.isMobile(context) ||
-                aedappfm.Responsive.isTablet(context)
-            ? BottomNavigationBarMainScreen(
-                listNavigationLabelIcon: listNavigationLabelIcon,
-                navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),
+                ),
               )
-            : null,
+                  .animate()
+                  .fade(
+                    duration: const Duration(milliseconds: 200),
+                  )
+                  .scale(
+                    duration: const Duration(milliseconds: 200),
+                  ),
+            ],
+          ),
+        ],
       ),
+      bottomNavigationBar: aedappfm.Responsive.isMobile(context) ||
+              aedappfm.Responsive.isTablet(context)
+          ? BottomNavigationBarMainScreen(
+              listNavigationLabelIcon: listNavigationLabelIcon,
+              navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),
+            )
+          : null,
     );
   }
 }
