@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:aebridge/application/balance.dart';
 import 'package:aebridge/application/bridge_blockchain.dart';
@@ -21,6 +22,7 @@ import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:webthree/webthree.dart' as webthree;
 
@@ -91,6 +93,28 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
   ) async {
     state = state.copyWith(blockchainFrom: blockchainFrom);
     await storeBridge();
+
+    // Check provider's endpoint
+    if (blockchainFrom != null && blockchainFrom.isArchethic == false) {
+      final client = webthree.Web3Client(
+        blockchainFrom.providerEndpoint,
+        Client(),
+      );
+
+      try {
+        await client.getBlockNumber();
+      } catch (e) {
+        log('Web3Client endpoint error for ${blockchainFrom.providerEndpoint} : $e');
+        await setFailure(
+          const aedappfm.Failure.other(
+            cause:
+                "The provider's endpoint is not available. Please contact Archethic support.",
+          ),
+        );
+      } finally {
+        await client.dispose();
+      }
+    }
   }
 
   Future<void> setBlockchainFromWithConnection(
@@ -152,6 +176,28 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
   ) async {
     state = state.copyWith(blockchainTo: blockchainTo);
     await storeBridge();
+
+    // Check provider's endpoint
+    if (blockchainTo != null && blockchainTo.isArchethic == false) {
+      final client = webthree.Web3Client(
+        blockchainTo.providerEndpoint,
+        Client(),
+      );
+
+      try {
+        await client.getBlockNumber();
+      } catch (e) {
+        log('Web3Client endpoint error for ${blockchainTo.providerEndpoint} : $e');
+        await setFailure(
+          const aedappfm.Failure.other(
+            cause:
+                "The provider's endpoint is not available. Please contact Archethic support.",
+          ),
+        );
+      } finally {
+        await client.dispose();
+      }
+    }
   }
 
   Future<void> setBlockchainToWithConnection(
