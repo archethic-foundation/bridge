@@ -131,6 +131,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
       poolTargetBalance: 0,
       tokenToBridgeDecimals: 8,
       timestampExec: null,
+      messageMaxHalfUCO: false,
     );
     await setFailure(null);
     if (blockchainFrom.isArchethic) {
@@ -214,6 +215,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
       poolTargetBalance: 0,
       tokenToBridgeDecimals: 8,
       timestampExec: null,
+      messageMaxHalfUCO: false,
     );
 
     await setFailure(null);
@@ -265,6 +267,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
   ) async {
     state = state.copyWith(
       tokenToBridge: tokenToBridge,
+      messageMaxHalfUCO: false,
     );
     await storeBridge();
     final session = ref.read(SessionProviders.session);
@@ -373,6 +376,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
   ) async {
     state = state.copyWith(
       tokenToBridgeAmount: tokenToBridgeAmount,
+      messageMaxHalfUCO: false,
     );
     await storeBridge();
   }
@@ -384,6 +388,14 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
       failure: failure,
     );
     await storeBridge();
+  }
+
+  void setMessageMaxHalfUCO(
+    bool messageMaxHalfUCO,
+  ) {
+    state = state.copyWith(
+      messageMaxHalfUCO: messageMaxHalfUCO,
+    );
   }
 
   Future<void> setTargetAddress(
@@ -402,22 +414,20 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
   }
 
   Future<void> setMaxAmount() async {
-    state = state.copyWith(
-      tokenToBridgeAmount: Decimal.parse(state.tokenToBridgeBalance.toString())
+    await setTokenToBridgeAmount(
+      Decimal.parse(state.tokenToBridgeBalance.toString())
           .floor(scale: state.tokenToBridgeDecimals)
           .toDouble(),
     );
-    await storeBridge();
   }
 
   Future<void> setMaxHalf() async {
-    state = state.copyWith(
-      tokenToBridgeAmount:
-          (Decimal.parse(state.tokenToBridgeBalance.toString()) /
-                  Decimal.parse('2'))
-              .toDecimal()
-              .floor(scale: state.tokenToBridgeDecimals)
-              .toDouble(),
+    await setTokenToBridgeAmount(
+      (Decimal.parse(state.tokenToBridgeBalance.toString()) /
+              Decimal.parse('2'))
+          .toDecimal()
+          .floor(scale: state.tokenToBridgeDecimals)
+          .toDouble(),
     );
     await storeBridge();
   }
@@ -470,6 +480,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
       archethicOracleUCO: null,
       safetyModuleFeesAddress: '',
       archethicProtocolFeesAddress: '',
+      messageMaxHalfUCO: false,
     );
   }
 
@@ -588,7 +599,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
 
   Future<bool> control() async {
     await setFailure(null);
-
+    setMessageMaxHalfUCO(false);
     if (BrowserUtil().isEdgeBrowser() ||
         BrowserUtil().isInternetExplorerBrowser()) {
       await setFailure(
@@ -680,6 +691,24 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
         ),
       );
       return false;
+    }
+
+    const kFeesEstimatedUCOBridge = 2.0;
+    if (state.blockchainFrom!.isArchethic &&
+        state.tokenToBridge!.symbol == 'UCO' &&
+        state.tokenToBridgeAmount + kFeesEstimatedUCOBridge >
+            state.tokenToBridgeBalance) {
+      state = state.copyWith(feesEstimatedUCO: kFeesEstimatedUCOBridge);
+      final adjustedAmount =
+          state.tokenToBridgeAmount - kFeesEstimatedUCOBridge;
+      if (adjustedAmount < 0) {
+        state = state.copyWith(messageMaxHalfUCO: true);
+        await setFailure(const aedappfm.Failure.insufficientFunds());
+        return false;
+      } else {
+        await setTokenToBridgeAmount(adjustedAmount);
+        state = state.copyWith(messageMaxHalfUCO: true);
+      }
     }
 
     return true;
