@@ -69,7 +69,7 @@ class BridgeConfirmSheet extends ConsumerWidget {
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     return SelectableText(
-                      '${bridge.tokenToBridgeAmount.formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data}',
+                      '${bridge.tokenToBridgeAmount.formatNumber(precision: 8)} ${bridge.tokenToBridge!.symbol} ${snapshot.data}',
                     );
                   }
                   return const SizedBox.shrink();
@@ -103,6 +103,17 @@ class BridgeConfirmSheet extends ConsumerWidget {
             height: 10,
           ),
           const BridgeConfirmSheetFees(),
+          if (bridge.messageMaxHalfUCO)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: SizedBox(
+                height: 45,
+                child: aedappfm.InfoBanner(
+                  'The UCO amount you entered has been reduced to include Archethic transaction fees.',
+                  aedappfm.InfoBannerType.request,
+                ),
+              ),
+            ),
           const SizedBox(
             height: 10,
           ),

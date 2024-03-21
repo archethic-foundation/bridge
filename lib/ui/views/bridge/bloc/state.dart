@@ -40,6 +40,8 @@ class BridgeFormState with _$BridgeFormState {
     @Default(0.0) double archethicProtocolFeesRate,
     @Default('') String archethicProtocolFeesAddress,
     @Default(0.0) double archethicTransactionFees,
+    @Default(0.0) double feesEstimatedUCO,
+    @Default(false) bool messageMaxHalfUCO,
   }) = _BridgeFormState;
   const BridgeFormState._();
 

@@ -32,11 +32,11 @@ class BridgeConfirmBackButton extends ConsumerWidget {
           onPressed: bridge.tokenToBridge == null
               ? null
               : () {
-                  ref
-                      .read(BridgeFormProvider.bridgeForm.notifier)
-                      .setBridgeProcessStep(
-                        aedappfm.ProcessStep.form,
-                      );
+                  ref.read(BridgeFormProvider.bridgeForm.notifier)
+                    ..setBridgeProcessStep(
+                      aedappfm.ProcessStep.form,
+                    )
+                    ..setMessageMaxHalfUCO(false);
                 },
         ),
       ],
