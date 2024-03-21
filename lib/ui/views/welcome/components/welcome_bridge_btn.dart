@@ -1,13 +1,8 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/session/provider.dart';
-import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 
 class WelcomeBridgeBtn extends ConsumerStatefulWidget {
   const WelcomeBridgeBtn({
@@ -45,15 +40,7 @@ class WelcomeBridgeBtnState extends ConsumerState<WelcomeBridgeBtn> {
                   side: MaterialStateProperty.all(BorderSide.none),
                   overlayColor: MaterialStateProperty.all(Colors.transparent),
                 ),
-                onPressed: () async {
-                  final sessionNotifier =
-                      ref.read(SessionProviders.session.notifier);
-                  await sessionNotifier.cancelAllWalletsConnection();
-                  if (!context.mounted) return;
-                  context.go(
-                    BridgeSheet.routerPage,
-                  );
-                },
+                onPressed: () async {},
                 child: Container(
                   alignment: Alignment.center,
                   height: 50,
@@ -70,7 +57,7 @@ class WelcomeBridgeBtnState extends ConsumerState<WelcomeBridgeBtn> {
                     ],
                   ),
                   child: Text(
-                    AppLocalizations.of(context)!.btn_bridge,
+                    'Soon',
                     style: TextStyle(
                       color: Theme.of(context).textTheme.labelMedium!.color,
                       fontSize: aedappfm.Responsive.fontSizeFromValue(
