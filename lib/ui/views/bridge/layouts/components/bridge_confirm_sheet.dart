@@ -1,11 +1,12 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:async';
+
 import 'package:aebridge/ui/util/components/blockchain_label.dart';
 import 'package:aebridge/ui/util/components/fiat_value.dart';
 import 'package:aebridge/ui/util/components/format_address_link_copy.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_back_btn.dart';
-import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_btn.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_sheet_fees.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_in_progress_popup.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -26,7 +27,18 @@ class BridgeConfirmSheet extends ConsumerWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const BridgeConfirmBackButton(),
+          aedappfm.ButtonConfirmBack(
+            title: AppLocalizations.of(context)!.bridgeConfirmTitle,
+            onPressed: bridge.tokenToBridge == null
+                ? null
+                : () {
+                    ref.read(BridgeFormProvider.bridgeForm.notifier)
+                      ..setBridgeProcessStep(
+                        aedappfm.ProcessStep.form,
+                      )
+                      ..setMessageMaxHalfUCO(false);
+                  },
+          ),
           const SizedBox(height: 15),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -118,7 +130,25 @@ class BridgeConfirmSheet extends ConsumerWidget {
             height: 10,
           ),
           const Spacer(),
-          const BridgeConfirmButton(),
+          aedappfm.ButtonConfirm(
+            labelBtn: AppLocalizations.of(context)!.btn_confirm_bridge,
+            onPressed: () async {
+              ref
+                  .read(BridgeFormProvider.bridgeForm.notifier)
+                  .setResumeProcess(false);
+              unawaited(
+                ref
+                    .read(BridgeFormProvider.bridgeForm.notifier)
+                    .bridge(context, ref),
+              );
+
+              if (!context.mounted) return;
+              await BridgeInProgressPopup.getDialog(
+                context,
+                ref,
+              );
+            },
+          ),
           const SizedBox(
             height: 10,
           ),
