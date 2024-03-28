@@ -59,19 +59,6 @@ class Header extends ConsumerWidget {
               ),
             ),
           ),
-        if (aedappfm.Responsive.isMobile(context) == false)
-          Padding(
-            padding: const EdgeInsets.only(left: 5, bottom: 26),
-            child: SelectableText(
-              'Beta',
-              style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                      context,
-                      Theme.of(context).textTheme.labelMedium!,
-                    ),
-                  ),
-            ),
-          ),
         if (withMenu &&
             aedappfm.Responsive.isMobile(context) == false &&
             aedappfm.Responsive.isTablet(context) == false)
