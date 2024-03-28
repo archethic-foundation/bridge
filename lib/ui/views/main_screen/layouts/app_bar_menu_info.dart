@@ -1,9 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:ui';
-
-import 'package:aebridge/application/preferences.dart';
-import 'package:aebridge/ui/views/main_screen/layouts/privacy_popup.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -192,94 +188,6 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
             );
           },
         ),
-        // TODO(reddwarf03): Put LogManager in a notifier
-        if (aedappfm.sl.isRegistered<aedappfm.LogManager>())
-          MenuItemButton(
-            child: Padding(
-              padding: const EdgeInsets.all(8),
-              child: Row(
-                children: [
-                  const Icon(
-                    aedappfm.Iconsax.menu_board,
-                    size: 16,
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        AppLocalizations.of(context)!.menu_logs_activated,
-                      ),
-                      const SizedBox(
-                        width: 10,
-                      ),
-                      FutureBuilder<bool>(
-                        future: ref
-                            .watch(
-                              PreferencesProviders.preferencesRepository,
-                            )
-                            .isLogsActived(),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return SizedBox(
-                              height: 20,
-                              child: FittedBox(
-                                fit: BoxFit.fill,
-                                child: Switch(
-                                  thumbIcon: thumbIcon,
-                                  value: snapshot.data!,
-                                  onChanged: (value) {
-                                    ref
-                                        .read(
-                                          PreferencesProviders
-                                              .preferencesRepository,
-                                        )
-                                        .setLogsActived(value);
-                                    aedappfm.sl
-                                        .get<aedappfm.LogManager>()
-                                        .logsActived = value;
-                                    setState(() {});
-                                  },
-                                ),
-                              ),
-                            );
-                          }
-                          return const SizedBox.shrink();
-                        },
-                      ),
-                      const SizedBox(
-                        width: 8,
-                      ),
-                      InkWell(
-                        child: const Icon(
-                          Icons.help_outline_outlined,
-                          size: 14,
-                        ),
-                        onTap: () {
-                          Future.delayed(Duration.zero, () {
-                            showDialog(
-                              context: context,
-                              builder: (BuildContext context) {
-                                return const PrivacyPopup();
-                              },
-                            );
-                          });
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            onPressed: () {
-              launchUrl(
-                Uri.parse(
-                  'https://www.archethic.net/privacy-policy-bridge',
-                ),
-              );
-            },
-          ),
         MenuItemButton(
           child: Padding(
             padding: const EdgeInsets.all(8),
@@ -309,6 +217,37 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
             launchUrl(
               Uri.parse(
                 'https://www.archethic.net/privacy-policy-bridge',
+              ),
+            );
+          },
+        ),
+        MenuItemButton(
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Row(
+              children: [
+                const Icon(
+                  aedappfm.Iconsax.reserve,
+                  size: 16,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(AppLocalizations.of(context)!.menu_report_bug),
+                const SizedBox(
+                  width: 8,
+                ),
+                const Icon(
+                  aedappfm.Iconsax.export_3,
+                  size: 12,
+                ),
+              ],
+            ),
+          ),
+          onPressed: () {
+            launchUrl(
+              Uri.parse(
+                'https://github.com/archethic-foundation/bridge/issues/new?assignees=&labels=bug&projects=&template=bug_report.yml',
               ),
             );
           },

@@ -1,12 +1,9 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:ui';
-
-import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
 import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/app_bar.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/browser_popup.dart';
-import 'package:aebridge/ui/views/main_screen/layouts/privacy_popup.dart';
 import 'package:aebridge/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aebridge/util/browser_util_web.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -42,19 +39,6 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
         );
       });
     }
-
-    HivePreferencesDatasource.getInstance().then((value) {
-      if (value.isFirstConnection()) {
-        Future.delayed(Duration.zero, () {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return const PrivacyPopup();
-            },
-          );
-        });
-      }
-    });
   }
 
   @override
