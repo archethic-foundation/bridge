@@ -227,10 +227,20 @@ class BridgeEVMToArchethicUseCase
         return;
       }
 
+      final signatureAEHTLC = await getProvisionSignature(htlcAEAddress);
+      if (signatureAEHTLC == null) {
+        await bridgeNotifier.setFailure(const aedappfm.Failure.notHTLC());
+        await bridgeNotifier.setTransferInProgress(false);
+        return;
+      }
+
       await bridgeNotifier.setCurrentStep(6);
       try {
-        await withdrawEVM(ref, htlcEVMAddress!, secret);
+        await withdrawEVM(ref, htlcEVMAddress!, secret, signatureAEHTLC);
       } catch (e) {
+        await bridgeNotifier
+            .setFailure(aedappfm.Failure.other(cause: e.toString()));
+        await bridgeNotifier.setTransferInProgress(false);
         return;
       }
     }

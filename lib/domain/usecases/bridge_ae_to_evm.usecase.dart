@@ -164,7 +164,7 @@ class BridgeArchethicToEVMUseCase
       await bridgeNotifier.setCurrentStep(6);
       try {
         // 6) Reveal Secret
-        secret = await revealAESecret(ref, htlcAEAddress);
+        secret = await revealAESecret(htlcAEAddress);
       } catch (e) {
         return;
       }

@@ -37,26 +37,26 @@ packages:
     dependency: "direct main"
     description:
       name: archethic_dapp_framework_flutter
-      sha256: a2212dc60e645f13dc21b5e5f304b331128da2ee63bfd823a98fa250fac3a229
+      sha256: "6a83a833be811beb0bea856e011f206393bca6639ce73a8e56e0c62bdcae37d4"
       url: "https://pub.dev"
     source: hosted
-    version: "0.0.4"
+    version: "0.0.9"
   archethic_lib_dart:
     dependency: transitive
     description:
       name: archethic_lib_dart
-      sha256: f2cd0e2516caa91fb675abeaf5b6e88d15c78252964b7335fd583458fd8a6a24
+      sha256: "126d8cb7e79dd201c1ec6d2472d12124c3473004413b0befe3ce8d53abb25409"
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.8"
+    version: "3.3.10"
   archethic_wallet_client:
     dependency: "direct main"
     description:
       name: archethic_wallet_client
-      sha256: ffb6821b039df5597ada7f54b2f64bc0198c0dd54342517138d1ddac66678cd9
+      sha256: "803c2ae053e31e0996080a5e9a904ead6ca3afc4ebd3f62ed8fe36e31666632a"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.11"
+    version: "1.1.0-dev.3"
   archive:
     dependency: transitive
     description:
@@ -780,10 +780,10 @@ packages:
     dependency: transitive
     description:
       name: phoenix_socket
-      sha256: a9d62b25291c3fea7c4439376f33860fb27ff39a7d69a96063fc356e78dee87f
+      sha256: "21c0ed733db29a74d54f676aaab4800d8b7278bc0e4e95a7a7c5d7773464a2bf"
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.0"
+    version: "0.7.1"
   pinenacl:
     dependency: transitive
     description:
@@ -1209,10 +1209,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: e7d5ecd604e499358c5fe35ee828c0298a320d54455e791e9dcf73486bc8d9f0
+      sha256: a75f83f14ad81d5fe4b3319710b90dec37da0e22612326b696c9e1b8f34bbf48
       url: "https://pub.dev"
     source: hosted
-    version: "14.1.0"
+    version: "14.2.0"
   watcher:
     dependency: transitive
     description:

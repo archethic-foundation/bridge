@@ -219,7 +219,7 @@ mixin ArchethicBridgeProcessMixin {
     );
   }
 
-  Future<Secret> revealAESecret(WidgetRef ref, String htlcAddress) async {
+  Future<Secret> revealAESecret(String htlcAddress) async {
     final secretMap =
         await aedappfm.sl.get<archethic.ApiService>().callSCFunction(
               jsonRPCRequest: archethic.SCCallFunctionRequest(
@@ -240,6 +240,33 @@ mixin ArchethicBridgeProcessMixin {
         s: '0x${secretMap["secret_signature"]["s"]}',
         v: secretMap['secret_signature']['v'],
       ),
+    );
+  }
+
+  Future<SecretSignature?> getProvisionSignature(String htlcAddress) async {
+    final signatureJson =
+        await aedappfm.sl.get<archethic.ApiService>().callSCFunction(
+              jsonRPCRequest: archethic.SCCallFunctionRequest(
+                method: 'contract_fun',
+                params: archethic.SCCallFunctionParams(
+                  contract: htlcAddress.toUpperCase(),
+                  function: 'get_provision_signature',
+                  args: [],
+                ),
+              ),
+              resultMap: true,
+            ) as Map<String, dynamic>;
+
+    if (signatureJson['signature'] == null ||
+        signatureJson['signature']['r'] == null ||
+        signatureJson['signature']['s'] == null ||
+        signatureJson['signature']['v'] == null) {
+      return null;
+    }
+    return SecretSignature(
+      r: signatureJson['signature']['r'],
+      s: signatureJson['signature']['s'],
+      v: signatureJson['signature']['v'],
     );
   }
 }

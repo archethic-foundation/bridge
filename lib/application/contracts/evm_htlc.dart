@@ -2,6 +2,8 @@
 import 'dart:async';
 
 import 'package:aebridge/application/evm_wallet.dart';
+import 'package:aebridge/domain/models/secret.dart';
+import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
@@ -15,7 +17,7 @@ import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
-class EVMHTLC with EVMBridgeProcessMixin {
+class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
   EVMHTLC(
     this.providerEndpoint,
     this.htlcContractAddress,
@@ -42,11 +44,19 @@ class EVMHTLC with EVMBridgeProcessMixin {
           htlcContractAddress,
         );
 
+        final secret = await revealAESecret(htlcContractAddress);
+
         final transactionRefund = Transaction.callContract(
           contract: contractHTLC,
-          function: contractHTLC.function('refund'),
+          function:
+              contractHTLC.findFunctionByNameAndNbOfParameters('refund', 4),
           maxGas: 1500000,
-          parameters: [],
+          parameters: [
+            hexToBytes(secret.secret!),
+            hexToBytes(secret.secretSignature!.r!),
+            hexToBytes(secret.secretSignature!.s!),
+            BigInt.from(secret.secretSignature!.v!),
+          ],
         );
 
         var refundTx = '';
@@ -259,22 +269,27 @@ class EVMHTLC with EVMBridgeProcessMixin {
   Future<aedappfm.Result<String, aedappfm.Failure>> withdraw(
     WidgetRef ref,
     String secret,
+    String contract,
+    SecretSignature signatureAEHTLC,
   ) async {
     return aedappfm.Result.guard(
       () async {
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
 
         final contractHTLC = await getDeployedContract(
-          contractNameHTLCERC,
+          contract,
           htlcContractAddress,
         );
 
         final transactionWithdraw = Transaction.callContract(
           contract: contractHTLC,
           function:
-              contractHTLC.findFunctionByNameAndNbOfParameters('withdraw', 1),
+              contractHTLC.findFunctionByNameAndNbOfParameters('withdraw', 4),
           parameters: [
             hexToBytes(secret),
+            hexToBytes(signatureAEHTLC.r!),
+            hexToBytes(signatureAEHTLC.s!),
+            BigInt.from(signatureAEHTLC.v!),
           ],
           maxGas: 1500000,
         );

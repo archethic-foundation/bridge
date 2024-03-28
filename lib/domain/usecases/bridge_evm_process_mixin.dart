@@ -202,6 +202,7 @@ mixin EVMBridgeProcessMixin {
     WidgetRef ref,
     String htlcAddress,
     Uint8List secret,
+    SecretSignature signatureAEHTLC,
   ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
@@ -212,9 +213,16 @@ mixin EVMBridgeProcessMixin {
       bridge.blockchainFrom!.chainId,
     );
 
+    var contract = contractNameChargeableHTLCERC;
+    if (bridge.tokenToBridge!.type == 'Native') {
+      contract = contractNameChargeableHTLCETH;
+    }
+
     final resultWithdraw = await htlc.withdraw(
       ref,
       '0x${bytesToHex(secret)}',
+      contract,
+      signatureAEHTLC,
     );
     await resultWithdraw.map(
       success: (success) {
