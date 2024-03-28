@@ -43,26 +43,26 @@ In order to develop and test the application, you need to have some prerequisite
     # Faucet: 00001259AE51A6E63A1E04E308C5E769E0E9D15BFFE4E7880266C8FA10C3ADD7B7A2
     config :archethic, Archethic.Bootstrap.NetworkInit,
     genesis_pools: [
-    %{
-      address:
-        "000023ca0313eb76617060ae119b48e98e689f2b2ef030e6df063d426dc0b00f4428"
-        |> Base.decode16!(case: :mixed),
-      amount: 1_000_000_000_000_000
-    },
-    %{
-      address:
-        "0000f53a34560bfe06b01689e585d53c07671f6eaa1b31e62659d8f7d5292f066941"
-        |> Base.decode16!(case: :mixed),
-      amount: 1_000_000_000_000_000
-    },
-    %{
-      address:
-        "00001259AE51A6E63A1E04E308C5E769E0E9D15BFFE4E7880266C8FA10C3ADD7B7A2"
-        |> Base.decode16!(case: :mixed),
-      amount: 1_000_000_000_000_000
-    }
-  ]
-    ```
+      %{
+        address:
+          "000023ca0313eb76617060ae119b48e98e689f2b2ef030e6df063d426dc0b00f4428"
+          |> Base.decode16!(case: :mixed),
+        amount: 1_000_000_000_000_000
+      },
+      %{
+        address:
+          "0000f53a34560bfe06b01689e585d53c07671f6eaa1b31e62659d8f7d5292f066941"
+          |> Base.decode16!(case: :mixed),
+        amount: 1_000_000_000_000_000
+      },
+      %{
+        address:
+          "00001259AE51A6E63A1E04E308C5E769E0E9D15BFFE4E7880266C8FA10C3ADD7B7A2"
+          |> Base.decode16!(case: :mixed),
+        amount: 1_000_000_000_000_000
+      }
+    ]  
+  ```
 
   - Launch the Archethic Wallet in desktop version (Linux, Windows, MacOS)
   - Create a new account in the devnet environnment
