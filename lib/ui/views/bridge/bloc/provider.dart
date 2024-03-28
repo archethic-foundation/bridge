@@ -282,7 +282,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
       BalanceProviders.getBalance(
         state.blockchainFrom!.isArchethic,
         session.walletFrom!.genesisAddress,
-        state.tokenToBridge!.type,
+        state.tokenToBridge!.typeSource,
         state.tokenToBridge!.tokenAddressSource,
         providerEndpoint: state.blockchainFrom!.providerEndpoint,
       ).future,
@@ -292,30 +292,18 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
     final tokenDecimals = await ref.read(
       TokenDecimalsProviders.getTokenDecimals(
         state.blockchainFrom!.isArchethic,
-        state.tokenToBridge!.type,
+        state.tokenToBridge!.typeSource,
         state.tokenToBridge!.tokenAddressSource,
         providerEndpoint: state.blockchainFrom!.providerEndpoint,
       ).future,
     );
     await setTokenToBridgeDecimals(tokenDecimals);
 
-    late final String typeTarget;
-    switch (state.tokenToBridge!.type) {
-      case 'ERC20':
-        typeTarget = 'Native';
-        break;
-      case 'Native':
-        typeTarget = 'Wrapped';
-        break;
-      case 'Wrapped':
-        typeTarget = 'Native';
-        break;
-    }
     final balanceTarget = await ref.read(
       BalanceProviders.getBalance(
         state.blockchainTo!.isArchethic,
         session.walletTo!.genesisAddress,
-        typeTarget,
+        state.tokenToBridge!.typeTarget,
         state.tokenToBridge!.tokenAddressTarget,
         providerEndpoint: state.blockchainTo!.providerEndpoint,
       ).future,
@@ -327,7 +315,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
         BalanceProviders.getBalance(
           state.blockchainTo!.isArchethic,
           state.tokenToBridge!.poolAddressTo,
-          typeTarget,
+          state.tokenToBridge!.typeTarget,
           state.tokenToBridge!.tokenAddressTarget,
           providerEndpoint: state.blockchainTo!.providerEndpoint,
         ).future,

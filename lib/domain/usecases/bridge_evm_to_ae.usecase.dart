@@ -99,7 +99,7 @@ class BridgeEVMToArchethicUseCase
     }
 
     // 3) Provision HTLC
-    if (recoveryStep <= 3 && bridge.tokenToBridge!.type != 'Native') {
+    if (recoveryStep <= 3 && bridge.tokenToBridge!.typeSource != 'Native') {
       try {
         await bridgeNotifier.setCurrentStep(3);
         await provisionEVMHTLC(ref, htlcEVMAddress!);
@@ -210,7 +210,7 @@ class BridgeEVMToArchethicUseCase
       final balanceGetResponseMap =
           await aedappfm.sl.get<ApiService>().fetchBalance([htlcAEAddress!]);
       final balanceGetResponse = balanceGetResponseMap[htlcAEAddress];
-      if (bridge.tokenToBridge!.type == 'ERC20') {
+      if (bridge.tokenToBridge!.typeSource == 'Wrapped') {
         checkAmount = fromBigInt(balanceGetResponse!.uco).toDouble();
       } else {
         for (final balanceToken in balanceGetResponse!.token) {

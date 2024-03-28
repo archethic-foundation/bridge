@@ -32,7 +32,8 @@ _$TokenDataImpl _$$TokenDataImplFromJson(Map<String, dynamic> json) =>
       targetTokenSymbol: json['targetTokenSymbol'] as String? ?? '',
       poolAddressFrom: json['poolAddressFrom'] as String? ?? '',
       poolAddressTo: json['poolAddressTo'] as String? ?? '',
-      type: json['type'] as String? ?? '',
+      typeSource: json['typeSource'] as String? ?? '',
+      typeTarget: json['typeTarget'] as String? ?? '',
       tokenAddressSource: json['tokenAddressSource'] as String? ?? '',
       tokenAddressTarget: json['tokenAddressTarget'] as String? ?? '',
     );
@@ -45,7 +46,8 @@ Map<String, dynamic> _$$TokenDataImplToJson(_$TokenDataImpl instance) =>
       'targetTokenSymbol': instance.targetTokenSymbol,
       'poolAddressFrom': instance.poolAddressFrom,
       'poolAddressTo': instance.poolAddressTo,
-      'type': instance.type,
+      'typeSource': instance.typeSource,
+      'typeTarget': instance.typeTarget,
       'tokenAddressSource': instance.tokenAddressSource,
       'tokenAddressTarget': instance.tokenAddressTarget,
     };

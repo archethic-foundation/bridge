@@ -3,9 +3,9 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_sheet.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_form_sheet.dart';
-import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_archethic_oracle_uco.dart';
 import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/main_screen_sheet.dart';
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -44,7 +44,10 @@ class _BridgeSheetState extends ConsumerState<BridgeSheet> {
       currentStep: ref.watch(BridgeFormProvider.bridgeForm).processStep,
       formSheet: const BridgeFormSheet(),
       confirmSheet: const BridgeConfirmSheet(),
-      bottomWidget: const BridgeTokenToBridgeArchethicOracleUco(),
+      bottomWidget: const ArchethicOracleUco(
+        faqLink:
+            'https://wiki.archethic.net/FAQ/bridge-2-ways#how-is-the-price-of-uco-estimated',
+      ),
     );
   }
 }

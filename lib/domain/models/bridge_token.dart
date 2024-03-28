@@ -28,7 +28,8 @@ class BridgeToken with _$BridgeToken {
     @Default('') String targetTokenSymbol,
     @Default('') String poolAddressFrom,
     @Default('') String poolAddressTo,
-    @Default('') String type,
+    @Default('') String typeSource,
+    @Default('') String typeTarget,
   }) = _BridgeToken;
 
   factory BridgeToken.fromJson(Map<String, dynamic> json) =>

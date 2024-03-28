@@ -23,7 +23,8 @@ class TokenData with _$TokenData {
     @Default('') String targetTokenSymbol,
     @Default('') String poolAddressFrom,
     @Default('') String poolAddressTo,
-    @Default('') String type,
+    @Default('') String typeSource,
+    @Default('') String typeTarget,
     @Default('') String tokenAddressSource,
     @Default('') String tokenAddressTarget,
   }) = _TokenData;

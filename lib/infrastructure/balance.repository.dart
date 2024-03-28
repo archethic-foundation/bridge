@@ -38,8 +38,6 @@ class BalanceRepositoryImpl implements BalanceRepository {
                 typeToken,
               );
           return balance;
-
-        case 'ERC20':
         case 'Wrapped':
           final balance = await aedappfm.sl.get<EVMWalletProvider>().getBalance(
                 address,

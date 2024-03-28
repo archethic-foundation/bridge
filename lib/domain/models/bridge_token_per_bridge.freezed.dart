@@ -180,7 +180,8 @@ mixin _$TokenData {
   String get targetTokenSymbol => throw _privateConstructorUsedError;
   String get poolAddressFrom => throw _privateConstructorUsedError;
   String get poolAddressTo => throw _privateConstructorUsedError;
-  String get type => throw _privateConstructorUsedError;
+  String get typeSource => throw _privateConstructorUsedError;
+  String get typeTarget => throw _privateConstructorUsedError;
   String get tokenAddressSource => throw _privateConstructorUsedError;
   String get tokenAddressTarget => throw _privateConstructorUsedError;
 
@@ -202,7 +203,8 @@ abstract class $TokenDataCopyWith<$Res> {
       String targetTokenSymbol,
       String poolAddressFrom,
       String poolAddressTo,
-      String type,
+      String typeSource,
+      String typeTarget,
       String tokenAddressSource,
       String tokenAddressTarget});
 }
@@ -226,7 +228,8 @@ class _$TokenDataCopyWithImpl<$Res, $Val extends TokenData>
     Object? targetTokenSymbol = null,
     Object? poolAddressFrom = null,
     Object? poolAddressTo = null,
-    Object? type = null,
+    Object? typeSource = null,
+    Object? typeTarget = null,
     Object? tokenAddressSource = null,
     Object? tokenAddressTarget = null,
   }) {
@@ -255,9 +258,13 @@ class _$TokenDataCopyWithImpl<$Res, $Val extends TokenData>
           ? _value.poolAddressTo
           : poolAddressTo // ignore: cast_nullable_to_non_nullable
               as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
+      typeSource: null == typeSource
+          ? _value.typeSource
+          : typeSource // ignore: cast_nullable_to_non_nullable
+              as String,
+      typeTarget: null == typeTarget
+          ? _value.typeTarget
+          : typeTarget // ignore: cast_nullable_to_non_nullable
               as String,
       tokenAddressSource: null == tokenAddressSource
           ? _value.tokenAddressSource
@@ -286,7 +293,8 @@ abstract class _$$TokenDataImplCopyWith<$Res>
       String targetTokenSymbol,
       String poolAddressFrom,
       String poolAddressTo,
-      String type,
+      String typeSource,
+      String typeTarget,
       String tokenAddressSource,
       String tokenAddressTarget});
 }
@@ -308,7 +316,8 @@ class __$$TokenDataImplCopyWithImpl<$Res>
     Object? targetTokenSymbol = null,
     Object? poolAddressFrom = null,
     Object? poolAddressTo = null,
-    Object? type = null,
+    Object? typeSource = null,
+    Object? typeTarget = null,
     Object? tokenAddressSource = null,
     Object? tokenAddressTarget = null,
   }) {
@@ -337,9 +346,13 @@ class __$$TokenDataImplCopyWithImpl<$Res>
           ? _value.poolAddressTo
           : poolAddressTo // ignore: cast_nullable_to_non_nullable
               as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
+      typeSource: null == typeSource
+          ? _value.typeSource
+          : typeSource // ignore: cast_nullable_to_non_nullable
+              as String,
+      typeTarget: null == typeTarget
+          ? _value.typeTarget
+          : typeTarget // ignore: cast_nullable_to_non_nullable
               as String,
       tokenAddressSource: null == tokenAddressSource
           ? _value.tokenAddressSource
@@ -363,7 +376,8 @@ class _$TokenDataImpl implements _TokenData {
       this.targetTokenSymbol = '',
       this.poolAddressFrom = '',
       this.poolAddressTo = '',
-      this.type = '',
+      this.typeSource = '',
+      this.typeTarget = '',
       this.tokenAddressSource = '',
       this.tokenAddressTarget = ''});
 
@@ -390,7 +404,10 @@ class _$TokenDataImpl implements _TokenData {
   final String poolAddressTo;
   @override
   @JsonKey()
-  final String type;
+  final String typeSource;
+  @override
+  @JsonKey()
+  final String typeTarget;
   @override
   @JsonKey()
   final String tokenAddressSource;
@@ -400,7 +417,7 @@ class _$TokenDataImpl implements _TokenData {
 
   @override
   String toString() {
-    return 'TokenData(name: $name, symbol: $symbol, targetTokenName: $targetTokenName, targetTokenSymbol: $targetTokenSymbol, poolAddressFrom: $poolAddressFrom, poolAddressTo: $poolAddressTo, type: $type, tokenAddressSource: $tokenAddressSource, tokenAddressTarget: $tokenAddressTarget)';
+    return 'TokenData(name: $name, symbol: $symbol, targetTokenName: $targetTokenName, targetTokenSymbol: $targetTokenSymbol, poolAddressFrom: $poolAddressFrom, poolAddressTo: $poolAddressTo, typeSource: $typeSource, typeTarget: $typeTarget, tokenAddressSource: $tokenAddressSource, tokenAddressTarget: $tokenAddressTarget)';
   }
 
   @override
@@ -418,7 +435,10 @@ class _$TokenDataImpl implements _TokenData {
                 other.poolAddressFrom == poolAddressFrom) &&
             (identical(other.poolAddressTo, poolAddressTo) ||
                 other.poolAddressTo == poolAddressTo) &&
-            (identical(other.type, type) || other.type == type) &&
+            (identical(other.typeSource, typeSource) ||
+                other.typeSource == typeSource) &&
+            (identical(other.typeTarget, typeTarget) ||
+                other.typeTarget == typeTarget) &&
             (identical(other.tokenAddressSource, tokenAddressSource) ||
                 other.tokenAddressSource == tokenAddressSource) &&
             (identical(other.tokenAddressTarget, tokenAddressTarget) ||
@@ -435,7 +455,8 @@ class _$TokenDataImpl implements _TokenData {
       targetTokenSymbol,
       poolAddressFrom,
       poolAddressTo,
-      type,
+      typeSource,
+      typeTarget,
       tokenAddressSource,
       tokenAddressTarget);
 
@@ -461,7 +482,8 @@ abstract class _TokenData implements TokenData {
       final String targetTokenSymbol,
       final String poolAddressFrom,
       final String poolAddressTo,
-      final String type,
+      final String typeSource,
+      final String typeTarget,
       final String tokenAddressSource,
       final String tokenAddressTarget}) = _$TokenDataImpl;
 
@@ -481,7 +503,9 @@ abstract class _TokenData implements TokenData {
   @override
   String get poolAddressTo;
   @override
-  String get type;
+  String get typeSource;
+  @override
+  String get typeTarget;
   @override
   String get tokenAddressSource;
   @override
