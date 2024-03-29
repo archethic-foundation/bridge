@@ -207,6 +207,7 @@ class BridgeEVMToArchethicUseCase
     // 6) Withdraw
     if (recoveryStep <= 6) {
       var checkAmount = 0.0;
+      await bridgeNotifier.setCurrentStep(6);
       final balanceGetResponseMap =
           await aedappfm.sl.get<ApiService>().fetchBalance([htlcAEAddress!]);
       final balanceGetResponse = balanceGetResponseMap[htlcAEAddress];
@@ -234,7 +235,6 @@ class BridgeEVMToArchethicUseCase
         return;
       }
 
-      await bridgeNotifier.setCurrentStep(6);
       try {
         await withdrawEVM(ref, htlcEVMAddress!, secret, signatureAEHTLC);
       } catch (e) {
