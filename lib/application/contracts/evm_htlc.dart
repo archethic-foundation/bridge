@@ -44,20 +44,31 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
           htlcContractAddress,
         );
 
-        final secret = await revealAESecret(htlcContractAddress);
+        late Transaction transactionRefund;
+        if (DateTime.now().isAfter(DateTime(2024, 2, 20))) {
+          final secret = await revealAESecret(htlcContractAddress);
 
-        final transactionRefund = Transaction.callContract(
-          contract: contractHTLC,
-          function:
-              contractHTLC.findFunctionByNameAndNbOfParameters('refund', 4),
-          maxGas: 1500000,
-          parameters: [
-            hexToBytes(secret.secret!),
-            hexToBytes(secret.secretSignature!.r!),
-            hexToBytes(secret.secretSignature!.s!),
-            BigInt.from(secret.secretSignature!.v!),
-          ],
-        );
+          transactionRefund = Transaction.callContract(
+            contract: contractHTLC,
+            function:
+                contractHTLC.findFunctionByNameAndNbOfParameters('refund', 4),
+            maxGas: 1500000,
+            parameters: [
+              hexToBytes(secret.secret!),
+              hexToBytes(secret.secretSignature!.r!),
+              hexToBytes(secret.secretSignature!.s!),
+              BigInt.from(secret.secretSignature!.v!),
+            ],
+          );
+        } else {
+          // Refund contract from bridge one way
+          transactionRefund = Transaction.callContract(
+            contract: contractHTLC,
+            function: contractHTLC.function('refund'),
+            maxGas: 1500000,
+            parameters: [],
+          );
+        }
 
         var refundTx = '';
         var timeout = false;

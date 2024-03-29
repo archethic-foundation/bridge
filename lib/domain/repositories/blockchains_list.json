@@ -85,7 +85,7 @@
             "icon": "Polygon.svg",
             "urlExplorerAddress": "https://mumbai.polygonscan.com/address/",
             "urlExplorerTransaction": "https://mumbai.polygonscan.com/tx/",
-            "providerEndpoint": "https://polygon-mumbai.g.alchemy.com/v2/DynWKvz6PUFaeZNmlxPXNiV1nK4Ac_2D",
+            "providerEndpoint": "https://polygon-mumbai.infura.io/v3/3a7a2dbdbec046a4961550ddf8c7d78a",
             "isArchethic": false,
             "nativeCurrency": "MATIC"
         },

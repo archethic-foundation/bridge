@@ -18,11 +18,13 @@ class RefunEVMCase {
       ..setFailure(null)
       ..setRefundOk(false)
       ..setWalletConfirmation(null);
+
     final result = await EVMHTLC(
       providerEndPoint,
       htlcContractAddress,
       chaindId,
     ).refund(ref);
+
     result.map(
       success: (refundTxAddress) {
         refundNotifier

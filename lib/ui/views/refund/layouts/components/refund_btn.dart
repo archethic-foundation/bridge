@@ -17,13 +17,19 @@ class RefundButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final refund = ref.watch(RefundFormProvider.refundForm);
-    if (refund.evmWallet == null ||
-        refund.evmWallet!.isConnected == false ||
-        refund.htlcAddress.isEmpty ||
+    if (refund.evmWallet == null || refund.evmWallet!.isConnected == false) {
+      return const SizedBox.shrink();
+    }
+
+    if (refund.htlcAddress.isEmpty ||
         refund.refundTxAddress != null ||
+        refund.failure != null ||
         (refund.isAlreadyRefunded != null &&
             refund.isAlreadyRefunded == true)) {
-      return const SizedBox.shrink();
+      return aedappfm.AppButton(
+        labelBtn: AppLocalizations.of(context)!.btn_refund,
+        disabled: true,
+      );
     }
 
     return refund.htlcCanRefund == false

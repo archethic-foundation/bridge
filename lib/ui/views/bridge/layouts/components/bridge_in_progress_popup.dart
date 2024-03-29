@@ -117,8 +117,18 @@ class BridgeInProgressPopup {
             const aedappfm.Failure.userRejected(),
           );
         }
-
-        bridgeNotifier.initState();
+        ref.invalidate(
+          BridgeFormProvider.bridgeForm,
+        );
+        if (!context.mounted) return;
+        Navigator.of(context).pop();
+      },
+      closeFunction: () {
+        ref.invalidate(
+          BridgeFormProvider.bridgeForm,
+        );
+        if (!context.mounted) return;
+        Navigator.of(context).pop();
       },
     );
   }

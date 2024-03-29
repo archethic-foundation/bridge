@@ -206,7 +206,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
   ) async {
     final sessionNotifier = ref.read(SessionProviders.session.notifier);
     state = state.copyWith(
-      blockchainTo: null,
       targetAddress: '',
       tokenToBridge: null,
       tokenToBridgeAmount: 0,

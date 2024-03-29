@@ -39,10 +39,30 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
   Widget _transferCompleted(BuildContext context) {
     return Row(
       children: [
-        SelectableText('${AppLocalizations.of(context)!.localHistoryStatus}: '),
+        SelectableText(
+          '${AppLocalizations.of(context)!.localHistoryStatus}: ',
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                  context,
+                  Theme.of(context).textTheme.bodyMedium!,
+                ),
+              ),
+        ),
         SelectableText(
           'Transfer completed',
-          style: TextStyle(color: aedappfm.AppThemeBase.statusOK),
+          style: TextStyle(
+            color: aedappfm.AppThemeBase.statusOK,
+            fontSize: Theme.of(context)
+                .textTheme
+                .bodyMedium!
+                .copyWith(
+                  fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                    context,
+                    Theme.of(context).textTheme.bodyMedium!,
+                  ),
+                )
+                .fontSize,
+          ),
         ),
       ],
     );
@@ -57,21 +77,49 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
           children: [
             SelectableText(
               '${AppLocalizations.of(context)!.localHistoryStatus}: ',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                      context,
+                      Theme.of(context).textTheme.bodyMedium!,
+                    ),
+                  ),
             ),
             SelectableText(
               'Transfer interrupted at step ${bridge.currentStep}',
               style: TextStyle(
                 color: aedappfm.AppThemeBase.statusInProgress,
+                fontSize: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(
+                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                        context,
+                        Theme.of(context).textTheme.bodyMedium!,
+                      ),
+                    )
+                    .fontSize,
               ),
             ),
             if (bridge.blockchainFrom != null &&
                 bridge.blockchainFrom!.isArchethic)
               SelectableText(
                 ' (${BridgeArchethicToEVMUseCase().getStepLabel(context, bridge.currentStep)})',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                        context,
+                        Theme.of(context).textTheme.bodyMedium!,
+                      ),
+                    ),
               )
             else
               SelectableText(
                 ' (${BridgeEVMToArchethicUseCase().getStepLabel(context, bridge.currentStep)})',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                        context,
+                        Theme.of(context).textTheme.bodyMedium!,
+                      ),
+                    ),
               ),
           ],
         ),
@@ -81,6 +129,12 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
               context: context,
               failure: bridge.failure,
             ).getMessage()}',
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                    context,
+                    Theme.of(context).textTheme.bodyMedium!,
+                  ),
+                ),
           ),
       ],
     );
@@ -95,13 +149,37 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
           children: [
             SelectableText(
               '${AppLocalizations.of(context)!.localHistoryStatus}: ',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                      context,
+                      Theme.of(context).textTheme.bodyMedium!,
+                    ),
+                  ),
             ),
             SelectableText(
               'Transfer stopped at step ${bridge.currentStep}',
-              style: TextStyle(color: aedappfm.AppThemeBase.statusKO),
+              style: TextStyle(
+                color: aedappfm.AppThemeBase.statusKO,
+                fontSize: Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(
+                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                        context,
+                        Theme.of(context).textTheme.bodyMedium!,
+                      ),
+                    )
+                    .fontSize,
+              ),
             ),
             SelectableText(
               ' (${BridgeArchethicToEVMUseCase().getStepLabel(context, bridge.currentStep)})',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                      context,
+                      Theme.of(context).textTheme.bodyMedium!,
+                    ),
+                  ),
             ),
           ],
         ),
@@ -111,6 +189,12 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
               context: context,
               failure: bridge.failure,
             ).getMessage()}',
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                    context,
+                    Theme.of(context).textTheme.bodyMedium!,
+                  ),
+                ),
           ),
       ],
     );

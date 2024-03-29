@@ -31,10 +31,28 @@ class EVMHTLCStatus extends StatelessWidget {
             children: [
               SelectableText(
                 ' - ${AppLocalizations.of(context)!.htlcStatusHeader}: ',
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                        context,
+                        Theme.of(context).textTheme.bodyMedium!,
+                      ),
+                    ),
               ),
               SelectableText(
                 _htlcStatusLabel(context, snapshot.data),
-                style: TextStyle(color: _htlcColor(snapshot.data)),
+                style: TextStyle(
+                  color: _htlcColor(snapshot.data),
+                  fontSize: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.bodyMedium!,
+                        ),
+                      )
+                      .fontSize,
+                ),
               ),
             ],
           );

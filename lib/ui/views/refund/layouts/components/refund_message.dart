@@ -26,43 +26,34 @@ class RefundMessage extends ConsumerWidget {
     }
 
     if (refund.refundOk) {
-      return SizedBox(
-        height: 40,
-        child: aedappfm.InfoBanner(
-          AppLocalizations.of(context)!.refundSuccessInfo,
-          aedappfm.InfoBannerType.success,
-        ),
+      return aedappfm.InfoBanner(
+        AppLocalizations.of(context)!.refundSuccessInfo,
+        aedappfm.InfoBannerType.success,
       );
     }
 
     if (refund.isAlreadyRefunded != null && refund.isAlreadyRefunded == true) {
-      return SizedBox(
-        height: 40,
-        child: aedappfm.InfoBanner(
-          FailureMessage(
-            context: context,
-            failure: aedappfm.Failure.other(
-              cause: AppLocalizations.of(context)!.refundAlreadyDoneInfo,
-            ),
-          ).getMessage(),
-          aedappfm.InfoBannerType.request,
-        ),
+      return aedappfm.InfoBanner(
+        FailureMessage(
+          context: context,
+          failure: aedappfm.Failure.other(
+            cause: AppLocalizations.of(context)!.refundAlreadyDoneInfo,
+          ),
+        ).getMessage(),
+        aedappfm.InfoBannerType.request,
       );
     }
 
     if (refund.isAlreadyWithdrawn != null &&
         refund.isAlreadyWithdrawn == true) {
-      return SizedBox(
-        height: 40,
-        child: aedappfm.InfoBanner(
-          FailureMessage(
-            context: context,
-            failure: aedappfm.Failure.other(
-              cause: AppLocalizations.of(context)!.refundAlreadyWithdrawnInfo,
-            ),
-          ).getMessage(),
-          aedappfm.InfoBannerType.request,
-        ),
+      return aedappfm.InfoBanner(
+        FailureMessage(
+          context: context,
+          failure: aedappfm.Failure.other(
+            cause: AppLocalizations.of(context)!.refundAlreadyWithdrawnInfo,
+          ),
+        ).getMessage(),
+        aedappfm.InfoBannerType.request,
       );
     }
 
@@ -70,15 +61,12 @@ class RefundMessage extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    return SizedBox(
-      height: 40,
-      child: aedappfm.InfoBanner(
-        FailureMessage(
-          context: context,
-          failure: refund.failure,
-        ).getMessage(),
-        aedappfm.InfoBannerType.error,
-      ),
+    return aedappfm.InfoBanner(
+      FailureMessage(
+        context: context,
+        failure: refund.failure,
+      ).getMessage(),
+      aedappfm.InfoBannerType.error,
     );
   }
 }
