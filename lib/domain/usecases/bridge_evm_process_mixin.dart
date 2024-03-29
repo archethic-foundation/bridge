@@ -214,7 +214,7 @@ mixin EVMBridgeProcessMixin {
     );
 
     var contract = contractNameChargeableHTLCERC;
-    if (bridge.tokenToBridge!.type == 'Native') {
+    if (bridge.tokenToBridge!.typeSource == 'Native') {
       contract = contractNameChargeableHTLCETH;
     }
 
