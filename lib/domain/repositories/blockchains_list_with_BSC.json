@@ -99,6 +99,17 @@
             "providerEndpoint": "https://bsc-dataseed1.binance.org/",
             "isArchethic": false,
             "nativeCurrency": "BNB"
+        },
+        {
+            "name": "Binance Smart Chain Testnet",
+            "chainId": 97,
+            "env": "2-testnet",
+            "icon": "BSC.svg",
+            "urlExplorerAddress": "https://testnet.bscscan.com/address/",
+            "urlExplorerTransaction": "https://testnet.bscscan.com/tx/",
+            "providerEndpoint": "https://bsc-testnet.publicnode.com",
+            "isArchethic": false,
+            "nativeCurrency": "BNB"
         }
     ]
 }
