@@ -15,7 +15,6 @@ class BridgeWallet with _$BridgeWallet {
     @Default('') String oldNameAccount,
     @Default('') String genesisAddress,
     @Default('') String error,
-    String? providerEndpoint,
     @Default(false) bool isConnected,
     Subscription<Account>? accountSub,
     StreamSubscription<Account>? accountStreamSub,

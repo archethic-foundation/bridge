@@ -71,9 +71,6 @@ class BridgeInProgressPopup {
           chainId: bridge.blockchainFrom!.isArchethic
               ? bridge.blockchainTo!.chainId
               : null,
-          providerEndpoint: bridge.blockchainFrom!.isArchethic
-              ? bridge.blockchainTo!.providerEndpoint
-              : null,
         ),
       const Spacer(),
       aedappfm.InProgressResumeBtn(

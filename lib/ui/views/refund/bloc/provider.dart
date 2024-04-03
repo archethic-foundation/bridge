@@ -53,7 +53,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
 
     if (await control()) {
       final evmHTLC = EVMHTLC(
-        state.evmWallet!.providerEndpoint,
         state.htlcAddress,
         chainId,
       );
@@ -114,7 +113,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
 
       if (state.amountCurrency == 'UCO') {
         final evmHTLCERC = EVMHTLCERC(
-          state.evmWallet!.providerEndpoint!,
           state.htlcAddress,
           chainId,
         );
@@ -127,7 +125,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         );
       } else {
         final evmHTLCNative = EVMHTLCNative(
-          state.evmWallet!.providerEndpoint!,
           state.htlcAddress,
           chainId,
         );
@@ -246,7 +243,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
 
     await RefunEVMCase().run(
       ref,
-      state.evmWallet!.providerEndpoint!,
       state.htlcAddress,
       state.chainId!,
     );
@@ -279,7 +275,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
               nameAccount: evmWalletProvider.accountName!,
               genesisAddress: evmWalletProvider.currentAddress!,
               endpoint: bridgeBlockchain!.name,
-              providerEndpoint: bridgeBlockchain.providerEndpoint,
             );
             state = state.copyWith(
               evmWallet: evmWallet,

@@ -15,7 +15,6 @@ class BridgeFinalAmount extends ConsumerStatefulWidget {
     required this.isUCO,
     required this.to,
     this.chainId,
-    this.providerEndpoint,
   });
 
   final bool directionAEToEVM;
@@ -23,7 +22,6 @@ class BridgeFinalAmount extends ConsumerStatefulWidget {
   final bool isUCO;
   final String to;
   final int? chainId;
-  final String? providerEndpoint;
 
   @override
   ConsumerState<BridgeFinalAmount> createState() => _BridgeFinalAmountState();
@@ -48,7 +46,6 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
     timer = Timer.periodic(const Duration(seconds: 3), (Timer t) async {
       try {
         final evmHTLC = EVMHTLC(
-          widget.providerEndpoint ?? '',
           widget.address,
           widget.chainId ?? 0,
         );

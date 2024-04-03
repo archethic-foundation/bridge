@@ -13,20 +13,18 @@ import 'package:aebridge/ui/views/refund/bloc/state.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
 class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
   EVMHTLC(
-    this.providerEndpoint,
     this.htlcContractAddress,
     this.chainId,
   ) {
-    web3Client = Web3Client(providerEndpoint!, Client());
+    final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+    web3Client = evmWalletProvider.web3Client;
   }
 
-  final String? providerEndpoint;
   final String htlcContractAddress;
   Web3Client? web3Client;
   Web3Client? web3ClientProvided;

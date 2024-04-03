@@ -12,15 +12,10 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
 class EVMLP with EVMBridgeProcessMixin {
-  EVMLP(this.providerEndpoint);
-
-  String? providerEndpoint;
-
   Future<Transaction> _getDeployChargeableHTLCTransaction(
     DeployedContract deployedContract,
     String poolAddress,
@@ -52,7 +47,8 @@ class EVMLP with EVMBridgeProcessMixin {
     String addressFrom,
   ) async {
     return aedappfm.Result.guard(() async {
-      final web3Client = Web3Client(providerEndpoint!, Client());
+      final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+      final web3Client = evmWalletProvider.web3Client!;
       final contract =
           await getDeployedContract(contractNameIPool, poolAddress);
 
@@ -84,7 +80,7 @@ class EVMLP with EVMBridgeProcessMixin {
   }) async {
     return aedappfm.Result.guard(() async {
       final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-      final web3Client = Web3Client(providerEndpoint!, Client());
+      final web3Client = evmWalletProvider.web3Client!;
       late String htlcContractAddress;
 
       final contractLP =
@@ -183,7 +179,7 @@ class EVMLP with EVMBridgeProcessMixin {
     return aedappfm.Result.guard(
       () async {
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-        final web3Client = Web3Client(providerEndpoint!, Client());
+        final web3Client = evmWalletProvider.web3Client!;
         late String htlcContractAddress;
 
         final contractLP =
@@ -290,7 +286,8 @@ class EVMLP with EVMBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
-        final web3Client = Web3Client(providerEndpoint!, Client());
+        final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+        final web3Client = evmWalletProvider.web3Client!;
 
         final contractLP =
             await getDeployedContract(contractNameIPool, poolAddress);
@@ -312,7 +309,8 @@ class EVMLP with EVMBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
-        final web3Client = Web3Client(providerEndpoint!, Client());
+        final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+        final web3Client = evmWalletProvider.web3Client!;
 
         final contractLP =
             await getDeployedContract(contractNameIPool, poolAddress);

@@ -6,13 +6,11 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 
 class EVMHTLCStatus extends StatelessWidget {
   const EVMHTLCStatus({
-    required this.providerEndpoint,
     required this.htlcAddress,
     required this.chainId,
     super.key,
   });
 
-  final String providerEndpoint;
   final String htlcAddress;
   final int chainId;
 
@@ -20,7 +18,6 @@ class EVMHTLCStatus extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureBuilder<int>(
       future: EVMHTLC(
-        providerEndpoint,
         htlcAddress,
         chainId,
       ).getStatus(),

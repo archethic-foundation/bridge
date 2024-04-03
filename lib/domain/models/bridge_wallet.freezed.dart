@@ -22,7 +22,6 @@ mixin _$BridgeWallet {
   String get oldNameAccount => throw _privateConstructorUsedError;
   String get genesisAddress => throw _privateConstructorUsedError;
   String get error => throw _privateConstructorUsedError;
-  String? get providerEndpoint => throw _privateConstructorUsedError;
   bool get isConnected => throw _privateConstructorUsedError;
   Subscription<Account>? get accountSub => throw _privateConstructorUsedError;
   StreamSubscription<Account>? get accountStreamSub =>
@@ -46,7 +45,6 @@ abstract class $BridgeWalletCopyWith<$Res> {
       String oldNameAccount,
       String genesisAddress,
       String error,
-      String? providerEndpoint,
       bool isConnected,
       Subscription<Account>? accountSub,
       StreamSubscription<Account>? accountStreamSub});
@@ -73,7 +71,6 @@ class _$BridgeWalletCopyWithImpl<$Res, $Val extends BridgeWallet>
     Object? oldNameAccount = null,
     Object? genesisAddress = null,
     Object? error = null,
-    Object? providerEndpoint = freezed,
     Object? isConnected = null,
     Object? accountSub = freezed,
     Object? accountStreamSub = freezed,
@@ -103,10 +100,6 @@ class _$BridgeWalletCopyWithImpl<$Res, $Val extends BridgeWallet>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String,
-      providerEndpoint: freezed == providerEndpoint
-          ? _value.providerEndpoint
-          : providerEndpoint // ignore: cast_nullable_to_non_nullable
-              as String?,
       isConnected: null == isConnected
           ? _value.isConnected
           : isConnected // ignore: cast_nullable_to_non_nullable
@@ -150,7 +143,6 @@ abstract class _$$BridgeWalletImplCopyWith<$Res>
       String oldNameAccount,
       String genesisAddress,
       String error,
-      String? providerEndpoint,
       bool isConnected,
       Subscription<Account>? accountSub,
       StreamSubscription<Account>? accountStreamSub});
@@ -176,7 +168,6 @@ class __$$BridgeWalletImplCopyWithImpl<$Res>
     Object? oldNameAccount = null,
     Object? genesisAddress = null,
     Object? error = null,
-    Object? providerEndpoint = freezed,
     Object? isConnected = null,
     Object? accountSub = freezed,
     Object? accountStreamSub = freezed,
@@ -206,10 +197,6 @@ class __$$BridgeWalletImplCopyWithImpl<$Res>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String,
-      providerEndpoint: freezed == providerEndpoint
-          ? _value.providerEndpoint
-          : providerEndpoint // ignore: cast_nullable_to_non_nullable
-              as String?,
       isConnected: null == isConnected
           ? _value.isConnected
           : isConnected // ignore: cast_nullable_to_non_nullable
@@ -236,7 +223,6 @@ class _$BridgeWalletImpl extends _BridgeWallet {
       this.oldNameAccount = '',
       this.genesisAddress = '',
       this.error = '',
-      this.providerEndpoint,
       this.isConnected = false,
       this.accountSub,
       this.accountStreamSub})
@@ -261,8 +247,6 @@ class _$BridgeWalletImpl extends _BridgeWallet {
   @JsonKey()
   final String error;
   @override
-  final String? providerEndpoint;
-  @override
   @JsonKey()
   final bool isConnected;
   @override
@@ -272,7 +256,7 @@ class _$BridgeWalletImpl extends _BridgeWallet {
 
   @override
   String toString() {
-    return 'BridgeWallet(wallet: $wallet, endpoint: $endpoint, nameAccount: $nameAccount, oldNameAccount: $oldNameAccount, genesisAddress: $genesisAddress, error: $error, providerEndpoint: $providerEndpoint, isConnected: $isConnected, accountSub: $accountSub, accountStreamSub: $accountStreamSub)';
+    return 'BridgeWallet(wallet: $wallet, endpoint: $endpoint, nameAccount: $nameAccount, oldNameAccount: $oldNameAccount, genesisAddress: $genesisAddress, error: $error, isConnected: $isConnected, accountSub: $accountSub, accountStreamSub: $accountStreamSub)';
   }
 
   @override
@@ -290,8 +274,6 @@ class _$BridgeWalletImpl extends _BridgeWallet {
             (identical(other.genesisAddress, genesisAddress) ||
                 other.genesisAddress == genesisAddress) &&
             (identical(other.error, error) || other.error == error) &&
-            (identical(other.providerEndpoint, providerEndpoint) ||
-                other.providerEndpoint == providerEndpoint) &&
             (identical(other.isConnected, isConnected) ||
                 other.isConnected == isConnected) &&
             (identical(other.accountSub, accountSub) ||
@@ -309,7 +291,6 @@ class _$BridgeWalletImpl extends _BridgeWallet {
       oldNameAccount,
       genesisAddress,
       error,
-      providerEndpoint,
       isConnected,
       accountSub,
       accountStreamSub);
@@ -329,7 +310,6 @@ abstract class _BridgeWallet extends BridgeWallet {
           final String oldNameAccount,
           final String genesisAddress,
           final String error,
-          final String? providerEndpoint,
           final bool isConnected,
           final Subscription<Account>? accountSub,
           final StreamSubscription<Account>? accountStreamSub}) =
@@ -348,8 +328,6 @@ abstract class _BridgeWallet extends BridgeWallet {
   String get genesisAddress;
   @override
   String get error;
-  @override
-  String? get providerEndpoint;
   @override
   bool get isConnected;
   @override

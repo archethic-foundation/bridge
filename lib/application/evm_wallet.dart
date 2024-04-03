@@ -5,7 +5,6 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:http/http.dart';
 import 'package:js/js.dart';
 import 'package:webthree/browser.dart';
 import 'package:webthree/webthree.dart';
@@ -144,7 +143,6 @@ class EVMWalletProvider extends ChangeNotifier {
 
   Future<double> getBalance(
     String address,
-    String providerEndpoint,
     String typeToken, {
     String erc20address = '',
   }) async {
@@ -162,10 +160,6 @@ class EVMWalletProvider extends ChangeNotifier {
           if (erc20address.isEmpty) {
             return 0.0;
           }
-          final client = Web3Client(
-            providerEndpoint,
-            Client(),
-          );
 
           final abiTokenStringJson = jsonDecode(
             await rootBundle.loadString(
@@ -181,7 +175,7 @@ class EVMWalletProvider extends ChangeNotifier {
             EthereumAddress.fromHex(erc20address),
           );
 
-          final balanceResponse = await client.call(
+          final balanceResponse = await web3Client!.call(
             contract: contractToken,
             function: contractToken.function('balanceOf'),
             params: [
@@ -205,7 +199,6 @@ class EVMWalletProvider extends ChangeNotifier {
   }
 
   Future<int> getTokenDecimals(
-    String providerEndpoint,
     String typeToken, {
     String erc20address = '',
   }) async {
@@ -223,10 +216,6 @@ class EVMWalletProvider extends ChangeNotifier {
           if (erc20address.isEmpty) {
             return defaultDecimal;
           }
-          final client = Web3Client(
-            providerEndpoint,
-            Client(),
-          );
 
           final abiTokenStringJson = jsonDecode(
             await rootBundle.loadString(
@@ -242,7 +231,7 @@ class EVMWalletProvider extends ChangeNotifier {
             EthereumAddress.fromHex(erc20address),
           );
 
-          final decimalsResponse = await client.call(
+          final decimalsResponse = await web3Client!.call(
             contract: contractToken,
             function: contractToken.function('decimals'),
             params: [],

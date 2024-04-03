@@ -8,7 +8,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class RefunEVMCase {
   Future<void> run(
     WidgetRef ref,
-    String providerEndPoint,
     String htlcContractAddress,
     int chaindId,
   ) async {
@@ -20,7 +19,6 @@ class RefunEVMCase {
       ..setWalletConfirmation(null);
 
     final result = await EVMHTLC(
-      providerEndPoint,
       htlcContractAddress,
       chaindId,
     ).refund(ref);

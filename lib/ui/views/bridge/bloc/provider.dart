@@ -7,6 +7,7 @@ import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/application/contracts/archethic_factory.dart';
 import 'package:aebridge/application/contracts/evm_lp.dart';
+import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/application/token_decimals.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
@@ -22,7 +23,6 @@ import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:webthree/webthree.dart' as webthree;
 
@@ -96,15 +96,13 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
 
     // Check provider's endpoint
     if (blockchainFrom != null && blockchainFrom.isArchethic == false) {
-      final client = webthree.Web3Client(
-        blockchainFrom.providerEndpoint,
-        Client(),
-      );
+      final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+      final client = evmWalletProvider.web3Client!;
 
       try {
         await client.getBlockNumber();
       } catch (e) {
-        log('Web3Client endpoint error for ${blockchainFrom.providerEndpoint} : $e');
+        log('Web3Client endpoint error: $e');
         await setFailure(
           const aedappfm.Failure.other(
             cause:
@@ -180,23 +178,18 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
 
     // Check provider's endpoint
     if (blockchainTo != null && blockchainTo.isArchethic == false) {
-      final client = webthree.Web3Client(
-        blockchainTo.providerEndpoint,
-        Client(),
-      );
-
       try {
+        final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+        final client = evmWalletProvider.web3Client!;
         await client.getBlockNumber();
       } catch (e) {
-        log('Web3Client endpoint error for ${blockchainTo.providerEndpoint} : $e');
+        log('Web3Client endpoint error for: $e');
         await setFailure(
           const aedappfm.Failure.other(
             cause:
                 "The provider's endpoint is not available. Please contact Archethic support.",
           ),
         );
-      } finally {
-        await client.dispose();
       }
     }
   }
@@ -283,7 +276,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
         session.walletFrom!.genesisAddress,
         state.tokenToBridge!.typeSource,
         state.tokenToBridge!.tokenAddressSource,
-        providerEndpoint: state.blockchainFrom!.providerEndpoint,
       ).future,
     );
     await setTokenToBridgeBalance(balance);
@@ -293,7 +285,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
         state.blockchainFrom!.isArchethic,
         state.tokenToBridge!.typeSource,
         state.tokenToBridge!.tokenAddressSource,
-        providerEndpoint: state.blockchainFrom!.providerEndpoint,
       ).future,
     );
     await setTokenToBridgeDecimals(tokenDecimals);
@@ -304,7 +295,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
         session.walletTo!.genesisAddress,
         state.tokenToBridge!.typeTarget,
         state.tokenToBridge!.tokenAddressTarget,
-        providerEndpoint: state.blockchainTo!.providerEndpoint,
       ).future,
     );
     await setTokenBridgedBalance(balanceTarget);
@@ -316,7 +306,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
           state.tokenToBridge!.poolAddressTo,
           state.tokenToBridge!.typeTarget,
           state.tokenToBridge!.tokenAddressTarget,
-          providerEndpoint: state.blockchainTo!.providerEndpoint,
         ).future,
       );
       setPoolTargetBalance(poolTargetBalance);
@@ -703,11 +692,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
 
   Future<void> validateForm() async {
     if (state.blockchainFrom!.isArchethic == false) {
-      final evmLP = EVMLP(
-        state.blockchainFrom!.isArchethic
-            ? state.blockchainTo!.providerEndpoint
-            : state.blockchainFrom!.providerEndpoint,
-      );
+      final evmLP = EVMLP();
 
       final safetyModuleFees = await evmLP.calculateSafetyModuleFees(
         state.blockchainFrom!.isArchethic
