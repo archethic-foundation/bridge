@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:html';
 import 'dart:math';
+import 'package:aebridge/domain/models/contracts/ERC20.g.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:js/js.dart';
 import 'package:webthree/browser.dart';
+import 'package:webthree/contracts/erc20.dart';
 import 'package:webthree/webthree.dart';
 
 class EVMWalletProvider extends ChangeNotifier {
@@ -160,6 +162,20 @@ class EVMWalletProvider extends ChangeNotifier {
           if (erc20address.isEmpty) {
             return 0.0;
           }
+
+          final tokenERC20 = ERC20(
+            address: EthereumAddress.fromHex(
+              erc20address,
+            ),
+            client: web3Client!,
+          );
+
+          final balanceERC20 = await tokenERC20.balanceOf(
+            EthereumAddress.fromHex(
+              address,
+            ),
+          );
+          print('balanceERC20 $balanceERC20');
 
           final abiTokenStringJson = jsonDecode(
             await rootBundle.loadString(
