@@ -43,6 +43,7 @@
             "icon": "Ethereum.svg",
             "urlExplorerAddress": "https://etherscan.io/address/",
             "urlExplorerTransaction": "https://etherscan.io/tx/",
+            "urlExplorerChain": "https://etherscan.io/address/",
             "providerEndpoint": "https://mainnet.infura.io/v3/3a7a2dbdbec046a4961550ddf8c7d78a",
             "isArchethic": false,
             "nativeCurrency": "ETH"
@@ -54,6 +55,7 @@
             "icon": "Ethereum.svg",
             "urlExplorerAddress": "https://sepolia.etherscan.io/address/",
             "urlExplorerTransaction": "https://sepolia.etherscan.io/tx/",
+            "urlExplorerChain": "https://sepolia.etherscan.io/address/",
             "providerEndpoint": "https://sepolia.infura.io/v3/3a7a2dbdbec046a4961550ddf8c7d78a",
             "isArchethic": false,
             "nativeCurrency": "ETH"
@@ -74,6 +76,7 @@
             "icon": "Polygon.svg",
             "urlExplorerAddress": "https://polygonscan.com/address/",
             "urlExplorerTransaction": "https://polygonscan.com/tx/",
+            "urlExplorerChain": "https://polygonscan.com/address/",
             "providerEndpoint": "https://polygon-mainnet.g.alchemy.com/v2/DynWKvz6PUFaeZNmlxPXNiV1nK4Ac_2D",
             "isArchethic": false,
             "nativeCurrency": "MATIC"
@@ -85,6 +88,7 @@
             "icon": "Polygon.svg",
             "urlExplorerAddress": "https://mumbai.polygonscan.com/address/",
             "urlExplorerTransaction": "https://mumbai.polygonscan.com/tx/",
+            "urlExplorerChain": "https://mumbai.polygonscan.com/address/",
             "providerEndpoint": "https://polygon-mumbai.g.alchemy.com/v2/DynWKvz6PUFaeZNmlxPXNiV1nK4Ac_2D",
             "isArchethic": false,
             "nativeCurrency": "MATIC"
@@ -96,6 +100,7 @@
             "icon": "BSC.svg",
             "urlExplorerAddress": "https://bscscan.com/address/",
             "urlExplorerTransaction": "https://bscscan.com/tx/",
+            "urlExplorerChain": "https://bscscan.com/address/",
             "providerEndpoint": "https://bsc-dataseed1.binance.org/",
             "isArchethic": false,
             "nativeCurrency": "BNB"
