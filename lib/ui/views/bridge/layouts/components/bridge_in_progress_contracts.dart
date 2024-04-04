@@ -64,6 +64,7 @@ class BridgeInProgressContracts extends ConsumerWidget {
                   address: bridge.blockchainFrom!.htlcAddress!,
                   chainId: bridge.blockchainFrom!.chainId,
                   reduceAddress: true,
+                  typeAddress: TypeAddress.chain,
                   header:
                       '${bridge.blockchainFrom!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
                 ),
@@ -80,6 +81,7 @@ class BridgeInProgressContracts extends ConsumerWidget {
                 FormatAddressLinkCopy(
                   address: bridge.blockchainTo!.htlcAddress!,
                   chainId: bridge.blockchainTo!.chainId,
+                  typeAddress: TypeAddress.chain,
                   reduceAddress: true,
                   header:
                       '${bridge.blockchainTo!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
