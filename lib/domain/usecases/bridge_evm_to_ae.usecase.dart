@@ -221,7 +221,17 @@ class BridgeEVMToArchethicUseCase
           }
         }
       }
-      if (checkAmount < amount!) {
+      if (amount == null) {
+        amount = await getEVMHTLCAmount(ref, htlcEVMAddress!);
+        if (amount == null) {
+          await bridgeNotifier
+              .setFailure(const aedappfm.Failure.invalidValue());
+          await bridgeNotifier.setTransferInProgress(false);
+          return;
+        }
+      }
+
+      if (checkAmount < amount) {
         await bridgeNotifier
             .setFailure(const aedappfm.Failure.htlcWithoutFunds());
         await bridgeNotifier.setTransferInProgress(false);
@@ -236,7 +246,15 @@ class BridgeEVMToArchethicUseCase
       }
 
       try {
-        await withdrawEVM(ref, htlcEVMAddress!, secret, signatureAEHTLC);
+        final htlc = EVMHTLC(
+          bridge.blockchainFrom!.providerEndpoint,
+          htlcEVMAddress!,
+          bridge.blockchainFrom!.chainId,
+        );
+        final status = await htlc.getStatus();
+        if (status != 1) {
+          await withdrawEVM(ref, htlcEVMAddress, secret, signatureAEHTLC);
+        }
       } catch (e) {
         await bridgeNotifier
             .setFailure(aedappfm.Failure.other(cause: e.toString()));
