@@ -27,7 +27,6 @@ class LocalHistoryCardOptionsRefund extends ConsumerWidget {
 
     return FutureBuilder<int>(
       future: EVMHTLC(
-        bridge.blockchainFrom!.providerEndpoint,
         bridge.blockchainFrom!.htlcAddress!,
         bridge.blockchainFrom!.chainId,
       ).getStatus(),

@@ -1256,19 +1256,18 @@ packages:
   webthree:
     dependency: "direct main"
     description:
-      name: webthree
-      sha256: "7b1c743690931559d91227f512d60965752b6753c5dec75eccb489505a6fcbad"
-      url: "https://pub.dev"
-    source: hosted
-    version: "2.7.4"
+      path: "../webthree-1"
+      relative: true
+    source: path
+    version: "2.7.3"
   win32:
     dependency: transitive
     description:
       name: win32
-      sha256: "8cb58b45c47dcb42ab3651533626161d6b67a2921917d8d429791f76972b3480"
+      sha256: "0a989dc7ca2bb51eac91e8fd00851297cfffd641aa7538b165c62637ca0eaa4a"
       url: "https://pub.dev"
     source: hosted
-    version: "5.3.0"
+    version: "5.4.0"
   x25519:
     dependency: transitive
     description:

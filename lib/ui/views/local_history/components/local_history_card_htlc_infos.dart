@@ -41,7 +41,6 @@ class LocalHistoryCardHTLCInfos extends StatelessWidget {
                 ),
                 if (bridge.blockchainFrom!.isArchethic == false)
                   EVMHTLCStatus(
-                    providerEndpoint: bridge.blockchainFrom!.providerEndpoint,
                     htlcAddress: bridge.blockchainFrom!.htlcAddress!,
                     chainId: bridge.blockchainFrom!.chainId,
                   ),
@@ -65,7 +64,6 @@ class LocalHistoryCardHTLCInfos extends StatelessWidget {
                 ),
                 if (bridge.blockchainTo!.isArchethic == false)
                   EVMHTLCStatus(
-                    providerEndpoint: bridge.blockchainTo!.providerEndpoint,
                     htlcAddress: bridge.blockchainTo!.htlcAddress!,
                     chainId: bridge.blockchainTo!.chainId,
                   ),

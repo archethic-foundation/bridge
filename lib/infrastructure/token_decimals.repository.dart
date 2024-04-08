@@ -9,9 +9,8 @@ class TokenDecimalsRepositoryImpl implements TokenDecimalsRepository {
   Future<int> getTokenDecimals(
     bool isArchethic,
     String typeToken,
-    String tokenAddress, {
-    String? providerEndpoint,
-  }) async {
+    String tokenAddress,
+  ) async {
     if (isArchethic) {
       final balanceGetResponseMap = await aedappfm.sl
           .get<ApiService>()
@@ -26,14 +25,12 @@ class TokenDecimalsRepositoryImpl implements TokenDecimalsRepository {
         case 'Native':
           final decimals =
               await aedappfm.sl.get<EVMWalletProvider>().getTokenDecimals(
-                    providerEndpoint!,
                     typeToken,
                   );
           return decimals;
         case 'Wrapped':
           final decimals =
               await aedappfm.sl.get<EVMWalletProvider>().getTokenDecimals(
-                    providerEndpoint!,
                     typeToken,
                     erc20address: tokenAddress,
                   );

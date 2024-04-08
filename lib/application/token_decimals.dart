@@ -15,14 +15,12 @@ Future<int> _getTokenDecimals(
   _GetTokenDecimalsRef ref,
   bool isArchethic,
   String typeToken,
-  String tokenAddress, {
-  String? providerEndpoint,
-}) async {
+  String tokenAddress,
+) async {
   return ref.read(_tokenDecimalsRepositoryProvider).getTokenDecimals(
         isArchethic,
         typeToken,
         tokenAddress,
-        providerEndpoint: providerEndpoint,
       );
 }
 

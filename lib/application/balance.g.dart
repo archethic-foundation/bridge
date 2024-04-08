@@ -22,7 +22,7 @@ final _balanceRepositoryProvider =
 );
 
 typedef _BalanceRepositoryRef = AutoDisposeProviderRef<BalanceRepository>;
-String _$getBalanceHash() => r'eff86b6c2ef83cb454ccd915e2f5c0b24ba26888';
+String _$getBalanceHash() => r'78d3a9db46e7090cd2b78926c4c1c83953bcc501';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -59,15 +59,13 @@ class _GetBalanceFamily extends Family<AsyncValue<double>> {
     bool isArchethic,
     String address,
     String typeToken,
-    String tokenAddress, {
-    String? providerEndpoint,
-  }) {
+    String tokenAddress,
+  ) {
     return _GetBalanceProvider(
       isArchethic,
       address,
       typeToken,
       tokenAddress,
-      providerEndpoint: providerEndpoint,
     );
   }
 
@@ -80,7 +78,6 @@ class _GetBalanceFamily extends Family<AsyncValue<double>> {
       provider.address,
       provider.typeToken,
       provider.tokenAddress,
-      providerEndpoint: provider.providerEndpoint,
     );
   }
 
@@ -106,16 +103,14 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
     bool isArchethic,
     String address,
     String typeToken,
-    String tokenAddress, {
-    String? providerEndpoint,
-  }) : this._internal(
+    String tokenAddress,
+  ) : this._internal(
           (ref) => _getBalance(
             ref as _GetBalanceRef,
             isArchethic,
             address,
             typeToken,
             tokenAddress,
-            providerEndpoint: providerEndpoint,
           ),
           from: _getBalanceProvider,
           name: r'_getBalanceProvider',
@@ -130,7 +125,6 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
           address: address,
           typeToken: typeToken,
           tokenAddress: tokenAddress,
-          providerEndpoint: providerEndpoint,
         );
 
   _GetBalanceProvider._internal(
@@ -144,14 +138,12 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
     required this.address,
     required this.typeToken,
     required this.tokenAddress,
-    required this.providerEndpoint,
   }) : super.internal();
 
   final bool isArchethic;
   final String address;
   final String typeToken;
   final String tokenAddress;
-  final String? providerEndpoint;
 
   @override
   Override overrideWith(
@@ -170,7 +162,6 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
         address: address,
         typeToken: typeToken,
         tokenAddress: tokenAddress,
-        providerEndpoint: providerEndpoint,
       ),
     );
   }
@@ -186,8 +177,7 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
         other.isArchethic == isArchethic &&
         other.address == address &&
         other.typeToken == typeToken &&
-        other.tokenAddress == tokenAddress &&
-        other.providerEndpoint == providerEndpoint;
+        other.tokenAddress == tokenAddress;
   }
 
   @override
@@ -197,7 +187,6 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
     hash = _SystemHash.combine(hash, address.hashCode);
     hash = _SystemHash.combine(hash, typeToken.hashCode);
     hash = _SystemHash.combine(hash, tokenAddress.hashCode);
-    hash = _SystemHash.combine(hash, providerEndpoint.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -215,9 +204,6 @@ mixin _GetBalanceRef on AutoDisposeFutureProviderRef<double> {
 
   /// The parameter `tokenAddress` of this provider.
   String get tokenAddress;
-
-  /// The parameter `providerEndpoint` of this provider.
-  String? get providerEndpoint;
 }
 
 class _GetBalanceProviderElement
@@ -232,9 +218,6 @@ class _GetBalanceProviderElement
   String get typeToken => (origin as _GetBalanceProvider).typeToken;
   @override
   String get tokenAddress => (origin as _GetBalanceProvider).tokenAddress;
-  @override
-  String? get providerEndpoint =>
-      (origin as _GetBalanceProvider).providerEndpoint;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

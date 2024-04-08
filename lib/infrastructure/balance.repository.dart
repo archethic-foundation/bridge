@@ -10,9 +10,8 @@ class BalanceRepositoryImpl implements BalanceRepository {
     bool isArchethic,
     String address,
     String typeToken,
-    String tokenAddress, {
-    String? providerEndpoint,
-  }) async {
+    String tokenAddress,
+  ) async {
     if (isArchethic) {
       final balanceGetResponseMap =
           await aedappfm.sl.get<ApiService>().fetchBalance([address]);
@@ -34,14 +33,12 @@ class BalanceRepositoryImpl implements BalanceRepository {
         case 'Native':
           final balance = await aedappfm.sl.get<EVMWalletProvider>().getBalance(
                 address,
-                providerEndpoint!,
                 typeToken,
               );
           return balance;
         case 'Wrapped':
           final balance = await aedappfm.sl.get<EVMWalletProvider>().getBalance(
                 address,
-                providerEndpoint!,
                 typeToken,
                 erc20address: tokenAddress,
               );
