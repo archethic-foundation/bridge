@@ -24,6 +24,7 @@ class RefundButton extends ConsumerWidget {
     if (refund.htlcAddress.isEmpty ||
         refund.refundTxAddress != null ||
         refund.failure != null ||
+        refund.processRefund == null ||
         (refund.isAlreadyRefunded != null &&
             refund.isAlreadyRefunded == true)) {
       return aedappfm.AppButton(

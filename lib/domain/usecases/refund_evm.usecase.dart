@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
+import 'package:aebridge/ui/views/refund/bloc/state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RefunEVMCase {
@@ -11,6 +12,8 @@ class RefunEVMCase {
     String providerEndPoint,
     String htlcContractAddress,
     int chaindId,
+    ProcessRefund processRefund,
+    bool isERC,
   ) async {
     final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier)
       ..setRefundTxAddress(null)
@@ -23,7 +26,7 @@ class RefunEVMCase {
       providerEndPoint,
       htlcContractAddress,
       chaindId,
-    ).refund(ref);
+    ).refund(ref, processRefund, isERC);
 
     result.map(
       success: (refundTxAddress) {

@@ -11,9 +11,13 @@ import 'package:aebridge/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aebridge/util/browser_util_web.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webthree/webthree.dart' as webthree;
+
+const kArchethicAddressLength = 68;
+const kEvmAddressLength = 42;
 
 final _refundFormNotifierProvider =
     NotifierProvider.autoDispose<RefundFormNotifier, RefundFormState>(
@@ -45,6 +49,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
 
     state = state.copyWith(
       refundTxAddress: null,
+      processRefund: null,
       isAlreadyRefunded: false,
       isAlreadyWithdrawn: false,
     );
@@ -103,16 +108,17 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         BridgeBlockchainsProviders.getBlockchainFromChainId(chainId).future,
       );
 
-      final resultAmountCurrency =
-          await evmHTLC.getAmountCurrency(blockchain!.nativeCurrency);
-      resultAmountCurrency.map(
-        success: (currency) {
-          setAmountCurrency(currency);
+      var isERC20 = false;
+      final resultSymbol = await evmHTLC.getSymbol(blockchain!.nativeCurrency);
+      resultSymbol.map(
+        success: (result) {
+          setAmountCurrency(result.symbol);
+          isERC20 = result.isERC20;
         },
         failure: setFailure,
       );
 
-      if (state.amountCurrency == 'UCO') {
+      if (isERC20) {
         final evmHTLCERC = EVMHTLCERC(
           state.evmWallet!.providerEndpoint!,
           state.htlcAddress,
@@ -120,8 +126,8 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         );
         final resultFee = await evmHTLCERC.getFee();
         resultFee.map(
-          success: (fee) {
-            setFee(fee);
+          success: (_resultFee) {
+            setFee(_resultFee);
           },
           failure: setFailure,
         );
@@ -133,11 +139,31 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         );
         final resultFee = await evmHTLCNative.getFee();
         resultFee.map(
-          success: (fee) {
-            setFee(fee);
+          success: (_resultFee) {
+            setFee(_resultFee);
           },
           failure: setFailure,
         );
+      }
+
+      final isChargeable =
+          await evmHTLC.isChargeable(state.evmWallet!.genesisAddress);
+      state = state.copyWith(
+        processRefund: isChargeable == null
+            ? null
+            : isChargeable == true
+                ? ProcessRefund.chargeable
+                : ProcessRefund.signed,
+      );
+
+      if (state.processRefund == ProcessRefund.signed &&
+          state.htlcAddress.length == kEvmAddressLength) {
+        setFailure(
+          const aedappfm.Failure.other(
+            cause: 'Please, fill the address of the Archethic contract instead',
+          ),
+        );
+        return;
       }
     }
   }
@@ -192,13 +218,31 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       );
     }
 
-    try {
-      webthree.EthereumAddress.fromHex(state.htlcAddress);
-    } catch (e) {
+    if (state.htlcAddress.length != kArchethicAddressLength &&
+        state.htlcAddress.length != kEvmAddressLength) {
       return (
         result: false,
         failure: const aedappfm.Failure.other(cause: 'Malformated address.'),
       );
+    }
+
+    if (state.htlcAddress.length == kArchethicAddressLength) {
+      if (archethic.Address(address: state.htlcAddress).isValid() == false) {
+        return (
+          result: false,
+          failure: const aedappfm.Failure.other(cause: 'Malformated address.'),
+        );
+      }
+    }
+    if (state.htlcAddress.length == kEvmAddressLength) {
+      try {
+        webthree.EthereumAddress.fromHex(state.htlcAddress);
+      } catch (e) {
+        return (
+          result: false,
+          failure: const aedappfm.Failure.other(cause: 'Malformated address.'),
+        );
+      }
     }
 
     return (result: true, failure: null);
@@ -249,6 +293,8 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       state.evmWallet!.providerEndpoint!,
       state.htlcAddress,
       state.chainId!,
+      state.processRefund!,
+      state.amountCurrency == 'UCO',
     );
   }
 

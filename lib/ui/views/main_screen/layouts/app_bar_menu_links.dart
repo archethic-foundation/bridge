@@ -82,7 +82,9 @@ class AppBarMenuLinks extends StatelessWidget {
           onPressed: () {
             launchUrl(
               Uri.parse(
-                'https://dex.archethic.net',
+                (Uri.base.toString().toLowerCase().contains('bridge.archethic'))
+                    ? 'https://dex.archethic.net'
+                    : 'https://dex.testnet.archethic.net',
               ),
             );
           },

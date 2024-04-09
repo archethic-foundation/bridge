@@ -256,9 +256,6 @@ class BridgeEVMToArchethicUseCase
           await withdrawEVM(ref, htlcEVMAddress, secret, signatureAEHTLC);
         }
       } catch (e) {
-        await bridgeNotifier
-            .setFailure(aedappfm.Failure.other(cause: e.toString()));
-        await bridgeNotifier.setTransferInProgress(false);
         return;
       }
     }

@@ -34,32 +34,49 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
 
   Future<aedappfm.Result<String, aedappfm.Failure>> refund(
     WidgetRef ref,
+    ProcessRefund processRefund,
+    bool isERC,
   ) async {
     return aedappfm.Result.guard(
       () async {
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
 
         final contractHTLC = await getDeployedContract(
-          contractNameHTLCBase,
+          processRefund == ProcessRefund.chargeable
+              ? isERC
+                  ? contractNameChargeableHTLCERC
+                  : contractNameChargeableHTLCETH
+              : isERC
+                  ? contractNameSignedHTLCERC
+                  : contractNameSignedHTLCETH,
           htlcContractAddress,
         );
 
         late Transaction transactionRefund;
         if (DateTime.now().isAfter(DateTime(2024, 2, 20))) {
-          final secret = await revealAESecret(htlcContractAddress);
+          if (processRefund == ProcessRefund.chargeable) {
+            transactionRefund = Transaction.callContract(
+              contract: contractHTLC,
+              function: contractHTLC.function('refund'),
+              maxGas: 1500000,
+              parameters: [],
+            );
+          } else {
+            final secret = await revealAESecret(htlcContractAddress);
 
-          transactionRefund = Transaction.callContract(
-            contract: contractHTLC,
-            function:
-                contractHTLC.findFunctionByNameAndNbOfParameters('refund', 4),
-            maxGas: 1500000,
-            parameters: [
-              hexToBytes(secret.secret!),
-              hexToBytes(secret.secretSignature!.r!),
-              hexToBytes(secret.secretSignature!.s!),
-              BigInt.from(secret.secretSignature!.v!),
-            ],
-          );
+            transactionRefund = Transaction.callContract(
+              contract: contractHTLC,
+              function:
+                  contractHTLC.findFunctionByNameAndNbOfParameters('refund', 4),
+              maxGas: 1500000,
+              parameters: [
+                hexToBytes(secret.secret!),
+                hexToBytes(secret.secretSignature!.r!),
+                hexToBytes(secret.secretSignature!.s!),
+                BigInt.from(secret.secretSignature!.v!),
+              ],
+            );
+          }
         } else {
           // Refund contract from bridge one way
           transactionRefund = Transaction.callContract(
@@ -188,20 +205,39 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
     );
   }
 
-  Future<aedappfm.Result<String, aedappfm.Failure>> getAmountCurrency(
+  Future<aedappfm.Result<({String symbol, bool isERC20}), aedappfm.Failure>>
+      getSymbol(
     String nativeCurrency,
   ) async {
     return aedappfm.Result.guard(() async {
+      var _isERC20 = false;
       final contractHTLCERC =
           await getDeployedContract(contractNameHTLCERC, htlcContractAddress);
       var currency = nativeCurrency;
       try {
-        await web3Client!.call(
+        final addressToken = await web3Client!.call(
           contract: contractHTLCERC,
           function: contractHTLCERC.function('token'),
           params: [],
         );
-        currency = 'UCO';
+
+        if (addressToken.isNotEmpty) {
+          final contratERC20 = await getDeployedContract(
+            contractNameERC20,
+            (addressToken[0] as EthereumAddress).hex,
+          );
+
+          final symbol = await web3Client!.call(
+            contract: contratERC20,
+            function: contratERC20.function('symbol'),
+            params: [],
+          );
+
+          if (symbol.isNotEmpty) {
+            currency = symbol[0];
+            _isERC20 = true;
+          }
+        }
       } catch (e, stackTrace) {
         aedappfm.sl.get<aedappfm.LogManager>().log(
               '$e',
@@ -211,7 +247,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             );
       }
 
-      return currency;
+      return (symbol: currency, isERC20: _isERC20);
     });
   }
 
@@ -275,6 +311,26 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
 
     final BigInt status = statusResult[0];
     return status.toInt();
+  }
+
+  Future<bool?> isChargeable(String userAddress) async {
+    bool _isChargeable;
+    final contractHTLC =
+        await getDeployedContract(contractNameHTLCBase, htlcContractAddress);
+
+    final result = await web3Client!.call(
+      contract: contractHTLC,
+      function: contractHTLC.function('from'),
+      params: [],
+    );
+
+    final addressFrom = (result[0] as EthereumAddress).hex;
+    if (addressFrom.toUpperCase() == userAddress.toUpperCase()) {
+      _isChargeable = true;
+    } else {
+      _isChargeable = false;
+    }
+    return _isChargeable;
   }
 
   Future<aedappfm.Result<String, aedappfm.Failure>> withdraw(
