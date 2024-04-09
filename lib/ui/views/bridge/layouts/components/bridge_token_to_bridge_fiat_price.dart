@@ -26,6 +26,8 @@ class BridgeTokenToBridgeFiatPrice extends ConsumerWidget {
     switch (bridge.tokenToBridge!.symbol) {
       case 'ETH':
       case 'aeETH':
+      case 'wETH':
+      case 'WETH':
         price = prices.ethereum;
         break;
       case 'BNB':

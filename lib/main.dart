@@ -15,7 +15,6 @@ Future<void> main() async {
   await DBHelper.setupDatabase();
   setupServiceLocator();
   setPathUrlStrategy();
-
   runApp(
     ProviderScope(
       observers: [

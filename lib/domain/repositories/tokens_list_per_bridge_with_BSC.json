@@ -120,7 +120,7 @@
                 "name": "Wrapped Ether",
                 "symbol": "aeETH",
                 "targetTokenName": "Wrapped Ether",
-                "targetTokenSymbol": "wETH",
+                "targetTokenSymbol": "WETH",
                 "poolAddressFrom": "000066706d704329ca8c2a4153991e2ddacc968622ca10217ca14952eb7abb966c30",
                 "poolAddressTo": "0x3Fa0d410064FcE2744e4feebB3Be338e1fA3C967",
                 "typeSource": "Wrapped",
@@ -295,7 +295,7 @@
             },
             {
                 "name": "Wrapped Ether",
-                "symbol": "wETH",
+                "symbol": "WETH",
                 "targetTokenName": "Archethic Ether",
                 "targetTokenSymbol": "aeETH",
                 "poolAddressFrom": "0x3Fa0d410064FcE2744e4feebB3Be338e1fA3C967",

@@ -39,6 +39,8 @@ const contractNamePoolBase =
 
 const contractNameIERC20 =
     'contracts/evm/artifacts/@openzeppelin/contracts/token/ERC20/IERC20.sol/IERC20.json';
+const contractNameERC20 =
+    'contracts/evm/artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json';
 const contractNameSignedHTLCERC =
     'contracts/evm/artifacts/contracts/HTLC/SignedHTLC_ERC.sol/SignedHTLC_ERC.json';
 const contractNameSignedHTLCETH =

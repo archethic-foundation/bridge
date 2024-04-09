@@ -108,7 +108,7 @@ class _RefundContractAddressState extends ConsumerState<RefundContractAddress> {
                             textInputAction: TextInputAction.next,
                             keyboardType: TextInputType.text,
                             inputFormatters: <TextInputFormatter>[
-                              LengthLimitingTextInputFormatter(42),
+                              LengthLimitingTextInputFormatter(68),
                             ],
                             decoration: const InputDecoration(
                               border: InputBorder.none,

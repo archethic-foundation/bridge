@@ -4,7 +4,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'state.freezed.dart';
 
-enum WalletConfirmationRefund { evm, archethic }
+enum WalletConfirmationRefund { evm }
+
+enum ProcessRefund { chargeable, signed }
 
 @freezed
 class RefundFormState with _$RefundFormState {
@@ -23,6 +25,7 @@ class RefundFormState with _$RefundFormState {
     @Default(0) double fee,
     @Default(false) htlcCanRefund,
     WalletConfirmationRefund? walletConfirmation,
+    ProcessRefund? processRefund,
     BridgeWallet? evmWallet,
     @FailureJsonConverter() Failure? failure,
   }) = _RefundFormState;
@@ -32,7 +35,8 @@ class RefundFormState with _$RefundFormState {
       failure == null &&
       htlcAddress.isNotEmpty &&
       addressOk != null &&
-      addressOk == true;
+      addressOk == true &&
+      processRefund != null;
 
   double get totalAmountToRefund => amount + fee;
 }

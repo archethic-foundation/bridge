@@ -184,7 +184,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
       () async {
         try {
           final contractHTLC = await getDeployedContract(
-            contractNameChargeableHTLCERC,
+            contractNameChargeableHTLCETH,
             htlcContractAddress,
           );
 
@@ -197,9 +197,29 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
           final BigInt fee = feeMap[0];
           final etherAmount = EtherAmount.fromBigInt(EtherUnit.wei, fee);
           return etherAmount.getValueInUnit(EtherUnit.ether);
-        } catch (e) {
-          throw const aedappfm.Failure.notHTLC();
-        }
+
+          // ignore: empty_catches
+        } catch (e) {}
+
+        try {
+          final contractHTLC = await getDeployedContract(
+            contractNameSignedHTLCETH,
+            htlcContractAddress,
+          );
+
+          final feeMap = await web3Client!.call(
+            contract: contractHTLC,
+            function: contractHTLC.function('fee'),
+            params: [],
+          );
+
+          final BigInt fee = feeMap[0];
+          final etherAmount = EtherAmount.fromBigInt(EtherUnit.wei, fee);
+          return etherAmount.getValueInUnit(EtherUnit.ether);
+
+          // ignore: empty_catches
+        } catch (e) {}
+        return 0.0;
       },
     );
   }

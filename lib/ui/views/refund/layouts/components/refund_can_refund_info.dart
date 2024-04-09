@@ -16,7 +16,9 @@ class RefundCanRefundInfo extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final refund = ref.watch(RefundFormProvider.refundForm);
-    if (refund.isAlreadyRefunded == true || refund.isAlreadyWithdrawn == true) {
+    if (refund.isAlreadyRefunded == true ||
+        refund.isAlreadyWithdrawn == true ||
+        refund.processRefund == null) {
       return const SizedBox.shrink();
     }
 
@@ -28,7 +30,10 @@ class RefundCanRefundInfo extends ConsumerWidget {
             padding: const EdgeInsets.only(bottom: 2),
             child: Icon(
               aedappfm.Iconsax.tick_circle5,
-              size: 12,
+              size: aedappfm.Responsive.fontSizeFromValue(
+                context,
+                desktopValue: 12,
+              ),
               color: aedappfm.ArchethicThemeBase.systemPositive500,
             ),
           ),
@@ -40,6 +45,10 @@ class RefundCanRefundInfo extends ConsumerWidget {
               '${AppLocalizations.of(context)!.refundCanRefundYes} ${refund.totalAmountToRefund.formatNumber()} ${refund.amountCurrency}',
               style: TextStyle(
                 color: aedappfm.ArchethicThemeBase.systemPositive500,
+                fontSize: aedappfm.Responsive.fontSizeFromValue(
+                  context,
+                  desktopValue: 13,
+                ),
               ),
               textAlign: TextAlign.end,
             ),
@@ -55,7 +64,10 @@ class RefundCanRefundInfo extends ConsumerWidget {
               padding: const EdgeInsets.only(bottom: 2),
               child: Icon(
                 aedappfm.Iconsax.close_circle5,
-                size: 12,
+                size: aedappfm.Responsive.fontSizeFromValue(
+                  context,
+                  desktopValue: 12,
+                ),
                 color: aedappfm.ArchethicThemeBase.systemDanger300,
               ),
             ),
@@ -82,6 +94,10 @@ class RefundCanRefundInfo extends ConsumerWidget {
                     ),
                 style: TextStyle(
                   color: aedappfm.ArchethicThemeBase.systemDanger300,
+                  fontSize: aedappfm.Responsive.fontSizeFromValue(
+                    context,
+                    desktopValue: 13,
+                  ),
                 ),
                 textAlign: TextAlign.end,
               ),
