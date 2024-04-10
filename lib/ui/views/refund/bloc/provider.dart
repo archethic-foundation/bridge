@@ -49,7 +49,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
 
     state = state.copyWith(
       refundTxAddress: null,
-      processRefund: null,
       isAlreadyRefunded: false,
       isAlreadyWithdrawn: false,
     );
@@ -108,17 +107,17 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         BridgeBlockchainsProviders.getBlockchainFromChainId(chainId).future,
       );
 
-      var isERC20 = false;
+      state = state.copyWith(isERC20: null);
       final resultSymbol = await evmHTLC.getSymbol(blockchain!.nativeCurrency);
       resultSymbol.map(
         success: (result) {
           setAmountCurrency(result.symbol);
-          isERC20 = result.isERC20;
+          state = state.copyWith(isERC20: result.isERC20);
         },
         failure: setFailure,
       );
 
-      if (isERC20) {
+      if (state.isERC20 != null && state.isERC20!) {
         final evmHTLCERC = EVMHTLCERC(
           state.evmWallet!.providerEndpoint!,
           state.htlcAddress,
@@ -127,7 +126,14 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         final resultFee = await evmHTLCERC.getFee();
         resultFee.map(
           success: (_resultFee) {
-            setFee(_resultFee);
+            setFee(_resultFee.fee);
+            state = state.copyWith(
+              processRefund: _resultFee.isChargeable == null
+                  ? null
+                  : _resultFee.isChargeable == true
+                      ? ProcessRefund.chargeable
+                      : ProcessRefund.signed,
+            );
           },
           failure: setFailure,
         );
@@ -140,21 +146,18 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         final resultFee = await evmHTLCNative.getFee();
         resultFee.map(
           success: (_resultFee) {
-            setFee(_resultFee);
+            setFee(_resultFee.fee);
+            state = state.copyWith(
+              processRefund: _resultFee.isChargeable == null
+                  ? null
+                  : _resultFee.isChargeable == true
+                      ? ProcessRefund.chargeable
+                      : ProcessRefund.signed,
+            );
           },
           failure: setFailure,
         );
       }
-
-      final isChargeable =
-          await evmHTLC.isChargeable(state.evmWallet!.genesisAddress);
-      state = state.copyWith(
-        processRefund: isChargeable == null
-            ? null
-            : isChargeable == true
-                ? ProcessRefund.chargeable
-                : ProcessRefund.signed,
-      );
 
       if (state.processRefund == ProcessRefund.signed &&
           state.htlcAddress.length == kEvmAddressLength) {
@@ -209,6 +212,10 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
   }
 
   ({bool result, aedappfm.Failure? failure}) _controlAddress() {
+    state = state.copyWith(
+      processRefund: null,
+    );
+
     if (state.htlcAddress.isEmpty) {
       return (
         result: false,
@@ -294,7 +301,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       state.htlcAddress,
       state.chainId!,
       state.processRefund!,
-      state.amountCurrency == 'UCO',
+      state.isERC20!,
     );
   }
 

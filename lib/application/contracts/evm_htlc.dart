@@ -9,7 +9,6 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:aebridge/ui/views/refund/bloc/state.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,7 +34,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
   Future<aedappfm.Result<String, aedappfm.Failure>> refund(
     WidgetRef ref,
     ProcessRefund processRefund,
-    bool isERC,
+    bool isERC20,
   ) async {
     return aedappfm.Result.guard(
       () async {
@@ -43,10 +42,10 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
 
         final contractHTLC = await getDeployedContract(
           processRefund == ProcessRefund.chargeable
-              ? isERC
+              ? isERC20
                   ? contractNameChargeableHTLCERC
                   : contractNameChargeableHTLCETH
-              : isERC
+              : isERC20
                   ? contractNameSignedHTLCERC
                   : contractNameSignedHTLCETH,
           htlcContractAddress,
@@ -63,6 +62,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             );
           } else {
             final secret = await revealAESecret(htlcContractAddress);
+            print('secret ok: $secret');
 
             transactionRefund = Transaction.callContract(
               contract: contractHTLC,
@@ -311,26 +311,6 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
 
     final BigInt status = statusResult[0];
     return status.toInt();
-  }
-
-  Future<bool?> isChargeable(String userAddress) async {
-    bool _isChargeable;
-    final contractHTLC =
-        await getDeployedContract(contractNameHTLCBase, htlcContractAddress);
-
-    final result = await web3Client!.call(
-      contract: contractHTLC,
-      function: contractHTLC.function('from'),
-      params: [],
-    );
-
-    final addressFrom = (result[0] as EthereumAddress).hex;
-    if (addressFrom.toUpperCase() == userAddress.toUpperCase()) {
-      _isChargeable = true;
-    } else {
-      _isChargeable = false;
-    }
-    return _isChargeable;
   }
 
   Future<aedappfm.Result<String, aedappfm.Failure>> withdraw(

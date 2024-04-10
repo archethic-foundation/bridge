@@ -26,6 +26,7 @@ class RefundFormState with _$RefundFormState {
     @Default(false) htlcCanRefund,
     WalletConfirmationRefund? walletConfirmation,
     ProcessRefund? processRefund,
+    bool? isERC20,
     BridgeWallet? evmWallet,
     @FailureJsonConverter() Failure? failure,
   }) = _RefundFormState;
