@@ -188,7 +188,8 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
     );
   }
 
-  Future<aedappfm.Result<double, aedappfm.Failure>> getFee() async {
+  Future<aedappfm.Result<({double fee, bool? isChargeable}), aedappfm.Failure>>
+      getFee() async {
     return aedappfm.Result.guard(
       () async {
         try {
@@ -204,34 +205,17 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
           );
 
           final BigInt fee = feeMap[0];
-
           final etherAmount = EtherAmount.fromBigInt(EtherUnit.wei, fee);
-
-          return etherAmount.getValueInUnit(EtherUnit.ether);
-
-          // ignore: empty_catches
-        } catch (e) {}
-
-        try {
-          final contractHTLC = await getDeployedContract(
-            contractNameSignedHTLCERC,
-            htlcContractAddress,
+          return (
+            fee: etherAmount.getValueInUnit(EtherUnit.ether),
+            isChargeable: true,
           );
-
-          final feeMap = await web3Client!.call(
-            contract: contractHTLC,
-            function: contractHTLC.function('fee'),
-            params: [],
+        } catch (e) {
+          return (
+            fee: 0.0,
+            isChargeable: false,
           );
-
-          final BigInt fee = feeMap[0];
-
-          final etherAmount = EtherAmount.fromBigInt(EtherUnit.wei, fee);
-          return etherAmount.getValueInUnit(EtherUnit.ether);
-
-          // ignore: empty_catches
-        } catch (e) {}
-        return 0.0;
+        }
       },
     );
   }
