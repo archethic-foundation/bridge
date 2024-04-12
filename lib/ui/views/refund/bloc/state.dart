@@ -11,7 +11,9 @@ enum ProcessRefund { chargeable, signed }
 @freezed
 class RefundFormState with _$RefundFormState {
   const factory RefundFormState({
-    @Default('') String htlcAddress,
+    @Default('') String htlcAddressFilled,
+    String? htlcAddressAE,
+    String? htlcAddressEVM,
     String? refundTxAddress,
     int? chainId,
     bool? isAlreadyRefunded,
@@ -34,7 +36,7 @@ class RefundFormState with _$RefundFormState {
 
   bool get isControlsOk =>
       failure == null &&
-      htlcAddress.isNotEmpty &&
+      htlcAddressFilled.isNotEmpty &&
       addressOk != null &&
       addressOk == true &&
       processRefund != null;

@@ -11,10 +11,12 @@ class RefunEVMCase with ArchethicBridgeProcessMixin {
   Future<void> run(
     WidgetRef ref,
     String providerEndPoint,
-    String htlcContractAddress,
+    String? htlcContractAddressAE,
+    String htlcContractAddressEVM,
     int chaindId,
     ProcessRefund processRefund,
     bool isERC,
+    String evmEnv,
   ) async {
     final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier)
       ..setRefundTxAddress(null)
@@ -23,19 +25,17 @@ class RefunEVMCase with ArchethicBridgeProcessMixin {
       ..setRefundOk(false)
       ..setWalletConfirmation(null);
 
-    var _htlcContractAddress = htlcContractAddress;
-    if (processRefund == ProcessRefund.signed) {
-      final dataAEHTLC = await getProvisionData(htlcContractAddress);
-      if (dataAEHTLC.evmHTLCAddress != null) {
-        _htlcContractAddress = dataAEHTLC.evmHTLCAddress!;
-      }
-    }
-
     final result = await EVMHTLC(
       providerEndPoint,
-      _htlcContractAddress,
+      htlcContractAddressEVM,
       chaindId,
-    ).refund(ref, processRefund, isERC);
+    ).refund(
+      ref,
+      processRefund,
+      isERC,
+      htlcContractAddressAE,
+      evmEnv,
+    );
 
     result.map(
       success: (refundTxAddress) {

@@ -381,8 +381,8 @@ class EVMLP with EVMBridgeProcessMixin {
       for (final swaps in resultMap[0] as List) {
         swapList.add(
           Swap(
-            htlcContractAddressAE: (swaps[0] as EthereumAddress).hex,
-            htlcContractAddressEVM: bytesToHex(swaps[1] as List<int>),
+            htlcContractAddressEVM: (swaps[0] as EthereumAddress).hex,
+            htlcContractAddressAE: bytesToHex(swaps[1] as List<int>),
             swapProcess: (swaps[2] as BigInt).toInt() == 1
                 ? SwapProcess.chargeable
                 : SwapProcess.signed,

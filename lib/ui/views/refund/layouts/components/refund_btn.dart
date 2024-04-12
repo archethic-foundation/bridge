@@ -21,7 +21,7 @@ class RefundButton extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    if (refund.htlcAddress.isEmpty ||
+    if (refund.htlcAddressFilled.isEmpty ||
         refund.refundTxAddress != null ||
         refund.failure != null ||
         refund.processRefund == null ||

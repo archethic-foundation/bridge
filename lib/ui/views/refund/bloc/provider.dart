@@ -2,10 +2,12 @@ import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/application/contracts/evm_htlc_erc.dart';
 import 'package:aebridge/application/contracts/evm_htlc_native.dart';
+import 'package:aebridge/application/contracts/evm_lp.dart';
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:aebridge/domain/usecases/refund_evm.usecase.dart';
+import 'package:aebridge/infrastructure/pool_evm.repository.dart';
 import 'package:aebridge/ui/views/refund/bloc/state.dart';
 import 'package:aebridge/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aebridge/util/browser_util_web.dart';
@@ -38,7 +40,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
   }
 
   Future<void> setContractAddress(String htlcAddress) async {
-    state = state.copyWith(htlcAddress: htlcAddress);
+    state = state.copyWith(htlcAddressFilled: htlcAddress);
     await setStatus();
   }
 
@@ -58,7 +60,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     if (await control()) {
       final evmHTLC = EVMHTLC(
         state.evmWallet!.providerEndpoint,
-        state.htlcAddress,
+        state.htlcAddressFilled,
         chainId,
       );
 
@@ -120,7 +122,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       if (state.isERC20 != null && state.isERC20!) {
         final evmHTLCERC = EVMHTLCERC(
           state.evmWallet!.providerEndpoint!,
-          state.htlcAddress,
+          state.htlcAddressFilled,
           chainId,
         );
         final resultFee = await evmHTLCERC.getFee();
@@ -140,7 +142,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       } else {
         final evmHTLCNative = EVMHTLCNative(
           state.evmWallet!.providerEndpoint!,
-          state.htlcAddress,
+          state.htlcAddressFilled,
           chainId,
         );
         final resultFee = await evmHTLCNative.getFee();
@@ -159,13 +161,31 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         );
       }
 
+      // Get AE HTLC Address to get the signature
       if (state.processRefund == ProcessRefund.signed &&
-          state.htlcAddress.length == kEvmAddressLength) {
-        setFailure(
-          const aedappfm.Failure.other(
-            cause: 'Please, fill the address of the Archethic contract instead',
-          ),
+          state.htlcAddressEVM != null &&
+          state.htlcAddressFilled == state.htlcAddressEVM) {
+        final poolAddress = await PoolsEVMRepositoryImpl()
+            .getPoolEVMAddress(chainId, state.amountCurrency);
+        final result = await EVMLP(
+          state.evmWallet!.providerEndpoint,
+        ).getSwapsByOwner(poolAddress!, state.evmWallet!.genesisAddress);
+        result.map(
+          success: (swaps) {
+            for (final swap in swaps) {
+              if (swap.htlcContractAddressEVM != null &&
+                  swap.htlcContractAddressAE != null &&
+                  swap.htlcContractAddressEVM!.toUpperCase() ==
+                      state.htlcAddressEVM!.toUpperCase()) {
+                state =
+                    state.copyWith(htlcAddressAE: swap.htlcContractAddressAE);
+                break;
+              }
+            }
+          },
+          failure: setFailure,
         );
+
         return;
       }
     }
@@ -214,9 +234,11 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
   ({bool result, aedappfm.Failure? failure}) _controlAddress() {
     state = state.copyWith(
       processRefund: null,
+      htlcAddressAE: null,
+      htlcAddressEVM: null,
     );
 
-    if (state.htlcAddress.isEmpty) {
+    if (state.htlcAddressFilled.isEmpty) {
       return (
         result: false,
         failure: const aedappfm.Failure.other(
@@ -225,25 +247,29 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       );
     }
 
-    if (state.htlcAddress.length != kArchethicAddressLength &&
-        state.htlcAddress.length != kEvmAddressLength) {
+    if (state.htlcAddressFilled.length != kArchethicAddressLength &&
+        state.htlcAddressFilled.length != kEvmAddressLength) {
       return (
         result: false,
         failure: const aedappfm.Failure.other(cause: 'Malformated address.'),
       );
     }
 
-    if (state.htlcAddress.length == kArchethicAddressLength) {
-      if (archethic.Address(address: state.htlcAddress).isValid() == false) {
+    if (state.htlcAddressFilled.length == kArchethicAddressLength) {
+      if (archethic.Address(address: state.htlcAddressFilled).isValid() ==
+          false) {
         return (
           result: false,
           failure: const aedappfm.Failure.other(cause: 'Malformated address.'),
         );
+      } else {
+        state = state.copyWith(htlcAddressAE: state.htlcAddressFilled);
       }
     }
-    if (state.htlcAddress.length == kEvmAddressLength) {
+    if (state.htlcAddressFilled.length == kEvmAddressLength) {
       try {
-        webthree.EthereumAddress.fromHex(state.htlcAddress);
+        webthree.EthereumAddress.fromHex(state.htlcAddressFilled);
+        state = state.copyWith(htlcAddressEVM: state.htlcAddressFilled);
       } catch (e) {
         return (
           result: false,
@@ -298,10 +324,12 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     await RefunEVMCase().run(
       ref,
       state.evmWallet!.providerEndpoint!,
-      state.htlcAddress,
+      state.htlcAddressAE,
+      state.htlcAddressEVM ?? state.htlcAddressFilled,
       state.chainId!,
       state.processRefund!,
       state.isERC20!,
+      state.evmWallet!.env,
     );
   }
 
@@ -333,6 +361,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
               genesisAddress: evmWalletProvider.currentAddress!,
               endpoint: bridgeBlockchain!.name,
               providerEndpoint: bridgeBlockchain.providerEndpoint,
+              env: bridgeBlockchain.env,
             );
             state = state.copyWith(
               evmWallet: evmWallet,

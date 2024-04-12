@@ -16,7 +16,9 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$RefundFormState {
-  String get htlcAddress => throw _privateConstructorUsedError;
+  String get htlcAddressFilled => throw _privateConstructorUsedError;
+  String? get htlcAddressAE => throw _privateConstructorUsedError;
+  String? get htlcAddressEVM => throw _privateConstructorUsedError;
   String? get refundTxAddress => throw _privateConstructorUsedError;
   int? get chainId => throw _privateConstructorUsedError;
   bool? get isAlreadyRefunded => throw _privateConstructorUsedError;
@@ -49,7 +51,9 @@ abstract class $RefundFormStateCopyWith<$Res> {
       _$RefundFormStateCopyWithImpl<$Res, RefundFormState>;
   @useResult
   $Res call(
-      {String htlcAddress,
+      {String htlcAddressFilled,
+      String? htlcAddressAE,
+      String? htlcAddressEVM,
       String? refundTxAddress,
       int? chainId,
       bool? isAlreadyRefunded,
@@ -85,7 +89,9 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? htlcAddress = null,
+    Object? htlcAddressFilled = null,
+    Object? htlcAddressAE = freezed,
+    Object? htlcAddressEVM = freezed,
     Object? refundTxAddress = freezed,
     Object? chainId = freezed,
     Object? isAlreadyRefunded = freezed,
@@ -105,10 +111,18 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
     Object? failure = freezed,
   }) {
     return _then(_value.copyWith(
-      htlcAddress: null == htlcAddress
-          ? _value.htlcAddress
-          : htlcAddress // ignore: cast_nullable_to_non_nullable
+      htlcAddressFilled: null == htlcAddressFilled
+          ? _value.htlcAddressFilled
+          : htlcAddressFilled // ignore: cast_nullable_to_non_nullable
               as String,
+      htlcAddressAE: freezed == htlcAddressAE
+          ? _value.htlcAddressAE
+          : htlcAddressAE // ignore: cast_nullable_to_non_nullable
+              as String?,
+      htlcAddressEVM: freezed == htlcAddressEVM
+          ? _value.htlcAddressEVM
+          : htlcAddressEVM // ignore: cast_nullable_to_non_nullable
+              as String?,
       refundTxAddress: freezed == refundTxAddress
           ? _value.refundTxAddress
           : refundTxAddress // ignore: cast_nullable_to_non_nullable
@@ -214,7 +228,9 @@ abstract class _$$RefundFormStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String htlcAddress,
+      {String htlcAddressFilled,
+      String? htlcAddressAE,
+      String? htlcAddressEVM,
       String? refundTxAddress,
       int? chainId,
       bool? isAlreadyRefunded,
@@ -250,7 +266,9 @@ class __$$RefundFormStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? htlcAddress = null,
+    Object? htlcAddressFilled = null,
+    Object? htlcAddressAE = freezed,
+    Object? htlcAddressEVM = freezed,
     Object? refundTxAddress = freezed,
     Object? chainId = freezed,
     Object? isAlreadyRefunded = freezed,
@@ -270,10 +288,18 @@ class __$$RefundFormStateImplCopyWithImpl<$Res>
     Object? failure = freezed,
   }) {
     return _then(_$RefundFormStateImpl(
-      htlcAddress: null == htlcAddress
-          ? _value.htlcAddress
-          : htlcAddress // ignore: cast_nullable_to_non_nullable
+      htlcAddressFilled: null == htlcAddressFilled
+          ? _value.htlcAddressFilled
+          : htlcAddressFilled // ignore: cast_nullable_to_non_nullable
               as String,
+      htlcAddressAE: freezed == htlcAddressAE
+          ? _value.htlcAddressAE
+          : htlcAddressAE // ignore: cast_nullable_to_non_nullable
+              as String?,
+      htlcAddressEVM: freezed == htlcAddressEVM
+          ? _value.htlcAddressEVM
+          : htlcAddressEVM // ignore: cast_nullable_to_non_nullable
+              as String?,
       refundTxAddress: freezed == refundTxAddress
           ? _value.refundTxAddress
           : refundTxAddress // ignore: cast_nullable_to_non_nullable
@@ -344,7 +370,9 @@ class __$$RefundFormStateImplCopyWithImpl<$Res>
 
 class _$RefundFormStateImpl extends _RefundFormState {
   const _$RefundFormStateImpl(
-      {this.htlcAddress = '',
+      {this.htlcAddressFilled = '',
+      this.htlcAddressAE,
+      this.htlcAddressEVM,
       this.refundTxAddress,
       this.chainId,
       this.isAlreadyRefunded,
@@ -366,7 +394,11 @@ class _$RefundFormStateImpl extends _RefundFormState {
 
   @override
   @JsonKey()
-  final String htlcAddress;
+  final String htlcAddressFilled;
+  @override
+  final String? htlcAddressAE;
+  @override
+  final String? htlcAddressEVM;
   @override
   final String? refundTxAddress;
   @override
@@ -411,7 +443,7 @@ class _$RefundFormStateImpl extends _RefundFormState {
 
   @override
   String toString() {
-    return 'RefundFormState(htlcAddress: $htlcAddress, refundTxAddress: $refundTxAddress, chainId: $chainId, isAlreadyRefunded: $isAlreadyRefunded, isAlreadyWithdrawn: $isAlreadyWithdrawn, refundOk: $refundOk, refundInProgress: $refundInProgress, addressOk: $addressOk, htlcDateLock: $htlcDateLock, amount: $amount, amountCurrency: $amountCurrency, fee: $fee, htlcCanRefund: $htlcCanRefund, walletConfirmation: $walletConfirmation, processRefund: $processRefund, isERC20: $isERC20, evmWallet: $evmWallet, failure: $failure)';
+    return 'RefundFormState(htlcAddressFilled: $htlcAddressFilled, htlcAddressAE: $htlcAddressAE, htlcAddressEVM: $htlcAddressEVM, refundTxAddress: $refundTxAddress, chainId: $chainId, isAlreadyRefunded: $isAlreadyRefunded, isAlreadyWithdrawn: $isAlreadyWithdrawn, refundOk: $refundOk, refundInProgress: $refundInProgress, addressOk: $addressOk, htlcDateLock: $htlcDateLock, amount: $amount, amountCurrency: $amountCurrency, fee: $fee, htlcCanRefund: $htlcCanRefund, walletConfirmation: $walletConfirmation, processRefund: $processRefund, isERC20: $isERC20, evmWallet: $evmWallet, failure: $failure)';
   }
 
   @override
@@ -419,8 +451,12 @@ class _$RefundFormStateImpl extends _RefundFormState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RefundFormStateImpl &&
-            (identical(other.htlcAddress, htlcAddress) ||
-                other.htlcAddress == htlcAddress) &&
+            (identical(other.htlcAddressFilled, htlcAddressFilled) ||
+                other.htlcAddressFilled == htlcAddressFilled) &&
+            (identical(other.htlcAddressAE, htlcAddressAE) ||
+                other.htlcAddressAE == htlcAddressAE) &&
+            (identical(other.htlcAddressEVM, htlcAddressEVM) ||
+                other.htlcAddressEVM == htlcAddressEVM) &&
             (identical(other.refundTxAddress, refundTxAddress) ||
                 other.refundTxAddress == refundTxAddress) &&
             (identical(other.chainId, chainId) || other.chainId == chainId) &&
@@ -452,26 +488,29 @@ class _$RefundFormStateImpl extends _RefundFormState {
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      htlcAddress,
-      refundTxAddress,
-      chainId,
-      isAlreadyRefunded,
-      isAlreadyWithdrawn,
-      const DeepCollectionEquality().hash(refundOk),
-      const DeepCollectionEquality().hash(refundInProgress),
-      addressOk,
-      htlcDateLock,
-      amount,
-      amountCurrency,
-      fee,
-      const DeepCollectionEquality().hash(htlcCanRefund),
-      walletConfirmation,
-      processRefund,
-      isERC20,
-      evmWallet,
-      failure);
+  int get hashCode => Object.hashAll([
+        runtimeType,
+        htlcAddressFilled,
+        htlcAddressAE,
+        htlcAddressEVM,
+        refundTxAddress,
+        chainId,
+        isAlreadyRefunded,
+        isAlreadyWithdrawn,
+        const DeepCollectionEquality().hash(refundOk),
+        const DeepCollectionEquality().hash(refundInProgress),
+        addressOk,
+        htlcDateLock,
+        amount,
+        amountCurrency,
+        fee,
+        const DeepCollectionEquality().hash(htlcCanRefund),
+        walletConfirmation,
+        processRefund,
+        isERC20,
+        evmWallet,
+        failure
+      ]);
 
   @JsonKey(ignore: true)
   @override
@@ -483,7 +522,9 @@ class _$RefundFormStateImpl extends _RefundFormState {
 
 abstract class _RefundFormState extends RefundFormState {
   const factory _RefundFormState(
-      {final String htlcAddress,
+      {final String htlcAddressFilled,
+      final String? htlcAddressAE,
+      final String? htlcAddressEVM,
       final String? refundTxAddress,
       final int? chainId,
       final bool? isAlreadyRefunded,
@@ -504,7 +545,11 @@ abstract class _RefundFormState extends RefundFormState {
   const _RefundFormState._() : super._();
 
   @override
-  String get htlcAddress;
+  String get htlcAddressFilled;
+  @override
+  String? get htlcAddressAE;
+  @override
+  String? get htlcAddressEVM;
   @override
   String? get refundTxAddress;
   @override
