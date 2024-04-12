@@ -62,7 +62,7 @@ In order to develop and test the application, you need to have some prerequisite
         amount: 1_000_000_000_000_000
       }
     ]  
-  ```
+    ```
 
   - Launch the Archethic Wallet in desktop version (Linux, Windows, MacOS)
   - Create a new account in the devnet environnment
