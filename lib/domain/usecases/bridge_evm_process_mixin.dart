@@ -86,6 +86,7 @@ mixin EVMBridgeProcessMixin {
     SecretHash secretHash,
     int endTime,
     double amount,
+    String htlcContractAddressAE,
   ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
@@ -94,6 +95,7 @@ mixin EVMBridgeProcessMixin {
         await evmLP.deployAndProvisionSignedHTLC(
       ref,
       bridge.tokenToBridge!.poolAddressTo,
+      htlcContractAddressAE,
       secretHash,
       amount,
       endTime,
@@ -103,7 +105,7 @@ mixin EVMBridgeProcessMixin {
     late String txAddress;
     await resultDeployAndProvisionSignedHTLC.map(
       success: (success) {
-        htlcAddress = success.htlcContractAddress;
+        htlcAddress = success.htlcContractAddressEVM;
         txAddress = success.txAddress;
       },
       failure: (failure) async {

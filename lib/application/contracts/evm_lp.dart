@@ -4,6 +4,7 @@ import 'dart:math';
 
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/secret.dart';
+import 'package:aebridge/domain/models/swap.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
@@ -171,10 +172,11 @@ class EVMLP with EVMBridgeProcessMixin {
   }
 
   Future<
-      aedappfm.Result<({String htlcContractAddress, String txAddress}),
+      aedappfm.Result<({String htlcContractAddressEVM, String txAddress}),
           aedappfm.Failure>> deployAndProvisionSignedHTLC(
     WidgetRef ref,
     String poolAddress,
+    String htlcContractAddressAE,
     SecretHash secretHash,
     double amount,
     int endTime, {
@@ -184,7 +186,7 @@ class EVMLP with EVMBridgeProcessMixin {
       () async {
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
         final web3Client = Web3Client(providerEndpoint!, Client());
-        late String htlcContractAddress;
+        late String htlcContractAddressEVM;
 
         final contractLP =
             await getDeployedContract(contractNameIPool, poolAddress);
@@ -199,6 +201,7 @@ class EVMLP with EVMBridgeProcessMixin {
             hexToBytes(secretHash.secretHash!),
             ethAmount.getInWei,
             BigInt.from(endTime),
+            hexToBytes(htlcContractAddressAE),
             hexToBytes(secretHash.secretHashSignature!.r!),
             hexToBytes(secretHash.secretHashSignature!.s!),
             BigInt.from(secretHash.secretHashSignature!.v!),
@@ -274,13 +277,16 @@ class EVMLP with EVMBridgeProcessMixin {
         );
 
         // TODO(reddwarf03): .. check
-        htlcContractAddress = transactionProvisionedSwapsHashes[0].hex;
-        if (htlcContractAddress ==
+        htlcContractAddressEVM = transactionProvisionedSwapsHashes[0].hex;
+        if (htlcContractAddressEVM ==
             '0x0000000000000000000000000000000000000000') {
           throw const aedappfm.Failure.insufficientPoolFunds();
         }
 
-        return (htlcContractAddress: htlcContractAddress, txAddress: txAddress);
+        return (
+          htlcContractAddressEVM: htlcContractAddressEVM,
+          txAddress: txAddress
+        );
       },
     );
   }
@@ -351,5 +357,39 @@ class EVMLP with EVMBridgeProcessMixin {
       failure: (failure) {},
     );
     return (rate: rate, address: address);
+  }
+
+  Future<aedappfm.Result<List<Swap>, aedappfm.Failure>> getSwapsByOwner(
+    String poolAddress,
+    String ownerAddress,
+  ) async {
+    return aedappfm.Result.guard(() async {
+      final swapList = <Swap>[];
+      final web3Client = Web3Client(providerEndpoint!, Client());
+
+      final contractLP =
+          await getDeployedContract(contractNameIPool, poolAddress);
+
+      final resultMap = await web3Client.call(
+        contract: contractLP,
+        function: contractLP.function('getSwapsByOwner'),
+        params: [
+          EthereumAddress.fromHex(ownerAddress),
+        ],
+      );
+
+      for (final swaps in resultMap[0] as List) {
+        swapList.add(
+          Swap(
+            htlcContractAddressAE: (swaps[0] as EthereumAddress).hex,
+            htlcContractAddressEVM: bytesToHex(swaps[1] as List<int>),
+            swapProcess: (swaps[2] as BigInt).toInt() == 1
+                ? SwapProcess.chargeable
+                : SwapProcess.signed,
+          ),
+        );
+      }
+      return swapList;
+    });
   }
 }
