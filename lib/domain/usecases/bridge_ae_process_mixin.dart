@@ -220,6 +220,9 @@ mixin ArchethicBridgeProcessMixin {
   }
 
   Future<Secret> revealAESecret(String htlcAddress) async {
+    print('lastHTLCContractAddressAE $htlcAddress');
+    print(
+        'aedappfm.sl.get<archethic.ApiService>(). ${aedappfm.sl.get<archethic.ApiService>().endpoint}');
     final secretMap =
         await aedappfm.sl.get<archethic.ApiService>().callSCFunction(
               jsonRPCRequest: archethic.SCCallFunctionRequest(

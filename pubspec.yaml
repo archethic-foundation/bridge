@@ -105,6 +105,7 @@ flutter:
     - assets/images/bc-logos/
     - lib/domain/repositories/blockchains_list.json
     - lib/domain/repositories/tokens_list_per_bridge.json
+    - lib/domain/repositories/pool_evm.json
     - contracts/evm/artifacts/contracts/Pool/PoolBase.sol/PoolBase.json
     - contracts/evm/artifacts/contracts/HTLC/HTLCBase.sol/HTLCBase.json
     - contracts/evm/artifacts/contracts/HTLC/HTLC_ERC.sol/HTLC_ERC.json

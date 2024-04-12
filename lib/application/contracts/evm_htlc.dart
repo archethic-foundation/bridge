@@ -9,8 +9,10 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:aebridge/ui/views/refund/bloc/state.dart';
+import 'package:aebridge/util/service_locator.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
@@ -19,14 +21,14 @@ import 'package:webthree/webthree.dart';
 class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
   EVMHTLC(
     this.providerEndpoint,
-    this.htlcContractAddress,
+    this.htlcContractAddressEVM,
     this.chainId,
   ) {
     web3Client = Web3Client(providerEndpoint!, Client());
   }
 
   final String? providerEndpoint;
-  final String htlcContractAddress;
+  final String htlcContractAddressEVM;
   Web3Client? web3Client;
   Web3Client? web3ClientProvided;
   final int chainId;
@@ -35,6 +37,8 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
     WidgetRef ref,
     ProcessRefund processRefund,
     bool isERC20,
+    String? htlcContractAddressAE,
+    String evmEnv,
   ) async {
     return aedappfm.Result.guard(
       () async {
@@ -48,7 +52,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
               : isERC20
                   ? contractNameSignedHTLCERC
                   : contractNameSignedHTLCETH,
-          htlcContractAddress,
+          htlcContractAddressEVM,
         );
 
         late Transaction transactionRefund;
@@ -61,20 +65,66 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
               parameters: [],
             );
           } else {
-            final secret = await revealAESecret(htlcContractAddress);
+            // TODO: To externalize
+            switch (evmEnv) {
+              case '1-mainnet':
+                setupServiceLocatorApiService('https://mainnet.archethic.net');
+                break;
+              case '2-testnet':
+                setupServiceLocatorApiService('https://testnet.archethic.net');
+                break;
+              case '3-devnet':
+                setupServiceLocatorApiService('http://localhost:4000');
+                break;
+              default:
+            }
+            final lastHTLCContractAddressAEResult = await aedappfm.sl
+                .get<archethic.ApiService>()
+                .getLastTransaction([htlcContractAddressAE!]);
+            var lastHTLCContractAddressAE = htlcContractAddressAE;
+            if (lastHTLCContractAddressAEResult[htlcContractAddressAE] !=
+                    null &&
+                lastHTLCContractAddressAEResult[htlcContractAddressAE]!
+                        .address !=
+                    null &&
+                lastHTLCContractAddressAEResult[htlcContractAddressAE]!
+                        .address!
+                        .address !=
+                    null) {
+              lastHTLCContractAddressAE =
+                  lastHTLCContractAddressAEResult[htlcContractAddressAE]!
+                      .address!
+                      .address!;
+            }
 
-            transactionRefund = Transaction.callContract(
-              contract: contractHTLC,
-              function:
-                  contractHTLC.findFunctionByNameAndNbOfParameters('refund', 4),
-              maxGas: 1500000,
-              parameters: [
-                hexToBytes(secret.secret!),
-                hexToBytes(secret.secretSignature!.r!),
-                hexToBytes(secret.secretSignature!.s!),
-                BigInt.from(secret.secretSignature!.v!),
-              ],
-            );
+            try {
+              final secret = await revealAESecret(
+                lastHTLCContractAddressAE,
+              );
+
+              transactionRefund = Transaction.callContract(
+                contract: contractHTLC,
+                function: contractHTLC.findFunctionByNameAndNbOfParameters(
+                    'refund', 4),
+                maxGas: 1500000,
+                parameters: [
+                  hexToBytes(secret.secret!),
+                  hexToBytes(secret.secretSignature!.r!),
+                  hexToBytes(secret.secretSignature!.s!),
+                  BigInt.from(secret.secretSignature!.v!),
+                ],
+              );
+            } catch (e) {
+              if (e is archethic.ArchethicJsonRPCException) {
+                throw aedappfm.Failure.other(
+                  cause: e.data.toString(),
+                );
+              } else {
+                throw aedappfm.Failure.other(
+                  cause: e.toString(),
+                );
+              }
+            }
           }
         } else {
           // Refund contract from bridge one way
@@ -188,7 +238,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
       () async {
         final contractHTLC = await getDeployedContract(
           contractNameHTLCBase,
-          htlcContractAddress,
+          htlcContractAddressEVM,
         );
 
         final amountMap = await web3Client!.call(
@@ -210,8 +260,10 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(() async {
       var _isERC20 = false;
-      final contractHTLCERC =
-          await getDeployedContract(contractNameHTLCERC, htlcContractAddress);
+      final contractHTLCERC = await getDeployedContract(
+        contractNameHTLCERC,
+        htlcContractAddressEVM,
+      );
       var currency = nativeCurrency;
       try {
         final addressToken = await web3Client!.call(
@@ -252,13 +304,13 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
 
   Future<int> _getDateLockTime() async {
     final contract =
-        await getDeployedContract(contractNameHTLCBase, htlcContractAddress);
+        await getDeployedContract(contractNameHTLCBase, htlcContractAddressEVM);
     return _getLockTime(contract);
   }
 
   Future<bool> _isCanRefund() async {
     final contract =
-        await getDeployedContract(contractNameHTLCBase, htlcContractAddress);
+        await getDeployedContract(contractNameHTLCBase, htlcContractAddressEVM);
     final canRefundMap = await web3Client!.call(
       contract: contract,
       function: contract.function('canRefund'),
@@ -300,7 +352,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
 
   Future<int> getStatus() async {
     final contractHTLC =
-        await getDeployedContract(contractNameHTLCBase, htlcContractAddress);
+        await getDeployedContract(contractNameHTLCBase, htlcContractAddressEVM);
 
     final statusResult = await web3Client!.call(
       contract: contractHTLC,
@@ -324,7 +376,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
 
         final contractHTLC = await getDeployedContract(
           contract,
-          htlcContractAddress,
+          htlcContractAddressEVM,
         );
 
         final transactionWithdraw = Transaction.callContract(
