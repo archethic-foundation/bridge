@@ -243,30 +243,35 @@ mixin ArchethicBridgeProcessMixin {
     );
   }
 
-  Future<SecretSignature?> getProvisionSignature(String htlcAddress) async {
-    final signatureJson =
+  Future<({SecretSignature? secretSignature, String? evmHTLCAddress})>
+      getProvisionData(String htlcAddress) async {
+    final dataJson =
         await aedappfm.sl.get<archethic.ApiService>().callSCFunction(
               jsonRPCRequest: archethic.SCCallFunctionRequest(
                 method: 'contract_fun',
                 params: archethic.SCCallFunctionParams(
                   contract: htlcAddress.toUpperCase(),
-                  function: 'get_provision_signature',
+                  function: 'get_provision_data',
                   args: [],
                 ),
               ),
               resultMap: true,
             ) as Map<String, dynamic>;
 
-    if (signatureJson['signature'] == null ||
-        signatureJson['signature']['r'] == null ||
-        signatureJson['signature']['s'] == null ||
-        signatureJson['signature']['v'] == null) {
-      return null;
+    if (dataJson['signature'] == null ||
+        dataJson['signature']['r'] == null ||
+        dataJson['signature']['s'] == null ||
+        dataJson['signature']['v'] == null ||
+        dataJson['evm_contract'] == null) {
+      return (secretSignature: null, evmHTLCAddress: null);
     }
-    return SecretSignature(
-      r: signatureJson['signature']['r'],
-      s: signatureJson['signature']['s'],
-      v: signatureJson['signature']['v'],
+    return (
+      secretSignature: SecretSignature(
+        r: dataJson['signature']['r'],
+        s: dataJson['signature']['s'],
+        v: dataJson['signature']['v'],
+      ),
+      evmHTLCAddress: dataJson['evm_contract'].toString()
     );
   }
 }

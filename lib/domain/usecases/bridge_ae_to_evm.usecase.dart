@@ -119,8 +119,13 @@ class BridgeArchethicToEVMUseCase
       // 4) Deploy EVM HTLC + Provision
       await bridgeNotifier.setCurrentStep(4);
       try {
-        final deployEVMHTCLAndProvisionResult =
-            await deployEVMHTCLAndProvision(ref, secretHash, endTime, amount);
+        final deployEVMHTCLAndProvisionResult = await deployEVMHTCLAndProvision(
+          ref,
+          secretHash,
+          endTime,
+          amount,
+          htlcAEAddress,
+        );
         htlcEVMAddress = deployEVMHTCLAndProvisionResult.htlcAddress;
         htlcEVMTxAddress = deployEVMHTCLAndProvisionResult.txAddress;
         await bridgeNotifier.setHTLCEVMAddress(htlcEVMAddress);

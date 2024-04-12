@@ -2,11 +2,12 @@
 import 'dart:async';
 
 import 'package:aebridge/application/contracts/evm_htlc.dart';
+import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:aebridge/ui/views/refund/bloc/state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RefunEVMCase {
+class RefunEVMCase with ArchethicBridgeProcessMixin {
   Future<void> run(
     WidgetRef ref,
     String providerEndPoint,
@@ -22,9 +23,17 @@ class RefunEVMCase {
       ..setRefundOk(false)
       ..setWalletConfirmation(null);
 
+    var _htlcContractAddress = htlcContractAddress;
+    if (processRefund == ProcessRefund.signed) {
+      final dataAEHTLC = await getProvisionData(htlcContractAddress);
+      if (dataAEHTLC.evmHTLCAddress != null) {
+        _htlcContractAddress = dataAEHTLC.evmHTLCAddress!;
+      }
+    }
+
     final result = await EVMHTLC(
       providerEndPoint,
-      htlcContractAddress,
+      _htlcContractAddress,
       chaindId,
     ).refund(ref, processRefund, isERC);
 

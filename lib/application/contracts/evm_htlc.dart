@@ -62,7 +62,6 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             );
           } else {
             final secret = await revealAESecret(htlcContractAddress);
-            print('secret ok: $secret');
 
             transactionRefund = Transaction.callContract(
               contract: contractHTLC,
