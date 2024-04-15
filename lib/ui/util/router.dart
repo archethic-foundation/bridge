@@ -89,12 +89,11 @@ final routerProvider = Provider<GoRouter>((ref) {
       ),
     ],
     redirect: (context, state) async {
-      await HivePreferencesDatasource.getInstance().then((value) {
-        if (value.isFirstConnection()) {
-          if (context.mounted) return WelcomeScreen.routerPage;
-        }
-      });
-
+      final preferences = await HivePreferencesDatasource.getInstance();
+      if (preferences.isFirstConnection()) {
+        await preferences.setFirstConnection(false);
+        if (context.mounted) return WelcomeScreen.routerPage;
+      }
       return null;
     },
     errorBuilder: (context, state) => const WelcomeScreen(),

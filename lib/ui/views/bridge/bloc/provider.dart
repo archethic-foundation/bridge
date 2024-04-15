@@ -731,6 +731,17 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
 
     //final aeHTLCFees = await ArchethicContract().estimateDeployHTLCFees();
 
+    final session = ref.read(SessionProviders.session);
+    DateTime? consentDateTime;
+    if (state.blockchainFrom!.isArchethic) {
+      consentDateTime = await aedappfm.ConsentRepositoryImpl()
+          .getConsentTime(session.walletFrom!.genesisAddress);
+    } else {
+      consentDateTime = await aedappfm.ConsentRepositoryImpl()
+          .getConsentTime(session.walletTo!.genesisAddress);
+    }
+    state = state.copyWith(consentDateTime: consentDateTime);
+
     await setBridgeProcessStep(
       aedappfm.ProcessStep.confirmation,
     );
@@ -746,6 +757,8 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
       return;
     }
 
+    final session = ref.read(SessionProviders.session);
+
     if (state.resumeProcess == false) {
       setTimestampExec(DateTime.now().millisecondsSinceEpoch);
       await ref
@@ -754,6 +767,9 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
     }
 
     if (state.blockchainFrom!.isArchethic) {
+      await aedappfm.ConsentRepositoryImpl()
+          .addAddress(session.walletFrom!.genesisAddress);
+
       await BridgeArchethicToEVMUseCase().run(
         ref,
         recoveryStep: state.currentStep,
@@ -761,6 +777,9 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
         recoveryHTLCEVMAddress: state.htlcEVMAddress,
       );
     } else {
+      await aedappfm.ConsentRepositoryImpl()
+          .addAddress(session.walletTo!.genesisAddress);
+
       await BridgeEVMToArchethicUseCase().run(
         ref,
         recoveryStep: state.currentStep,

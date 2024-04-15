@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:ui';
+import 'package:aebridge/ui/views/util/consent_uri.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -216,7 +217,40 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
           onPressed: () {
             launchUrl(
               Uri.parse(
-                'https://www.archethic.net/privacy-policy-bridge',
+                kURIPrivacyPolicy,
+              ),
+            );
+          },
+        ),
+        MenuItemButton(
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Row(
+              children: [
+                const Icon(
+                  aedappfm.Iconsax.archive_book,
+                  size: 16,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  AppLocalizations.of(context)!.menu_terms_of_use,
+                ),
+                const SizedBox(
+                  width: 8,
+                ),
+                const Icon(
+                  aedappfm.Iconsax.export_3,
+                  size: 12,
+                ),
+              ],
+            ),
+          ),
+          onPressed: () {
+            launchUrl(
+              Uri.parse(
+                kURITermsOfUse,
               ),
             );
           },
