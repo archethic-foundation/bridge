@@ -61,6 +61,9 @@ _$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
           (json['archethicTransactionFees'] as num?)?.toDouble() ?? 0.0,
       feesEstimatedUCO: (json['feesEstimatedUCO'] as num?)?.toDouble() ?? 0.0,
       messageMaxHalfUCO: json['messageMaxHalfUCO'] as bool? ?? false,
+      consentDateTime: json['consentDateTime'] == null
+          ? null
+          : DateTime.parse(json['consentDateTime'] as String),
     );
 
 Map<String, dynamic> _$$BridgeFormStateImplToJson(
@@ -108,6 +111,7 @@ Map<String, dynamic> _$$BridgeFormStateImplToJson(
       'archethicTransactionFees': instance.archethicTransactionFees,
       'feesEstimatedUCO': instance.feesEstimatedUCO,
       'messageMaxHalfUCO': instance.messageMaxHalfUCO,
+      'consentDateTime': instance.consentDateTime?.toIso8601String(),
     };
 
 const _$ProcessStepEnumMap = {

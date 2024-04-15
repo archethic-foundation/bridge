@@ -42,6 +42,7 @@ class BridgeFormState with _$BridgeFormState {
     @Default(0.0) double archethicTransactionFees,
     @Default(0.0) double feesEstimatedUCO,
     @Default(false) bool messageMaxHalfUCO,
+    DateTime? consentDateTime,
   }) = _BridgeFormState;
   const BridgeFormState._();
 

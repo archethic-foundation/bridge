@@ -7,17 +7,27 @@ import 'package:aebridge/ui/util/components/format_address_link_copy.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_sheet_fees.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_in_progress_popup.dart';
+import 'package:aebridge/ui/views/util/consent_uri.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class BridgeConfirmSheet extends ConsumerWidget {
+class BridgeConfirmSheet extends ConsumerStatefulWidget {
   const BridgeConfirmSheet({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<BridgeConfirmSheet> createState() => BridgeConfirmSheetState();
+}
+
+class BridgeConfirmSheetState extends ConsumerState<BridgeConfirmSheet> {
+  bool consentChecked = false;
+
+  @override
+  Widget build(
+    BuildContext context,
+  ) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
     if (bridge.blockchainFrom == null) {
       return const SizedBox.shrink();
@@ -130,8 +140,22 @@ class BridgeConfirmSheet extends ConsumerWidget {
             height: 10,
           ),
           const Spacer(),
+          if (bridge.consentDateTime == null)
+            aedappfm.ConsentToCheck(
+              consentChecked: consentChecked,
+              onToggleConsent: (newValue) {
+                setState(() {
+                  consentChecked = newValue!;
+                });
+              },
+              uriPrivacyPolicy: kURIPrivacyPolicy,
+              uriTermsOfUse: kURITermsOfUse,
+            )
+          else
+            aedappfm.ConsentAlready(consentDateTime: bridge.consentDateTime!),
           aedappfm.ButtonConfirm(
             labelBtn: AppLocalizations.of(context)!.btn_confirm_bridge,
+            disabled: !consentChecked && bridge.consentDateTime == null,
             onPressed: () async {
               ref
                   .read(BridgeFormProvider.bridgeForm.notifier)

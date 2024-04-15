@@ -23,7 +23,6 @@ class BridgeErrorMessage extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: SizedBox(
-        height: 40,
         child: aedappfm.InfoBanner(
           FailureMessage(
             context: context,
