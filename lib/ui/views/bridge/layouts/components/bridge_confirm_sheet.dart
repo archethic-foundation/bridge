@@ -152,7 +152,11 @@ class BridgeConfirmSheetState extends ConsumerState<BridgeConfirmSheet> {
               uriTermsOfUse: kURITermsOfUse,
             )
           else
-            aedappfm.ConsentAlready(consentDateTime: bridge.consentDateTime!),
+            aedappfm.ConsentAlready(
+              consentDateTime: bridge.consentDateTime!,
+              uriPrivacyPolicy: kURIPrivacyPolicy,
+              uriTermsOfUse: kURITermsOfUse,
+            ),
           aedappfm.ButtonConfirm(
             labelBtn: AppLocalizations.of(context)!.btn_confirm_bridge,
             disabled: !consentChecked && bridge.consentDateTime == null,
