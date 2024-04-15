@@ -7,7 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$bridgeFormNotifierHash() =>
-    r'e012c607dcb7ab56b9734646175a0d5a4557c0ba';
+    r'fdf3437f55359d8c727a09df04019f6efc7d756f';
 
 /// See also [_BridgeFormNotifier].
 @ProviderFor(_BridgeFormNotifier)
