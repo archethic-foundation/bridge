@@ -1,19 +1,25 @@
+import 'dart:async';
+
 import 'package:aebridge/application/bridge_blockchain.dart';
+import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/application/contracts/evm_htlc_erc.dart';
 import 'package:aebridge/application/contracts/evm_htlc_native.dart';
-import 'package:aebridge/application/contracts/evm_lp.dart';
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
+import 'package:aebridge/domain/usecases/refund_archethic.usecase.dart';
 import 'package:aebridge/domain/usecases/refund_evm.usecase.dart';
-import 'package:aebridge/infrastructure/pool_evm.repository.dart';
+import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
+import 'package:aebridge/infrastructure/pools.repository.dart';
 import 'package:aebridge/ui/views/refund/bloc/state.dart';
 import 'package:aebridge/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aebridge/util/browser_util_web.dart';
+import 'package:aebridge/util/service_locator.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webthree/webthree.dart' as webthree;
@@ -29,6 +35,8 @@ final _refundFormNotifierProvider =
 );
 
 class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
+  StreamSubscription? connectionStatusSubscription;
+
   @override
   RefundFormState build() {
     if (aedappfm.sl.isRegistered<EVMWalletProvider>()) {
@@ -36,16 +44,101 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     }
     ref.read(SessionProviders.session.notifier).cancelAllWalletsConnection();
 
+    ref.onDispose(() {
+      connectionStatusSubscription?.cancel();
+    });
+
     return const RefundFormState();
   }
 
   Future<void> setContractAddress(String htlcAddress) async {
-    state = state.copyWith(htlcAddressFilled: htlcAddress);
-    await setStatus();
+    state = state.copyWith(
+      htlcAddressFilled: htlcAddress,
+      failure: null,
+    );
+    await setAddressType(null);
+    if (state.wallet == null || state.wallet!.isConnected == false) {
+      await _controlAddress();
+    }
   }
 
-  Future<void> setStatus() async {
-    if (state.evmWallet == null || state.evmWallet!.isConnected == false) {
+  Future<void> setStatusArchethic() async {
+    if (state.wallet == null || state.wallet!.isConnected == false) {
+      return;
+    }
+
+    state = state.copyWith(
+      processRefund: null,
+      refundTxAddress: null,
+      isAlreadyRefunded: false,
+      isAlreadyWithdrawn: false,
+    );
+
+    final archethicContract = ArchethicContract();
+    if (await control()) {
+      try {
+        final htlcInfo = await archethicContract.getHTLCInfo(
+          state.htlcAddressFilled,
+        );
+        if (htlcInfo.status == 2) {
+          state = state.copyWith(
+            processRefund: ProcessRefund.signed,
+            isAlreadyRefunded: true,
+          );
+          return;
+        }
+        if (htlcInfo.status == 1) {
+          state = state.copyWith(
+            processRefund: ProcessRefund.signed,
+            isAlreadyWithdrawn: true,
+          );
+        }
+
+        final poolAddress = await archethicContract.getPoolFromHTLC(
+          state.htlcAddressFilled,
+        );
+
+        var chainId = 0;
+        switch (state.wallet!.env) {
+          case '1-mainnet':
+            chainId = -1;
+            break;
+          case '2-testnet':
+            chainId = -2;
+            break;
+          case '3-devnet':
+            chainId = -3;
+            break;
+          default:
+        }
+
+        final symbol = await PoolsRepositoryImpl()
+            .getSymbolFromPoolAddress(chainId, poolAddress);
+        if (symbol != null) {
+          setAmountCurrency(symbol);
+        }
+        setFee(htlcInfo.estimatedProtocolFees ?? 0);
+        setAmount(htlcInfo.amount ?? 0);
+        state = state.copyWith(
+          htlcCanRefund: true,
+          processRefund: ProcessRefund.signed,
+          htlcDateLock: htlcInfo.endTime ?? 0,
+          blockchainTo: 'EVM',
+          chainId: chainId,
+        );
+      } catch (e) {
+        if (e is aedappfm.Failure == false) {
+          setFailure(aedappfm.Failure.other(cause: e.toString()));
+        } else {
+          setFailure(e as aedappfm.Failure);
+        }
+        return;
+      }
+    }
+  }
+
+  Future<void> setStatusEVM() async {
+    if (state.wallet == null || state.wallet!.isConnected == false) {
       return;
     }
 
@@ -59,7 +152,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
 
     if (await control()) {
       final evmHTLC = EVMHTLC(
-        state.evmWallet!.providerEndpoint,
+        state.wallet!.providerEndpoint,
         state.htlcAddressFilled,
         chainId,
       );
@@ -69,7 +162,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         status = await evmHTLC.getStatus();
       } catch (e) {
         setFailure(const aedappfm.Failure.notHTLC());
-        throw const aedappfm.Failure.notHTLC();
+        return;
       }
       if (status == 2) {
         final refundTxAddress = await evmHTLC.getTxRefund();
@@ -92,6 +185,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
           state = state.copyWith(
             htlcDateLock: locktime.dateLockTime,
             htlcCanRefund: locktime.canRefund,
+            blockchainTo: 'Archethic',
           );
         },
         failure: setFailure,
@@ -121,7 +215,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
 
       if (state.isERC20 != null && state.isERC20!) {
         final evmHTLCERC = EVMHTLCERC(
-          state.evmWallet!.providerEndpoint!,
+          state.wallet!.providerEndpoint!,
           state.htlcAddressFilled,
           chainId,
         );
@@ -141,7 +235,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         );
       } else {
         final evmHTLCNative = EVMHTLCNative(
-          state.evmWallet!.providerEndpoint!,
+          state.wallet!.providerEndpoint!,
           state.htlcAddressFilled,
           chainId,
         );
@@ -159,34 +253,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
           },
           failure: setFailure,
         );
-      }
-
-      // Get AE HTLC Address to get the signature
-      if (state.processRefund == ProcessRefund.signed &&
-          state.htlcAddressEVM != null &&
-          state.htlcAddressFilled == state.htlcAddressEVM) {
-        final poolAddress = await PoolsEVMRepositoryImpl()
-            .getPoolEVMAddress(chainId, state.amountCurrency);
-        final result = await EVMLP(
-          state.evmWallet!.providerEndpoint,
-        ).getSwapsByOwner(poolAddress!, state.evmWallet!.genesisAddress);
-        result.map(
-          success: (swaps) {
-            for (final swap in swaps) {
-              if (swap.htlcContractAddressEVM != null &&
-                  swap.htlcContractAddressAE != null &&
-                  swap.htlcContractAddressEVM!.toUpperCase() ==
-                      state.htlcAddressEVM!.toUpperCase()) {
-                state =
-                    state.copyWith(htlcAddressAE: swap.htlcContractAddressAE);
-                break;
-              }
-            }
-          },
-          failure: setFailure,
-        );
-
-        return;
       }
     }
   }
@@ -231,11 +297,18 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     state = state.copyWith(refundTxAddress: refundTxAddress);
   }
 
-  ({bool result, aedappfm.Failure? failure}) _controlAddress() {
+  Future<void> setAddressType(AddressType? addressType) async {
+    if (addressType != state.addressType) {
+      if (state.wallet != null && state.wallet!.isConnected) {
+        await cancelWalletsConnection();
+      }
+      state = state.copyWith(addressType: addressType);
+    }
+  }
+
+  Future<({bool result, aedappfm.Failure? failure})> _controlAddress() async {
     state = state.copyWith(
       processRefund: null,
-      htlcAddressAE: null,
-      htlcAddressEVM: null,
     );
 
     if (state.htlcAddressFilled.isEmpty) {
@@ -263,13 +336,13 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
           failure: const aedappfm.Failure.other(cause: 'Malformated address.'),
         );
       } else {
-        state = state.copyWith(htlcAddressAE: state.htlcAddressFilled);
+        await setAddressType(AddressType.archethic);
       }
     }
     if (state.htlcAddressFilled.length == kEvmAddressLength) {
       try {
         webthree.EthereumAddress.fromHex(state.htlcAddressFilled);
-        state = state.copyWith(htlcAddressEVM: state.htlcAddressFilled);
+        await setAddressType(AddressType.evm);
       } catch (e) {
         return (
           result: false,
@@ -290,7 +363,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       htlcCanRefund: false,
       amount: 0,
       failure: null,
-      addressOk: null,
     );
 
     if (BrowserUtil().isEdgeBrowser() ||
@@ -301,14 +373,10 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       return false;
     }
 
-    final controlAddress = _controlAddress();
+    final controlAddress = await _controlAddress();
     if (controlAddress.failure != null) {
       state = state.copyWith(
         failure: controlAddress.failure,
-      );
-    } else {
-      state = state.copyWith(
-        addressOk: true,
       );
     }
 
@@ -320,17 +388,23 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     if (state.chainId == null) {
       return;
     }
-
-    await RefunEVMCase().run(
-      ref,
-      state.evmWallet!.providerEndpoint!,
-      state.htlcAddressAE,
-      state.htlcAddressEVM ?? state.htlcAddressFilled,
-      state.chainId!,
-      state.processRefund!,
-      state.isERC20!,
-      state.evmWallet!.env,
-    );
+    switch (state.addressType) {
+      case AddressType.evm:
+        await RefundEVMCase().run(
+          ref,
+          state.wallet!.providerEndpoint!,
+          state.htlcAddressFilled,
+          state.chainId!,
+          state.isERC20!,
+        );
+        break;
+      case AddressType.archethic:
+        await RefundArchethicCase()
+            .run(ref, state.wallet!.nameAccount, state.htlcAddressFilled);
+        break;
+      case null:
+        break;
+    }
   }
 
   Future<aedappfm.Result<void, aedappfm.Failure>> connectToEVMWallet() async {
@@ -341,7 +415,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
           isConnected: false,
           error: '',
         );
-        state = state.copyWith(evmWallet: evmWallet);
+        state = state.copyWith(wallet: evmWallet);
         final evmWalletProvider = EVMWalletProvider();
 
         try {
@@ -354,7 +428,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
           await evmWalletProvider.connect(currentChainId);
           if (evmWalletProvider.walletConnected) {
             evmWallet = evmWallet.copyWith(
-              wallet: 'evmWallet',
+              wallet: kEVMWallet,
               isConnected: true,
               error: '',
               nameAccount: evmWalletProvider.accountName!,
@@ -364,7 +438,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
               env: bridgeBlockchain.env,
             );
             state = state.copyWith(
-              evmWallet: evmWallet,
+              wallet: evmWallet,
               chainId: currentChainId,
             );
             if (aedappfm.sl.isRegistered<EVMWalletProvider>()) {
@@ -373,13 +447,200 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
             aedappfm.sl.registerLazySingleton<EVMWalletProvider>(
               () => evmWalletProvider,
             );
-            await setStatus();
+            await setStatusEVM();
           }
         } catch (e) {
           throw const aedappfm.Failure.connectivityEVM();
         }
       },
     );
+  }
+
+  Future<aedappfm.Result<void, aedappfm.Failure>>
+      connectToArchethicWallet() async {
+    return aedappfm.Result.guard(() async {
+      var archethicWallet = const BridgeWallet();
+      archethicWallet = archethicWallet.copyWith(
+        isConnected: false,
+        error: '',
+      );
+      state = state.copyWith(wallet: archethicWallet);
+      awc.ArchethicDAppClient? archethicDAppClient;
+
+      try {
+        archethicDAppClient = awc.ArchethicDAppClient.auto(
+          origin: const awc.RequestOrigin(
+            name: 'aebridge',
+          ),
+          replyBaseUrl: 'aebridge://archethic.tech',
+        );
+      } catch (e, stackTrace) {
+        aedappfm.sl.get<aedappfm.LogManager>().log(
+              '$e',
+              stackTrace: stackTrace,
+              level: aedappfm.LogLevel.error,
+              name: '_SessionNotifier - connectToArchethicWallet',
+            );
+        throw const aedappfm.Failure.connectivityArchethic();
+      }
+
+      final endpointResponse = await archethicDAppClient.getEndpoint();
+      await endpointResponse.when(
+        failure: (failure) {
+          archethicWallet = archethicWallet.copyWith(
+            isConnected: false,
+            error: 'Please, open your Archethic Wallet.',
+          );
+          state = state.copyWith(wallet: archethicWallet);
+          throw const aedappfm.Failure.connectivityArchethic();
+        },
+        success: (result) async {
+          var chainId = 0;
+          switch (state.wallet!.endpoint) {
+            case 'https://mainnet.archethic.net':
+              chainId = -1;
+              break;
+            case 'https://testnet.archethic.net':
+              chainId = -2;
+              break;
+            default:
+              chainId = -3;
+              break;
+          }
+          final bridgeBlockchain = await ref.read(
+            BridgeBlockchainsProviders.getBlockchainFromChainId(
+              chainId,
+            ).future,
+          );
+          archethicWallet = archethicWallet.copyWith(
+            endpoint: bridgeBlockchain!.name,
+            env: bridgeBlockchain.env,
+          );
+          connectionStatusSubscription =
+              archethicDAppClient!.connectionStateStream.listen((event) {
+            event.when(
+              disconnected: () {
+                archethicWallet = archethicWallet.copyWith(
+                  wallet: '',
+                  endpoint: '',
+                  error: '',
+                  genesisAddress: '',
+                  nameAccount: '',
+                  oldNameAccount: '',
+                  isConnected: false,
+                );
+                state = state.copyWith(wallet: archethicWallet);
+              },
+              connected: () {
+                archethicWallet = archethicWallet.copyWith(
+                  wallet: kArchethicWallet,
+                  isConnected: true,
+                  error: '',
+                );
+                state = state.copyWith(wallet: archethicWallet);
+              },
+              connecting: () {
+                archethicWallet = archethicWallet.copyWith(
+                  wallet: '',
+                  error: '',
+                  genesisAddress: '',
+                  nameAccount: '',
+                  oldNameAccount: '',
+                  isConnected: false,
+                );
+                state = state.copyWith(wallet: archethicWallet);
+              },
+            );
+          });
+          if (aedappfm.sl.isRegistered<awc.ArchethicDAppClient>()) {
+            await aedappfm.sl.unregister<awc.ArchethicDAppClient>();
+          }
+          aedappfm.sl.registerLazySingleton<awc.ArchethicDAppClient>(
+            () => archethicDAppClient!,
+          );
+          await setupServiceLocatorApiService(result.endpointUrl);
+
+          final preferences = await HivePreferencesDatasource.getInstance();
+          aedappfm.sl.get<aedappfm.LogManager>().logsActived =
+              preferences.isLogsActived();
+
+          final subscription =
+              await archethicDAppClient.subscribeCurrentAccount();
+
+          subscription.when(
+            success: (success) {
+              archethicWallet = archethicWallet.copyWith(
+                accountSub: success,
+                error: '',
+                isConnected: true,
+                accountStreamSub: success.updates.listen((event) {
+                  if (event.name.isEmpty && event.genesisAddress.isEmpty) {
+                    archethicWallet = archethicWallet.copyWith(
+                      oldNameAccount: archethicWallet.nameAccount,
+                      genesisAddress: event.genesisAddress,
+                      nameAccount: event.name,
+                      error: 'Please, open your Archethic Wallet.',
+                      isConnected: false,
+                    );
+                    state = state.copyWith(wallet: archethicWallet);
+                    return;
+                  }
+                  archethicWallet = archethicWallet.copyWith(
+                    oldNameAccount: archethicWallet.nameAccount,
+                    genesisAddress: event.genesisAddress,
+                    nameAccount: event.name,
+                  );
+                  state = state.copyWith(wallet: archethicWallet);
+                }),
+              );
+              state = state.copyWith(wallet: archethicWallet);
+            },
+            failure: (failure) {
+              archethicWallet = archethicWallet.copyWith(
+                isConnected: false,
+                error: failure.message ?? 'Connection failed',
+              );
+              state = state.copyWith(wallet: archethicWallet);
+              throw aedappfm.Failure.other(cause: archethicWallet.error);
+            },
+          );
+        },
+      );
+
+      await setStatusArchethic();
+    });
+  }
+
+  Future<void> cancelWalletsConnection() async {
+    if (aedappfm.sl.isRegistered<awc.ArchethicDAppClient>()) {
+      await aedappfm.sl.get<awc.ArchethicDAppClient>().close();
+      await aedappfm.sl.unregister<awc.ArchethicDAppClient>();
+    }
+
+    if (aedappfm.sl.isRegistered<archethic.ApiService>()) {
+      await aedappfm.sl.unregister<archethic.ApiService>();
+    }
+
+    if (aedappfm.sl.isRegistered<EVMWalletProvider>()) {
+      await aedappfm.sl.get<EVMWalletProvider>().disconnect();
+      await aedappfm.sl.unregister<EVMWalletProvider>();
+    }
+
+    if (state.wallet != null) {
+      var wallet = state.wallet;
+      wallet = wallet!.copyWith(
+        wallet: '',
+        error: '',
+        accountSub: null,
+        accountStreamSub: null,
+        nameAccount: '',
+        oldNameAccount: '',
+        isConnected: false,
+        endpoint: '',
+        genesisAddress: '',
+      );
+      state = state.copyWith(wallet: wallet);
+    }
   }
 }
 

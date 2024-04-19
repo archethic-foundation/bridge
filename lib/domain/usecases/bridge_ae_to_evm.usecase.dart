@@ -88,7 +88,7 @@ class BridgeArchethicToEVMUseCase
       try {
         // 3) Get Secret Hash from API
         await bridgeNotifier.setCurrentStep(3);
-        final resultGetAEHTLCData = await getAEHTLCData(ref, htlcAEAddress);
+        final resultGetAEHTLCData = await getAEHTLCData(htlcAEAddress);
         secretHash = resultGetAEHTLCData.secretHash;
         endTime = resultGetAEHTLCData.endTime;
         amount = resultGetAEHTLCData.amount;

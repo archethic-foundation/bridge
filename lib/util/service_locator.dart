@@ -4,9 +4,9 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
-void setupServiceLocator() {
+Future<void> setupServiceLocator() async {
   if (aedappfm.sl.isRegistered<aedappfm.LogManager>()) {
-    aedappfm.sl.unregister<aedappfm.LogManager>();
+    await aedappfm.sl.unregister<aedappfm.LogManager>();
   }
 
   aedappfm.sl
@@ -30,9 +30,9 @@ void setupServiceLocator() {
     });
 }
 
-void setupServiceLocatorApiService(String endpoint) {
+Future<void> setupServiceLocatorApiService(String endpoint) async {
   if (aedappfm.sl.isRegistered<ApiService>()) {
-    aedappfm.sl.unregister<ApiService>();
+    await aedappfm.sl.unregister<ApiService>();
   }
   aedappfm.sl.registerLazySingleton<ApiService>(
     () => ApiService(endpoint, logsActivation: false),

@@ -6,7 +6,7 @@ part of 'provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$sessionNotifierHash() => r'ff1f021628509ffa23c3a49f1ca122efc7196bc5';
+String _$sessionNotifierHash() => r'2556231f4f8ffe05ea26ad064c14e8d2dd2ac047';
 
 /// See also [_SessionNotifier].
 @ProviderFor(_SessionNotifier)

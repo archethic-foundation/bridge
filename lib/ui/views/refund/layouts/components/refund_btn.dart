@@ -17,7 +17,7 @@ class RefundButton extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final refund = ref.watch(RefundFormProvider.refundForm);
-    if (refund.evmWallet == null || refund.evmWallet!.isConnected == false) {
+    if (refund.wallet == null || refund.wallet!.isConnected == false) {
       return const SizedBox.shrink();
     }
 

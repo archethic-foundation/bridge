@@ -1,17 +1,15 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 
-import 'package:aebridge/application/contracts/evm_htlc.dart';
+import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class RefundEVMCase {
+class RefundArchethicCase {
   Future<void> run(
     WidgetRef ref,
-    String providerEndPoint,
-    String htlcContractAddress,
-    int chaindId,
-    bool isERC20,
+    String currentNameAccount,
+    String htlcContractAddressAE,
   ) async {
     final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier)
       ..setRefundTxAddress(null)
@@ -20,14 +18,8 @@ class RefundEVMCase {
       ..setRefundOk(false)
       ..setWalletConfirmation(null);
 
-    final result = await EVMHTLC(
-      providerEndPoint,
-      htlcContractAddress,
-      chaindId,
-    ).refund(
-      ref,
-      isERC20,
-    );
+    final result = await ArchethicContract()
+        .refund(ref, currentNameAccount, htlcContractAddressAE);
 
     result.map(
       success: (refundTxAddress) {

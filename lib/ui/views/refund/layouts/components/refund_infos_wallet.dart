@@ -1,6 +1,5 @@
 import 'package:aebridge/ui/util/components/format_address_link_copy.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
-import 'package:aebridge/ui/views/refund/bloc/state.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -14,7 +13,7 @@ class RefundInfosWallet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final refund = ref.watch(RefundFormProvider.refundForm);
-    if (refund.evmWallet == null || refund.processRefund == null) {
+    if (refund.wallet == null || refund.processRefund == null) {
       return const SizedBox.shrink();
     }
     return Column(
@@ -24,16 +23,14 @@ class RefundInfosWallet extends ConsumerWidget {
           Align(
             alignment: Alignment.centerRight,
             child: FormatAddressLinkCopy(
-              header: 'Your EVM wallet address: ',
-              address: refund.evmWallet!.nameAccount,
+              header: 'Your wallet address: ',
+              address: refund.wallet!.genesisAddress,
               chainId: refund.chainId!,
               reduceAddress: true,
             ),
           ),
         SelectableText(
-          refund.processRefund == ProcessRefund.chargeable
-              ? '${refund.evmWallet!.endpoint} to Archethic'
-              : 'Archethic to ${refund.evmWallet!.endpoint}',
+          '${refund.wallet!.endpoint} to ${refund.blockchainTo}',
           textAlign: TextAlign.end,
           style: TextStyle(
             fontSize: aedappfm.Responsive.fontSizeFromValue(

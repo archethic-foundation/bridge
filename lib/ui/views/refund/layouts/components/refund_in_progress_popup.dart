@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/util/failure_message.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
+import 'package:aebridge/ui/views/refund/bloc/state.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -33,7 +34,9 @@ class RefundInProgressPopup {
         )!
             .bridgeInProgressWaitConfirmWallet,
         walletConfirmationTxt:
-            AppLocalizations.of(context)!.bridgeInProgressConfirmEVMWallet,
+            refund.walletConfirmation == WalletConfirmationRefund.evm
+                ? AppLocalizations.of(context)!.bridgeInProgressConfirmEVMWallet
+                : AppLocalizations.of(context)!.bridgeInProgressConfirmAEWallet,
         successTxt: AppLocalizations.of(context)!.refundSuccessInfo,
       ),
     ];

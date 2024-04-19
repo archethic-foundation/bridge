@@ -44,10 +44,10 @@ class _ConnectionToWalletStatusState
             backgroundColor: Theme.of(context).snackBarTheme.backgroundColor,
             content: SelectableText(
               AppLocalizations.of(context)!.changeCurrentAccountWarning,
-              style: Theme.of(context).snackBarTheme.contentTextStyle!.copyWith(
+              style: Theme.of(context).textTheme.labelMedium!.copyWith(
                     fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                       context,
-                      Theme.of(context).snackBarTheme.contentTextStyle!,
+                      Theme.of(context).textTheme.labelMedium!,
                     ),
                   ),
             ),
