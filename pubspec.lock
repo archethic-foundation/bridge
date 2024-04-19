@@ -36,10 +36,11 @@ packages:
   archethic_dapp_framework_flutter:
     dependency: "direct main"
     description:
-      path: "../archethic-dapp-framework-flutter"
-      relative: true
-    source: path
-    version: "1.1.8"
+      name: archethic_dapp_framework_flutter
+      sha256: "4e6cdfc32fad44fd28a87fd0523e868ea79352552fb122e10ac902462a3e2366"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.1.9"
   archethic_lib_dart:
     dependency: transitive
     description:
