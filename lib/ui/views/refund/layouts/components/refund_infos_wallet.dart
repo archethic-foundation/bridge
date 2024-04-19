@@ -13,7 +13,11 @@ class RefundInfosWallet extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final refund = ref.watch(RefundFormProvider.refundForm);
-    if (refund.wallet == null || refund.processRefund == null) {
+    if (refund.wallet == null ||
+        refund.processRefund == null ||
+        refund.isAlreadyRefunded == true ||
+        refund.isAlreadyWithdrawn == true ||
+        refund.blockchainTo == null) {
       return const SizedBox.shrink();
     }
     return Column(

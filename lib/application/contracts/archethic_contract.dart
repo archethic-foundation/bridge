@@ -136,14 +136,14 @@ class ArchethicContract
           (await apiService.getBlockchainVersion()).version.transaction,
         );
 
-        final poolAddress = await getPoolFromHTLC(htlcAddress);
+        final infoResult = await getInfo(htlcAddress);
 
         var transaction = Transaction(
           type: 'transfer',
           version: blockchainTxVersion,
           data: Transaction.initData(),
         ).addRecipient(
-          poolAddress,
+          infoResult.aePoolAddress!,
           action: 'refund',
           args: [
             htlcAddress,
@@ -170,23 +170,6 @@ class ArchethicContract
     );
   }
 
-  Future<String> getPoolFromHTLC(
-    String htlcAddress,
-  ) async {
-    final poolAddress = await aedappfm.sl.get<ApiService>().callSCFunction(
-          jsonRPCRequest: SCCallFunctionRequest(
-            method: 'contract_fun',
-            params: SCCallFunctionParams(
-              contract: htlcAddress.toUpperCase(),
-              function: 'get_pool',
-              args: [],
-            ),
-          ),
-        );
-
-    return poolAddress.toString();
-  }
-
   Future<
       ({
         int status,
@@ -197,58 +180,47 @@ class ArchethicContract
     final lastAddressResult =
         await aedappfm.sl.get<ApiService>().getLastTransaction(
       [htlcAddress],
-      request: 'chainLength',
+      request: 'address',
     );
     if (lastAddressResult[htlcAddress] == null) {
       throw const aedappfm.Failure.notHTLC();
     }
 
     final lastHTLCTransaction = lastAddressResult[htlcAddress];
-    if (lastHTLCTransaction!.chainLength == null ||
-        lastHTLCTransaction.chainLength! <= 1) {
+
+    final infoHTLCResult =
+        await getInfo(lastHTLCTransaction!.address!.address!);
+
+    if (infoHTLCResult.statusHTLC == null) {
       throw const aedappfm.Failure.notHTLC();
     } else {
-      if (lastHTLCTransaction.chainLength == 2) {
-        try {
-          const d = Decimal.parse;
-          final resultGetAEHTLCData = await getAEHTLCData(htlcAddress);
-          final calcul =
-              (d('0.003') / d('0.997')).toDecimal(scaleOnInfinitePrecision: 8);
-          final estimatedProtocolFees =
-              (d(resultGetAEHTLCData.amount.toString()) * calcul)
-                  .round(scale: 8)
-                  .toDouble();
-          return (
-            status: 0,
-            amount: resultGetAEHTLCData.amount,
-            endTime: resultGetAEHTLCData.endTime,
-            estimatedProtocolFees: estimatedProtocolFees
-          );
-        } catch (e) {
-          // It's a HTLC Chargeable
-          throw const aedappfm.Failure.notHTLC();
-        }
+      // Pending
+      if (infoHTLCResult.statusHTLC == 0) {
+        const d = Decimal.parse;
+        final resultGetAEHTLCData = await getAEHTLCData(htlcAddress);
+        final calcul =
+            (d('0.003') / d('0.997')).toDecimal(scaleOnInfinitePrecision: 8);
+        final estimatedProtocolFees =
+            (d(resultGetAEHTLCData.amount.toString()) * calcul)
+                .round(scale: 8)
+                .toDouble();
+        return (
+          status: infoHTLCResult.statusHTLC!,
+          amount: resultGetAEHTLCData.amount,
+          endTime: resultGetAEHTLCData.endTime,
+          estimatedProtocolFees: estimatedProtocolFees
+        );
       } else {
-        // We consider the HTLC has been withdrawn if the tx chain has 3 tx
-        if (lastHTLCTransaction.chainLength == 3) {
+        // Withdrawn
+        if (infoHTLCResult.statusHTLC == 1 || infoHTLCResult.statusHTLC == 2) {
           return (
-            status: 1,
+            status: infoHTLCResult.statusHTLC!,
             amount: null,
             endTime: null,
             estimatedProtocolFees: null,
           );
         } else {
-          // We consider the HTLC has been refunded if the tx chain has 4 tx
-          if (lastHTLCTransaction.chainLength == 4) {
-            return (
-              status: 2,
-              amount: null,
-              endTime: null,
-              estimatedProtocolFees: null,
-            );
-          } else {
-            throw const aedappfm.Failure.notHTLC();
-          }
+          throw const aedappfm.Failure.notHTLC();
         }
       }
     }

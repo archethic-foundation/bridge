@@ -238,9 +238,8 @@ class BridgeEVMToArchethicUseCase
         return;
       }
 
-      final dataAEHTLC = await getProvisionData(htlcAEAddress);
-      if (dataAEHTLC.evmHTLCAddress == null ||
-          dataAEHTLC.secretSignature == null) {
+      final signatureAEHTLC = await getProvisionSignature(htlcAEAddress);
+      if (signatureAEHTLC == null) {
         await bridgeNotifier.setFailure(const aedappfm.Failure.notHTLC());
         await bridgeNotifier.setTransferInProgress(false);
         return;
@@ -258,7 +257,7 @@ class BridgeEVMToArchethicUseCase
             ref,
             htlcEVMAddress,
             secret,
-            dataAEHTLC.secretSignature!,
+            signatureAEHTLC,
           );
         }
       } catch (e) {
