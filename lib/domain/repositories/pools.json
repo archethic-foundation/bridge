@@ -1,5 +1,9 @@
 {
-    "poolsEVM": {
+    "pools": {
+        "-1": {
+            "aeETH": "",
+            "UCO": ""
+        },
         "1": {
             "ETH": "",
             "UCO": ""
@@ -8,6 +12,11 @@
             "MATIC": "",
             "UCO": "",
             "WETH": ""
+        },
+        "-2": {
+            "aeETH": "000066706d704329ca8c2a4153991e2ddacc968622ca10217ca14952eb7abb966c30",
+            "UCO": "000018d60115ece0c7558a46b4693749bf6beab524fddccf9b10b910619e4ee08801",
+            "aeUSDC": "00003f6c8f75d367dbea6420a26cb8c087e53f3ba801db806c6623c56a2ac879e1b0"
         },
         "56": {
             "ETH": "",
@@ -21,6 +30,10 @@
             "MATIC": "0x56c86b45fCe906af9dF535EB27968aE46CBF170E",
             "UCO": "0xe55915D112711127339f073e75185E6311Dd72C8",
             "WETH": "0x018a6673063514AEEB028890C48EE68F62bd7CAD"
+        },
+        "-3": {
+            "aeETH": "0000e12f075156da85fdb175d0899eb84c3ffe8d854d5fa4b01063035aecf16e8777",
+            "UCO": "0000f53a34560bfe06b01689e585d53c07671f6eaa1b31e62659d8f7d5292f066941"
         },
         "31337": {
             "ETH": "0x39C9DBD60B0eAF256Ebc509D2b837d508dD4F2Da",

@@ -3,14 +3,19 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
+import 'package:aebridge/ui/views/refund/bloc/provider.dart';
+import 'package:aebridge/ui/views/refund/bloc/state.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ArchethicContract with aedappfm.TransactionMixin {
+class ArchethicContract
+    with aedappfm.TransactionMixin, ArchethicBridgeProcessMixin {
   ArchethicContract();
 
   ({String seedHTLC, String genesisAddressHTLC}) defineHTLCAddress() {
@@ -48,8 +53,9 @@ class ArchethicContract with aedappfm.TransactionMixin {
           ),
         );
         final scAuthorizedKey = AuthorizedKey(
-          encryptedSecretKey:
-              uint8ListToHex(ecEncrypt(aesKey, storageNoncePublicKey)),
+          encryptedSecretKey: uint8ListToHex(
+            ecEncrypt(aesKey, storageNoncePublicKey),
+          ),
           publicKey: storageNoncePublicKey,
         );
 
@@ -118,10 +124,10 @@ class ArchethicContract with aedappfm.TransactionMixin {
     );
   }
 
-  // TODO(reddwarf03): To be finished
-  Future<aedappfm.Result<double, aedappfm.Failure>> estimateDeployHTLCFees(
-    Recipient? recipient,
-    String code,
+  Future<aedappfm.Result<String, aedappfm.Failure>> refund(
+    WidgetRef ref,
+    String currentNameAccount,
+    String htlcAddress,
   ) async {
     return aedappfm.Result.guard(
       () async {
@@ -129,56 +135,122 @@ class ArchethicContract with aedappfm.TransactionMixin {
         final blockchainTxVersion = int.parse(
           (await apiService.getBlockchainVersion()).version.transaction,
         );
-        final falseSeedSC = generateRandomSeed();
 
-        final storageNoncePublicKey =
-            await apiService.getStorageNoncePublicKey();
-        final aesKey = uint8ListToHex(
-          Uint8List.fromList(
-            List<int>.generate(32, (int i) => Random.secure().nextInt(256)),
-          ),
-        );
-        final scAuthorizedKey = AuthorizedKey(
-          encryptedSecretKey:
-              uint8ListToHex(ecEncrypt(aesKey, storageNoncePublicKey)),
-          publicKey: storageNoncePublicKey,
-        );
+        final poolAddress = await getPoolFromHTLC(htlcAddress);
 
-        final originPrivateKey = apiService.getOriginKey();
-        final transactionSC = Transaction(
-          type: 'contract',
+        var transaction = Transaction(
+          type: 'transfer',
           version: blockchainTxVersion,
           data: Transaction.initData(),
-        ).setCode(code).addOwnership(
-          uint8ListToHex(
-            aesEncrypt(falseSeedSC, aesKey),
-          ),
-          [scAuthorizedKey],
+        ).addRecipient(
+          poolAddress,
+          action: 'refund',
+          args: [
+            htlcAddress,
+          ],
         );
 
-        late Transaction transactionFinal;
-        if (recipient != null) {
-          transactionFinal = transactionSC
-              .addRecipient(
-                recipient.address!,
-                action: recipient.action,
-                args: recipient.args,
-              )
-              .build(falseSeedSC, 0)
-              .transaction
-              .originSign(originPrivateKey);
-        } else {
-          transactionFinal = transactionSC
-              .build(falseSeedSC, 0)
-              .transaction
-              .originSign(originPrivateKey);
-        }
+        final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier);
+        ref
+            .read(RefundFormProvider.refundForm.notifier)
+            .setWalletConfirmation(WalletConfirmationRefund.archethic);
+        transaction = (await signTx(
+          Uri.encodeFull('archethic-wallet-$currentNameAccount'),
+          '',
+          [transaction],
+        ))
+            .first;
+        refundNotifier.setWalletConfirmation(null);
+        await sendTransactions(
+          <Transaction>[transaction],
+        );
 
-        final fees = await calculateFees(transactionFinal);
-        return toBigInt(
-          fees,
-        ).toDouble();
+        return transaction.address!.address!;
       },
     );
+  }
+
+  Future<String> getPoolFromHTLC(
+    String htlcAddress,
+  ) async {
+    final poolAddress = await aedappfm.sl.get<ApiService>().callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
+            method: 'contract_fun',
+            params: SCCallFunctionParams(
+              contract: htlcAddress.toUpperCase(),
+              function: 'get_pool',
+              args: [],
+            ),
+          ),
+        );
+
+    return poolAddress.toString();
+  }
+
+  Future<
+      ({
+        int status,
+        double? amount,
+        int? endTime,
+        double? estimatedProtocolFees
+      })> getHTLCInfo(String htlcAddress) async {
+    final lastAddressResult =
+        await aedappfm.sl.get<ApiService>().getLastTransaction(
+      [htlcAddress],
+      request: 'chainLength',
+    );
+    if (lastAddressResult[htlcAddress] == null) {
+      throw const aedappfm.Failure.notHTLC();
+    }
+
+    final lastHTLCTransaction = lastAddressResult[htlcAddress];
+    if (lastHTLCTransaction!.chainLength == null ||
+        lastHTLCTransaction.chainLength! <= 1) {
+      throw const aedappfm.Failure.notHTLC();
+    } else {
+      if (lastHTLCTransaction.chainLength == 2) {
+        try {
+          const d = Decimal.parse;
+          final resultGetAEHTLCData = await getAEHTLCData(htlcAddress);
+          final calcul =
+              (d('0.003') / d('0.997')).toDecimal(scaleOnInfinitePrecision: 8);
+          final estimatedProtocolFees =
+              (d(resultGetAEHTLCData.amount.toString()) * calcul)
+                  .round(scale: 8)
+                  .toDouble();
+          return (
+            status: 0,
+            amount: resultGetAEHTLCData.amount,
+            endTime: resultGetAEHTLCData.endTime,
+            estimatedProtocolFees: estimatedProtocolFees
+          );
+        } catch (e) {
+          // It's a HTLC Chargeable
+          throw const aedappfm.Failure.notHTLC();
+        }
+      } else {
+        // We consider the HTLC has been withdrawn if the tx chain has 3 tx
+        if (lastHTLCTransaction.chainLength == 3) {
+          return (
+            status: 1,
+            amount: null,
+            endTime: null,
+            estimatedProtocolFees: null,
+          );
+        } else {
+          // We consider the HTLC has been refunded if the tx chain has 4 tx
+          if (lastHTLCTransaction.chainLength == 4) {
+            return (
+              status: 2,
+              amount: null,
+              endTime: null,
+              estimatedProtocolFees: null,
+            );
+          } else {
+            throw const aedappfm.Failure.notHTLC();
+          }
+        }
+      }
+    }
   }
 }

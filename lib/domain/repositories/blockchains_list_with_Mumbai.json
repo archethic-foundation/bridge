@@ -82,6 +82,18 @@
             "nativeCurrency": "MATIC"
         },
         {
+            "name": "Mumbai Polygon Testnet",
+            "chainId": 80001,
+            "env": "2-testnet",
+            "icon": "Polygon.svg",
+            "urlExplorerAddress": "https://mumbai.polygonscan.com/address/",
+            "urlExplorerTransaction": "https://mumbai.polygonscan.com/tx/",
+            "urlExplorerChain": "https://mumbai.polygonscan.com/address/",
+            "providerEndpoint": "https://polygon-mumbai.g.alchemy.com/v2/DynWKvz6PUFaeZNmlxPXNiV1nK4Ac_2D",
+            "isArchethic": false,
+            "nativeCurrency": "MATIC"
+        },
+        {
             "name": "Binance Smart Chain",
             "chainId": 56,
             "env": "1-mainnet",

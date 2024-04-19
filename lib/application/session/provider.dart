@@ -48,7 +48,7 @@ class _SessionNotifier extends Notifier<Session> {
           await evmWalletProvider.connect(blockchain.chainId);
           if (evmWalletProvider.walletConnected) {
             bridgeWallet = bridgeWallet.copyWith(
-              wallet: 'evmWallet',
+              wallet: kEVMWallet,
               isConnected: true,
               error: '',
               nameAccount: evmWalletProvider.accountName!,
@@ -181,7 +181,7 @@ class _SessionNotifier extends Notifier<Session> {
               },
               connected: () {
                 bridgeWallet = bridgeWallet.copyWith(
-                  wallet: 'archethic',
+                  wallet: kArchethicWallet,
                   isConnected: true,
                   error: '',
                 );
@@ -207,7 +207,7 @@ class _SessionNotifier extends Notifier<Session> {
           aedappfm.sl.registerLazySingleton<awc.ArchethicDAppClient>(
             () => archethicDAppClient!,
           );
-          setupServiceLocatorApiService(result.endpointUrl);
+          await setupServiceLocatorApiService(result.endpointUrl);
           final preferences = await HivePreferencesDatasource.getInstance();
           aedappfm.sl.get<aedappfm.LogManager>().logsActived =
               preferences.isLogsActived();
@@ -267,13 +267,15 @@ class _SessionNotifier extends Notifier<Session> {
 
   void setOldNameAccount() {
     BridgeWallet? walletArchethic;
-    if (state.walletFrom != null && state.walletFrom!.wallet == 'archethic') {
+    if (state.walletFrom != null &&
+        state.walletFrom!.wallet == kArchethicWallet) {
       walletArchethic = state.walletFrom;
       walletArchethic = walletArchethic!
           .copyWith(oldNameAccount: walletArchethic.nameAccount);
       state = state.copyWith(walletFrom: walletArchethic);
     } else {
-      if (state.walletTo != null && state.walletTo!.wallet == 'archethic') {
+      if (state.walletTo != null &&
+          state.walletTo!.wallet == kArchethicWallet) {
         walletArchethic = state.walletTo;
         walletArchethic = walletArchethic!
             .copyWith(oldNameAccount: walletArchethic.nameAccount);
@@ -297,7 +299,8 @@ class _SessionNotifier extends Notifier<Session> {
       await aedappfm.sl.unregister<ApiService>();
     }
 
-    if (state.walletFrom != null && state.walletFrom!.wallet == 'archethic') {
+    if (state.walletFrom != null &&
+        state.walletFrom!.wallet == kArchethicWallet) {
       var walletFrom = state.walletFrom;
 
       walletFrom = walletFrom!.copyWith(
@@ -313,7 +316,8 @@ class _SessionNotifier extends Notifier<Session> {
       );
       state = state.copyWith(walletFrom: walletFrom);
     } else {
-      if (state.walletTo != null && state.walletTo!.wallet == 'archethic') {
+      if (state.walletTo != null &&
+          state.walletTo!.wallet == kArchethicWallet) {
         var walletTo = state.walletTo;
 
         walletTo = walletTo!.copyWith(
@@ -335,8 +339,9 @@ class _SessionNotifier extends Notifier<Session> {
   Future<void> cancelEVMWalletConnection() async {
     if (aedappfm.sl.isRegistered<EVMWalletProvider>()) {
       await aedappfm.sl.get<EVMWalletProvider>().disconnect();
+      await aedappfm.sl.unregister<EVMWalletProvider>();
     }
-    if (state.walletFrom != null && state.walletFrom!.wallet == 'evmWallet') {
+    if (state.walletFrom != null && state.walletFrom!.wallet == kEVMWallet) {
       var walletFrom = state.walletFrom;
 
       walletFrom = walletFrom!.copyWith(
@@ -352,7 +357,7 @@ class _SessionNotifier extends Notifier<Session> {
       );
       state = state.copyWith(walletFrom: walletFrom);
     } else {
-      if (state.walletTo != null && state.walletTo!.wallet == 'evmWallet') {
+      if (state.walletTo != null && state.walletTo!.wallet == kEVMWallet) {
         var walletTo = state.walletFrom;
 
         walletTo = walletTo!.copyWith(

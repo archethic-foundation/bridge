@@ -9,10 +9,8 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:aebridge/ui/views/refund/bloc/state.dart';
-import 'package:aebridge/util/service_locator.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
@@ -35,106 +33,25 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
 
   Future<aedappfm.Result<String, aedappfm.Failure>> refund(
     WidgetRef ref,
-    ProcessRefund processRefund,
     bool isERC20,
-    String? htlcContractAddressAE,
-    String evmEnv,
   ) async {
     return aedappfm.Result.guard(
       () async {
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
 
         final contractHTLC = await getDeployedContract(
-          processRefund == ProcessRefund.chargeable
-              ? isERC20
-                  ? contractNameChargeableHTLCERC
-                  : contractNameChargeableHTLCETH
-              : isERC20
-                  ? contractNameSignedHTLCERC
-                  : contractNameSignedHTLCETH,
+          isERC20
+              ? contractNameChargeableHTLCERC
+              : contractNameChargeableHTLCETH,
           htlcContractAddressEVM,
         );
 
-        late Transaction transactionRefund;
-        if (DateTime.now().isAfter(DateTime(2024, 2, 20))) {
-          if (processRefund == ProcessRefund.chargeable) {
-            transactionRefund = Transaction.callContract(
-              contract: contractHTLC,
-              function: contractHTLC.function('refund'),
-              maxGas: 1500000,
-              parameters: [],
-            );
-          } else {
-            // TODO: To externalize
-            switch (evmEnv) {
-              case '1-mainnet':
-                setupServiceLocatorApiService('https://mainnet.archethic.net');
-                break;
-              case '2-testnet':
-                setupServiceLocatorApiService('https://testnet.archethic.net');
-                break;
-              case '3-devnet':
-                setupServiceLocatorApiService('http://localhost:4000');
-                break;
-              default:
-            }
-            final lastHTLCContractAddressAEResult = await aedappfm.sl
-                .get<archethic.ApiService>()
-                .getLastTransaction([htlcContractAddressAE!]);
-            var lastHTLCContractAddressAE = htlcContractAddressAE;
-            if (lastHTLCContractAddressAEResult[htlcContractAddressAE] !=
-                    null &&
-                lastHTLCContractAddressAEResult[htlcContractAddressAE]!
-                        .address !=
-                    null &&
-                lastHTLCContractAddressAEResult[htlcContractAddressAE]!
-                        .address!
-                        .address !=
-                    null) {
-              lastHTLCContractAddressAE =
-                  lastHTLCContractAddressAEResult[htlcContractAddressAE]!
-                      .address!
-                      .address!;
-            }
-
-            try {
-              final secret = await revealAESecret(
-                lastHTLCContractAddressAE,
-              );
-
-              transactionRefund = Transaction.callContract(
-                contract: contractHTLC,
-                function: contractHTLC.findFunctionByNameAndNbOfParameters(
-                    'refund', 4),
-                maxGas: 1500000,
-                parameters: [
-                  hexToBytes(secret.secret!),
-                  hexToBytes(secret.secretSignature!.r!),
-                  hexToBytes(secret.secretSignature!.s!),
-                  BigInt.from(secret.secretSignature!.v!),
-                ],
-              );
-            } catch (e) {
-              if (e is archethic.ArchethicJsonRPCException) {
-                throw aedappfm.Failure.other(
-                  cause: e.data.toString(),
-                );
-              } else {
-                throw aedappfm.Failure.other(
-                  cause: e.toString(),
-                );
-              }
-            }
-          }
-        } else {
-          // Refund contract from bridge one way
-          transactionRefund = Transaction.callContract(
-            contract: contractHTLC,
-            function: contractHTLC.function('refund'),
-            maxGas: 1500000,
-            parameters: [],
-          );
-        }
+        final transactionRefund = Transaction.callContract(
+          contract: contractHTLC,
+          function: contractHTLC.function('refund'),
+          maxGas: 1500000,
+          parameters: [],
+        );
 
         var refundTx = '';
         var timeout = false;

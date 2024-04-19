@@ -6,6 +6,7 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_final_amount.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_in_progress_contracts.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_interrup_info.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -75,6 +76,7 @@ class BridgeInProgressPopup {
               ? bridge.blockchainTo!.providerEndpoint
               : null,
         ),
+      const BridgeInterrupInfo(),
       const Spacer(),
       aedappfm.InProgressResumeBtn(
         currentStep: bridge.currentStep,
@@ -141,6 +143,7 @@ class BridgeInProgressPopup {
       context,
       body,
       popupCloseButton,
+      height: 450,
     );
   }
 }

@@ -6,6 +6,9 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'bridge_wallet.freezed.dart';
 
+const kEVMWallet = 'evmWallet';
+const kArchethicWallet = 'archethic';
+
 @freezed
 class BridgeWallet with _$BridgeWallet {
   const factory BridgeWallet({
@@ -25,7 +28,7 @@ class BridgeWallet with _$BridgeWallet {
   const BridgeWallet._();
 
   String get nameAccountDisplayed {
-    if (wallet == 'evmWallet') {
+    if (wallet == kEVMWallet) {
       return '${nameAccount.substring(0, 7)}...${nameAccount.substring(nameAccount.length - 4, nameAccount.length)}';
     }
     return nameAccount;

@@ -89,6 +89,7 @@
     "failureIncompatibleBrowser": "Sorry, but your browser is not compatible with the app.\nPlease refer to the FAQ for more information.",
     "btn_refund": "Refund",
     "btn_refund_evm_connect": "Connect EVM Wallet",
+    "btn_refund_archethic_connect": "Connect Archethic Wallet",
     "refund_contract_address_lbl": "Address of the contract containing the bridged funds",
     "refundCanRefundYes": "You can refund",
     "refundCanRefundDateLock": "You can refund %1 after %2",

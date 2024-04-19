@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
+import 'package:aebridge/ui/views/refund/bloc/state.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -15,17 +16,27 @@ class RefundConnectWalletButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final refund = ref.watch(RefundFormProvider.refundForm);
 
-    if (refund.evmWallet != null && refund.evmWallet!.isConnected) {
+    if ((refund.wallet != null && refund.wallet!.isConnected) ||
+        refund.addressType == null) {
       return const SizedBox.shrink();
     }
-
-    return aedappfm.AppButton(
-      labelBtn: AppLocalizations.of(context)!.btn_refund_evm_connect,
-      onPressed: () async {
-        await ref
-            .read(RefundFormProvider.refundForm.notifier)
-            .connectToEVMWallet();
-      },
-    );
+    return refund.addressType == AddressType.evm
+        ? aedappfm.AppButton(
+            labelBtn: AppLocalizations.of(context)!.btn_refund_evm_connect,
+            onPressed: () async {
+              await ref
+                  .read(RefundFormProvider.refundForm.notifier)
+                  .connectToEVMWallet();
+            },
+          )
+        : aedappfm.AppButton(
+            labelBtn:
+                AppLocalizations.of(context)!.btn_refund_archethic_connect,
+            onPressed: () async {
+              await ref
+                  .read(RefundFormProvider.refundForm.notifier)
+                  .connectToArchethicWallet();
+            },
+          );
   }
 }

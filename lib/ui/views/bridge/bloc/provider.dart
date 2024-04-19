@@ -729,8 +729,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
     await setArchethicProtocolFeesRate(archethicProtocolFees.rate);
     await setArchethicProtocolFeesAddress(archethicProtocolFees.address);
 
-    //final aeHTLCFees = await ArchethicContract().estimateDeployHTLCFees();
-
     final session = ref.read(SessionProviders.session);
     DateTime? consentDateTime;
     if (state.blockchainFrom!.isArchethic) {
