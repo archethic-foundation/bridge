@@ -39,23 +39,23 @@ packages:
       path: "../archethic-dapp-framework-flutter"
       relative: true
     source: path
-    version: "1.1.7"
+    version: "1.1.8"
   archethic_lib_dart:
     dependency: transitive
     description:
       name: archethic_lib_dart
-      sha256: ca6f2585372a899964556078701b6cda582ebbd2daa6d9662f62c20c5f6c75da
+      sha256: e67fc0f4201afec9b0d4ac373251613be55c4ce41f6d88ab4f9054681f7dc3b2
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.13"
+    version: "3.3.14"
   archethic_wallet_client:
     dependency: "direct main"
     description:
       name: archethic_wallet_client
-      sha256: "46631cd56f7af7fbf6bbb984d8ce50b3ba7776a398341f459b2ab81c51a82553"
+      sha256: cc659035492078fa49a1cc1f5c8a82aacec7e7004042a18617bf2c2763edf036
       url: "https://pub.dev"
     source: hosted
-    version: "1.2.3"
+    version: "1.2.4"
   archive:
     dependency: transitive
     description:
@@ -819,10 +819,10 @@ packages:
     dependency: transitive
     description:
       name: pointycastle
-      sha256: "70fe966348fe08c34bf929582f1d8247d9d9408130723206472b4687227e4333"
+      sha256: "79fbafed02cfdbe85ef3fd06c7f4bc2cbcba0177e61b765264853d4253b21744"
       url: "https://pub.dev"
     source: hosted
-    version: "3.8.0"
+    version: "3.9.0"
   pool:
     dependency: transitive
     description:
