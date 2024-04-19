@@ -54,6 +54,8 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
   Future<void> setContractAddress(String htlcAddress) async {
     state = state.copyWith(
       htlcAddressFilled: htlcAddress,
+      isAlreadyRefunded: false,
+      isAlreadyWithdrawn: false,
       failure: null,
     );
     await setAddressType(null);
@@ -94,7 +96,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
           );
         }
 
-        final poolAddress = await archethicContract.getPoolFromHTLC(
+        final infoResult = await archethicContract.getInfo(
           state.htlcAddressFilled,
         );
 
@@ -113,14 +115,17 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         }
 
         final symbol = await PoolsRepositoryImpl()
-            .getSymbolFromPoolAddress(chainId, poolAddress);
+            .getSymbolFromPoolAddress(chainId, infoResult.aePoolAddress!);
         if (symbol != null) {
           setAmountCurrency(symbol);
         }
+
         setFee(htlcInfo.estimatedProtocolFees ?? 0);
         setAmount(htlcInfo.amount ?? 0);
         state = state.copyWith(
-          htlcCanRefund: true,
+          htlcCanRefund:
+              DateTime.fromMillisecondsSinceEpoch(htlcInfo.endTime! * 1000)
+                  .isBefore(DateTime.now()),
           processRefund: ProcessRefund.signed,
           htlcDateLock: htlcInfo.endTime ?? 0,
           blockchainTo: 'EVM',
@@ -128,7 +133,11 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         );
       } catch (e) {
         if (e is aedappfm.Failure == false) {
-          setFailure(aedappfm.Failure.other(cause: e.toString()));
+          if (e is archethic.ArchethicJsonRPCException) {
+            setFailure(const aedappfm.Failure.notHTLC());
+          } else {
+            setFailure(aedappfm.Failure.other(cause: e.toString()));
+          }
         } else {
           setFailure(e as aedappfm.Failure);
         }
@@ -496,15 +505,17 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         },
         success: (result) async {
           var chainId = 0;
-          switch (state.wallet!.endpoint) {
+          switch (result.endpointUrl) {
             case 'https://mainnet.archethic.net':
               chainId = -1;
               break;
             case 'https://testnet.archethic.net':
               chainId = -2;
               break;
-            default:
+            case 'http://localhost:4000':
               chainId = -3;
+              break;
+            default:
               break;
           }
           final bridgeBlockchain = await ref.read(

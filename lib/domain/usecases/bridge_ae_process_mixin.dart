@@ -239,35 +239,57 @@ mixin ArchethicBridgeProcessMixin {
     );
   }
 
-  Future<({SecretSignature? secretSignature, String? evmHTLCAddress})>
-      getProvisionData(String htlcAddress) async {
+  Future<SecretSignature?> getProvisionSignature(String htlcAddress) async {
     final dataJson =
         await aedappfm.sl.get<archethic.ApiService>().callSCFunction(
               jsonRPCRequest: archethic.SCCallFunctionRequest(
                 method: 'contract_fun',
                 params: archethic.SCCallFunctionParams(
                   contract: htlcAddress.toUpperCase(),
-                  function: 'get_provision_data',
+                  function: 'get_provision_signature',
                   args: [],
                 ),
               ),
               resultMap: true,
             ) as Map<String, dynamic>;
 
-    if (dataJson['signature'] == null ||
-        dataJson['signature']['r'] == null ||
-        dataJson['signature']['s'] == null ||
-        dataJson['signature']['v'] == null ||
-        dataJson['evm_contract'] == null) {
-      return (secretSignature: null, evmHTLCAddress: null);
+    if (dataJson['r'] == null ||
+        dataJson['s'] == null ||
+        dataJson['v'] == null) {
+      return null;
     }
+    return SecretSignature(
+      r: dataJson['r'],
+      s: dataJson['s'],
+      v: dataJson['v'],
+    );
+  }
+
+  Future<
+      ({
+        String? evmHTLCAddress,
+        String? evmPoolAddress,
+        String? aePoolAddress,
+        int? statusHTLC
+      })> getInfo(String htlcAddress) async {
+    final dataJson =
+        await aedappfm.sl.get<archethic.ApiService>().callSCFunction(
+              jsonRPCRequest: archethic.SCCallFunctionRequest(
+                method: 'contract_fun',
+                params: archethic.SCCallFunctionParams(
+                  contract: htlcAddress.toUpperCase(),
+                  function: 'info',
+                  args: [],
+                ),
+              ),
+              resultMap: true,
+            ) as Map<String, dynamic>;
+
     return (
-      secretSignature: SecretSignature(
-        r: dataJson['signature']['r'],
-        s: dataJson['signature']['s'],
-        v: dataJson['signature']['v'],
-      ),
-      evmHTLCAddress: dataJson['evm_contract'].toString()
+      evmHTLCAddress: dataJson['evm_contract']?.toString(),
+      evmPoolAddress: dataJson['evm_pool']?.toString(),
+      aePoolAddress: dataJson['ae_pool']?.toString(),
+      statusHTLC: dataJson['status'] == null ? null : dataJson['status'] as int
     );
   }
 }
