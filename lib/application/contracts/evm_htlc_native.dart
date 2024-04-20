@@ -179,8 +179,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
     );
   }
 
-  Future<aedappfm.Result<({double fee, bool? isChargeable}), aedappfm.Failure>>
-      getFee() async {
+  Future<aedappfm.Result<double, aedappfm.Failure>> getFee() async {
     return aedappfm.Result.guard(
       () async {
         try {
@@ -197,15 +196,9 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
 
           final BigInt fee = feeMap[0];
           final etherAmount = EtherAmount.fromBigInt(EtherUnit.wei, fee);
-          return (
-            fee: etherAmount.getValueInUnit(EtherUnit.ether),
-            isChargeable: true,
-          );
+          return etherAmount.getValueInUnit(EtherUnit.ether);
         } catch (e) {
-          return (
-            fee: 0.0,
-            isChargeable: false,
-          );
+          return 0.0;
         }
       },
     );

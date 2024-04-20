@@ -21,14 +21,14 @@ mixin _$RefundFormState {
   int? get chainId => throw _privateConstructorUsedError;
   bool? get isAlreadyRefunded => throw _privateConstructorUsedError;
   bool? get isAlreadyWithdrawn => throw _privateConstructorUsedError;
-  dynamic get refundOk => throw _privateConstructorUsedError;
-  dynamic get refundInProgress => throw _privateConstructorUsedError;
+  bool get refundOk => throw _privateConstructorUsedError;
+  bool get refundInProgress => throw _privateConstructorUsedError;
   AddressType? get addressType => throw _privateConstructorUsedError;
   int? get htlcDateLock => throw _privateConstructorUsedError;
   double get amount => throw _privateConstructorUsedError;
   String get amountCurrency => throw _privateConstructorUsedError;
   double get fee => throw _privateConstructorUsedError;
-  dynamic get htlcCanRefund => throw _privateConstructorUsedError;
+  bool get htlcCanRefund => throw _privateConstructorUsedError;
   WalletConfirmationRefund? get walletConfirmation =>
       throw _privateConstructorUsedError;
   ProcessRefund? get processRefund => throw _privateConstructorUsedError;
@@ -37,6 +37,7 @@ mixin _$RefundFormState {
   BridgeWallet? get wallet => throw _privateConstructorUsedError;
   @FailureJsonConverter()
   Failure? get failure => throw _privateConstructorUsedError;
+  bool get defineStatusInProgress => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $RefundFormStateCopyWith<RefundFormState> get copyWith =>
@@ -55,20 +56,21 @@ abstract class $RefundFormStateCopyWith<$Res> {
       int? chainId,
       bool? isAlreadyRefunded,
       bool? isAlreadyWithdrawn,
-      dynamic refundOk,
-      dynamic refundInProgress,
+      bool refundOk,
+      bool refundInProgress,
       AddressType? addressType,
       int? htlcDateLock,
       double amount,
       String amountCurrency,
       double fee,
-      dynamic htlcCanRefund,
+      bool htlcCanRefund,
       WalletConfirmationRefund? walletConfirmation,
       ProcessRefund? processRefund,
       String? blockchainTo,
       bool? isERC20,
       BridgeWallet? wallet,
-      @FailureJsonConverter() Failure? failure});
+      @FailureJsonConverter() Failure? failure,
+      bool defineStatusInProgress});
 
   $BridgeWalletCopyWith<$Res>? get wallet;
   $FailureCopyWith<$Res>? get failure;
@@ -92,20 +94,21 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
     Object? chainId = freezed,
     Object? isAlreadyRefunded = freezed,
     Object? isAlreadyWithdrawn = freezed,
-    Object? refundOk = freezed,
-    Object? refundInProgress = freezed,
+    Object? refundOk = null,
+    Object? refundInProgress = null,
     Object? addressType = freezed,
     Object? htlcDateLock = freezed,
     Object? amount = null,
     Object? amountCurrency = null,
     Object? fee = null,
-    Object? htlcCanRefund = freezed,
+    Object? htlcCanRefund = null,
     Object? walletConfirmation = freezed,
     Object? processRefund = freezed,
     Object? blockchainTo = freezed,
     Object? isERC20 = freezed,
     Object? wallet = freezed,
     Object? failure = freezed,
+    Object? defineStatusInProgress = null,
   }) {
     return _then(_value.copyWith(
       htlcAddressFilled: null == htlcAddressFilled
@@ -128,14 +131,14 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
           ? _value.isAlreadyWithdrawn
           : isAlreadyWithdrawn // ignore: cast_nullable_to_non_nullable
               as bool?,
-      refundOk: freezed == refundOk
+      refundOk: null == refundOk
           ? _value.refundOk
           : refundOk // ignore: cast_nullable_to_non_nullable
-              as dynamic,
-      refundInProgress: freezed == refundInProgress
+              as bool,
+      refundInProgress: null == refundInProgress
           ? _value.refundInProgress
           : refundInProgress // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as bool,
       addressType: freezed == addressType
           ? _value.addressType
           : addressType // ignore: cast_nullable_to_non_nullable
@@ -156,10 +159,10 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
               as double,
-      htlcCanRefund: freezed == htlcCanRefund
+      htlcCanRefund: null == htlcCanRefund
           ? _value.htlcCanRefund
           : htlcCanRefund // ignore: cast_nullable_to_non_nullable
-              as dynamic,
+              as bool,
       walletConfirmation: freezed == walletConfirmation
           ? _value.walletConfirmation
           : walletConfirmation // ignore: cast_nullable_to_non_nullable
@@ -184,6 +187,10 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
               as Failure?,
+      defineStatusInProgress: null == defineStatusInProgress
+          ? _value.defineStatusInProgress
+          : defineStatusInProgress // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -226,20 +233,21 @@ abstract class _$$RefundFormStateImplCopyWith<$Res>
       int? chainId,
       bool? isAlreadyRefunded,
       bool? isAlreadyWithdrawn,
-      dynamic refundOk,
-      dynamic refundInProgress,
+      bool refundOk,
+      bool refundInProgress,
       AddressType? addressType,
       int? htlcDateLock,
       double amount,
       String amountCurrency,
       double fee,
-      dynamic htlcCanRefund,
+      bool htlcCanRefund,
       WalletConfirmationRefund? walletConfirmation,
       ProcessRefund? processRefund,
       String? blockchainTo,
       bool? isERC20,
       BridgeWallet? wallet,
-      @FailureJsonConverter() Failure? failure});
+      @FailureJsonConverter() Failure? failure,
+      bool defineStatusInProgress});
 
   @override
   $BridgeWalletCopyWith<$Res>? get wallet;
@@ -263,20 +271,21 @@ class __$$RefundFormStateImplCopyWithImpl<$Res>
     Object? chainId = freezed,
     Object? isAlreadyRefunded = freezed,
     Object? isAlreadyWithdrawn = freezed,
-    Object? refundOk = freezed,
-    Object? refundInProgress = freezed,
+    Object? refundOk = null,
+    Object? refundInProgress = null,
     Object? addressType = freezed,
     Object? htlcDateLock = freezed,
     Object? amount = null,
     Object? amountCurrency = null,
     Object? fee = null,
-    Object? htlcCanRefund = freezed,
+    Object? htlcCanRefund = null,
     Object? walletConfirmation = freezed,
     Object? processRefund = freezed,
     Object? blockchainTo = freezed,
     Object? isERC20 = freezed,
     Object? wallet = freezed,
     Object? failure = freezed,
+    Object? defineStatusInProgress = null,
   }) {
     return _then(_$RefundFormStateImpl(
       htlcAddressFilled: null == htlcAddressFilled
@@ -299,10 +308,14 @@ class __$$RefundFormStateImplCopyWithImpl<$Res>
           ? _value.isAlreadyWithdrawn
           : isAlreadyWithdrawn // ignore: cast_nullable_to_non_nullable
               as bool?,
-      refundOk: freezed == refundOk ? _value.refundOk! : refundOk,
-      refundInProgress: freezed == refundInProgress
-          ? _value.refundInProgress!
-          : refundInProgress,
+      refundOk: null == refundOk
+          ? _value.refundOk
+          : refundOk // ignore: cast_nullable_to_non_nullable
+              as bool,
+      refundInProgress: null == refundInProgress
+          ? _value.refundInProgress
+          : refundInProgress // ignore: cast_nullable_to_non_nullable
+              as bool,
       addressType: freezed == addressType
           ? _value.addressType
           : addressType // ignore: cast_nullable_to_non_nullable
@@ -323,8 +336,10 @@ class __$$RefundFormStateImplCopyWithImpl<$Res>
           ? _value.fee
           : fee // ignore: cast_nullable_to_non_nullable
               as double,
-      htlcCanRefund:
-          freezed == htlcCanRefund ? _value.htlcCanRefund! : htlcCanRefund,
+      htlcCanRefund: null == htlcCanRefund
+          ? _value.htlcCanRefund
+          : htlcCanRefund // ignore: cast_nullable_to_non_nullable
+              as bool,
       walletConfirmation: freezed == walletConfirmation
           ? _value.walletConfirmation
           : walletConfirmation // ignore: cast_nullable_to_non_nullable
@@ -349,6 +364,10 @@ class __$$RefundFormStateImplCopyWithImpl<$Res>
           ? _value.failure
           : failure // ignore: cast_nullable_to_non_nullable
               as Failure?,
+      defineStatusInProgress: null == defineStatusInProgress
+          ? _value.defineStatusInProgress
+          : defineStatusInProgress // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -375,7 +394,8 @@ class _$RefundFormStateImpl extends _RefundFormState {
       this.blockchainTo,
       this.isERC20,
       this.wallet,
-      @FailureJsonConverter() this.failure})
+      @FailureJsonConverter() this.failure,
+      this.defineStatusInProgress = false})
       : super._();
 
   @override
@@ -391,10 +411,10 @@ class _$RefundFormStateImpl extends _RefundFormState {
   final bool? isAlreadyWithdrawn;
   @override
   @JsonKey()
-  final dynamic refundOk;
+  final bool refundOk;
   @override
   @JsonKey()
-  final dynamic refundInProgress;
+  final bool refundInProgress;
   @override
   final AddressType? addressType;
   @override
@@ -410,7 +430,7 @@ class _$RefundFormStateImpl extends _RefundFormState {
   final double fee;
   @override
   @JsonKey()
-  final dynamic htlcCanRefund;
+  final bool htlcCanRefund;
   @override
   final WalletConfirmationRefund? walletConfirmation;
   @override
@@ -424,10 +444,13 @@ class _$RefundFormStateImpl extends _RefundFormState {
   @override
   @FailureJsonConverter()
   final Failure? failure;
+  @override
+  @JsonKey()
+  final bool defineStatusInProgress;
 
   @override
   String toString() {
-    return 'RefundFormState(htlcAddressFilled: $htlcAddressFilled, refundTxAddress: $refundTxAddress, chainId: $chainId, isAlreadyRefunded: $isAlreadyRefunded, isAlreadyWithdrawn: $isAlreadyWithdrawn, refundOk: $refundOk, refundInProgress: $refundInProgress, addressType: $addressType, htlcDateLock: $htlcDateLock, amount: $amount, amountCurrency: $amountCurrency, fee: $fee, htlcCanRefund: $htlcCanRefund, walletConfirmation: $walletConfirmation, processRefund: $processRefund, blockchainTo: $blockchainTo, isERC20: $isERC20, wallet: $wallet, failure: $failure)';
+    return 'RefundFormState(htlcAddressFilled: $htlcAddressFilled, refundTxAddress: $refundTxAddress, chainId: $chainId, isAlreadyRefunded: $isAlreadyRefunded, isAlreadyWithdrawn: $isAlreadyWithdrawn, refundOk: $refundOk, refundInProgress: $refundInProgress, addressType: $addressType, htlcDateLock: $htlcDateLock, amount: $amount, amountCurrency: $amountCurrency, fee: $fee, htlcCanRefund: $htlcCanRefund, walletConfirmation: $walletConfirmation, processRefund: $processRefund, blockchainTo: $blockchainTo, isERC20: $isERC20, wallet: $wallet, failure: $failure, defineStatusInProgress: $defineStatusInProgress)';
   }
 
   @override
@@ -444,9 +467,10 @@ class _$RefundFormStateImpl extends _RefundFormState {
                 other.isAlreadyRefunded == isAlreadyRefunded) &&
             (identical(other.isAlreadyWithdrawn, isAlreadyWithdrawn) ||
                 other.isAlreadyWithdrawn == isAlreadyWithdrawn) &&
-            const DeepCollectionEquality().equals(other.refundOk, refundOk) &&
-            const DeepCollectionEquality()
-                .equals(other.refundInProgress, refundInProgress) &&
+            (identical(other.refundOk, refundOk) ||
+                other.refundOk == refundOk) &&
+            (identical(other.refundInProgress, refundInProgress) ||
+                other.refundInProgress == refundInProgress) &&
             (identical(other.addressType, addressType) ||
                 other.addressType == addressType) &&
             (identical(other.htlcDateLock, htlcDateLock) ||
@@ -455,8 +479,8 @@ class _$RefundFormStateImpl extends _RefundFormState {
             (identical(other.amountCurrency, amountCurrency) ||
                 other.amountCurrency == amountCurrency) &&
             (identical(other.fee, fee) || other.fee == fee) &&
-            const DeepCollectionEquality()
-                .equals(other.htlcCanRefund, htlcCanRefund) &&
+            (identical(other.htlcCanRefund, htlcCanRefund) ||
+                other.htlcCanRefund == htlcCanRefund) &&
             (identical(other.walletConfirmation, walletConfirmation) ||
                 other.walletConfirmation == walletConfirmation) &&
             (identical(other.processRefund, processRefund) ||
@@ -465,7 +489,9 @@ class _$RefundFormStateImpl extends _RefundFormState {
                 other.blockchainTo == blockchainTo) &&
             (identical(other.isERC20, isERC20) || other.isERC20 == isERC20) &&
             (identical(other.wallet, wallet) || other.wallet == wallet) &&
-            (identical(other.failure, failure) || other.failure == failure));
+            (identical(other.failure, failure) || other.failure == failure) &&
+            (identical(other.defineStatusInProgress, defineStatusInProgress) ||
+                other.defineStatusInProgress == defineStatusInProgress));
   }
 
   @override
@@ -476,20 +502,21 @@ class _$RefundFormStateImpl extends _RefundFormState {
         chainId,
         isAlreadyRefunded,
         isAlreadyWithdrawn,
-        const DeepCollectionEquality().hash(refundOk),
-        const DeepCollectionEquality().hash(refundInProgress),
+        refundOk,
+        refundInProgress,
         addressType,
         htlcDateLock,
         amount,
         amountCurrency,
         fee,
-        const DeepCollectionEquality().hash(htlcCanRefund),
+        htlcCanRefund,
         walletConfirmation,
         processRefund,
         blockchainTo,
         isERC20,
         wallet,
-        failure
+        failure,
+        defineStatusInProgress
       ]);
 
   @JsonKey(ignore: true)
@@ -507,20 +534,21 @@ abstract class _RefundFormState extends RefundFormState {
       final int? chainId,
       final bool? isAlreadyRefunded,
       final bool? isAlreadyWithdrawn,
-      final dynamic refundOk,
-      final dynamic refundInProgress,
+      final bool refundOk,
+      final bool refundInProgress,
       final AddressType? addressType,
       final int? htlcDateLock,
       final double amount,
       final String amountCurrency,
       final double fee,
-      final dynamic htlcCanRefund,
+      final bool htlcCanRefund,
       final WalletConfirmationRefund? walletConfirmation,
       final ProcessRefund? processRefund,
       final String? blockchainTo,
       final bool? isERC20,
       final BridgeWallet? wallet,
-      @FailureJsonConverter() final Failure? failure}) = _$RefundFormStateImpl;
+      @FailureJsonConverter() final Failure? failure,
+      final bool defineStatusInProgress}) = _$RefundFormStateImpl;
   const _RefundFormState._() : super._();
 
   @override
@@ -534,9 +562,9 @@ abstract class _RefundFormState extends RefundFormState {
   @override
   bool? get isAlreadyWithdrawn;
   @override
-  dynamic get refundOk;
+  bool get refundOk;
   @override
-  dynamic get refundInProgress;
+  bool get refundInProgress;
   @override
   AddressType? get addressType;
   @override
@@ -548,7 +576,7 @@ abstract class _RefundFormState extends RefundFormState {
   @override
   double get fee;
   @override
-  dynamic get htlcCanRefund;
+  bool get htlcCanRefund;
   @override
   WalletConfirmationRefund? get walletConfirmation;
   @override
@@ -562,6 +590,8 @@ abstract class _RefundFormState extends RefundFormState {
   @override
   @FailureJsonConverter()
   Failure? get failure;
+  @override
+  bool get defineStatusInProgress;
   @override
   @JsonKey(ignore: true)
   _$$RefundFormStateImplCopyWith<_$RefundFormStateImpl> get copyWith =>

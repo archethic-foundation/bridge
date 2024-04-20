@@ -206,13 +206,8 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             _isERC20 = true;
           }
         }
-      } catch (e, stackTrace) {
-        aedappfm.sl.get<aedappfm.LogManager>().log(
-              '$e',
-              stackTrace: stackTrace,
-              level: aedappfm.LogLevel.error,
-              name: 'EVMHTLC - getAmountCurrency',
-            );
+      } catch (e) {
+        return (symbol: currency, isERC20: false);
       }
 
       return (symbol: currency, isERC20: _isERC20);
@@ -238,33 +233,6 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
 
     final bool canRefund = canRefundMap[0];
     return canRefund;
-  }
-
-  Future<String> getTxRefund() async {
-    /*final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-    await evmWalletProvider.eth!.rawRequest(
-      'eth_getFilterLogs',
-      params: [
-        htlcContractAddress,
-        JSrawRequestParams(chainId: '0x${chainId.toRadixString(16)}'),
-      ],
-    );
-
-    final contractHTLC =
-        await getDeployedContract(contractNameHTLCBase, htlcContractAddress);
-
-    final events = await web3Client!.getLogs(
-      FilterOptions.events(
-        contract: contractHTLC,
-        event: contractHTLC.event('Refunded'),
-      ),
-    );
-    if (events.isEmpty || events[0].address == null) {
-      return '';
-    }
-
-    return events[0].address!.hex;*/
-    return '';
   }
 
   Future<int> getStatus() async {

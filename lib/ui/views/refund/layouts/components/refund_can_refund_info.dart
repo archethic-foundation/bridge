@@ -18,7 +18,8 @@ class RefundCanRefundInfo extends ConsumerWidget {
     final refund = ref.watch(RefundFormProvider.refundForm);
     if (refund.isAlreadyRefunded == true ||
         refund.isAlreadyWithdrawn == true ||
-        refund.processRefund == null) {
+        refund.processRefund == null ||
+        refund.defineStatusInProgress == true) {
       return const SizedBox.shrink();
     }
 
