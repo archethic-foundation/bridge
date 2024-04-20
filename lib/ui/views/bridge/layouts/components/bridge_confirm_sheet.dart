@@ -129,7 +129,6 @@ class BridgeConfirmSheetState extends ConsumerState<BridgeConfirmSheet> {
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 10),
               child: SizedBox(
-                height: 45,
                 child: aedappfm.InfoBanner(
                   'The UCO amount you entered has been reduced to include Archethic transaction fees.',
                   aedappfm.InfoBannerType.request,

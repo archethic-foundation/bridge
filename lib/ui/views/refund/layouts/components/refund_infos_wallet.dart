@@ -17,7 +17,8 @@ class RefundInfosWallet extends ConsumerWidget {
         refund.processRefund == null ||
         refund.isAlreadyRefunded == true ||
         refund.isAlreadyWithdrawn == true ||
-        refund.blockchainTo == null) {
+        refund.blockchainTo == null ||
+        refund.defineStatusInProgress == true) {
       return const SizedBox.shrink();
     }
     return Column(

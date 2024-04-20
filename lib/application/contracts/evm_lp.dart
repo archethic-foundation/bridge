@@ -383,9 +383,11 @@ class EVMLP with EVMBridgeProcessMixin {
           Swap(
             htlcContractAddressEVM: (swaps[0] as EthereumAddress).hex,
             htlcContractAddressAE: bytesToHex(swaps[1] as List<int>),
-            swapProcess: (swaps[2] as BigInt).toInt() == 1
+            swapProcess: (swaps[2] as BigInt).toInt() == 0
                 ? SwapProcess.chargeable
-                : SwapProcess.signed,
+                : (swaps[2] as BigInt).toInt() == 1
+                    ? SwapProcess.signed
+                    : null,
           ),
         );
       }

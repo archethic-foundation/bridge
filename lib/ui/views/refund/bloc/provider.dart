@@ -5,9 +5,11 @@ import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/application/contracts/evm_htlc_erc.dart';
 import 'package:aebridge/application/contracts/evm_htlc_native.dart';
+import 'package:aebridge/application/contracts/evm_lp.dart';
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
+import 'package:aebridge/domain/models/swap.dart';
 import 'package:aebridge/domain/usecases/refund_archethic.usecase.dart';
 import 'package:aebridge/domain/usecases/refund_evm.usecase.dart';
 import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
@@ -71,6 +73,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
 
     state = state.copyWith(
       processRefund: null,
+      defineStatusInProgress: true,
       refundTxAddress: null,
       isAlreadyRefunded: false,
       isAlreadyWithdrawn: false,
@@ -130,6 +133,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
           htlcDateLock: htlcInfo.endTime ?? 0,
           blockchainTo: 'EVM',
           chainId: chainId,
+          defineStatusInProgress: false,
         );
       } catch (e) {
         if (e is aedappfm.Failure == false) {
@@ -142,6 +146,10 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
           setFailure(e as aedappfm.Failure);
         }
         return;
+      } finally {
+        state = state.copyWith(
+          defineStatusInProgress: false,
+        );
       }
     }
   }
@@ -152,6 +160,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     }
 
     state = state.copyWith(
+      defineStatusInProgress: true,
       refundTxAddress: null,
       isAlreadyRefunded: false,
       isAlreadyWithdrawn: false,
@@ -164,48 +173,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         state.wallet!.providerEndpoint,
         state.htlcAddressFilled,
         chainId,
-      );
-
-      int? status;
-      try {
-        status = await evmHTLC.getStatus();
-      } catch (e) {
-        setFailure(const aedappfm.Failure.notHTLC());
-        return;
-      }
-      if (status == 2) {
-        final refundTxAddress = await evmHTLC.getTxRefund();
-
-        state = state.copyWith(
-          refundTxAddress: refundTxAddress,
-          isAlreadyRefunded: true,
-        );
-        return;
-      }
-      if (status == 1) {
-        state = state.copyWith(
-          isAlreadyWithdrawn: true,
-        );
-      }
-
-      final resultLockTime = await evmHTLC.getHTLCLockTimeAndRefundState();
-      resultLockTime.map(
-        success: (locktime) {
-          state = state.copyWith(
-            htlcDateLock: locktime.dateLockTime,
-            htlcCanRefund: locktime.canRefund,
-            blockchainTo: 'Archethic',
-          );
-        },
-        failure: setFailure,
-      );
-
-      final resultAmount = await evmHTLC.getAmount();
-      resultAmount.map(
-        success: (amount) {
-          setAmount(amount);
-        },
-        failure: setFailure,
       );
 
       final blockchain = await ref.read(
@@ -222,6 +189,99 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         failure: setFailure,
       );
 
+      final poolAddress = await PoolsRepositoryImpl()
+          .getPoolAddress(chainId, state.amountCurrency);
+
+      final evmLP = EVMLP(
+        blockchain.providerEndpoint,
+      );
+      final swapByOwnerResult = await evmLP.getSwapsByOwner(
+        poolAddress ?? '',
+        state.wallet!.genesisAddress,
+      );
+      swapByOwnerResult.map(
+        success: (swaps) {
+          for (final swap in swaps) {
+            if (swap.htlcContractAddressEVM != null &&
+                swap.htlcContractAddressEVM!.toUpperCase() ==
+                    state.htlcAddressFilled.toUpperCase()) {
+              if (swap.swapProcess == SwapProcess.signed) {
+                state = state.copyWith(processRefund: ProcessRefund.signed);
+                break;
+              } else {
+                state = state.copyWith(processRefund: ProcessRefund.chargeable);
+              }
+            }
+          }
+        },
+        failure: (failure) {},
+      );
+
+      if (state.processRefund == ProcessRefund.signed) {
+        setFailure(const aedappfm.Failure.notHTLC());
+        state = state.copyWith(
+          defineStatusInProgress: false,
+        );
+        return;
+      }
+
+      int? status;
+      try {
+        status = await evmHTLC.getStatus();
+      } catch (e) {
+        setFailure(const aedappfm.Failure.notHTLC());
+        state = state.copyWith(
+          defineStatusInProgress: false,
+        );
+        return;
+      }
+      if (status == 2) {
+        state = state.copyWith(
+          isAlreadyRefunded: true,
+          defineStatusInProgress: false,
+        );
+        return;
+      }
+      if (status == 1) {
+        state = state.copyWith(
+          isAlreadyWithdrawn: true,
+          defineStatusInProgress: false,
+        );
+        return;
+      }
+
+      final resultLockTime = await evmHTLC.getHTLCLockTimeAndRefundState();
+      resultLockTime.map(
+        success: (locktime) {
+          state = state.copyWith(
+            htlcDateLock: locktime.dateLockTime,
+            htlcCanRefund: locktime.canRefund,
+            blockchainTo: 'Archethic',
+          );
+        },
+        failure: setFailure,
+      );
+
+      if (state.htlcCanRefund == false &&
+          DateTime.fromMillisecondsSinceEpoch(state.htlcDateLock! * 1000)
+              .isBefore(DateTime.now())) {
+        setFailure(const aedappfm.Failure.notHTLC());
+        state = state.copyWith(
+          htlcDateLock: null,
+          defineStatusInProgress: false,
+          blockchainTo: null,
+        );
+        return;
+      }
+
+      final resultAmount = await evmHTLC.getAmount();
+      resultAmount.map(
+        success: (amount) {
+          setAmount(amount);
+        },
+        failure: setFailure,
+      );
+
       if (state.isERC20 != null && state.isERC20!) {
         final evmHTLCERC = EVMHTLCERC(
           state.wallet!.providerEndpoint!,
@@ -230,15 +290,8 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         );
         final resultFee = await evmHTLCERC.getFee();
         resultFee.map(
-          success: (_resultFee) {
-            setFee(_resultFee.fee);
-            state = state.copyWith(
-              processRefund: _resultFee.isChargeable == null
-                  ? null
-                  : _resultFee.isChargeable == true
-                      ? ProcessRefund.chargeable
-                      : ProcessRefund.signed,
-            );
+          success: (fee) {
+            setFee(fee);
           },
           failure: setFailure,
         );
@@ -250,20 +303,16 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         );
         final resultFee = await evmHTLCNative.getFee();
         resultFee.map(
-          success: (_resultFee) {
-            setFee(_resultFee.fee);
-            state = state.copyWith(
-              processRefund: _resultFee.isChargeable == null
-                  ? null
-                  : _resultFee.isChargeable == true
-                      ? ProcessRefund.chargeable
-                      : ProcessRefund.signed,
-            );
+          success: (fee) {
+            setFee(fee);
           },
           failure: setFailure,
         );
       }
     }
+    state = state.copyWith(
+      defineStatusInProgress: false,
+    );
   }
 
   void setWalletConfirmation(
