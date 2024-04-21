@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/domain/usecases/bridge_ae_to_evm.usecase.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_to_ae.usecase.dart';
+import 'package:aebridge/ui/util/components/blockchain_label.dart';
 import 'package:aebridge/ui/util/failure_message.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
@@ -20,11 +21,33 @@ class BridgeInProgressPopup {
   ) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
     return [
-      aedappfm.InProgressCircularStepProgressIndicator(
-        currentStep: bridge.currentStep,
-        totalSteps: 8,
-        isProcessInProgress: bridge.isTransferInProgress,
-        failure: bridge.failure,
+      if (bridge.isTransferInProgress)
+        const Text(
+          'The transfer process between the 2 blockhains is in progress.\nThis requires a few validations in your wallets to secure the transactions.',
+        ),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (bridge.blockchainFrom != null)
+            BlockchainLabel(
+              chainId: bridge.blockchainFrom!.chainId,
+            ),
+          if (bridge.blockchainFrom != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: aedappfm.InProgressCircularStepProgressIndicator(
+                totalSteps: 8,
+                currentStep: bridge.currentStep,
+                isProcessInProgress: bridge.isTransferInProgress,
+                failure: bridge.failure,
+                icon: aedappfm.Iconsax.arrow_right,
+              ),
+            ),
+          if (bridge.blockchainTo != null)
+            BlockchainLabel(
+              chainId: bridge.blockchainTo!.chainId,
+            ),
+        ],
       ),
       if (bridge.blockchainFrom != null && bridge.blockchainFrom!.isArchethic)
         aedappfm.InProgressCurrentStep(

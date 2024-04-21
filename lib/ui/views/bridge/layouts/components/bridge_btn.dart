@@ -24,6 +24,7 @@ class BridgeButton extends ConsumerWidget {
     }
 
     return aedappfm.AppButton(
+      disabled: !bridge.isControlsOk,
       labelBtn: AppLocalizations.of(context)!.btn_bridge,
       onPressed: () async {
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);

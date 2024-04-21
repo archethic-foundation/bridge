@@ -73,5 +73,6 @@ class BridgeFormState with _$BridgeFormState {
   double get globalFees => safetyModuleFees + archethicProtocolFees;
   double get tokenToBridgeReceived => tokenToBridgeAmount - globalFees;
 
-  bool get isControlsOk => failure == null;
+  bool get isControlsOk =>
+      failure == null && targetAddress.isNotEmpty && tokenToBridgeAmount > 0;
 }
