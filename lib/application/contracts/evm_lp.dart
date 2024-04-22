@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'dart:math';
 
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/secret.dart';
@@ -191,7 +190,9 @@ class EVMLP with EVMBridgeProcessMixin {
         final contractLP =
             await getDeployedContract(contractNameIPool, poolAddress);
 
-        final bigIntValue = Decimal.parse((amount * pow(10, 18)).toString());
+        final bigIntValue = Decimal.parse(amount.toString()) *
+            Decimal.parse('1000000000000000000');
+
         final ethAmount =
             EtherAmount.fromBigInt(EtherUnit.wei, bigIntValue.toBigInt());
         final transactionProvisionHTLC = Transaction.callContract(
