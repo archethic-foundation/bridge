@@ -24,16 +24,6 @@
     var serviceWorkerVersion = 20230093;
   </script>
   <script src="flutter.js" defer></script>
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      var domain = window.location.hostname;
-      var script = document.createElement('script');
-      script.defer = true;
-      script.setAttribute('data-domain', domain);
-      script.src = 'https://plausible.io/js/script.js';
-      document.head.appendChild(script);
-    });
-  </script>
 </head>
 
 <body>
@@ -50,6 +40,29 @@
           });
         }
       });
+    });
+  </script>
+
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      var domain = window.location.hostname;
+      console.log("Plausible - Retrieved Domain:", domain);
+
+      var script = document.createElement('script');
+      script.defer = true;
+      script.setAttribute('data-domain', domain);
+      script.src = 'https://plausible.io/js/script.js';
+
+      document.head.appendChild(script);
+
+      script.onload = function () {
+        console.log("Plausible - Script successfully loaded.");
+      };
+
+      script.onerror = function (error) {
+        console.log("Plausible - Error loading the script:", error);
+      };
     });
   </script>
 </body>
