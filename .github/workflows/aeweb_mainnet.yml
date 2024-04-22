@@ -27,7 +27,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: "stable"
-          flutter-version: '3.19.3'
+          flutter-version: "3.19.3"
       - run: flutter --version
 
       - name: Install dependencies
@@ -48,7 +48,7 @@ jobs:
 
       - name: Deploy to aeHosting
         id: deploy
-        uses: archethic-foundation/aeweb-github-action@v1.8.5
+        uses: archethic-foundation/aeweb-github-action@v1.8.6
         with:
           seed: ${{ secrets.ARCH_BASE_SEED_MAINNET }}
           endpoint: "https://mainnet.archethic.net"
@@ -57,6 +57,5 @@ jobs:
           sslKey: ${{ secrets.SSL_KEY_MAINNET }}
           keychainFundingService: "archethic-wallet-ARCHETHIC.NET"
           keychainWebsiteService: "aeweb-BRIDGE"
-          sendTransactionTimeout: 180000
-          percentageOfConfirmations: 50  
-       
+          sendTransactionTimeout: 180
+          percentageOfConfirmations: 50
