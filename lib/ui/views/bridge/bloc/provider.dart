@@ -364,6 +364,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
     state = state.copyWith(
       tokenToBridgeAmount: tokenToBridgeAmount,
       messageMaxHalfUCO: false,
+      failure: null,
     );
     await storeBridge();
   }
@@ -390,6 +391,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
   ) async {
     state = state.copyWith(
       targetAddress: targetAddress,
+      failure: null,
     );
     await storeBridge();
   }
@@ -702,6 +704,8 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
   }
 
   Future<void> validateForm() async {
+    state = state.copyWith(controlInProgress: true);
+
     if (state.blockchainFrom!.isArchethic == false) {
       final evmLP = EVMLP(
         state.blockchainFrom!.isArchethic
@@ -739,6 +743,8 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
           .getConsentTime(session.walletTo!.genesisAddress);
     }
     state = state.copyWith(consentDateTime: consentDateTime);
+
+    state = state.copyWith(controlInProgress: false);
 
     await setBridgeProcessStep(
       aedappfm.ProcessStep.confirmation,

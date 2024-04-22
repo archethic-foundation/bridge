@@ -42,6 +42,7 @@ class BridgeFormState with _$BridgeFormState {
     @Default(0.0) double archethicTransactionFees,
     @Default(0.0) double feesEstimatedUCO,
     @Default(false) bool messageMaxHalfUCO,
+    @Default(false) bool controlInProgress,
     DateTime? consentDateTime,
   }) = _BridgeFormState;
   const BridgeFormState._();
@@ -74,5 +75,8 @@ class BridgeFormState with _$BridgeFormState {
   double get tokenToBridgeReceived => tokenToBridgeAmount - globalFees;
 
   bool get isControlsOk =>
-      failure == null && targetAddress.isNotEmpty && tokenToBridgeAmount > 0;
+      failure == null &&
+      targetAddress.isNotEmpty &&
+      tokenToBridgeAmount > 0 &&
+      controlInProgress == false;
 }
