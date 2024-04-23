@@ -2,16 +2,6 @@
     "tokens": {
         "-1->1": [
             {
-                "name": "Wrapped Ether",
-                "symbol": "aeETH",
-                "targetTokenName": "Ether",
-                "targetTokenSymbol": "ETH",
-                "poolAddressFrom": "",
-                "poolAddressTo": "",
-                "typeSource": "Wrapped",
-                "typeTarget": "Native"
-            },
-            {
                 "name": "Universal Coin",
                 "symbol": "UCO",
                 "targetTokenName": "ERC20 - Universal Coin",
@@ -25,48 +15,40 @@
         ],
         "-1->137": [
             {
-                "name": "Wrapped Polygon",
-                "symbol": "aeMATIC",
-                "targetTokenName": "Polygon",
-                "targetTokenSymbol": "MATIC",
-                "poolAddressFrom": "",
-                "poolAddressTo": "",
-                "typeSource": "Wrapped",
-                "typeTarget": "Native"
-            },
-            {
                 "name": "Universal Coin",
                 "symbol": "UCO",
                 "targetTokenName": "ERC20 - Universal Coin",
                 "targetTokenSymbol": "UCO",
-                "poolAddressFrom": "",
-                "poolAddressTo": "",
+                "poolAddressFrom": "00002075e9fb5329c7f5149802eb75f925d79b5fec5bfcf09dc81993cb9c39feaf5d",
+                "poolAddressTo": "0xd5cA9F76495b853a5054814A10b6365ee8ed745B",
                 "typeSource": "Native",
                 "typeTarget": "Wrapped",
-                "tokenAddressTarget": ""
+                "tokenAddressTarget": "0x3C720206bFaCB2d16fA3ac0ed87D2048Dbc401Fc"
+            },
+            {
+                "name": "Wrapped Ether",
+                "symbol": "aeETH",
+                "targetTokenName": "Wrapped Ether",
+                "targetTokenSymbol": "WETH",
+                "poolAddressFrom": "0000ec74226e85766fe5ade9ffea53d453f569799142f9ff248dcf532cebff4b3d32",
+                "poolAddressTo": "0xbc6df50b5c5DD12c93c2B98828Befdd8095388ca",
+                "typeSource": "Wrapped",
+                "typeTarget": "Wrapped",
+                "tokenAddressSource": "0000457eaca7fbaa96db4a8d506a0b69684f546166fbf3c55391b1461907efa58eaf",
+                "tokenAddressTarget": "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"
             }
         ],
         "-1->56": [
-            {
-                "name": "Wrapped Binance Coin",
-                "symbol": "aeBNB",
-                "targetTokenName": "Binance Coin",
-                "targetTokenSymbol": "BNB",
-                "poolAddressFrom": "",
-                "poolAddressTo": "",
-                "typeSource": "Wrapped",
-                "typeTarget": "Native"
-            },
             {
                 "name": "Universal Coin",
                 "symbol": "UCO",
                 "targetTokenName": "BEP20 - Universal Coin",
                 "targetTokenSymbol": "UCO",
-                "poolAddressFrom": "",
-                "poolAddressTo": "",
+                "poolAddressFrom": "00002075e9fb5329c7f5149802eb75f925d79b5fec5bfcf09dc81993cb9c39feaf5d",
+                "poolAddressTo": "0xE01F0ee653648192812B2D23CBfe7E147727B672",
                 "typeSource": "Native",
                 "typeTarget": "Wrapped",
-                "tokenAddressTarget": ""
+                "tokenAddressTarget": "0xb001f1E7c8bda414aC7Cf7Ecba5469fE8d24B6de"
             }
         ],
         "-2->11155111": [
@@ -131,16 +113,6 @@
         ],
         "1->-1": [
             {
-                "name": "Ether",
-                "symbol": "ETH",
-                "targetTokenName": "Wrapped Ether",
-                "targetTokenSymbol": "aeETH",
-                "poolAddressFrom": "",
-                "poolAddressTo": "",
-                "typeSource": "Native",
-                "typeTarget": "Wrapped"
-            },
-            {
                 "name": "Universal Coin",
                 "symbol": "UCO",
                 "targetTokenName": "Universal Coin",
@@ -154,16 +126,6 @@
         ],
         "137->-1": [
             {
-                "name": "Polygon",
-                "symbol": "MATIC",
-                "targetTokenName": "Wrapped Polygon",
-                "targetTokenSymbol": "aeMATIC",
-                "poolAddressFrom": "",
-                "poolAddressTo": "",
-                "typeSource": "Native",
-                "typeTarget": "Wrapped"
-            },
-            {
                 "name": "Universal Coin",
                 "symbol": "UCO",
                 "targetTokenName": "Universal Coin",
@@ -173,29 +135,31 @@
                 "typeSource": "Wrapped",
                 "typeTarget": "Native",
                 "tokenAddressSource": ""
+            },
+            {
+                "name": "Wrapped Ether",
+                "symbol": "WETH",
+                "targetTokenName": "Archethic Ether",
+                "targetTokenSymbol": "aeETH",
+                "poolAddressFrom": "0xbc6df50b5c5DD12c93c2B98828Befdd8095388ca",
+                "poolAddressTo": "0000ec74226e85766fe5ade9ffea53d453f569799142f9ff248dcf532cebff4b3d32",
+                "typeSource": "Wrapped",
+                "typeTarget": "Wrapped",
+                "tokenAddressSource": "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+                "tokenAddressTarget": "0000457eaca7fbaa96db4a8d506a0b69684f546166fbf3c55391b1461907efa58eaf"
             }
         ],
         "56->-1": [
             {
-                "name": "Binance Coin",
-                "symbol": "BNB",
-                "targetTokenName": "Wrapped Binance Coin",
-                "targetTokenSymbol": "aeBNB",
-                "poolAddressFrom": "",
-                "poolAddressTo": "",
-                "typeSource": "Native",
-                "typeTarget": "Wrapped"
-            },
-            {
                 "name": "Universal Coin",
                 "symbol": "UCO",
                 "targetTokenName": "Universal Coin",
                 "targetTokenSymbol": "UCO",
-                "poolAddressFrom": "",
-                "poolAddressTo": "",
+                "poolAddressFrom": "0xE01F0ee653648192812B2D23CBfe7E147727B672",
+                "poolAddressTo": "00002075e9fb5329c7f5149802eb75f925d79b5fec5bfcf09dc81993cb9c39feaf5d",
                 "typeSource": "Wrapped",
                 "typeTarget": "Native",
-                "tokenAddressSource": ""
+                "tokenAddressSource": "0xb001f1E7c8bda414aC7Cf7Ecba5469fE8d24B6de"
             }
         ],
         "11155111->-2": [

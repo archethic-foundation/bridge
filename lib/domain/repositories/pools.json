@@ -1,17 +1,15 @@
 {
     "pools": {
         "-1": {
-            "aeETH": "",
-            "UCO": ""
+            "aeETH": "0000ec74226e85766fe5ade9ffea53d453f569799142f9ff248dcf532cebff4b3d32",
+            "UCO": "00002075e9fb5329c7f5149802eb75f925d79b5fec5bfcf09dc81993cb9c39feaf5d"
         },
         "1": {
-            "ETH": "",
             "UCO": ""
         },
         "137": {
-            "MATIC": "",
-            "UCO": "",
-            "WETH": ""
+            "UCO": "0xd5cA9F76495b853a5054814A10b6365ee8ed745B",
+            "WETH": "0xbc6df50b5c5DD12c93c2B98828Befdd8095388ca"
         },
         "-2": {
             "aeETH": "000066706d704329ca8c2a4153991e2ddacc968622ca10217ca14952eb7abb966c30",
@@ -19,8 +17,7 @@
             "aeUSDC": "00003f6c8f75d367dbea6420a26cb8c087e53f3ba801db806c6623c56a2ac879e1b0"
         },
         "56": {
-            "ETH": "",
-            "UCO": ""
+            "UCO": "0xE01F0ee653648192812B2D23CBfe7E147727B672"
         },
         "11155111": {
             "ETH": "0xcfBA4FA32527bFf23E073406c772e9a8b8D02650",
