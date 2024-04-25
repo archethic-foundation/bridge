@@ -100,9 +100,9 @@ class EVMLP with EVMBridgeProcessMixin {
       );
 
       late String txAddress;
-      var timeout = false;
       late StreamSubscription<FilterEvent> subscription;
       try {
+        final completer = Completer<void>();
         final contractPoolBase =
             await getDeployedContract(contractNamePoolBase, poolAddress);
         subscription = web3Client
@@ -120,6 +120,9 @@ class EVMLP with EVMBridgeProcessMixin {
                   level: aedappfm.LogLevel.debug,
                   name: 'EVMLP - deployChargeableHTLC',
                 );
+            if (!completer.isCompleted) {
+              completer.complete();
+            }
           },
         );
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
@@ -131,29 +134,29 @@ class EVMLP with EVMBridgeProcessMixin {
           chainId,
         );
         await bridgeNotifier.setWalletConfirmation(null);
-
-        await subscription.asFuture().timeout(
-          const Duration(seconds: 240),
-          onTimeout: () {
-            return timeout = true;
-          },
-        );
+        await completer.future.timeout(const Duration(seconds: 240));
         await subscription.cancel();
       } catch (e, stackTrace) {
-        if (e != const aedappfm.Failure.userRejected()) {
+        if (e is TimeoutException) {
           aedappfm.sl.get<aedappfm.LogManager>().log(
-                '$e',
-                stackTrace: stackTrace,
+                'Timeout occurred',
                 level: aedappfm.LogLevel.error,
-                name: 'EVMLP - deployChargeableHTLC',
+                name: 'EVMHTLCERC - signedWithdraw',
               );
+          await subscription.cancel();
+          throw const aedappfm.Failure.timeout();
+        } else {
+          if (e != const aedappfm.Failure.userRejected()) {
+            aedappfm.sl.get<aedappfm.LogManager>().log(
+                  '$e',
+                  stackTrace: stackTrace,
+                  level: aedappfm.LogLevel.error,
+                  name: 'EVMLP - deployChargeableHTLC',
+                );
+          }
         }
-
         await subscription.cancel();
         rethrow;
-      }
-      if (timeout) {
-        throw const aedappfm.Failure.timeout();
       }
 
       // Get HTLC address
@@ -211,9 +214,9 @@ class EVMLP with EVMBridgeProcessMixin {
         );
 
         late String txAddress;
-        var timeout = false;
         late StreamSubscription<FilterEvent> subscription;
         try {
+          final completer = Completer<void>();
           final contractPoolBase =
               await getDeployedContract(contractNamePoolBase, poolAddress);
           subscription = web3Client
@@ -231,6 +234,9 @@ class EVMLP with EVMBridgeProcessMixin {
                     level: aedappfm.LogLevel.debug,
                     name: 'EVMLP - deployAndProvisionSignedHTLC',
                   );
+              if (!completer.isCompleted) {
+                completer.complete();
+              }
             },
           );
           final bridgeNotifier =
@@ -243,29 +249,30 @@ class EVMLP with EVMBridgeProcessMixin {
             chainId,
           );
           await bridgeNotifier.setWalletConfirmation(null);
-
-          await subscription.asFuture().timeout(
-            const Duration(seconds: 240),
-            onTimeout: () {
-              return timeout = true;
-            },
-          );
+          await completer.future.timeout(const Duration(seconds: 240));
           await subscription.cancel();
         } catch (e, stackTrace) {
-          if (e != const aedappfm.Failure.userRejected()) {
+          if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
-                  '$e',
-                  stackTrace: stackTrace,
+                  'Timeout occurred',
                   level: aedappfm.LogLevel.error,
                   name: 'EVMLP - deployAndProvisionSignedHTLC',
                 );
+            await subscription.cancel();
+            throw const aedappfm.Failure.timeout();
+          } else {
+            if (e != const aedappfm.Failure.userRejected()) {
+              aedappfm.sl.get<aedappfm.LogManager>().log(
+                    '$e',
+                    stackTrace: stackTrace,
+                    level: aedappfm.LogLevel.error,
+                    name: 'EVMLP - deployAndProvisionSignedHTLC',
+                  );
+            }
           }
 
           await subscription.cancel();
           rethrow;
-        }
-        if (timeout) {
-          throw const aedappfm.Failure.timeout();
         }
 
         // Get HTLC address

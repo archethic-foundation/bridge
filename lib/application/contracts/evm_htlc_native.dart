@@ -33,9 +33,9 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
       final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
       final ethAmount = EtherAmount.fromDouble(EtherUnit.ether, amount);
 
-      var timeout = false;
       late StreamSubscription<FilterEvent> subscription;
       try {
+        final completer = Completer<void>();
         final contract =
             await getDeployedContract(contractNameHTLCETH, htlcContractAddress);
 
@@ -47,13 +47,18 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
               ),
             )
             .take(1)
-            .listen((event) {
-          aedappfm.sl.get<aedappfm.LogManager>().log(
-                'Event FundsReceived = $event',
-                level: aedappfm.LogLevel.debug,
-                name: 'EVMHTLCNative - provisionChargeableHTLC',
-              );
-        });
+            .listen(
+          (event) {
+            aedappfm.sl.get<aedappfm.LogManager>().log(
+                  'Event FundsReceived = $event',
+                  level: aedappfm.LogLevel.debug,
+                  name: 'EVMHTLCNative - provisionChargeableHTLC',
+                );
+            if (!completer.isCompleted) {
+              completer.complete();
+            }
+          },
+        );
 
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
         await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
@@ -67,28 +72,29 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
           chainId,
         );
         await bridgeNotifier.setWalletConfirmation(null);
-
-        await subscription.asFuture().timeout(
-          const Duration(seconds: 240),
-          onTimeout: () {
-            return timeout = true;
-          },
-        );
+        await completer.future.timeout(const Duration(seconds: 240));
         await subscription.cancel();
       } catch (e, stackTrace) {
-        if (e != const aedappfm.Failure.userRejected()) {
+        if (e is TimeoutException) {
           aedappfm.sl.get<aedappfm.LogManager>().log(
-                'e $e',
-                stackTrace: stackTrace,
+                'Timeout occurred',
                 level: aedappfm.LogLevel.error,
                 name: 'EVMHTLCNative - provisionChargeableHTLC',
               );
+          await subscription.cancel();
+          throw const aedappfm.Failure.timeout();
+        } else {
+          if (e != const aedappfm.Failure.userRejected()) {
+            aedappfm.sl.get<aedappfm.LogManager>().log(
+                  'e $e',
+                  stackTrace: stackTrace,
+                  level: aedappfm.LogLevel.error,
+                  name: 'EVMHTLCNative - provisionChargeableHTLC',
+                );
+          }
         }
         await subscription.cancel();
         rethrow;
-      }
-      if (timeout) {
-        throw const aedappfm.Failure.timeout();
       }
     });
   }
@@ -122,9 +128,9 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
         );
 
         var withdrawTx = '';
-        var timeout = false;
         late StreamSubscription<FilterEvent> subscription;
         try {
+          final completer = Completer<void>();
           subscription = web3Client!
               .events(
                 FilterOptions.events(
@@ -133,13 +139,18 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
                 ),
               )
               .take(1)
-              .listen((event) {
-            aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'Event Withdrawn = $event',
-                  level: aedappfm.LogLevel.debug,
-                  name: 'EVMHTLCNative - signedWithdraw',
-                );
-          });
+              .listen(
+            (event) {
+              aedappfm.sl.get<aedappfm.LogManager>().log(
+                    'Event Withdrawn = $event',
+                    level: aedappfm.LogLevel.debug,
+                    name: 'EVMHTLCNative - signedWithdraw',
+                  );
+              if (!completer.isCompleted) {
+                completer.complete();
+              }
+            },
+          );
 
           final bridgeNotifier =
               ref.read(BridgeFormProvider.bridgeForm.notifier);
@@ -151,28 +162,29 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
             chainId,
           );
           await bridgeNotifier.setWalletConfirmation(null);
-
-          await subscription.asFuture().timeout(
-            const Duration(seconds: 240),
-            onTimeout: () {
-              return timeout = true;
-            },
-          );
+          await completer.future.timeout(const Duration(seconds: 240));
           await subscription.cancel();
         } catch (e, stackTrace) {
-          if (e != const aedappfm.Failure.userRejected()) {
+          if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'e $e',
-                  stackTrace: stackTrace,
+                  'Timeout occurred',
                   level: aedappfm.LogLevel.error,
                   name: 'EVMHTLCNative - signedWithdraw',
                 );
+            await subscription.cancel();
+            throw const aedappfm.Failure.timeout();
+          } else {
+            if (e != const aedappfm.Failure.userRejected()) {
+              aedappfm.sl.get<aedappfm.LogManager>().log(
+                    'e $e',
+                    stackTrace: stackTrace,
+                    level: aedappfm.LogLevel.error,
+                    name: 'EVMHTLCNative - signedWithdraw',
+                  );
+            }
           }
           await subscription.cancel();
           rethrow;
-        }
-        if (timeout) {
-          throw const aedappfm.Failure.timeout();
         }
         return withdrawTx;
       },
