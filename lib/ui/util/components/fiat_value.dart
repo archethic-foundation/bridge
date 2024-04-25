@@ -1,5 +1,6 @@
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// SPDX-License-Identifier: AGPL-3.0-or-later
@@ -37,7 +38,9 @@ class FiatValue {
           break;
       }
 
-      final fiatValue = price * amount;
+      final fiatValue =
+          (Decimal.parse(price.toString()) * Decimal.parse(amount.toString()))
+              .toDouble();
       if (withParenthesis) {
         return '(\$${fiatValue.formatNumber(precision: 2)})';
       } else {
