@@ -15,6 +15,7 @@ import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:webthree/webthree.dart';
 
 class BridgeEVMToArchethicUseCase
     with
@@ -125,6 +126,7 @@ class BridgeEVMToArchethicUseCase
       }
 
       // before 5) Faucet is necessary
+      var _executeCatch = true;
       try {
         await bridgeNotifier.setCurrentStep(5);
         final balanceUCO = await BalanceRepositoryImpl()
@@ -138,27 +140,42 @@ class BridgeEVMToArchethicUseCase
             'evm_signature': '0x${uint8ListToHex(signature)}',
           };
 
-          final uri = FaucetUtil.getUrl(queryParameters);
-          final response = await http.get(uri);
-          if (response.statusCode == 200) {
-          } else {
+          final getUrlResult = FaucetUtil.getUrl(queryParameters);
+          final response = await http.get(getUrlResult.uri);
+          _executeCatch = getUrlResult.executeCatch;
+          if (response.statusCode != 200) {
+            aedappfm.sl.get<aedappfm.LogManager>().log(
+                  'Faucet UCO error status code : ${response.statusCode}',
+                  level: aedappfm.LogLevel.error,
+                  name: 'BridgeEVMToArchethicUseCase - run',
+                );
             await bridgeNotifier.setFailure(
-              aedappfm.Failure.other(
-                cause:
-                    'Faucet error - response.statusCode ${response.statusCode}',
-              ),
+              const aedappfm.Failure.faucetUCOError(),
             );
             await bridgeNotifier.setTransferInProgress(false);
             return;
           }
         }
-        // ignore: unused_catch_stack
-      } catch (e, stack) {
-        // Because of CORS policy, i comment these lines...
-        //await bridgeNotifier.setFailure(
-        //    aedappfm.Failure.other(cause: e.toString() + stack.toString()));
-        //await bridgeNotifier.setTransferInProgress(false);
-        //return;
+      } catch (e) {
+        if (e is EthereumUserRejected) {
+          await bridgeNotifier.setFailure(
+            const aedappfm.Failure.faucetUCOUserRejected(),
+          );
+          await bridgeNotifier.setTransferInProgress(false);
+          return;
+        }
+        aedappfm.sl.get<aedappfm.LogManager>().log(
+              'Faucet UCO error : $e',
+              level: aedappfm.LogLevel.error,
+              name: 'BridgeEVMToArchethicUseCase - run',
+            );
+        if (_executeCatch) {
+          await bridgeNotifier.setFailure(
+            const aedappfm.Failure.faucetUCOError(),
+          );
+          await bridgeNotifier.setTransferInProgress(false);
+          return;
+        }
       }
 
       // 5) Deploy Archethic HTLC

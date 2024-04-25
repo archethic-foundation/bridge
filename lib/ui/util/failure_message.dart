@@ -81,6 +81,14 @@ class FailureMessage {
       return AppLocalizations.of(context)!.failureIncompatibleBrowser;
     }
 
+    if (failure is aedappfm.FaucetUCOError) {
+      return AppLocalizations.of(context)!.failureFaucetUCOError;
+    }
+
+    if (failure is aedappfm.FaucetUCUserRejected) {
+      return AppLocalizations.of(context)!.failureFaucetUCOUserRejected;
+    }
+
     return failure.toString();
   }
 }

@@ -497,7 +497,14 @@ mixin EVMBridgeProcessMixin {
   }
 
   Future<Uint8List> signTxFaucetUCO() async {
+    if (aedappfm.sl.isRegistered<EVMWalletProvider>() == false) {
+      throw const aedappfm.Failure.connectivityEVM();
+    }
+
     final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+    if (evmWalletProvider.walletConnected == false) {
+      throw const aedappfm.Failure.connectivityEVM();
+    }
     const payload =
         "To help you join the Archethic ecosystem, we're offering you free Archethic transaction fees. For security reasons, this requires your signature. Thank you for joining us, and happy exploring!";
     return evmWalletProvider.credentials!.signPersonalMessage(
