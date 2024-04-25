@@ -54,10 +54,10 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
         );
 
         var refundTx = '';
-        var timeout = false;
         late StreamSubscription<FilterEvent> subscription;
         final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier);
         try {
+          final completer = Completer<void>();
           subscription = web3Client!
               .events(
                 FilterOptions.events(
@@ -73,6 +73,9 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
                     level: aedappfm.LogLevel.debug,
                     name: 'EVMHTLC - refund',
                   );
+              if (!completer.isCompleted) {
+                completer.complete();
+              }
             },
           );
 
@@ -85,30 +88,30 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
           );
 
           refundNotifier.setWalletConfirmation(null);
-
-          await subscription.asFuture().timeout(
-            const Duration(seconds: 240),
-            onTimeout: () {
-              return timeout = true;
-            },
-          );
+          await completer.future.timeout(const Duration(seconds: 240));
           await subscription.cancel();
         } catch (e, stackTrace) {
-          if (e != const aedappfm.Failure.userRejected()) {
+          if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'e $e',
-                  stackTrace: stackTrace,
+                  'Timeout occurred',
                   level: aedappfm.LogLevel.error,
                   name: 'EVMHTLC - refund',
                 );
+            await subscription.cancel();
+            throw const aedappfm.Failure.timeout();
+          } else {
+            if (e != const aedappfm.Failure.userRejected()) {
+              aedappfm.sl.get<aedappfm.LogManager>().log(
+                    'e $e',
+                    stackTrace: stackTrace,
+                    level: aedappfm.LogLevel.error,
+                    name: 'EVMHTLC - refund',
+                  );
+            }
+            await subscription.cancel();
+            refundNotifier.setWalletConfirmation(null);
+            rethrow;
           }
-          await subscription.cancel();
-          refundNotifier.setWalletConfirmation(null);
-          rethrow;
-        }
-        if (timeout) {
-          refundNotifier.setWalletConfirmation(null);
-          throw const aedappfm.Failure.timeout();
         }
         return refundTx;
       },
@@ -278,9 +281,9 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
         );
 
         var withdrawTx = '';
-        var timeout = false;
         late StreamSubscription<FilterEvent> subscription;
         try {
+          final completer = Completer<void>();
           subscription = web3Client!
               .events(
                 FilterOptions.events(
@@ -296,6 +299,9 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
                     level: aedappfm.LogLevel.debug,
                     name: 'EVMHTLC - withdraw',
                   );
+              if (!completer.isCompleted) {
+                completer.complete();
+              }
             },
           );
           final bridgeNotifier =
@@ -308,30 +314,30 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             chainId,
           );
           await bridgeNotifier.setWalletConfirmation(null);
-
-          await subscription.asFuture().timeout(
-            const Duration(seconds: 240),
-            onTimeout: () {
-              return timeout = true;
-            },
-          );
+          await completer.future.timeout(const Duration(seconds: 240));
           await subscription.cancel();
         } catch (e, stackTrace) {
-          if (e != const aedappfm.Failure.userRejected()) {
+          if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
-                  '$e',
-                  stackTrace: stackTrace,
+                  'Timeout occurred',
                   level: aedappfm.LogLevel.error,
                   name: 'EVMHTLC - withdraw',
                 );
+            await subscription.cancel();
+            throw const aedappfm.Failure.timeout();
+          } else {
+            if (e != const aedappfm.Failure.userRejected()) {
+              aedappfm.sl.get<aedappfm.LogManager>().log(
+                    '$e',
+                    stackTrace: stackTrace,
+                    level: aedappfm.LogLevel.error,
+                    name: 'EVMHTLC - withdraw',
+                  );
+            }
           }
           await subscription.cancel();
           rethrow;
         }
-        if (timeout) {
-          throw const aedappfm.Failure.timeout();
-        }
-
         return withdrawTx;
       },
     );

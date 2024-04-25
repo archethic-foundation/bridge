@@ -104,6 +104,11 @@ class BridgeEVMToArchethicUseCase
         await bridgeNotifier.setCurrentStep(3);
         await provisionEVMHTLC(ref, htlcEVMAddress!);
       } catch (e) {
+        aedappfm.sl.get<aedappfm.LogManager>().log(
+              'Provision EVM HTLC error $e',
+              level: aedappfm.LogLevel.error,
+              name: 'BridgeEVMToArchethicUseCase - run',
+            );
         return;
       }
     }
