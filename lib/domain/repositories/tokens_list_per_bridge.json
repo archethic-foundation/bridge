@@ -130,11 +130,11 @@
                 "symbol": "UCO",
                 "targetTokenName": "Universal Coin",
                 "targetTokenSymbol": "UCO",
-                "poolAddressFrom": "",
-                "poolAddressTo": "",
+                "poolAddressFrom": "0xd5cA9F76495b853a5054814A10b6365ee8ed745B",
+                "poolAddressTo": "00002075e9fb5329c7f5149802eb75f925d79b5fec5bfcf09dc81993cb9c39feaf5d",
                 "typeSource": "Wrapped",
                 "typeTarget": "Native",
-                "tokenAddressSource": ""
+                "tokenAddressSource": "0x3C720206bFaCB2d16fA3ac0ed87D2048Dbc401Fc"
             },
             {
                 "name": "Wrapped Ether",
