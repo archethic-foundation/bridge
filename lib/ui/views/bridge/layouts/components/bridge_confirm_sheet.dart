@@ -160,9 +160,6 @@ class BridgeConfirmSheetState extends ConsumerState<BridgeConfirmSheet> {
             labelBtn: AppLocalizations.of(context)!.btn_confirm_bridge,
             disabled: !consentChecked && bridge.consentDateTime == null,
             onPressed: () async {
-              ref
-                  .read(BridgeFormProvider.bridgeForm.notifier)
-                  .setResumeProcess(false);
               unawaited(
                 ref
                     .read(BridgeFormProvider.bridgeForm.notifier)
