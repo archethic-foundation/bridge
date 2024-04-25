@@ -17,8 +17,9 @@ class FaucetUtil {
           queryParameters,
         );
       } else {
-        return Uri.http(
-          'localhost:8080',
+        // TODO(redwwarf03): MAINNET
+        return Uri.https(
+          'faucet.bridge.archethic.net',
           '/api/faucet',
           queryParameters,
         );
