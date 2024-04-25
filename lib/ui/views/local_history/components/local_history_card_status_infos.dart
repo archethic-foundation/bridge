@@ -27,10 +27,19 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
           if (bridge.failure == null && bridge.currentStep == 8)
             _transferCompleted(context)
           else if (bridge.failure != null &&
-              bridge.failure is aedappfm.UserRejected == true)
-            _transferInterrupted(context)
+                  bridge.failure is aedappfm.UserRejected == true ||
+              bridge.failure is aedappfm.FaucetUCUserRejected == true)
+            _transferNotCompleted(
+              context,
+              aedappfm.AppThemeBase.statusInProgress,
+              'Transfer interrupted at step ${bridge.currentStep}',
+            )
           else
-            _transferError(context),
+            _transferNotCompleted(
+              context,
+              aedappfm.AppThemeBase.statusKO,
+              'Transfer stopped at step ${bridge.currentStep}',
+            ),
         ],
       ),
     );
@@ -68,7 +77,11 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
     );
   }
 
-  Widget _transferInterrupted(BuildContext context) {
+  Widget _transferNotCompleted(
+    BuildContext context,
+    Color statusColor,
+    String stepText,
+  ) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -85,9 +98,9 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
                   ),
             ),
             SelectableText(
-              'Transfer interrupted at step ${bridge.currentStep}',
+              stepText,
               style: TextStyle(
-                color: aedappfm.AppThemeBase.statusInProgress,
+                color: statusColor,
                 fontSize: Theme.of(context)
                     .textTheme
                     .bodyMedium!
@@ -121,66 +134,6 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
                       ),
                     ),
               ),
-          ],
-        ),
-        if (bridge.failure != null)
-          SelectableText(
-            '${AppLocalizations.of(context)!.localHistoryCause}: ${FailureMessage(
-              context: context,
-              failure: bridge.failure,
-            ).getMessage()}',
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                    context,
-                    Theme.of(context).textTheme.bodyMedium!,
-                  ),
-                ),
-          ),
-      ],
-    );
-  }
-
-  Widget _transferError(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Wrap(
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: [
-            SelectableText(
-              '${AppLocalizations.of(context)!.localHistoryStatus}: ',
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                      context,
-                      Theme.of(context).textTheme.bodyMedium!,
-                    ),
-                  ),
-            ),
-            SelectableText(
-              'Transfer stopped at step ${bridge.currentStep}',
-              style: TextStyle(
-                color: aedappfm.AppThemeBase.statusKO,
-                fontSize: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(
-                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                        context,
-                        Theme.of(context).textTheme.bodyMedium!,
-                      ),
-                    )
-                    .fontSize,
-              ),
-            ),
-            SelectableText(
-              ' (${BridgeArchethicToEVMUseCase().getStepLabel(context, bridge.currentStep)})',
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                      context,
-                      Theme.of(context).textTheme.bodyMedium!,
-                    ),
-                  ),
-            ),
           ],
         ),
         if (bridge.failure != null)
