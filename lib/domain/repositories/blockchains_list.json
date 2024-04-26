@@ -44,7 +44,7 @@
             "urlExplorerAddress": "https://etherscan.io/address/",
             "urlExplorerTransaction": "https://etherscan.io/tx/",
             "urlExplorerChain": "https://etherscan.io/address/",
-            "providerEndpoint": "https://mainnet.infura.io/v3/3a7a2dbdbec046a4961550ddf8c7d78a",
+            "providerEndpoint": "https://eth-mainnet.alchemyapi.io/v2/DynWKvz6PUFaeZNmlxPXNiV1nK4Ac_2D",
             "isArchethic": false,
             "nativeCurrency": "ETH"
         },

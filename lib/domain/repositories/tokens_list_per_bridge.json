@@ -6,11 +6,11 @@
                 "symbol": "UCO",
                 "targetTokenName": "ERC20 - Universal Coin",
                 "targetTokenSymbol": "UCO",
-                "poolAddressFrom": "",
-                "poolAddressTo": "",
+                "poolAddressFrom": "00002075e9fb5329c7f5149802eb75f925d79b5fec5bfcf09dc81993cb9c39feaf5d",
+                "poolAddressTo": "0x346Dba8b51485FfBd4b07B0BCb84F48117751AD9",
                 "typeSource": "Native",
                 "typeTarget": "Wrapped",
-                "tokenAddressTarget": ""
+                "tokenAddressTarget": "0x8a3d77e9d6968b780564936d15B09805827C21fa"
             }
         ],
         "-1->137": [
@@ -117,11 +117,11 @@
                 "symbol": "UCO",
                 "targetTokenName": "Universal Coin",
                 "targetTokenSymbol": "UCO",
-                "poolAddressFrom": "",
-                "poolAddressTo": "",
+                "poolAddressFrom": "0x346Dba8b51485FfBd4b07B0BCb84F48117751AD9",
+                "poolAddressTo": "00002075e9fb5329c7f5149802eb75f925d79b5fec5bfcf09dc81993cb9c39feaf5d",
                 "typeSource": "Wrapped",
                 "typeTarget": "Native",
-                "tokenAddressSource": ""
+                "tokenAddressSource": "0x8a3d77e9d6968b780564936d15B09805827C21fa"
             }
         ],
         "137->-1": [
