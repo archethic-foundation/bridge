@@ -114,6 +114,9 @@ class BridgeEVMToArchethicUseCase
       }
     }
 
+    // Waiting for EVM's provider data propagation
+    await Future.delayed(const Duration(seconds: 10));
+
     // 4) Get amount from HTLC
     double? amount;
     if (recoveryStep <= 5) {
@@ -233,13 +236,29 @@ class BridgeEVMToArchethicUseCase
       final balanceGetResponseMap =
           await aedappfm.sl.get<ApiService>().fetchBalance([htlcAEAddress!]);
       final balanceGetResponse = balanceGetResponseMap[htlcAEAddress];
-      if (bridge.tokenToBridge!.typeSource == 'Wrapped') {
+      aedappfm.sl.get<aedappfm.LogManager>().log(
+            'balanceGetResponse : $balanceGetResponse',
+            level: aedappfm.LogLevel.debug,
+            name: 'BridgeEVMToArchethicUseCase - run',
+          );
+
+      if (bridge.tokenToBridge!.symbol.toUpperCase() == 'UCO') {
         checkAmount = fromBigInt(balanceGetResponse!.uco).toDouble();
+        aedappfm.sl.get<aedappfm.LogManager>().log(
+              'checkAmount : $checkAmount',
+              level: aedappfm.LogLevel.debug,
+              name: 'BridgeEVMToArchethicUseCase - run',
+            );
       } else {
         for (final balanceToken in balanceGetResponse!.token) {
           if (balanceToken.address!.toUpperCase() ==
               bridge.tokenToBridge!.tokenAddressTarget.toUpperCase()) {
             checkAmount = fromBigInt(balanceToken.amount).toDouble();
+            aedappfm.sl.get<aedappfm.LogManager>().log(
+                  'checkAmount : $checkAmount - ${balanceToken.address!}',
+                  level: aedappfm.LogLevel.debug,
+                  name: 'BridgeEVMToArchethicUseCase - run',
+                );
           }
         }
       }
@@ -253,6 +272,11 @@ class BridgeEVMToArchethicUseCase
         }
       }
 
+      aedappfm.sl.get<aedappfm.LogManager>().log(
+            'if checkAmount : $checkAmount < $amount',
+            level: aedappfm.LogLevel.debug,
+            name: 'BridgeEVMToArchethicUseCase - run',
+          );
       if (checkAmount < amount) {
         await bridgeNotifier
             .setFailure(const aedappfm.Failure.htlcWithoutFunds());
