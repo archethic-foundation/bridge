@@ -12,23 +12,18 @@ class WelcomeTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(
-            height: 70,
-          ),
           Padding(
-            padding: const EdgeInsets.only(left: 20, top: 100),
+            padding: const EdgeInsets.only(top: 130),
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SelectableText(
                   'Discover a ',
                   style: TextStyle(
                     fontSize: aedappfm.Responsive.fontSizeFromValue(
                       context,
-                      desktopValue: 40,
+                      desktopValue: 30,
                     ),
                     fontWeight: FontWeight.w400,
                   ),
@@ -47,7 +42,7 @@ class WelcomeTitle extends StatelessWidget {
                   style: TextStyle(
                     fontSize: aedappfm.Responsive.fontSizeFromValue(
                       context,
-                      desktopValue: 40,
+                      desktopValue: 30,
                     ),
                     fontWeight: FontWeight.w600,
                   ),
@@ -72,7 +67,7 @@ class WelcomeTitle extends StatelessWidget {
                   style: TextStyle(
                     fontSize: aedappfm.Responsive.fontSizeFromValue(
                       context,
-                      desktopValue: 40,
+                      desktopValue: 30,
                     ),
                     fontWeight: FontWeight.w600,
                   ),
@@ -89,7 +84,7 @@ class WelcomeTitle extends StatelessWidget {
                   style: TextStyle(
                     fontSize: aedappfm.Responsive.fontSizeFromValue(
                       context,
-                      desktopValue: 40,
+                      desktopValue: 30,
                     ),
                     fontWeight: FontWeight.w400,
                   ),
