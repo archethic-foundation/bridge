@@ -1,4 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/contracts/archethic_contract.dart';
+import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_direction_infos.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_htlc_infos.dart';
@@ -8,18 +10,118 @@ import 'package:aebridge/ui/views/local_history/components/local_history_card_op
 import 'package:aebridge/ui/views/local_history/components/local_history_card_options_resume.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_status_infos.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_trf_infos.dart';
+import 'package:aebridge/util/service_locator.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 
-class LocalHistoryCard extends StatelessWidget {
+class LocalHistoryCard extends ConsumerStatefulWidget {
   const LocalHistoryCard({
     required this.bridge,
     super.key,
   });
 
   final BridgeFormState bridge;
+
+  @override
+  ConsumerState<LocalHistoryCard> createState() => LocalHistoryCardState();
+}
+
+class LocalHistoryCardState extends ConsumerState<LocalHistoryCard> {
+  int? htlcLockTime;
+  bool refunded = false;
+  int? statusEVM;
+  int? statusAE;
+
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () async {
+      if (widget.bridge.failure == null && widget.bridge.currentStep == 8) {
+        return;
+      }
+      if (widget.bridge.blockchainFrom != null &&
+          widget.bridge.blockchainFrom!.htlcAddress != null) {
+        if (widget.bridge.blockchainFrom!.isArchethic) {
+          await setupServiceLocatorApiService(
+            widget.bridge.blockchainFrom!.providerEndpoint,
+          );
+          try {
+            final htlcInfo = await ArchethicContract().getHTLCInfo(
+              widget.bridge.blockchainFrom!.htlcAddress!,
+            );
+            if (mounted) {
+              setState(() {
+                htlcLockTime = htlcInfo.endTime ?? 0;
+                statusAE = htlcInfo.status;
+                if (htlcInfo.status == 2) {
+                  refunded = true;
+                }
+              });
+            }
+            // ignore: empty_catches
+          } catch (e) {}
+        } else {
+          final evmHTLC = EVMHTLC(
+            widget.bridge.blockchainFrom!.providerEndpoint,
+            widget.bridge.blockchainFrom!.htlcAddress!,
+            widget.bridge.blockchainFrom!.chainId,
+          );
+
+          final _statusEVM = await evmHTLC.getStatus();
+
+          final resultGetHTLCLockTime = await evmHTLC.getHTLCLockTime();
+          resultGetHTLCLockTime.map(
+            success: (_htlcLockTime) {
+              if (mounted) {
+                setState(() {
+                  htlcLockTime = _htlcLockTime;
+                  statusEVM = _statusEVM;
+                });
+              }
+            },
+            failure: (failure) {},
+          );
+        }
+      }
+      if (widget.bridge.blockchainTo != null &&
+          widget.bridge.blockchainTo!.htlcAddress != null) {
+        if (widget.bridge.blockchainTo!.isArchethic) {
+          await setupServiceLocatorApiService(
+            widget.bridge.blockchainFrom!.providerEndpoint,
+          );
+          try {
+            final htlcInfo = await ArchethicContract().getHTLCInfo(
+              widget.bridge.blockchainTo!.htlcAddress!,
+            );
+            if (mounted) {
+              setState(() {
+                statusAE = htlcInfo.status;
+              });
+            }
+            // ignore: empty_catches
+          } catch (e) {}
+        } else {
+          final evmHTLC = EVMHTLC(
+            widget.bridge.blockchainTo!.providerEndpoint,
+            widget.bridge.blockchainTo!.htlcAddress!,
+            widget.bridge.blockchainTo!.chainId,
+          );
+
+          final _statusEVM = await evmHTLC.getStatus();
+          if (mounted) {
+            setState(() {
+              statusEVM = _statusEVM;
+            });
+          }
+        }
+      }
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -39,7 +141,7 @@ class LocalHistoryCard extends StatelessWidget {
                       Localizations.localeOf(context).languageCode,
                     ).add_Hms().format(
                           DateTime.fromMillisecondsSinceEpoch(
-                            bridge.timestampExec!,
+                            widget.bridge.timestampExec!,
                           ).toLocal(),
                         ),
                     textAlign: TextAlign.center,
@@ -54,18 +156,32 @@ class LocalHistoryCard extends StatelessWidget {
                   ),
                   Row(
                     children: [
-                      LocalHistoryCardOptionsDelete(bridge: bridge),
-                      LocalHistoryCardOptionsResume(bridge: bridge),
-                      LocalHistoryCardOptionsRefund(bridge: bridge),
-                      LocalHistoryCardOptionsLogs(bridge: bridge),
+                      LocalHistoryCardOptionsDelete(bridge: widget.bridge),
+                      LocalHistoryCardOptionsResume(
+                        bridge: widget.bridge,
+                        canResume: htlcLockTime != null &&
+                            DateTime.fromMillisecondsSinceEpoch(
+                              htlcLockTime! * 1000,
+                            ).isAfter(DateTime.now()),
+                      ),
+                      LocalHistoryCardOptionsRefund(
+                        bridge: widget.bridge,
+                        isRefunded: statusEVM != null && statusEVM == 2 ||
+                            statusAE != null && statusAE == 2,
+                      ),
+                      LocalHistoryCardOptionsLogs(bridge: widget.bridge),
                     ],
                   ),
                 ],
               ),
-              LocalHistoryCardStatusInfos(bridge: bridge),
-              LocalHistoryCardDirectionInfos(bridge: bridge),
-              LocalHistoryCardTrfInfos(bridge: bridge),
-              LocalHistoryCardHTLCInfos(bridge: bridge),
+              LocalHistoryCardStatusInfos(bridge: widget.bridge),
+              LocalHistoryCardDirectionInfos(bridge: widget.bridge),
+              LocalHistoryCardTrfInfos(bridge: widget.bridge),
+              LocalHistoryCardHTLCInfos(
+                bridge: widget.bridge,
+                statusEVM: statusEVM,
+                statusAE: statusAE,
+              ),
             ],
           ),
         ),

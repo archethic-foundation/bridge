@@ -11,15 +11,18 @@ import 'package:go_router/go_router.dart';
 class LocalHistoryCardOptionsRefund extends ConsumerWidget {
   const LocalHistoryCardOptionsRefund({
     required this.bridge,
+    required this.isRefunded,
     super.key,
   });
   final BridgeFormState bridge;
+  final bool isRefunded;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final stepOk = bridge.blockchainFrom!.isArchethic ? 3 : 4;
 
-    if (bridge.failure == null ||
+    if (isRefunded == true ||
+        bridge.failure == null ||
         bridge.currentStep < stepOk ||
         (bridge.htlcEVMAddress == null && bridge.htlcAEAddress == null) ||
         bridge.blockchainFrom == null) {
