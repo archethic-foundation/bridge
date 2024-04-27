@@ -28,7 +28,7 @@ class FaucetUtil {
         // TODO(redwwarf03): MAINNET
         return (
           uri: Uri.https(
-            'faucet.bridge.testnet.archethic.net',
+            'faucet.bridge.archethic.net',
             '/api/faucet',
             queryParameters,
           ),

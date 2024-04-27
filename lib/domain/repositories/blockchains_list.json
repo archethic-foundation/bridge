@@ -10,6 +10,7 @@
             "urlExplorerChain": "https://mainnet.archethic.net/explorer/chain?address=",
             "isArchethic": true,
             "archethicFactoryAddress": "0000eeb877e7a3ffd7e81f9a1c4d5eedde7f881866c3154b99b78a9a54e3dfbdccd9",
+            "providerEndpoint": "https://mainnet.archethic.net",
             "nativeCurrency": "UCO"
         },
         {
@@ -22,6 +23,7 @@
             "urlExplorerChain": "https://testnet.archethic.net/explorer/chain?address=",
             "isArchethic": true,
             "archethicFactoryAddress": "0000795bfd6ca2f5ea9f378c20775caf798e9bfbff6aec94bf87ad8d59233b4fa299",
+            "providerEndpoint": "https://testnet.archethic.net",
             "nativeCurrency": "UCO"
         },
         {
@@ -34,6 +36,7 @@
             "urlExplorerChain": "http://localhost:4000/explorer/chain?address=",
             "isArchethic": true,
             "archethicFactoryAddress": "00004f53ed49c11ee3ff80d0abf608180bde9954dee20ede4dfa092a8c93d6ca26a9",
+            "providerEndpoint": "http://localhost:4000",
             "nativeCurrency": "UCO"
         },
         {

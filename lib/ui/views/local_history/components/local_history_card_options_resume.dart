@@ -1,7 +1,10 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/contracts/archethic_contract.dart';
+import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
+import 'package:aebridge/util/service_locator.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -9,7 +12,7 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class LocalHistoryCardOptionsResume extends ConsumerWidget {
+class LocalHistoryCardOptionsResume extends ConsumerStatefulWidget {
   const LocalHistoryCardOptionsResume({
     required this.bridge,
     super.key,
@@ -17,8 +20,65 @@ class LocalHistoryCardOptionsResume extends ConsumerWidget {
   final BridgeFormState bridge;
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    if (bridge.failure == null && bridge.currentStep == 8) {
+  ConsumerState<LocalHistoryCardOptionsResume> createState() =>
+      LocalHistoryCardOptionsResumeState();
+}
+
+class LocalHistoryCardOptionsResumeState
+    extends ConsumerState<LocalHistoryCardOptionsResume> {
+  bool canResume = false;
+  @override
+  void initState() {
+    Future.delayed(Duration.zero, () async {
+      if (widget.bridge.failure == null && widget.bridge.currentStep == 8) {
+        return;
+      }
+      if (widget.bridge.blockchainFrom != null) {
+        if (widget.bridge.blockchainFrom!.isArchethic) {
+          await setupServiceLocatorApiService(
+            widget.bridge.blockchainFrom!.providerEndpoint,
+          );
+          final htlcInfo = await ArchethicContract().getHTLCInfo(
+            widget.bridge.blockchainFrom!.htlcAddress!,
+          );
+          final endTime = htlcInfo.endTime ?? 0;
+
+          if (DateTime.fromMillisecondsSinceEpoch(endTime * 1000)
+              .isAfter(DateTime.now())) {
+            setState(() {
+              canResume = true;
+            });
+          }
+        } else {
+          final evmHTLC = EVMHTLC(
+            widget.bridge.blockchainFrom!.providerEndpoint,
+            widget.bridge.blockchainFrom!.htlcAddress!,
+            widget.bridge.blockchainFrom!.chainId,
+          );
+
+          final resultGetHTLCLockTime = await evmHTLC.getHTLCLockTime();
+          resultGetHTLCLockTime.map(
+            success: (htlcLockTime) {
+              if (DateTime.fromMillisecondsSinceEpoch(htlcLockTime * 1000)
+                  .isAfter(DateTime.now())) {
+                setState(() {
+                  canResume = true;
+                });
+              }
+            },
+            failure: (failure) {},
+          );
+        }
+      }
+    });
+
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (canResume == false ||
+        (widget.bridge.failure == null && widget.bridge.currentStep == 8)) {
       return const SizedBox.shrink();
     }
 
@@ -31,7 +91,7 @@ class LocalHistoryCardOptionsResume extends ConsumerWidget {
               try {
                 final state = await ref
                     .read(BridgeFormProvider.bridgeForm.notifier)
-                    .resume(bridge);
+                    .resume(widget.bridge);
                 if (!context.mounted) return;
                 final helper = aedappfm.QueryParameterHelper();
                 final initialStateEncoded = helper.encodeQueryParameter(state);
