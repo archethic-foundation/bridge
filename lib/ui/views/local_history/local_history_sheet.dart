@@ -158,7 +158,10 @@ Widget _body(BuildContext context, WidgetRef ref) {
                         return const SizedBox.shrink();
                       }
 
-                      return LocalHistoryCard(bridge: bridge);
+                      return LocalHistoryCard(
+                        bridge: bridge,
+                        key: ValueKey(bridge.timestampExec),
+                      );
                     },
                   ),
                 ),

@@ -73,7 +73,7 @@
             "nativeCurrency": "ETH"
         },
         {
-            "name": "Polygon",
+            "name": "Polygon (PoS)",
             "chainId": 137,
             "env": "1-mainnet",
             "icon": "Polygon.svg",
