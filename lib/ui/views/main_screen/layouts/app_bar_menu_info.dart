@@ -88,7 +88,7 @@ class _AppBarMenuInfoState extends ConsumerState<AppBarMenuInfo> {
             onPressed: () {
               launchUrl(
                 Uri.parse(
-                  'https://wiki.archethic.net',
+                  'https://wiki.archethic.net/participate/bridge/',
                 ),
               );
             },
