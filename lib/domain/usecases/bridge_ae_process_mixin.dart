@@ -159,30 +159,38 @@ mixin ArchethicBridgeProcessMixin {
       })> getAEHTLCData(
     String archethicHTLCAddress,
   ) async {
-    final htlcDataMap =
-        await aedappfm.sl.get<archethic.ApiService>().callSCFunction(
-              jsonRPCRequest: archethic.SCCallFunctionRequest(
-                method: 'contract_fun',
-                params: archethic.SCCallFunctionParams(
-                  contract: archethicHTLCAddress,
-                  function: 'get_htlc_data',
-                  args: [],
+    try {
+      final htlcDataMap =
+          await aedappfm.sl.get<archethic.ApiService>().callSCFunction(
+                jsonRPCRequest: archethic.SCCallFunctionRequest(
+                  method: 'contract_fun',
+                  params: archethic.SCCallFunctionParams(
+                    contract: archethicHTLCAddress,
+                    function: 'get_htlc_data',
+                    args: [],
+                  ),
                 ),
-              ),
-              resultMap: true,
-            ) as Map<String, dynamic>;
-    return (
-      secretHash: SecretHash(
-        secretHash: htlcDataMap['secret_hash'],
-        secretHashSignature: SecretHashSignature(
-          r: htlcDataMap['secret_hash_signature']['r'],
-          s: htlcDataMap['secret_hash_signature']['s'],
-          v: htlcDataMap['secret_hash_signature']['v'],
+                resultMap: true,
+              ) as Map<String, dynamic>;
+      return (
+        secretHash: SecretHash(
+          secretHash: htlcDataMap['secret_hash'],
+          secretHashSignature: SecretHashSignature(
+            r: htlcDataMap['secret_hash_signature']['r'],
+            s: htlcDataMap['secret_hash_signature']['s'],
+            v: htlcDataMap['secret_hash_signature']['v'],
+          ),
         ),
-      ),
-      endTime: htlcDataMap['end_time'] as int,
-      amount: htlcDataMap['amount'] as double,
-    );
+        endTime: htlcDataMap['end_time'] as int,
+        amount: htlcDataMap['amount'] as double,
+      );
+    } catch (e) {
+      return (
+        secretHash: SecretHash(),
+        endTime: 0,
+        amount: 0.0,
+      );
+    }
   }
 
   Future<void> requestAESecretFromLP(

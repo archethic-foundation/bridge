@@ -89,7 +89,7 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard> {
           widget.bridge.blockchainTo!.htlcAddress != null) {
         if (widget.bridge.blockchainTo!.isArchethic) {
           await setupServiceLocatorApiService(
-            widget.bridge.blockchainFrom!.providerEndpoint,
+            widget.bridge.blockchainTo!.providerEndpoint,
           );
           try {
             final htlcInfo = await ArchethicContract().getHTLCInfo(
