@@ -33,6 +33,7 @@ class FaucetUtil {
             queryParameters,
           ),
           // Because of CORS policy
+          // TODO(redwwarf03): MAINNET
           executeCatch: true
         );
       }

@@ -47,6 +47,22 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard> {
           await setupServiceLocatorApiService(
             widget.bridge.blockchainFrom!.providerEndpoint,
           );
+
+          try {
+            final info = await ArchethicContract().getInfo(
+              widget.bridge.blockchainFrom!.htlcAddress!,
+            );
+            if (mounted) {
+              setState(() {
+                statusAE = info.statusHTLC;
+                if (info.statusHTLC == 2) {
+                  refunded = true;
+                }
+              });
+            }
+            // ignore: empty_catches
+          } catch (e) {}
+
           try {
             final htlcInfo = await ArchethicContract().getHTLCInfo(
               widget.bridge.blockchainFrom!.htlcAddress!,
@@ -54,10 +70,6 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard> {
             if (mounted) {
               setState(() {
                 htlcLockTime = htlcInfo.endTime ?? 0;
-                statusAE = htlcInfo.status;
-                if (htlcInfo.status == 2) {
-                  refunded = true;
-                }
               });
             }
             // ignore: empty_catches
@@ -92,12 +104,15 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard> {
             widget.bridge.blockchainTo!.providerEndpoint,
           );
           try {
-            final htlcInfo = await ArchethicContract().getHTLCInfo(
+            final info = await ArchethicContract().getInfo(
               widget.bridge.blockchainTo!.htlcAddress!,
             );
             if (mounted) {
               setState(() {
-                statusAE = htlcInfo.status;
+                statusAE = info.statusHTLC;
+                if (info.statusHTLC == 2) {
+                  refunded = true;
+                }
               });
             }
             // ignore: empty_catches
