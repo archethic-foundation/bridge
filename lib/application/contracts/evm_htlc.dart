@@ -49,7 +49,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
         final transactionRefund = Transaction.callContract(
           contract: contractHTLC,
           function: contractHTLC.function('refund'),
-          maxGas: 70000,
+          maxGas: 1500000,
           parameters: [],
         );
 

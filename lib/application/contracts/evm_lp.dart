@@ -39,7 +39,7 @@ class EVMLP with EVMBridgeProcessMixin {
       ],
       from: EthereumAddress.fromHex(addressFrom),
       value: isWrapped == false ? ethAmount : null,
-      maxGas: 1080000,
+      maxGas: 1500000,
     );
     return transactionMintHTLC;
   }
@@ -211,7 +211,7 @@ class EVMLP with EVMBridgeProcessMixin {
             hexToBytes(secretHash.secretHashSignature!.s!),
             BigInt.from(secretHash.secretHashSignature!.v!),
           ],
-          maxGas: 1080000,
+          maxGas: 1500000,
         );
 
         late String txAddress;

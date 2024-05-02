@@ -124,7 +124,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
             hexToBytes(secret.secretSignature!.s!),
             BigInt.from(secret.secretSignature!.v!),
           ],
-          maxGas: 70000,
+          maxGas: 1500000,
         );
 
         var withdrawTx = '';

@@ -44,7 +44,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             EthereumAddress.fromHex(htlcContractAddress),
             ethAmount.getInWei,
           ],
-          maxGas: 1080000,
+          maxGas: 1500000,
         );
 
         late StreamSubscription<FilterEvent> subscription;
@@ -134,7 +134,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             hexToBytes(secret.secretSignature!.s!),
             BigInt.from(secret.secretSignature!.v!),
           ],
-          maxGas: 70000,
+          maxGas: 1500000,
         );
 
         var withdrawTx = '';
