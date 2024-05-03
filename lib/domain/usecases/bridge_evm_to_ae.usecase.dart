@@ -23,6 +23,7 @@ class BridgeEVMToArchethicUseCase
         EVMBridgeProcessMixin,
         aedappfm.TransactionMixin {
   Future<void> run(
+    BuildContext context,
     WidgetRef ref, {
     int recoveryStep = 0,
     List<int>? recoverySecret,
@@ -74,7 +75,9 @@ class BridgeEVMToArchethicUseCase
       var blockchainFrom =
           ref.read(BridgeFormProvider.bridgeForm).blockchainFrom;
       blockchainFrom = blockchainFrom!.copyWith(htlcAddress: htlcEVMAddress);
-      await bridgeNotifier.setBlockchainFrom(blockchainFrom);
+      if (context.mounted) {
+        await bridgeNotifier.setBlockchainFrom(context, blockchainFrom);
+      }
     }
 
     // 2) Get HTLC Lock time
@@ -226,7 +229,9 @@ class BridgeEVMToArchethicUseCase
       }
       var blockchainTo = ref.read(BridgeFormProvider.bridgeForm).blockchainTo;
       blockchainTo = blockchainTo!.copyWith(htlcAddress: htlcAEAddress);
-      await bridgeNotifier.setBlockchainTo(blockchainTo);
+      if (context.mounted) {
+        await bridgeNotifier.setBlockchainTo(context, blockchainTo);
+      }
     }
 
     // 6) Withdraw

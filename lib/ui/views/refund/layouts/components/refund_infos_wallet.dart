@@ -3,6 +3,7 @@ import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RefundInfosWallet extends ConsumerWidget {
@@ -28,7 +29,8 @@ class RefundInfosWallet extends ConsumerWidget {
           Align(
             alignment: Alignment.centerRight,
             child: FormatAddressLinkCopy(
-              header: 'Your wallet address: ',
+              header:
+                  '${AppLocalizations.of(context)!.refundInfosWalletWalletAddressLabel} ',
               address: refund.wallet!.genesisAddress,
               chainId: refund.chainId!,
               reduceAddress: true,

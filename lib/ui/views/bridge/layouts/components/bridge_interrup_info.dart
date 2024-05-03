@@ -35,7 +35,7 @@ class BridgeInterrupInfo extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SelectableText(
-          'Your transfer has been interrupted. You have two options:',
+          AppLocalizations.of(context)!.bridgeInterrupInfoText1,
           style: Theme.of(context).textTheme.labelMedium!.copyWith(
                 fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                   context,
@@ -44,7 +44,7 @@ class BridgeInterrupInfo extends ConsumerWidget {
               ),
         ),
         SelectableText(
-          '- Resume Transfer: You can attempt to resume the transfer process by clicking "Resume".',
+          AppLocalizations.of(context)!.bridgeInterrupInfoText2,
           style: Theme.of(context).textTheme.labelMedium!.copyWith(
                 fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                   context,
@@ -53,7 +53,7 @@ class BridgeInterrupInfo extends ConsumerWidget {
               ),
         ),
         SelectableText(
-          '- Request a Refund: If you do not wish to resume, or if the transfer cannot be completed due to technical reasons, you can choose to get a full refund within 2 hours. To do this, note the following contract address and click later on the "Refund" menu.',
+          AppLocalizations.of(context)!.bridgeInterrupInfoText3,
           style: Theme.of(context).textTheme.labelMedium!.copyWith(
                 fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                   context,

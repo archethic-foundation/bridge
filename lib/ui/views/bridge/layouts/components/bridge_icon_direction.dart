@@ -31,7 +31,9 @@ class BridgeBlockchainIconDirection extends ConsumerWidget {
       padding: const EdgeInsets.only(top: 25),
       child: IconButton(
         onPressed: () async {
-          await bridgeForm.swapDirections();
+          await bridgeForm.swapDirections(
+            context,
+          );
         },
         icon: const Icon(aedappfm.Iconsax.arrow_swap_horizontal),
       ),

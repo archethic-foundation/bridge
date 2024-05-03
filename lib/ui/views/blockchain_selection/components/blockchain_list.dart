@@ -164,14 +164,14 @@ class _SingleBlockchain extends ConsumerWidget {
                 blockchain.env != bridge.blockchainTo!.env) {
               ref
                   .read(BridgeFormProvider.bridgeForm.notifier)
-                  .setBlockchainTo(null);
+                  .setBlockchainTo(context, null);
             }
           } else {
             if (bridge.blockchainFrom != null &&
                 blockchain.env != bridge.blockchainFrom!.env) {
               ref
                   .read(BridgeFormProvider.bridgeForm.notifier)
-                  .setBlockchainFrom(null);
+                  .setBlockchainFrom(context, null);
             }
           }
           Navigator.pop(context, blockchain);

@@ -1,6 +1,7 @@
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RefundInfo extends ConsumerWidget {
@@ -14,7 +15,7 @@ class RefundInfo extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SelectableText(
-          "Need help getting your funds back? Don't worry, we'll guide you!",
+          AppLocalizations.of(context)!.refundInfoText1,
           style: Theme.of(context).textTheme.labelLarge!.copyWith(
                 fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                   context,
@@ -26,7 +27,7 @@ class RefundInfo extends ConsumerWidget {
           height: 20,
         ),
         SelectableText(
-          "If your transfer didn't go as planned, or if you didn't complete all the necessary steps, you can get your funds back by using our refund function. Here's how it works:",
+          AppLocalizations.of(context)!.refundInfoText2,
           style: Theme.of(context).textTheme.labelMedium!.copyWith(
                 fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                   context,
@@ -38,7 +39,7 @@ class RefundInfo extends ConsumerWidget {
           height: 20,
         ),
         SelectableText(
-          'Identify and fill in the contract address: This is not the address of your wallet, but that of the contract that manages the transfer between blockchains. You need to provide this address to initiate the refund.',
+          AppLocalizations.of(context)!.refundInfoText3,
           style: Theme.of(context).textTheme.labelMedium!.copyWith(
                 fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                   context,
@@ -47,7 +48,7 @@ class RefundInfo extends ConsumerWidget {
               ),
         ),
         SelectableText(
-          "- If you're bridging from an EVM blockchain (such as Ethereum) to Archethic, use the EVM contract address.",
+          AppLocalizations.of(context)!.refundInfoText4,
           style: Theme.of(context).textTheme.labelMedium!.copyWith(
                 fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                   context,
@@ -56,7 +57,7 @@ class RefundInfo extends ConsumerWidget {
               ),
         ),
         SelectableText(
-          '- If you are bridging from Archethic to an EVM blockchain, use the Archethic contract address.',
+          AppLocalizations.of(context)!.refundInfoText5,
           style: Theme.of(context).textTheme.labelMedium!.copyWith(
                 fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                   context,

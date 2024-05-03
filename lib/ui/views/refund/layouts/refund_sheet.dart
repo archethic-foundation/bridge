@@ -32,7 +32,7 @@ class _RefundSheetState extends ConsumerState<RefundSheet> {
       if (widget.htlcAddress != null && widget.htlcAddress!.isNotEmpty) {
         ref
             .read(RefundFormProvider.refundForm.notifier)
-            .setContractAddress(widget.htlcAddress!);
+            .setContractAddress(context, widget.htlcAddress!);
       }
     });
   }

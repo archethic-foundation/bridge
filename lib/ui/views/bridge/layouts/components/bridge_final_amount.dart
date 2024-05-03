@@ -5,6 +5,7 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BridgeFinalAmount extends ConsumerStatefulWidget {
@@ -105,7 +106,7 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
 
     return finalAmount != null
         ? SelectableText(
-            'Amount bridged: ${finalAmount!.formatNumber(precision: 8)} ${bridge.tokenToBridge!.targetTokenSymbol}',
+            '${AppLocalizations.of(context)!.bridgeFinalAmountLabelAmountBridged} ${finalAmount!.formatNumber(precision: 8)} ${bridge.tokenToBridge!.targetTokenSymbol}',
             style: TextStyle(
               fontSize: aedappfm.Responsive.fontSizeFromValue(
                 context,
@@ -116,7 +117,8 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
         : Row(
             children: [
               SelectableText(
-                'Amount bridged: ',
+                AppLocalizations.of(context)!
+                    .bridgeFinalAmountLabelAmountBridged,
                 style: TextStyle(
                   fontSize: aedappfm.Responsive.fontSizeFromValue(
                     context,

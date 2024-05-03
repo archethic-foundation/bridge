@@ -2,6 +2,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 
 class WelcomeTitle extends StatelessWidget {
   const WelcomeTitle({
@@ -19,7 +20,7 @@ class WelcomeTitle extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SelectableText(
-                  'Discover a ',
+                  AppLocalizations.of(context)!.welcomeTitleText1,
                   style: TextStyle(
                     fontSize: aedappfm.Responsive.fontSizeFromValue(
                       context,
@@ -38,7 +39,7 @@ class WelcomeTitle extends StatelessWidget {
                       curve: Curves.easeOutQuad,
                     ),
                 aedappfm.GradientText(
-                  'seamless',
+                  AppLocalizations.of(context)!.welcomeTitleText2,
                   style: TextStyle(
                     fontSize: aedappfm.Responsive.fontSizeFromValue(
                       context,
@@ -63,7 +64,7 @@ class WelcomeTitle extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 aedappfm.GradientText(
-                  'transfer',
+                  AppLocalizations.of(context)!.welcomeTitleText3,
                   style: TextStyle(
                     fontSize: aedappfm.Responsive.fontSizeFromValue(
                       context,
@@ -80,7 +81,7 @@ class WelcomeTitle extends StatelessWidget {
                       curve: Curves.easeOutQuad,
                     ),
                 SelectableText(
-                  ' of assets',
+                  AppLocalizations.of(context)!.welcomeTitleText4,
                   style: TextStyle(
                     fontSize: aedappfm.Responsive.fontSizeFromValue(
                       context,

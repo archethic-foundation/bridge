@@ -23,6 +23,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webthree/webthree.dart' as webthree;
 
@@ -53,7 +54,10 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     return const RefundFormState();
   }
 
-  Future<void> setContractAddress(String htlcAddress) async {
+  Future<void> setContractAddress(
+    BuildContext context,
+    String htlcAddress,
+  ) async {
     state = state.copyWith(
       htlcAddressFilled: htlcAddress,
       isAlreadyRefunded: false,
@@ -62,11 +66,13 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     );
     await setAddressType(null);
     if (state.wallet == null || state.wallet!.isConnected == false) {
-      await _controlAddress();
+      if (context.mounted) {
+        await _controlAddress(context);
+      }
     }
   }
 
-  Future<void> setStatusArchethic() async {
+  Future<void> setStatusArchethic(BuildContext context) async {
     if (state.wallet == null || state.wallet!.isConnected == false) {
       return;
     }
@@ -80,7 +86,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     );
 
     final archethicContract = ArchethicContract();
-    if (await control()) {
+    if (await control(context)) {
       try {
         final htlcInfo = await archethicContract.getHTLCInfo(
           state.htlcAddressFilled,
@@ -154,7 +160,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     }
   }
 
-  Future<void> setStatusEVM() async {
+  Future<void> setStatusEVM(BuildContext context) async {
     if (state.wallet == null || state.wallet!.isConnected == false) {
       return;
     }
@@ -168,7 +174,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
 
     final chainId = aedappfm.sl.get<EVMWalletProvider>().currentChain ?? 0;
 
-    if (await control()) {
+    if (await control(context)) {
       final evmHTLC = EVMHTLC(
         state.wallet!.providerEndpoint,
         state.htlcAddressFilled,
@@ -364,7 +370,9 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     }
   }
 
-  Future<({bool result, aedappfm.Failure? failure})> _controlAddress() async {
+  Future<({bool result, aedappfm.Failure? failure})> _controlAddress(
+    BuildContext context,
+  ) async {
     state = state.copyWith(
       processRefund: null,
     );
@@ -372,8 +380,8 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     if (state.htlcAddressFilled.isEmpty) {
       return (
         result: false,
-        failure: const aedappfm.Failure.other(
-          cause: 'Please enter a contract address.',
+        failure: aedappfm.Failure.other(
+          cause: AppLocalizations.of(context)!.refundControlAddressEmpty,
         ),
       );
     }
@@ -382,7 +390,9 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         state.htlcAddressFilled.length != kEvmAddressLength) {
       return (
         result: false,
-        failure: const aedappfm.Failure.other(cause: 'Malformated address.'),
+        failure: aedappfm.Failure.other(
+          cause: AppLocalizations.of(context)!.refundControlMalformatedAddress,
+        ),
       );
     }
 
@@ -391,7 +401,10 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
           false) {
         return (
           result: false,
-          failure: const aedappfm.Failure.other(cause: 'Malformated address.'),
+          failure: aedappfm.Failure.other(
+            cause:
+                AppLocalizations.of(context)!.refundControlMalformatedAddress,
+          ),
         );
       } else {
         await setAddressType(AddressType.archethic);
@@ -404,7 +417,11 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       } catch (e) {
         return (
           result: false,
-          failure: const aedappfm.Failure.other(cause: 'Malformated address.'),
+          failure: aedappfm.Failure.other(
+            cause: context.mounted
+                ? AppLocalizations.of(context)!.refundControlMalformatedAddress
+                : 'Malformated address.',
+          ),
         );
       }
     }
@@ -412,7 +429,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     return (result: true, failure: null);
   }
 
-  Future<bool> control() async {
+  Future<bool> control(BuildContext context) async {
     state = state.copyWith(
       refundOk: false,
       refundTxAddress: null,
@@ -431,7 +448,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       return false;
     }
 
-    final controlAddress = await _controlAddress();
+    final controlAddress = await _controlAddress(context);
     if (controlAddress.failure != null) {
       state = state.copyWith(
         failure: controlAddress.failure,
@@ -465,7 +482,9 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     }
   }
 
-  Future<aedappfm.Result<void, aedappfm.Failure>> connectToEVMWallet() async {
+  Future<aedappfm.Result<void, aedappfm.Failure>> connectToEVMWallet(
+    BuildContext context,
+  ) async {
     return aedappfm.Result.guard(
       () async {
         var evmWallet = const BridgeWallet();
@@ -505,7 +524,9 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
             aedappfm.sl.registerLazySingleton<EVMWalletProvider>(
               () => evmWalletProvider,
             );
-            await setStatusEVM();
+            if (context.mounted) {
+              await setStatusEVM(context);
+            }
           }
         } catch (e) {
           throw const aedappfm.Failure.connectivityEVM();
@@ -514,8 +535,9 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     );
   }
 
-  Future<aedappfm.Result<void, aedappfm.Failure>>
-      connectToArchethicWallet() async {
+  Future<aedappfm.Result<void, aedappfm.Failure>> connectToArchethicWallet(
+    BuildContext context,
+  ) async {
     return aedappfm.Result.guard(() async {
       var archethicWallet = const BridgeWallet();
       archethicWallet = archethicWallet.copyWith(
@@ -547,7 +569,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         failure: (failure) {
           archethicWallet = archethicWallet.copyWith(
             isConnected: false,
-            error: 'Please, open your Archethic Wallet.',
+            error: AppLocalizations.of(context)!.failureConnectivityArchethic,
           );
           state = state.copyWith(wallet: archethicWallet);
           throw const aedappfm.Failure.connectivityArchethic();
@@ -639,7 +661,8 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
                       oldNameAccount: archethicWallet.nameAccount,
                       genesisAddress: event.genesisAddress,
                       nameAccount: event.name,
-                      error: 'Please, open your Archethic Wallet.',
+                      error: AppLocalizations.of(context)!
+                          .failureConnectivityArchethic,
                       isConnected: false,
                     );
                     state = state.copyWith(wallet: archethicWallet);
@@ -667,7 +690,9 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         },
       );
 
-      await setStatusArchethic();
+      if (context.mounted) {
+        await setStatusArchethic(context);
+      }
     });
   }
 

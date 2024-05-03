@@ -131,12 +131,17 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
                 // We want to swap values
                 if (bridge.blockchainFrom != null &&
                     blockchain.chainId == bridge.blockchainFrom!.chainId) {
-                  await bridgeFormNotifier.swapDirections();
+                  if (context.mounted) {
+                    await bridgeFormNotifier.swapDirections(context);
+                  }
                   return;
                 }
-
-                await bridgeFormNotifier
-                    .setBlockchainToWithConnection(blockchain);
+                if (context.mounted) {
+                  await bridgeFormNotifier.setBlockchainToWithConnection(
+                    context,
+                    blockchain,
+                  );
+                }
               },
             ),
           ),

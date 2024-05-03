@@ -17,6 +17,7 @@ class BridgeArchethicToEVMUseCase
         EVMBridgeProcessMixin,
         aedappfm.TransactionMixin {
   Future<void> run(
+    BuildContext context,
     WidgetRef ref, {
     int recoveryStep = 0,
     String? recoveryHTLCEVMAddress,
@@ -57,7 +58,9 @@ class BridgeArchethicToEVMUseCase
     }
     var blockchainFrom = ref.read(BridgeFormProvider.bridgeForm).blockchainFrom;
     blockchainFrom = blockchainFrom!.copyWith(htlcAddress: htlcAEAddress);
-    await bridgeNotifier.setBlockchainFrom(blockchainFrom);
+    if (context.mounted) {
+      await bridgeNotifier.setBlockchainFrom(context, blockchainFrom);
+    }
 
     await bridgeNotifier.setHTLCAEAddress(htlcAEAddress);
 
@@ -135,7 +138,9 @@ class BridgeArchethicToEVMUseCase
       }
       var blockchainTo = ref.read(BridgeFormProvider.bridgeForm).blockchainTo;
       blockchainTo = blockchainTo!.copyWith(htlcAddress: htlcEVMAddress);
-      await bridgeNotifier.setBlockchainTo(blockchainTo);
+      if (context.mounted) {
+        await bridgeNotifier.setBlockchainTo(context, blockchainTo);
+      }
     }
 
     // 5) Request Secret from Archethic LP
