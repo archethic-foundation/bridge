@@ -19,9 +19,12 @@ class LocalHistoryPeriodFilter extends ConsumerWidget {
     Future<DateTimeRange?> dateTimeRangePicker() async {
       final picked = await showDateRangePicker(
         context: context,
-        confirmText: 'Select',
-        cancelText: 'Cancel',
-        helpText: 'Please, select a period to filter your history',
+        confirmText:
+            AppLocalizations.of(context)!.localHistoryPeriodFilterConfirmText,
+        cancelText:
+            AppLocalizations.of(context)!.localHistoryPeriodFilterCancelText,
+        helpText:
+            AppLocalizations.of(context)!.localHistoryPeriodFilterHelpText,
         firstDate: DateTime(2023, 8, 21),
         lastDate: DateTime(
           DateTime.now().year,

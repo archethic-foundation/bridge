@@ -40,7 +40,7 @@ class LocalHistoryCardOptionsResumeState
               try {
                 final state = await ref
                     .read(BridgeFormProvider.bridgeForm.notifier)
-                    .resume(widget.bridge);
+                    .resume(context, widget.bridge);
                 if (!context.mounted) return;
                 final helper = aedappfm.QueryParameterHelper();
                 final initialStateEncoded = helper.encodeQueryParameter(state);

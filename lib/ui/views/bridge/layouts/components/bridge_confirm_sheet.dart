@@ -44,6 +44,7 @@ class BridgeConfirmSheetState extends ConsumerState<BridgeConfirmSheet> {
                 : () {
                     ref.read(BridgeFormProvider.bridgeForm.notifier)
                       ..setBridgeProcessStep(
+                        context,
                         aedappfm.ProcessStep.form,
                       )
                       ..setMessageMaxHalfUCO(false);
@@ -126,11 +127,11 @@ class BridgeConfirmSheetState extends ConsumerState<BridgeConfirmSheet> {
           ),
           const BridgeConfirmSheetFees(),
           if (bridge.messageMaxHalfUCO)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 10),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
               child: SizedBox(
                 child: aedappfm.InfoBanner(
-                  'The UCO amount you entered has been reduced to include Archethic transaction fees.',
+                  AppLocalizations.of(context)!.bridgeConfirmMessageMaxHalfUCO,
                   aedappfm.InfoBannerType.request,
                 ),
               ),

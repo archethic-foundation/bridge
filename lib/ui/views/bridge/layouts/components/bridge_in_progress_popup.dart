@@ -22,8 +22,8 @@ class BridgeInProgressPopup {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
     return [
       if (bridge.isTransferInProgress)
-        const Text(
-          'The transfer process between the 2 blockhains is in progress.\nThis requires a few validations in your wallets to secure the transactions.',
+        Text(
+          AppLocalizations.of(context)!.bridgeFinalAmountLabelAmountBridged,
         ),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,

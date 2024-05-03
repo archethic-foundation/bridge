@@ -32,13 +32,13 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
             _transferNotCompleted(
               context,
               aedappfm.AppThemeBase.statusInProgress,
-              'Transfer interrupted at step ${bridge.currentStep}',
+              '${AppLocalizations.of(context)!.localHistoryCardStatusInfosTrfInterrupted} ${bridge.currentStep}',
             )
           else
             _transferNotCompleted(
               context,
               aedappfm.AppThemeBase.statusKO,
-              'Transfer stopped at step ${bridge.currentStep}',
+              '${AppLocalizations.of(context)!.localHistoryCardStatusInfosTrfStopped} ${bridge.currentStep}',
             ),
         ],
       ),
@@ -58,7 +58,7 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
               ),
         ),
         SelectableText(
-          'Transfer completed',
+          AppLocalizations.of(context)!.localHistoryCardStatusInfosTrfCompleted,
           style: TextStyle(
             color: aedappfm.AppThemeBase.statusOK,
             fontSize: Theme.of(context)

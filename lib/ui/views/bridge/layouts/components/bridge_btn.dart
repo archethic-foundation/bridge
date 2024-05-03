@@ -28,7 +28,7 @@ class BridgeButton extends ConsumerWidget {
       labelBtn: AppLocalizations.of(context)!.btn_bridge,
       onPressed: () async {
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-        await bridgeNotifier.validateForm();
+        await bridgeNotifier.validateForm(context);
       },
     );
   }

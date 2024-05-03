@@ -6,12 +6,13 @@ import 'package:aebridge/application/session/state.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
-
 import 'package:aebridge/util/service_locator.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
+import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:webthree/webthree.dart';
 
@@ -78,6 +79,7 @@ class _SessionNotifier extends Notifier<Session> {
   }
 
   Future<aedappfm.Result<void, aedappfm.Failure>> connectToArchethicWallet(
+    BuildContext context,
     bool from,
     BridgeBlockchain blockchain,
   ) async {
@@ -112,7 +114,7 @@ class _SessionNotifier extends Notifier<Session> {
         failure: (failure) {
           bridgeWallet = bridgeWallet.copyWith(
             isConnected: false,
-            error: 'Please, open your Archethic Wallet.',
+            error: AppLocalizations.of(context)!.failureConnectivityArchethic,
           );
           _fillState(bridgeWallet, from);
           throw const aedappfm.Failure.connectivityArchethic();
@@ -123,8 +125,8 @@ class _SessionNotifier extends Notifier<Session> {
               if (result.endpointUrl != 'https://mainnet.archethic.net') {
                 bridgeWallet = bridgeWallet.copyWith(
                   isConnected: false,
-                  error:
-                      'Please, connect your Archethic wallet to the Mainnet network.',
+                  error: AppLocalizations.of(context)!
+                      .failureConnectivityArchethicMainnet,
                 );
                 _fillState(bridgeWallet, from);
                 throw aedappfm.Failure.wrongNetwork(bridgeWallet.error);
@@ -134,8 +136,8 @@ class _SessionNotifier extends Notifier<Session> {
               if (result.endpointUrl != 'https://testnet.archethic.net') {
                 bridgeWallet = bridgeWallet.copyWith(
                   isConnected: false,
-                  error:
-                      'Please, connect your Archethic wallet to the Testnet network.',
+                  error: AppLocalizations.of(context)!
+                      .failureConnectivityArchethicTestnet,
                 );
                 _fillState(bridgeWallet, from);
                 throw aedappfm.Failure.wrongNetwork(bridgeWallet.error);
@@ -146,8 +148,8 @@ class _SessionNotifier extends Notifier<Session> {
                   result.endpointUrl == 'https://mainnet.archethic.net') {
                 bridgeWallet = bridgeWallet.copyWith(
                   isConnected: false,
-                  error:
-                      'Please, connect your Archethic wallet to the Devnet network.',
+                  error: AppLocalizations.of(context)!
+                      .failureConnectivityArchethicDevnet,
                 );
                 _fillState(bridgeWallet, from);
                 throw aedappfm.Failure.wrongNetwork(bridgeWallet.error);
@@ -156,8 +158,8 @@ class _SessionNotifier extends Notifier<Session> {
             default:
               bridgeWallet = bridgeWallet.copyWith(
                 isConnected: false,
-                error:
-                    'Please, connect your Archethic wallet to the right network.',
+                error: AppLocalizations.of(context)!
+                    .failureConnectivityArchethiRightNetwork,
               );
               _fillState(bridgeWallet, from);
               throw aedappfm.Failure.wrongNetwork(bridgeWallet.error);
@@ -227,7 +229,8 @@ class _SessionNotifier extends Notifier<Session> {
                       oldNameAccount: bridgeWallet.nameAccount,
                       genesisAddress: event.genesisAddress,
                       nameAccount: event.name,
-                      error: 'Please, open your Archethic Wallet.',
+                      error: AppLocalizations.of(context)!
+                          .failureConnectivityArchethic,
                       isConnected: false,
                     );
                     _fillState(bridgeWallet, from);
@@ -246,7 +249,8 @@ class _SessionNotifier extends Notifier<Session> {
             failure: (failure) {
               bridgeWallet = bridgeWallet.copyWith(
                 isConnected: false,
-                error: failure.message ?? 'Connection failed',
+                error: failure.message ??
+                    AppLocalizations.of(context)!.failureConnectionFailed,
               );
               _fillState(bridgeWallet, from);
               throw aedappfm.Failure.other(cause: bridgeWallet.error);
