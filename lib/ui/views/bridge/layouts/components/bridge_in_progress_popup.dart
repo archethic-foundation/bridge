@@ -23,7 +23,7 @@ class BridgeInProgressPopup {
     return [
       if (bridge.isTransferInProgress)
         Text(
-          AppLocalizations.of(context)!.bridgeFinalAmountLabelAmountBridged,
+          AppLocalizations.of(context)!.bridgeInProgressPopupHeader,
         ),
       Row(
         mainAxisAlignment: MainAxisAlignment.center,
