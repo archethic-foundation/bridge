@@ -37,10 +37,10 @@ packages:
     dependency: "direct main"
     description:
       name: archethic_dapp_framework_flutter
-      sha256: fdff213697157ccd4f40552efd2612b908549aa19323bf7491295085cbd9c8bd
+      sha256: bcb8c8770603e5cf6490ed5b9606d7be1a97979964847420e4250addb04ab081
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.14"
+    version: "1.1.15"
   archethic_lib_dart:
     dependency: transitive
     description:
@@ -61,10 +61,10 @@ packages:
     dependency: transitive
     description:
       name: archive
-      sha256: "22600aa1e926be775fa5fe7e6894e7fb3df9efda8891c73f70fb3262399a432d"
+      sha256: ecf4273855368121b1caed0d10d4513c7241dfc813f7d3c8933b36622ae9b265
       url: "https://pub.dev"
     source: hosted
-    version: "3.4.10"
+    version: "3.5.1"
   args:
     dependency: transitive
     description:
@@ -221,10 +221,10 @@ packages:
     dependency: transitive
     description:
       name: coverage
-      sha256: "8acabb8306b57a409bf4c83522065672ee13179297a6bb0cb9ead73948df7c76"
+      sha256: "3945034e86ea203af7a056d98e98e42a5518fff200d6e8e6647e1886b07e936e"
       url: "https://pub.dev"
     source: hosted
-    version: "1.7.2"
+    version: "1.8.0"
   crypto:
     dependency: "direct main"
     description:
@@ -420,18 +420,18 @@ packages:
     dependency: transitive
     description:
       name: gql
-      sha256: afe032332ddfa69b79f1dea2ad7d95923d4993c1b269b224fc7bb3d17e32d33c
+      sha256: "5877b9e6537eb69431df7a45959d3f137ba5b7eba73208a631c404f36600e259"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1-alpha+1709845491443"
+    version: "1.0.1-alpha+1715521079501"
   gql_dedupe_link:
     dependency: transitive
     description:
       name: gql_dedupe_link
-      sha256: "2971173c68623d5c43f5327ea899bd2ee64ce3461c1263f240b4bb6211f667be"
+      sha256: "10bee0564d67c24e0c8bd08bd56e0682b64a135e58afabbeed30d85d5e9fea96"
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.4-alpha+1709845491527"
+    version: "2.0.4-alpha+1715521079596"
   gql_error_link:
     dependency: transitive
     description:
@@ -460,10 +460,10 @@ packages:
     dependency: transitive
     description:
       name: gql_link
-      sha256: "177500e250b3742d6d2673d57961e8413b6593dc6bd6a512c51865b6cf096f7e"
+      sha256: a0dae65d022285564ad333763a6988a603d6b9a075760ae178d6d22586bd342b
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.1-alpha+1709845491457"
+    version: "1.0.1-alpha+1715521079517"
   gql_transform_link:
     dependency: transitive
     description:
@@ -732,10 +732,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider_foundation
-      sha256: "5a7999be66e000916500be4f15a3633ebceb8302719b47b9cc49ce924125350f"
+      sha256: f234384a3fdd67f989b4d54a5d73ca2a6c422fa55ae694381ae0f4375cd1ea16
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.2"
+    version: "2.4.0"
   path_provider_linux:
     dependency: transitive
     description:
@@ -772,10 +772,10 @@ packages:
     dependency: transitive
     description:
       name: phoenix_socket
-      sha256: ef576f0d3f88ebfbf01600d78e8c7b7982cdc34584cbf56f526e8db38dfa1ee8
+      sha256: "2d56ffde59875673bffdabd1f709307ab34b317bd868402e3d3a61c23c333b1b"
       url: "https://pub.dev"
     source: hosted
-    version: "0.7.3"
+    version: "0.7.4"
   pinenacl:
     dependency: transitive
     description:
@@ -804,10 +804,10 @@ packages:
     dependency: transitive
     description:
       name: pointycastle
-      sha256: "79fbafed02cfdbe85ef3fd06c7f4bc2cbcba0177e61b765264853d4253b21744"
+      sha256: "4be0097fcf3fd3e8449e53730c631200ebc7b88016acecab2b0da2f0149222fe"
       url: "https://pub.dev"
     source: hosted
-    version: "3.9.0"
+    version: "3.9.1"
   pool:
     dependency: transitive
     description:
@@ -1105,10 +1105,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_ios
-      sha256: "9149d493b075ed740901f3ee844a38a00b33116c7c5c10d7fb27df8987fb51d5"
+      sha256: "7068716403343f6ba4969b4173cbf3b84fc768042124bc2c011e5d782b24fe89"
       url: "https://pub.dev"
     source: hosted
-    version: "6.2.5"
+    version: "6.3.0"
   url_launcher_linux:
     dependency: transitive
     description:
@@ -1121,10 +1121,10 @@ packages:
     dependency: transitive
     description:
       name: url_launcher_macos
-      sha256: b7244901ea3cf489c5335bdacda07264a6e960b1c1b1a9f91e4bc371d9e68234
+      sha256: "9a1a42d5d2d95400c795b2914c36fdcb525870c752569438e4ebb09a2b5d90de"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.0"
+    version: "3.2.0"
   url_launcher_platform_interface:
     dependency: transitive
     description:
@@ -1201,10 +1201,10 @@ packages:
     dependency: transitive
     description:
       name: vm_service
-      sha256: "3923c89304b715fb1eb6423f017651664a03bf5f4b29983627c4da791f74a4ec"
+      sha256: "7475cb4dd713d57b6f7464c0e13f06da0d535d8b2067e188962a59bac2cf280b"
       url: "https://pub.dev"
     source: hosted
-    version: "14.2.1"
+    version: "14.2.2"
   watcher:
     dependency: transitive
     description:
