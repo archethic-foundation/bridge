@@ -25,16 +25,14 @@ class FaucetUtil {
           executeCatch: true
         );
       } else {
-        // TODO(redwwarf03): MAINNET
         return (
-          uri: Uri.https(
-            'faucet.bridge.archethic.net',
+          uri: Uri.http(
+            'localhost:8080',
             '/api/faucet',
             queryParameters,
           ),
           // Because of CORS policy
-          // TODO(redwwarf03): MAINNET
-          executeCatch: true
+          executeCatch: false
         );
       }
     }
