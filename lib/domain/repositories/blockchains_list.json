@@ -92,7 +92,7 @@
             "urlExplorerAddress": "https://bscscan.com/address/",
             "urlExplorerTransaction": "https://bscscan.com/tx/",
             "urlExplorerChain": "https://bscscan.com/address/",
-            "providerEndpoint": "https://bsc-dataseed.binance.org/",
+            "providerEndpoint": "https://bsc-dataseed.bnbchain.org",
             "isArchethic": false,
             "nativeCurrency": "BNB"
         }
