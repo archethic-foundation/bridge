@@ -29,7 +29,11 @@ class LocalHistoryCard extends ConsumerStatefulWidget {
   ConsumerState<LocalHistoryCard> createState() => LocalHistoryCardState();
 }
 
-class LocalHistoryCardState extends ConsumerState<LocalHistoryCard> {
+class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
   int? htlcLockTime;
   bool refunded = false;
   int? statusEVM;
@@ -38,42 +42,47 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard> {
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-      if (widget.bridge.failure == null && widget.bridge.currentStep == 8) {
-        return;
-      }
       if (widget.bridge.blockchainFrom != null &&
           widget.bridge.blockchainFrom!.htlcAddress != null) {
         if (widget.bridge.blockchainFrom!.isArchethic) {
-          await setupServiceLocatorApiService(
-            widget.bridge.blockchainFrom!.providerEndpoint,
-          );
-
-          try {
-            final info = await ArchethicContract().getInfo(
-              widget.bridge.blockchainFrom!.htlcAddress!,
-            );
+          if (widget.bridge.blockchainFrom!.providerEndpoint.isEmpty) {
             if (mounted) {
               setState(() {
-                statusAE = info.statusHTLC;
-                if (info.statusHTLC == 2) {
-                  refunded = true;
-                }
+                statusAE = -1;
               });
             }
-            // ignore: empty_catches
-          } catch (e) {}
-
-          try {
-            final htlcInfo = await ArchethicContract().getHTLCInfo(
-              widget.bridge.blockchainFrom!.htlcAddress!,
+          } else {
+            await setupServiceLocatorApiService(
+              widget.bridge.blockchainFrom!.providerEndpoint,
             );
-            if (mounted) {
-              setState(() {
-                htlcLockTime = htlcInfo.endTime ?? 0;
-              });
-            }
-            // ignore: empty_catches
-          } catch (e) {}
+
+            try {
+              final info = await ArchethicContract().getInfo(
+                widget.bridge.blockchainFrom!.htlcAddress!,
+              );
+              if (mounted) {
+                setState(() {
+                  statusAE = info.statusHTLC;
+                  if (info.statusHTLC == 2) {
+                    refunded = true;
+                  }
+                });
+              }
+              // ignore: empty_catches
+            } catch (e) {}
+
+            try {
+              final htlcInfo = await ArchethicContract().getHTLCInfo(
+                widget.bridge.blockchainFrom!.htlcAddress!,
+              );
+              if (mounted) {
+                setState(() {
+                  htlcLockTime = htlcInfo.endTime ?? 0;
+                });
+              }
+              // ignore: empty_catches
+            } catch (e) {}
+          }
         } else {
           final evmHTLC = EVMHTLC(
             widget.bridge.blockchainFrom!.providerEndpoint,
@@ -82,6 +91,11 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard> {
           );
 
           final _statusEVM = await evmHTLC.getStatus();
+          if (mounted) {
+            setState(() {
+              statusEVM = _statusEVM;
+            });
+          }
 
           final resultGetHTLCLockTime = await evmHTLC.getHTLCLockTime();
           resultGetHTLCLockTime.map(
@@ -89,7 +103,6 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard> {
               if (mounted) {
                 setState(() {
                   htlcLockTime = _htlcLockTime;
-                  statusEVM = _statusEVM;
                 });
               }
             },
@@ -100,23 +113,31 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard> {
       if (widget.bridge.blockchainTo != null &&
           widget.bridge.blockchainTo!.htlcAddress != null) {
         if (widget.bridge.blockchainTo!.isArchethic) {
-          await setupServiceLocatorApiService(
-            widget.bridge.blockchainTo!.providerEndpoint,
-          );
-          try {
-            final info = await ArchethicContract().getInfo(
-              widget.bridge.blockchainTo!.htlcAddress!,
-            );
+          if (widget.bridge.blockchainTo!.providerEndpoint.isEmpty) {
             if (mounted) {
               setState(() {
-                statusAE = info.statusHTLC;
-                if (info.statusHTLC == 2) {
-                  refunded = true;
-                }
+                statusAE = -1;
               });
             }
-            // ignore: empty_catches
-          } catch (e) {}
+          } else {
+            await setupServiceLocatorApiService(
+              widget.bridge.blockchainTo!.providerEndpoint,
+            );
+            try {
+              final info = await ArchethicContract().getInfo(
+                widget.bridge.blockchainTo!.htlcAddress!,
+              );
+              if (mounted) {
+                setState(() {
+                  statusAE = info.statusHTLC;
+                  if (info.statusHTLC == 2) {
+                    refunded = true;
+                  }
+                });
+              }
+              // ignore: empty_catches
+            } catch (e) {}
+          }
         } else {
           final evmHTLC = EVMHTLC(
             widget.bridge.blockchainTo!.providerEndpoint,
@@ -139,6 +160,7 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard> {
 
   @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 50),
       child: aedappfm.SingleCard(
