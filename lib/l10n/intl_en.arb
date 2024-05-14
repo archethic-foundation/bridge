@@ -94,6 +94,7 @@
     "failureIncompatibleBrowser": "Sorry, but your browser is not compatible with the app.\nPlease refer to the FAQ for more information.",
     "failureFaucetUCOError": "Sorry, the UCO faucet is currently unavailable. Please try again later or directly fund your Archethic wallet.",
     "failureFaucetUCOUserRejected": "You have declined to sign the transaction required to acquire UCOs for paying your bridge fees. Please resume or directly fund your wallet to continue.",
+    "failureSignedProvisionAsync": "An error has occurred. Please contact Archethic support, specifying the contract address below and the error '1405'.",
     "btn_refund": "Refund",
     "btn_refund_evm_connect": "Connect EVM Wallet",
     "btn_refund_archethic_connect": "Connect Archethic Wallet",
