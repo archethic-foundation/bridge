@@ -94,6 +94,7 @@
     "failureIncompatibleBrowser": "Désolé, mais votre navigateur n'est pas compatible avec l'application.\nVeuillez vous référer à la FAQ pour plus d'informations.",
     "failureFaucetUCOError": "Désolé, le faucet UCO est actuellement indisponible. Veuillez réessayer plus tard ou alimenter directement votre portefeuille Archethic.",
     "failureFaucetUCOUserRejected": "Vous avez refusé de signer la transaction requise pour acquérir des UCOs pour payer vos frais de bridge. Veuillez reprendre ou alimenter directement votre portefeuille pour continuer.",
+    "failureSignedProvisionAsync": "Une erreur s'est produite. Veuillez contacter le support d'Archethic en précisant l'adresse du contrat ci-dessous et l'erreur '1405'.",
     "btn_refund": "Rembourser",
     "btn_refund_evm_connect": "Connecter le portefeuille EVM",
     "btn_refund_archethic_connect": "Connecter le portefeuille Archethic",
