@@ -55,7 +55,7 @@ jobs:
           path: "build/web"
           sslCertificateFile: "certificate_bridge_mainnet.crt"
           sslKey: ${{ secrets.SSL_KEY_MAINNET }}
-          keychainFundingService: "archethic-wallet-ARCHETHIC.NET"
+          keychainFundingService: "archethic-wallet-archethic-front-app"
           keychainWebsiteService: "aeweb-BRIDGE"
           sendTransactionTimeout: 180
           percentageOfConfirmations: 50
