@@ -146,7 +146,8 @@ class BridgeEVMToArchethicUseCase
             'evm_signature': '0x${uint8ListToHex(signature)}',
           };
 
-          final getUrlResult = FaucetUtil.getUrl(queryParameters);
+          final getUrlResult =
+              FaucetUtil.getUrl(bridge.blockchainTo!.env, queryParameters);
           final response = await http.get(getUrlResult.uri);
           _executeCatch = getUrlResult.executeCatch;
           if (response.statusCode != 200) {

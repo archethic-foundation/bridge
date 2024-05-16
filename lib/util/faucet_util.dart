@@ -1,8 +1,9 @@
 class FaucetUtil {
   static ({Uri uri, bool executeCatch}) getUrl(
+    String env,
     Map<String, dynamic> queryParameters,
   ) {
-    if (Uri.base.toString().toLowerCase().contains('bridge.archethic')) {
+    if (env == '1-mainnet') {
       return (
         uri: Uri.https(
           'faucet.bridge.archethic.net',
@@ -12,10 +13,7 @@ class FaucetUtil {
         executeCatch: true
       );
     } else {
-      if (Uri.base
-          .toString()
-          .toLowerCase()
-          .contains('bridge.testnet.archethic')) {
+      if (env == '2-testnet') {
         return (
           uri: Uri.https(
             'faucet.bridge.testnet.archethic.net',
