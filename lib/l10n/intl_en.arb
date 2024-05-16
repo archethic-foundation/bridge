@@ -139,7 +139,7 @@
     "refundInProgressConfirmEVMWallet": "Please, confirm a transaction in your EVM Wallet",
     "bridgeConfirmMessageMaxHalfUCO": "The UCO amount you entered has been reduced to include Archethic transaction fees.",
     "bridgeFinalAmountLabelAmountBridged": "Amount bridged:",
-    "bridgeInProgressPopupHeader": "The transfer process between the 2 blockhains is in progress.\nThis requires a few validations in your wallets to secure the transactions.",
+    "bridgeInProgressPopupHeader": "The transfer process between the 2 blockchains is in progress.\nThis requires a few validations in your wallets to secure the transactions.",
     "bridgeInterrupInfoText1": "Your transfer has been interrupted. You have two options:",
     "bridgeInterrupInfoText2": "- Resume Transfer: You can attempt to resume the transfer process by clicking \"Resume\".",
     "bridgeInterrupInfoText3": "- Request a Refund: If you do not wish to resume, or if the transfer cannot be completed due to technical reasons, you can choose to get a full refund within 2 hours. To do this, note the following contract address and click later on the \"Refund\" menu.",
