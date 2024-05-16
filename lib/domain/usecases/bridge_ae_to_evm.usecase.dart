@@ -105,8 +105,9 @@ class BridgeArchethicToEVMUseCase
           if (context.mounted) {
             await bridgeNotifier.setFailure(
               aedappfm.Failure.other(
-                  cause: AppLocalizations.of(context)!
-                      .failureSignedProvisionAsync),
+                cause:
+                    AppLocalizations.of(context)!.failureSignedProvisionAsync,
+              ),
             );
           }
           await bridgeNotifier.setTransferInProgress(false);
