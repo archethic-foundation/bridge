@@ -1,4 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/domain/models/swap.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_balance_warning.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_blockchain_from_selection.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_blockchain_to_selection.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_btn.dart';
@@ -45,9 +47,28 @@ class BridgeFormSheet extends ConsumerWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              BridgeTokenToBridgeBalance(),
+              Expanded(
+                child: Row(
+                  children: [
+                    BridgeTokenToBridgeBalance(),
+                    BridgeBalanceWarning(
+                      swapProcess: SwapProcess.signed,
+                    ),
+                  ],
+                ),
+              ),
               SizedBox(width: 20),
-              BridgeTokenBridgedBalance(),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    BridgeTokenBridgedBalance(),
+                    BridgeBalanceWarning(
+                      swapProcess: SwapProcess.chargeable,
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
           Row(
