@@ -170,5 +170,7 @@
     "bridgeControlAmountTooHigh": "Your amount exceeds your balance. Please adjust your amount.",
     "bridgeControlInsufficicientLiquidity": "Sorry, but your request can't be completed due to insufficient liquidity on the destination chain. The current available liquidity is %1 %2.",
     "refundControlAddressEmpty": "Please enter a contract address.",
-    "refundControlMalformatedAddress": "Malformated address."
+    "refundControlMalformatedAddress": "Malformated address.",
+    "warningBalanceUCOTooLow": "Warning! Please note that your UCO balance is not sufficient to pay the bridge transaction fees. Please add UCOs to your Archethic wallet first.",
+    "infoBalanceUCOZero": "To help you join the Archethic ecosystem, we're offering you free Archethic transaction fees. For security reasons, this will require your signature while the process."
 }
