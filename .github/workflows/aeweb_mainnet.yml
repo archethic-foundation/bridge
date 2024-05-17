@@ -48,7 +48,7 @@ jobs:
 
       - name: Deploy to aeHosting
         id: deploy
-        uses: archethic-foundation/aeweb-github-action@v1.8.6
+        uses: archethic-foundation/aeweb-github-action@v1.8.7
         with:
           seed: ${{ secrets.ARCH_BASE_SEED_MAINNET }}
           endpoint: "https://mainnet.archethic.net"
