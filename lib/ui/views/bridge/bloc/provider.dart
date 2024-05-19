@@ -73,7 +73,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
       tokenBridgedBalance: bridgeFormState.tokenBridgedBalance,
       tokenToBridge: bridgeFormState.tokenToBridge,
       tokenToBridgeAmount: bridgeFormState.tokenToBridgeAmount,
-      tokenToBridgeBalance: bridgeFormState.tokenBridgedBalance,
+      tokenToBridgeBalance: bridgeFormState.tokenToBridgeBalance,
       tokenToBridgeDecimals: bridgeFormState.tokenToBridgeDecimals,
       resumeProcess: true,
       processStep: aedappfm.ProcessStep.confirmation,
