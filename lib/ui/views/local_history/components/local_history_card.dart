@@ -165,7 +165,9 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
               statusEVM == 1 &&
               statusAE != null &&
               statusAE == 1))) {
-        canResume = true;
+        setState(() {
+          canResume = true;
+        });
       }
       // EVM -> Archethic
       final htlcLockTimeOver = htlcLockTime != null &&
@@ -180,7 +182,9 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
               statusEVM == 1 &&
               statusAE != null &&
               statusAE == 1))) {
-        canResume = true;
+        setState(() {
+          canResume = true;
+        });
       }
     });
 
