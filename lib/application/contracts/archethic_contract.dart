@@ -136,7 +136,7 @@ class ArchethicContract
           (await apiService.getBlockchainVersion()).version.transaction,
         );
 
-        final infoResult = await getInfo(htlcAddress);
+        final infoResult = await getInfo(apiService, htlcAddress);
 
         var transaction = Transaction(
           type: 'transfer',
@@ -176,9 +176,12 @@ class ArchethicContract
         double? amount,
         int? endTime,
         double? estimatedProtocolFees
-      })> getHTLCInfo(String htlcAddress) async {
-    final lastAddressResult =
-        await aedappfm.sl.get<ApiService>().getLastTransaction(
+      })> getHTLCInfo(ApiService apiService, String htlcAddress) async {
+    print(
+      '$htlcAddress aedappfm.sl.get<archethic.ApiService>() ${aedappfm.sl.get<ApiService>().endpoint}',
+    );
+
+    final lastAddressResult = await apiService.getLastTransaction(
       [htlcAddress],
       request: 'address',
     );
@@ -189,7 +192,7 @@ class ArchethicContract
     final lastHTLCTransaction = lastAddressResult[htlcAddress];
 
     final infoHTLCResult =
-        await getInfo(lastHTLCTransaction!.address!.address!);
+        await getInfo(apiService, lastHTLCTransaction!.address!.address!);
 
     if (infoHTLCResult.statusHTLC == null) {
       throw const aedappfm.Failure.notHTLC();
