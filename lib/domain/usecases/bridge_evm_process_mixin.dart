@@ -306,6 +306,9 @@ mixin EVMBridgeProcessMixin {
             EtherAmount.fromDouble(EtherUnit.wei, newGasPriceInWei);
         newTransaction = newTransaction.copyWith(gasPrice: newGasPrice);
       }
+      if (transaction.value == null) {
+        newTransaction = newTransaction.copyWith(value: EtherAmount.zero());
+      }
       if (transaction.maxPriorityFeePerGas == null) {
         final maxPriorityFeePerGas = await _getMaxPriorityFeePerGas();
         newTransaction =
