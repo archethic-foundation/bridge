@@ -214,7 +214,7 @@ class ArchethicContract
           estimatedProtocolFees: estimatedProtocolFees
         );
       } else {
-        // Withdrawn
+        // Withdrawn or Refunded
         if (infoHTLCResult.statusHTLC == 1 || infoHTLCResult.statusHTLC == 2) {
           return (
             status: infoHTLCResult.statusHTLC!,

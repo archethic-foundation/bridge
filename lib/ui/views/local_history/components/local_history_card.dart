@@ -35,9 +35,10 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
   bool get wantKeepAlive => true;
 
   int? htlcLockTime;
-  bool refunded = false;
   int? statusEVM;
   int? statusAE;
+  bool isRefunded = false;
+  bool canResume = false;
 
   @override
   void initState() {
@@ -64,9 +65,6 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
               if (mounted) {
                 setState(() {
                   statusAE = info.statusHTLC;
-                  if (info.statusHTLC == 2) {
-                    refunded = true;
-                  }
                 });
               }
               // ignore: empty_catches
@@ -133,9 +131,6 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
               if (mounted) {
                 setState(() {
                   statusAE = info.statusHTLC;
-                  if (info.statusHTLC == 2) {
-                    refunded = true;
-                  }
                 });
               }
               // ignore: empty_catches
@@ -155,6 +150,37 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
             });
           }
         }
+      }
+
+      if (statusEVM != null && statusEVM == 2 ||
+          statusAE != null && statusAE == 2) {
+        isRefunded = true;
+      }
+
+      // Archethic -> EVM
+      if (widget.bridge.blockchainFrom != null &&
+          widget.bridge.blockchainFrom!.isArchethic &&
+          isRefunded == false &&
+          (!(statusEVM != null &&
+              statusEVM == 1 &&
+              statusAE != null &&
+              statusAE == 1))) {
+        canResume = true;
+      }
+      // EVM -> Archethic
+      final htlcLockTimeOver = htlcLockTime != null &&
+          DateTime.fromMillisecondsSinceEpoch(
+            htlcLockTime! * 1000,
+          ).isAfter(DateTime.now());
+      if (widget.bridge.blockchainFrom != null &&
+          widget.bridge.blockchainFrom!.isArchethic == false &&
+          isRefunded == false &&
+          htlcLockTimeOver &&
+          (!(statusEVM != null &&
+              statusEVM == 1 &&
+              statusAE != null &&
+              statusAE == 1))) {
+        canResume = true;
       }
     });
 
@@ -199,15 +225,11 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
                       LocalHistoryCardOptionsDelete(bridge: widget.bridge),
                       LocalHistoryCardOptionsResume(
                         bridge: widget.bridge,
-                        canResume: htlcLockTime != null &&
-                            DateTime.fromMillisecondsSinceEpoch(
-                              htlcLockTime! * 1000,
-                            ).isAfter(DateTime.now()),
+                        canResume: canResume,
                       ),
                       LocalHistoryCardOptionsRefund(
                         bridge: widget.bridge,
-                        isRefunded: statusEVM != null && statusEVM == 2 ||
-                            statusAE != null && statusAE == 2,
+                        isRefunded: isRefunded,
                       ),
                       LocalHistoryCardOptionsLogs(bridge: widget.bridge),
                     ],
