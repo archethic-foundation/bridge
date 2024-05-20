@@ -118,7 +118,6 @@ class EVMLP with EVMBridgeProcessMixin {
           (event) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
                   'Event ContractMinted = $event',
-                  level: aedappfm.LogLevel.debug,
                   name: 'EVMLP - deployChargeableHTLC',
                 );
             if (!completer.isCompleted) {
@@ -232,7 +231,6 @@ class EVMLP with EVMBridgeProcessMixin {
             (event) {
               aedappfm.sl.get<aedappfm.LogManager>().log(
                     'Event ContractProvisioned = $event',
-                    level: aedappfm.LogLevel.debug,
                     name: 'EVMLP - deployAndProvisionSignedHTLC',
                   );
               if (!completer.isCompleted) {

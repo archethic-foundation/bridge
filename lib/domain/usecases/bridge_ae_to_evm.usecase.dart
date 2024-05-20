@@ -103,6 +103,11 @@ class BridgeArchethicToEVMUseCase
             secretHash.secretHashSignature == null) {
           // https://github.com/archethic-foundation/bridge/issues/100
           if (context.mounted) {
+            aedappfm.sl.get<aedappfm.LogManager>().log(
+                  'Error 1405',
+                  level: aedappfm.LogLevel.error,
+                  name: 'BridgeArchethicToEVMUseCase - run',
+                );
             await bridgeNotifier.setFailure(
               aedappfm.Failure.other(
                 cause:

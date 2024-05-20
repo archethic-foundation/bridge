@@ -12,6 +12,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:crypto/crypto.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -108,11 +109,13 @@ class BridgeEVMToArchethicUseCase
         await bridgeNotifier.setCurrentStep(3);
         await provisionEVMHTLC(ref, htlcEVMAddress!);
       } catch (e) {
-        aedappfm.sl.get<aedappfm.LogManager>().log(
-              'Provision EVM HTLC error $e',
-              level: aedappfm.LogLevel.error,
-              name: 'BridgeEVMToArchethicUseCase - run',
-            );
+        if (e is aedappfm.UserRejected == false) {
+          aedappfm.sl.get<aedappfm.LogManager>().log(
+                'Provision EVM HTLC error $e',
+                level: aedappfm.LogLevel.error,
+                name: 'BridgeEVMToArchethicUseCase - run',
+              );
+        }
         return;
       }
     }
@@ -242,29 +245,35 @@ class BridgeEVMToArchethicUseCase
       final balanceGetResponseMap =
           await aedappfm.sl.get<ApiService>().fetchBalance([htlcAEAddress!]);
       final balanceGetResponse = balanceGetResponseMap[htlcAEAddress];
-      aedappfm.sl.get<aedappfm.LogManager>().log(
-            'balanceGetResponse : $balanceGetResponse',
-            level: aedappfm.LogLevel.debug,
-            name: 'BridgeEVMToArchethicUseCase - run',
-          );
-
-      if (bridge.tokenToBridge!.symbol.toUpperCase() == 'UCO') {
-        checkAmount = fromBigInt(balanceGetResponse!.uco).toDouble();
+      if (kDebugMode) {
         aedappfm.sl.get<aedappfm.LogManager>().log(
-              'checkAmount : $checkAmount',
+              'balanceGetResponse : $balanceGetResponse',
               level: aedappfm.LogLevel.debug,
               name: 'BridgeEVMToArchethicUseCase - run',
             );
+      }
+
+      if (bridge.tokenToBridge!.symbol.toUpperCase() == 'UCO') {
+        checkAmount = fromBigInt(balanceGetResponse!.uco).toDouble();
+        if (kDebugMode) {
+          aedappfm.sl.get<aedappfm.LogManager>().log(
+                'checkAmount : $checkAmount',
+                level: aedappfm.LogLevel.debug,
+                name: 'BridgeEVMToArchethicUseCase - run',
+              );
+        }
       } else {
         for (final balanceToken in balanceGetResponse!.token) {
           if (balanceToken.address!.toUpperCase() ==
               bridge.tokenToBridge!.tokenAddressTarget.toUpperCase()) {
             checkAmount = fromBigInt(balanceToken.amount).toDouble();
-            aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'checkAmount : $checkAmount - ${balanceToken.address!}',
-                  level: aedappfm.LogLevel.debug,
-                  name: 'BridgeEVMToArchethicUseCase - run',
-                );
+            if (kDebugMode) {
+              aedappfm.sl.get<aedappfm.LogManager>().log(
+                    'checkAmount : $checkAmount - ${balanceToken.address!}',
+                    level: aedappfm.LogLevel.debug,
+                    name: 'BridgeEVMToArchethicUseCase - run',
+                  );
+            }
           }
         }
       }
@@ -277,12 +286,13 @@ class BridgeEVMToArchethicUseCase
           return;
         }
       }
-
-      aedappfm.sl.get<aedappfm.LogManager>().log(
-            'if checkAmount : $checkAmount < $amount',
-            level: aedappfm.LogLevel.debug,
-            name: 'BridgeEVMToArchethicUseCase - run',
-          );
+      if (kDebugMode) {
+        aedappfm.sl.get<aedappfm.LogManager>().log(
+              'if checkAmount : $checkAmount < $amount',
+              level: aedappfm.LogLevel.debug,
+              name: 'BridgeEVMToArchethicUseCase - run',
+            );
+      }
       if (checkAmount < amount) {
         await bridgeNotifier
             .setFailure(const aedappfm.Failure.htlcWithoutFunds());
