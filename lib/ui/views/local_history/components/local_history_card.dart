@@ -172,10 +172,11 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
         });
       }
       // EVM -> Archethic
-      final htlcLockTimeOver = htlcLockTime != null &&
-          DateTime.fromMillisecondsSinceEpoch(
-            htlcLockTime! * 1000,
-          ).isAfter(DateTime.now());
+      final htlcLockTimeOver = htlcLockTime == null ||
+          (htlcLockTime != null &&
+              DateTime.fromMillisecondsSinceEpoch(
+                htlcLockTime! * 1000,
+              ).isAfter(DateTime.now()));
       if (widget.bridge.blockchainFrom != null &&
           widget.bridge.blockchainFrom!.isArchethic == false &&
           isRefunded == false &&
