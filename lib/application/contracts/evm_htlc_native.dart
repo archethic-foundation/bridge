@@ -51,7 +51,6 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
           (event) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
                   'Event FundsReceived = $event',
-                  level: aedappfm.LogLevel.debug,
                   name: 'EVMHTLCNative - provisionChargeableHTLC',
                 );
             if (!completer.isCompleted) {
@@ -143,7 +142,6 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
             (event) {
               aedappfm.sl.get<aedappfm.LogManager>().log(
                     'Event Withdrawn = $event',
-                    level: aedappfm.LogLevel.debug,
                     name: 'EVMHTLCNative - signedWithdraw',
                   );
               if (!completer.isCompleted) {

@@ -62,7 +62,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             (event) {
               aedappfm.sl.get<aedappfm.LogManager>().log(
                     'Event Transfer = $event',
-                    level: aedappfm.LogLevel.debug,
                     name: 'EVMHTLCERC - provisionChargeableHTLC',
                   );
               if (!completer.isCompleted) {
@@ -153,7 +152,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             (event) {
               aedappfm.sl.get<aedappfm.LogManager>().log(
                     'Event Withdrawn = $event',
-                    level: aedappfm.LogLevel.debug,
                     name: 'EVMHTLCERC - signedWithdraw',
                   );
               if (!completer.isCompleted) {

@@ -70,7 +70,6 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             (event) {
               aedappfm.sl.get<aedappfm.LogManager>().log(
                     'Event ContractMinted = $event',
-                    level: aedappfm.LogLevel.debug,
                     name: 'EVMHTLC - refund',
                   );
               if (!completer.isCompleted) {
@@ -296,7 +295,6 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             (event) {
               aedappfm.sl.get<aedappfm.LogManager>().log(
                     'Event Withdrawn = $event',
-                    level: aedappfm.LogLevel.debug,
                     name: 'EVMHTLC - withdraw',
                   );
               if (!completer.isCompleted) {
