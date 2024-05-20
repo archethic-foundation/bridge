@@ -89,6 +89,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     if (await control(context)) {
       try {
         final htlcInfo = await archethicContract.getHTLCInfo(
+          aedappfm.sl.get<archethic.ApiService>(),
           state.htlcAddressFilled,
         );
         if (htlcInfo.status == 2) {
@@ -106,6 +107,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         }
 
         final infoResult = await archethicContract.getInfo(
+          aedappfm.sl.get<archethic.ApiService>(),
           state.htlcAddressFilled,
         );
 

@@ -279,20 +279,19 @@ mixin ArchethicBridgeProcessMixin {
         String? evmPoolAddress,
         String? aePoolAddress,
         int? statusHTLC
-      })> getInfo(String htlcAddress) async {
+      })> getInfo(archethic.ApiService apiService, String htlcAddress) async {
     try {
-      final dataJson =
-          await aedappfm.sl.get<archethic.ApiService>().callSCFunction(
-                jsonRPCRequest: archethic.SCCallFunctionRequest(
-                  method: 'contract_fun',
-                  params: archethic.SCCallFunctionParams(
-                    contract: htlcAddress.toUpperCase(),
-                    function: 'info',
-                    args: [],
-                  ),
-                ),
-                resultMap: true,
-              ) as Map<String, dynamic>;
+      final dataJson = await apiService.callSCFunction(
+        jsonRPCRequest: archethic.SCCallFunctionRequest(
+          method: 'contract_fun',
+          params: archethic.SCCallFunctionParams(
+            contract: htlcAddress.toUpperCase(),
+            function: 'info',
+            args: [],
+          ),
+        ),
+        resultMap: true,
+      ) as Map<String, dynamic>;
       return (
         evmHTLCAddress: dataJson['evm_contract']?.toString(),
         evmPoolAddress: dataJson['evm_pool']?.toString(),
