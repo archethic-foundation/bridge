@@ -154,7 +154,9 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
 
       if (statusEVM != null && statusEVM == 2 ||
           statusAE != null && statusAE == 2) {
-        isRefunded = true;
+        setState(() {
+          isRefunded = true;
+        });
       }
 
       // Archethic -> EVM
