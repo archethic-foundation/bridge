@@ -342,7 +342,10 @@ mixin EVMBridgeProcessMixin {
               name:
                   'EVMBridgeProcessMixin - sendTransactionWithErrorManagement',
             );
-        throw aedappfm.Failure.other(cause: e.data, stack: e.message);
+        throw aedappfm.Failure.other(
+          cause: e.data ?? e.message,
+          stack: e.data == null ? null : e.message,
+        );
       }
       if (e is EthersException) {
         aedappfm.sl.get<aedappfm.LogManager>().log(
