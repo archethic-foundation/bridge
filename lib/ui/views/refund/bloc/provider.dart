@@ -200,39 +200,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       final poolAddress = await PoolsRepositoryImpl()
           .getPoolAddress(chainId, state.amountCurrency);
 
-      final evmLP = EVMLP(
-        blockchain.providerEndpoint,
-      );
-      final swapByOwnerResult = await evmLP.getSwapsByOwner(
-        poolAddress ?? '',
-        state.wallet!.genesisAddress,
-      );
-      swapByOwnerResult.map(
-        success: (swaps) {
-          for (final swap in swaps) {
-            if (swap.htlcContractAddressEVM != null &&
-                swap.htlcContractAddressEVM!.toUpperCase() ==
-                    state.htlcAddressFilled.toUpperCase()) {
-              if (swap.swapProcess == SwapProcess.signed) {
-                state = state.copyWith(processRefund: ProcessRefund.signed);
-                break;
-              } else {
-                state = state.copyWith(processRefund: ProcessRefund.chargeable);
-              }
-            }
-          }
-        },
-        failure: (failure) {},
-      );
-
-      if (state.processRefund == ProcessRefund.signed) {
-        setFailure(const aedappfm.Failure.notHTLC());
-        state = state.copyWith(
-          defineStatusInProgress: false,
-        );
-        return;
-      }
-
       int? status;
       try {
         status = await evmHTLC.getStatus();
@@ -253,6 +220,53 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       if (status == 1) {
         state = state.copyWith(
           isAlreadyWithdrawn: true,
+          defineStatusInProgress: false,
+        );
+        return;
+      }
+
+      final evmLP = EVMLP(
+        blockchain.providerEndpoint,
+      );
+      final swapByOwnerResult = await evmLP.getSwapsByOwner(
+        poolAddress ?? '',
+        state.wallet!.genesisAddress,
+      );
+      swapByOwnerResult.map(
+        success: (swaps) {
+          for (final swap in swaps) {
+            if (swap.htlcContractAddressEVM != null &&
+                swap.htlcContractAddressEVM!.toUpperCase() ==
+                    state.htlcAddressFilled.toUpperCase()) {
+              if (swap.swapProcess == SwapProcess.signed) {
+                state = state.copyWith(processRefund: ProcessRefund.signed);
+              } else {
+                state = state.copyWith(processRefund: ProcessRefund.chargeable);
+              }
+              break;
+            }
+          }
+        },
+        failure: (failure) {},
+      );
+
+      if (state.processRefund == null) {
+        if (context.mounted) {
+          setFailure(
+            aedappfm.Failure.other(
+              cause: AppLocalizations.of(context)!.refundNotOwner,
+            ),
+          );
+        }
+        state = state.copyWith(
+          defineStatusInProgress: false,
+        );
+        return;
+      }
+
+      if (state.processRefund == ProcessRefund.signed) {
+        setFailure(const aedappfm.Failure.notHTLC());
+        state = state.copyWith(
           defineStatusInProgress: false,
         );
         return;
