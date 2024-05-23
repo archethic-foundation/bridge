@@ -10,7 +10,7 @@ _$BridgeBlockchainImpl _$$BridgeBlockchainImplFromJson(
         Map<String, dynamic> json) =>
     _$BridgeBlockchainImpl(
       name: json['name'] as String? ?? '',
-      chainId: json['chainId'] as int? ?? 0,
+      chainId: (json['chainId'] as num?)?.toInt() ?? 0,
       env: json['env'] as String? ?? '',
       icon: json['icon'] as String? ?? '',
       urlExplorerAddress: json['urlExplorerAddress'] as String? ?? '',

@@ -25,7 +25,7 @@ _$SecretSignatureImpl _$$SecretSignatureImplFromJson(
     _$SecretSignatureImpl(
       r: json['r'] as String?,
       s: json['s'] as String?,
-      v: json['v'] as int?,
+      v: (json['v'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$SecretSignatureImplToJson(
@@ -56,7 +56,7 @@ _$SecretHashSignatureImpl _$$SecretHashSignatureImplFromJson(
     _$SecretHashSignatureImpl(
       r: json['r'] as String?,
       s: json['s'] as String?,
-      v: json['v'] as int?,
+      v: (json['v'] as num?)?.toInt(),
     );
 
 Map<String, dynamic> _$$SecretHashSignatureImplToJson(

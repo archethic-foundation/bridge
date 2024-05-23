@@ -53,6 +53,12 @@ _$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
       secret: (json['secret'] as List<dynamic>?)
           ?.map((e) => (e as num).toInt())
           .toList(),
+<<<<<<< HEAD
+=======
+      safetyModuleFeesRate:
+          (json['safetyModuleFeesRate'] as num?)?.toDouble() ?? 0.0,
+      safetyModuleFeesAddress: json['safetyModuleFeesAddress'] as String? ?? '',
+>>>>>>> acec5e6 (🚧 Monerium mockup)
       archethicProtocolFeesRate:
           (json['archethicProtocolFeesRate'] as num?)?.toDouble() ?? 0.0,
       archethicProtocolFeesAddress:
