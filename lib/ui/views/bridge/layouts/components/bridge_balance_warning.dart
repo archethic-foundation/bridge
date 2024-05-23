@@ -52,7 +52,9 @@ class BridgeBalanceWarning extends ConsumerWidget {
         : minAmountDollars = 0.17;
 
     final session = ref.read(SessionProviders.session);
-
+    if (session.walletTo == null && session.walletFrom == null) {
+      return const SizedBox.shrink();
+    }
     return FutureBuilder<double?>(
       future: ref.read(
         BalanceProviders.getBalance(

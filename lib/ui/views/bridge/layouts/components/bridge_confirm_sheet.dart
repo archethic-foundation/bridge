@@ -77,29 +77,30 @@ class BridgeConfirmSheetState extends ConsumerState<BridgeConfirmSheet> {
             ],
           ),
           const SizedBox(height: 3),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SelectableText(
-                AppLocalizations.of(context)!.bridge_token_amount_lbl,
-              ),
-              FutureBuilder<String>(
-                future: FiatValue().display(
-                  ref,
-                  bridge.tokenToBridge!.symbol,
-                  bridge.tokenToBridgeAmount,
+          if (bridge.tokenToBridge != null)
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                SelectableText(
+                  AppLocalizations.of(context)!.bridge_token_amount_lbl,
                 ),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return SelectableText(
-                      '${bridge.tokenToBridgeAmount.formatNumber(precision: 8)} ${bridge.tokenToBridge!.symbol} ${snapshot.data}',
-                    );
-                  }
-                  return const SizedBox.shrink();
-                },
-              ),
-            ],
-          ),
+                FutureBuilder<String>(
+                  future: FiatValue().display(
+                    ref,
+                    bridge.tokenToBridge!.symbol,
+                    bridge.tokenToBridgeAmount,
+                  ),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      return SelectableText(
+                        '${bridge.tokenToBridgeAmount.formatNumber(precision: 8)} ${bridge.tokenToBridge!.symbol} ${snapshot.data}',
+                      );
+                    }
+                    return const SizedBox.shrink();
+                  },
+                ),
+              ],
+            ),
           const SizedBox(
             height: 3,
           ),
