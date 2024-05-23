@@ -35,8 +35,6 @@ class BridgeFormState with _$BridgeFormState {
     String? htlcEVMAddress,
     String? htlcEVMTxAddress,
     List<int>? secret,
-    @Default(0.0) double safetyModuleFeesRate,
-    @Default('') String safetyModuleFeesAddress,
     @Default(0.0) double archethicProtocolFeesRate,
     @Default('') String archethicProtocolFeesAddress,
     @Default(0.0) double archethicTransactionFees,
@@ -51,19 +49,9 @@ class BridgeFormState with _$BridgeFormState {
       _$BridgeFormStateFromJson(json);
 
   String get feesSymbol => tokenToBridge!.symbol;
-  double get safetyModuleFees =>
-      safetyModuleFeesRate * tokenToBridgeAmount / 100;
-  String get safetyModuleSymbol {
-    if (tokenToBridge == null || tokenToBridge!.symbol.isEmpty) {
-      return '';
-    }
-    return tokenToBridge!.symbol;
-  }
 
   double get archethicProtocolFees =>
-      archethicProtocolFeesRate *
-      (tokenToBridgeAmount - safetyModuleFees) /
-      100;
+      archethicProtocolFeesRate * tokenToBridgeAmount / 100;
   String get archethicProtocolSymbol {
     if (tokenToBridge == null || tokenToBridge!.targetTokenSymbol.isEmpty) {
       return '';
@@ -71,8 +59,8 @@ class BridgeFormState with _$BridgeFormState {
     return tokenToBridge!.targetTokenSymbol;
   }
 
-  double get globalFees => safetyModuleFees + archethicProtocolFees;
-  double get tokenToBridgeReceived => tokenToBridgeAmount - globalFees;
+  double get tokenToBridgeReceived =>
+      tokenToBridgeAmount - archethicProtocolFees;
 
   bool get isControlsOk =>
       failure == null &&

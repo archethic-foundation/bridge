@@ -39,10 +39,6 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
         const SizedBox(
           height: 3,
         ),
-        _safetyModuleInfos(context, ref),
-        const SizedBox(
-          height: 10,
-        ),
         _archethicProtocolInfos(context, ref),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -67,70 +63,6 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
               },
             ),
           ],
-        ),
-      ],
-    );
-  }
-
-  Widget _safetyModuleInfos(
-    BuildContext context,
-    WidgetRef ref,
-  ) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
-    if (bridge.blockchainFrom!.isArchethic == true) {
-      return const SizedBox.shrink();
-    }
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SelectableText(
-                    AppLocalizations.of(context)!
-                        .bridgeConfirmEVMSafetyModuleLbl,
-                  ),
-                  SelectableText(
-                    '${bridge.safetyModuleFeesRate}${AppLocalizations.of(context)!.bridgeConfirmFeesSafetyModuleChargeable}',
-                    style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.labelSmall!,
-                          ),
-                        ),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              width: 20,
-            ),
-            FutureBuilder<String>(
-              future: FiatValue().display(
-                ref,
-                bridge.safetyModuleSymbol,
-                bridge.safetyModuleFees,
-              ),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return SelectableText(
-                    '-${bridge.safetyModuleFees.formatNumber()} ${bridge.safetyModuleSymbol} ${snapshot.data}',
-                  );
-                }
-                return const SizedBox.shrink();
-              },
-            ),
-          ],
-        ),
-        FormatAddressLinkCopy(
-          address: bridge.safetyModuleFeesAddress,
-          chainId: bridge.blockchainFrom!.chainId,
-          reduceAddress: true,
-          fontSize: Theme.of(context).textTheme.labelSmall!.fontSize!,
         ),
       ],
     );

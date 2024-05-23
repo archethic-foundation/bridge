@@ -50,8 +50,6 @@ mixin _$BridgeFormState {
   String? get htlcEVMAddress => throw _privateConstructorUsedError;
   String? get htlcEVMTxAddress => throw _privateConstructorUsedError;
   List<int>? get secret => throw _privateConstructorUsedError;
-  double get safetyModuleFeesRate => throw _privateConstructorUsedError;
-  String get safetyModuleFeesAddress => throw _privateConstructorUsedError;
   double get archethicProtocolFeesRate => throw _privateConstructorUsedError;
   String get archethicProtocolFeesAddress => throw _privateConstructorUsedError;
   double get archethicTransactionFees => throw _privateConstructorUsedError;
@@ -96,8 +94,6 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       String? htlcEVMAddress,
       String? htlcEVMTxAddress,
       List<int>? secret,
-      double safetyModuleFeesRate,
-      String safetyModuleFeesAddress,
       double archethicProtocolFeesRate,
       String archethicProtocolFeesAddress,
       double archethicTransactionFees,
@@ -149,8 +145,6 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? htlcEVMAddress = freezed,
     Object? htlcEVMTxAddress = freezed,
     Object? secret = freezed,
-    Object? safetyModuleFeesRate = null,
-    Object? safetyModuleFeesAddress = null,
     Object? archethicProtocolFeesRate = null,
     Object? archethicProtocolFeesAddress = null,
     Object? archethicTransactionFees = null,
@@ -252,14 +246,6 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
           ? _value.secret
           : secret // ignore: cast_nullable_to_non_nullable
               as List<int>?,
-      safetyModuleFeesRate: null == safetyModuleFeesRate
-          ? _value.safetyModuleFeesRate
-          : safetyModuleFeesRate // ignore: cast_nullable_to_non_nullable
-              as double,
-      safetyModuleFeesAddress: null == safetyModuleFeesAddress
-          ? _value.safetyModuleFeesAddress
-          : safetyModuleFeesAddress // ignore: cast_nullable_to_non_nullable
-              as String,
       archethicProtocolFeesRate: null == archethicProtocolFeesRate
           ? _value.archethicProtocolFeesRate
           : archethicProtocolFeesRate // ignore: cast_nullable_to_non_nullable
@@ -385,8 +371,6 @@ abstract class _$$BridgeFormStateImplCopyWith<$Res>
       String? htlcEVMAddress,
       String? htlcEVMTxAddress,
       List<int>? secret,
-      double safetyModuleFeesRate,
-      String safetyModuleFeesAddress,
       double archethicProtocolFeesRate,
       String archethicProtocolFeesAddress,
       double archethicTransactionFees,
@@ -441,8 +425,6 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
     Object? htlcEVMAddress = freezed,
     Object? htlcEVMTxAddress = freezed,
     Object? secret = freezed,
-    Object? safetyModuleFeesRate = null,
-    Object? safetyModuleFeesAddress = null,
     Object? archethicProtocolFeesRate = null,
     Object? archethicProtocolFeesAddress = null,
     Object? archethicTransactionFees = null,
@@ -544,14 +526,6 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
           ? _value._secret
           : secret // ignore: cast_nullable_to_non_nullable
               as List<int>?,
-      safetyModuleFeesRate: null == safetyModuleFeesRate
-          ? _value.safetyModuleFeesRate
-          : safetyModuleFeesRate // ignore: cast_nullable_to_non_nullable
-              as double,
-      safetyModuleFeesAddress: null == safetyModuleFeesAddress
-          ? _value.safetyModuleFeesAddress
-          : safetyModuleFeesAddress // ignore: cast_nullable_to_non_nullable
-              as String,
       archethicProtocolFeesRate: null == archethicProtocolFeesRate
           ? _value.archethicProtocolFeesRate
           : archethicProtocolFeesRate // ignore: cast_nullable_to_non_nullable
@@ -611,8 +585,6 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
       this.htlcEVMAddress,
       this.htlcEVMTxAddress,
       final List<int>? secret,
-      this.safetyModuleFeesRate = 0.0,
-      this.safetyModuleFeesAddress = '',
       this.archethicProtocolFeesRate = 0.0,
       this.archethicProtocolFeesAddress = '',
       this.archethicTransactionFees = 0.0,
@@ -699,12 +671,6 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
 
   @override
   @JsonKey()
-  final double safetyModuleFeesRate;
-  @override
-  @JsonKey()
-  final String safetyModuleFeesAddress;
-  @override
-  @JsonKey()
   final double archethicProtocolFeesRate;
   @override
   @JsonKey()
@@ -726,7 +692,7 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
 
   @override
   String toString() {
-    return 'BridgeFormState(resumeProcess: $resumeProcess, processStep: $processStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, poolTargetBalance: $poolTargetBalance, tokenToBridgeDecimals: $tokenToBridgeDecimals, failure: $failure, isTransferInProgress: $isTransferInProgress, walletConfirmation: $walletConfirmation, bridgeOk: $bridgeOk, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, htlcEVMTxAddress: $htlcEVMTxAddress, secret: $secret, safetyModuleFeesRate: $safetyModuleFeesRate, safetyModuleFeesAddress: $safetyModuleFeesAddress, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees, feesEstimatedUCO: $feesEstimatedUCO, messageMaxHalfUCO: $messageMaxHalfUCO, controlInProgress: $controlInProgress, consentDateTime: $consentDateTime)';
+    return 'BridgeFormState(resumeProcess: $resumeProcess, processStep: $processStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, poolTargetBalance: $poolTargetBalance, tokenToBridgeDecimals: $tokenToBridgeDecimals, failure: $failure, isTransferInProgress: $isTransferInProgress, walletConfirmation: $walletConfirmation, bridgeOk: $bridgeOk, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, htlcEVMTxAddress: $htlcEVMTxAddress, secret: $secret, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees, feesEstimatedUCO: $feesEstimatedUCO, messageMaxHalfUCO: $messageMaxHalfUCO, controlInProgress: $controlInProgress, consentDateTime: $consentDateTime)';
   }
 
   @override
@@ -778,11 +744,8 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
             (identical(other.htlcEVMTxAddress, htlcEVMTxAddress) ||
                 other.htlcEVMTxAddress == htlcEVMTxAddress) &&
             const DeepCollectionEquality().equals(other._secret, _secret) &&
-            (identical(other.safetyModuleFeesRate, safetyModuleFeesRate) ||
-                other.safetyModuleFeesRate == safetyModuleFeesRate) &&
-            (identical(other.safetyModuleFeesAddress, safetyModuleFeesAddress) ||
-                other.safetyModuleFeesAddress == safetyModuleFeesAddress) &&
-            (identical(other.archethicProtocolFeesRate, archethicProtocolFeesRate) ||
+            (identical(other.archethicProtocolFeesRate,
+                    archethicProtocolFeesRate) ||
                 other.archethicProtocolFeesRate == archethicProtocolFeesRate) &&
             (identical(other.archethicProtocolFeesAddress,
                     archethicProtocolFeesAddress) ||
@@ -828,8 +791,6 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
         htlcEVMAddress,
         htlcEVMTxAddress,
         const DeepCollectionEquality().hash(_secret),
-        safetyModuleFeesRate,
-        safetyModuleFeesAddress,
         archethicProtocolFeesRate,
         archethicProtocolFeesAddress,
         archethicTransactionFees,
@@ -880,8 +841,6 @@ abstract class _BridgeFormState extends BridgeFormState {
       final String? htlcEVMAddress,
       final String? htlcEVMTxAddress,
       final List<int>? secret,
-      final double safetyModuleFeesRate,
-      final String safetyModuleFeesAddress,
       final double archethicProtocolFeesRate,
       final String archethicProtocolFeesAddress,
       final double archethicTransactionFees,
@@ -945,10 +904,6 @@ abstract class _BridgeFormState extends BridgeFormState {
   String? get htlcEVMTxAddress;
   @override
   List<int>? get secret;
-  @override
-  double get safetyModuleFeesRate;
-  @override
-  String get safetyModuleFeesAddress;
   @override
   double get archethicProtocolFeesRate;
   @override

@@ -6,7 +6,6 @@ import 'package:aebridge/application/balance.dart';
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/application/contracts/archethic_factory.dart';
-import 'package:aebridge/application/contracts/evm_lp.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/application/token_decimals.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
@@ -66,8 +65,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
       htlcEVMAddress: bridgeFormState.htlcEVMAddress,
       htlcEVMTxAddress: bridgeFormState.htlcEVMTxAddress,
       poolTargetBalance: bridgeFormState.poolTargetBalance,
-      safetyModuleFeesAddress: bridgeFormState.safetyModuleFeesAddress,
-      safetyModuleFeesRate: bridgeFormState.safetyModuleFeesRate,
       secret: bridgeFormState.secret,
       targetAddress: bridgeFormState.targetAddress,
       tokenBridgedBalance: bridgeFormState.tokenBridgedBalance,
@@ -476,7 +473,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
       currentStep: 0,
       failure: null,
       isTransferInProgress: false,
-      safetyModuleFeesRate: 0,
       archethicProtocolFeesRate: 0,
       archethicTransactionFees: 0,
       targetAddress: '',
@@ -492,7 +488,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
       resumeProcess: false,
       secret: null,
       archethicOracleUCO: null,
-      safetyModuleFeesAddress: '',
       archethicProtocolFeesAddress: '',
       messageMaxHalfUCO: false,
     );
@@ -530,20 +525,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
   ) async {
     state =
         state.copyWith(changeDirectionInProgress: changeDirectionInProgress);
-    await storeBridge();
-  }
-
-  Future<void> setSafetyModuleFeesRate(double rate) async {
-    state = state.copyWith(
-      safetyModuleFeesRate: rate,
-    );
-    await storeBridge();
-  }
-
-  Future<void> setSafetyModuleFeesAddress(String address) async {
-    state = state.copyWith(
-      safetyModuleFeesAddress: address,
-    );
     await storeBridge();
   }
 
@@ -757,26 +738,6 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
 
   Future<void> validateForm(BuildContext context) async {
     state = state.copyWith(controlInProgress: true);
-
-    if (state.blockchainFrom!.isArchethic == false) {
-      final evmLP = EVMLP(
-        state.blockchainFrom!.isArchethic
-            ? state.blockchainTo!.providerEndpoint
-            : state.blockchainFrom!.providerEndpoint,
-      );
-
-      final safetyModuleFees = await evmLP.calculateSafetyModuleFees(
-        state.blockchainFrom!.isArchethic
-            ? state.tokenToBridge!.poolAddressTo
-            : state.tokenToBridge!.poolAddressFrom,
-      );
-      await setSafetyModuleFeesRate(safetyModuleFees.rate);
-      await setSafetyModuleFeesAddress(safetyModuleFees.address);
-    } else {
-      await setSafetyModuleFeesRate(0);
-      await setSafetyModuleFeesAddress('');
-    }
-
     final archethicProtocolFees = await ArchethicFactory(
       state.blockchainFrom!.isArchethic
           ? state.blockchainFrom!.archethicFactoryAddress!
