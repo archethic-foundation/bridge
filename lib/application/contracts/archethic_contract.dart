@@ -177,10 +177,6 @@ class ArchethicContract
         int? endTime,
         double? estimatedProtocolFees
       })> getHTLCInfo(ApiService apiService, String htlcAddress) async {
-    print(
-      '$htlcAddress aedappfm.sl.get<archethic.ApiService>() ${aedappfm.sl.get<ApiService>().endpoint}',
-    );
-
     final lastAddressResult = await apiService.getLastTransaction(
       [htlcAddress],
       request: 'address',

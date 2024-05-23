@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';

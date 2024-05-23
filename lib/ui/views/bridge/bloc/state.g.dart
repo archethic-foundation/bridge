@@ -31,17 +31,18 @@ _$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
       tokenBridgedBalance:
           (json['tokenBridgedBalance'] as num?)?.toDouble() ?? 0,
       poolTargetBalance: (json['poolTargetBalance'] as num?)?.toDouble() ?? 0,
-      tokenToBridgeDecimals: json['tokenToBridgeDecimals'] as int? ?? 8,
+      tokenToBridgeDecimals:
+          (json['tokenToBridgeDecimals'] as num?)?.toInt() ?? 8,
       failure: _$JsonConverterFromJson<Map<String, dynamic>, Failure>(
           json['failure'], const FailureJsonConverter().fromJson),
       isTransferInProgress: json['isTransferInProgress'] as bool? ?? false,
       walletConfirmation: $enumDecodeNullable(
           _$WalletConfirmationEnumMap, json['walletConfirmation']),
       bridgeOk: json['bridgeOk'] as bool? ?? false,
-      currentStep: json['currentStep'] as int? ?? 0,
+      currentStep: (json['currentStep'] as num?)?.toInt() ?? 0,
       changeDirectionInProgress:
           json['changeDirectionInProgress'] as bool? ?? false,
-      timestampExec: json['timestampExec'] as int?,
+      timestampExec: (json['timestampExec'] as num?)?.toInt(),
       archethicOracleUCO:
           _$JsonConverterFromJson<Map<String, dynamic>, ArchethicOracleUCO>(
               json['archethicOracleUCO'],
@@ -49,7 +50,9 @@ _$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
       htlcAEAddress: json['htlcAEAddress'] as String?,
       htlcEVMAddress: json['htlcEVMAddress'] as String?,
       htlcEVMTxAddress: json['htlcEVMTxAddress'] as String?,
-      secret: (json['secret'] as List<dynamic>?)?.map((e) => e as int).toList(),
+      secret: (json['secret'] as List<dynamic>?)
+          ?.map((e) => (e as num).toInt())
+          .toList(),
       safetyModuleFeesRate:
           (json['safetyModuleFeesRate'] as num?)?.toDouble() ?? 0.0,
       safetyModuleFeesAddress: json['safetyModuleFeesAddress'] as String? ?? '',
