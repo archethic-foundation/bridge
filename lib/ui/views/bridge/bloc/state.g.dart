@@ -53,9 +53,12 @@ _$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
       secret: (json['secret'] as List<dynamic>?)
           ?.map((e) => (e as num).toInt())
           .toList(),
+<<<<<<< HEAD
       safetyModuleFeesRate:
           (json['safetyModuleFeesRate'] as num?)?.toDouble() ?? 0.0,
       safetyModuleFeesAddress: json['safetyModuleFeesAddress'] as String? ?? '',
+=======
+>>>>>>> 9540faa (🔥 Remove Safety Module management)
       archethicProtocolFeesRate:
           (json['archethicProtocolFeesRate'] as num?)?.toDouble() ?? 0.0,
       archethicProtocolFeesAddress:
@@ -108,8 +111,6 @@ Map<String, dynamic> _$$BridgeFormStateImplToJson(
       'htlcEVMAddress': instance.htlcEVMAddress,
       'htlcEVMTxAddress': instance.htlcEVMTxAddress,
       'secret': instance.secret,
-      'safetyModuleFeesRate': instance.safetyModuleFeesRate,
-      'safetyModuleFeesAddress': instance.safetyModuleFeesAddress,
       'archethicProtocolFeesRate': instance.archethicProtocolFeesRate,
       'archethicProtocolFeesAddress': instance.archethicProtocolFeesAddress,
       'archethicTransactionFees': instance.archethicTransactionFees,
