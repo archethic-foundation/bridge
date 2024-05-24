@@ -10,6 +10,7 @@ import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:aebridge/domain/models/swap.dart';
+import 'package:aebridge/domain/repositories/features_flags.dart';
 import 'package:aebridge/domain/usecases/refund_archethic.usecase.dart';
 import 'package:aebridge/domain/usecases/refund_evm.usecase.dart';
 import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
@@ -474,6 +475,16 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     return controlAddress.result;
   }
 
+  Future<void> refundOneWay(BuildContext context, WidgetRef ref) async {
+    await EVMHTLC(
+      state.wallet!.providerEndpoint,
+      state.htlcAddressFilled,
+      state.chainId!,
+    ).oneWayRefund(
+      ref,
+    );
+  }
+
   Future<void> refund(BuildContext context, WidgetRef ref) async {
     //
     if (state.chainId == null) {
@@ -541,7 +552,9 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
               () => evmWalletProvider,
             );
             if (context.mounted) {
-              await setStatusEVM(context);
+              if (FeatureFlags.kRefundOldContract == false) {
+                await setStatusEVM(context);
+              }
             }
           }
         } catch (e) {

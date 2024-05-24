@@ -31,6 +31,67 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
   Web3Client? web3ClientProvided;
   final int chainId;
 
+  Future<aedappfm.Result<String, aedappfm.Failure>> oneWayRefund(
+    WidgetRef ref,
+  ) async {
+    return aedappfm.Result.guard(
+      () async {
+        final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+
+        final contractHTLC = await getDeployedContract(
+          contractNameHTLCOneWay,
+          htlcContractAddressEVM,
+        );
+
+        final transactionRefund = Transaction.callContract(
+          contract: contractHTLC,
+          function: contractHTLC.function('refund'),
+          maxGas: 1500000,
+          parameters: [],
+        );
+
+        var refundTx = '';
+
+        final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier);
+        try {
+          final completer = Completer<void>();
+
+          refundNotifier.setWalletConfirmation(WalletConfirmationRefund.evm);
+          refundTx = await sendTransactionWithErrorManagement(
+            web3Client!,
+            evmWalletProvider.credentials!,
+            transactionRefund,
+            chainId,
+          );
+
+          refundNotifier.setWalletConfirmation(null);
+          await completer.future.timeout(const Duration(seconds: 240));
+        } catch (e, stackTrace) {
+          if (e is TimeoutException) {
+            aedappfm.sl.get<aedappfm.LogManager>().log(
+                  'Timeout occurred',
+                  level: aedappfm.LogLevel.error,
+                  name: 'EVMHTLC - refund',
+                );
+            throw const aedappfm.Failure.timeout();
+          } else {
+            if (e != const aedappfm.Failure.userRejected()) {
+              aedappfm.sl.get<aedappfm.LogManager>().log(
+                    'e $e',
+                    stackTrace: stackTrace,
+                    level: aedappfm.LogLevel.error,
+                    name: 'EVMHTLC - refund',
+                  );
+            }
+            refundNotifier.setWalletConfirmation(null);
+            rethrow;
+          }
+        }
+        return refundTx;
+      },
+    );
+  }
+
   Future<aedappfm.Result<String, aedappfm.Failure>> refund(
     WidgetRef ref,
     bool isERC20,

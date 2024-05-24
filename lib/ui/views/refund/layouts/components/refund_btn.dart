@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 
+import 'package:aebridge/domain/repositories/features_flags.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_in_progress_popup.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -19,6 +20,21 @@ class RefundButton extends ConsumerWidget {
     final refund = ref.watch(RefundFormProvider.refundForm);
     if (refund.wallet == null || refund.wallet!.isConnected == false) {
       return const SizedBox.shrink();
+    }
+
+    if (FeatureFlags.kRefundOldContract) {
+      return aedappfm.AppButton(
+        labelBtn: AppLocalizations.of(context)!.btn_refund,
+        onPressed: () async {
+          final refundNotifier =
+              ref.read(RefundFormProvider.refundForm.notifier);
+          unawaited(refundNotifier.refundOneWay(context, ref));
+          await RefundInProgressPopup.getDialog(
+            context,
+            ref,
+          );
+        },
+      );
     }
 
     if (refund.htlcAddressFilled.isEmpty ||

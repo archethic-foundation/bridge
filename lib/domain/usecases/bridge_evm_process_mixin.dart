@@ -50,6 +50,8 @@ const contractNameChargeableHTLCERC =
 const contractNameChargeableHTLCETH =
     'contracts/evm/artifacts/contracts/HTLC/ChargeableHTLC_ETH.sol/ChargeableHTLC_ETH.json';
 
+const contractNameHTLCOneWay = 'assets/abi/HTLC.json';
+
 mixin EVMBridgeProcessMixin {
   String getEVMStepLabel(
     BuildContext context,
