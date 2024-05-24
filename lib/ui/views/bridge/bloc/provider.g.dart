@@ -7,11 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$bridgeFormNotifierHash() =>
-<<<<<<< HEAD
-    r'4de296bae510c7fdd1d1287b8c9b049834399ca9';
-=======
     r'b84718063fa6740553977de7ff647a78bc78b43a';
->>>>>>> 9540faa (🔥 Remove Safety Module management)
 
 /// See also [_BridgeFormNotifier].
 @ProviderFor(_BridgeFormNotifier)
