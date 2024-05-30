@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/bridge_token.dart';
 import 'package:aebridge/domain/models/bridge_token.dart';
+import 'package:aebridge/ui/views/util/token_icon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -77,22 +78,8 @@ class _SingleToken extends StatelessWidget {
             const SizedBox(
               width: 10,
             ),
-            Container(
-              width: 50,
-              height: 30,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white.withOpacity(0.2),
-              ),
-              child: Center(
-                child: Text(
-                  token.symbol,
-                  style: const TextStyle(
-                    fontSize: 8,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
+            TokenIcon(
+              symbol: token.symbol,
             ),
             const SizedBox(
               width: 10,

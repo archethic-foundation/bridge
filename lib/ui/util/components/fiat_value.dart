@@ -30,11 +30,15 @@ class FiatValue {
           break;
         case 'BNB':
         case 'aeBNB':
-          price = price = prices.bsc;
+          price = price = prices.bnb;
+          break;
+        case 'EURe':
+        case 'aeEURe':
+          price = price = prices.eure;
           break;
         case 'MATIC':
         case 'aeMATIC':
-          price = price = prices.polygon;
+          price = price = prices.matic;
           break;
       }
 
