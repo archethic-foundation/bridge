@@ -2,6 +2,8 @@
 
 library test.utils_test;
 
+import 'dart:developer';
+
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/domain/models/bridge_token.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
@@ -41,7 +43,7 @@ void main() {
             'providerEndpoint':
                 'https://polygon-mainnet.g.alchemy.com/v2/DynWKvz6PUFaeZNmlxPXNiV1nK4Ac_2D',
             'isArchethic': false,
-            'nativeCurrency': 'MATIC'
+            'nativeCurrency': 'MATIC',
           },
         ),
         blockchainTo: BridgeBlockchain.fromJson(
@@ -60,7 +62,7 @@ void main() {
             'archethicFactoryAddress':
                 '0000eeb877e7a3ffd7e81f9a1c4d5eedde7f881866c3154b99b78a9a54e3dfbdccd9',
             'providerEndpoint': 'https://mainnet.archethic.net',
-            'nativeCurrency': 'UCO'
+            'nativeCurrency': 'UCO',
           },
         ),
         tokenToBridge: BridgeToken.fromJson(
@@ -97,15 +99,13 @@ void main() {
             '0000749D250560BF06C079832E0E9A24509B1E440A45C33BD9448B41B6A056FC6201',
         archethicProtocolFeesRate: 0.3,
         archethicTransactionFees: 0,
-        safetyModuleFeesAddress: '',
-        safetyModuleFeesRate: 0,
         consentDateTime: null,
       );
       final helper = aedappfm.QueryParameterHelper();
       final initialStateEncoded = helper.encodeQueryParameter(bridgeFormState);
 
       final url = 'bridge?initialState=$initialStateEncoded';
-      print(url);
+      log(url);
       expect(true, true);
     });
   });
