@@ -75,16 +75,16 @@
                 "tokenAddressTarget": "0xCBBd3374090113732393DAE1433Bc14E5233d5d7"
             },
             {
-                "name": "Archethic USD Coin",
-                "symbol": "aeUSDC",
-                "targetTokenName": "USD Coin",
-                "targetTokenSymbol": "USDC",
-                "poolAddressFrom": "00003f6c8f75d367dbea6420a26cb8c087e53f3ba801db806c6623c56a2ac879e1b0",
-                "poolAddressTo": "0xC53A7c2f8C988AA319F0ACAd211dBb7206D5586e",
+                "name": "Archethic aeEURe",
+                "symbol": "aeEURe",
+                "targetTokenName": "EURe (Monerium)",
+                "targetTokenSymbol": "EURe",
+                "poolAddressFrom": "0000885950E800FFF1DBDE2306872DEDA9068FA76F7303D316E20D8C9D7AB8AA83DC",
+                "poolAddressTo": "0x15b9B55b3B96Ff49902F2B23cD46A8404F222058",
                 "typeSource": "Wrapped",
                 "typeTarget": "Wrapped",
-                "tokenAddressSource": "000015EB845CD65F5F4BEB333E0046A14123BC441388CCD3DB01E5C5460A14339684",
-                "tokenAddressTarget": "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238"
+                "tokenAddressSource": "00001ED63AC2850CEA282D3D0CA5047418BC2720CB49D15B611D2845611F605716A1",
+                "tokenAddressTarget": "0xd58C5Db52B5B3Eb24EE38AF287d2cb0F424172A5"
             }
         ],
         "-3->31337": [
@@ -147,18 +147,6 @@
                 "typeTarget": "Wrapped",
                 "tokenAddressSource": "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
                 "tokenAddressTarget": "0000457eaca7fbaa96db4a8d506a0b69684f546166fbf3c55391b1461907efa58eaf"
-            },
-            {
-                "name": "EURe (Monerium)",
-                "symbol": "EURe",
-                "targetTokenName": "Archethic aeEURe",
-                "targetTokenSymbol": "aeEURe",
-                "poolAddressFrom": "0x39C9DBD60B0eAF256Ebc509D2b837d508dD4F2Da",
-                "poolAddressTo": "0000e12f075156da85fdb175d0899eb84c3ffe8d854d5fa4b01063035aecf16e8777",
-                "typeSource": "Wrapped",
-                "typeTarget": "Wrapped",
-                "tokenAddressSource": "0x18ec0A6E18E5bc3784fDd3a3634b31245ab704F6",
-                "tokenAddressTarget": "0000BC30E877B99FCA564DC07AF6A905EB2A85F6BB01CD270D0B3BAF056303A7759E"
             }
         ],
         "56->-1": [
@@ -198,16 +186,16 @@
                 "tokenAddressSource": "0xCBBd3374090113732393DAE1433Bc14E5233d5d7"
             },
             {
-                "name": "USD Coin",
-                "symbol": "USDC",
-                "targetTokenName": "Archethic USD Coin",
-                "targetTokenSymbol": "aeUSDC",
-                "poolAddressFrom": "0xC53A7c2f8C988AA319F0ACAd211dBb7206D5586e",
-                "poolAddressTo": "00003f6c8f75d367dbea6420a26cb8c087e53f3ba801db806c6623c56a2ac879e1b0",
+                "name": "EURe (Monerium)",
+                "symbol": "EURe",
+                "targetTokenName": "Archethic aeEURe",
+                "targetTokenSymbol": "aeEURe",
+                "poolAddressFrom": "0x15b9B55b3B96Ff49902F2B23cD46A8404F222058",
+                "poolAddressTo": "0000885950E800FFF1DBDE2306872DEDA9068FA76F7303D316E20D8C9D7AB8AA83DC",
                 "typeSource": "Wrapped",
                 "typeTarget": "Wrapped",
-                "tokenAddressSource": "0x1c7D4B196Cb0C7B01d743Fbc6116a902379C7238",
-                "tokenAddressTarget": "000015EB845CD65F5F4BEB333E0046A14123BC441388CCD3DB01E5C5460A14339684"
+                "tokenAddressSource": "0xd58C5Db52B5B3Eb24EE38AF287d2cb0F424172A5",
+                "tokenAddressTarget": "00001ED63AC2850CEA282D3D0CA5047418BC2720CB49D15B611D2845611F605716A1"
             }
         ],
         "31337->-3": [

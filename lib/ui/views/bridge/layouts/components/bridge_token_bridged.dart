@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/util/token_icon.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -79,28 +80,9 @@ class BridgeTokenBridged extends ConsumerWidget {
                                             const SizedBox(
                                               width: 10,
                                             ),
-                                            Container(
-                                              width: 50,
-                                              height: 30,
-                                              decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.white
-                                                    .withOpacity(0.2),
-                                              ),
-                                              child: Center(
-                                                child: SelectableText(
-                                                  bridge.tokenToBridge!.symbol,
-                                                  style: TextStyle(
-                                                    fontSize:
-                                                        aedappfm.Responsive
-                                                            .fontSizeFromValue(
-                                                      context,
-                                                      desktopValue: 8,
-                                                    ),
-                                                    color: Colors.white,
-                                                  ),
-                                                ),
-                                              ),
+                                            TokenIcon(
+                                              symbol: bridge.tokenToBridge!
+                                                  .targetTokenSymbol,
                                             ),
                                             const SizedBox(
                                               width: 10,

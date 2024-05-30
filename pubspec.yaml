@@ -103,6 +103,7 @@ flutter:
   assets:
     - assets/images/
     - assets/images/bc-logos/
+    - assets/images/token-icons/
     - lib/domain/repositories/blockchains_list.json
     - lib/domain/repositories/tokens_list_per_bridge.json
     - lib/domain/repositories/pools.json
