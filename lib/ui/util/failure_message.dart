@@ -74,7 +74,7 @@ class FailureMessage {
     }
 
     if (failure is aedappfm.OtherFailure) {
-      return '${(failure! as aedappfm.OtherFailure).cause} (${(failure! as aedappfm.OtherFailure).stack ?? ''})';
+      return '${(failure! as aedappfm.OtherFailure).cause}';
     }
 
     if (failure is aedappfm.IncompatibleBrowser) {
