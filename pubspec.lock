@@ -37,18 +37,18 @@ packages:
     dependency: "direct main"
     description:
       name: archethic_dapp_framework_flutter
-      sha256: "3b43ef8a3d65199edd5090f29ed642edcb0aee9d88f1166ee48b22e7862a7e53"
+      sha256: "2eae3c029bb7cb2916122142804c72dc6f30e91849fef70f9c0b4402458e4eec"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.23"
+    version: "1.1.24"
   archethic_lib_dart:
     dependency: transitive
     description:
       name: archethic_lib_dart
-      sha256: "9644035fd44b68d6558d906b62bbd74800068e71367e929a1a73d60d2a54e054"
+      sha256: "34654e90c7cfdc326f8bdeea396c18eb34dba9109838ac15d2de5f58184c38c6"
       url: "https://pub.dev"
     source: hosted
-    version: "3.3.16"
+    version: "3.3.18"
   archethic_wallet_client:
     dependency: "direct main"
     description:
@@ -61,10 +61,10 @@ packages:
     dependency: transitive
     description:
       name: archive
-      sha256: "6bd38d335f0954f5fad9c79e614604fbf03a0e5b975923dd001b6ea965ef5b4b"
+      sha256: cb6a278ef2dbb298455e1a713bda08524a175630ec643a242c399c932a0a1f7d
       url: "https://pub.dev"
     source: hosted
-    version: "3.6.0"
+    version: "3.6.1"
   args:
     dependency: transitive
     description:
@@ -844,10 +844,10 @@ packages:
     dependency: transitive
     description:
       name: rational
-      sha256: ba58e9e18df9abde280e8b10051e4bce85091e41e8e7e411b6cde2e738d357cf
+      sha256: cb808fb6f1a839e6fc5f7d8cb3b0a10e1db48b3be102de73938c627f0b636336
       url: "https://pub.dev"
     source: hosted
-    version: "2.2.2"
+    version: "2.2.3"
   riverpod:
     dependency: transitive
     description:
@@ -1089,10 +1089,10 @@ packages:
     dependency: "direct main"
     description:
       name: url_launcher
-      sha256: "6ce1e04375be4eed30548f10a315826fd933c1e493206eab82eed01f438c8d2e"
+      sha256: "21b704ce5fa560ea9f3b525b43601c678728ba46725bab9b01187b4831377ed3"
       url: "https://pub.dev"
     source: hosted
-    version: "6.2.6"
+    version: "6.3.0"
   url_launcher_android:
     dependency: transitive
     description:
