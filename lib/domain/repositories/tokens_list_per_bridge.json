@@ -36,6 +36,18 @@
                 "typeTarget": "Wrapped",
                 "tokenAddressSource": "0000457eaca7fbaa96db4a8d506a0b69684f546166fbf3c55391b1461907efa58eaf",
                 "tokenAddressTarget": "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619"
+            },
+            {
+                "name": "Archethic aeEURe",
+                "symbol": "aeEURe",
+                "targetTokenName": "EURe (Monerium)",
+                "targetTokenSymbol": "EURe",
+                "poolAddressFrom": "0000C3E866E5E926869F4F9F0649D8E1E5E0D339F9D92A7128F72D57444D954E7907",
+                "poolAddressTo": "0xF6922A1C40788C8519E42797eD9242552979b60D",
+                "typeSource": "Wrapped",
+                "typeTarget": "Wrapped",
+                "tokenAddressSource": "00005751A05BA007E7E2518DEA171DBBD67B0527C637232F923830C39BFF9E8F159A",
+                "tokenAddressTarget": "0x18ec0A6E18E5bc3784fDd3a3634b31245ab704F6"
             }
         ],
         "-1->56": [
@@ -147,6 +159,18 @@
                 "typeTarget": "Wrapped",
                 "tokenAddressSource": "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
                 "tokenAddressTarget": "0000457eaca7fbaa96db4a8d506a0b69684f546166fbf3c55391b1461907efa58eaf"
+            },
+            {
+                "name": "EURe (Monerium)",
+                "symbol": "EURe",
+                "targetTokenName": "Archethic aeEURe",
+                "targetTokenSymbol": "aeEURe",
+                "poolAddressFrom": "0xF6922A1C40788C8519E42797eD9242552979b60D",
+                "poolAddressTo": "0000C3E866E5E926869F4F9F0649D8E1E5E0D339F9D92A7128F72D57444D954E7907",
+                "typeSource": "Wrapped",
+                "typeTarget": "Wrapped",
+                "tokenAddressSource": "0x18ec0A6E18E5bc3784fDd3a3634b31245ab704F6",
+                "tokenAddressTarget": "00005751A05BA007E7E2518DEA171DBBD67B0527C637232F923830C39BFF9E8F159A"
             }
         ],
         "56->-1": [
