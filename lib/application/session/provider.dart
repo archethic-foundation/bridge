@@ -249,8 +249,7 @@ class _SessionNotifier extends Notifier<Session> {
             failure: (failure) {
               bridgeWallet = bridgeWallet.copyWith(
                 isConnected: false,
-                error: failure.message ??
-                    AppLocalizations.of(context)!.failureConnectionFailed,
+                error: failure.message,
               );
               _fillState(bridgeWallet, from);
               throw aedappfm.Failure.other(cause: bridgeWallet.error);

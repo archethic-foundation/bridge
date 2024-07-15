@@ -13,15 +13,15 @@ class AppBarMenuLinks extends StatelessWidget {
   Widget build(BuildContext context) {
     return MenuAnchor(
       style: MenuStyle(
-        padding: MaterialStateProperty.all(
+        padding: WidgetStateProperty.all(
           const EdgeInsets.only(
             top: 20,
             right: 20,
           ),
         ),
-        elevation: MaterialStateProperty.all(0),
-        backgroundColor: MaterialStateProperty.all(Colors.transparent),
-        shape: MaterialStateProperty.all(
+        elevation: WidgetStateProperty.all(0),
+        backgroundColor: WidgetStateProperty.all(Colors.transparent),
+        shape: WidgetStateProperty.all(
           RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
           ),

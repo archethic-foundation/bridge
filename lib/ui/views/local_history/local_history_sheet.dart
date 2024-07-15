@@ -85,7 +85,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
               ),
               MenuAnchor(
                 style: MenuStyle(
-                  shape: MaterialStateProperty.all(
+                  shape: WidgetStateProperty.all(
                     RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(20),
                     ),

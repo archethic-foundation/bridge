@@ -697,7 +697,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
             failure: (failure) {
               archethicWallet = archethicWallet.copyWith(
                 isConnected: false,
-                error: failure.message ?? 'Connection failed',
+                error: failure.message,
               );
               state = state.copyWith(wallet: archethicWallet);
               throw aedappfm.Failure.other(cause: archethicWallet.error);

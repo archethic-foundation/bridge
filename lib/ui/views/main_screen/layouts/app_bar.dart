@@ -20,9 +20,9 @@ class AppBarMainScreen extends ConsumerStatefulWidget
 }
 
 class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
-  final thumbIcon = MaterialStateProperty.resolveWith<Icon?>(
-    (Set<MaterialState> states) {
-      if (states.contains(MaterialState.selected)) {
+  final thumbIcon = WidgetStateProperty.resolveWith<Icon?>(
+    (Set<WidgetState> states) {
+      if (states.contains(WidgetState.selected)) {
         return const Icon(Icons.check);
       }
       return const Icon(Icons.close);

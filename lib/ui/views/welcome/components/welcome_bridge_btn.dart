@@ -42,8 +42,8 @@ class WelcomeBridgeBtnState extends ConsumerState<WelcomeBridgeBtn> {
               },
               child: OutlinedButton(
                 style: ButtonStyle(
-                  side: MaterialStateProperty.all(BorderSide.none),
-                  overlayColor: MaterialStateProperty.all(Colors.transparent),
+                  side: WidgetStateProperty.all(BorderSide.none),
+                  overlayColor: WidgetStateProperty.all(Colors.transparent),
                 ),
                 onPressed: () async {
                   final sessionNotifier =

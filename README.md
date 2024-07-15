@@ -16,8 +16,8 @@ In order to develop and test the application, you need to have some prerequisite
 
 - [Node.js](https://nodejs.org/)
 - [Flutter](https://flutter.dev/)
-  - Flutter 3.19+
-  - Dart 3.3+
+  - Flutter 3.22+
+  - Dart 3.4+
 - [Archethic node](https://github.com/archethic-foundation/archethic-node#running-a-node-for-development-purpose) (running in devnet mode)
 - [Archethic Wallet](https://github.com/archethic-foundation/archethic-wallet) (Desktop version ie MacOS, Linux, Windows)
 - EVM wallet ie Metamask, Brave, ...
