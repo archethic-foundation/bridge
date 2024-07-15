@@ -22,7 +22,11 @@ final _balanceRepositoryProvider =
 );
 
 typedef _BalanceRepositoryRef = AutoDisposeProviderRef<BalanceRepository>;
+<<<<<<< HEAD
 String _$getBalanceHash() => r'd29a315387d3a35a18d20e40ab033af777e8fcd1';
+=======
+String _$getBalanceHash() => r'c63e51ea9d4b5ed206ffcd4bcc1a96a62e2bbb9d';
+>>>>>>> 5fde8f3 (feat: :sparkles: Replace local history with on chain history)
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -60,7 +64,12 @@ class _GetBalanceFamily extends Family<AsyncValue<double>> {
     String address,
     String typeToken,
     String tokenAddress,
+<<<<<<< HEAD
     int decimal, {
+=======
+    ApiService? apiService,
+    EVMWalletProvider? evmWalletProvider, {
+>>>>>>> 5fde8f3 (feat: :sparkles: Replace local history with on chain history)
     String? providerEndpoint,
   }) {
     return _GetBalanceProvider(
@@ -68,7 +77,12 @@ class _GetBalanceFamily extends Family<AsyncValue<double>> {
       address,
       typeToken,
       tokenAddress,
+<<<<<<< HEAD
       decimal,
+=======
+      apiService,
+      evmWalletProvider,
+>>>>>>> 5fde8f3 (feat: :sparkles: Replace local history with on chain history)
       providerEndpoint: providerEndpoint,
     );
   }
@@ -82,7 +96,12 @@ class _GetBalanceFamily extends Family<AsyncValue<double>> {
       provider.address,
       provider.typeToken,
       provider.tokenAddress,
+<<<<<<< HEAD
       provider.decimal,
+=======
+      provider.apiService,
+      provider.evmWalletProvider,
+>>>>>>> 5fde8f3 (feat: :sparkles: Replace local history with on chain history)
       providerEndpoint: provider.providerEndpoint,
     );
   }
@@ -110,7 +129,12 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
     String address,
     String typeToken,
     String tokenAddress,
+<<<<<<< HEAD
     int decimal, {
+=======
+    ApiService? apiService,
+    EVMWalletProvider? evmWalletProvider, {
+>>>>>>> 5fde8f3 (feat: :sparkles: Replace local history with on chain history)
     String? providerEndpoint,
   }) : this._internal(
           (ref) => _getBalance(
@@ -119,7 +143,12 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
             address,
             typeToken,
             tokenAddress,
+<<<<<<< HEAD
             decimal,
+=======
+            apiService,
+            evmWalletProvider,
+>>>>>>> 5fde8f3 (feat: :sparkles: Replace local history with on chain history)
             providerEndpoint: providerEndpoint,
           ),
           from: _getBalanceProvider,
@@ -135,7 +164,12 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
           address: address,
           typeToken: typeToken,
           tokenAddress: tokenAddress,
+<<<<<<< HEAD
           decimal: decimal,
+=======
+          apiService: apiService,
+          evmWalletProvider: evmWalletProvider,
+>>>>>>> 5fde8f3 (feat: :sparkles: Replace local history with on chain history)
           providerEndpoint: providerEndpoint,
         );
 
@@ -150,7 +184,12 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
     required this.address,
     required this.typeToken,
     required this.tokenAddress,
+<<<<<<< HEAD
     required this.decimal,
+=======
+    required this.apiService,
+    required this.evmWalletProvider,
+>>>>>>> 5fde8f3 (feat: :sparkles: Replace local history with on chain history)
     required this.providerEndpoint,
   }) : super.internal();
 
@@ -158,7 +197,12 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
   final String address;
   final String typeToken;
   final String tokenAddress;
+<<<<<<< HEAD
   final int decimal;
+=======
+  final ApiService? apiService;
+  final EVMWalletProvider? evmWalletProvider;
+>>>>>>> 5fde8f3 (feat: :sparkles: Replace local history with on chain history)
   final String? providerEndpoint;
 
   @override
@@ -178,7 +222,12 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
         address: address,
         typeToken: typeToken,
         tokenAddress: tokenAddress,
+<<<<<<< HEAD
         decimal: decimal,
+=======
+        apiService: apiService,
+        evmWalletProvider: evmWalletProvider,
+>>>>>>> 5fde8f3 (feat: :sparkles: Replace local history with on chain history)
         providerEndpoint: providerEndpoint,
       ),
     );
@@ -196,7 +245,12 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
         other.address == address &&
         other.typeToken == typeToken &&
         other.tokenAddress == tokenAddress &&
+<<<<<<< HEAD
         other.decimal == decimal &&
+=======
+        other.apiService == apiService &&
+        other.evmWalletProvider == evmWalletProvider &&
+>>>>>>> 5fde8f3 (feat: :sparkles: Replace local history with on chain history)
         other.providerEndpoint == providerEndpoint;
   }
 
@@ -207,7 +261,12 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
     hash = _SystemHash.combine(hash, address.hashCode);
     hash = _SystemHash.combine(hash, typeToken.hashCode);
     hash = _SystemHash.combine(hash, tokenAddress.hashCode);
+<<<<<<< HEAD
     hash = _SystemHash.combine(hash, decimal.hashCode);
+=======
+    hash = _SystemHash.combine(hash, apiService.hashCode);
+    hash = _SystemHash.combine(hash, evmWalletProvider.hashCode);
+>>>>>>> 5fde8f3 (feat: :sparkles: Replace local history with on chain history)
     hash = _SystemHash.combine(hash, providerEndpoint.hashCode);
 
     return _SystemHash.finish(hash);
@@ -227,8 +286,16 @@ mixin _GetBalanceRef on AutoDisposeFutureProviderRef<double> {
   /// The parameter `tokenAddress` of this provider.
   String get tokenAddress;
 
+<<<<<<< HEAD
   /// The parameter `decimal` of this provider.
   int get decimal;
+=======
+  /// The parameter `apiService` of this provider.
+  ApiService? get apiService;
+
+  /// The parameter `evmWalletProvider` of this provider.
+  EVMWalletProvider? get evmWalletProvider;
+>>>>>>> 5fde8f3 (feat: :sparkles: Replace local history with on chain history)
 
   /// The parameter `providerEndpoint` of this provider.
   String? get providerEndpoint;
@@ -247,7 +314,14 @@ class _GetBalanceProviderElement
   @override
   String get tokenAddress => (origin as _GetBalanceProvider).tokenAddress;
   @override
+<<<<<<< HEAD
   int get decimal => (origin as _GetBalanceProvider).decimal;
+=======
+  ApiService? get apiService => (origin as _GetBalanceProvider).apiService;
+  @override
+  EVMWalletProvider? get evmWalletProvider =>
+      (origin as _GetBalanceProvider).evmWalletProvider;
+>>>>>>> 5fde8f3 (feat: :sparkles: Replace local history with on chain history)
   @override
   String? get providerEndpoint =>
       (origin as _GetBalanceProvider).providerEndpoint;

@@ -2,4 +2,5 @@
 /// Simply activate/deactivate features.
 class FeatureFlags {
   static const inMaintenance = false;
+  static bool fetchBridgesOnchainListWithDevEnv = false;
 }

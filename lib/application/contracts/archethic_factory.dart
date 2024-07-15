@@ -9,19 +9,23 @@ class ArchethicFactory {
 
   final String factoryAddress;
 
-  Future<({double rate, String address})>
-      calculateArchethicProtocolFees() async {
+  Future<({double rate, String address})> calculateArchethicProtocolFees(
+    ApiService apiService,
+  ) async {
     var rate = 0.0;
     var address = '';
 
-    final resultArchethicProtocolFeeRate = await _getProtocolFeeRate();
+    final resultArchethicProtocolFeeRate = await _getProtocolFeeRate(
+      apiService,
+    );
     await resultArchethicProtocolFeeRate.map(
       success: (archethicProtocolFeeRate) async {
         rate = archethicProtocolFeeRate;
       },
       failure: (failure) {},
     );
-    final resultArchethicProtocolFeeAddress = await _getProtocolAddress();
+    final resultArchethicProtocolFeeAddress =
+        await _getProtocolAddress(apiService);
     await resultArchethicProtocolFeeAddress.map(
       success: (archethicProtocolFeeAddress) async {
         address = archethicProtocolFeeAddress;
@@ -31,21 +35,21 @@ class ArchethicFactory {
     return (rate: rate, address: address);
   }
 
-  Future<aedappfm.Result<double, aedappfm.Failure>>
-      _getProtocolFeeRate() async {
+  Future<aedappfm.Result<double, aedappfm.Failure>> _getProtocolFeeRate(
+    ApiService apiService,
+  ) async {
     return aedappfm.Result.guard(
       () async {
-        final protocolFeeRate =
-            await aedappfm.sl.get<ApiService>().callSCFunction(
-                  jsonRPCRequest: SCCallFunctionRequest(
-                    method: 'contract_fun',
-                    params: SCCallFunctionParams(
-                      contract: factoryAddress.toUpperCase(),
-                      function: 'get_protocol_fee',
-                      args: [],
-                    ),
-                  ),
-                );
+        final protocolFeeRate = await apiService.callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
+            method: 'contract_fun',
+            params: SCCallFunctionParams(
+              contract: factoryAddress.toUpperCase(),
+              function: 'get_protocol_fee',
+              args: [],
+            ),
+          ),
+        );
         try {
           final protocolFeeRateValue = double.parse(protocolFeeRate.toString());
           return protocolFeeRateValue;
@@ -58,21 +62,21 @@ class ArchethicFactory {
     );
   }
 
-  Future<aedappfm.Result<String, aedappfm.Failure>>
-      _getProtocolAddress() async {
+  Future<aedappfm.Result<String, aedappfm.Failure>> _getProtocolAddress(
+    ApiService apiService,
+  ) async {
     return aedappfm.Result.guard(
       () async {
-        final protocolAddress =
-            await aedappfm.sl.get<ApiService>().callSCFunction(
-                  jsonRPCRequest: SCCallFunctionRequest(
-                    method: 'contract_fun',
-                    params: SCCallFunctionParams(
-                      contract: factoryAddress.toUpperCase(),
-                      function: 'get_protocol_fee_address',
-                      args: [],
-                    ),
-                  ),
-                );
+        final protocolAddress = await apiService.callSCFunction(
+          jsonRPCRequest: SCCallFunctionRequest(
+            method: 'contract_fun',
+            params: SCCallFunctionParams(
+              contract: factoryAddress.toUpperCase(),
+              function: 'get_protocol_fee_address',
+              args: [],
+            ),
+          ),
+        );
         return protocolAddress.toString();
       },
     );

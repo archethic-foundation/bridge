@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-mixin ArchethicBridgeProcessMixin {
+mixin class ArchethicBridgeProcessMixin {
   String getAEStepLabel(
     BuildContext context,
     int step,
@@ -160,20 +160,23 @@ mixin ArchethicBridgeProcessMixin {
         double amount,
       })> getAEHTLCData(
     String archethicHTLCAddress,
-  ) async {
+    archethic.ApiService apiService, {
+    bool resolveLastAddress = true,
+  }) async {
     try {
-      final htlcDataMap =
-          await aedappfm.sl.get<archethic.ApiService>().callSCFunction(
-                jsonRPCRequest: archethic.SCCallFunctionRequest(
-                  method: 'contract_fun',
-                  params: archethic.SCCallFunctionParams(
-                    contract: archethicHTLCAddress,
-                    function: 'get_htlc_data',
-                    args: [],
-                  ),
-                ),
-                resultMap: true,
-              ) as Map<String, dynamic>;
+      final htlcDataMap = await apiService.callSCFunction(
+        jsonRPCRequest: archethic.SCCallFunctionRequest(
+          method: 'contract_fun',
+          params: archethic.SCCallFunctionParams(
+            contract: archethicHTLCAddress,
+            function: 'get_htlc_data',
+            args: [],
+            resolveLast: resolveLastAddress,
+          ),
+        ),
+        resultMap: true,
+      ) as Map<String, dynamic>;
+      print('$archethicHTLCAddress $htlcDataMap');
       return (
         secretHash: SecretHash(
           secretHash: htlcDataMap['secret_hash'],

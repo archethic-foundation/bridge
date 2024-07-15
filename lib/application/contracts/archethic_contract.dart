@@ -196,7 +196,8 @@ class ArchethicContract
       // Pending
       if (infoHTLCResult.statusHTLC == 0) {
         const d = Decimal.parse;
-        final resultGetAEHTLCData = await getAEHTLCData(htlcAddress);
+        final resultGetAEHTLCData =
+            await getAEHTLCData(htlcAddress, apiService);
         final calcul =
             (d('0.003') / d('0.997')).toDecimal(scaleOnInfinitePrecision: 8);
         final estimatedProtocolFees =

@@ -34,6 +34,27 @@ Future<List<BridgeBlockchain>> _getBlockchainsList(
 }
 
 @riverpod
+Future<Map<int, BridgeBlockchain>> _getBlockchainsMap(
+  _GetBlockchainsMapRef ref,
+) async {
+  final blockchainsListConf = await ref
+      .watch(_bridgeBlockchainsRepositoryProvider)
+      .getBlockchainsListConf();
+  final blockchainsList = ref
+      .watch(_bridgeBlockchainsRepositoryProvider)
+      .getBlockchainsList(blockchainsListConf);
+
+  Map<int, BridgeBlockchain> convertListToMap(List<BridgeBlockchain> list) {
+    return {
+      for (final bridgeBlockchain in list)
+        bridgeBlockchain.chainId: bridgeBlockchain,
+    };
+  }
+
+  return convertListToMap(blockchainsList);
+}
+
+@riverpod
 Future<BridgeBlockchain?> _getBlockchainFromChainId(
   _GetBlockchainFromChainIdRef ref,
   int chainId,
@@ -66,6 +87,7 @@ Future<BridgeBlockchain?> _getArchethicBlockchainFromEVM(
 
 abstract class BridgeBlockchainsProviders {
   static final getBlockchainsList = _getBlockchainsListProvider;
+  static final getBlockchainsMap = _getBlockchainsMapProvider;
   static const getBlockchainFromChainId = _getBlockchainFromChainIdProvider;
   static final getBlockchainsListConf = _getBlockchainsListConfProvider;
   static const getArchethicBlockchainFromEVM =

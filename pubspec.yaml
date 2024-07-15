@@ -22,8 +22,8 @@ dependencies:
   #  git:
   #    url: https://github.com/archethic-foundation/archethic-wallet-client-dart.git
   #    ref: dev
-  # archethic_wallet_client:
-  #   path: ../../packages/archethic-wallet-client-dart
+  #archethic_wallet_client:
+  #  path: ../archethic-wallet-client-dart
 
   # Implementations of SHA, MD5, and HMAC cryptographic functions
   crypto: ^3.0.3

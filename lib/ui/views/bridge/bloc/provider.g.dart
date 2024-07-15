@@ -7,7 +7,11 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$bridgeFormNotifierHash() =>
+<<<<<<< HEAD
     r'841ed749471fc1616899bb353284fc80261d2e63';
+=======
+    r'4e372d2d8c8164e435bc0dabd96ab18eafaff3a3';
+>>>>>>> 5fde8f3 (feat: :sparkles: Replace local history with on chain history)
 
 /// See also [_BridgeFormNotifier].
 @ProviderFor(_BridgeFormNotifier)

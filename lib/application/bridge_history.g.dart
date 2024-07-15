@@ -195,6 +195,24 @@ class _FetchBridgesListProviderElement
   bool get asc => (origin as _FetchBridgesListProvider).asc;
 }
 
+String _$fetchBridgesOnchainListHash() =>
+    r'82ce22aa77aba0d10eeda1312bae1772daa7edc8';
+
+/// See also [_fetchBridgesOnchainList].
+@ProviderFor(_fetchBridgesOnchainList)
+final _fetchBridgesOnchainListProvider =
+    AutoDisposeFutureProvider<List<Map<String, dynamic>>>.internal(
+  _fetchBridgesOnchainList,
+  name: r'_fetchBridgesOnchainListProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$fetchBridgesOnchainListHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _FetchBridgesOnchainListRef
+    = AutoDisposeFutureProviderRef<List<Map<String, dynamic>>>;
 String _$clearBridgesListHash() => r'781a7283eb1f4ecfb88491460e5aace9fc66ecee';
 
 /// See also [_clearBridgesList].

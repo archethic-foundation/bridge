@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/application/contracts/evm_htlc.dart';
+import 'package:aebridge/ui/util/components/env_info.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_direction_infos.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_htlc_infos.dart';
@@ -154,9 +155,11 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
 
       if (statusEVM != null && statusEVM == 2 ||
           statusAE != null && statusAE == 2) {
-        setState(() {
-          isRefunded = true;
-        });
+        if (mounted) {
+          setState(() {
+            isRefunded = true;
+          });
+        }
       }
 
       // Archethic -> EVM
@@ -167,9 +170,11 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
               statusEVM == 1 &&
               statusAE != null &&
               statusAE == 1))) {
-        setState(() {
-          canResume = true;
-        });
+        if (mounted) {
+          setState(() {
+            canResume = true;
+          });
+        }
       }
       // EVM -> Archethic
       final htlcLockTimeOver = htlcLockTime == null ||
@@ -209,23 +214,9 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    DateFormat.yMd(
-                      Localizations.localeOf(context).languageCode,
-                    ).add_Hms().format(
-                          DateTime.fromMillisecondsSinceEpoch(
-                            widget.bridge.timestampExec!,
-                          ).toLocal(),
-                        ),
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyMedium!,
-                          ),
-                        ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 10),
+                    child: EnvInfo(env: widget.bridge.blockchainFrom!.env),
                   ),
                   Row(
                     children: [
@@ -242,6 +233,24 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
                     ],
                   ),
                 ],
+              ),
+              Text(
+                DateFormat.yMd(
+                  Localizations.localeOf(context).languageCode,
+                ).add_Hms().format(
+                      DateTime.fromMillisecondsSinceEpoch(
+                        widget.bridge.timestampExec! * 1000,
+                      ).toLocal(),
+                    ),
+                textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                        context,
+                        Theme.of(context).textTheme.bodyMedium!,
+                      ),
+                    ),
               ),
               LocalHistoryCardStatusInfos(bridge: widget.bridge),
               LocalHistoryCardDirectionInfos(bridge: widget.bridge),

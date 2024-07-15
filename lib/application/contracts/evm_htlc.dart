@@ -188,6 +188,53 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
     );
   }
 
+  Future<aedappfm.Result<String, aedappfm.Failure>> getRecipient() async {
+    return aedappfm.Result.guard(
+      () async {
+        final contractHTLC = await getDeployedContract(
+          contractNameHTLCBase,
+          htlcContractAddressEVM,
+        );
+
+        final recipientMap = await web3Client!.call(
+          contract: contractHTLC,
+          function: contractHTLC.function('recipient'),
+          params: [],
+        );
+
+        return recipientMap[0] ?? '';
+      },
+    );
+  }
+
+  Future<aedappfm.Result<int?, aedappfm.Failure>> getHTLCTimestamp() async {
+    return aedappfm.Result.guard(
+      () async {
+        final logs = await web3Client!.getLogs(
+          FilterOptions(
+            fromBlock: const BlockNum.genesis(),
+            toBlock: const BlockNum.current(),
+            address: EthereumAddress.fromHex(htlcContractAddressEVM),
+          ),
+        );
+        if (logs.isNotEmpty) {
+          final filterEvent = logs[0];
+          final blockNum = filterEvent.blockNum;
+          if (blockNum != null) {
+            final blockInformation = await web3Client!.getBlockInformation(
+              blockNumber: '0x${blockNum.toRadixString(16)}',
+            );
+            if (blockInformation.timestamp != null) {
+              return blockInformation.timestamp!.millisecondsSinceEpoch;
+            }
+          }
+        }
+
+        return null;
+      },
+    );
+  }
+
   Future<aedappfm.Result<({String symbol, bool isERC20}), aedappfm.Failure>>
       getSymbol(
     String nativeCurrency,

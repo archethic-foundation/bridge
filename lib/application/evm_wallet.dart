@@ -151,19 +151,21 @@ class EVMWalletProvider extends ChangeNotifier {
     String erc20address = '',
   }) async {
     try {
-      if (web3Client == null || credentials == null) {
-        return 0.0;
-      }
+      final client = Web3Client(
+        providerEndpoint,
+        Client(),
+      );
       switch (typeToken) {
         case 'Native':
           final balance =
-              await web3Client!.getBalance(EthereumAddress.fromHex(address));
+              await client.getBalance(EthereumAddress.fromHex(address));
           return balance.getValueInUnit(EtherUnit.ether);
         case 'ERC20':
         case 'Wrapped':
           if (erc20address.isEmpty) {
             return 0.0;
           }
+
           final client = Web3Client(
             providerEndpoint,
             Client(),
@@ -219,9 +221,6 @@ class EVMWalletProvider extends ChangeNotifier {
     const defaultDecimal = 8;
 
     try {
-      if (web3Client == null || credentials == null) {
-        return 8;
-      }
       switch (typeToken) {
         case 'Native':
           return 18;

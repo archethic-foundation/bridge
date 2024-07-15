@@ -209,7 +209,7 @@ mixin EVMBridgeProcessMixin {
     String htlcAddress,
     int decimal,
   ) async {
-    double? etlcAmount;
+    double? htlcAmount;
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final htlc = EVMHTLC(
       bridge.blockchainFrom!.providerEndpoint,
@@ -219,10 +219,10 @@ mixin EVMBridgeProcessMixin {
 
     final resultAmount = await htlc.getAmount(decimal);
     resultAmount.map(
-      success: (amount) => etlcAmount = amount,
-      failure: (failure) => etlcAmount = null,
+      success: (amount) => htlcAmount = amount,
+      failure: (failure) => htlcAmount = null,
     );
-    return etlcAmount;
+    return htlcAmount;
   }
 
   Future<void> revealEVMSecret(
