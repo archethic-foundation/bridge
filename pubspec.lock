@@ -38,11 +38,14 @@ packages:
     description:
       name: archethic_dapp_framework_flutter
 <<<<<<< HEAD
+<<<<<<< HEAD
       sha256: "781957c6e739614183000c09a1110618dd2a09a03a735c0736ea0582e7b58954"
       url: "https://pub.dev"
     source: hosted
     version: "1.2.13"
 =======
+=======
+>>>>>>> 85c2bda (fix rebase)
 <<<<<<< HEAD
       sha256: bba3f504d6488895cdfd1c132d9e95d4f6df828a6d64c390da6f575803d510b9
       url: "https://pub.dev"
@@ -55,23 +58,34 @@ packages:
     source: hosted
     version: "1.1.24"
 =======
+=======
+>>>>>>> 4485ef5 (fix rebase)
       sha256: bba3f504d6488895cdfd1c132d9e95d4f6df828a6d64c390da6f575803d510b9
       url: "https://pub.dev"
     source: hosted
     version: "1.2.6"
+<<<<<<< HEAD
 >>>>>>> f92e81b (feat: :sparkles: Replace local history with on chain history)
 >>>>>>> 302521d (feat: :sparkles: Replace local history with on chain history)
+<<<<<<< HEAD
 >>>>>>> 5fde8f3 (feat: :sparkles: Replace local history with on chain history)
+=======
+=======
+>>>>>>> 4485ef5 (fix rebase)
+>>>>>>> 85c2bda (fix rebase)
   archethic_lib_dart:
     dependency: transitive
     description:
       name: archethic_lib_dart
+<<<<<<< HEAD
 <<<<<<< HEAD
       sha256: "9d725d17a2ac7239a4d70048520daf45723661a829c09813f937bac613465060"
       url: "https://pub.dev"
     source: hosted
     version: "3.4.2"
 =======
+=======
+>>>>>>> 85c2bda (fix rebase)
 <<<<<<< HEAD
       sha256: "421f3ffe4b2f3816424fbb81ef572344a46a67590e4a237cc6251f8101582335"
       url: "https://pub.dev"
@@ -90,7 +104,16 @@ packages:
     version: "3.4.0"
 >>>>>>> f92e81b (feat: :sparkles: Replace local history with on chain history)
 >>>>>>> 302521d (feat: :sparkles: Replace local history with on chain history)
+<<<<<<< HEAD
 >>>>>>> 5fde8f3 (feat: :sparkles: Replace local history with on chain history)
+=======
+=======
+      sha256: "421f3ffe4b2f3816424fbb81ef572344a46a67590e4a237cc6251f8101582335"
+      url: "https://pub.dev"
+    source: hosted
+    version: "3.4.1"
+>>>>>>> 4485ef5 (fix rebase)
+>>>>>>> 85c2bda (fix rebase)
   archethic_wallet_client:
     dependency: "direct main"
     description:
