@@ -69,6 +69,7 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
     String poolAddress,
     String htlcGenesisAddress,
     String userAddress,
+    String evmUserAddress,
     int chainId,
   ) async {
     return aedappfm.Result.guard(
@@ -82,7 +83,13 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
         final recipient = Recipient(
           address: poolAddress.toUpperCase(),
           action: 'request_secret_hash',
-          args: [htlcGenesisAddress, amount, userAddress, chainId],
+          args: [
+            htlcGenesisAddress,
+            amount,
+            userAddress,
+            chainId,
+            evmUserAddress,
+          ],
         );
         if (tokenAddress.isEmpty) {
           transactionTransfer = Transaction(
