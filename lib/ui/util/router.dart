@@ -1,7 +1,9 @@
+import 'package:aebridge/domain/repositories/features_flags.dart';
 import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/local_history/local_history_sheet.dart';
+import 'package:aebridge/ui/views/maintenance/maintenance_screen.dart';
 import 'package:aebridge/ui/views/refund/layouts/refund_sheet.dart';
 import 'package:aebridge/ui/views/welcome/welcome_screen.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
@@ -87,8 +89,19 @@ final routerProvider = Provider<GoRouter>((ref) {
           );
         },
       ),
+      GoRoute(
+        path: MaintenanceScreen.routerPage,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return const NoTransitionPage(
+            child: MaintenanceScreen(),
+          );
+        },
+      ),
     ],
     redirect: (context, state) async {
+      if (FeatureFlags.inMaintenance) {
+        if (context.mounted) return MaintenanceScreen.routerPage;
+      }
       final preferences = await HivePreferencesDatasource.getInstance();
       if (preferences.isFirstConnection()) {
         await preferences.setFirstConnection(false);
