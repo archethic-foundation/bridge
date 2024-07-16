@@ -44,35 +44,6 @@ class EVMLP with EVMBridgeProcessMixin {
     return transactionMintHTLC;
   }
 
-  Future<aedappfm.Result<double, aedappfm.Failure>>
-      estimateDeployChargeableHTLC(
-    String poolAddress,
-    String hash,
-    double amount,
-    bool isWrapped,
-    String addressFrom,
-  ) async {
-    return aedappfm.Result.guard(() async {
-      final web3Client = Web3Client(providerEndpoint!, Client());
-      final contract =
-          await getDeployedContract(contractNameIPool, poolAddress);
-
-      final transaction = await _getDeployChargeableHTLCTransaction(
-        contract,
-        poolAddress,
-        hash,
-        amount,
-        isWrapped,
-        addressFrom,
-      );
-
-      final fees = await estimateGas(web3Client, transaction);
-
-      return EtherAmount.fromBigInt(EtherUnit.ether, fees)
-          .getValueInUnit(EtherUnit.ether);
-    });
-  }
-
   Future<
       aedappfm.Result<({String htlcContractAddress, String txAddress}),
           aedappfm.Failure>> deployChargeableHTLC(

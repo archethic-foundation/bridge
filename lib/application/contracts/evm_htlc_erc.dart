@@ -25,6 +25,90 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
   Web3Client? web3Client;
   final int chainId;
 
+  Future<aedappfm.Result<void, aedappfm.Failure>> approveChargeableHTLC(
+    WidgetRef ref,
+    double amount,
+    String tokenAddress,
+    String poolAddress,
+  ) async {
+    return aedappfm.Result.guard(
+      () async {
+        final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+        final contract =
+            await getDeployedContract(contractNameIERC20, tokenAddress);
+
+        final ethAmount = EtherAmount.fromDouble(EtherUnit.ether, amount);
+        final transactionTransfer = Transaction.callContract(
+          contract: contract,
+          function: contract.function('approve'),
+          parameters: [
+            EthereumAddress.fromHex(poolAddress),
+            ethAmount.getInWei,
+          ],
+          maxGas: 1500000,
+        );
+
+        late StreamSubscription<FilterEvent> subscription;
+        try {
+          final completer = Completer<void>();
+          subscription = web3Client!
+              .events(
+                FilterOptions.events(
+                  contract: contract,
+                  event: contract.event('Approval'),
+                ),
+              )
+              .take(1)
+              .listen(
+            (event) {
+              aedappfm.sl.get<aedappfm.LogManager>().log(
+                    'Event Approval = $event',
+                    name: 'EVMHTLCERC - provisionChargeableHTLC',
+                  );
+              if (!completer.isCompleted) {
+                completer.complete();
+              }
+            },
+          );
+
+          final bridgeNotifier =
+              ref.read(BridgeFormProvider.bridgeForm.notifier);
+          await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
+          await sendTransactionWithErrorManagement(
+            web3Client!,
+            evmWalletProvider.credentials!,
+            transactionTransfer,
+            chainId,
+          );
+          await bridgeNotifier.setWalletConfirmation(null);
+          await completer.future.timeout(const Duration(seconds: 240));
+          await subscription.cancel();
+        } catch (e, stackTrace) {
+          if (e is TimeoutException) {
+            aedappfm.sl.get<aedappfm.LogManager>().log(
+                  'Timeout occurred',
+                  level: aedappfm.LogLevel.error,
+                  name: 'EVMHTLCERC - provisionChargeableHTLC',
+                );
+            await subscription.cancel();
+            throw const aedappfm.Failure.timeout();
+          } else {
+            if (e != const aedappfm.Failure.userRejected()) {
+              aedappfm.sl.get<aedappfm.LogManager>().log(
+                    'e $e',
+                    stackTrace: stackTrace,
+                    level: aedappfm.LogLevel.error,
+                    name: 'EVMHTLCERC - provisionChargeableHTLC',
+                  );
+            }
+          }
+          await subscription.cancel();
+          rethrow;
+        }
+      },
+    );
+  }
+
   Future<aedappfm.Result<void, aedappfm.Failure>> provisionChargeableHTLC(
     WidgetRef ref,
     double amount,

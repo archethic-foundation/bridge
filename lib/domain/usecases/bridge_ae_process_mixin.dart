@@ -128,6 +128,7 @@ mixin ArchethicBridgeProcessMixin {
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
     final session = ref.read(SessionProviders.session);
     final walletFrom = session.walletFrom;
+    final walletTo = session.walletTo;
 
     final resultProvisionSignedHTLC =
         await ArchethicContractSigned().provisionSignedHTLC(
@@ -137,6 +138,7 @@ mixin ArchethicBridgeProcessMixin {
       bridge.tokenToBridge!.poolAddressFrom,
       htlcGenesisAddress,
       walletFrom!.genesisAddress,
+      walletTo!.genesisAddress,
       bridge.blockchainTo!.chainId,
     );
 

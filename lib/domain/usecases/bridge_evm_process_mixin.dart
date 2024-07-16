@@ -166,40 +166,27 @@ mixin EVMBridgeProcessMixin {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
 
-    aedappfm.Result<void, aedappfm.Failure>? resultProvisionChargeableHTLC;
-    if (bridge.tokenToBridge!.typeSource == 'Wrapped') {
-      final evmHTLCERC = EVMHTLCERC(
-        bridge.blockchainFrom!.providerEndpoint,
-        htlcAddress,
-        bridge.blockchainFrom!.chainId,
-      );
-      resultProvisionChargeableHTLC = await evmHTLCERC.provisionChargeableHTLC(
-        ref,
-        bridge.tokenToBridgeAmount,
-        bridge.tokenToBridge!.tokenAddressSource,
-      );
-    }
-
     if (bridge.tokenToBridge!.typeSource == 'Native') {
       final evmHTLCNative = EVMHTLCNative(
         bridge.blockchainFrom!.providerEndpoint,
         htlcAddress,
         bridge.blockchainFrom!.chainId,
       );
-      resultProvisionChargeableHTLC =
+      final resultProvisionChargeableHTLC =
           await evmHTLCNative.provisionChargeableHTLC(
         ref,
         bridge.tokenToBridgeAmount,
       );
+
+      await resultProvisionChargeableHTLC.map(
+        success: (success) {},
+        failure: (failure) async {
+          await bridgeNotifier.setFailure(failure);
+          await bridgeNotifier.setTransferInProgress(false);
+          throw failure;
+        },
+      );
     }
-    await resultProvisionChargeableHTLC!.map(
-      success: (success) {},
-      failure: (failure) async {
-        await bridgeNotifier.setFailure(failure);
-        await bridgeNotifier.setTransferInProgress(false);
-        throw failure;
-      },
-    );
   }
 
   Future<void> withdrawEVM(

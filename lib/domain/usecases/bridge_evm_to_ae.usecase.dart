@@ -2,6 +2,7 @@
 import 'dart:async';
 
 import 'package:aebridge/application/contracts/evm_htlc.dart';
+import 'package:aebridge/application/contracts/evm_htlc_erc.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/infrastructure/balance.repository.dart';
@@ -64,6 +65,20 @@ class BridgeEVMToArchethicUseCase
     if (recoveryStep <= 1) {
       try {
         await bridgeNotifier.setCurrentStep(1);
+
+        if (bridge.tokenToBridge!.typeSource == 'Wrapped') {
+          await EVMHTLCERC(
+            bridge.blockchainFrom!.providerEndpoint,
+            '',
+            bridge.blockchainFrom!.chainId,
+          ).approveChargeableHTLC(
+            ref,
+            bridge.tokenToBridgeAmount,
+            bridge.tokenToBridge!.tokenAddressSource,
+            bridge.tokenToBridge!.poolAddressFrom,
+          );
+        }
+
         final deployEVMHTLCResult = await deployEVMHTLC(ref, secretHash);
         htlcEVMAddress = deployEVMHTLCResult.htlcAddress;
         htlcEVMTxAddress = deployEVMHTLCResult.txAddress;
