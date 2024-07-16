@@ -39,6 +39,7 @@ packages:
       name: archethic_dapp_framework_flutter
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       sha256: "781957c6e739614183000c09a1110618dd2a09a03a735c0736ea0582e7b58954"
       url: "https://pub.dev"
     source: hosted
@@ -47,10 +48,13 @@ packages:
 =======
 >>>>>>> 85c2bda (fix rebase)
 <<<<<<< HEAD
+=======
+>>>>>>> a2d6495 (rebase pubspec.lock)
       sha256: bba3f504d6488895cdfd1c132d9e95d4f6df828a6d64c390da6f575803d510b9
       url: "https://pub.dev"
     source: hosted
     version: "1.2.6"
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
       sha256: "2eae3c029bb7cb2916122142804c72dc6f30e91849fef70f9c0b4402458e4eec"
@@ -73,10 +77,13 @@ packages:
 =======
 >>>>>>> 4485ef5 (fix rebase)
 >>>>>>> 85c2bda (fix rebase)
+=======
+>>>>>>> a2d6495 (rebase pubspec.lock)
   archethic_lib_dart:
     dependency: transitive
     description:
       name: archethic_lib_dart
+<<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
       sha256: "9d725d17a2ac7239a4d70048520daf45723661a829c09813f937bac613465060"
@@ -87,10 +94,13 @@ packages:
 =======
 >>>>>>> 85c2bda (fix rebase)
 <<<<<<< HEAD
+=======
+>>>>>>> a2d6495 (rebase pubspec.lock)
       sha256: "421f3ffe4b2f3816424fbb81ef572344a46a67590e4a237cc6251f8101582335"
       url: "https://pub.dev"
     source: hosted
     version: "3.4.1"
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
       sha256: "34654e90c7cfdc326f8bdeea396c18eb34dba9109838ac15d2de5f58184c38c6"
@@ -114,6 +124,8 @@ packages:
     version: "3.4.1"
 >>>>>>> 4485ef5 (fix rebase)
 >>>>>>> 85c2bda (fix rebase)
+=======
+>>>>>>> a2d6495 (rebase pubspec.lock)
   archethic_wallet_client:
     dependency: "direct main"
     description:
