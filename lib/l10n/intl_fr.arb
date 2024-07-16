@@ -171,5 +171,6 @@
     "refundControlMalformatedAddress": "Adresse malformée.",
     "warningBalanceUCOTooLow": "Attention, votre balance de UCO n'est pas suffisante pour payer les frais de transaction du bridge. Veuillez au préalable ajouter des UCO dans votre wallet Archethic.",
     "infoBalanceUCOZero": "Pour vous aider à rejoindre l'écosystème Archethic, nous vous offrons la gratuité des frais de transaction Archethic. Pour des raisons de sécurité, cela nécessitera votre signature pendant le processus.",
-    "refundNotOwner": "Le compte actuellement connecté n'est pas propriétaire de ce contrat. Si vous souhaitez récupérer ses fonds, veuillez utiliser le même compte."
+    "refundNotOwner": "Le compte actuellement connecté n'est pas propriétaire de ce contrat. Si vous souhaitez récupérer ses fonds, veuillez utiliser le même compte.",
+    "maintenanceInfo": "aeBridge est actuellement en maintenance pour améliorer votre expérience.\nNous nous excusons pour la gêne occasionnée.\nVeuillez réessayer plus tard.\nMerci de votre compréhension."
 }
