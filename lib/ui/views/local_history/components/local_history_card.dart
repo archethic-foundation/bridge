@@ -121,7 +121,7 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
             }
           } else {
             final apiService = archethic.ApiService(
-              widget.bridge.blockchainFrom!.providerEndpoint,
+              widget.bridge.blockchainTo!.providerEndpoint,
             );
             try {
               final info = await ArchethicContract().getInfo(
