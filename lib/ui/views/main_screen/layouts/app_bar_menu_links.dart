@@ -133,7 +133,7 @@ class AppBarMenuLinks extends StatelessWidget {
           onPressed: () {
             launchUrl(
               Uri.parse(
-                'https://www.archethic.net/wallet',
+                'https://www.archethic.net/wallet.html',
               ),
             );
           },
