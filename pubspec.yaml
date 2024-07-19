@@ -8,7 +8,7 @@ environment:
   sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
-  archethic_dapp_framework_flutter: ^1.2.6
+  archethic_dapp_framework_flutter: ^1.2.7
   #archethic_dapp_framework_flutter:
   #  git:
   #    url: https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git
@@ -17,7 +17,7 @@ dependencies:
   #  path: ../archethic-dapp-framework-flutter
 
   # A client dart library to interact with Archethic Wallet RPC API.
-  archethic_wallet_client: ^2.0.3
+  archethic_wallet_client: ^2.0.4
   #archethic_wallet_client:
   #  git:
   #    url: https://github.com/archethic-foundation/archethic-wallet-client-dart.git
@@ -27,7 +27,7 @@ dependencies:
   crypto: ^3.0.3
 
   # The decimal package allows you to deal with decimal numbers without losing precision
-  decimal: ^2.3.3
+  decimal: ^3.0.2
 
   flutter:
     sdk: flutter
