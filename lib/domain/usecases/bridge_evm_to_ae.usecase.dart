@@ -193,6 +193,14 @@ class BridgeEVMToArchethicUseCase
               level: aedappfm.LogLevel.error,
               name: 'BridgeEVMToArchethicUseCase - run',
             );
+        if (e is UnsupportedError || e is EthereumException) {
+          await bridgeNotifier.setFailure(
+            aedappfm.Failure.other(cause: '$e'),
+          );
+          await bridgeNotifier.setTransferInProgress(false);
+          return;
+        }
+
         if (_executeCatch) {
           await bridgeNotifier.setFailure(
             const aedappfm.Failure.faucetUCOError(),

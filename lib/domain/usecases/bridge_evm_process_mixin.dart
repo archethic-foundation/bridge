@@ -20,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:webthree/browser.dart';
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
@@ -500,8 +501,29 @@ mixin EVMBridgeProcessMixin {
     }
     const payload =
         "To help you join the Archethic ecosystem, we're offering you free Archethic transaction fees. For security reasons, this requires your signature. Thank you for joining us, and happy exploring!";
-    return evmWalletProvider.credentials!.signPersonalMessage(
-      utf8.encode(payload),
-    );
+    try {
+      final result = await evmWalletProvider.credentials!.signPersonalMessage(
+        utf8.encode(payload),
+      );
+      return result;
+    } catch (e) {
+      if (evmWalletProvider.eth != null) {
+        final result = await evmWalletProvider.eth!.rawRequest(
+          'personal_sign',
+          params: [
+            bytesToHex(
+              utf8.encode(payload),
+              include0x: true,
+              padToEvenLength: true,
+            ),
+            evmWalletProvider.currentAddress,
+          ],
+        );
+
+        return hexToBytes(result as String);
+      } else {
+        rethrow;
+      }
+    }
   }
 }
