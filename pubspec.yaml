@@ -77,7 +77,6 @@ dependencies:
 
   # Dart library to connect to Ethereum clients. Send transactions and interact with smart contracts!
   webthree: ^2.7.4
-  #1webthree:
   #  git:
   #    url: https://github.com/redDwarf03/webthree.git
   #    ref: master
