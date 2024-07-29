@@ -14,6 +14,11 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(BridgeFormProvider.bridgeForm);
 
+    if (bridge.blockchainTo != null &&
+        bridge.blockchainTo!.isArchethic == true) {
+      return const SizedBox();
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

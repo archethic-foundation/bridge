@@ -738,13 +738,19 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
 
   Future<void> validateForm(BuildContext context) async {
     state = state.copyWith(controlInProgress: true);
-    final archethicProtocolFees = await ArchethicFactory(
-      state.blockchainFrom!.isArchethic
-          ? state.blockchainFrom!.archethicFactoryAddress!
-          : state.blockchainTo!.archethicFactoryAddress!,
-    ).calculateArchethicProtocolFees();
-    await setArchethicProtocolFeesRate(archethicProtocolFees.rate);
-    await setArchethicProtocolFeesAddress(archethicProtocolFees.address);
+    if (state.blockchainTo != null &&
+        state.blockchainTo!.isArchethic == false) {
+      final archethicProtocolFees = await ArchethicFactory(
+        state.blockchainFrom!.isArchethic
+            ? state.blockchainFrom!.archethicFactoryAddress!
+            : state.blockchainTo!.archethicFactoryAddress!,
+      ).calculateArchethicProtocolFees();
+      await setArchethicProtocolFeesRate(archethicProtocolFees.rate);
+      await setArchethicProtocolFeesAddress(archethicProtocolFees.address);
+    } else {
+      await setArchethicProtocolFeesRate(0);
+      await setArchethicProtocolFeesAddress('');
+    }
 
     final session = ref.read(SessionProviders.session);
     DateTime? consentDateTime;
