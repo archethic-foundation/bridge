@@ -617,6 +617,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
           connectionStatusSubscription =
               archethicDAppClient!.connectionStateStream.listen((event) {
             event.when(
+              disconnecting: () {},
               disconnected: () {
                 archethicWallet = archethicWallet.copyWith(
                   wallet: '',

@@ -189,6 +189,7 @@ class _SessionNotifier extends Notifier<Session> {
                 );
                 _fillState(bridgeWallet, from);
               },
+              disconnecting: () {},
               connecting: () {
                 bridgeWallet = bridgeWallet.copyWith(
                   wallet: '',
