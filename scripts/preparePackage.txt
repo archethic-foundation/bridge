@@ -1,3 +1,4 @@
+git submodule update
 flutter pub outdated
 flutter pub get
 dart fix --dry-run
