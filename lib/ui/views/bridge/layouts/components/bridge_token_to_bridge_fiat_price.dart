@@ -42,6 +42,10 @@ class BridgeTokenToBridgeFiatPrice extends ConsumerWidget {
       case 'aeMATIC':
         price = prices.matic;
         break;
+      case 'WBTC':
+      case 'aeBTC':
+        price = prices.bitcoin;
+        break;
     }
     if (price == 0) {
       return const SizedBox.shrink();

@@ -40,6 +40,10 @@ class FiatValue {
         case 'aeMATIC':
           price = price = prices.matic;
           break;
+        case 'WBTC':
+        case 'aeBTC':
+          price = price = prices.bitcoin;
+          break;
       }
 
       final fiatValue =
