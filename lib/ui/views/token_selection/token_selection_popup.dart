@@ -18,7 +18,7 @@ class TokenSelectionPopup {
       builder: (context) {
         return aedappfm.PopupTemplate(
           popupTitle: AppLocalizations.of(context)!.token_selection_title,
-          popupHeight: 220,
+          popupHeight: 320,
           popupContent: Column(
             children: [
               Expanded(
