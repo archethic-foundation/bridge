@@ -22,9 +22,10 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
   }
   final String providerEndpoint;
   final String htlcContractAddress;
-  Web3Client? web3Client;
+  late final Web3Client web3Client;
   final int chainId;
 
+  /// TODO(reddwarf03): This is never used
   Future<aedappfm.Result<void, aedappfm.Failure>> provisionChargeableHTLC(
     WidgetRef ref,
     double amount,
@@ -33,36 +34,24 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
       final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
       final ethAmount = EtherAmount.fromDouble(EtherUnit.ether, amount);
 
-      late StreamSubscription<FilterEvent> subscription;
       try {
         final completer = Completer<void>();
         final contract =
             await getDeployedContract(contractNameHTLCETH, htlcContractAddress);
 
-        subscription = web3Client!
+        final eventStream = web3Client
             .events(
               FilterOptions.events(
                 contract: contract,
                 event: contract.event('FundsReceived'),
+                fromBlock: const BlockNum.current(),
               ),
             )
-            .take(1)
-            .listen(
-          (event) {
-            aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'Event FundsReceived = $event',
-                  name: 'EVMHTLCNative - provisionChargeableHTLC',
-                );
-            if (!completer.isCompleted) {
-              completer.complete();
-            }
-          },
-        );
-
+            .asBroadcastStream();
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
         await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
-        await sendTransactionWithErrorManagement(
-          web3Client!,
+        final txHash = await sendTransactionWithErrorManagement(
+          web3Client,
           evmWalletProvider.credentials!,
           Transaction(
             to: EthereumAddress.fromHex(htlcContractAddress),
@@ -71,8 +60,24 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
           chainId,
         );
         await bridgeNotifier.setWalletConfirmation(null);
+
+        unawaited(
+          eventStream
+              .firstWhere((event) => event.transactionHash == txHash)
+              .then(
+            (event) {
+              aedappfm.sl.get<aedappfm.LogManager>().log(
+                    'Event FundsReceived = $event',
+                    name: 'EVMHTLCNative - provisionChargeableHTLC',
+                  );
+              if (!completer.isCompleted) {
+                completer.complete();
+              }
+            },
+          ),
+        );
+
         await completer.future.timeout(const Duration(seconds: 240));
-        await subscription.cancel();
       } catch (e, stackTrace) {
         if (e is TimeoutException) {
           aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -80,7 +85,6 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
                 level: aedappfm.LogLevel.error,
                 name: 'EVMHTLCNative - provisionChargeableHTLC',
               );
-          await subscription.cancel();
           throw const aedappfm.Failure.timeout();
         } else {
           if (e != const aedappfm.Failure.userRejected()) {
@@ -92,7 +96,6 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
                 );
           }
         }
-        await subscription.cancel();
         rethrow;
       }
     });
@@ -126,42 +129,47 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
           maxGas: 1500000,
         );
 
-        var withdrawTx = '';
-        late StreamSubscription<FilterEvent> subscription;
+        String? withdrawTx;
         try {
           final completer = Completer<void>();
-          subscription = web3Client!
+
+          final eventStream = web3Client
               .events(
                 FilterOptions.events(
                   contract: contractHTLCETH,
                   event: contractHTLCETH.event('Withdrawn'),
+                  fromBlock: const BlockNum.current(),
                 ),
               )
-              .take(1)
-              .listen(
-            (event) {
-              aedappfm.sl.get<aedappfm.LogManager>().log(
-                    'Event Withdrawn = $event',
-                    name: 'EVMHTLCNative - signedWithdraw',
-                  );
-              if (!completer.isCompleted) {
-                completer.complete();
-              }
-            },
-          );
-
+              .asBroadcastStream();
           final bridgeNotifier =
               ref.read(BridgeFormProvider.bridgeForm.notifier);
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
           withdrawTx = await sendTransactionWithErrorManagement(
-            web3Client!,
+            web3Client,
             evmWalletProvider.credentials!,
             transactionWithdraw,
             chainId,
           );
           await bridgeNotifier.setWalletConfirmation(null);
+
+          unawaited(
+            eventStream
+                .firstWhere((event) => event.transactionHash == withdrawTx)
+                .then<void>(
+              (event) {
+                aedappfm.sl.get<aedappfm.LogManager>().log(
+                      'Event Withdrawn = $event',
+                      name: 'EVMHTLCNative - signedWithdraw',
+                    );
+                if (!completer.isCompleted) {
+                  completer.complete();
+                }
+              },
+            ).catchError(completer.completeError),
+          );
+
           await completer.future.timeout(const Duration(seconds: 240));
-          await subscription.cancel();
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -169,7 +177,6 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
                   level: aedappfm.LogLevel.error,
                   name: 'EVMHTLCNative - signedWithdraw',
                 );
-            await subscription.cancel();
             throw const aedappfm.Failure.timeout();
           } else {
             if (e != const aedappfm.Failure.userRejected()) {
@@ -181,7 +188,6 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
                   );
             }
           }
-          await subscription.cancel();
           rethrow;
         }
         return withdrawTx;
@@ -198,7 +204,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
             htlcContractAddress,
           );
 
-          final feeMap = await web3Client!.call(
+          final feeMap = await web3Client.call(
             contract: contractHTLC,
             function: contractHTLC.function('fee'),
             params: [],
