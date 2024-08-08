@@ -119,19 +119,7 @@ class BridgeEVMToArchethicUseCase
 
     // 3) Provision HTLC
     if (recoveryStep <= 3 && bridge.tokenToBridge!.typeSource != 'Native') {
-      try {
-        await bridgeNotifier.setCurrentStep(3);
-        await provisionEVMHTLC(ref, htlcEVMAddress!);
-      } catch (e) {
-        if (e is aedappfm.UserRejected == false) {
-          aedappfm.sl.get<aedappfm.LogManager>().log(
-                'Provision EVM HTLC error $e',
-                level: aedappfm.LogLevel.error,
-                name: 'BridgeEVMToArchethicUseCase - run',
-              );
-        }
-        return;
-      }
+      await bridgeNotifier.setCurrentStep(3);
     }
 
     // Waiting for EVM's provider data propagation

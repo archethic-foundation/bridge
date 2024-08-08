@@ -72,30 +72,22 @@ class EVMLP with EVMBridgeProcessMixin {
       );
 
       late String txAddress;
-      late StreamSubscription<FilterEvent> subscription;
       try {
         final completer = Completer<void>();
+
         final contractPoolBase =
             await getDeployedContract(contractNamePoolBase, poolAddress);
-        subscription = web3Client
+
+        final eventStream = web3Client
             .events(
               FilterOptions.events(
                 contract: contractPoolBase,
                 event: contractPoolBase.event('ContractMinted'),
+                fromBlock: const BlockNum.current(),
               ),
             )
-            .take(1)
-            .listen(
-          (event) {
-            aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'Event ContractMinted = $event',
-                  name: 'EVMLP - deployChargeableHTLC',
-                );
-            if (!completer.isCompleted) {
-              completer.complete();
-            }
-          },
-        );
+            .asBroadcastStream();
+
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
         await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
         txAddress = await sendTransactionWithErrorManagement(
@@ -105,16 +97,31 @@ class EVMLP with EVMBridgeProcessMixin {
           chainId,
         );
         await bridgeNotifier.setWalletConfirmation(null);
+
+        unawaited(
+          eventStream
+              .firstWhere((event) => event.transactionHash == txAddress)
+              .then(
+            (event) {
+              aedappfm.sl.get<aedappfm.LogManager>().log(
+                    'Event Withdrawn = $event',
+                    name: 'EVMLP - deployChargeableHTLC',
+                  );
+              if (!completer.isCompleted) {
+                completer.complete();
+              }
+            },
+          ),
+        );
+
         await completer.future.timeout(const Duration(seconds: 240));
-        await subscription.cancel();
       } catch (e, stackTrace) {
         if (e is TimeoutException) {
           aedappfm.sl.get<aedappfm.LogManager>().log(
                 'Timeout occurred',
                 level: aedappfm.LogLevel.error,
-                name: 'EVMHTLCERC - signedWithdraw',
+                name: 'EVMLP - deployChargeableHTLC',
               );
-          await subscription.cancel();
           throw const aedappfm.Failure.timeout();
         } else {
           if (e != const aedappfm.Failure.userRejected()) {
@@ -126,7 +133,6 @@ class EVMLP with EVMBridgeProcessMixin {
                 );
           }
         }
-        await subscription.cancel();
         rethrow;
       }
 
@@ -185,30 +191,21 @@ class EVMLP with EVMBridgeProcessMixin {
         );
 
         late String txAddress;
-        late StreamSubscription<FilterEvent> subscription;
         try {
           final completer = Completer<void>();
           final contractPoolBase =
               await getDeployedContract(contractNamePoolBase, poolAddress);
-          subscription = web3Client
+
+          final eventStream = web3Client
               .events(
                 FilterOptions.events(
                   contract: contractPoolBase,
                   event: contractPoolBase.event('ContractProvisioned'),
+                  fromBlock: const BlockNum.current(),
                 ),
               )
-              .take(1)
-              .listen(
-            (event) {
-              aedappfm.sl.get<aedappfm.LogManager>().log(
-                    'Event ContractProvisioned = $event',
-                    name: 'EVMLP - deployAndProvisionSignedHTLC',
-                  );
-              if (!completer.isCompleted) {
-                completer.complete();
-              }
-            },
-          );
+              .asBroadcastStream();
+
           final bridgeNotifier =
               ref.read(BridgeFormProvider.bridgeForm.notifier);
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
@@ -219,8 +216,24 @@ class EVMLP with EVMBridgeProcessMixin {
             chainId,
           );
           await bridgeNotifier.setWalletConfirmation(null);
+
+          unawaited(
+            eventStream
+                .firstWhere((event) => event.transactionHash == txAddress)
+                .then<void>(
+              (event) {
+                aedappfm.sl.get<aedappfm.LogManager>().log(
+                      'Event ContractProvisioned = $event',
+                      name: 'EVMLP - deployAndProvisionSignedHTLC',
+                    );
+                if (!completer.isCompleted) {
+                  completer.complete();
+                }
+              },
+            ).catchError(completer.completeError),
+          );
+
           await completer.future.timeout(const Duration(seconds: 240));
-          await subscription.cancel();
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -228,7 +241,6 @@ class EVMLP with EVMBridgeProcessMixin {
                   level: aedappfm.LogLevel.error,
                   name: 'EVMLP - deployAndProvisionSignedHTLC',
                 );
-            await subscription.cancel();
             throw const aedappfm.Failure.timeout();
           } else {
             if (e != const aedappfm.Failure.userRejected()) {
@@ -241,7 +253,6 @@ class EVMLP with EVMBridgeProcessMixin {
             }
           }
 
-          await subscription.cancel();
           rethrow;
         }
 

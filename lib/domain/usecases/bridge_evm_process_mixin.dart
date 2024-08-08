@@ -163,33 +163,6 @@ mixin EVMBridgeProcessMixin {
     );
   }
 
-  Future<void> provisionEVMHTLC(WidgetRef ref, String htlcAddress) async {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-
-    if (bridge.tokenToBridge!.typeSource == 'Native') {
-      final evmHTLCNative = EVMHTLCNative(
-        bridge.blockchainFrom!.providerEndpoint,
-        htlcAddress,
-        bridge.blockchainFrom!.chainId,
-      );
-      final resultProvisionChargeableHTLC =
-          await evmHTLCNative.provisionChargeableHTLC(
-        ref,
-        bridge.tokenToBridgeAmount,
-      );
-
-      await resultProvisionChargeableHTLC.map(
-        success: (success) {},
-        failure: (failure) async {
-          await bridgeNotifier.setFailure(failure);
-          await bridgeNotifier.setTransferInProgress(false);
-          throw failure;
-        },
-      );
-    }
-  }
-
   Future<void> withdrawEVM(
     WidgetRef ref,
     String htlcAddress,
