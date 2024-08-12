@@ -42,6 +42,10 @@ jobs:
       - name: Build web app
         run: flutter build web --web-renderer canvaskit --release
 
+      - name: Inject meta robots tag if in test environment
+        run: |
+          sed -i 's/<!-- #robotsMetaTag -->//' build/web/index.html
+
       - name: Check files
         run: |
           ls -R
