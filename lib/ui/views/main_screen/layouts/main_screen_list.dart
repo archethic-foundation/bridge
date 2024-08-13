@@ -47,17 +47,14 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
 
     listNavigationLabelIcon = [
       (
-        AppLocalizations.of(context)!.menu_bridge,
-        aedappfm.Iconsax.recovery_convert
+        AppLocalizations.of(context)!.menu_swap,
+        aedappfm.Iconsax.arrange_circle_2
       ),
       (
-        AppLocalizations.of(context)!.menu_local_history,
-        aedappfm.Iconsax.clock
+        AppLocalizations.of(context)!.menu_liquidity,
+        aedappfm.Iconsax.wallet_money
       ),
-      (
-        AppLocalizations.of(context)!.menu_refund,
-        aedappfm.Iconsax.empty_wallet_change
-      ),
+      (AppLocalizations.of(context)!.menu_earn, aedappfm.Iconsax.wallet_add),
     ];
   }
 

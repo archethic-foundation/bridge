@@ -29,7 +29,7 @@ import 'package:webthree/webthree.dart' as webthree;
 part 'provider.g.dart';
 
 @riverpod
-class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
+class _BridgeFormNotifier extends _$BridgeFormNotifier
     with aedappfm.TransactionMixin {
   @override
   BridgeFormState build() {

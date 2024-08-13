@@ -1,5 +1,3 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/main_screen_sheet.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_form_sheet.dart';
@@ -26,9 +24,6 @@ class _RefundSheetState extends ConsumerState<RefundSheet> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-      ref.read(navigationIndexMainScreenProvider.notifier).state =
-          NavigationIndex.refund;
-
       if (widget.htlcAddress != null && widget.htlcAddress!.isNotEmpty) {
         ref
             .read(RefundFormProvider.refundForm.notifier)

@@ -1,5 +1,4 @@
 import 'package:aebridge/ui/views/main_screen/layouts/app_bar_menu_info.dart';
-import 'package:aebridge/ui/views/main_screen/layouts/app_bar_menu_links.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/connection_to_wallet_status.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/header.dart';
 
@@ -43,7 +42,6 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
             width: 10,
           ),
           AppBarMenuInfo(),
-          AppBarMenuLinks(),
           SizedBox(
             width: 16,
           ),
