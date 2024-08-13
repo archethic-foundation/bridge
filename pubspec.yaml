@@ -88,7 +88,7 @@ dependencies:
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.
   build_runner: ^2.4.8
-  # A tool to help you find missing, under-promoted, over-promoted, and unused dependencies.
+  custom_lint: ^0.6.4
   # Code generation for immutable classes that has a simple syntax/API without compromising on the features.
   freezed: ^2.4.7
   # Extension for Hive. Automatically generates TypeAdapters to store any class.
@@ -97,6 +97,7 @@ dev_dependencies:
   json_serializable: ^6.7.1
   # A code generator for Riverpod. This both simplifies the syntax empowers it, such as allowing stateful hot-reload.
   riverpod_generator: ^2.4.0
+  riverpod_lint: ^2.3.10
   # A full featured library for writing and running Dart tests across platforms.
   test: ^1.25.2
 
