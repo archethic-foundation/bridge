@@ -12,8 +12,10 @@
     "connectionWalletDisconnectWarning": "Are you sure you want to disconnect your wallets\nand exit the application?",
     "changeCurrentAccountWarning": "Warning, your current account has been updated.",
     "menu_bridge": "Bridge",
-    "menu_refund": "Refund",
-    "menu_local_history": "Local history",
+    "menu_swap": "Swap",
+    "menu_liquidity": "Pools",
+    "menu_earn": "Earn",
+    "menu_get_wallet": "Get Wallet",
     "menu_documentation": "Documentation",
     "menu_sourceCode": "Source code",
     "menu_faq": "FAQ",
@@ -104,10 +106,6 @@
     "refundAlreadyDoneInfo": "This contract has already been refunded",
     "refundAlreadyWithdrawnInfo": "This contract has already been withdrawn",
     "bridgeConfirmArchethicProtocolLbl": "Protocol fees",
-    "archethicDashboardMenuDEXItem": "aeSwap",
-    "archethicDashboardMenuDEXDesc": "SWAP assets on-chain, add liquidity & access yield farming",
-    "archethicDashboardMenuWalletOnWayItem": "aeWallet",
-    "archethicDashboardMenuWalletOnWayDesc": "Securely store, transfer and swap tokens and collectibles",
     "local_history_logs_title": "Logs",
     "local_history_logs_desc": "In the event of difficulty, you can copy and forward this information to the archethic support team.\nThis information does not contain any information that could affect the security of your funds, but it does provide information for analyzing your problem.\nHowever, before sending this information, please note that it contains your Archethic and EVM addresses.",
     "local_history_logs_copied": "Logs copied",
@@ -172,5 +170,6 @@
     "warningBalanceUCOTooLow": "Warning! Please note that your UCO balance is not sufficient to pay the bridge transaction fees. Please add UCOs to your Archethic wallet first.",
     "infoBalanceUCOZero": "To help you join the Archethic ecosystem, we're offering you free Archethic transaction fees. For security reasons, this will require your signature while the process.",
     "refundNotOwner": "The account currently connected is not the owner of this contract. If you wish to refund the funds, please use the same account.",
-    "maintenanceInfo": "aeBridge is currently undergoing maintenance to improve your experience.\nWe apologize for the inconvenience.\nPlease try again later.\nThank you for your understanding."
+    "maintenanceInfo": "aeBridge is currently undergoing maintenance to improve your experience.\nWe apologize for the inconvenience.\nPlease try again later.\nThank you for your understanding.",
+    "havingTrouble": "Having trouble?"
 }

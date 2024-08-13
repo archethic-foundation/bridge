@@ -19,7 +19,7 @@ import 'package:webthree/webthree.dart';
 part 'provider.g.dart';
 
 @Riverpod(keepAlive: true)
-class _SessionNotifier extends Notifier<Session> {
+class _SessionNotifier extends _$SessionNotifier {
   StreamSubscription? connectionStatusSubscription;
 
   @override
@@ -224,6 +224,7 @@ class _SessionNotifier extends Notifier<Session> {
                 accountSub: success,
                 error: '',
                 isConnected: true,
+                wallet: kArchethicWallet,
                 accountStreamSub: success.updates.listen((event) {
                   if (event.name.isEmpty && event.genesisAddress.isEmpty) {
                     bridgeWallet = bridgeWallet.copyWith(
