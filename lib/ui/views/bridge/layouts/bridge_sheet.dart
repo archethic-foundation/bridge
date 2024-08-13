@@ -5,8 +5,11 @@ import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_sheet
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_form_sheet.dart';
 import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/main_screen_sheet.dart';
-import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
+import 'package:aebridge/ui/views/main_screen/layouts/troubles_popup.dart';
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BridgeSheet extends ConsumerStatefulWidget {
@@ -41,13 +44,35 @@ class _BridgeSheetState extends ConsumerState<BridgeSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
-      currentStep: ref.watch(BridgeFormProvider.bridgeForm).processStep,
-      formSheet: const BridgeFormSheet(),
-      confirmSheet: const BridgeConfirmSheet(),
-      bottomWidget: const ArchethicOracleUco(
-        faqLink:
-            'https://wiki.archethic.net/FAQ/bridge-2-ways#how-is-the-price-of-uco-estimated',
-      ),
-    );
+        currentStep: ref.watch(BridgeFormProvider.bridgeForm).processStep,
+        formSheet: const BridgeFormSheet(),
+        confirmSheet: const BridgeConfirmSheet(),
+        bottomWidget: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
+              onTap: () async {
+                await showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return const TroublesPopup();
+                  },
+                );
+              },
+              child: Text(
+                AppLocalizations.of(context)!.havingTrouble,
+                style: TextStyle(
+                  fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
+                  color: aedappfm.AppThemeBase.secondaryColor,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
+            const aedappfm.ArchethicOracleUco(
+              faqLink:
+                  'https://wiki.archethic.net/FAQ/bridge-2-ways#how-is-the-price-of-uco-estimated',
+            ),
+          ],
+        ));
   }
 }

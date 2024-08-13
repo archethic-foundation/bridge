@@ -171,5 +171,14 @@
     "infoBalanceUCOZero": "To help you join the Archethic ecosystem, we're offering you free Archethic transaction fees. For security reasons, this will require your signature while the process.",
     "refundNotOwner": "The account currently connected is not the owner of this contract. If you wish to refund the funds, please use the same account.",
     "maintenanceInfo": "aeBridge is currently undergoing maintenance to improve your experience.\nWe apologize for the inconvenience.\nPlease try again later.\nThank you for your understanding.",
-    "havingTrouble": "Having trouble?"
+    "havingTrouble": "Any trouble?",
+    "havingTroubleHeader": "Any trouble?",
+    "troubleItem1Title": "Got questions?",
+    "troubleItem1Desc": "Explore our FAQ for quick answers.",
+    "troubleItem2Title": "Looking for guidance?",
+    "troubleItem2Desc": "Dive into our tutorials to master the app.",
+    "troubleItem3Title": "Resume or review?",
+    "troubleItem3Desc": "Access your history or pick up where you left off.",
+    "troubleItem4Title": "Lost funds?",
+    "troubleItem4Desc": "Recover your assets after a bridge cancellation or error."
 }
