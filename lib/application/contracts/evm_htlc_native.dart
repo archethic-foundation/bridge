@@ -97,6 +97,8 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
           }
         }
         rethrow;
+      } finally {
+        await web3Client.dispose();
       }
     });
   }
@@ -189,6 +191,8 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
             }
           }
           rethrow;
+        } finally {
+          await web3Client.dispose();
         }
         return withdrawTx;
       },

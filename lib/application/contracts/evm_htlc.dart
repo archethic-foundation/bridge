@@ -113,6 +113,8 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             refundNotifier.setWalletConfirmation(null);
             rethrow;
           }
+        } finally {
+          await web3Client.dispose();
         }
         return refundTx;
       },
@@ -341,6 +343,8 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             }
           }
           rethrow;
+        } finally {
+          await web3Client.dispose();
         }
         return withdrawTx;
       },

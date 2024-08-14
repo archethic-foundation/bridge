@@ -30,6 +30,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
     double amount,
     String tokenAddress,
     String poolAddress,
+    String userAddress,
   ) async {
     return aedappfm.Result.guard(
       () async {
@@ -50,11 +51,22 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
 
         try {
           final completer = Completer<void>();
+
           final eventStream = web3Client
               .events(
-                FilterOptions.events(
-                  contract: contract,
-                  event: contract.event('Approval'),
+                FilterOptions(
+                  address: contract.address,
+                  topics: [
+                    [
+                      bytesToHex(
+                        contract.event('Approval').signature,
+                        padToEvenLength: true,
+                        include0x: true,
+                      ),
+                      EthereumAddress.fromHex(userAddress).hex,
+                      EthereumAddress.fromHex(poolAddress).hex,
+                    ]
+                  ],
                   fromBlock: const BlockNum.current(),
                 ),
               )
@@ -107,6 +119,8 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             }
           }
           rethrow;
+        } finally {
+          await web3Client.dispose();
         }
       },
     );
@@ -196,6 +210,8 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             }
           }
           rethrow;
+        } finally {
+          await web3Client.dispose();
         }
       },
     );
@@ -290,6 +306,8 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             }
           }
           rethrow;
+        } finally {
+          await web3Client.dispose();
         }
         return withdrawTx;
       },

@@ -134,6 +134,8 @@ class EVMLP with EVMBridgeProcessMixin {
           }
         }
         rethrow;
+      } finally {
+        await web3Client.dispose();
       }
 
       // Get HTLC address
@@ -254,6 +256,8 @@ class EVMLP with EVMBridgeProcessMixin {
           }
 
           rethrow;
+        } finally {
+          await web3Client.dispose();
         }
 
         // Get HTLC address

@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/application/contracts/evm_htlc_erc.dart';
+import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/infrastructure/balance.repository.dart';
@@ -33,6 +34,7 @@ class BridgeEVMToArchethicUseCase
   }) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+    final session = ref.read(SessionProviders.session);
     await bridgeNotifier.setCurrentStep(0);
 
     Uint8List? secret;
@@ -76,6 +78,7 @@ class BridgeEVMToArchethicUseCase
             bridge.tokenToBridgeAmount,
             bridge.tokenToBridge!.tokenAddressSource,
             bridge.tokenToBridge!.poolAddressFrom,
+            session.walletFrom!.genesisAddress,
           );
         }
 
