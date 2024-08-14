@@ -2,7 +2,7 @@ name: aebridge
 description: Enable interoperability and facilitate the transfer of data and assets between the two blockchains.
 publish_to: "none"
 
-version: 1.0.11+82
+version: 1.0.11+83
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
@@ -82,6 +82,8 @@ dependencies:
   #  git:
   #    url: https://github.com/redDwarf03/webthree.git
   #    ref: master
+  #webthree:
+  #  path: ../../SANDBOX/webthree
 
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.

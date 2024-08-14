@@ -167,6 +167,7 @@ class EVMWalletProvider extends ChangeNotifier {
           final client = Web3Client(
             providerEndpoint,
             Client(),
+            customFilterPingInterval: const Duration(seconds: 5),
           );
 
           final abiTokenStringJson = jsonDecode(
@@ -232,6 +233,7 @@ class EVMWalletProvider extends ChangeNotifier {
           final client = Web3Client(
             providerEndpoint,
             Client(),
+            customFilterPingInterval: const Duration(seconds: 5),
           );
 
           final abiTokenStringJson = jsonDecode(
