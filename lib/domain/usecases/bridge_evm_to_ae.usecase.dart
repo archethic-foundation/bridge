@@ -69,7 +69,7 @@ class BridgeEVMToArchethicUseCase
         await bridgeNotifier.setCurrentStep(1);
 
         if (bridge.tokenToBridge!.typeSource == 'Wrapped') {
-          await EVMHTLCERC(
+          final resultApproval = await EVMHTLCERC(
             bridge.blockchainFrom!.providerEndpoint,
             '',
             bridge.blockchainFrom!.chainId,
@@ -80,6 +80,15 @@ class BridgeEVMToArchethicUseCase
             bridge.tokenToBridge!.poolAddressFrom,
             session.walletFrom!.genesisAddress,
             bridge.tokenToBridgeDecimals,
+          );
+
+          await resultApproval.map(
+            success: (value) {},
+            failure: (failure) async {
+              await bridgeNotifier.setFailure(failure);
+              await bridgeNotifier.setTransferInProgress(false);
+              return;
+            },
           );
         }
 

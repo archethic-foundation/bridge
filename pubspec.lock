@@ -1248,11 +1248,18 @@ packages:
   webthree:
     dependency: "direct main"
     description:
+<<<<<<< HEAD
       name: webthree
       sha256: e23d728b5675adfc37d0d7c10e8c342818213ad6403e77082f2b25feb1805d43
       url: "https://pub.dev"
     source: hosted
     version: "2.7.5"
+=======
+      path: "../../SANDBOX/webthree"
+      relative: true
+    source: path
+    version: "2.7.3"
+>>>>>>> 59801ad (feat: :sparkles: Extends custom filter refresh interval)
   win32:
     dependency: transitive
     description:

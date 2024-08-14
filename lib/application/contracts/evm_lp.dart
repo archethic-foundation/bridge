@@ -59,7 +59,13 @@ class EVMLP with EVMBridgeProcessMixin {
   }) async {
     return aedappfm.Result.guard(() async {
       final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-      final web3Client = Web3Client(providerEndpoint!, Client());
+      final web3Client = Web3Client(
+        providerEndpoint!,
+        Client(),
+        customFilterPingInterval: const Duration(
+          seconds: 5,
+        ),
+      );
       late String htlcContractAddress;
 
       final contractLP =
@@ -170,7 +176,13 @@ class EVMLP with EVMBridgeProcessMixin {
     return aedappfm.Result.guard(
       () async {
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-        final web3Client = Web3Client(providerEndpoint!, Client());
+        final web3Client = Web3Client(
+          providerEndpoint!,
+          Client(),
+          customFilterPingInterval: const Duration(
+            seconds: 5,
+          ),
+        );
         late String htlcContractAddressEVM;
 
         final contractLP =
@@ -294,7 +306,11 @@ class EVMLP with EVMBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(() async {
       final swapList = <Swap>[];
-      final web3Client = Web3Client(providerEndpoint!, Client());
+      final web3Client = Web3Client(
+        providerEndpoint!,
+        Client(),
+        customFilterPingInterval: const Duration(seconds: 5),
+      );
 
       final contractLP =
           await getDeployedContract(contractNameIPool, poolAddress);

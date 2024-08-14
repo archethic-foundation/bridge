@@ -19,7 +19,13 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
     this.htlcContractAddress,
     this.chainId,
   ) {
-    web3Client = Web3Client(providerEndpoint, Client());
+    web3Client = Web3Client(
+      providerEndpoint,
+      Client(),
+      customFilterPingInterval: const Duration(
+        seconds: 5,
+      ),
+    );
   }
   final String providerEndpoint;
   final String htlcContractAddress;
