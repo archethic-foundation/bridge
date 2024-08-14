@@ -10,7 +10,8 @@ class BalanceRepositoryImpl implements BalanceRepository {
     bool isArchethic,
     String address,
     String typeToken,
-    String tokenAddress, {
+    String tokenAddress,
+    int decimal, {
     String? providerEndpoint,
   }) async {
     if (isArchethic) {
@@ -36,6 +37,7 @@ class BalanceRepositoryImpl implements BalanceRepository {
                 address,
                 providerEndpoint!,
                 typeToken,
+                decimal,
               );
           return balance;
         case 'Wrapped':
@@ -43,6 +45,7 @@ class BalanceRepositoryImpl implements BalanceRepository {
                 address,
                 providerEndpoint!,
                 typeToken,
+                decimal,
                 erc20address: tokenAddress,
               );
           return balance;

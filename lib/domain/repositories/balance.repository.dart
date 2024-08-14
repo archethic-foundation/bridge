@@ -3,7 +3,8 @@ abstract class BalanceRepository {
     bool isArchethic,
     String address,
     String typeToken,
-    String tokenAddress, {
+    String tokenAddress,
+    int decimal, {
     String? providerEndpoint,
   });
 }

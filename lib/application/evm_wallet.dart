@@ -145,7 +145,8 @@ class EVMWalletProvider extends ChangeNotifier {
   Future<double> getBalance(
     String address,
     String providerEndpoint,
-    String typeToken, {
+    String typeToken,
+    int decimal, {
     String erc20address = '',
   }) async {
     try {

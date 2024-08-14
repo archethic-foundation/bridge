@@ -304,6 +304,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
         session.walletFrom!.genesisAddress,
         state.tokenToBridge!.typeSource,
         state.tokenToBridge!.tokenAddressSource,
+        18,
         providerEndpoint: state.blockchainFrom!.providerEndpoint,
       ).future,
     );
@@ -325,6 +326,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
         session.walletTo!.genesisAddress,
         state.tokenToBridge!.typeTarget,
         state.tokenToBridge!.tokenAddressTarget,
+        18,
         providerEndpoint: state.blockchainTo!.providerEndpoint,
       ).future,
     );
@@ -337,6 +339,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
           state.tokenToBridge!.poolAddressTo,
           state.tokenToBridge!.typeTarget,
           state.tokenToBridge!.tokenAddressTarget,
+          18,
           providerEndpoint: state.blockchainTo!.providerEndpoint,
         ).future,
       );
