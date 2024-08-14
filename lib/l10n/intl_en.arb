@@ -180,5 +180,6 @@
     "troubleItem3Title": "Resume or review?",
     "troubleItem3Desc": "Access your history or pick up where you left off.",
     "troubleItem4Title": "Lost funds?",
-    "troubleItem4Desc": "Recover your assets after a bridge cancellation or error."
+    "troubleItem4Desc": "Recover your assets after a bridge cancellation or error.",
+    "backToBridge": "Go Back to Bridge Form"
 }

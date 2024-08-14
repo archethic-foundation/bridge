@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
+import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/local_history/bloc/provider.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_bridge_finished_included_switch.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card.dart';
@@ -14,6 +15,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class LocalHistorySheet extends ConsumerWidget {
   const LocalHistorySheet({
@@ -45,6 +47,42 @@ Widget _body(BuildContext context, WidgetRef ref) {
         children: [
           if (!aedappfm.Responsive.isDesktop(context))
             const SizedBox(width: 20),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10, left: 5),
+            child: Row(
+              children: [
+                InkWell(
+                  onTap: () async {
+                    context.go(BridgeSheet.routerPage);
+                  },
+                  child: Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 2),
+                        child: Icon(
+                          Icons.arrow_back_ios_new,
+                          color: aedappfm.AppThemeBase.secondaryColor,
+                          size: 12,
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        AppLocalizations.of(context)!.backToBridge,
+                        style: TextStyle(
+                          fontSize:
+                              Theme.of(context).textTheme.labelSmall!.fontSize,
+                          color: aedappfm.AppThemeBase.secondaryColor,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
           Row(
             children: [
               Padding(
@@ -52,12 +90,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
                 child: SelectionArea(
                   child: SelectableText(
                     AppLocalizations.of(context)!.bridgesListTitle,
-                    style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.titleSmall!,
-                          ),
-                        ),
+                    style: Theme.of(context).textTheme.titleSmall,
                   ),
                 ),
               ),

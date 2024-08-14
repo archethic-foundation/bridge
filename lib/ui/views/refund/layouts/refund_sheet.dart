@@ -1,9 +1,13 @@
+import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/main_screen_sheet.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_form_sheet.dart';
-import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class RefundSheet extends ConsumerStatefulWidget {
   const RefundSheet({
@@ -34,11 +38,46 @@ class _RefundSheetState extends ConsumerState<RefundSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return const MainScreenSheet(
-      currentStep: ProcessStep.form,
-      formSheet: RefundFormSheet(),
-      confirmSheet: SizedBox.shrink(),
-      bottomWidget: SizedBox.shrink(),
+    return MainScreenSheet(
+      currentStep: aedappfm.ProcessStep.form,
+      formSheet: const RefundFormSheet(),
+      confirmSheet: const SizedBox.shrink(),
+      bottomWidget: Padding(
+        padding: const EdgeInsets.only(bottom: 10),
+        child: Row(
+          children: [
+            InkWell(
+              onTap: () async {
+                context.go(BridgeSheet.routerPage);
+              },
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 2),
+                    child: Icon(
+                      Icons.arrow_back_ios_new,
+                      color: aedappfm.AppThemeBase.secondaryColor,
+                      size: 12,
+                    ),
+                  ),
+                  const SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    AppLocalizations.of(context)!.backToBridge,
+                    style: TextStyle(
+                      fontSize:
+                          Theme.of(context).textTheme.labelSmall!.fontSize,
+                      color: aedappfm.AppThemeBase.secondaryColor,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

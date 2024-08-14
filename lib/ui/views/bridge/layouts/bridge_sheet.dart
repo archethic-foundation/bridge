@@ -44,35 +44,36 @@ class _BridgeSheetState extends ConsumerState<BridgeSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
-        currentStep: ref.watch(BridgeFormProvider.bridgeForm).processStep,
-        formSheet: const BridgeFormSheet(),
-        confirmSheet: const BridgeConfirmSheet(),
-        bottomWidget: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            InkWell(
-              onTap: () async {
-                await showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return const TroublesPopup();
-                  },
-                );
-              },
-              child: Text(
-                AppLocalizations.of(context)!.havingTrouble,
-                style: TextStyle(
-                  fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
-                  color: aedappfm.AppThemeBase.secondaryColor,
-                  decoration: TextDecoration.underline,
-                ),
+      currentStep: ref.watch(BridgeFormProvider.bridgeForm).processStep,
+      formSheet: const BridgeFormSheet(),
+      confirmSheet: const BridgeConfirmSheet(),
+      bottomWidget: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          InkWell(
+            onTap: () async {
+              await showDialog(
+                context: context,
+                builder: (BuildContext context) {
+                  return const TroublesPopup();
+                },
+              );
+            },
+            child: Text(
+              AppLocalizations.of(context)!.havingTrouble,
+              style: TextStyle(
+                fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
+                color: aedappfm.AppThemeBase.secondaryColor,
+                decoration: TextDecoration.underline,
               ),
             ),
-            const aedappfm.ArchethicOracleUco(
-              faqLink:
-                  'https://wiki.archethic.net/FAQ/bridge-2-ways#how-is-the-price-of-uco-estimated',
-            ),
-          ],
-        ));
+          ),
+          const aedappfm.ArchethicOracleUco(
+            faqLink:
+                'https://wiki.archethic.net/FAQ/bridge-2-ways#how-is-the-price-of-uco-estimated',
+          ),
+        ],
+      ),
+    );
   }
 }

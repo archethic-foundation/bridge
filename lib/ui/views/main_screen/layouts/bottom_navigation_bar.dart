@@ -1,12 +1,13 @@
 import 'dart:ui';
 
+import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/util/icon_size.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class BottomNavigationBarMainScreen extends ConsumerStatefulWidget {
@@ -28,14 +29,12 @@ class _BottomNavigationBarMainScreenState
     extends ConsumerState<BottomNavigationBarMainScreen> {
   @override
   Widget build(BuildContext context) {
-    widget.listNavigationLabelIcon.removeWhere(
-      (element) => element.$1 == AppLocalizations.of(context)!.menu_bridge,
-    );
     return ClipRRect(
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: BottomNavigationBar(
           elevation: 0,
+          type: BottomNavigationBarType.fixed,
           backgroundColor: Colors.transparent,
           selectedFontSize: 10,
           unselectedFontSize: 10,
@@ -71,6 +70,12 @@ class _BottomNavigationBarMainScreenState
               case aedappfm.Iconsax.wallet_add:
                 if (tabSelected == NavigationIndex.earn) {
                   widthContainer = 30;
+                  selected = true;
+                }
+                break;
+              case aedappfm.Iconsax.recovery_convert:
+                if (tabSelected == NavigationIndex.bridge) {
+                  widthContainer = 40;
                   selected = true;
                 }
                 break;
@@ -176,6 +181,16 @@ class _BottomNavigationBarMainScreenState
                   ),
                   webOnlyWindowName: '_self',
                 );
+                break;
+              case 3:
+                setState(() {
+                  ref
+                      .read(
+                        navigationIndexMainScreenProvider.notifier,
+                      )
+                      .state = NavigationIndex.bridge;
+                });
+                context.go(BridgeSheet.routerPage);
                 break;
 
               default:
