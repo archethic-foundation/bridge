@@ -22,7 +22,7 @@ final _balanceRepositoryProvider =
 );
 
 typedef _BalanceRepositoryRef = AutoDisposeProviderRef<BalanceRepository>;
-String _$getBalanceHash() => r'eff86b6c2ef83cb454ccd915e2f5c0b24ba26888';
+String _$getBalanceHash() => r'd29a315387d3a35a18d20e40ab033af777e8fcd1';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -59,7 +59,8 @@ class _GetBalanceFamily extends Family<AsyncValue<double>> {
     bool isArchethic,
     String address,
     String typeToken,
-    String tokenAddress, {
+    String tokenAddress,
+    int decimal, {
     String? providerEndpoint,
   }) {
     return _GetBalanceProvider(
@@ -67,6 +68,7 @@ class _GetBalanceFamily extends Family<AsyncValue<double>> {
       address,
       typeToken,
       tokenAddress,
+      decimal,
       providerEndpoint: providerEndpoint,
     );
   }
@@ -80,6 +82,7 @@ class _GetBalanceFamily extends Family<AsyncValue<double>> {
       provider.address,
       provider.typeToken,
       provider.tokenAddress,
+      provider.decimal,
       providerEndpoint: provider.providerEndpoint,
     );
   }
@@ -106,7 +109,8 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
     bool isArchethic,
     String address,
     String typeToken,
-    String tokenAddress, {
+    String tokenAddress,
+    int decimal, {
     String? providerEndpoint,
   }) : this._internal(
           (ref) => _getBalance(
@@ -115,6 +119,7 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
             address,
             typeToken,
             tokenAddress,
+            decimal,
             providerEndpoint: providerEndpoint,
           ),
           from: _getBalanceProvider,
@@ -130,6 +135,7 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
           address: address,
           typeToken: typeToken,
           tokenAddress: tokenAddress,
+          decimal: decimal,
           providerEndpoint: providerEndpoint,
         );
 
@@ -144,6 +150,7 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
     required this.address,
     required this.typeToken,
     required this.tokenAddress,
+    required this.decimal,
     required this.providerEndpoint,
   }) : super.internal();
 
@@ -151,6 +158,7 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
   final String address;
   final String typeToken;
   final String tokenAddress;
+  final int decimal;
   final String? providerEndpoint;
 
   @override
@@ -170,6 +178,7 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
         address: address,
         typeToken: typeToken,
         tokenAddress: tokenAddress,
+        decimal: decimal,
         providerEndpoint: providerEndpoint,
       ),
     );
@@ -187,6 +196,7 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
         other.address == address &&
         other.typeToken == typeToken &&
         other.tokenAddress == tokenAddress &&
+        other.decimal == decimal &&
         other.providerEndpoint == providerEndpoint;
   }
 
@@ -197,6 +207,7 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
     hash = _SystemHash.combine(hash, address.hashCode);
     hash = _SystemHash.combine(hash, typeToken.hashCode);
     hash = _SystemHash.combine(hash, tokenAddress.hashCode);
+    hash = _SystemHash.combine(hash, decimal.hashCode);
     hash = _SystemHash.combine(hash, providerEndpoint.hashCode);
 
     return _SystemHash.finish(hash);
@@ -216,6 +227,9 @@ mixin _GetBalanceRef on AutoDisposeFutureProviderRef<double> {
   /// The parameter `tokenAddress` of this provider.
   String get tokenAddress;
 
+  /// The parameter `decimal` of this provider.
+  int get decimal;
+
   /// The parameter `providerEndpoint` of this provider.
   String? get providerEndpoint;
 }
@@ -232,6 +246,8 @@ class _GetBalanceProviderElement
   String get typeToken => (origin as _GetBalanceProvider).typeToken;
   @override
   String get tokenAddress => (origin as _GetBalanceProvider).tokenAddress;
+  @override
+  int get decimal => (origin as _GetBalanceProvider).decimal;
   @override
   String? get providerEndpoint =>
       (origin as _GetBalanceProvider).providerEndpoint;

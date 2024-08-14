@@ -144,7 +144,7 @@ class BridgeEVMToArchethicUseCase
       try {
         await bridgeNotifier.setCurrentStep(5);
         final balanceUCO = await BalanceRepositoryImpl()
-            .getBalance(true, bridge.targetAddress, '', '');
+            .getBalance(true, bridge.targetAddress, '', '', 18);
         if (balanceUCO == 0) {
           final signature = await signTxFaucetUCO();
           final queryParameters = {
