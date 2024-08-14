@@ -18,7 +18,7 @@
                 "targetTokenName": "Ether",
                 "targetTokenSymbol": "ETH",
                 "poolAddressFrom": "0000ec74226e85766fe5ade9ffea53d453f569799142f9ff248dcf532cebff4b3d32",
-                "poolAddressTo": "",
+                "poolAddressTo": "0x37A57dB56F558435a16C31dBeDe48F278545A37e",
                 "typeSource": "Wrapped",
                 "typeTarget": "Native",
                 "tokenAddressSource": "0000457eaca7fbaa96db4a8d506a0b69684f546166fbf3c55391b1461907efa58eaf"
@@ -29,7 +29,7 @@
                 "targetTokenName": "EURe (Monerium)",
                 "targetTokenSymbol": "EURe",
                 "poolAddressFrom": "0000C3E866E5E926869F4F9F0649D8E1E5E0D339F9D92A7128F72D57444D954E7907",
-                "poolAddressTo": "",
+                "poolAddressTo": "0xAbAb69EF6bCE7F57DB741680adADC3827A6325eB",
                 "typeSource": "Wrapped",
                 "typeTarget": "Wrapped",
                 "tokenAddressSource": "00005751A05BA007E7E2518DEA171DBBD67B0527C637232F923830C39BFF9E8F159A",
@@ -40,11 +40,11 @@
                 "symbol": "aeBTC",
                 "targetTokenName": "Wrapped Bitcoin",
                 "targetTokenSymbol": "WBTC",
-                "poolAddressFrom": "",
-                "poolAddressTo": "",
+                "poolAddressFrom": "00007038773E1FA4698176FC432F65EAF9B76758D1367AFCA5793CA653837135CA1E",
+                "poolAddressTo": "0xB141cA8ECE6409198B8543A9BdFbF088Fc8010A8",
                 "typeSource": "Wrapped",
                 "typeTarget": "Wrapped",
-                "tokenAddressSource": "",
+                "tokenAddressSource": "00002CEC79D588D5CDD24331968BEF0A9CFE8B1B03B8AEFC4454726DEF79AA10C125",
                 "tokenAddressTarget": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599"
             }
         ],
@@ -89,11 +89,11 @@
                 "symbol": "aeBTC",
                 "targetTokenName": "(PoS) Wrapped Bitcoin",
                 "targetTokenSymbol": "WBTC",
-                "poolAddressFrom": "",
-                "poolAddressTo": "",
+                "poolAddressFrom": "00007038773E1FA4698176FC432F65EAF9B76758D1367AFCA5793CA653837135CA1E",
+                "poolAddressTo": "0x71A5f7d244C3a5EedC00dA4933336e35115E73c7",
                 "typeSource": "Wrapped",
                 "typeTarget": "Wrapped",
-                "tokenAddressSource": "",
+                "tokenAddressSource": "00002CEC79D588D5CDD24331968BEF0A9CFE8B1B03B8AEFC4454726DEF79AA10C125",
                 "tokenAddressTarget": "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6"
             }
         ],
@@ -113,25 +113,25 @@
                 "name": "Wrapped Ether",
                 "symbol": "aeETH",
                 "targetTokenName": "Wrapped Ether",
-                "targetTokenSymbol": "WETH",
+                "targetTokenSymbol": "ETH",
                 "poolAddressFrom": "0000ec74226e85766fe5ade9ffea53d453f569799142f9ff248dcf532cebff4b3d32",
-                "poolAddressTo": "",
+                "poolAddressTo": "0x947DE182C16C8ee2851529aE574058D5837D47c9",
                 "typeSource": "Wrapped",
                 "typeTarget": "Wrapped",
                 "tokenAddressSource": "0000457eaca7fbaa96db4a8d506a0b69684f546166fbf3c55391b1461907efa58eaf",
-                "tokenAddressTarget": ""
+                "tokenAddressTarget": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8"
             },
             {
                 "name": "Archethic aeBTC",
                 "symbol": "aeBTC",
                 "targetTokenName": "Wrapped Bitcoin",
-                "targetTokenSymbol": "WBTC",
-                "poolAddressFrom": "",
-                "poolAddressTo": "",
+                "targetTokenSymbol": "BTCB",
+                "poolAddressFrom": "00007038773E1FA4698176FC432F65EAF9B76758D1367AFCA5793CA653837135CA1E",
+                "poolAddressTo": "0x73a0aB31DED89aF1F9CDcB115B3E32f111d9f648",
                 "typeSource": "Wrapped",
                 "typeTarget": "Wrapped",
-                "tokenAddressSource": "",
-                "tokenAddressTarget": ""
+                "tokenAddressSource": "00002CEC79D588D5CDD24331968BEF0A9CFE8B1B03B8AEFC4454726DEF79AA10C125",
+                "tokenAddressTarget": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c"
             }
         ],
         "-2->11155111": [
@@ -211,7 +211,7 @@
                 "symbol": "ETH",
                 "targetTokenName": "Archethic Ether",
                 "targetTokenSymbol": "aeETH",
-                "poolAddressFrom": "",
+                "poolAddressFrom": "0x37A57dB56F558435a16C31dBeDe48F278545A37e",
                 "poolAddressTo": "0000ec74226e85766fe5ade9ffea53d453f569799142f9ff248dcf532cebff4b3d32",
                 "typeSource": "Native",
                 "typeTarget": "Wrapped",
@@ -222,11 +222,11 @@
                 "symbol": "EURe",
                 "targetTokenName": "Archethic aeEURe",
                 "targetTokenSymbol": "aeEURe",
-                "poolAddressFrom": "",
+                "poolAddressFrom": "0xAbAb69EF6bCE7F57DB741680adADC3827A6325eB",
                 "poolAddressTo": "0000C3E866E5E926869F4F9F0649D8E1E5E0D339F9D92A7128F72D57444D954E7907",
                 "typeSource": "Wrapped",
                 "typeTarget": "Wrapped",
-                "tokenAddressSource": "",
+                "tokenAddressSource": "0x3231Cb76718CDeF2155FC47b5286d82e6eDA273f",
                 "tokenAddressTarget": "00005751A05BA007E7E2518DEA171DBBD67B0527C637232F923830C39BFF9E8F159A"
             },
             {
@@ -234,12 +234,12 @@
                 "symbol": "WBTC",
                 "targetTokenName": "Archethic aeBTC",
                 "targetTokenSymbol": "aeBTC",
-                "poolAddressFrom": "",
-                "poolAddressTo": "",
+                "poolAddressFrom": "0xB141cA8ECE6409198B8543A9BdFbF088Fc8010A8",
+                "poolAddressTo": "00007038773E1FA4698176FC432F65EAF9B76758D1367AFCA5793CA653837135CA1E",
                 "typeSource": "Wrapped",
                 "typeTarget": "Wrapped",
-                "tokenAddressSource": "",
-                "tokenAddressTarget": ""
+                "tokenAddressSource": "0x2260FAC5E5542a773Aa44fBCfeDf7C193bc2C599",
+                "tokenAddressTarget": "00002CEC79D588D5CDD24331968BEF0A9CFE8B1B03B8AEFC4454726DEF79AA10C125"
             }
         ],
         "137->-1": [
@@ -283,12 +283,12 @@
                 "symbol": "WBTC",
                 "targetTokenName": "Archethic aeBTC",
                 "targetTokenSymbol": "aeBTC",
-                "poolAddressFrom": "",
-                "poolAddressTo": "",
+                "poolAddressFrom": "0x71A5f7d244C3a5EedC00dA4933336e35115E73c7",
+                "poolAddressTo": "00007038773E1FA4698176FC432F65EAF9B76758D1367AFCA5793CA653837135CA1E",
                 "typeSource": "Wrapped",
                 "typeTarget": "Wrapped",
-                "tokenAddressSource": "",
-                "tokenAddressTarget": ""
+                "tokenAddressSource": "0x1BFD67037B42Cf73acF2047067bd4F2C47D9BfD6",
+                "tokenAddressTarget": "00002CEC79D588D5CDD24331968BEF0A9CFE8B1B03B8AEFC4454726DEF79AA10C125"
             }
         ],
         "56->-1": [
@@ -304,16 +304,28 @@
                 "tokenAddressSource": "0xb001f1E7c8bda414aC7Cf7Ecba5469fE8d24B6de"
             },
             {
-                "name": "Wrapped WBTC",
-                "symbol": "WBTC",
-                "targetTokenName": "Archethic aeBTC",
-                "targetTokenSymbol": "aeBTC",
-                "poolAddressFrom": "",
-                "poolAddressTo": "",
+                "name": "Wrapped ETH",
+                "symbol": "ETH",
+                "targetTokenName": "Archethic aeETH",
+                "targetTokenSymbol": "aeETH",
+                "poolAddressFrom": "0x947DE182C16C8ee2851529aE574058D5837D47c9",
+                "poolAddressTo": "0000ec74226e85766fe5ade9ffea53d453f569799142f9ff248dcf532cebff4b3d32",
                 "typeSource": "Wrapped",
                 "typeTarget": "Wrapped",
-                "tokenAddressSource": "",
-                "tokenAddressTarget": ""
+                "tokenAddressSource": "0x2170Ed0880ac9A755fd29B2688956BD959F933F8",
+                "tokenAddressTarget": "0000457eaca7fbaa96db4a8d506a0b69684f546166fbf3c55391b1461907efa58eaf"
+            },
+            {
+                "name": "Wrapped BTC",
+                "symbol": "BTCB",
+                "targetTokenName": "Archethic aeBTC",
+                "targetTokenSymbol": "aeBTC",
+                "poolAddressFrom": "0x73a0aB31DED89aF1F9CDcB115B3E32f111d9f648",
+                "poolAddressTo": "00007038773E1FA4698176FC432F65EAF9B76758D1367AFCA5793CA653837135CA1E",
+                "typeSource": "Wrapped",
+                "typeTarget": "Wrapped",
+                "tokenAddressSource": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c",
+                "tokenAddressTarget": "00002CEC79D588D5CDD24331968BEF0A9CFE8B1B03B8AEFC4454726DEF79AA10C125"
             }
         ],
         "11155111->-2": [
