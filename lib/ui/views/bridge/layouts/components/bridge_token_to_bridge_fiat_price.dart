@@ -43,6 +43,7 @@ class BridgeTokenToBridgeFiatPrice extends ConsumerWidget {
         price = prices.matic;
         break;
       case 'WBTC':
+      case 'BTCB':
       case 'aeBTC':
         price = prices.bitcoin;
         break;

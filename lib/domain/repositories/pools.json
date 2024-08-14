@@ -4,19 +4,19 @@
             "aeETH": "0000ec74226e85766fe5ade9ffea53d453f569799142f9ff248dcf532cebff4b3d32",
             "UCO": "00002075e9fb5329c7f5149802eb75f925d79b5fec5bfcf09dc81993cb9c39feaf5d",
             "aeEURe": "0000C3E866E5E926869F4F9F0649D8E1E5E0D339F9D92A7128F72D57444D954E7907",
-            "aeBTC": ""
+            "aeBTC": "00007038773E1FA4698176FC432F65EAF9B76758D1367AFCA5793CA653837135CA1E"
         },
         "1": {
             "UCO": "0x346Dba8b51485FfBd4b07B0BCb84F48117751AD9",
-            "ETH": "",
-            "EURe": "",
-            "WBTC": ""
+            "ETH": "0x37A57dB56F558435a16C31dBeDe48F278545A37e",
+            "EURe": "0xAbAb69EF6bCE7F57DB741680adADC3827A6325eB",
+            "WBTC": "0xB141cA8ECE6409198B8543A9BdFbF088Fc8010A8"
         },
         "137": {
             "UCO": "0xd5cA9F76495b853a5054814A10b6365ee8ed745B",
             "WETH": "0xbc6df50b5c5DD12c93c2B98828Befdd8095388ca",
             "EURe": "0xF6922A1C40788C8519E42797eD9242552979b60D",
-            "WBTC": ""
+            "WBTC": "0x71A5f7d244C3a5EedC00dA4933336e35115E73c7"
         },
         "-2": {
             "aeETH": "000066706d704329ca8c2a4153991e2ddacc968622ca10217ca14952eb7abb966c30",
@@ -26,8 +26,8 @@
         },
         "56": {
             "UCO": "0xE01F0ee653648192812B2D23CBfe7E147727B672",
-            "WETH": "",
-            "WBTC": ""
+            "WETH": "0x947DE182C16C8ee2851529aE574058D5837D47c9",
+            "BTCB": "0x73a0aB31DED89aF1F9CDcB115B3E32f111d9f648"
         },
         "11155111": {
             "ETH": "0xe983d3dBCB15038dbF2AE69A445A5576B0280d1c",
