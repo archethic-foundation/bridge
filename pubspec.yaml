@@ -8,11 +8,11 @@ environment:
   sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
-  #archethic_dapp_framework_flutter: ^1.2.11
-  archethic_dapp_framework_flutter:
-    git:
-      url: https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git
-      ref: 20-add-btc-in-fetch-price-method
+  archethic_dapp_framework_flutter: ^1.2.13
+  #archethic_dapp_framework_flutter:
+  #  git:
+  #    url: https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git
+  #    ref: 20-add-btc-in-fetch-price-method
   #archethic_dapp_framework_flutter:
   #  path: ../archethic-dapp-framework-flutter
 
@@ -78,7 +78,7 @@ dependencies:
   url_strategy: ^0.2.0
 
   # Dart library to connect to Ethereum clients. Send transactions and interact with smart contracts!
-  webthree: ^2.7.4
+  webthree: ^2.7.5
   #  git:
   #    url: https://github.com/redDwarf03/webthree.git
   #    ref: master

@@ -298,13 +298,33 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
 
     if (tokenToBridge == null) return;
 
+    final tokenToBridgeDecimals = await ref.read(
+      TokenDecimalsProviders.getTokenDecimals(
+        state.blockchainFrom!.isArchethic,
+        state.tokenToBridge!.typeSource,
+        state.tokenToBridge!.tokenAddressSource,
+        providerEndpoint: state.blockchainFrom!.providerEndpoint,
+      ).future,
+    );
+    await setTokenToBridgeDecimals(tokenToBridgeDecimals);
+
+    final tokenBridgedDecimals = await ref.read(
+      TokenDecimalsProviders.getTokenDecimals(
+        state.blockchainTo!.isArchethic,
+        state.tokenToBridge!.typeTarget,
+        state.tokenToBridge!.tokenAddressTarget,
+        providerEndpoint: state.blockchainTo!.providerEndpoint,
+      ).future,
+    );
+    await setTokenBridgedDecimals(tokenBridgedDecimals);
+
     final balance = await ref.read(
       BalanceProviders.getBalance(
         state.blockchainFrom!.isArchethic,
         session.walletFrom!.genesisAddress,
         state.tokenToBridge!.typeSource,
         state.tokenToBridge!.tokenAddressSource,
-        18,
+        state.blockchainFrom!.isArchethic ? 8 : state.tokenToBridgeDecimals,
         providerEndpoint: state.blockchainFrom!.providerEndpoint,
       ).future,
     );
@@ -326,7 +346,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
         session.walletTo!.genesisAddress,
         state.tokenToBridge!.typeTarget,
         state.tokenToBridge!.tokenAddressTarget,
-        18,
+        state.blockchainTo!.isArchethic ? 8 : state.tokenBridgedDecimals,
         providerEndpoint: state.blockchainTo!.providerEndpoint,
       ).future,
     );
@@ -339,7 +359,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
           state.tokenToBridge!.poolAddressTo,
           state.tokenToBridge!.typeTarget,
           state.tokenToBridge!.tokenAddressTarget,
-          18,
+          state.tokenBridgedDecimals,
           providerEndpoint: state.blockchainTo!.providerEndpoint,
         ).future,
       );
@@ -361,6 +381,15 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
   ) async {
     state = state.copyWith(
       tokenToBridgeDecimals: tokenToBridgeDecimals,
+    );
+    await storeBridge();
+  }
+
+  Future<void> setTokenBridgedDecimals(
+    int tokenBridgedDecimals,
+  ) async {
+    state = state.copyWith(
+      tokenBridgedDecimals: tokenBridgedDecimals,
     );
     await storeBridge();
   }

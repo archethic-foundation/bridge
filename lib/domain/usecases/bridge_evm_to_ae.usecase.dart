@@ -79,6 +79,7 @@ class BridgeEVMToArchethicUseCase
             bridge.tokenToBridge!.tokenAddressSource,
             bridge.tokenToBridge!.poolAddressFrom,
             session.walletFrom!.genesisAddress,
+            bridge.tokenToBridgeDecimals,
           );
         }
 
@@ -132,7 +133,11 @@ class BridgeEVMToArchethicUseCase
     double? amount;
     if (recoveryStep <= 5) {
       await bridgeNotifier.setCurrentStep(4);
-      amount = await getEVMHTLCAmount(ref, htlcEVMAddress!);
+      amount = await getEVMHTLCAmount(
+        ref,
+        htlcEVMAddress!,
+        bridge.tokenToBridgeDecimals,
+      );
       if (amount == null) {
         await bridgeNotifier.setFailure(const aedappfm.Failure.invalidValue());
         await bridgeNotifier.setTransferInProgress(false);
@@ -144,7 +149,7 @@ class BridgeEVMToArchethicUseCase
       try {
         await bridgeNotifier.setCurrentStep(5);
         final balanceUCO = await BalanceRepositoryImpl()
-            .getBalance(true, bridge.targetAddress, '', '', 18);
+            .getBalance(true, bridge.targetAddress, '', '', 8);
         if (balanceUCO == 0) {
           final signature = await signTxFaucetUCO();
           final queryParameters = {
@@ -291,7 +296,11 @@ class BridgeEVMToArchethicUseCase
         }
       }
       if (amount == null) {
-        amount = await getEVMHTLCAmount(ref, htlcEVMAddress!);
+        amount = await getEVMHTLCAmount(
+          ref,
+          htlcEVMAddress!,
+          bridge.tokenToBridgeDecimals,
+        );
         if (amount == null) {
           await bridgeNotifier
               .setFailure(const aedappfm.Failure.invalidValue());
@@ -345,7 +354,11 @@ class BridgeEVMToArchethicUseCase
       try {
         await bridgeNotifier.setCurrentStep(7);
         if (amount == null) {
-          amount = await getEVMHTLCAmount(ref, htlcEVMAddress!);
+          amount = await getEVMHTLCAmount(
+            ref,
+            htlcEVMAddress!,
+            bridge.tokenToBridgeDecimals,
+          );
           amount ??= bridge.tokenToBridgeAmount;
         }
         await revealEVMSecret(

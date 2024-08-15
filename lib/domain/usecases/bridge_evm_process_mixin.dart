@@ -87,6 +87,7 @@ mixin EVMBridgeProcessMixin {
     SecretHash secretHash,
     int endTime,
     double amount,
+    int decimal,
     String htlcContractAddressAE,
   ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
@@ -99,6 +100,7 @@ mixin EVMBridgeProcessMixin {
       htlcContractAddressAE,
       secretHash,
       amount,
+      decimal,
       endTime,
       chainId: bridge.blockchainTo!.chainId,
     );
@@ -141,6 +143,7 @@ mixin EVMBridgeProcessMixin {
       bridge.tokenToBridge!.poolAddressFrom,
       secretHash.toString(),
       bridge.tokenToBridgeAmount,
+      bridge.tokenToBridgeDecimals,
       bridge.tokenToBridge!.typeSource != 'Native',
       chainId: bridge.blockchainFrom!.chainId,
     );
@@ -201,7 +204,11 @@ mixin EVMBridgeProcessMixin {
     );
   }
 
-  Future<double?> getEVMHTLCAmount(WidgetRef ref, String htlcAddress) async {
+  Future<double?> getEVMHTLCAmount(
+    WidgetRef ref,
+    String htlcAddress,
+    int decimal,
+  ) async {
     double? etlcAmount;
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final htlc = EVMHTLC(
@@ -210,7 +217,7 @@ mixin EVMBridgeProcessMixin {
       bridge.blockchainFrom!.chainId,
     );
 
-    final resultAmount = await htlc.getAmount();
+    final resultAmount = await htlc.getAmount(decimal);
     resultAmount.map(
       success: (amount) => etlcAmount = amount,
       failure: (failure) => etlcAmount = null,

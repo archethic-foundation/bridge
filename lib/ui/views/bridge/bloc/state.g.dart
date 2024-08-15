@@ -33,6 +33,8 @@ _$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
       poolTargetBalance: (json['poolTargetBalance'] as num?)?.toDouble() ?? 0,
       tokenToBridgeDecimals:
           (json['tokenToBridgeDecimals'] as num?)?.toInt() ?? 8,
+      tokenBridgedDecimals:
+          (json['tokenBridgedDecimals'] as num?)?.toInt() ?? 8,
       failure: _$JsonConverterFromJson<Map<String, dynamic>, Failure>(
           json['failure'], const FailureJsonConverter().fromJson),
       isTransferInProgress: json['isTransferInProgress'] as bool? ?? false,
@@ -88,6 +90,7 @@ Map<String, dynamic> _$$BridgeFormStateImplToJson(
       'tokenBridgedBalance': instance.tokenBridgedBalance,
       'poolTargetBalance': instance.poolTargetBalance,
       'tokenToBridgeDecimals': instance.tokenToBridgeDecimals,
+      'tokenBridgedDecimals': instance.tokenBridgedDecimals,
       'failure': _$JsonConverterToJson<Map<String, dynamic>, Failure>(
           instance.failure, const FailureJsonConverter().toJson),
       'isTransferInProgress': instance.isTransferInProgress,

@@ -7,6 +7,7 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
@@ -31,6 +32,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
     String tokenAddress,
     String poolAddress,
     String userAddress,
+    int decimal,
   ) async {
     return aedappfm.Result.guard(
       () async {
@@ -38,13 +40,15 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
         final contract =
             await getDeployedContract(contractNameIERC20, tokenAddress);
 
-        final ethAmount = EtherAmount.fromDouble(EtherUnit.ether, amount);
+        final tokenUnits = (Decimal.parse('$amount') *
+                Decimal.fromBigInt(BigInt.from(10).pow(decimal)))
+            .toBigInt();
         final transactionTransfer = Transaction.callContract(
           contract: contract,
           function: contract.function('approve'),
           parameters: [
             EthereumAddress.fromHex(poolAddress),
-            ethAmount.getInWei,
+            tokenUnits,
           ],
           maxGas: 1500000,
         );
@@ -115,97 +119,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
                     stackTrace: stackTrace,
                     level: aedappfm.LogLevel.error,
                     name: 'EVMHTLCERC - approveChargeableHTLC',
-                  );
-            }
-          }
-          rethrow;
-        } finally {
-          await web3Client.dispose();
-        }
-      },
-    );
-  }
-
-  /// TODO(reddwarf03): This is never used
-  Future<aedappfm.Result<void, aedappfm.Failure>> provisionChargeableHTLC(
-    WidgetRef ref,
-    double amount,
-    String tokenAddress,
-  ) async {
-    return aedappfm.Result.guard(
-      () async {
-        final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-        final contract =
-            await getDeployedContract(contractNameIERC20, tokenAddress);
-
-        final ethAmount = EtherAmount.fromDouble(EtherUnit.ether, amount);
-        final transactionTransfer = Transaction.callContract(
-          contract: contract,
-          function: contract.function('transfer'),
-          parameters: [
-            EthereumAddress.fromHex(htlcContractAddress),
-            ethAmount.getInWei,
-          ],
-          maxGas: 1500000,
-        );
-
-        try {
-          final completer = Completer<void>();
-
-          final eventStream = web3Client
-              .events(
-                FilterOptions.events(
-                  contract: contract,
-                  event: contract.event('Transfer'),
-                  fromBlock: const BlockNum.current(),
-                ),
-              )
-              .asBroadcastStream();
-
-          final bridgeNotifier =
-              ref.read(BridgeFormProvider.bridgeForm.notifier);
-          await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
-          final txHash = await sendTransactionWithErrorManagement(
-            web3Client,
-            evmWalletProvider.credentials!,
-            transactionTransfer,
-            chainId,
-          );
-          await bridgeNotifier.setWalletConfirmation(null);
-
-          unawaited(
-            eventStream
-                .firstWhere((event) => event.transactionHash == txHash)
-                .then<void>(
-              (event) {
-                aedappfm.sl.get<aedappfm.LogManager>().log(
-                      'Event Transfer = $event',
-                      name: 'EVMHTLCERC - provisionChargeableHTLC',
-                    );
-
-                if (!completer.isCompleted) {
-                  completer.complete();
-                }
-              },
-            ).catchError(completer.completeError),
-          );
-
-          await completer.future.timeout(const Duration(seconds: 240));
-        } catch (e, stackTrace) {
-          if (e is TimeoutException) {
-            aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'Timeout occurred',
-                  level: aedappfm.LogLevel.error,
-                  name: 'EVMHTLCERC - provisionChargeableHTLC',
-                );
-            throw const aedappfm.Failure.timeout();
-          } else {
-            if (e != const aedappfm.Failure.userRejected()) {
-              aedappfm.sl.get<aedappfm.LogManager>().log(
-                    'e $e',
-                    stackTrace: stackTrace,
-                    level: aedappfm.LogLevel.error,
-                    name: 'EVMHTLCERC - provisionChargeableHTLC',
                   );
             }
           }
@@ -314,7 +227,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
     );
   }
 
-  Future<aedappfm.Result<double, aedappfm.Failure>> getFee() async {
+  Future<aedappfm.Result<double, aedappfm.Failure>> getFee(int decimal) async {
     return aedappfm.Result.guard(
       () async {
         try {
@@ -330,8 +243,11 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
           );
 
           final BigInt fee = feeMap[0];
-          final etherAmount = EtherAmount.fromBigInt(EtherUnit.wei, fee);
-          return etherAmount.getValueInUnit(EtherUnit.ether);
+          final convertedFee = (Decimal.parse('$fee') /
+                  Decimal.fromBigInt(BigInt.from(10).pow(decimal)))
+              .toDouble();
+
+          return convertedFee;
         } catch (e) {
           return 0.0;
         }
