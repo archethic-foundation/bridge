@@ -15,6 +15,7 @@ class BridgeFinalAmount extends ConsumerStatefulWidget {
     required this.address,
     required this.isUCO,
     required this.to,
+    required this.decimal,
     this.chainId,
     this.providerEndpoint,
   });
@@ -25,6 +26,7 @@ class BridgeFinalAmount extends ConsumerStatefulWidget {
   final String to;
   final int? chainId;
   final String? providerEndpoint;
+  final int decimal;
 
   @override
   ConsumerState<BridgeFinalAmount> createState() => _BridgeFinalAmountState();
@@ -53,7 +55,7 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
           widget.address,
           widget.chainId ?? 0,
         );
-        final resultAmount = await evmHTLC.getAmount();
+        final resultAmount = await evmHTLC.getAmount(widget.decimal);
         resultAmount.map(
           success: (amount) {
             if (amount > 0) {

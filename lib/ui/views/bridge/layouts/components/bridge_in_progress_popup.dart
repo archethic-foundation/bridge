@@ -91,6 +91,9 @@ class BridgeInProgressPopup {
               ? bridge.htlcEVMAddress!
               : bridge.htlcAEAddress!,
           isUCO: bridge.tokenToBridge!.targetTokenSymbol.toUpperCase() == 'UCO',
+          decimal: bridge.blockchainFrom!.isArchethic
+              ? 8
+              : bridge.tokenToBridgeDecimals,
           to: bridge.targetAddress,
           chainId: bridge.blockchainFrom!.isArchethic
               ? bridge.blockchainTo!.chainId

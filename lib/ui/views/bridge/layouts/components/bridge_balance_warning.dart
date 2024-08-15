@@ -64,6 +64,7 @@ class BridgeBalanceWarning extends ConsumerWidget {
               : session.walletFrom!.genesisAddress,
           '',
           '',
+          18,
         ).future,
       ),
       builder: (context, snapshot) {

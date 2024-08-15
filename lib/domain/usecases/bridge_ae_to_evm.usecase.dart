@@ -140,6 +140,7 @@ class BridgeArchethicToEVMUseCase
           secretHash,
           endTime,
           amount,
+          bridge.tokenToBridgeDecimals,
           htlcAEAddress,
         );
         htlcEVMAddress = deployEVMHTCLAndProvisionResult.htlcAddress;

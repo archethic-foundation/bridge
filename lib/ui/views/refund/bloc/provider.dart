@@ -14,6 +14,7 @@ import 'package:aebridge/domain/usecases/refund_archethic.usecase.dart';
 import 'package:aebridge/domain/usecases/refund_evm.usecase.dart';
 import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
 import 'package:aebridge/infrastructure/pools.repository.dart';
+import 'package:aebridge/infrastructure/token_decimals.repository.dart';
 import 'package:aebridge/ui/views/refund/bloc/state.dart';
 import 'package:aebridge/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aebridge/util/browser_util_web.dart';
@@ -296,7 +297,13 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         return;
       }
 
-      final resultAmount = await evmHTLC.getAmount();
+      final decimal = await TokenDecimalsRepositoryImpl().getTokenDecimals(
+        false,
+        state.isERC20! ? 'Wrapped' : 'Native',
+        state.htlcAddressFilled,
+      );
+
+      final resultAmount = await evmHTLC.getAmount(decimal);
       resultAmount.map(
         success: (amount) {
           setAmount(amount);
@@ -310,7 +317,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
           state.htlcAddressFilled,
           chainId,
         );
-        final resultFee = await evmHTLCERC.getFee();
+        final resultFee = await evmHTLCERC.getFee(decimal);
         resultFee.map(
           success: (fee) {
             setFee(fee);

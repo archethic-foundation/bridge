@@ -11,6 +11,7 @@ import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:aebridge/ui/views/refund/bloc/state.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:webthree/crypto.dart';
@@ -156,7 +157,9 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
     return lockTime.toInt();
   }
 
-  Future<aedappfm.Result<double, aedappfm.Failure>> getAmount() async {
+  Future<aedappfm.Result<double, aedappfm.Failure>> getAmount(
+    int decimal,
+  ) async {
     return aedappfm.Result.guard(
       () async {
         final contractHTLC = await getDeployedContract(
@@ -171,8 +174,10 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
         );
 
         final BigInt amount = amountMap[0];
-        final etherAmount = EtherAmount.fromBigInt(EtherUnit.wei, amount);
-        return etherAmount.getValueInUnit(EtherUnit.ether);
+        final convertedAmount = (Decimal.parse('$amount') /
+                Decimal.fromBigInt(BigInt.from(10).pow(decimal)))
+            .toDouble();
+        return convertedAmount;
       },
     );
   }

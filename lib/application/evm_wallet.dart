@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'dart:html';
-import 'dart:math';
+import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
@@ -170,7 +171,7 @@ class EVMWalletProvider extends ChangeNotifier {
 
           final abiTokenStringJson = jsonDecode(
             await rootBundle.loadString(
-              'contracts/evm/artifacts/@openzeppelin/contracts/token/ERC20/IERC20.sol/IERC20.json',
+              contractNameIERC20,
             ),
           );
 
@@ -189,8 +190,12 @@ class EVMWalletProvider extends ChangeNotifier {
               EthereumAddress.fromHex(address),
             ],
           );
-          return EtherAmount.inWei(balanceResponse[0])
-              .getValueInUnit(EtherUnit.ether);
+          final tokenBalance = balanceResponse[0] as BigInt;
+          final adjustedBalance = (Decimal.parse('$tokenBalance') /
+                  Decimal.fromBigInt(BigInt.from(10).pow(decimal)))
+              .toDouble();
+          return adjustedBalance;
+
         default:
           return 0.0;
       }
@@ -218,7 +223,7 @@ class EVMWalletProvider extends ChangeNotifier {
       }
       switch (typeToken) {
         case 'Native':
-          return defaultDecimal;
+          return 18;
         case 'ERC20':
         case 'Wrapped':
           if (erc20address.isEmpty) {
@@ -231,7 +236,7 @@ class EVMWalletProvider extends ChangeNotifier {
 
           final abiTokenStringJson = jsonDecode(
             await rootBundle.loadString(
-              'contracts/evm/artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json',
+              contractNameERC20,
             ),
           );
 
@@ -249,7 +254,7 @@ class EVMWalletProvider extends ChangeNotifier {
             params: [],
           );
 
-          return min(defaultDecimal, decimalsResponse[0].toInt());
+          return decimalsResponse[0].toInt();
         default:
           return defaultDecimal;
       }
