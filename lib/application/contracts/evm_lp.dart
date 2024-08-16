@@ -183,16 +183,17 @@ class EVMLP with EVMBridgeProcessMixin {
         final contractLP =
             await getDeployedContract(contractNameIPool, poolAddress);
 
-        final bigIntValue = (Decimal.parse('$amount') *
-                Decimal.fromBigInt(BigInt.from(10).pow(decimal)))
-            .toBigInt();
+        final bigIntValue = Decimal.parse(amount.toString()) *
+            Decimal.parse('1000000000000000000');
+        final ethAmount =
+            EtherAmount.fromBigInt(EtherUnit.wei, bigIntValue.toBigInt());
 
         final transactionProvisionHTLC = Transaction.callContract(
           contract: contractLP,
           function: contractLP.function('provisionHTLC'),
           parameters: [
             hexToBytes(secretHash.secretHash!),
-            bigIntValue,
+            ethAmount.getInWei,
             BigInt.from(endTime),
             hexToBytes(htlcContractAddressAE),
             hexToBytes(secretHash.secretHashSignature!.r!),

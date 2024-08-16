@@ -175,7 +175,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
 
         final BigInt amount = amountMap[0];
         final convertedAmount = (Decimal.parse('$amount') /
-                Decimal.fromBigInt(BigInt.from(10).pow(decimal)))
+                Decimal.fromBigInt(BigInt.from(10).pow(18)))
             .toDouble();
         return convertedAmount;
       },
