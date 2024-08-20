@@ -2,7 +2,7 @@ name: aebridge
 description: Enable interoperability and facilitate the transfer of data and assets between the two blockchains.
 publish_to: "none"
 
-version: 1.0.11+83
+version: 1.1.0+84
 
 environment:
   sdk: ">=3.3.0 <4.0.0"
@@ -17,7 +17,7 @@ dependencies:
   #  path: ../archethic-dapp-framework-flutter
 
   # A client dart library to interact with Archethic Wallet RPC API.
-  archethic_wallet_client: ^2.0.7
+  archethic_wallet_client: ^2.0.8
   #archethic_wallet_client:
   #  git:
   #    url: https://github.com/archethic-foundation/archethic-wallet-client-dart.git
