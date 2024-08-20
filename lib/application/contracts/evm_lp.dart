@@ -27,7 +27,6 @@ class EVMLP with EVMBridgeProcessMixin {
     String hash,
     double amount,
     int decimal,
-    bool isWrapped,
     String addressFrom,
   ) async {
     final scaledAmount = (Decimal.parse('$amount') *
@@ -42,11 +41,7 @@ class EVMLP with EVMBridgeProcessMixin {
         scaledAmount,
       ],
       from: EthereumAddress.fromHex(addressFrom),
-      value: isWrapped
-          ? null
-          : (isWrapped
-              ? EtherAmount.fromBigInt(EtherUnit.wei, scaledAmount)
-              : null),
+      value: EtherAmount.fromBigInt(EtherUnit.wei, scaledAmount),
       maxGas: 1500000,
     );
     return transactionMintHTLC;
@@ -59,8 +54,7 @@ class EVMLP with EVMBridgeProcessMixin {
     String poolAddress,
     String hash,
     double amount,
-    int decimal,
-    bool isWrapped, {
+    int decimal, {
     int chainId = 31337,
   }) async {
     return aedappfm.Result.guard(() async {
@@ -77,7 +71,6 @@ class EVMLP with EVMBridgeProcessMixin {
         hash,
         amount,
         decimal,
-        isWrapped,
         evmWalletProvider.currentAddress!,
       );
 
@@ -184,7 +177,7 @@ class EVMLP with EVMBridgeProcessMixin {
             await getDeployedContract(contractNameIPool, poolAddress);
 
         final bigIntValue = Decimal.parse(amount.toString()) *
-            Decimal.parse('1000000000000000000');
+            Decimal.fromBigInt(BigInt.from(10).pow(decimal));
         final ethAmount =
             EtherAmount.fromBigInt(EtherUnit.wei, bigIntValue.toBigInt());
 
