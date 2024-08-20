@@ -144,6 +144,7 @@ mixin EVMBridgeProcessMixin {
       secretHash.toString(),
       bridge.tokenToBridgeAmount,
       bridge.tokenToBridgeDecimals,
+      bridge.tokenToBridge!.typeSource != 'Native',
       chainId: bridge.blockchainFrom!.chainId,
     );
     late String htlcAddress;

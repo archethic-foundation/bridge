@@ -73,8 +73,8 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
                         padToEvenLength: true,
                         include0x: true,
                       ),
-                      EthereumAddress.fromHex(userAddress).hex,
-                      EthereumAddress.fromHex(poolAddress).hex,
+                      userAddress.padRight(66, '0'),
+                      poolAddress.padRight(66, '0'),
                     ]
                   ],
                   fromBlock: const BlockNum.current(),
