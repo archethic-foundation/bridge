@@ -17,31 +17,35 @@ class WelcomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      backgroundColor: aedappfm.AppThemeBase.backgroundColor,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(70),
-        child: ClipRRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: const AppBarWelcome(),
+    return Title(
+      title: 'aeBridge - Bridge Archethic blockchain',
+      color: Colors.black,
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        backgroundColor: aedappfm.AppThemeBase.backgroundColor,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(70),
+          child: ClipRRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: const AppBarWelcome(),
+            ),
           ),
         ),
-      ),
-      body: const Stack(
-        children: [
-          aedappfm.AppBackground(
-            withAnimation: true,
-            backgroundImage: 'assets/images/background-welcome.png',
-          ),
-          Column(
-            children: [
-              WelcomeTitle(),
-              WelcomeBridgeBtn(),
-            ],
-          ),
-        ],
+        body: const Stack(
+          children: [
+            aedappfm.AppBackground(
+              withAnimation: true,
+              backgroundImage: 'assets/images/background-welcome.png',
+            ),
+            Column(
+              children: [
+                WelcomeTitle(),
+                WelcomeBridgeBtn(),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

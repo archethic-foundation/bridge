@@ -64,47 +64,51 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      extendBody: true,
-      backgroundColor: aedappfm.AppThemeBase.backgroundColor,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(70),
-        child: ClipRRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: const AppBarMainScreen(),
+    return Title(
+      title: 'aeBridge - Bridge Archethic blockchain',
+      color: Colors.black,
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        extendBody: true,
+        backgroundColor: aedappfm.AppThemeBase.backgroundColor,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(70),
+          child: ClipRRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: const AppBarMainScreen(),
+            ),
           ),
         ),
+        body: Stack(
+          alignment: Alignment.topRight,
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                const aedappfm.AppBackground(
+                  backgroundImage: 'assets/images/background-welcome.png',
+                ),
+                widget.body
+                    .animate()
+                    .fade(
+                      duration: const Duration(milliseconds: 200),
+                    )
+                    .scale(
+                      duration: const Duration(milliseconds: 200),
+                    ),
+              ],
+            ),
+          ],
+        ),
+        bottomNavigationBar: aedappfm.Responsive.isMobile(context) ||
+                aedappfm.Responsive.isTablet(context)
+            ? BottomNavigationBarMainScreen(
+                listNavigationLabelIcon: listNavigationLabelIcon,
+                navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),
+              )
+            : null,
       ),
-      body: Stack(
-        alignment: Alignment.topRight,
-        children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              const aedappfm.AppBackground(
-                backgroundImage: 'assets/images/background-welcome.png',
-              ),
-              widget.body
-                  .animate()
-                  .fade(
-                    duration: const Duration(milliseconds: 200),
-                  )
-                  .scale(
-                    duration: const Duration(milliseconds: 200),
-                  ),
-            ],
-          ),
-        ],
-      ),
-      bottomNavigationBar: aedappfm.Responsive.isMobile(context) ||
-              aedappfm.Responsive.isTablet(context)
-          ? BottomNavigationBarMainScreen(
-              listNavigationLabelIcon: listNavigationLabelIcon,
-              navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),
-            )
-          : null,
     );
   }
 }
