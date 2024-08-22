@@ -73,97 +73,101 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      extendBodyBehindAppBar: true,
-      extendBody: true,
-      backgroundColor: aedappfm.AppThemeBase.backgroundColor,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(70),
-        child: ClipRRect(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-            child: const AppBarMainScreen(),
+    return Title(
+      title: 'aeBridge - Bridge Archethic blockchain',
+      color: Colors.black,
+      child: Scaffold(
+        extendBodyBehindAppBar: true,
+        extendBody: true,
+        backgroundColor: aedappfm.AppThemeBase.backgroundColor,
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(70),
+          child: ClipRRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+              child: const AppBarMainScreen(),
+            ),
           ),
         ),
-      ),
-      body: Stack(
-        alignment: Alignment.topRight,
-        children: [
-          Stack(
-            alignment: Alignment.center,
-            children: [
-              const aedappfm.AppBackground(
-                backgroundImage: 'assets/images/background-welcome.png',
-              ),
-              Align(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: BackdropFilter(
-                    filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                    child: Container(
-                      width: 650,
-                      decoration: BoxDecoration(
-                        color: aedappfm.AppThemeBase.sheetBackground,
-                        border: Border.all(
-                          color: aedappfm.AppThemeBase.sheetBorder,
+        body: Stack(
+          alignment: Alignment.topRight,
+          children: [
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                const aedappfm.AppBackground(
+                  backgroundImage: 'assets/images/background-welcome.png',
+                ),
+                Align(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(20),
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                      child: Container(
+                        width: 650,
+                        decoration: BoxDecoration(
+                          color: aedappfm.AppThemeBase.sheetBackground,
+                          border: Border.all(
+                            color: aedappfm.AppThemeBase.sheetBorder,
+                          ),
+                          borderRadius: BorderRadius.circular(20),
                         ),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                          left: 30,
-                          right: 30,
-                          top: 11,
-                          bottom: 5,
-                        ),
-                        child: LayoutBuilder(
-                          builder: (context, constraint) {
-                            return aedappfm.ArchethicScrollbar(
-                              child: Container(
-                                constraints: BoxConstraints(
-                                  minHeight: 100,
-                                  maxHeight: constraint.maxHeight,
-                                ),
-                                child: IntrinsicHeight(
-                                  child: Column(
-                                    children: [
-                                      if (widget.currentStep ==
-                                          aedappfm.ProcessStep.form)
-                                        widget.formSheet
-                                      else
-                                        widget.confirmSheet,
-                                      if (widget.bottomWidget != null)
-                                        widget.bottomWidget!,
-                                    ],
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            left: 30,
+                            right: 30,
+                            top: 11,
+                            bottom: 5,
+                          ),
+                          child: LayoutBuilder(
+                            builder: (context, constraint) {
+                              return aedappfm.ArchethicScrollbar(
+                                child: Container(
+                                  constraints: BoxConstraints(
+                                    minHeight: 100,
+                                    maxHeight: constraint.maxHeight,
+                                  ),
+                                  child: IntrinsicHeight(
+                                    child: Column(
+                                      children: [
+                                        if (widget.currentStep ==
+                                            aedappfm.ProcessStep.form)
+                                          widget.formSheet
+                                        else
+                                          widget.confirmSheet,
+                                        if (widget.bottomWidget != null)
+                                          widget.bottomWidget!,
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            );
-                          },
+                              );
+                            },
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
+                )
+                    .animate()
+                    .fade(
+                      duration: const Duration(milliseconds: 200),
+                    )
+                    .scale(
+                      duration: const Duration(milliseconds: 200),
+                    ),
+              ],
+            ),
+          ],
+        ),
+        bottomNavigationBar: aedappfm.Responsive.isMobile(context) ||
+                aedappfm.Responsive.isTablet(context)
+            ? BottomNavigationBarMainScreen(
+                listNavigationLabelIcon: listNavigationLabelIcon,
+                navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),
               )
-                  .animate()
-                  .fade(
-                    duration: const Duration(milliseconds: 200),
-                  )
-                  .scale(
-                    duration: const Duration(milliseconds: 200),
-                  ),
-            ],
-          ),
-        ],
+            : null,
       ),
-      bottomNavigationBar: aedappfm.Responsive.isMobile(context) ||
-              aedappfm.Responsive.isTablet(context)
-          ? BottomNavigationBarMainScreen(
-              listNavigationLabelIcon: listNavigationLabelIcon,
-              navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),
-            )
-          : null,
     );
   }
 }

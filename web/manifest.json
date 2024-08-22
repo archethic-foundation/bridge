@@ -1,11 +1,11 @@
 {
-    "name": "aeBridge",
-    "short_name": "aeBridge",
+    "name": "aeBridge - Bridge Archethic blockchain",
+    "short_name": "aeBridge - Bridge Archethic blockchain",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "aeBridge",
+    "description": "Bridge in and out of the Archethic blockchain with aeBridge. Enable secure and efficient cross-chain interactions, leveraging UCO tokens to power your decentralized applications.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
