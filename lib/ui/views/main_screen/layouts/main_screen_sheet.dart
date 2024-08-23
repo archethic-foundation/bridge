@@ -18,6 +18,7 @@ class MainScreenSheet extends ConsumerStatefulWidget {
     required this.currentStep,
     required this.formSheet,
     required this.confirmSheet,
+    this.topWidget,
     this.bottomWidget,
     super.key,
   });
@@ -25,6 +26,7 @@ class MainScreenSheet extends ConsumerStatefulWidget {
   final aedappfm.ProcessStep currentStep;
   final Widget formSheet;
   final Widget confirmSheet;
+  final Widget? topWidget;
   final Widget? bottomWidget;
   @override
   ConsumerState<MainScreenSheet> createState() => MainScreenSheetState();
@@ -99,54 +101,61 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
                   backgroundImage: 'assets/images/background-welcome.png',
                 ),
                 Align(
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(20),
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                      child: Container(
-                        width: 650,
-                        decoration: BoxDecoration(
-                          color: aedappfm.AppThemeBase.sheetBackground,
-                          border: Border.all(
-                            color: aedappfm.AppThemeBase.sheetBorder,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            left: 30,
-                            right: 30,
-                            top: 11,
-                            bottom: 5,
-                          ),
-                          child: LayoutBuilder(
-                            builder: (context, constraint) {
-                              return aedappfm.ArchethicScrollbar(
-                                child: Container(
-                                  constraints: BoxConstraints(
-                                    minHeight: 100,
-                                    maxHeight: constraint.maxHeight,
-                                  ),
-                                  child: IntrinsicHeight(
-                                    child: Column(
-                                      children: [
-                                        if (widget.currentStep ==
-                                            aedappfm.ProcessStep.form)
-                                          widget.formSheet
-                                        else
-                                          widget.confirmSheet,
-                                        if (widget.bottomWidget != null)
-                                          widget.bottomWidget!,
-                                      ],
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (widget.topWidget != null)
+                        SizedBox(width: 650, child: widget.topWidget),
+                      ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: BackdropFilter(
+                          filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                          child: Container(
+                            width: 650,
+                            decoration: BoxDecoration(
+                              color: aedappfm.AppThemeBase.sheetBackground,
+                              border: Border.all(
+                                color: aedappfm.AppThemeBase.sheetBorder,
+                              ),
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.only(
+                                left: 30,
+                                right: 30,
+                                top: 11,
+                                bottom: 5,
+                              ),
+                              child: LayoutBuilder(
+                                builder: (context, constraint) {
+                                  return aedappfm.ArchethicScrollbar(
+                                    child: Container(
+                                      constraints: BoxConstraints(
+                                        minHeight: 100,
+                                        maxHeight: constraint.maxHeight,
+                                      ),
+                                      child: IntrinsicHeight(
+                                        child: Column(
+                                          children: [
+                                            if (widget.currentStep ==
+                                                aedappfm.ProcessStep.form)
+                                              widget.formSheet
+                                            else
+                                              widget.confirmSheet,
+                                            if (widget.bottomWidget != null)
+                                              widget.bottomWidget!,
+                                          ],
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                ),
-                              );
-                            },
+                                  );
+                                },
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
                   ),
                 )
                     .animate()
