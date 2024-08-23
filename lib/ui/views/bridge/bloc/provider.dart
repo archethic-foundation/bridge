@@ -460,7 +460,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
   Future<void> setMaxAmount() async {
     await setTokenToBridgeAmount(
       Decimal.parse(state.tokenToBridgeBalance.toString())
-          .floor(scale: state.tokenToBridgeDecimals)
+          .floor(scale: state.tokenBridgedDecimals)
           .toDouble(),
     );
   }
@@ -470,7 +470,7 @@ class _BridgeFormNotifier extends AutoDisposeNotifier<BridgeFormState>
       (Decimal.parse(state.tokenToBridgeBalance.toString()) /
               Decimal.parse('2'))
           .toDecimal()
-          .floor(scale: state.tokenToBridgeDecimals)
+          .floor(scale: state.tokenBridgedDecimals)
           .toDouble(),
     );
     await storeBridge();
