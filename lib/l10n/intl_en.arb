@@ -181,5 +181,7 @@
     "troubleItem3Desc": "Access your history or pick up where you left off.",
     "troubleItem4Title": "Lost funds?",
     "troubleItem4Desc": "Recover your assets after a bridge cancellation or error.",
-    "backToBridge": "Go Back to Bridge Form"
+    "backToBridge": "Go Back to Bridge Form",
+    "bridgeHeaderText": "aeBridge - Official Archethic Bridge",
+    "bridgeHeaderDesc": "Bridge UCO and other coins or tokens in and out of Archethic Blockchain."
 }

@@ -47,6 +47,28 @@ class _BridgeSheetState extends ConsumerState<BridgeSheet> {
       currentStep: ref.watch(BridgeFormProvider.bridgeForm).processStep,
       formSheet: const BridgeFormSheet(),
       confirmSheet: const BridgeConfirmSheet(),
+      topWidget: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              AppLocalizations.of(context)!.bridgeHeaderText,
+              style: Theme.of(context).textTheme.displaySmall,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              AppLocalizations.of(context)!.bridgeHeaderDesc,
+              style: Theme.of(context).textTheme.labelLarge,
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+          ],
+        ),
+      ),
       bottomWidget: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
