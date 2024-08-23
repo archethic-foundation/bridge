@@ -1,6 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
+import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -119,6 +121,22 @@ class _ConnectionToWalletStatusState
                 ),
               ),
             ],
+          ),
+          const SizedBox(
+            width: 16,
+          ),
+          IconButton(
+            icon: const Icon(aedappfm.Iconsax.logout),
+            iconSize: 18,
+            onPressed: () async {
+              await ref
+                  .read(SessionProviders.session.notifier)
+                  .cancelAllWalletsConnection();
+              ref.invalidate(BridgeFormProvider.bridgeForm);
+              if (context.mounted) {
+                context.go(BridgeSheet.routerPage);
+              }
+            },
           ),
           const SizedBox(
             width: 4,
