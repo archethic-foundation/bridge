@@ -1,5 +1,6 @@
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
+import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -197,6 +198,7 @@ class Header extends ConsumerWidget {
                   children: [
                     TextButton(
                       onPressed: () {
+                        ref.invalidate(BridgeFormProvider.bridgeForm);
                         context.go(BridgeSheet.routerPage);
                       },
                       child: Text(
