@@ -99,7 +99,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             ).catchError(completer.completeError),
           );
 
-          await completer.future.timeout(const Duration(seconds: 240));
+          await completer.future.timeout(const Duration(seconds: 360));
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -334,7 +334,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             ).catchError(completer.completeError),
           );
 
-          await completer.future.timeout(const Duration(seconds: 240));
+          await completer.future.timeout(const Duration(seconds: 360));
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
