@@ -33,7 +33,7 @@ class RefundInProgressUserExplorer extends ConsumerWidget {
                   typeAddress: TypeAddress.chain,
                   header: AppLocalizations.of(context)!
                       .goToExplorer
-                      .replaceFirst('%1', refund.blockchainTo ?? ''),
+                      .replaceFirst(' %1', ''),
                 ),
               ],
             ),
