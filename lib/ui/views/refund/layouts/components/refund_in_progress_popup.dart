@@ -29,6 +29,7 @@ class RefundInProgressPopup {
         failureMessage: FailureMessage(
           context: context,
           failure: refund.failure,
+          bridgeProcess: BridgeProcess.refund,
         ).getMessage(),
         inProgressTxt: refund.requestTooLong
             ? AppLocalizations.of(
