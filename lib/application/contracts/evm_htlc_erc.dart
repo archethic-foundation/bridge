@@ -101,6 +101,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
 
           final bridgeNotifier =
               ref.read(BridgeFormProvider.bridgeForm.notifier);
+
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
           final txHash = await sendTransactionWithErrorManagement(
             web3Client,

@@ -87,7 +87,6 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
           );
 
           refundNotifier.setWalletConfirmation(null);
-
           requestTimer = Timer(const Duration(seconds: 30), () {
             refundNotifier.setRequestTooLong(true);
           });
@@ -333,7 +332,6 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             'EVMHTLC - withdraw',
           );
           await bridgeNotifier.setWalletConfirmation(null);
-
           requestTimer = Timer(const Duration(seconds: 30), () {
             bridgeNotifier.setRequestTooLong(true);
           });
