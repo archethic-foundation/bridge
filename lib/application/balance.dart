@@ -1,7 +1,5 @@
-import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/repositories/balance.repository.dart';
 import 'package:aebridge/infrastructure/balance.repository.dart';
-import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'balance.g.dart';

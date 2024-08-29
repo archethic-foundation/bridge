@@ -196,7 +196,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
           htlcContractAddressEVM,
         );
 
-        final recipientMap = await web3Client!.call(
+        final recipientMap = await web3Client.call(
           contract: contractHTLC,
           function: contractHTLC.function('recipient'),
           params: [],
@@ -210,7 +210,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
   Future<aedappfm.Result<int?, aedappfm.Failure>> getHTLCTimestamp() async {
     return aedappfm.Result.guard(
       () async {
-        final logs = await web3Client!.getLogs(
+        final logs = await web3Client.getLogs(
           FilterOptions(
             fromBlock: const BlockNum.genesis(),
             toBlock: const BlockNum.current(),
@@ -221,7 +221,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
           final filterEvent = logs[0];
           final blockNum = filterEvent.blockNum;
           if (blockNum != null) {
-            final blockInformation = await web3Client!.getBlockInformation(
+            final blockInformation = await web3Client.getBlockInformation(
               blockNumber: '0x${blockNum.toRadixString(16)}',
             );
             if (blockInformation.timestamp != null) {

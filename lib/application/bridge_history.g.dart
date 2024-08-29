@@ -196,7 +196,7 @@ class _FetchBridgesListProviderElement
 }
 
 String _$fetchBridgesOnchainListHash() =>
-    r'82ce22aa77aba0d10eeda1312bae1772daa7edc8';
+    r'7d42eca705c7a512b27775f7c2b1cea621834796';
 
 /// See also [_fetchBridgesOnchainList].
 @ProviderFor(_fetchBridgesOnchainList)

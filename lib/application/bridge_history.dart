@@ -1,13 +1,11 @@
 import 'dart:developer';
 
-import 'package:aebridge/application/balance.dart';
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/bridge_token.dart';
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/application/contracts/archethic_factory.dart';
 import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/application/contracts/evm_lp.dart';
-import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/bridge_history.dart';
 import 'package:aebridge/domain/models/swap.dart';
 import 'package:aebridge/domain/repositories/bridge_history.repository.dart';
@@ -81,14 +79,11 @@ Future<List<Map<String, dynamic>>> _fetchBridgesOnchainList(
       logsActivation: false,
     );
 
-    // Charger les informations en amont
-    final evmWalletProvider = EVMWalletProvider();
-
     final archethicProtocolInfo = await ArchethicFactory(
       blockchainFrom.isArchethic
           ? blockchainFrom.archethicFactoryAddress!
           : blockchainTo.archethicFactoryAddress!,
-    ).calculateArchethicProtocolFees(apiService);
+    ).calculateArchethicProtocolFees();
     archethicProtocolFeesAddress = archethicProtocolInfo.address;
     archethicProtocolFeesRate = archethicProtocolInfo.rate;
 
@@ -140,7 +135,8 @@ Future<List<Map<String, dynamic>>> _fetchBridgesOnchainList(
                 blockchainFrom.chainId,
               );
 
-              final amountResult = await htlc.getAmount();
+              // TODO: Decimal to managed
+              final amountResult = await htlc.getAmount(8);
               await amountResult.map(
                 success: (success) async => amount,
                 failure: (failure) async => null,
@@ -209,13 +205,13 @@ Future<List<Map<String, dynamic>>> _fetchBridgesOnchainList(
               print(
                 ' blockchainTo.isArchethic ${blockchainTo.isArchethic} bridgeToken.poolAddressTo ${bridgeToken.poolAddressTo} bridgeToken.typeTarget ${bridgeToken.typeTarget} blockchainTo.providerEndpoint ${blockchainTo.providerEndpoint}',
               );
+              // TODO: Decimal to managed
               poolTargetBalance = await BalanceRepositoryImpl().getBalance(
                 blockchainTo.isArchethic,
                 bridgeToken.poolAddressTo,
                 bridgeToken.typeTarget,
                 bridgeToken.tokenAddressTarget,
-                null,
-                evmWalletProvider,
+                8,
                 providerEndpoint: blockchainTo.providerEndpoint,
               );
               print('poolTargetBalance $poolTargetBalance');
