@@ -58,9 +58,8 @@ class ArchethicFactory {
     );
   }
 
-  Future<aedappfm.Result<String, aedappfm.Failure>> _getProtocolAddress(
-    ApiService apiService,
-  ) async {
+  Future<aedappfm.Result<String, aedappfm.Failure>>
+      _getProtocolAddress() async {
     return aedappfm.Result.guard(
       () async {
         final protocolAddress =
