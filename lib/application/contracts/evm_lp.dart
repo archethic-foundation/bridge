@@ -132,7 +132,7 @@ class EVMLP with EVMBridgeProcessMixin {
       } catch (e, stackTrace) {
         if (e is TimeoutException) {
           aedappfm.sl.get<aedappfm.LogManager>().log(
-                'Timeout occurred',
+                'Timeout occurred (poolAddress: $poolAddress, chainId: $chainId, address: ${evmWalletProvider.currentAddress})',
                 level: aedappfm.LogLevel.error,
                 name: 'EVMLP - deployChargeableHTLC',
               );
@@ -260,7 +260,7 @@ class EVMLP with EVMBridgeProcessMixin {
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'Timeout occurred',
+                  'Timeout occurred (poolAddress: $poolAddress, chainId: $chainId, htlcContractAddressAE: $htlcContractAddressAE, address: ${evmWalletProvider.currentAddress}, amount: $amount, endTime: $endTime)',
                   level: aedappfm.LogLevel.error,
                   name: 'EVMLP - deployAndProvisionSignedHTLC',
                 );

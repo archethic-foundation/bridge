@@ -103,7 +103,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'Timeout occurred',
+                  'Timeout occurred (htlcContractAddress: $htlcContractAddress, chainId: $chainId)',
                   level: aedappfm.LogLevel.error,
                   name: 'EVMHTLCNative - signedWithdraw',
                 );

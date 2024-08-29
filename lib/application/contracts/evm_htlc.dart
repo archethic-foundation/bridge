@@ -103,7 +103,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'Timeout occurred',
+                  'Timeout occurred (htlcContractAddressEVM: $htlcContractAddressEVM, chainId: $chainId)',
                   level: aedappfm.LogLevel.error,
                   name: 'EVMHTLC - refund',
                 );
@@ -338,7 +338,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'Timeout occurred',
+                  'Timeout occurred (htlcContractAddressEVM: $htlcContractAddressEVM, chainId: $chainId)',
                   level: aedappfm.LogLevel.error,
                   name: 'EVMHTLC - withdraw',
                 );

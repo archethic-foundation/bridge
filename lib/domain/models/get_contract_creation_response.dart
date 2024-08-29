@@ -25,6 +25,7 @@ class GetContractCreationResponseResult
   }) = _GetContractCreationResponseResult;
 
   factory GetContractCreationResponseResult.fromJson(
-          Map<String, dynamic> json) =>
+    Map<String, dynamic> json,
+  ) =>
       _$GetContractCreationResponseResultFromJson(json);
 }
