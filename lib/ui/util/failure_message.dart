@@ -7,14 +7,18 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 
+enum BridgeProcess { bridge, refund }
+
 class FailureMessage {
   const FailureMessage({
     required this.context,
     this.failure,
+    this.bridgeProcess = BridgeProcess.bridge,
   });
 
   final aedappfm.Failure? failure;
   final BuildContext context;
+  final BridgeProcess bridgeProcess;
 
   String getMessage() {
     if (failure == null) return '';
@@ -46,7 +50,11 @@ class FailureMessage {
     }
 
     if (failure is aedappfm.Timeout) {
-      return AppLocalizations.of(context)!.failureTimeout;
+      if (bridgeProcess == BridgeProcess.bridge) {
+        return AppLocalizations.of(context)!.failureTimeout;
+      } else {
+        return AppLocalizations.of(context)!.failureRefundTimeout;
+      }
     }
 
     if (failure is aedappfm.InsufficientFunds) {

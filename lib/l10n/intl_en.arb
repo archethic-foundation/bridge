@@ -89,6 +89,7 @@
     "failureParamEVMChain": "You have selected a network that is not set up in your wallet. Please configure it to use the bridge.",
     "failureInsufficientFunds": "Funds are not sufficient.",
     "failureTimeout": "The transaction is taking longer due to low gas fees or blockchain congestion. Check the explorer for real-time updates and resume once validated.",
+    "failureRefundTimeout": "The transaction is taking longer due to low gas fees or blockchain congestion. Check the explorer for real-time updates.",
     "requestTooLong": "Please wait, the transaction is taking longer due to low gas fees or blockchain congestion. Check the explorer for real-time updates.",
     "failurePoolInsufficientFunds": "The funds of the pool are not sufficient. Please resume your transaction later.",
     "failureHTLCWithoutFunds": "The contract has not received the expected funds",
