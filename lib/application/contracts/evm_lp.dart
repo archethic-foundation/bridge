@@ -64,6 +64,7 @@ class EVMLP with EVMBridgeProcessMixin {
     return aedappfm.Result.guard(() async {
       final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
       final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+
       Timer? requestTimer;
       bridgeNotifier.setRequestTooLong(false);
 
@@ -115,7 +116,6 @@ class EVMLP with EVMBridgeProcessMixin {
           'EVMLP - deployChargeableHTLC',
         );
         await bridgeNotifier.setWalletConfirmation(null);
-
         requestTimer = Timer(const Duration(seconds: 30), () {
           bridgeNotifier.setRequestTooLong(true);
         });
@@ -194,6 +194,7 @@ class EVMLP with EVMBridgeProcessMixin {
       () async {
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+
         Timer? requestTimer;
         bridgeNotifier.setRequestTooLong(false);
 
@@ -254,7 +255,6 @@ class EVMLP with EVMBridgeProcessMixin {
             'EVMLP - deployAndProvisionSignedHTLC',
           );
           await bridgeNotifier.setWalletConfirmation(null);
-
           requestTimer = Timer(const Duration(seconds: 30), () {
             bridgeNotifier.setRequestTooLong(true);
           });
