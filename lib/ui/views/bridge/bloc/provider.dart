@@ -671,43 +671,46 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
       }
       return false;
     }
-    if (state.targetAddress.isEmpty) {
-      if (context.mounted) {
-        await setFailure(
-          aedappfm.Failure.other(
-            cause: AppLocalizations.of(context)!.bridgeControlTargetAddress,
-          ),
-        );
-      }
-      return false;
-    }
-    if (state.blockchainTo!.isArchethic) {
-      if (archethic.Address(address: state.targetAddress).isValid() == false) {
+    if (state.resumeProcess == false) {
+      if (state.targetAddress.isEmpty) {
         if (context.mounted) {
           await setFailure(
             aedappfm.Failure.other(
-              cause: AppLocalizations.of(context)!
-                  .bridgeControlTargetArchethicAddressValid,
+              cause: AppLocalizations.of(context)!.bridgeControlTargetAddress,
             ),
           );
         }
         return false;
       }
-    } else {
-      try {
-        webthree.EthereumAddress.fromHex(
-          state.targetAddress,
-        );
-      } catch (e) {
-        if (context.mounted) {
-          await setFailure(
-            aedappfm.Failure.other(
-              cause: AppLocalizations.of(context)!
-                  .bridgeControlTargetEVMAddressValid,
-            ),
-          );
+      if (state.blockchainTo!.isArchethic) {
+        if (archethic.Address(address: state.targetAddress).isValid() ==
+            false) {
+          if (context.mounted) {
+            await setFailure(
+              aedappfm.Failure.other(
+                cause: AppLocalizations.of(context)!
+                    .bridgeControlTargetArchethicAddressValid,
+              ),
+            );
+          }
+          return false;
         }
-        return false;
+      } else {
+        try {
+          webthree.EthereumAddress.fromHex(
+            state.targetAddress,
+          );
+        } catch (e) {
+          if (context.mounted) {
+            await setFailure(
+              aedappfm.Failure.other(
+                cause: AppLocalizations.of(context)!
+                    .bridgeControlTargetEVMAddressValid,
+              ),
+            );
+          }
+          return false;
+        }
       }
     }
 

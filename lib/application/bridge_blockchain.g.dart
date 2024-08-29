@@ -60,6 +60,23 @@ final _getBlockchainsListProvider =
 
 typedef _GetBlockchainsListRef
     = AutoDisposeFutureProviderRef<List<BridgeBlockchain>>;
+String _$getBlockchainsMapHash() => r'2081916b2501a4c7be9bc579e0ba0af8d6b1463e';
+
+/// See also [_getBlockchainsMap].
+@ProviderFor(_getBlockchainsMap)
+final _getBlockchainsMapProvider =
+    AutoDisposeFutureProvider<Map<int, BridgeBlockchain>>.internal(
+  _getBlockchainsMap,
+  name: r'_getBlockchainsMapProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$getBlockchainsMapHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef _GetBlockchainsMapRef
+    = AutoDisposeFutureProviderRef<Map<int, BridgeBlockchain>>;
 String _$getBlockchainFromChainIdHash() =>
     r'08fc37cea8574434054a2fc60238cb69d5802948';
 

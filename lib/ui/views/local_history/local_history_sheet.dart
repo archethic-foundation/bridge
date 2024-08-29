@@ -36,8 +36,7 @@ class LocalHistorySheet extends ConsumerWidget {
 }
 
 Widget _body(BuildContext context, WidgetRef ref) {
-  final bridgesList =
-      ref.watch(BridgeHistoryProviders.fetchBridgesList(asc: false));
+  final bridgesList = ref.watch(BridgeHistoryProviders.fetchBridgesOnchainList);
 
   return Padding(
     padding: const EdgeInsets.only(top: 90, left: 50, right: 50),
@@ -145,7 +144,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
           bridgesList.map(
             data: (data) {
               final localHistory =
-                  ref.read(LocalHistoryFormProvider.localHistoryForm);
+                  ref.watch(LocalHistoryFormProvider.localHistoryForm);
               return Expanded(
                 child: SizedBox(
                   width: 700,

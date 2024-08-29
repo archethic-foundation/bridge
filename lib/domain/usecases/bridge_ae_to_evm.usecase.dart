@@ -12,6 +12,7 @@ import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -98,7 +99,10 @@ class BridgeArchethicToEVMUseCase
       try {
         // 3) Get Secret Hash from API
         await bridgeNotifier.setCurrentStep(3);
-        final resultGetAEHTLCData = await getAEHTLCData(htlcAEAddress);
+        final resultGetAEHTLCData = await getAEHTLCData(
+          htlcAEAddress,
+          aedappfm.sl.get<archethic.ApiService>(),
+        );
         secretHash = resultGetAEHTLCData.secretHash;
         endTime = resultGetAEHTLCData.endTime;
         amount = resultGetAEHTLCData.amount;
@@ -247,6 +251,8 @@ class BridgeArchethicToEVMUseCase
           htlcEVMAddress!,
           htlcEVMTxAddress!,
         );
+
+        await bridgeNotifier.setCurrentStep(6);
 
         // Wait for AE HTLC Update
         if (await waitForManualTxConfirmation(

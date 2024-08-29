@@ -310,6 +310,7 @@ class EVMLP with EVMBridgeProcessMixin {
     String ownerAddress,
   ) async {
     return aedappfm.Result.guard(() async {
+      print('poolAddress: $poolAddress - ownerAddress $ownerAddress');
       final swapList = <Swap>[];
       final web3Client = Web3Client(
         providerEndpoint!,
@@ -341,6 +342,7 @@ class EVMLP with EVMBridgeProcessMixin {
           ),
         );
       }
+      print('swapList: $swapList');
       return swapList;
     });
   }

@@ -43,4 +43,13 @@ class BridgeTokensRepositoryImpl implements BridgeTokensRepository {
 
     return bridgeTokens;
   }
+
+  @override
+  Future<BridgeTokensPerBridge> getTokensListPerBridgeConf() async {
+    final jsonContent = await rootBundle
+        .loadString('lib/domain/repositories/tokens_list_per_bridge.json');
+
+    final jsonData = jsonDecode(jsonContent);
+    return BridgeTokensPerBridge.fromJson(jsonData);
+  }
 }
