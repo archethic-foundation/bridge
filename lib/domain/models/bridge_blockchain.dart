@@ -27,6 +27,7 @@ class BridgeBlockchain with _$BridgeBlockchain {
     @Default('') String urlExplorerAddress,
     @Default('') String urlExplorerTransaction,
     @Default('') String urlExplorerChain,
+    @Default('') String explorerApi,
     @Default('') String providerEndpoint,
     @Default(false) bool isArchethic,
     @Default('') String nativeCurrency,

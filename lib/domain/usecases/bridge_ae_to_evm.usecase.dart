@@ -1,7 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:aebridge/application/contracts/archethic_contract.dart';
+import 'package:aebridge/application/contracts/evm_lp.dart';
+import 'package:aebridge/application/session/provider.dart';
+import 'package:aebridge/domain/models/get_contract_creation_response.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
@@ -11,6 +15,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 
 class BridgeArchethicToEVMUseCase
     with
@@ -134,19 +139,94 @@ class BridgeArchethicToEVMUseCase
 
       // 4) Deploy EVM HTLC + Provision
       await bridgeNotifier.setCurrentStep(4);
+
       try {
-        final deployEVMHTCLAndProvisionResult = await deployEVMHTCLAndProvision(
-          ref,
-          secretHash,
-          endTime,
-          amount,
-          bridge.tokenBridgedDecimals,
-          htlcAEAddress,
-        );
-        htlcEVMAddress = deployEVMHTCLAndProvisionResult.htlcAddress;
-        htlcEVMTxAddress = deployEVMHTCLAndProvisionResult.txAddress;
-        await bridgeNotifier.setHTLCEVMAddress(htlcEVMAddress);
-        await bridgeNotifier.setHTLCEVMTxAddress(htlcEVMTxAddress);
+        var evmHTLCExist = false;
+
+        if (recoveryHTLCAEAddress != null) {
+          var _htlcContractAddressEVM = '';
+          final evmLP = EVMLP(bridge.blockchainTo!.providerEndpoint);
+          final ownerEVMAddress =
+              ref.read(SessionProviders.session).walletTo?.genesisAddress;
+          if (ownerEVMAddress != null) {
+            final swapsByOwnerResult = await evmLP.getSwapsByOwner(
+              bridge.tokenToBridge!.poolAddressTo,
+              ownerEVMAddress,
+            );
+            swapsByOwnerResult.map(
+              success: (swaps) {
+                for (final swap in swaps) {
+                  if (swap.htlcContractAddressAE != null &&
+                      swap.htlcContractAddressAE?.toUpperCase() ==
+                          htlcAEAddress?.toUpperCase() &&
+                      swap.htlcContractAddressEVM != null) {
+                    evmHTLCExist = true;
+                    _htlcContractAddressEVM = swap.htlcContractAddressEVM!;
+                  }
+                }
+              },
+              failure: (failure) {
+                aedappfm.sl.get<aedappfm.LogManager>().log(
+                      'Resume AE -> EVM Check HTLC EVM Provisioned: failure $failure',
+                      level: aedappfm.LogLevel.debug,
+                      name: 'BridgeArchethicToEVMUseCase - run',
+                    );
+              },
+            );
+
+            if (_htlcContractAddressEVM.isNotEmpty) {
+              try {
+                final htlcContractAddressEVMTxHash = await fetchTxHash(
+                  bridge.blockchainTo!.explorerApi,
+                  _htlcContractAddressEVM,
+                  ownerEVMAddress,
+                );
+                htlcEVMAddress = _htlcContractAddressEVM;
+                htlcEVMTxAddress = htlcContractAddressEVMTxHash ?? '';
+                await bridgeNotifier.setHTLCEVMAddress(_htlcContractAddressEVM);
+                if (htlcContractAddressEVMTxHash != null) {
+                  await bridgeNotifier
+                      .setHTLCEVMTxAddress(htlcContractAddressEVMTxHash);
+                }
+                aedappfm.sl.get<aedappfm.LogManager>().log(
+                      'Resume AE -> EVM Check HTLC EVM Provisioned: HTLC AE : $recoveryHTLCAEAddress - HTLC EVM : $_htlcContractAddressEVM - HTLC EVM TxHash : $htlcContractAddressEVMTxHash',
+                      level: aedappfm.LogLevel.debug,
+                      name: 'BridgeArchethicToEVMUseCase - run',
+                    );
+              } catch (e) {
+                await bridgeNotifier
+                    .setFailure(aedappfm.Failure.other(cause: '$e'));
+                await bridgeNotifier.setTransferInProgress(false);
+                return;
+              }
+            } else {
+              await bridgeNotifier.setFailure(
+                const aedappfm.Failure.other(
+                  cause:
+                      'The transfer cannot be resumed at the moment. Please try again later or request a refund of your funds',
+                ),
+              );
+              await bridgeNotifier.setTransferInProgress(false);
+              return;
+            }
+          }
+        }
+
+        if (evmHTLCExist == false) {
+          final deployEVMHTCLAndProvisionResult =
+              await deployEVMHTCLAndProvision(
+            ref,
+            secretHash,
+            endTime,
+            amount,
+            bridge.tokenBridgedDecimals,
+            htlcAEAddress,
+          );
+          htlcEVMAddress = deployEVMHTCLAndProvisionResult.htlcAddress;
+          htlcEVMTxAddress = deployEVMHTCLAndProvisionResult.txAddress;
+          await bridgeNotifier.setHTLCEVMAddress(htlcEVMAddress);
+          await bridgeNotifier.setHTLCEVMTxAddress(htlcEVMTxAddress);
+        }
       } catch (e) {
         return;
       }
@@ -211,5 +291,34 @@ class BridgeArchethicToEVMUseCase
     int step,
   ) {
     return getAEStepLabel(context, step);
+  }
+
+  Future<String?> fetchTxHash(
+    String explorerApiUrl,
+    String contractAddress,
+    String ownerAddress,
+  ) async {
+    final url = Uri.parse(
+      '$explorerApiUrl&module=contract&action=getcontractcreation&contractaddresses=$contractAddress',
+    );
+
+    final response = await http.get(url);
+    if (response.statusCode == 200) {
+      final getContractCreationResponse =
+          GetContractCreationResponse.fromJson(json.decode(response.body));
+
+      if (getContractCreationResponse.status == '1' &&
+          getContractCreationResponse.message == 'OK' &&
+          getContractCreationResponse.result.isNotEmpty &&
+          getContractCreationResponse.result.first.contractCreator
+                  .toUpperCase() ==
+              ownerAddress.toUpperCase() &&
+          getContractCreationResponse.result.first.contractAddress
+                  .toUpperCase() ==
+              contractAddress.toUpperCase()) {
+        return getContractCreationResponse.result.first.txHash;
+      }
+    }
+    return null;
   }
 }

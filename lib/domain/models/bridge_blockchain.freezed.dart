@@ -27,6 +27,7 @@ mixin _$BridgeBlockchain {
   String get urlExplorerAddress => throw _privateConstructorUsedError;
   String get urlExplorerTransaction => throw _privateConstructorUsedError;
   String get urlExplorerChain => throw _privateConstructorUsedError;
+  String get explorerApi => throw _privateConstructorUsedError;
   String get providerEndpoint => throw _privateConstructorUsedError;
   bool get isArchethic => throw _privateConstructorUsedError;
   String get nativeCurrency => throw _privateConstructorUsedError;
@@ -53,6 +54,7 @@ abstract class $BridgeBlockchainCopyWith<$Res> {
       String urlExplorerAddress,
       String urlExplorerTransaction,
       String urlExplorerChain,
+      String explorerApi,
       String providerEndpoint,
       bool isArchethic,
       String nativeCurrency,
@@ -80,6 +82,7 @@ class _$BridgeBlockchainCopyWithImpl<$Res, $Val extends BridgeBlockchain>
     Object? urlExplorerAddress = null,
     Object? urlExplorerTransaction = null,
     Object? urlExplorerChain = null,
+    Object? explorerApi = null,
     Object? providerEndpoint = null,
     Object? isArchethic = null,
     Object? nativeCurrency = null,
@@ -114,6 +117,10 @@ class _$BridgeBlockchainCopyWithImpl<$Res, $Val extends BridgeBlockchain>
       urlExplorerChain: null == urlExplorerChain
           ? _value.urlExplorerChain
           : urlExplorerChain // ignore: cast_nullable_to_non_nullable
+              as String,
+      explorerApi: null == explorerApi
+          ? _value.explorerApi
+          : explorerApi // ignore: cast_nullable_to_non_nullable
               as String,
       providerEndpoint: null == providerEndpoint
           ? _value.providerEndpoint
@@ -155,6 +162,7 @@ abstract class _$$BridgeBlockchainImplCopyWith<$Res>
       String urlExplorerAddress,
       String urlExplorerTransaction,
       String urlExplorerChain,
+      String explorerApi,
       String providerEndpoint,
       bool isArchethic,
       String nativeCurrency,
@@ -180,6 +188,7 @@ class __$$BridgeBlockchainImplCopyWithImpl<$Res>
     Object? urlExplorerAddress = null,
     Object? urlExplorerTransaction = null,
     Object? urlExplorerChain = null,
+    Object? explorerApi = null,
     Object? providerEndpoint = null,
     Object? isArchethic = null,
     Object? nativeCurrency = null,
@@ -214,6 +223,10 @@ class __$$BridgeBlockchainImplCopyWithImpl<$Res>
       urlExplorerChain: null == urlExplorerChain
           ? _value.urlExplorerChain
           : urlExplorerChain // ignore: cast_nullable_to_non_nullable
+              as String,
+      explorerApi: null == explorerApi
+          ? _value.explorerApi
+          : explorerApi // ignore: cast_nullable_to_non_nullable
               as String,
       providerEndpoint: null == providerEndpoint
           ? _value.providerEndpoint
@@ -250,6 +263,7 @@ class _$BridgeBlockchainImpl extends _BridgeBlockchain {
       this.urlExplorerAddress = '',
       this.urlExplorerTransaction = '',
       this.urlExplorerChain = '',
+      this.explorerApi = '',
       this.providerEndpoint = '',
       this.isArchethic = false,
       this.nativeCurrency = '',
@@ -283,6 +297,9 @@ class _$BridgeBlockchainImpl extends _BridgeBlockchain {
   final String urlExplorerChain;
   @override
   @JsonKey()
+  final String explorerApi;
+  @override
+  @JsonKey()
   final String providerEndpoint;
   @override
   @JsonKey()
@@ -297,7 +314,7 @@ class _$BridgeBlockchainImpl extends _BridgeBlockchain {
 
   @override
   String toString() {
-    return 'BridgeBlockchain(name: $name, chainId: $chainId, env: $env, icon: $icon, urlExplorerAddress: $urlExplorerAddress, urlExplorerTransaction: $urlExplorerTransaction, urlExplorerChain: $urlExplorerChain, providerEndpoint: $providerEndpoint, isArchethic: $isArchethic, nativeCurrency: $nativeCurrency, htlcAddress: $htlcAddress, archethicFactoryAddress: $archethicFactoryAddress)';
+    return 'BridgeBlockchain(name: $name, chainId: $chainId, env: $env, icon: $icon, urlExplorerAddress: $urlExplorerAddress, urlExplorerTransaction: $urlExplorerTransaction, urlExplorerChain: $urlExplorerChain, explorerApi: $explorerApi, providerEndpoint: $providerEndpoint, isArchethic: $isArchethic, nativeCurrency: $nativeCurrency, htlcAddress: $htlcAddress, archethicFactoryAddress: $archethicFactoryAddress)';
   }
 
   @override
@@ -315,6 +332,8 @@ class _$BridgeBlockchainImpl extends _BridgeBlockchain {
                 other.urlExplorerTransaction == urlExplorerTransaction) &&
             (identical(other.urlExplorerChain, urlExplorerChain) ||
                 other.urlExplorerChain == urlExplorerChain) &&
+            (identical(other.explorerApi, explorerApi) ||
+                other.explorerApi == explorerApi) &&
             (identical(other.providerEndpoint, providerEndpoint) ||
                 other.providerEndpoint == providerEndpoint) &&
             (identical(other.isArchethic, isArchethic) ||
@@ -339,6 +358,7 @@ class _$BridgeBlockchainImpl extends _BridgeBlockchain {
       urlExplorerAddress,
       urlExplorerTransaction,
       urlExplorerChain,
+      explorerApi,
       providerEndpoint,
       isArchethic,
       nativeCurrency,
@@ -369,6 +389,7 @@ abstract class _BridgeBlockchain extends BridgeBlockchain {
       final String urlExplorerAddress,
       final String urlExplorerTransaction,
       final String urlExplorerChain,
+      final String explorerApi,
       final String providerEndpoint,
       final bool isArchethic,
       final String nativeCurrency,
@@ -393,6 +414,8 @@ abstract class _BridgeBlockchain extends BridgeBlockchain {
   String get urlExplorerTransaction;
   @override
   String get urlExplorerChain;
+  @override
+  String get explorerApi;
   @override
   String get providerEndpoint;
   @override

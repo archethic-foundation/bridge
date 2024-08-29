@@ -310,6 +310,11 @@ mixin EVMBridgeProcessMixin {
               name:
                   'EVMBridgeProcessMixin - sendTransactionWithErrorManagement',
             );
+        if (e.data == null &&
+            e.message.contains('insufficient funds for gas * price')) {
+          throw throw const aedappfm.Failure.insufficientFunds();
+        }
+
         throw aedappfm.Failure.other(
           cause: e.data ?? e.message,
           stack: e.data == null ? null : e.message,

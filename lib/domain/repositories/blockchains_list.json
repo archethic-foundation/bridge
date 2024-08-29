@@ -48,6 +48,7 @@
             "urlExplorerTransaction": "https://etherscan.io/tx/",
             "urlExplorerChain": "https://etherscan.io/address/",
             "providerEndpoint": "https://eth-mainnet.alchemyapi.io/v2/DynWKvz6PUFaeZNmlxPXNiV1nK4Ac_2D",
+            "explorerApi": "https://api.etherscan.io/api?apikey=3HXRGJDCJZW4WF2ITUS1ZSNAS8RUFCT3NE",
             "isArchethic": false,
             "nativeCurrency": "ETH"
         },
@@ -60,6 +61,7 @@
             "urlExplorerTransaction": "https://sepolia.etherscan.io/tx/",
             "urlExplorerChain": "https://sepolia.etherscan.io/address/",
             "providerEndpoint": "https://eth-sepolia.g.alchemy.com/v2/eLhVAxz79HO5n2y98mdIl_gMkKSDc3G8",
+            "explorerApi": "https://api-sepolia.etherscan.io/api?apikey=3HXRGJDCJZW4WF2ITUS1ZSNAS8RUFCT3NE",
             "isArchethic": false,
             "nativeCurrency": "ETH"
         },
@@ -81,6 +83,7 @@
             "urlExplorerTransaction": "https://polygonscan.com/tx/",
             "urlExplorerChain": "https://polygonscan.com/address/",
             "providerEndpoint": "https://polygon-mainnet.g.alchemy.com/v2/DynWKvz6PUFaeZNmlxPXNiV1nK4Ac_2D",
+            "explorerApi": "https://api.polygonscan.com/api?apiKey=UEZZZ5VDEV3B2N2J6GKG2T3QTWPZR8RATW",
             "isArchethic": false,
             "nativeCurrency": "MATIC"
         },
@@ -93,6 +96,7 @@
             "urlExplorerTransaction": "https://bscscan.com/tx/",
             "urlExplorerChain": "https://bscscan.com/address/",
             "providerEndpoint": "https://bsc-dataseed.bnbchain.org",
+            "explorerApi": "https://api.bscscan.com/api?apiKey=6TYEQDUMEFE8JPTE4TF7Z42B2QDZHYKPID",
             "isArchethic": false,
             "nativeCurrency": "BNB"
         }
