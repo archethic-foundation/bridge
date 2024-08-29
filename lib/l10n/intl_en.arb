@@ -88,7 +88,8 @@
     "failureConnectionFailed": "Connection failed",
     "failureParamEVMChain": "You have selected a network that is not set up in your wallet. Please configure it to use the bridge.",
     "failureInsufficientFunds": "Funds are not sufficient.",
-    "failureTimeout": "Timeout occurred.",
+    "failureTimeout": "The transaction is taking longer due to low gas fees or blockchain congestion. Check the explorer for real-time updates and resume once validated.",
+    "requestTooLong": "Please wait, the transaction is taking longer due to low gas fees or blockchain congestion. Check the explorer for real-time updates.",
     "failurePoolInsufficientFunds": "The funds of the pool are not sufficient. Please resume your transaction later.",
     "failureHTLCWithoutFunds": "The contract has not received the expected funds",
     "failureNotHTLC": "The address doesn't correspond to a contract that may contain funds to bridge. Make sure your wallet is on the right network, the address is from the blockchain source of the transfer and this address contains your funds.",
@@ -183,5 +184,6 @@
     "troubleItem4Desc": "Recover your assets after a bridge cancellation or error.",
     "backToBridge": "Go Back to Bridge Form",
     "bridgeHeaderText": "aeBridge - Official Archethic Bridge",
-    "bridgeHeaderDesc": "Bridge UCO and other coins or tokens in and out of Archethic Blockchain."
+    "bridgeHeaderDesc": "Bridge UCO and other coins or tokens in and out of Archethic Blockchain.",
+    "goToExplorer": "Go to the %1 Explorer to check your account"
 }

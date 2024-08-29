@@ -43,7 +43,10 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
+        final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier);
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+
+        refundNotifier.setRequestTooLong(false);
 
         final contractHTLC = await getDeployedContract(
           isERC20
@@ -60,7 +63,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
         );
 
         String? refundTx;
-        final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier);
+
         try {
           final completer = Completer<void>();
 
@@ -83,6 +86,10 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
 
           refundNotifier.setWalletConfirmation(null);
 
+          Timer(const Duration(seconds: 5), () {
+            refundNotifier.setRequestTooLong(true);
+          });
+
           unawaited(
             eventStream
                 .firstWhere((event) => event.transactionHash == refundTx)
@@ -99,7 +106,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             ).catchError(completer.completeError),
           );
 
-          await completer.future.timeout(const Duration(seconds: 360));
+          await completer.future.timeout(const Duration(seconds: 10));
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -274,7 +281,10 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
+        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+
+        bridgeNotifier.setRequestTooLong(false);
 
         final contractHTLC = await getDeployedContract(
           contract,
@@ -297,8 +307,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
         String? withdrawTx;
         try {
           final completer = Completer<void>();
-          final bridgeNotifier =
-              ref.read(BridgeFormProvider.bridgeForm.notifier);
+
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
 
           final eventStream = web3Client
@@ -317,6 +326,10 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             chainId,
           );
           await bridgeNotifier.setWalletConfirmation(null);
+
+          Timer(const Duration(seconds: 30), () {
+            bridgeNotifier.setRequestTooLong(true);
+          });
 
           unawaited(
             eventStream

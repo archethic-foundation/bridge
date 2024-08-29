@@ -33,6 +33,7 @@ class RefundFormState with _$RefundFormState {
     BridgeWallet? wallet,
     @FailureJsonConverter() Failure? failure,
     @Default(false) bool defineStatusInProgress,
+    @Default(false) bool requestTooLong,
   }) = _RefundFormState;
   const RefundFormState._();
 
