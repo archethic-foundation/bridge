@@ -58,6 +58,7 @@ mixin _$BridgeFormState {
   bool get messageMaxHalfUCO => throw _privateConstructorUsedError;
   bool get controlInProgress => throw _privateConstructorUsedError;
   DateTime? get consentDateTime => throw _privateConstructorUsedError;
+  bool get requestTooLong => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -102,7 +103,8 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       double feesEstimatedUCO,
       bool messageMaxHalfUCO,
       bool controlInProgress,
-      DateTime? consentDateTime});
+      DateTime? consentDateTime,
+      bool requestTooLong});
 
   $BridgeBlockchainCopyWith<$Res>? get blockchainFrom;
   $BridgeBlockchainCopyWith<$Res>? get blockchainTo;
@@ -155,6 +157,7 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? messageMaxHalfUCO = null,
     Object? controlInProgress = null,
     Object? consentDateTime = freezed,
+    Object? requestTooLong = null,
   }) {
     return _then(_value.copyWith(
       resumeProcess: null == resumeProcess
@@ -281,6 +284,10 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
           ? _value.consentDateTime
           : consentDateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      requestTooLong: null == requestTooLong
+          ? _value.requestTooLong
+          : requestTooLong // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
@@ -385,7 +392,8 @@ abstract class _$$BridgeFormStateImplCopyWith<$Res>
       double feesEstimatedUCO,
       bool messageMaxHalfUCO,
       bool controlInProgress,
-      DateTime? consentDateTime});
+      DateTime? consentDateTime,
+      bool requestTooLong});
 
   @override
   $BridgeBlockchainCopyWith<$Res>? get blockchainFrom;
@@ -441,6 +449,7 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
     Object? messageMaxHalfUCO = null,
     Object? controlInProgress = null,
     Object? consentDateTime = freezed,
+    Object? requestTooLong = null,
   }) {
     return _then(_$BridgeFormStateImpl(
       resumeProcess: null == resumeProcess
@@ -567,6 +576,10 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
           ? _value.consentDateTime
           : consentDateTime // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      requestTooLong: null == requestTooLong
+          ? _value.requestTooLong
+          : requestTooLong // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -605,7 +618,8 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
       this.feesEstimatedUCO = 0.0,
       this.messageMaxHalfUCO = false,
       this.controlInProgress = false,
-      this.consentDateTime})
+      this.consentDateTime,
+      this.requestTooLong = false})
       : _secret = secret,
         super._();
 
@@ -706,10 +720,13 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
   final bool controlInProgress;
   @override
   final DateTime? consentDateTime;
+  @override
+  @JsonKey()
+  final bool requestTooLong;
 
   @override
   String toString() {
-    return 'BridgeFormState(resumeProcess: $resumeProcess, processStep: $processStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, poolTargetBalance: $poolTargetBalance, tokenToBridgeDecimals: $tokenToBridgeDecimals, tokenBridgedDecimals: $tokenBridgedDecimals, failure: $failure, isTransferInProgress: $isTransferInProgress, walletConfirmation: $walletConfirmation, bridgeOk: $bridgeOk, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, htlcEVMTxAddress: $htlcEVMTxAddress, secret: $secret, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees, feesEstimatedUCO: $feesEstimatedUCO, messageMaxHalfUCO: $messageMaxHalfUCO, controlInProgress: $controlInProgress, consentDateTime: $consentDateTime)';
+    return 'BridgeFormState(resumeProcess: $resumeProcess, processStep: $processStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, poolTargetBalance: $poolTargetBalance, tokenToBridgeDecimals: $tokenToBridgeDecimals, tokenBridgedDecimals: $tokenBridgedDecimals, failure: $failure, isTransferInProgress: $isTransferInProgress, walletConfirmation: $walletConfirmation, bridgeOk: $bridgeOk, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, htlcEVMTxAddress: $htlcEVMTxAddress, secret: $secret, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees, feesEstimatedUCO: $feesEstimatedUCO, messageMaxHalfUCO: $messageMaxHalfUCO, controlInProgress: $controlInProgress, consentDateTime: $consentDateTime, requestTooLong: $requestTooLong)';
   }
 
   @override
@@ -770,8 +787,7 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
                     archethicProtocolFeesAddress) ||
                 other.archethicProtocolFeesAddress ==
                     archethicProtocolFeesAddress) &&
-            (identical(
-                    other.archethicTransactionFees, archethicTransactionFees) ||
+            (identical(other.archethicTransactionFees, archethicTransactionFees) ||
                 other.archethicTransactionFees == archethicTransactionFees) &&
             (identical(other.feesEstimatedUCO, feesEstimatedUCO) ||
                 other.feesEstimatedUCO == feesEstimatedUCO) &&
@@ -780,7 +796,9 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
             (identical(other.controlInProgress, controlInProgress) ||
                 other.controlInProgress == controlInProgress) &&
             (identical(other.consentDateTime, consentDateTime) ||
-                other.consentDateTime == consentDateTime));
+                other.consentDateTime == consentDateTime) &&
+            (identical(other.requestTooLong, requestTooLong) ||
+                other.requestTooLong == requestTooLong));
   }
 
   @JsonKey(ignore: true)
@@ -817,7 +835,8 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
         feesEstimatedUCO,
         messageMaxHalfUCO,
         controlInProgress,
-        consentDateTime
+        consentDateTime,
+        requestTooLong
       ]);
 
   @JsonKey(ignore: true)
@@ -868,7 +887,8 @@ abstract class _BridgeFormState extends BridgeFormState {
       final double feesEstimatedUCO,
       final bool messageMaxHalfUCO,
       final bool controlInProgress,
-      final DateTime? consentDateTime}) = _$BridgeFormStateImpl;
+      final DateTime? consentDateTime,
+      final bool requestTooLong}) = _$BridgeFormStateImpl;
   const _BridgeFormState._() : super._();
 
   factory _BridgeFormState.fromJson(Map<String, dynamic> json) =
@@ -941,6 +961,8 @@ abstract class _BridgeFormState extends BridgeFormState {
   bool get controlInProgress;
   @override
   DateTime? get consentDateTime;
+  @override
+  bool get requestTooLong;
   @override
   @JsonKey(ignore: true)
   _$$BridgeFormStateImplCopyWith<_$BridgeFormStateImpl> get copyWith =>

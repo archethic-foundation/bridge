@@ -7,6 +7,7 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_final_amount.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_in_progress_contracts.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_in_progress_user_explorer.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_interrup_info.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -71,16 +72,22 @@ class BridgeInProgressPopup {
           context: context,
           failure: bridge.failure,
         ).getMessage(),
-        inProgressTxt: AppLocalizations.of(
-          context,
-        )!
-            .bridgeInProgressWaitConfirmWallet,
+        inProgressTxt: bridge.requestTooLong
+            ? AppLocalizations.of(
+                context,
+              )!
+                .requestTooLong
+            : AppLocalizations.of(
+                context,
+              )!
+                .bridgeInProgressWaitConfirmWallet,
         walletConfirmationTxt: bridge.walletConfirmation ==
                 WalletConfirmation.archethic
             ? AppLocalizations.of(context)!.bridgeInProgressConfirmAEWallet
             : AppLocalizations.of(context)!.bridgeInProgressConfirmEVMWallet,
         successTxt: AppLocalizations.of(context)!.bridgeSuccessInfo,
       ),
+      const BridgeInProgressUserExplorer(),
       const BridgeInProgressContracts(),
       if (bridge.htlcAEAddress != null &&
           bridge.bridgeOk &&

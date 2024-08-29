@@ -37,7 +37,10 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
+        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+
+        bridgeNotifier.setRequestTooLong(false);
 
         final contractHTLCETH = await getDeployedContract(
           contractNameSignedHTLCETH,
@@ -72,8 +75,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
                 ),
               )
               .asBroadcastStream();
-          final bridgeNotifier =
-              ref.read(BridgeFormProvider.bridgeForm.notifier);
+
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
           withdrawTx = await sendTransactionWithErrorManagement(
             web3Client,
@@ -82,6 +84,10 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
             chainId,
           );
           await bridgeNotifier.setWalletConfirmation(null);
+
+          Timer(const Duration(seconds: 30), () {
+            bridgeNotifier.setRequestTooLong(true);
+          });
 
           unawaited(
             eventStream

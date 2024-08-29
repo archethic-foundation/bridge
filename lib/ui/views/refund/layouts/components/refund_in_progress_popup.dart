@@ -2,6 +2,7 @@
 import 'package:aebridge/ui/util/failure_message.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:aebridge/ui/views/refund/bloc/state.dart';
+import 'package:aebridge/ui/views/refund/layouts/components/refund_in_progress_user_explorer.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -29,16 +30,22 @@ class RefundInProgressPopup {
           context: context,
           failure: refund.failure,
         ).getMessage(),
-        inProgressTxt: AppLocalizations.of(
-          context,
-        )!
-            .bridgeInProgressWaitConfirmWallet,
+        inProgressTxt: refund.requestTooLong
+            ? AppLocalizations.of(
+                context,
+              )!
+                .requestTooLong
+            : AppLocalizations.of(
+                context,
+              )!
+                .bridgeInProgressWaitConfirmWallet,
         walletConfirmationTxt:
             refund.walletConfirmation == WalletConfirmationRefund.evm
                 ? AppLocalizations.of(context)!.bridgeInProgressConfirmEVMWallet
                 : AppLocalizations.of(context)!.bridgeInProgressConfirmAEWallet,
         successTxt: AppLocalizations.of(context)!.refundSuccessInfo,
       ),
+      const RefundInProgressUserExplorer(),
     ];
   }
 

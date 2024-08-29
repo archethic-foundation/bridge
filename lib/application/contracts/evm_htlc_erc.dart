@@ -42,7 +42,9 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
+        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+        bridgeNotifier.setRequestTooLong(false);
         final contract =
             await getDeployedContract(contractNameIERC20, tokenAddress);
 
@@ -111,6 +113,9 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
                 'Event Approval after send (${DateTime.now()})',
                 name: 'EVMHTLCERC - approveChargeableHTLC',
               );
+          Timer(const Duration(seconds: 30), () {
+            bridgeNotifier.setRequestTooLong(true);
+          });
 
           unawaited(
             eventStream.firstWhere((event) {
@@ -167,7 +172,10 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
+        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+
+        bridgeNotifier.setRequestTooLong(false);
 
         final contractHTLCERC = await getDeployedContract(
           contractNameSignedHTLCERC,
@@ -202,8 +210,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
                 ),
               )
               .asBroadcastStream();
-          final bridgeNotifier =
-              ref.read(BridgeFormProvider.bridgeForm.notifier);
+
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
           withdrawTx = await sendTransactionWithErrorManagement(
             web3Client,
@@ -212,6 +219,10 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             chainId,
           );
           await bridgeNotifier.setWalletConfirmation(null);
+
+          Timer(const Duration(seconds: 30), () {
+            bridgeNotifier.setRequestTooLong(true);
+          });
 
           unawaited(
             eventStream

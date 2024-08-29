@@ -43,6 +43,7 @@ class BridgeFormState with _$BridgeFormState {
     @Default(false) bool messageMaxHalfUCO,
     @Default(false) bool controlInProgress,
     DateTime? consentDateTime,
+    @Default(false) bool requestTooLong,
   }) = _BridgeFormState;
   const BridgeFormState._();
 

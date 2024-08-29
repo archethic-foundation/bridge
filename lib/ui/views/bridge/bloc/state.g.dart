@@ -67,6 +67,7 @@ _$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
       consentDateTime: json['consentDateTime'] == null
           ? null
           : DateTime.parse(json['consentDateTime'] as String),
+      requestTooLong: json['requestTooLong'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$BridgeFormStateImplToJson(
@@ -115,6 +116,7 @@ Map<String, dynamic> _$$BridgeFormStateImplToJson(
       'messageMaxHalfUCO': instance.messageMaxHalfUCO,
       'controlInProgress': instance.controlInProgress,
       'consentDateTime': instance.consentDateTime?.toIso8601String(),
+      'requestTooLong': instance.requestTooLong,
     };
 
 const _$ProcessStepEnumMap = {

@@ -73,6 +73,10 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     }
   }
 
+  void setRequestTooLong(bool requestTooLong) {
+    state = state.copyWith(requestTooLong: requestTooLong);
+  }
+
   Future<void> setStatusArchethic(BuildContext context) async {
     if (state.wallet == null || state.wallet!.isConnected == false) {
       return;

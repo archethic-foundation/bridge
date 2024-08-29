@@ -97,6 +97,10 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
     state = state.copyWith(resumeProcess: resumeProcess);
   }
 
+  void setRequestTooLong(bool requestTooLong) {
+    state = state.copyWith(requestTooLong: requestTooLong);
+  }
+
   Future<void> setBlockchainFrom(
     BuildContext context,
     BridgeBlockchain? blockchainFrom,

@@ -62,7 +62,11 @@ class EVMLP with EVMBridgeProcessMixin {
     int chainId = 31337,
   }) async {
     return aedappfm.Result.guard(() async {
+      final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
       final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+
+      bridgeNotifier.setRequestTooLong(false);
+
       final web3Client = Web3Client(
         providerEndpoint!,
         Client(),
@@ -102,7 +106,6 @@ class EVMLP with EVMBridgeProcessMixin {
             )
             .asBroadcastStream();
 
-        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
         await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
         txAddress = await sendTransactionWithErrorManagement(
           web3Client,
@@ -111,6 +114,10 @@ class EVMLP with EVMBridgeProcessMixin {
           chainId,
         );
         await bridgeNotifier.setWalletConfirmation(null);
+
+        Timer(const Duration(seconds: 30), () {
+          bridgeNotifier.setRequestTooLong(true);
+        });
 
         unawaited(
           eventStream
@@ -180,7 +187,11 @@ class EVMLP with EVMBridgeProcessMixin {
   }) async {
     return aedappfm.Result.guard(
       () async {
+        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+
+        bridgeNotifier.setRequestTooLong(false);
+
         final web3Client = Web3Client(
           providerEndpoint!,
           Client(),
@@ -229,8 +240,6 @@ class EVMLP with EVMBridgeProcessMixin {
               )
               .asBroadcastStream();
 
-          final bridgeNotifier =
-              ref.read(BridgeFormProvider.bridgeForm.notifier);
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
           txAddress = await sendTransactionWithErrorManagement(
             web3Client,
@@ -239,6 +248,10 @@ class EVMLP with EVMBridgeProcessMixin {
             chainId,
           );
           await bridgeNotifier.setWalletConfirmation(null);
+
+          Timer(const Duration(seconds: 30), () {
+            bridgeNotifier.setRequestTooLong(true);
+          });
 
           unawaited(
             eventStream
