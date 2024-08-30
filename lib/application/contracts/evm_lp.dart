@@ -112,6 +112,7 @@ class EVMLP with EVMBridgeProcessMixin {
           evmWalletProvider.credentials!,
           transaction,
           chainId,
+          'EVMLP - deployChargeableHTLC',
         );
         await bridgeNotifier.setWalletConfirmation(null);
 
@@ -247,6 +248,7 @@ class EVMLP with EVMBridgeProcessMixin {
             evmWalletProvider.credentials!,
             transactionProvisionHTLC,
             chainId,
+            'EVMLP - deployAndProvisionSignedHTLC',
           );
           await bridgeNotifier.setWalletConfirmation(null);
 
