@@ -262,6 +262,7 @@ mixin EVMBridgeProcessMixin {
     CredentialsWithKnownAddress credentials,
     Transaction transaction,
     int chainId,
+    String fromMethod,
   ) async {
     try {
       var newTransaction = transaction;
@@ -289,7 +290,8 @@ mixin EVMBridgeProcessMixin {
       }
       aedappfm.sl.get<aedappfm.LogManager>().log(
             'gasPrice=${newTransaction.gasPrice}, maxPriorityFeePerGas=${newTransaction.maxPriorityFeePerGas}, maxFeePerGas=${newTransaction.maxFeePerGas}',
-            name: 'EVMBridgeProcessMixin - sendTransactionWithErrorManagement',
+            name:
+                'EVMBridgeProcessMixin - sendTransactionWithErrorManagement from $fromMethod',
           );
 
       final transactionHash = await web3Client.sendTransaction(

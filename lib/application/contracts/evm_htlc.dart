@@ -82,6 +82,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             evmWalletProvider.credentials!,
             transactionRefund,
             chainId,
+            'EVMHTLC - refund',
           );
 
           refundNotifier.setWalletConfirmation(null);
@@ -324,6 +325,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             evmWalletProvider.credentials!,
             transactionWithdraw,
             chainId,
+            'EVMHTLC - withdraw',
           );
           await bridgeNotifier.setWalletConfirmation(null);
 

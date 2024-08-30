@@ -82,6 +82,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
             evmWalletProvider.credentials!,
             transactionWithdraw,
             chainId,
+            'EVMHTLCNative - signedWithdraw',
           );
           await bridgeNotifier.setWalletConfirmation(null);
 

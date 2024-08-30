@@ -106,6 +106,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             evmWalletProvider.credentials!,
             transactionTransfer,
             chainId,
+            'EVMHTLCERC - approveChargeableHTLC',
           );
           await bridgeNotifier.setWalletConfirmation(null);
 
@@ -218,6 +219,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             evmWalletProvider.credentials!,
             transactionWithdraw,
             chainId,
+            'EVMHTLCERC - signedWithdraw',
           );
           await bridgeNotifier.setWalletConfirmation(null);
 
