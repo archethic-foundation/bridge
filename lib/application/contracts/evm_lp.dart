@@ -130,6 +130,7 @@ class EVMLP with EVMBridgeProcessMixin {
                   );
               if (!completer.isCompleted) {
                 completer.complete();
+                bridgeNotifier.setRequestTooLong(false);
               }
             },
           ),
@@ -264,6 +265,7 @@ class EVMLP with EVMBridgeProcessMixin {
                     );
                 if (!completer.isCompleted) {
                   completer.complete();
+                  bridgeNotifier.setRequestTooLong(false);
                 }
               },
             ).catchError(completer.completeError),
