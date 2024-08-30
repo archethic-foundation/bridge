@@ -186,5 +186,6 @@
     "backToBridge": "Go Back to Bridge Form",
     "bridgeHeaderText": "aeBridge - Official Archethic Bridge",
     "bridgeHeaderDesc": "Bridge UCO and other coins or tokens in and out of Archethic Blockchain.",
-    "goToExplorer": "Go to the %1 Explorer to check your account"
+    "goToExplorer": "Go to the %1 Explorer to check your account",
+    "headerArchethicBridge": "Archethic Bridge"
 }
