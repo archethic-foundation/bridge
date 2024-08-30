@@ -100,6 +100,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
                     );
                 if (!completer.isCompleted) {
                   completer.complete();
+                  bridgeNotifier.setRequestTooLong(false);
                 }
               },
             ).catchError(completer.completeError),

@@ -342,6 +342,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
                     );
                 if (!completer.isCompleted) {
                   completer.complete();
+                  bridgeNotifier.setRequestTooLong(false);
                 }
               },
             ).catchError(completer.completeError),

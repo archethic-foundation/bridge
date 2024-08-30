@@ -135,6 +135,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
 
                 if (!completer.isCompleted) {
                   completer.complete();
+                  bridgeNotifier.setRequestTooLong(false);
                 }
               },
             ).catchError(completer.completeError),
@@ -236,6 +237,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
 
                 if (!completer.isCompleted) {
                   completer.complete();
+                  bridgeNotifier.setRequestTooLong(false);
                 }
               },
             ).catchError(completer.completeError),
