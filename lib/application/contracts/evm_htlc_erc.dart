@@ -62,6 +62,15 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
         try {
           final completer = Completer<void>();
 
+          aedappfm.sl.get<aedappfm.LogManager>().log(
+                'Event Approval topics (${DateTime.now()}) : contract address: ${contract.address} signature: ${bytesToHex(
+                  contract.event('Approval').signature,
+                  padToEvenLength: true,
+                  include0x: true,
+                )}, userAddress: ${userAddress.padRight(66, '0')},  poolAddress: ${poolAddress.padRight(66, '0')}, fromBlock: ${const BlockNum.current()}',
+                name: 'EVMHTLCERC - approveChargeableHTLC',
+              );
+
           final eventStream = web3Client
               .events(
                 FilterOptions(
@@ -82,6 +91,11 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
               )
               .asBroadcastStream();
 
+          aedappfm.sl.get<aedappfm.LogManager>().log(
+                'Event Approval before send (${DateTime.now()})',
+                name: 'EVMHTLCERC - approveChargeableHTLC',
+              );
+
           final bridgeNotifier =
               ref.read(BridgeFormProvider.bridgeForm.notifier);
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
@@ -93,13 +107,24 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
           );
           await bridgeNotifier.setWalletConfirmation(null);
 
+          aedappfm.sl.get<aedappfm.LogManager>().log(
+                'Event Approval after send (${DateTime.now()})',
+                name: 'EVMHTLCERC - approveChargeableHTLC',
+              );
+
           unawaited(
-            eventStream
-                .firstWhere((event) => event.transactionHash == txHash)
-                .then<void>(
+            eventStream.firstWhere((event) {
+              aedappfm.sl.get<aedappfm.LogManager>().log(
+                    'Event Approval (${DateTime.now()}) : ${event.transactionHash} == $txHash ?',
+                    name: 'EVMHTLCERC - approveChargeableHTLC',
+                  );
+
+              return event.transactionHash?.toUpperCase() ==
+                  txHash.toUpperCase();
+            }).then<void>(
               (event) {
                 aedappfm.sl.get<aedappfm.LogManager>().log(
-                      'Event Approval received : $event',
+                      'Event Approval received (${DateTime.now()}) : $event',
                       name: 'EVMHTLCERC - approveChargeableHTLC',
                     );
 
