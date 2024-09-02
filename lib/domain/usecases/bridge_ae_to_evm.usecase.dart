@@ -174,7 +174,7 @@ class BridgeArchethicToEVMUseCase
               },
             );
 
-            if (_htlcContractAddressEVM.isNotEmpty) {
+            if (evmHTLCExist && _htlcContractAddressEVM.isNotEmpty) {
               try {
                 final htlcContractAddressEVMTxHash = await fetchTxHash(
                   bridge.blockchainTo!.explorerApi,
@@ -199,15 +199,6 @@ class BridgeArchethicToEVMUseCase
                 await bridgeNotifier.setTransferInProgress(false);
                 return;
               }
-            } else {
-              await bridgeNotifier.setFailure(
-                const aedappfm.Failure.other(
-                  cause:
-                      'The transfer cannot be resumed at the moment. Please try again later or request a refund of your funds',
-                ),
-              );
-              await bridgeNotifier.setTransferInProgress(false);
-              return;
             }
           }
         }
