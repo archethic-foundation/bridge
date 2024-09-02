@@ -43,6 +43,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
     return aedappfm.Result.guard(
       () async {
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+        Timer? requestTimer;
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
         bridgeNotifier.setRequestTooLong(false);
         final contract =
@@ -65,7 +66,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
           final completer = Completer<void>();
 
           aedappfm.sl.get<aedappfm.LogManager>().log(
-                'Event Approval topics (${DateTime.now()}) : contract address: ${contract.address} signature: ${bytesToHex(
+                'Event Approval topics : contract address: ${contract.address} signature: ${bytesToHex(
                   contract.event('Approval').signature,
                   padToEvenLength: true,
                   include0x: true,
@@ -94,7 +95,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
               .asBroadcastStream();
 
           aedappfm.sl.get<aedappfm.LogManager>().log(
-                'Event Approval before send (${DateTime.now()})',
+                'Event Approval before send',
                 name: 'EVMHTLCERC - approveChargeableHTLC',
               );
 
@@ -111,17 +112,17 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
           await bridgeNotifier.setWalletConfirmation(null);
 
           aedappfm.sl.get<aedappfm.LogManager>().log(
-                'Event Approval after send (${DateTime.now()})',
+                'Event Approval after send',
                 name: 'EVMHTLCERC - approveChargeableHTLC',
               );
-          Timer(const Duration(seconds: 30), () {
+          requestTimer = Timer(const Duration(seconds: 30), () {
             bridgeNotifier.setRequestTooLong(true);
           });
 
           unawaited(
             eventStream.firstWhere((event) {
               aedappfm.sl.get<aedappfm.LogManager>().log(
-                    'Event Approval (${DateTime.now()}) : ${event.transactionHash} == $txHash ?',
+                    'Event Approval : ${event.transactionHash} == $txHash ?',
                     name: 'EVMHTLCERC - approveChargeableHTLC',
                   );
 
@@ -130,7 +131,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             }).then<void>(
               (event) {
                 aedappfm.sl.get<aedappfm.LogManager>().log(
-                      'Event Approval received (${DateTime.now()}) : $event',
+                      'Event Approval received : $event',
                       name: 'EVMHTLCERC - approveChargeableHTLC',
                     );
 
@@ -141,7 +142,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
               },
             ).catchError(completer.completeError),
           );
-          await completer.future.timeout(const Duration(seconds: 360));
+          await completer.future.timeout(const Duration(minutes: 15));
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -162,6 +163,9 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
           }
           rethrow;
         } finally {
+          if (requestTimer != null) {
+            requestTimer.cancel();
+          }
           await web3Client.dispose();
         }
       },
@@ -176,7 +180,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
       () async {
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-
+        Timer? requestTimer;
         bridgeNotifier.setRequestTooLong(false);
 
         final contractHTLCERC = await getDeployedContract(
@@ -223,7 +227,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
           );
           await bridgeNotifier.setWalletConfirmation(null);
 
-          Timer(const Duration(seconds: 30), () {
+          requestTimer = Timer(const Duration(seconds: 30), () {
             bridgeNotifier.setRequestTooLong(true);
           });
 
@@ -245,7 +249,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             ).catchError(completer.completeError),
           );
 
-          await completer.future.timeout(const Duration(seconds: 360));
+          await completer.future.timeout(const Duration(minutes: 15));
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -266,6 +270,9 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
           }
           rethrow;
         } finally {
+          if (requestTimer != null) {
+            requestTimer.cancel();
+          }
           await web3Client.dispose();
         }
         return withdrawTx;

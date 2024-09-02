@@ -64,7 +64,7 @@ class EVMLP with EVMBridgeProcessMixin {
     return aedappfm.Result.guard(() async {
       final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
       final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-
+      Timer? requestTimer;
       bridgeNotifier.setRequestTooLong(false);
 
       final web3Client = Web3Client(
@@ -116,7 +116,7 @@ class EVMLP with EVMBridgeProcessMixin {
         );
         await bridgeNotifier.setWalletConfirmation(null);
 
-        Timer(const Duration(seconds: 30), () {
+        requestTimer = Timer(const Duration(seconds: 30), () {
           bridgeNotifier.setRequestTooLong(true);
         });
 
@@ -137,7 +137,7 @@ class EVMLP with EVMBridgeProcessMixin {
           ),
         );
 
-        await completer.future.timeout(const Duration(seconds: 360));
+        await completer.future.timeout(const Duration(minutes: 15));
       } catch (e, stackTrace) {
         if (e is TimeoutException) {
           aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -158,6 +158,9 @@ class EVMLP with EVMBridgeProcessMixin {
         }
         rethrow;
       } finally {
+        if (requestTimer != null) {
+          requestTimer.cancel();
+        }
         await web3Client.dispose();
       }
 
@@ -191,7 +194,7 @@ class EVMLP with EVMBridgeProcessMixin {
       () async {
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-
+        Timer? requestTimer;
         bridgeNotifier.setRequestTooLong(false);
 
         final web3Client = Web3Client(
@@ -252,7 +255,7 @@ class EVMLP with EVMBridgeProcessMixin {
           );
           await bridgeNotifier.setWalletConfirmation(null);
 
-          Timer(const Duration(seconds: 30), () {
+          requestTimer = Timer(const Duration(seconds: 30), () {
             bridgeNotifier.setRequestTooLong(true);
           });
 
@@ -273,7 +276,7 @@ class EVMLP with EVMBridgeProcessMixin {
             ).catchError(completer.completeError),
           );
 
-          await completer.future.timeout(const Duration(seconds: 360));
+          await completer.future.timeout(const Duration(minutes: 15));
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -295,6 +298,9 @@ class EVMLP with EVMBridgeProcessMixin {
 
           rethrow;
         } finally {
+          if (requestTimer != null) {
+            requestTimer.cancel();
+          }
           await web3Client.dispose();
         }
 
