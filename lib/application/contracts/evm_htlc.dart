@@ -45,6 +45,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
       () async {
         final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier);
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+        Timer? requestTimer;
 
         refundNotifier.setRequestTooLong(false);
 
@@ -87,7 +88,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
 
           refundNotifier.setWalletConfirmation(null);
 
-          Timer(const Duration(seconds: 5), () {
+          requestTimer = Timer(const Duration(seconds: 30), () {
             refundNotifier.setRequestTooLong(true);
           });
 
@@ -129,6 +130,9 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             rethrow;
           }
         } finally {
+          if (requestTimer != null) {
+            requestTimer.cancel();
+          }
           await web3Client.dispose();
         }
         return refundTx;
@@ -284,6 +288,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
       () async {
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+        Timer? requestTimer;
 
         bridgeNotifier.setRequestTooLong(false);
 
@@ -329,7 +334,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
           );
           await bridgeNotifier.setWalletConfirmation(null);
 
-          Timer(const Duration(seconds: 30), () {
+          requestTimer = Timer(const Duration(seconds: 30), () {
             bridgeNotifier.setRequestTooLong(true);
           });
 
@@ -350,7 +355,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             ).catchError(completer.completeError),
           );
 
-          await completer.future.timeout(const Duration(seconds: 360));
+          await completer.future.timeout(const Duration(minutes: 15));
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -371,6 +376,9 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
           }
           rethrow;
         } finally {
+          if (requestTimer != null) {
+            requestTimer.cancel();
+          }
           await web3Client.dispose();
         }
         return withdrawTx;

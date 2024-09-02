@@ -39,6 +39,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
       () async {
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+        Timer? requestTimer;
 
         bridgeNotifier.setRequestTooLong(false);
 
@@ -86,7 +87,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
           );
           await bridgeNotifier.setWalletConfirmation(null);
 
-          Timer(const Duration(seconds: 30), () {
+          requestTimer = Timer(const Duration(seconds: 30), () {
             bridgeNotifier.setRequestTooLong(true);
           });
 
@@ -107,7 +108,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
             ).catchError(completer.completeError),
           );
 
-          await completer.future.timeout(const Duration(seconds: 360));
+          await completer.future.timeout(const Duration(minutes: 15));
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -128,6 +129,9 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
           }
           rethrow;
         } finally {
+          if (requestTimer != null) {
+            requestTimer.cancel();
+          }
           await web3Client.dispose();
         }
         return withdrawTx;

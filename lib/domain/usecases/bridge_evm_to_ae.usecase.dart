@@ -87,7 +87,7 @@ class BridgeEVMToArchethicUseCase
             failure: (failure) async {
               await bridgeNotifier.setFailure(failure);
               await bridgeNotifier.setTransferInProgress(false);
-              return;
+              throw Exception();
             },
           );
         }
@@ -125,7 +125,7 @@ class BridgeEVMToArchethicUseCase
           await bridgeNotifier
               .setFailure(const aedappfm.Failure.invalidValue());
           await bridgeNotifier.setTransferInProgress(false);
-          return;
+          throw Exception();
         },
       );
     }
@@ -233,7 +233,7 @@ class BridgeEVMToArchethicUseCase
               await bridgeNotifier
                   .setFailure(const aedappfm.Failure.invalidValue());
               await bridgeNotifier.setTransferInProgress(false);
-              return;
+              throw Exception();
             },
           );
         }
