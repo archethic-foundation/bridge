@@ -149,6 +149,12 @@ class BridgeArchethicToEVMUseCase
           final ownerEVMAddress =
               ref.read(SessionProviders.session).walletTo?.genesisAddress;
           if (ownerEVMAddress != null) {
+            aedappfm.sl.get<aedappfm.LogManager>().log(
+                  'Resume AE -> EVM Check HTLC EVM Provisioned: getSwapsByOwner - poolAddressTo :${bridge.tokenToBridge!.poolAddressTo}, ownerEVMAddress $ownerEVMAddress',
+                  level: aedappfm.LogLevel.debug,
+                  name: 'BridgeArchethicToEVMUseCase - run',
+                );
+
             final swapsByOwnerResult = await evmLP.getSwapsByOwner(
               bridge.tokenToBridge!.poolAddressTo,
               ownerEVMAddress,
