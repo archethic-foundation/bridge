@@ -68,12 +68,18 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
         try {
           final completer = Completer<void>();
 
+          final latestBlockNumber = await web3Client.getBlockNumber();
+          aedappfm.sl.get<aedappfm.LogManager>().log(
+                'latestBlockNumber: $latestBlockNumber',
+                name: 'EVMHTLC - refund',
+              );
+
           final eventStream = web3Client
               .events(
                 FilterOptions.events(
                   contract: contractHTLC,
                   event: contractHTLC.event('Refunded'),
-                  fromBlock: const BlockNum.current(),
+                  fromBlock: BlockNum.exact(latestBlockNumber),
                 ),
               )
               .asBroadcastStream();
@@ -315,12 +321,18 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
 
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
 
+          final latestBlockNumber = await web3Client.getBlockNumber();
+          aedappfm.sl.get<aedappfm.LogManager>().log(
+                'latestBlockNumber: $latestBlockNumber',
+                name: 'EVMHTLC - withdraw',
+              );
+
           final eventStream = web3Client
               .events(
                 FilterOptions.events(
                   contract: contractHTLC,
                   event: contractHTLC.event('Withdrawn'),
-                  fromBlock: const BlockNum.current(),
+                  fromBlock: BlockNum.exact(latestBlockNumber),
                 ),
               )
               .asBroadcastStream();
