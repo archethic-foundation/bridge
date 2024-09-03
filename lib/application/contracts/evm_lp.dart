@@ -97,12 +97,18 @@ class EVMLP with EVMBridgeProcessMixin {
         final contractPoolBase =
             await getDeployedContract(contractNamePoolBase, poolAddress);
 
+        final latestBlockNumber = await web3Client.getBlockNumber();
+        aedappfm.sl.get<aedappfm.LogManager>().log(
+              'latestBlockNumber: $latestBlockNumber',
+              name: 'EVMLP - deployChargeableHTLC',
+            );
+
         final eventStream = web3Client
             .events(
               FilterOptions.events(
                 contract: contractPoolBase,
                 event: contractPoolBase.event('ContractMinted'),
-                fromBlock: const BlockNum.current(),
+                fromBlock: BlockNum.exact(latestBlockNumber),
               ),
             )
             .asBroadcastStream();
@@ -236,12 +242,18 @@ class EVMLP with EVMBridgeProcessMixin {
           final contractPoolBase =
               await getDeployedContract(contractNamePoolBase, poolAddress);
 
+          final latestBlockNumber = await web3Client.getBlockNumber();
+          aedappfm.sl.get<aedappfm.LogManager>().log(
+                'latestBlockNumber: $latestBlockNumber',
+                name: 'EVMLP - deployAndProvisionSignedHTLC',
+              );
+
           final eventStream = web3Client
               .events(
                 FilterOptions.events(
                   contract: contractPoolBase,
                   event: contractPoolBase.event('ContractProvisioned'),
-                  fromBlock: const BlockNum.current(),
+                  fromBlock: BlockNum.exact(latestBlockNumber),
                 ),
               )
               .asBroadcastStream();

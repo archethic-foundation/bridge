@@ -67,12 +67,18 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
         try {
           final completer = Completer<void>();
 
+          final latestBlockNumber = await web3Client.getBlockNumber();
+          aedappfm.sl.get<aedappfm.LogManager>().log(
+                'latestBlockNumber: $latestBlockNumber',
+                name: 'EVMHTLCNative - signedWithdraw',
+              );
+
           final eventStream = web3Client
               .events(
                 FilterOptions.events(
                   contract: contractHTLCETH,
                   event: contractHTLCETH.event('Withdrawn'),
-                  fromBlock: const BlockNum.current(),
+                  fromBlock: BlockNum.exact(latestBlockNumber),
                 ),
               )
               .asBroadcastStream();

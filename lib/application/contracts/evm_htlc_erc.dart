@@ -74,6 +74,12 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
                 name: 'EVMHTLCERC - approveChargeableHTLC',
               );
 
+          final latestBlockNumber = await web3Client.getBlockNumber();
+          aedappfm.sl.get<aedappfm.LogManager>().log(
+                'latestBlockNumber: $latestBlockNumber',
+                name: 'EVMHTLCERC - approveChargeableHTLC',
+              );
+
           final eventStream = web3Client
               .events(
                 FilterOptions(
@@ -89,7 +95,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
                       poolAddress.padRight(66, '0'),
                     ]
                   ],
-                  fromBlock: const BlockNum.current(),
+                  fromBlock: BlockNum.exact(latestBlockNumber),
                 ),
               )
               .asBroadcastStream();
@@ -208,12 +214,18 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
         try {
           final completer = Completer<void>();
 
+          final latestBlockNumber = await web3Client.getBlockNumber();
+          aedappfm.sl.get<aedappfm.LogManager>().log(
+                'latestBlockNumber: $latestBlockNumber',
+                name: 'EVMHTLCERC - signedWithdraw',
+              );
+
           final eventStream = web3Client
               .events(
                 FilterOptions.events(
                   contract: contractHTLCERC,
                   event: contractHTLCERC.event('Withdrawn'),
-                  fromBlock: const BlockNum.current(),
+                  fromBlock: BlockNum.exact(latestBlockNumber),
                 ),
               )
               .asBroadcastStream();
