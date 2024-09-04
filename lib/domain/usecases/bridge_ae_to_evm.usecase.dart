@@ -12,6 +12,7 @@ import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -80,7 +81,9 @@ class BridgeArchethicToEVMUseCase
         );
 
         // Wait for AE HTLC Update
-        if (await waitForManualTxConfirmation(htlcAEAddress, 2) == false) {
+        final apiService = aedappfm.sl.get<archethic.ApiService>();
+        if (await waitForManualTxConfirmation(htlcAEAddress, 2, apiService) ==
+            false) {
           await bridgeNotifier.setCurrentStep(3);
           await bridgeNotifier.setFailure(const aedappfm.Failure.timeout());
           await bridgeNotifier.setTransferInProgress(false);
@@ -246,9 +249,11 @@ class BridgeArchethicToEVMUseCase
         );
 
         // Wait for AE HTLC Update
+        final apiService = aedappfm.sl.get<archethic.ApiService>();
         if (await waitForManualTxConfirmation(
               htlcAEAddress,
               3,
+              apiService,
             ) ==
             false) {
           await bridgeNotifier.setFailure(const aedappfm.Failure.timeout());

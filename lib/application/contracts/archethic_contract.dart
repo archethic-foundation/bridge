@@ -92,8 +92,11 @@ class ArchethicContract
               .originSign(originPrivateKey);
         }
 
-        final fees =
-            await calculateFees(transactionFinal, slippage: slippageFees);
+        final fees = await calculateFees(
+          transactionFinal,
+          apiService,
+          slippage: slippageFees,
+        );
         var transactionTransfer = Transaction(
           type: 'transfer',
           version: blockchainTxVersion,
@@ -119,6 +122,7 @@ class ArchethicContract
         await bridgeNotifier.setWalletConfirmation(null);
         await sendTransactions(
           <Transaction>[transactionTransfer, transactionFinal],
+          apiService,
         );
       },
     );
@@ -163,6 +167,7 @@ class ArchethicContract
         refundNotifier.setWalletConfirmation(null);
         await sendTransactions(
           <Transaction>[transaction],
+          apiService,
         );
 
         return transaction.address!.address!;

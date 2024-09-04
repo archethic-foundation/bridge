@@ -154,6 +154,7 @@ class ArchethicContractChargeable with aedappfm.TransactionMixin {
         await bridgeNotifier.setWalletConfirmation(null);
         await sendTransactions(
           <Transaction>[transaction],
+          apiService,
         );
 
         return transaction.address!.address!;

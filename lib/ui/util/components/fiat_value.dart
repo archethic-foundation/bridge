@@ -18,7 +18,7 @@ class FiatValue {
       final fiatValue = archethicOracleUCO.usd * amount;
       return '(\$${fiatValue.formatNumber(precision: 2)})';
     } else {
-      final prices = ref.watch(aedappfm.CoinPriceProviders.coinPrice);
+      final prices = ref.watch(aedappfm.CoinPriceProviders.coinPrices);
       var price = 0.0;
 
       switch (symbol) {
