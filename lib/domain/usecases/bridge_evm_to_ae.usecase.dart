@@ -250,7 +250,13 @@ class BridgeEVMToArchethicUseCase
         await bridgeNotifier.setHTLCAEAddress(htlcAEAddress);
 
         // Wait for AE HTLC Update
-        if (await waitForManualTxConfirmation(htlcAEAddress, 2) == false) {
+        final apiService = aedappfm.sl.get<ApiService>();
+        if (await waitForManualTxConfirmation(
+              htlcAEAddress,
+              2,
+              apiService,
+            ) ==
+            false) {
           await bridgeNotifier.setFailure(const aedappfm.Failure.timeout());
           await bridgeNotifier.setTransferInProgress(false);
           return;

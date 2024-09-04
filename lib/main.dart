@@ -42,8 +42,12 @@ class _MyAppState extends ConsumerState<MyApp> {
           .read(
             aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO.notifier,
           )
-          .init();
-      await ref.read(aedappfm.CoinPriceProviders.coinPrice.notifier).init();
+          .startSubscription();
+      await ref
+          .read(
+            aedappfm.CoinPriceProviders.coinPrices.notifier,
+          )
+          .starTimer();
     });
   }
 

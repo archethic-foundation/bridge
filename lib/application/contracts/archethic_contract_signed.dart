@@ -132,8 +132,10 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
             .first;
         await bridgeNotifier.setWalletConfirmation(null);
 
+        final apiService = aedappfm.sl.get<ApiService>();
         await sendTransactions(
           <Transaction>[transactionTransfer],
+          apiService,
         );
         return;
       },
@@ -181,8 +183,11 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
         ))
             .first;
         await bridgeNotifier.setWalletConfirmation(null);
+
+        final apiService = aedappfm.sl.get<ApiService>();
         await sendTransactions(
           <Transaction>[transaction],
+          apiService,
         );
 
         return transaction.address!.address!;

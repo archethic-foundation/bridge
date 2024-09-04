@@ -19,7 +19,7 @@ class BridgeTokenToBridgeFiatPrice extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    final prices = ref.watch(aedappfm.CoinPriceProviders.coinPrice);
+    final prices = ref.watch(aedappfm.CoinPriceProviders.coinPrices);
 
     var price = 0.0;
 
