@@ -22,8 +22,9 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
     web3Client = Web3Client(
       providerEndpoint,
       Client(),
-      customFilterPingInterval: const Duration(
-        seconds: 5,
+      customFilterPingInterval: Duration(
+        // Ethereum is too long to validate a txn...
+        seconds: chainId == 1 ? 20 : 5,
       ),
     );
   }
@@ -149,7 +150,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
               },
             ).catchError(completer.completeError),
           );
-          await completer.future.timeout(const Duration(minutes: 15));
+          await completer.future.timeout(const Duration(minutes: 60));
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -262,7 +263,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             ).catchError(completer.completeError),
           );
 
-          await completer.future.timeout(const Duration(minutes: 15));
+          await completer.future.timeout(const Duration(minutes: 60));
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(

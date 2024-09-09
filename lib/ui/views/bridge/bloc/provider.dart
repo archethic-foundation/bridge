@@ -113,7 +113,6 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
       final client = webthree.Web3Client(
         blockchainFrom.providerEndpoint,
         Client(),
-        customFilterPingInterval: const Duration(seconds: 5),
       );
 
       try {
@@ -204,7 +203,6 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
       final client = webthree.Web3Client(
         blockchainTo.providerEndpoint,
         Client(),
-        customFilterPingInterval: const Duration(seconds: 5),
       );
 
       try {

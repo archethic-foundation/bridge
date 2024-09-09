@@ -268,7 +268,7 @@ mixin EVMBridgeProcessMixin {
       var newTransaction = transaction;
       if (transaction.gasPrice == null) {
         final gasPrice = await web3Client.getGasPrice();
-        const slippage = 1.5;
+        final slippage = chainId == 1 ? 2.5 : 1.5;
         final gasPriceInWei = gasPrice.getInWei.toDouble();
         final newGasPriceInWei = gasPriceInWei * slippage;
         final newGasPrice =
@@ -279,7 +279,7 @@ mixin EVMBridgeProcessMixin {
         newTransaction = newTransaction.copyWith(value: EtherAmount.zero());
       }
       if (transaction.maxPriorityFeePerGas == null) {
-        final maxPriorityFeePerGas = await _getMaxPriorityFeePerGas();
+        final maxPriorityFeePerGas = await _getMaxPriorityFeePerGas(chainId);
         newTransaction =
             newTransaction.copyWith(maxPriorityFeePerGas: maxPriorityFeePerGas);
         if (transaction.maxFeePerGas == null) {
@@ -453,11 +453,13 @@ mixin EVMBridgeProcessMixin {
     return txAddress;
   }
 
-  Future<EtherAmount> _getMaxPriorityFeePerGas() {
+  Future<EtherAmount> _getMaxPriorityFeePerGas(int chainId) {
     // We may want to compute this more accurately in the future,
     // using the formula "check if the base fee is correct".
     // See: https://eips.ethereum.org/EIPS/eip-1559
-    return Future.value(EtherAmount.inWei(BigInt.from(1000000000)));
+    return Future.value(
+      EtherAmount.inWei(BigInt.from(chainId == 1 ? 2000000000 : 1000000000)),
+    );
   }
 
 // Max Fee = (2 * Base Fee) + Max Priority Fee
