@@ -71,8 +71,9 @@ class EVMLP with EVMBridgeProcessMixin {
       final web3Client = Web3Client(
         providerEndpoint!,
         Client(),
-        customFilterPingInterval: const Duration(
-          seconds: 5,
+        customFilterPingInterval: Duration(
+          // Ethereum is too long to validate a txn...
+          seconds: chainId == 1 ? 20 : 5,
         ),
       );
       late String htlcContractAddress;
@@ -127,12 +128,18 @@ class EVMLP with EVMBridgeProcessMixin {
         });
 
         unawaited(
-          eventStream
-              .firstWhere((event) => event.transactionHash == txAddress)
-              .then(
+          eventStream.firstWhere((event) {
+            aedappfm.sl.get<aedappfm.LogManager>().log(
+                  'Event ContractMinted : ${event.transactionHash} == $txAddress ?',
+                  name: 'EVMHTLCERC - deployChargeableHTLC',
+                );
+
+            return event.transactionHash?.toUpperCase() ==
+                txAddress.toUpperCase();
+          }).then(
             (event) {
               aedappfm.sl.get<aedappfm.LogManager>().log(
-                    'Event Withdrawn = $event',
+                    'Event ContractMinted = $event',
                     name: 'EVMLP - deployChargeableHTLC',
                   );
               if (!completer.isCompleted) {
@@ -143,7 +150,7 @@ class EVMLP with EVMBridgeProcessMixin {
           ),
         );
 
-        await completer.future.timeout(const Duration(minutes: 15));
+        await completer.future.timeout(const Duration(minutes: 60));
       } catch (e, stackTrace) {
         if (e is TimeoutException) {
           aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -207,8 +214,9 @@ class EVMLP with EVMBridgeProcessMixin {
         final web3Client = Web3Client(
           providerEndpoint!,
           Client(),
-          customFilterPingInterval: const Duration(
-            seconds: 5,
+          customFilterPingInterval: Duration(
+            // Ethereum is too long to validate a txn...
+            seconds: chainId == 1 ? 20 : 5,
           ),
         );
         late String htlcContractAddressEVM;
@@ -288,7 +296,7 @@ class EVMLP with EVMBridgeProcessMixin {
             ).catchError(completer.completeError),
           );
 
-          await completer.future.timeout(const Duration(minutes: 15));
+          await completer.future.timeout(const Duration(minutes: 60));
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -349,7 +357,6 @@ class EVMLP with EVMBridgeProcessMixin {
       final web3Client = Web3Client(
         providerEndpoint!,
         Client(),
-        customFilterPingInterval: const Duration(seconds: 5),
       );
 
       final contractLP =
