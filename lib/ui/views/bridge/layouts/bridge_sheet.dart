@@ -13,6 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:web3modal_flutter/web3modal_flutter.dart';
 
 class BridgeSheet extends ConsumerStatefulWidget {
   const BridgeSheet({
@@ -29,9 +30,12 @@ class BridgeSheet extends ConsumerStatefulWidget {
 }
 
 class _BridgeSheetState extends ConsumerState<BridgeSheet> {
+  late W3MService _w3mService;
+
   @override
   void initState() {
-    Future.delayed(Duration.zero, () {
+    initializeState();
+    Future.delayed(Duration.zero, () async {
       ref.read(navigationIndexMainScreenProvider.notifier).state =
           NavigationIndex.bridge;
 
@@ -40,14 +44,39 @@ class _BridgeSheetState extends ConsumerState<BridgeSheet> {
             widget.initialState!;
       }
     });
+
     super.initState();
+  }
+
+  Future<void> initializeState() async {
+    _w3mService = W3MService(
+      projectId: 'ce9ee3c8e58873e8708247895990bc27',
+      metadata: const PairingMetadata(
+        name: 'Web3Modal Flutter Example',
+        description: 'Web3Modal Flutter Example',
+        url: 'http://localhost:58667/bridge',
+        icons: ['https://walletconnect.com/walletconnect-logo.png'],
+        redirect: Redirect(
+          native: 'w3m://',
+          universal: 'https://www.walletconnect.com',
+        ),
+      ),
+      includedWalletIds: {
+        'c57ca95b47569778a828d19178114f4db188b89b763c899ba0be274e97267d96', // MetaMask
+        '4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0', // Trust
+        'fd20dc426fb37566d803205b19bbc1d4096b248ac04548e3cfb6b3a38bd033aa', // Coinbase Wallet
+      },
+    );
+
+    // Register callbacks on the Web3App you'd like to use. See `Events` section.
+    await _w3mService.init();
   }
 
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
       currentStep: ref.watch(BridgeFormProvider.bridgeForm).processStep,
-      formSheet: const BridgeFormSheet(),
+      formSheet: BridgeFormSheet(w3mService: _w3mService),
       confirmSheet: const BridgeConfirmSheet(),
       topWidget: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
