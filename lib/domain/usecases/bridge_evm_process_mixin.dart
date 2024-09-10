@@ -1,7 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 import 'dart:convert';
-import 'dart:math';
+import 'dart:math' as math;
 
 import 'package:aebridge/application/contracts/archethic_contract_chargeable.dart';
 import 'package:aebridge/application/contracts/evm_htlc.dart';
@@ -10,9 +10,9 @@ import 'package:aebridge/application/contracts/evm_htlc_native.dart';
 import 'package:aebridge/application/contracts/evm_lp.dart';
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/provider.dart';
+import 'package:aebridge/domain/models/gas_fee_estimation.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:crypto/crypto.dart';
@@ -20,6 +20,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:http/http.dart' as http;
 import 'package:webthree/browser.dart';
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
@@ -124,7 +125,7 @@ mixin EVMBridgeProcessMixin {
     final secret = Uint8List.fromList(
       List<int>.generate(
         32,
-        (int i) => Random.secure().nextInt(256),
+        (int i) => math.Random.secure().nextInt(256),
       ),
     );
     return secret;
@@ -266,6 +267,9 @@ mixin EVMBridgeProcessMixin {
   ) async {
     try {
       var newTransaction = transaction;
+
+      final suggestedGasFeesResult = await suggestedGasFees(chainId);
+
       if (transaction.gasPrice == null) {
         final gasPrice = await web3Client.getGasPrice();
         final slippage = chainId == 1 ? 2.5 : 1.5;
@@ -279,13 +283,19 @@ mixin EVMBridgeProcessMixin {
         newTransaction = newTransaction.copyWith(value: EtherAmount.zero());
       }
       if (transaction.maxPriorityFeePerGas == null) {
-        final maxPriorityFeePerGas = await _getMaxPriorityFeePerGas(chainId);
+        final maxPriorityFeePerGas =
+            _getMaxPriorityFeePerGas(suggestedGasFeesResult, chainId);
         newTransaction =
             newTransaction.copyWith(maxPriorityFeePerGas: maxPriorityFeePerGas);
         if (transaction.maxFeePerGas == null) {
-          final maxFeePerGas =
-              await _getMaxFeePerGas(web3Client, maxPriorityFeePerGas.getInWei);
-          newTransaction = newTransaction.copyWith(maxFeePerGas: maxFeePerGas);
+          final maxFeePerGas = await _getMaxFeePerGas(
+            suggestedGasFeesResult,
+            web3Client,
+            maxPriorityFeePerGas.getInWei,
+          );
+          newTransaction = newTransaction.copyWith(
+            maxFeePerGas: maxFeePerGas,
+          );
         }
       }
       aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -407,7 +417,7 @@ mixin EVMBridgeProcessMixin {
       final evmHTLCERC = EVMHTLCERC(
         bridge.blockchainTo!.providerEndpoint,
         htlc,
-        bridge.blockchainFrom!.chainId,
+        bridge.blockchainTo!.chainId,
       );
 
       resultSignedWithdraw = await evmHTLCERC.signedWithdraw(
@@ -420,7 +430,7 @@ mixin EVMBridgeProcessMixin {
       final evmHTLCNative = EVMHTLCNative(
         bridge.blockchainTo!.providerEndpoint,
         htlc,
-        bridge.blockchainFrom!.chainId,
+        bridge.blockchainTo!.chainId,
       );
 
       resultSignedWithdraw = await evmHTLCNative.signedWithdraw(
@@ -453,20 +463,42 @@ mixin EVMBridgeProcessMixin {
     return txAddress;
   }
 
-  Future<EtherAmount> _getMaxPriorityFeePerGas(int chainId) {
-    // We may want to compute this more accurately in the future,
-    // using the formula "check if the base fee is correct".
-    // See: https://eips.ethereum.org/EIPS/eip-1559
-    return Future.value(
-      EtherAmount.inWei(BigInt.from(chainId == 1 ? 2000000000 : 1000000000)),
-    );
+  EtherAmount _getMaxPriorityFeePerGas(
+    GasFeeEstimation? suggestedGasFeesResult,
+    int chainId,
+  ) {
+    return suggestedGasFeesResult != null &&
+            suggestedGasFeesResult.medium.suggestedMaxPriorityFeePerGas
+                .isValidNumber()
+        ? EtherAmount.fromDouble(
+            EtherUnit.gwei,
+            math.max(
+              1,
+              double.tryParse(
+                suggestedGasFeesResult.medium.suggestedMaxPriorityFeePerGas,
+              )!,
+            ),
+          )
+        : EtherAmount.inWei(
+            BigInt.from(chainId == 1 ? 2000000000 : 1000000000),
+          );
   }
 
 // Max Fee = (2 * Base Fee) + Max Priority Fee
   Future<EtherAmount> _getMaxFeePerGas(
+    GasFeeEstimation? suggestedGasFeesResult,
     Web3Client client,
     BigInt maxPriorityFeePerGas,
   ) async {
+    if (suggestedGasFeesResult != null &&
+        suggestedGasFeesResult.medium.suggestedMaxFeePerGas.isValidNumber()) {
+      return EtherAmount.fromDouble(
+        EtherUnit.gwei,
+        double.tryParse(
+          suggestedGasFeesResult.medium.suggestedMaxFeePerGas,
+        )!,
+      );
+    }
     final blockInformation = await client.getBlockInformation();
     final baseFeePerGas = blockInformation.baseFeePerGas;
 
@@ -514,5 +546,35 @@ mixin EVMBridgeProcessMixin {
         rethrow;
       }
     }
+  }
+
+  Future<GasFeeEstimation?> suggestedGasFees(
+    int chainId,
+  ) async {
+    try {
+      final url =
+          'https://gas.api.infura.io/v3/3a7a2dbdbec046a4961550ddf8c7d78a/networks/$chainId/suggestedGasFees';
+
+      final response = await http.get(Uri.parse(url));
+      if (response.statusCode == 200) {
+        var gasFeeResponse =
+            GasFeeEstimation.fromJson(jsonDecode(response.body));
+        gasFeeResponse = gasFeeResponse.copyWith(timestamp: DateTime.now());
+        aedappfm.sl
+            .get<aedappfm.LogManager>()
+            .log(gasFeeResponse.toString(), name: 'suggestedGasFees');
+        return gasFeeResponse;
+      } else {
+        aedappfm.sl.get<aedappfm.LogManager>().log(
+              'Response status code: ${response.statusCode} / ${response.body}',
+              name: 'suggestedGasFees',
+            );
+      }
+    } catch (e) {
+      aedappfm.sl
+          .get<aedappfm.LogManager>()
+          .log('Error: $e', name: 'suggestedGasFees');
+    }
+    return null;
   }
 }
