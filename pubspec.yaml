@@ -82,6 +82,8 @@ dependencies:
 
   # web3modal_flutter:
   #   path: ../../packages/Web3ModalFlutter
+  # Wagmi JS SDK wrapper for Dart Web
+  wagmi_flutter_web: ^0.0.1-dev.2
 
   # Dart library to connect to Ethereum clients. Send transactions and interact with smart contracts!
   webthree: ^2.7.5

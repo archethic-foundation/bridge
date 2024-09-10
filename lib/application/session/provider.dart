@@ -14,6 +14,7 @@ import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 import 'package:webthree/webthree.dart';
 
 part 'provider.g.dart';
@@ -46,6 +47,25 @@ class _SessionNotifier extends _$SessionNotifier {
         final evmWalletProvider = EVMWalletProvider();
 
         try {
+          await wagmi.init();
+
+          wagmi.Web3Modal.init(
+            'f642e3f39ba3e375f8f714f18354faa4',
+            [
+              // TODO: Manage Chain from blockchain.chainId
+              wagmi.Chain.sepolia.name,
+            ],
+            true,
+            true,
+            wagmi.Web3ModalMetadata(
+              name: 'Web3Modal',
+              description: 'Web3Modal Example',
+              // url must match your domain & subdomain
+              url: 'https://web3modal.com',
+              icons: ['https://avatars.githubusercontent.com/u/37784886'],
+            ),
+          );
+
           await evmWalletProvider.connect(blockchain.chainId);
           if (evmWalletProvider.walletConnected) {
             bridgeWallet = bridgeWallet.copyWith(
