@@ -80,6 +80,9 @@ dependencies:
   # Flutter package that allows setting the web app URL strategy with a single line of code.
   url_strategy: ^0.2.0
 
+  web3modal_flutter:
+    path: ../../packages/Web3ModalFlutter
+
   # Dart library to connect to Ethereum clients. Send transactions and interact with smart contracts!
   webthree: ^2.7.5
   #  git:

@@ -17,17 +17,27 @@ import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_brid
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_uco_v1_warning.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:web3modal_flutter/web3modal_flutter.dart';
 
 class BridgeFormSheet extends ConsumerWidget {
-  const BridgeFormSheet({super.key});
+  const BridgeFormSheet({this.w3mService, super.key});
+
+  final W3MService? w3mService;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const Expanded(
+    return Expanded(
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Row(
+            children: [
+              W3MConnectWalletButton(
+                service: w3mService!,
+              ),
+            ],
+          ),
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               BridgeBlockchainFromSelection(),
@@ -35,17 +45,17 @@ class BridgeFormSheet extends ConsumerWidget {
               BridgeBlockchainToSelection(),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               BridgeTokenToBridgeSelection(),
               BridgeTokenBridged(),
             ],
           ),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
@@ -72,7 +82,7 @@ class BridgeFormSheet extends ConsumerWidget {
               ),
             ],
           ),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               SizedBox.shrink(),
@@ -80,20 +90,20 @@ class BridgeFormSheet extends ConsumerWidget {
               BridgeTokenBridgedPoolBalance(),
             ],
           ),
-          BridgeTokenAddress(),
+          const BridgeTokenAddress(),
           BridgeUCOV1Warning(),
           SizedBox(
             height: 10,
           ),
-          BridgeTargetAddress(),
-          SizedBox(
+          const BridgeTargetAddress(),
+          const SizedBox(
             height: 10,
           ),
-          BridgeTokenAmount(),
-          BridgeErrorMessage(),
-          Spacer(),
-          BridgeButton(),
-          SizedBox(height: 10),
+          const BridgeTokenAmount(),
+          const BridgeErrorMessage(),
+          const Spacer(),
+          const BridgeButton(),
+          const SizedBox(height: 10),
         ],
       ),
     );
