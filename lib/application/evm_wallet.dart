@@ -1,5 +1,6 @@
 import 'dart:convert';
-import 'dart:html';
+
+import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -8,10 +9,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart';
 import 'package:js/js.dart';
+import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 import 'package:webthree/browser.dart';
 import 'package:webthree/webthree.dart';
 
-class EVMWalletProvider extends ChangeNotifier {
+class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
   String? currentAddress;
   String? get accountName => currentAddress;
   int? currentChain;
@@ -20,124 +22,53 @@ class EVMWalletProvider extends ChangeNotifier {
   BinanceChainWallet? bsc;
   OkxWallet? okx;
 
-  Web3Client? web3Client;
-  CredentialsWithKnownAddress? credentials;
+  Future<int> getChainId() async => wagmi.Core.getChainId();
 
-  Future<int> getChainId() async {
-    if (window.OkxChainWallet != null) {
-      try {
-        okx = window.OkxChainWallet;
-        final okxRPC = okx!.asRpcService();
-
-        web3Client = Web3Client.custom(okxRPC);
-        if (web3Client == null) {
-          throw Exception('EVM Wallet is not available');
-        }
-        final currentChain = await web3Client!.getChainId();
-        return currentChain.toInt();
-      } catch (e) {
-        throw Exception('Please, connect your Wallet.');
-      }
-    } else {
-      if (window.BinanceChain != null) {
-        try {
-          bsc = window.BinanceChain;
-          final bscRPC = bsc!.asRpcService();
-
-          web3Client = Web3Client.custom(bscRPC);
-          if (web3Client == null) {
-            throw Exception('EVM Wallet is not available');
-          }
-          final currentChain = await web3Client!.getChainId();
-          return currentChain.toInt();
-        } catch (e) {
-          throw Exception('Please, connect your Wallet.');
-        }
-      } else {
-        if (window.ethereum != null) {
-          try {
-            eth = window.ethereum;
-            final ethRPC = eth!.asRpcService();
-
-            web3Client = Web3Client.custom(ethRPC);
-            if (web3Client == null) {
-              throw Exception('EVM Wallet is not available');
-            }
-            final currentChain = await web3Client!.getChainId();
-            return currentChain.toInt();
-          } catch (e) {
-            throw Exception('Please, connect your Wallet.');
-          }
-        } else {
-          throw Exception('No provider installed');
-        }
-      }
+  // TODO: Utiliser une écoute plutot que du pooling
+  Future<wagmi.Account> _waitForConnexion() async {
+    while (true) {
+      final account = wagmi.Core.getAccount();
+      if (account.isConnected) return account;
+      await Future.delayed(const Duration(seconds: 1));
     }
   }
 
-  Future<void> connect(int chainId) async {
+  Future<void> connect(BridgeBlockchain chain) async {
     walletConnected = false;
 
-    currentChain = await getChainId();
-    if (currentChain != chainId) {
-      await changeChainId(chainId);
-    }
+    wagmi.Web3Modal.init(
+      projectId: 'f642e3f39ba3e375f8f714f18354faa4',
+      chains: [chain.chainId],
+      enableAnalytics: true,
+      enableOnRamp: true,
+      metadata: wagmi.Web3ModalMetadata(
+        name: 'Archethic Bridge',
+        description:
+            'Enable interoperability and facilitate the transfer of data and assets between the two blockchains.',
+        url: 'https://bridge.archethic.net',
+        icons: ['https://bridge.archethic.net/favicon.png'],
+      ),
+      email: false,
+      showWallets: true,
+      walletFeatures: true,
+      transportBuilder: (chainId) => wagmi.Transport.websocket(
+        url:
+            Uri.parse(chain.providerEndpoint).replace(scheme: 'wss').toString(),
+      ),
+    );
 
-    var credentialsList = <CredentialsWithKnownAddress>[];
-    if (okx != null) {
-      credentialsList = await okx!.requestAccounts();
-    } else {
-      if (bsc != null) {
-        credentialsList = await bsc!.requestAccounts();
-      } else {
-        if (eth != null) {
-          credentialsList = await eth!.requestAccounts();
-        }
-      }
-    }
+    wagmi.Web3Modal.open();
 
-    if (credentialsList.isNotEmpty) {
-      credentials = credentialsList.first;
-      currentAddress = credentials!.address.hex;
-      walletConnected = true;
+    final currentAccount = await _waitForConnexion();
 
-      notifyListeners();
-    }
-  }
+    currentAddress = currentAccount.address;
+    walletConnected = true;
 
-  Future<void> changeChainId(int chainId) async {
-    if (okx != null) {
-      await okx!.rawRequest(
-        'wallet_switchEthereumChain',
-        params: [
-          JSrawRequestParams(chainId: '0x${chainId.toRadixString(16)}'),
-        ],
-      );
-    } else {
-      if (bsc != null) {
-        await bsc!.rawRequest(
-          'wallet_switchEthereumChain',
-          params: [
-            JSrawRequestParams(chainId: '0x${chainId.toRadixString(16)}'),
-          ],
-        );
-      } else {
-        if (eth != null) {
-          await eth!.rawRequest(
-            'wallet_switchEthereumChain',
-            params: [
-              JSrawRequestParams(chainId: '0x${chainId.toRadixString(16)}'),
-            ],
-          );
-        }
-      }
-    }
-
-    currentChain = chainId;
     notifyListeners();
   }
 
   Future<void> disconnect() async {
+    wagmi.Web3Modal.close();
     walletConnected = false;
     currentAddress = null;
     notifyListeners();
@@ -151,14 +82,14 @@ class EVMWalletProvider extends ChangeNotifier {
     String erc20address = '',
   }) async {
     try {
-      if (web3Client == null || credentials == null) {
-        return 0.0;
-      }
       switch (typeToken) {
         case 'Native':
-          final balance =
-              await web3Client!.getBalance(EthereumAddress.fromHex(address));
-          return balance.getValueInUnit(EtherUnit.ether);
+          return (await wagmi.Core.getBalance(
+            wagmi.GetBalanceParameters(address: address),
+          ))
+              .value
+              .toDouble();
+        // TODO(Chralu): what is the difference between erc20, wrapped and native ?
         case 'ERC20':
         case 'Wrapped':
           if (erc20address.isEmpty) {
@@ -218,9 +149,6 @@ class EVMWalletProvider extends ChangeNotifier {
     const defaultDecimal = 8;
 
     try {
-      if (web3Client == null || credentials == null) {
-        return 8;
-      }
       switch (typeToken) {
         case 'Native':
           return 18;
@@ -229,32 +157,18 @@ class EVMWalletProvider extends ChangeNotifier {
           if (erc20address.isEmpty) {
             return defaultDecimal;
           }
-          final client = Web3Client(
-            providerEndpoint,
-            Client(),
-          );
 
-          final abiTokenStringJson = jsonDecode(
-            await rootBundle.loadString(
-              contractNameERC20,
-            ),
-          );
+          final contractToken = await loadAbi(contractNameERC20);
 
-          final contractToken = DeployedContract(
-            ContractAbi.fromJson(
-              jsonEncode(abiTokenStringJson['abi']),
-              abiTokenStringJson['contractName'] as String,
-            ),
-            EthereumAddress.fromHex(erc20address),
+          final params = wagmi.ReadContractParameters(
+            abi: contractToken,
+            address: erc20address,
+            functionName: 'decimals',
+            args: [],
           );
+          final decimalsResponse = await wagmi.Core.readContract(params);
 
-          final decimalsResponse = await client.call(
-            contract: contractToken,
-            function: contractToken.function('decimals'),
-            params: [],
-          );
-
-          return decimalsResponse[0].toInt();
+          return decimalsResponse.toInt();
         default:
           return defaultDecimal;
       }

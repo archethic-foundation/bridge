@@ -1618,12 +1618,19 @@ packages:
   wagmi_flutter_web:
     dependency: "direct main"
     description:
+<<<<<<< HEAD
       name: wagmi_flutter_web
       sha256: c1158286e33a48467ad42bf2467759780fe641089bb8261ef1d388be6a3383a9
       url: "https://pub.dev"
     source: hosted
     version: "0.0.1-dev.2"
 >>>>>>> 90b0978 (chore: :construction: Add wagmi conf)
+=======
+      path: "../../packages/wagmi_flutter_web"
+      relative: true
+    source: path
+    version: "0.0.1-dev.5"
+>>>>>>> 71b313c (feat: :sparkles: WIP : Use WalletConnect to interact with EVM chains.)
   watcher:
     dependency: transitive
     description:

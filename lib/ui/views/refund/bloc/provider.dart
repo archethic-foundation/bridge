@@ -232,6 +232,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
 
       final evmLP = EVMLP(
         blockchain.providerEndpoint,
+        chainId,
       );
       final swapByOwnerResult = await evmLP.getSwapsByOwner(
         poolAddress ?? '',
@@ -529,7 +530,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
               currentChainId,
             ).future,
           );
-          await evmWalletProvider.connect(currentChainId);
+          await evmWalletProvider.connect(bridgeBlockchain!);
           if (evmWalletProvider.walletConnected) {
             evmWallet = evmWallet.copyWith(
               wallet: kEVMWallet,
@@ -537,7 +538,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
               error: '',
               nameAccount: evmWalletProvider.accountName!,
               genesisAddress: evmWalletProvider.currentAddress!,
-              endpoint: bridgeBlockchain!.name,
+              endpoint: bridgeBlockchain.name,
               providerEndpoint: bridgeBlockchain.providerEndpoint,
               env: bridgeBlockchain.env,
             );

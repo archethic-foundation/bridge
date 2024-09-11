@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 
-import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
@@ -14,6 +13,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
+import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
@@ -44,36 +44,31 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
-        final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier);
-        final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-        refundNotifier.setRequestTooLong(false);
+        final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier)
+          ..setRequestTooLong(false);
 
-        final contractHTLC = await getDeployedContract(
+        final contractAbi = await loadAbi(
           isERC20
               ? contractNameChargeableHTLCERC
               : contractNameChargeableHTLCETH,
-          htlcContractAddressEVM,
         );
 
-        final transactionRefund = Transaction.callContract(
-          contract: contractHTLC,
-          function: contractHTLC.function('refund'),
-          maxGas: 1500000,
-          parameters: [],
-        );
-
-        String? refundTx;
+        late String? refundTx;
 
         try {
           refundNotifier.setWalletConfirmation(WalletConfirmationRefund.evm);
-          refundTx = await sendTransactionWithErrorManagement(
-            web3Client,
-            evmWalletProvider.credentials!,
-            transactionRefund,
-            chainId,
-            'EVMHTLC - refund',
-            ref,
-            EVMBridgeProcess.refund,
+          refundTx = await writeContractWithErrorManagement(
+            parameters: wagmi.WriteContractParameters.eip1559(
+              abi: contractAbi,
+              address: htlcContractAddressEVM,
+              functionName: 'refund',
+              chainId: chainId,
+            ),
+            fromMethod: 'EVMHTLC - refund',
+            web3Client: web3Client,
+            chainId: chainId,
+            ref: ref,
+            evmBridgeProcess: EVMBridgeProcess.refund,
           );
 
           refundNotifier.setWalletConfirmation(null);
@@ -251,41 +246,37 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
-        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-        final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-        bridgeNotifier.setRequestTooLong(false);
-
-        final contractHTLC = await getDeployedContract(
+        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier)
+          ..setRequestTooLong(false);
+        final contractAbi = await loadAbi(
           contract,
-          htlcContractAddressEVM,
         );
 
-        final transactionWithdraw = Transaction.callContract(
-          contract: contractHTLC,
-          function:
-              contractHTLC.findFunctionByNameAndNbOfParameters('withdraw', 4),
-          parameters: [
-            hexToBytes(secret),
-            hexToBytes(signatureAEHTLC.r!),
-            hexToBytes(signatureAEHTLC.s!),
-            BigInt.from(signatureAEHTLC.v!),
-          ],
-          maxGas: 1500000,
-        );
+        late String? withdrawTx;
 
-        String? withdrawTx;
         try {
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
 
-          withdrawTx = await sendTransactionWithErrorManagement(
-            web3Client,
-            evmWalletProvider.credentials!,
-            transactionWithdraw,
-            chainId,
-            'EVMHTLC - withdraw',
-            ref,
-            EVMBridgeProcess.bridge,
+          withdrawTx = await writeContractWithErrorManagement(
+            parameters: wagmi.WriteContractParametersEIP1559(
+              abi: contractAbi,
+              address: htlcContractAddressEVM,
+              functionName: 'withdraw',
+              chainId: chainId,
+              args: [
+                hexToBytes(secret),
+                hexToBytes(signatureAEHTLC.r!),
+                hexToBytes(signatureAEHTLC.s!),
+                BigInt.from(signatureAEHTLC.v!),
+              ],
+            ),
+            fromMethod: 'EVMHTLC - withdraw',
+            ref: ref,
+            evmBridgeProcess: EVMBridgeProcess.bridge,
+            chainId: chainId,
+            web3Client: web3Client,
           );
+
           await bridgeNotifier.setWalletConfirmation(null);
         } catch (e, stackTrace) {
           if (e is TimeoutException) {

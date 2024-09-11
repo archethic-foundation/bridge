@@ -11,22 +11,19 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
-import 'package:webthree/webthree.dart';
 
 part 'provider.g.dart';
 
 @Riverpod(keepAlive: true)
 class _SessionNotifier extends _$SessionNotifier {
-  StreamSubscription? connectionStatusSubscription;
+  StreamSubscription? _connectionStatusSubscription;
 
   @override
   Session build() {
     ref.onDispose(() {
-      connectionStatusSubscription?.cancel();
+      _connectionStatusSubscription?.cancel();
     });
     return const Session();
   }
@@ -47,26 +44,7 @@ class _SessionNotifier extends _$SessionNotifier {
         final evmWalletProvider = EVMWalletProvider();
 
         try {
-          await wagmi.init();
-
-          wagmi.Web3Modal.init(
-            'f642e3f39ba3e375f8f714f18354faa4',
-            [
-              // TODO: Manage Chain from blockchain.chainId
-              wagmi.Chain.sepolia.name,
-            ],
-            true,
-            true,
-            wagmi.Web3ModalMetadata(
-              name: 'Web3Modal',
-              description: 'Web3Modal Example',
-              // url must match your domain & subdomain
-              url: 'https://web3modal.com',
-              icons: ['https://avatars.githubusercontent.com/u/37784886'],
-            ),
-          );
-
-          await evmWalletProvider.connect(blockchain.chainId);
+          await evmWalletProvider.connect(blockchain);
           if (evmWalletProvider.walletConnected) {
             bridgeWallet = bridgeWallet.copyWith(
               wallet: kEVMWallet,
@@ -86,9 +64,9 @@ class _SessionNotifier extends _$SessionNotifier {
 
           _fillState(bridgeWallet, from);
         } catch (e) {
-          if (e is EthereumChainSwitchNotSupported) {
-            throw const aedappfm.Failure.chainSwitchNotSupported();
-          }
+          // if (e is EthereumChainSwitchNotSupported) {
+          //   throw const aedappfm.Failure.chainSwitchNotSupported();
+          // }
           if (e.toString().toLowerCase().contains('unrecognized chain')) {
             throw const aedappfm.Failure.paramEVMChain();
           }
@@ -99,7 +77,7 @@ class _SessionNotifier extends _$SessionNotifier {
   }
 
   Future<aedappfm.Result<void, aedappfm.Failure>> connectToArchethicWallet(
-    BuildContext context,
+    AppLocalizations localizations,
     bool from,
     BridgeBlockchain blockchain,
   ) async {
@@ -134,7 +112,7 @@ class _SessionNotifier extends _$SessionNotifier {
         failure: (failure) {
           bridgeWallet = bridgeWallet.copyWith(
             isConnected: false,
-            error: AppLocalizations.of(context)!.failureConnectivityArchethic,
+            error: localizations.failureConnectivityArchethic,
           );
           _fillState(bridgeWallet, from);
           throw const aedappfm.Failure.connectivityArchethic();
@@ -145,8 +123,7 @@ class _SessionNotifier extends _$SessionNotifier {
               if (result.endpointUrl != 'https://mainnet.archethic.net') {
                 bridgeWallet = bridgeWallet.copyWith(
                   isConnected: false,
-                  error: AppLocalizations.of(context)!
-                      .failureConnectivityArchethicMainnet,
+                  error: localizations.failureConnectivityArchethicMainnet,
                 );
                 _fillState(bridgeWallet, from);
                 throw aedappfm.Failure.wrongNetwork(bridgeWallet.error);
@@ -156,8 +133,7 @@ class _SessionNotifier extends _$SessionNotifier {
               if (result.endpointUrl != 'https://testnet.archethic.net') {
                 bridgeWallet = bridgeWallet.copyWith(
                   isConnected: false,
-                  error: AppLocalizations.of(context)!
-                      .failureConnectivityArchethicTestnet,
+                  error: localizations.failureConnectivityArchethicTestnet,
                 );
                 _fillState(bridgeWallet, from);
                 throw aedappfm.Failure.wrongNetwork(bridgeWallet.error);
@@ -168,8 +144,7 @@ class _SessionNotifier extends _$SessionNotifier {
                   result.endpointUrl == 'https://mainnet.archethic.net') {
                 bridgeWallet = bridgeWallet.copyWith(
                   isConnected: false,
-                  error: AppLocalizations.of(context)!
-                      .failureConnectivityArchethicDevnet,
+                  error: localizations.failureConnectivityArchethicDevnet,
                 );
                 _fillState(bridgeWallet, from);
                 throw aedappfm.Failure.wrongNetwork(bridgeWallet.error);
@@ -178,15 +153,14 @@ class _SessionNotifier extends _$SessionNotifier {
             default:
               bridgeWallet = bridgeWallet.copyWith(
                 isConnected: false,
-                error: AppLocalizations.of(context)!
-                    .failureConnectivityArchethiRightNetwork,
+                error: localizations.failureConnectivityArchethiRightNetwork,
               );
               _fillState(bridgeWallet, from);
               throw aedappfm.Failure.wrongNetwork(bridgeWallet.error);
           }
 
           bridgeWallet = bridgeWallet.copyWith(endpoint: result.endpointUrl);
-          connectionStatusSubscription =
+          _connectionStatusSubscription =
               archethicDAppClient!.connectionStateStream.listen((event) {
             event.when(
               disconnected: () {
@@ -251,8 +225,7 @@ class _SessionNotifier extends _$SessionNotifier {
                       oldNameAccount: bridgeWallet.nameAccount,
                       genesisAddress: event.genesisAddress,
                       nameAccount: event.name,
-                      error: AppLocalizations.of(context)!
-                          .failureConnectivityArchethic,
+                      error: localizations.failureConnectivityArchethic,
                       isConnected: false,
                     );
                     _fillState(bridgeWallet, from);

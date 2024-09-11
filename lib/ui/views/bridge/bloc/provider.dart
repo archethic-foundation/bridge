@@ -152,7 +152,7 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
     await setFailure(null);
     if (blockchainFrom.isArchethic && context.mounted) {
       final connection = await sessionNotifier.connectToArchethicWallet(
-        context,
+        AppLocalizations.of(context)!,
         true,
         blockchainFrom,
       );
@@ -242,7 +242,7 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
     await setFailure(null);
     if (blockchainTo.isArchethic && context.mounted) {
       final connection = await sessionNotifier.connectToArchethicWallet(
-        context,
+        AppLocalizations.of(context)!,
         false,
         blockchainTo,
       );

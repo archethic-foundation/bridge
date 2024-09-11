@@ -7,48 +7,35 @@ import 'package:aebridge/domain/models/swap.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
-
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
+import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
 class EVMLP with EVMBridgeProcessMixin {
-  EVMLP(this.providerEndpoint);
+  EVMLP(
+    this.providerEndpoint,
+    this.chainId,
+  ) {
+    web3Client = Web3Client(
+      providerEndpoint!,
+      Client(),
+      customFilterPingInterval: Duration(
+        // Ethereum is too long to validate a txn...
+        seconds: chainId == 1 ? 20 : 5,
+      ),
+    );
+  }
+  // EVMLP(this.providerEndpoint);
 
   String? providerEndpoint;
 
-  Future<Transaction> _getDeployChargeableHTLCTransaction(
-    DeployedContract deployedContract,
-    String poolAddress,
-    String hash,
-    double amount,
-    int decimal,
-    bool isWrapped,
-    String addressFrom,
-  ) async {
-    final scaledAmount = (Decimal.parse('$amount') *
-            Decimal.fromBigInt(BigInt.from(10).pow(decimal)))
-        .toBigInt();
-
-    final transactionMintHTLC = Transaction.callContract(
-      contract: deployedContract,
-      function: deployedContract.function('mintHTLC'),
-      parameters: [
-        hexToBytes(hash),
-        scaledAmount,
-      ],
-      from: EthereumAddress.fromHex(addressFrom),
-      value: isWrapped == false
-          ? EtherAmount.fromBigInt(EtherUnit.wei, scaledAmount)
-          : null,
-      maxGas: 1500000,
-    );
-    return transactionMintHTLC;
-  }
+  late Web3Client web3Client;
+  final int chainId;
 
   Future<
       aedappfm.Result<({String htlcContractAddress, String txAddress}),
@@ -66,41 +53,37 @@ class EVMLP with EVMBridgeProcessMixin {
       final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
       bridgeNotifier.setRequestTooLong(false);
 
-      final web3Client = Web3Client(
-        providerEndpoint!,
-        Client(),
-        customFilterPingInterval: Duration(
-          // Ethereum is too long to validate a txn...
-          seconds: chainId == 1 ? 20 : 5,
-        ),
+      final contractAbi = await loadAbi(
+        contractNameIPool,
       );
+
+      late String? txAddress;
       late String htlcContractAddress;
 
-      final contractLP =
-          await getDeployedContract(contractNameIPool, poolAddress);
-
-      final transaction = await _getDeployChargeableHTLCTransaction(
-        contractLP,
-        poolAddress,
-        hash,
-        amount,
-        decimal,
-        isWrapped,
-        evmWalletProvider.currentAddress!,
-      );
-
-      late String txAddress;
       try {
         await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
-        txAddress = await sendTransactionWithErrorManagement(
-          web3Client,
-          evmWalletProvider.credentials!,
-          transaction,
-          chainId,
-          'EVMLP - deployChargeableHTLC',
-          ref,
-          EVMBridgeProcess.bridge,
+
+        txAddress = await writeContractWithErrorManagement(
+          parameters: wagmi.WriteContractParameters.eip1559(
+            abi: contractAbi,
+            address: poolAddress,
+            chainId: chainId,
+            functionName: 'mintHTLC',
+            args: [
+              hexToBytes(hash),
+              (Decimal.parse('$amount') *
+                      Decimal.fromBigInt(BigInt.from(10).pow(decimal)))
+                  .toBigInt(),
+            ],
+          ),
+          web3Client: web3Client,
+          chainId: chainId,
+          fromMethod: 'EVMLP - deployChargeableHTLC',
+          ref: ref,
+          evmBridgeProcess: EVMBridgeProcess.bridge,
         );
+
+        await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
         await bridgeNotifier.setWalletConfirmation(null);
       } catch (e, stackTrace) {
         if (e is TimeoutException) {
@@ -126,16 +109,29 @@ class EVMLP with EVMBridgeProcessMixin {
       }
 
       // Get HTLC address
-      final transactionMintedSwapsHashes = await web3Client.call(
-        contract: contractLP,
-        function: contractLP.function('mintedSwap'),
-        params: [
-          hexToBytes(hash),
-        ],
+      final transactionMintedSwapsHashes = await wagmi.Core.readContract(
+        wagmi.ReadContractParameters(
+          abi: contractAbi,
+          address: poolAddress,
+          functionName: 'mintedSwap',
+          args: [
+            hexToBytes(hash),
+          ],
+        ),
       );
+      // final transactionMintedSwapsHashes = await web3Client.call(
+      //   contract: contractLP,
+      //   function: contractLP.function('mintedSwap'),
+      //   params: [
+      //     hexToBytes(hash),
+      //   ],
+      // );
 
-      htlcContractAddress = transactionMintedSwapsHashes[0].hex;
-      return (htlcContractAddress: htlcContractAddress, txAddress: txAddress);
+      // htlcContractAddress = transactionMintedSwapsHashes.value[0].hex;
+      // return (htlcContractAddress = htlcContractAddress, txAddress = txAddress);
+
+      // TODO(): retrieve htlc contract address
+      return (htlcContractAddress: 'sdfg', txAddress: txAddress);
     });
   }
 
@@ -157,50 +153,41 @@ class EVMLP with EVMBridgeProcessMixin {
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
         bridgeNotifier.setRequestTooLong(false);
 
-        final web3Client = Web3Client(
-          providerEndpoint!,
-          Client(),
-          customFilterPingInterval: Duration(
-            // Ethereum is too long to validate a txn...
-            seconds: chainId == 1 ? 20 : 5,
-          ),
-        );
         late String htlcContractAddressEVM;
-
-        final contractLP =
-            await getDeployedContract(contractNameIPool, poolAddress);
 
         final bigIntValue = Decimal.parse(amount.toString()) *
             Decimal.fromBigInt(BigInt.from(10).pow(decimal));
         final ethAmount =
             EtherAmount.fromBigInt(EtherUnit.wei, bigIntValue.toBigInt());
 
-        final transactionProvisionHTLC = Transaction.callContract(
-          contract: contractLP,
-          function: contractLP.function('provisionHTLC'),
-          parameters: [
-            hexToBytes(secretHash.secretHash!),
-            ethAmount.getInWei,
-            BigInt.from(endTime),
-            hexToBytes(htlcContractAddressAE),
-            hexToBytes(secretHash.secretHashSignature!.r!),
-            hexToBytes(secretHash.secretHashSignature!.s!),
-            BigInt.from(secretHash.secretHashSignature!.v!),
-          ],
-          maxGas: 1500000,
+        final contractAbi = await loadAbi(
+          contractNamePoolBase,
         );
 
-        late String txAddress;
+        late String? txAddress;
         try {
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
-          txAddress = await sendTransactionWithErrorManagement(
-            web3Client,
-            evmWalletProvider.credentials!,
-            transactionProvisionHTLC,
-            chainId,
-            'EVMLP - deployAndProvisionSignedHTLC',
-            ref,
-            EVMBridgeProcess.bridge,
+
+          txAddress = await writeContractWithErrorManagement(
+            parameters: wagmi.WriteContractParameters.eip1559(
+              abi: contractAbi,
+              address: poolAddress,
+              functionName: 'provisionHTLC',
+              args: [
+                hexToBytes(secretHash.secretHash!),
+                ethAmount.getInWei,
+                BigInt.from(endTime),
+                hexToBytes(htlcContractAddressAE),
+                hexToBytes(secretHash.secretHashSignature!.r!),
+                hexToBytes(secretHash.secretHashSignature!.s!),
+                BigInt.from(secretHash.secretHashSignature!.v!),
+              ],
+            ),
+            web3Client: web3Client,
+            chainId: chainId,
+            fromMethod: 'EVMLP - deployAndProvisionSignedHTLC',
+            ref: ref,
+            evmBridgeProcess: EVMBridgeProcess.bridge,
           );
           await bridgeNotifier.setWalletConfirmation(null);
         } catch (e, stackTrace) {
@@ -228,25 +215,37 @@ class EVMLP with EVMBridgeProcessMixin {
         }
 
         // Get HTLC address
-        final transactionProvisionedSwapsHashes = await web3Client.call(
-          contract: contractLP,
-          function: contractLP.function('provisionedSwap'),
-          params: [
-            hexToBytes(secretHash.secretHash!),
-          ],
+        // final transactionProvisionedSwapsHashes = await web3Client.call(
+        //   contract: contractLP,
+        //   function: contractLP.function('provisionedSwap'),
+        //   params: [
+        //     hexToBytes(secretHash.secretHash!),
+        //   ],
+        // );
+
+        final transactionMintedSwapsHashes = await wagmi.Core.readContract(
+          wagmi.ReadContractParameters(
+            abi: contractAbi,
+            address: poolAddress,
+            functionName: 'provisionedSwap',
+            args: [
+              hexToBytes(secretHash.secretHash!),
+            ],
+          ),
         );
 
         // TODO(reddwarf03): .. check
-        htlcContractAddressEVM = transactionProvisionedSwapsHashes[0].hex;
-        if (htlcContractAddressEVM ==
-            '0x0000000000000000000000000000000000000000') {
-          throw const aedappfm.Failure.insufficientPoolFunds();
-        }
+        // htlcContractAddressEVM = transactionProvisionedSwapsHashes[0].hex;
+        // if (htlcContractAddressEVM ==
+        //     '0x0000000000000000000000000000000000000000') {
+        //   throw const aedappfm.Failure.insufficientPoolFunds();
+        // }
 
-        return (
-          htlcContractAddressEVM: htlcContractAddressEVM,
-          txAddress: txAddress
-        );
+        // return (
+        //   htlcContractAddressEVM: htlcContractAddressEVM,
+        //   txAddress: txAddress
+        // );
+        return (htlcContractAddressEVM: 'dsfbg', txAddress: txAddress);
       },
     );
   }
@@ -257,20 +256,20 @@ class EVMLP with EVMBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(() async {
       final swapList = <Swap>[];
-      final web3Client = Web3Client(
-        providerEndpoint!,
-        Client(),
-      );
 
-      final contractLP =
-          await getDeployedContract(contractNameIPool, poolAddress);
+      final contractLP = await loadAbi(contractNameIPool);
 
-      final resultMap = await web3Client.call(
-        contract: contractLP,
-        function: contractLP.function('getSwapsByOwner'),
-        params: [
-          EthereumAddress.fromHex(ownerAddress),
-        ],
+// TODO(): replace by wagmi readContract
+
+      final resultMap = await wagmi.Core.readContract(
+        wagmi.ReadContractParameters(
+          abi: contractLP,
+          address: poolAddress,
+          functionName: 'getSwapsByOwner',
+          args: [
+            EthereumAddress.fromHex(ownerAddress),
+          ],
+        ),
       );
 
       for (final swaps in resultMap[0] as List) {

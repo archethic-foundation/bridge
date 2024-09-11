@@ -22,6 +22,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 import 'package:webthree/browser.dart';
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
@@ -94,7 +95,12 @@ mixin EVMBridgeProcessMixin {
   ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-    final evmLP = EVMLP(bridge.blockchainTo!.providerEndpoint);
+    final chainId = aedappfm.sl.get<EVMWalletProvider>().currentChain ?? 0;
+
+    final evmLP = EVMLP(
+      bridge.blockchainTo!.providerEndpoint,
+      chainId,
+    );
     final resultDeployAndProvisionSignedHTLC =
         await evmLP.deployAndProvisionSignedHTLC(
       ref,
@@ -138,8 +144,12 @@ mixin EVMBridgeProcessMixin {
   ) async {
     final bridge = ref.read(BridgeFormProvider.bridgeForm);
     final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+    final chainId = aedappfm.sl.get<EVMWalletProvider>().currentChain ?? 0;
 
-    final evmLP = EVMLP(bridge.blockchainFrom!.providerEndpoint);
+    final evmLP = EVMLP(
+      bridge.blockchainFrom!.providerEndpoint,
+      chainId,
+    );
     final resultDeployChargeableHTLCEVM = await evmLP.deployChargeableHTLC(
       ref,
       bridge.tokenToBridge!.poolAddressFrom,
@@ -259,142 +269,12 @@ mixin EVMBridgeProcessMixin {
     );
   }
 
-  Future<String> sendTransactionWithErrorManagement(
-    Web3Client web3Client,
-    CredentialsWithKnownAddress credentials,
-    Transaction transaction,
-    int chainId,
+  Future<T> _handleError<T>(
+    FutureOr<T> Function() action,
     String fromMethod,
-    WidgetRef ref,
-    EVMBridgeProcess evmBridgeProcess,
   ) async {
     try {
-      var newTransaction = transaction;
-
-      final suggestedGasFeesResult = await suggestedGasFees(chainId);
-
-      if (transaction.gasPrice == null) {
-        final gasPrice = await web3Client.getGasPrice();
-        final slippage = chainId == 1 ? 2.5 : 1.5;
-        final gasPriceInWei = gasPrice.getInWei.toDouble();
-        final newGasPriceInWei = gasPriceInWei * slippage;
-        final newGasPrice =
-            EtherAmount.fromDouble(EtherUnit.wei, newGasPriceInWei);
-        newTransaction = newTransaction.copyWith(gasPrice: newGasPrice);
-      }
-
-      if (transaction.value == null) {
-        newTransaction = newTransaction.copyWith(value: EtherAmount.zero());
-      }
-
-      if (transaction.maxPriorityFeePerGas == null) {
-        final maxPriorityFeePerGas =
-            _getMaxPriorityFeePerGas(suggestedGasFeesResult, chainId);
-        newTransaction =
-            newTransaction.copyWith(maxPriorityFeePerGas: maxPriorityFeePerGas);
-        if (transaction.maxFeePerGas == null) {
-          final maxFeePerGas = await _getMaxFeePerGas(
-            suggestedGasFeesResult,
-            web3Client,
-            maxPriorityFeePerGas.getInWei,
-          );
-          newTransaction = newTransaction.copyWith(
-            maxFeePerGas: maxFeePerGas,
-          );
-        }
-      }
-
-      aedappfm.sl.get<aedappfm.LogManager>().log(
-            'gasPrice=${newTransaction.gasPrice}, maxPriorityFeePerGas=${newTransaction.maxPriorityFeePerGas}, maxFeePerGas=${newTransaction.maxFeePerGas}',
-            name:
-                'EVMBridgeProcessMixin - sendTransactionWithErrorManagement from $fromMethod',
-          );
-
-      final transactionHash = await web3Client.sendTransaction(
-        credentials,
-        newTransaction,
-        chainId: chainId,
-      );
-
-      switch (evmBridgeProcess) {
-        case EVMBridgeProcess.bridge:
-          await ref
-              .read(BridgeFormProvider.bridgeForm.notifier)
-              .setWalletConfirmation(null);
-
-          break;
-        case EVMBridgeProcess.refund:
-          ref
-              .read(RefundFormProvider.refundForm.notifier)
-              .setWalletConfirmation(null);
-          break;
-      }
-
-      const timeoutDuration = Duration(minutes: 60);
-      const checkInterval = Duration(seconds: 2);
-      const notifyDelay = Duration(seconds: 30);
-
-      var elapsedTime = Duration.zero;
-      var tooLong = false;
-
-      while (elapsedTime < timeoutDuration) {
-        await Future.delayed(
-          checkInterval,
-        );
-        elapsedTime += checkInterval;
-
-        final transactionReceipt =
-            await web3Client.getTransactionReceipt(transactionHash);
-
-        if (transactionReceipt != null) {
-          if (transactionReceipt.status == true) {
-            switch (evmBridgeProcess) {
-              case EVMBridgeProcess.bridge:
-                ref
-                    .read(BridgeFormProvider.bridgeForm.notifier)
-                    .setRequestTooLong(false);
-
-                break;
-              case EVMBridgeProcess.refund:
-                ref
-                    .read(RefundFormProvider.refundForm.notifier)
-                    .setRequestTooLong(false);
-                break;
-            }
-            return transactionHash;
-          } else {
-            aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'transactionHash: $transactionHash - status false (chainId $chainId)',
-                  level: aedappfm.LogLevel.error,
-                  name:
-                      'EVMBridgeProcessMixin - sendTransactionWithErrorManagement',
-                );
-            throw Exception(
-              'An unknown error has occurred. Please refer to your EVM explorer',
-            );
-          }
-        }
-
-        if (elapsedTime >= notifyDelay && tooLong == false) {
-          switch (evmBridgeProcess) {
-            case EVMBridgeProcess.bridge:
-              ref
-                  .read(BridgeFormProvider.bridgeForm.notifier)
-                  .setRequestTooLong(true);
-
-              break;
-            case EVMBridgeProcess.refund:
-              ref
-                  .read(RefundFormProvider.refundForm.notifier)
-                  .setRequestTooLong(true);
-              break;
-          }
-
-          tooLong = true;
-        }
-      }
-
-      throw TimeoutException('Transaction timeout');
+      return action();
     } catch (e, stackTrace) {
       if (e is EthereumUserRejected) {
         throw const aedappfm.Failure.userRejected();
@@ -404,8 +284,7 @@ mixin EVMBridgeProcessMixin {
               '$e',
               stackTrace: stackTrace,
               level: aedappfm.LogLevel.error,
-              name:
-                  'EVMBridgeProcessMixin - sendTransactionWithErrorManagement',
+              name: 'EVMBridgeProcessMixin - $fromMethod',
             );
         if (e.data == null &&
             e.message.contains('insufficient funds for gas * price')) {
@@ -422,8 +301,7 @@ mixin EVMBridgeProcessMixin {
               '$e',
               stackTrace: stackTrace,
               level: aedappfm.LogLevel.error,
-              name:
-                  'EVMBridgeProcessMixin - sendTransactionWithErrorManagement',
+              name: 'EVMBridgeProcessMixin - $fromMethod',
             );
         throw aedappfm.Failure.other(
           cause: e.rawError.toString(),
@@ -435,8 +313,7 @@ mixin EVMBridgeProcessMixin {
               '$e',
               stackTrace: stackTrace,
               level: aedappfm.LogLevel.error,
-              name:
-                  'EVMBridgeProcessMixin - sendTransactionWithErrorManagement',
+              name: 'EVMBridgeProcessMixin - $fromMethod',
             );
         const encoder = JsonEncoder.withIndent('  ');
         final validJson = encoder.convert(e.data);
@@ -457,10 +334,180 @@ mixin EVMBridgeProcessMixin {
             '$e',
             stackTrace: stackTrace,
             level: aedappfm.LogLevel.error,
-            name: 'EVMBridgeProcessMixin - sendTransactionWithErrorManagement',
+            name: 'EVMBridgeProcessMixin - $fromMethod',
           );
       throw aedappfm.Failure.other(cause: e.toString());
     }
+  }
+
+  Future<String> sendTransactionWithErrorManagement({
+    required Web3Client web3Client,
+    required wagmi.SendTransactionParameters transaction,
+    required int chainId,
+    required String fromMethod,
+    required WidgetRef ref,
+    required EVMBridgeProcess evmBridgeProcess,
+  }) async =>
+      _handleError(
+        () async {
+          var newTransaction = transaction;
+          if (transaction is wagmi.SendTransactionParametersLegacy) {
+            newTransaction = transaction.copyWith(
+              feeValues: transaction.feeValues ??
+                  await FeeValuesUtils.defaultLegacyFeeValues(transaction),
+            );
+          }
+          if (transaction.value == null) {
+            newTransaction = newTransaction.copyWith(value: BigInt.zero);
+          }
+          if (newTransaction is wagmi.SendTransactionParametersEIP1559) {
+            newTransaction = newTransaction.copyWith(
+              feeValues: await FeeValuesUtils.defaultEIP1559FeeValues(
+                web3Client,
+                newTransaction,
+              ),
+            );
+          }
+          aedappfm.sl.get<aedappfm.LogManager>().log(
+                'feeValues=${newTransaction.feeValues}',
+                name:
+                    'EVMBridgeProcessMixin - sendTransactionWithErrorManagement from $fromMethod',
+              );
+
+          aedappfm.sl.get<aedappfm.LogManager>().log(
+                newTransaction.feeValues.toString(),
+                name:
+                    'EVMBridgeProcessMixin - sendTransactionWithErrorManagement from $fromMethod',
+              );
+
+          final transactionHash = await wagmi.Core.sendTransaction(
+            newTransaction,
+          );
+
+          await _waitForTransactionValidation(
+            evmBridgeProcess: evmBridgeProcess,
+            ref: ref,
+            web3Client: web3Client,
+            transactionHash: transactionHash,
+            fromMethod: fromMethod,
+            chainId: chainId,
+          );
+
+          return transactionHash;
+        },
+        fromMethod,
+      );
+
+  Future<String> writeContractWithErrorManagement({
+    required wagmi.WriteContractParameters parameters,
+    required Web3Client web3Client,
+    required int chainId,
+    required String fromMethod,
+    required WidgetRef ref,
+    required EVMBridgeProcess evmBridgeProcess,
+  }) async =>
+      _handleError(
+        () async {
+          final transactionHash = await wagmi.Core.writeContract(parameters);
+          await _waitForTransactionValidation(
+            chainId: chainId,
+            evmBridgeProcess: evmBridgeProcess,
+            fromMethod: fromMethod,
+            ref: ref,
+            transactionHash: transactionHash,
+            web3Client: web3Client,
+          );
+          return transactionHash;
+        },
+        fromMethod,
+      );
+
+  Future<String> _waitForTransactionValidation({
+    required EVMBridgeProcess evmBridgeProcess,
+    required WidgetRef ref,
+    required String fromMethod,
+    required Web3Client web3Client,
+    required String transactionHash,
+    required int chainId,
+  }) async {
+    switch (evmBridgeProcess) {
+      case EVMBridgeProcess.bridge:
+        await ref
+            .read(BridgeFormProvider.bridgeForm.notifier)
+            .setWalletConfirmation(null);
+
+        break;
+      case EVMBridgeProcess.refund:
+        ref
+            .read(RefundFormProvider.refundForm.notifier)
+            .setWalletConfirmation(null);
+        break;
+    }
+
+    const timeoutDuration = Duration(minutes: 60);
+    const checkInterval = Duration(seconds: 2);
+    const notifyDelay = Duration(seconds: 30);
+
+    var elapsedTime = Duration.zero;
+    var tooLong = false;
+
+    while (elapsedTime < timeoutDuration) {
+      await Future.delayed(
+        checkInterval,
+      );
+      elapsedTime += checkInterval;
+
+      final transactionReceipt =
+          await web3Client.getTransactionReceipt(transactionHash);
+
+      if (transactionReceipt != null) {
+        if (transactionReceipt.status == true) {
+          switch (evmBridgeProcess) {
+            case EVMBridgeProcess.bridge:
+              ref
+                  .read(BridgeFormProvider.bridgeForm.notifier)
+                  .setRequestTooLong(false);
+
+              break;
+            case EVMBridgeProcess.refund:
+              ref
+                  .read(RefundFormProvider.refundForm.notifier)
+                  .setRequestTooLong(false);
+              break;
+          }
+          return transactionHash;
+        } else {
+          aedappfm.sl.get<aedappfm.LogManager>().log(
+                'transactionHash: $transactionHash - status false (chainId $chainId)',
+                level: aedappfm.LogLevel.error,
+                name: 'EVMBridgeProcessMixin - $fromMethod',
+              );
+          throw Exception(
+            'An unknown error has occurred. Please refer to your EVM explorer',
+          );
+        }
+      }
+
+      if (elapsedTime >= notifyDelay && tooLong == false) {
+        switch (evmBridgeProcess) {
+          case EVMBridgeProcess.bridge:
+            ref
+                .read(BridgeFormProvider.bridgeForm.notifier)
+                .setRequestTooLong(true);
+
+            break;
+          case EVMBridgeProcess.refund:
+            ref
+                .read(RefundFormProvider.refundForm.notifier)
+                .setRequestTooLong(true);
+            break;
+        }
+
+        tooLong = true;
+      }
+    }
+
+    throw TimeoutException('Transaction timeout');
   }
 
   Future<BigInt> estimateGas(
@@ -474,6 +521,14 @@ mixin EVMBridgeProcessMixin {
       value: transaction.value,
       data: transaction.data,
     );
+  }
+
+  Future<wagmi.Abi> loadAbi(String assetPath) async {
+    final abi = jsonDecode(
+      await rootBundle.loadString(assetPath),
+    )['abi'] as List;
+
+    return abi.cast<Map<String, dynamic>>();
   }
 
   Future<DeployedContract> getDeployedContract(
@@ -548,54 +603,6 @@ mixin EVMBridgeProcessMixin {
     return txAddress;
   }
 
-  EtherAmount _getMaxPriorityFeePerGas(
-    GasFeeEstimation? suggestedGasFeesResult,
-    int chainId,
-  ) {
-    return suggestedGasFeesResult != null &&
-            suggestedGasFeesResult.medium.suggestedMaxPriorityFeePerGas
-                .isValidNumber()
-        ? EtherAmount.fromDouble(
-            EtherUnit.gwei,
-            math.max(
-              1,
-              double.tryParse(
-                suggestedGasFeesResult.medium.suggestedMaxPriorityFeePerGas,
-              )!,
-            ),
-          )
-        : EtherAmount.inWei(
-            BigInt.from(chainId == 1 ? 2000000000 : 1000000000),
-          );
-  }
-
-// Max Fee = (2 * Base Fee) + Max Priority Fee
-  Future<EtherAmount> _getMaxFeePerGas(
-    GasFeeEstimation? suggestedGasFeesResult,
-    Web3Client client,
-    BigInt maxPriorityFeePerGas,
-  ) async {
-    if (suggestedGasFeesResult != null &&
-        suggestedGasFeesResult.medium.suggestedMaxFeePerGas.isValidNumber()) {
-      return EtherAmount.fromDouble(
-        EtherUnit.gwei,
-        double.tryParse(
-          suggestedGasFeesResult.medium.suggestedMaxFeePerGas,
-        )!,
-      );
-    }
-    final blockInformation = await client.getBlockInformation();
-    final baseFeePerGas = blockInformation.baseFeePerGas;
-
-    if (baseFeePerGas == null) {
-      return EtherAmount.zero();
-    }
-
-    return EtherAmount.inWei(
-      baseFeePerGas.getInWei * BigInt.from(2) + maxPriorityFeePerGas,
-    );
-  }
-
   Future<Uint8List> signTxFaucetUCO() async {
     if (aedappfm.sl.isRegistered<EVMWalletProvider>() == false) {
       throw const aedappfm.Failure.connectivityEVM();
@@ -608,10 +615,13 @@ mixin EVMBridgeProcessMixin {
     const payload =
         "To help you join the Archethic ecosystem, we're offering you free Archethic transaction fees. For security reasons, this requires your signature. Thank you for joining us, and happy exploring!";
     try {
-      final result = await evmWalletProvider.credentials!.signPersonalMessage(
-        utf8.encode(payload),
+      final result = await wagmi.Core.signMessage(
+        wagmi.SignMessageParameters(
+          account: wagmi.Core.getAccount().address!,
+          message: payload,
+        ),
       );
-      return result;
+      return utf8.encode(result);
     } catch (e) {
       if (evmWalletProvider.eth != null) {
         final result = await evmWalletProvider.eth!.rawRequest(
@@ -632,8 +642,10 @@ mixin EVMBridgeProcessMixin {
       }
     }
   }
+}
 
-  Future<GasFeeEstimation?> suggestedGasFees(
+class FeeValuesUtils {
+  static Future<GasFeeEstimation?> suggestedGasFees(
     int chainId,
   ) async {
     try {
@@ -661,5 +673,89 @@ mixin EVMBridgeProcessMixin {
           .log('Error: $e', name: 'suggestedGasFees');
     }
     return null;
+  }
+
+  static Future<wagmi.FeeValuesLegacy> defaultLegacyFeeValues(
+    wagmi.SendTransactionParametersLegacy parameters,
+  ) async {
+    final gasPrice = await wagmi.Core.getGasPrice(
+      wagmi.GetGasPriceParameters(),
+    );
+    final slippage = parameters.chainId == 1 ? 2.5 : 1.5;
+    final gasPriceInWei = gasPrice.toDouble();
+    final newGasPriceInWei = gasPriceInWei * slippage;
+    final newGasPrice = EtherAmount.fromDouble(EtherUnit.wei, newGasPriceInWei);
+    return wagmi.FeeValuesLegacy(gasPrice: newGasPrice.getInWei);
+  }
+
+  static Future<wagmi.FeeValuesEIP1559> defaultEIP1559FeeValues(
+    Web3Client web3Client,
+    wagmi.SendTransactionParametersEIP1559 transaction,
+  ) async {
+    final suggestedGasFeesResult = await suggestedGasFees(transaction.chainId!);
+
+    final maxPriorityFeePerGas = _getMaxPriorityFeePerGas(
+      suggestedGasFeesResult,
+      transaction.chainId!,
+    );
+    return wagmi.FeeValuesEIP1559(
+      maxPriorityFeePerGas: maxPriorityFeePerGas.getInWei,
+      maxFeePerGas: transaction.feeValues?.maxFeePerGas ??
+          (await _getMaxFeePerGas(
+            suggestedGasFeesResult,
+            web3Client,
+            maxPriorityFeePerGas.getInWei,
+          ))
+              .getInWei,
+    );
+  }
+
+  static EtherAmount _getMaxPriorityFeePerGas(
+    GasFeeEstimation? suggestedGasFeesResult,
+    int chainId,
+  ) {
+    return suggestedGasFeesResult != null &&
+            suggestedGasFeesResult.medium.suggestedMaxPriorityFeePerGas
+                .isValidNumber()
+        ? EtherAmount.fromDouble(
+            EtherUnit.gwei,
+            math.max(
+              1,
+              double.tryParse(
+                suggestedGasFeesResult.medium.suggestedMaxPriorityFeePerGas,
+              )!,
+            ),
+          )
+        : EtherAmount.inWei(
+            BigInt.from(chainId == 1 ? 2000000000 : 1000000000),
+          );
+  }
+
+// Max Fee = (2 * Base Fee) + Max Priority Fee
+  static Future<EtherAmount> _getMaxFeePerGas(
+    GasFeeEstimation? suggestedGasFeesResult,
+    Web3Client client,
+    BigInt maxPriorityFeePerGas,
+  ) async {
+    if (suggestedGasFeesResult != null &&
+        suggestedGasFeesResult.medium.suggestedMaxFeePerGas.isValidNumber()) {
+      return EtherAmount.fromDouble(
+        EtherUnit.gwei,
+        double.tryParse(
+          suggestedGasFeesResult.medium.suggestedMaxFeePerGas,
+        )!,
+      );
+    }
+
+    final blockInformation = await client.getBlockInformation();
+    final baseFeePerGas = blockInformation.baseFeePerGas;
+
+    if (baseFeePerGas == null) {
+      return EtherAmount.zero();
+    }
+
+    return EtherAmount.inWei(
+      baseFeePerGas.getInWei * BigInt.from(2) + maxPriorityFeePerGas,
+    );
   }
 }
