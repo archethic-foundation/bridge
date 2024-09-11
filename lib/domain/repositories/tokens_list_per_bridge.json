@@ -134,6 +134,30 @@
                 "tokenAddressTarget": "0x7130d2A12B9BCbFAe4f2634d864A1Ee1Ce3Ead9c"
             }
         ],
+        "-2->97": [
+            {
+                "name": "Universal Coin",
+                "symbol": "UCO",
+                "targetTokenName": "BEP20 - Universal Coin",
+                "targetTokenSymbol": "UCO",
+                "poolAddressFrom": "000018d60115ece0c7558a46b4693749bf6beab524fddccf9b10b910619e4ee08801",
+                "poolAddressTo": "0xb361b5AC4eAEb918dCed9d60417975c89556DDEA",
+                "typeSource": "Native",
+                "typeTarget": "Wrapped",
+                "tokenAddressTarget": "0x5e6554593E4fe61276AD09094f16A6D5133461A5"
+            },
+            {
+                "name": "Wrapped BNB",
+                "symbol": "aeBNB",
+                "targetTokenName": "BNB",
+                "targetTokenSymbol": "BNB",
+                "poolAddressFrom": "00008dd22e7496e86901e9b276a1be6f9512eb09980cc04c7b76495ef37d5666a709",
+                "poolAddressTo": "0x3Fa0d410064FcE2744e4feebB3Be338e1fA3C967",
+                "typeSource": "Wrapped",
+                "typeTarget": "Native",
+                "tokenAddressSource": "0000288bf6f0e12457b125dc54d2dfa4eb010be3073cf02e10fb79b696180f55b827"
+            }
+        ],
         "-2->11155111": [
             {
                 "name": "Archethic Ether",
@@ -410,6 +434,30 @@
                 "typeSource": "Wrapped",
                 "typeTarget": "Native",
                 "tokenAddressSource": "0x39C9DBD60B0eAF256Ebc509D2b837d508dD4F2Da"
+            }
+        ],
+        "97->-2": [
+            {
+                "name": "BEP20 - Universal Coin",
+                "symbol": "UCO",
+                "targetTokenName": "Universal Coin",
+                "targetTokenSymbol": "UCO",
+                "poolAddressFrom": "0xb361b5AC4eAEb918dCed9d60417975c89556DDEA",
+                "poolAddressTo": "000018d60115ece0c7558a46b4693749bf6beab524fddccf9b10b910619e4ee08801",
+                "typeSource": "Wrapped",
+                "typeTarget": "Native",
+                "tokenAddressSource": "0x5e6554593E4fe61276AD09094f16A6D5133461A5"
+            },
+            {
+                "name": "BNB",
+                "symbol": "BNB",
+                "targetTokenName": "Wrapped BNB",
+                "targetTokenSymbol": "aeBNB",
+                "poolAddressFrom": "0x3Fa0d410064FcE2744e4feebB3Be338e1fA3C967",
+                "poolAddressTo": "00008dd22e7496e86901e9b276a1be6f9512eb09980cc04c7b76495ef37d5666a709",
+                "typeSource": "Native",
+                "typeTarget": "Wrapped",
+                "tokenAddressTarget": "0000288bf6f0e12457b125dc54d2dfa4eb010be3073cf02e10fb79b696180f55b827"
             }
         ]
     }
