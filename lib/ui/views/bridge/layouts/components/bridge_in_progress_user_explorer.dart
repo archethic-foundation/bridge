@@ -36,9 +36,13 @@ class BridgeInProgressUserExplorer extends ConsumerWidget {
                       : bridge.blockchainTo!.chainId,
                   reduceAddress: true,
                   typeAddress: TypeAddress.chain,
-                  header: AppLocalizations.of(context)!
-                      .goToExplorer
-                      .replaceFirst('%1', bridge.blockchainFrom!.name),
+                  header:
+                      AppLocalizations.of(context)!.goToExplorer.replaceFirst(
+                            '%1',
+                            bridge.blockchainFrom!.isArchethic == false
+                                ? bridge.blockchainFrom!.name
+                                : bridge.blockchainTo!.name,
+                          ),
                 ),
               ],
             ),
