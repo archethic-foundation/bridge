@@ -111,7 +111,7 @@
             "providerEndpoint": "https://bsc-testnet.publicnode.com",
             "explorerApi": "https://api-testnet.bscscan.com/api?apiKey=6TYEQDUMEFE8JPTE4TF7Z42B2QDZHYKPID",
             "isArchethic": false,
-            "nativeCurrency": "tBNB"
+            "nativeCurrency": "BNB"
         }
     ]
 }
