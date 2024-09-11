@@ -9,11 +9,13 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_strategy/url_strategy.dart';
+import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await DBHelper.setupDatabase();
   await setupServiceLocator();
+  await wagmi.init();
   setPathUrlStrategy();
   runApp(
     ProviderScope(

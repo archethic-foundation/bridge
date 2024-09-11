@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
@@ -9,6 +8,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
+import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
@@ -38,41 +38,46 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
-        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-        final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-        bridgeNotifier.setRequestTooLong(false);
+        ref
+            .read(BridgeFormProvider.bridgeForm.notifier)
+            .setRequestTooLong(false);
 
-        final contractHTLCETH = await getDeployedContract(
+        final contractAbi = await loadAbi(
           contractNameSignedHTLCETH,
-          htlcContractAddress,
         );
 
-        final transactionWithdraw = Transaction.callContract(
-          contract: contractHTLCETH,
-          function: contractHTLCETH.findFunctionByNameAndNbOfParameters(
-            'withdraw',
-            4,
-          ),
-          parameters: [
-            hexToBytes(secret.secret!),
-            hexToBytes(secret.secretSignature!.r!),
-            hexToBytes(secret.secretSignature!.s!),
-            BigInt.from(secret.secretSignature!.v!),
-          ],
-          maxGas: 1500000,
-        );
-
-        String? withdrawTx;
+        late String? withdrawTx;
         try {
+          final latestBlockNumber = await wagmi.Core.getBlockNumber(
+            wagmi.GetBlockNumberParameters(),
+          );
+          aedappfm.sl.get<aedappfm.LogManager>().log(
+                'latestBlockNumber: $latestBlockNumber',
+                name: 'EVMHTLCNative - signedWithdraw',
+              );
+
+          final bridgeNotifier = ref.read(
+            BridgeFormProvider.bridgeForm.notifier,
+          );
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
-          withdrawTx = await sendTransactionWithErrorManagement(
-            web3Client,
-            evmWalletProvider.credentials!,
-            transactionWithdraw,
-            chainId,
-            'EVMHTLCNative - signedWithdraw',
-            ref,
-            EVMBridgeProcess.bridge,
+          withdrawTx = await writeContractWithErrorManagement(
+            parameters: wagmi.WriteContractParameters.eip1559(
+              abi: contractAbi,
+              address: htlcContractAddress,
+              chainId: chainId,
+              functionName: 'withdraw',
+              args: [
+                hexToBytes(secret.secret!),
+                hexToBytes(secret.secretSignature!.r!),
+                hexToBytes(secret.secretSignature!.s!),
+                BigInt.from(secret.secretSignature!.v!),
+              ],
+            ),
+            fromMethod: 'EVMHTLCNative - signedWithdraw',
+            ref: ref,
+            evmBridgeProcess: EVMBridgeProcess.bridge,
+            chainId: chainId,
+            web3Client: web3Client,
           );
           await bridgeNotifier.setWalletConfirmation(null);
         } catch (e, stackTrace) {
