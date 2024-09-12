@@ -346,22 +346,33 @@ mixin EVMBridgeProcessMixin {
         final transactionReceipt =
             await web3Client.getTransactionReceipt(transactionHash);
 
-        if (transactionReceipt != null && transactionReceipt.status == true) {
-          switch (evmBridgeProcess) {
-            case EVMBridgeProcess.bridge:
-              ref
-                  .read(BridgeFormProvider.bridgeForm.notifier)
-                  .setRequestTooLong(false);
+        if (transactionReceipt != null) {
+          if (transactionReceipt.status == true) {
+            switch (evmBridgeProcess) {
+              case EVMBridgeProcess.bridge:
+                ref
+                    .read(BridgeFormProvider.bridgeForm.notifier)
+                    .setRequestTooLong(false);
 
-              break;
-            case EVMBridgeProcess.refund:
-              ref
-                  .read(RefundFormProvider.refundForm.notifier)
-                  .setRequestTooLong(false);
-              break;
+                break;
+              case EVMBridgeProcess.refund:
+                ref
+                    .read(RefundFormProvider.refundForm.notifier)
+                    .setRequestTooLong(false);
+                break;
+            }
+            return transactionHash;
+          } else {
+            aedappfm.sl.get<aedappfm.LogManager>().log(
+                  'transactionHash: $transactionHash - status false (chainId $chainId)',
+                  level: aedappfm.LogLevel.error,
+                  name:
+                      'EVMBridgeProcessMixin - sendTransactionWithErrorManagement',
+                );
+            throw Exception(
+              'An unknown error has occurred. Please refer to your EVM explorer',
+            );
           }
-
-          return transactionHash;
         }
 
         if (elapsedTime >= notifyDelay && tooLong == false) {
