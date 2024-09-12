@@ -44,7 +44,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
     return aedappfm.Result.guard(
       () async {
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-        Timer? requestTimer;
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
         bridgeNotifier.setRequestTooLong(false);
         final contract =
@@ -64,58 +63,18 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
         );
 
         try {
-          final completer = Completer<void>();
-
-          aedappfm.sl.get<aedappfm.LogManager>().log(
-                'Event Approval topics : contract address: ${contract.address} signature: ${bytesToHex(
-                  contract.event('Approval').signature,
-                  padToEvenLength: true,
-                  include0x: true,
-                )}, userAddress: ${userAddress.padRight(66, '0')},  poolAddress: ${poolAddress.padRight(66, '0')}, fromBlock: ${const BlockNum.current()}',
-                name: 'EVMHTLCERC - approveChargeableHTLC',
-              );
-
-          final latestBlockNumber = await web3Client.getBlockNumber();
-          aedappfm.sl.get<aedappfm.LogManager>().log(
-                'latestBlockNumber: $latestBlockNumber',
-                name: 'EVMHTLCERC - approveChargeableHTLC',
-              );
-
-          final eventStream = web3Client
-              .events(
-                FilterOptions(
-                  address: contract.address,
-                  topics: [
-                    [
-                      bytesToHex(
-                        contract.event('Approval').signature,
-                        padToEvenLength: true,
-                        include0x: true,
-                      ),
-                      userAddress.padRight(66, '0'),
-                      poolAddress.padRight(66, '0'),
-                    ]
-                  ],
-                  fromBlock: BlockNum.exact(latestBlockNumber),
-                ),
-              )
-              .asBroadcastStream();
-
-          aedappfm.sl.get<aedappfm.LogManager>().log(
-                'Event Approval before send',
-                name: 'EVMHTLCERC - approveChargeableHTLC',
-              );
-
           final bridgeNotifier =
               ref.read(BridgeFormProvider.bridgeForm.notifier);
 
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
-          final txHash = await sendTransactionWithErrorManagement(
+          await sendTransactionWithErrorManagement(
             web3Client,
             evmWalletProvider.credentials!,
             transactionTransfer,
             chainId,
             'EVMHTLCERC - approveChargeableHTLC',
+            ref,
+            EVMBridgeProcess.bridge,
           );
           await bridgeNotifier.setWalletConfirmation(null);
 
@@ -123,34 +82,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
                 'Event Approval after send',
                 name: 'EVMHTLCERC - approveChargeableHTLC',
               );
-          requestTimer = Timer(const Duration(seconds: 30), () {
-            bridgeNotifier.setRequestTooLong(true);
-          });
-
-          unawaited(
-            eventStream.firstWhere((event) {
-              aedappfm.sl.get<aedappfm.LogManager>().log(
-                    'Event Approval : ${event.transactionHash} == $txHash ?',
-                    name: 'EVMHTLCERC - approveChargeableHTLC',
-                  );
-
-              return event.transactionHash?.toUpperCase() ==
-                  txHash.toUpperCase();
-            }).then<void>(
-              (event) {
-                aedappfm.sl.get<aedappfm.LogManager>().log(
-                      'Event Approval received : $event',
-                      name: 'EVMHTLCERC - approveChargeableHTLC',
-                    );
-
-                if (!completer.isCompleted) {
-                  completer.complete();
-                  bridgeNotifier.setRequestTooLong(false);
-                }
-              },
-            ).catchError(completer.completeError),
-          );
-          await completer.future.timeout(const Duration(minutes: 60));
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -171,9 +102,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
           }
           rethrow;
         } finally {
-          if (requestTimer != null) {
-            requestTimer.cancel();
-          }
           await web3Client.dispose();
         }
       },
@@ -188,7 +116,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
       () async {
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-        Timer? requestTimer;
         bridgeNotifier.setRequestTooLong(false);
 
         final contractHTLCERC = await getDeployedContract(
@@ -213,24 +140,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
 
         String? withdrawTx;
         try {
-          final completer = Completer<void>();
-
-          final latestBlockNumber = await web3Client.getBlockNumber();
-          aedappfm.sl.get<aedappfm.LogManager>().log(
-                'latestBlockNumber: $latestBlockNumber',
-                name: 'EVMHTLCERC - signedWithdraw',
-              );
-
-          final eventStream = web3Client
-              .events(
-                FilterOptions.events(
-                  contract: contractHTLCERC,
-                  event: contractHTLCERC.event('Withdrawn'),
-                  fromBlock: BlockNum.exact(latestBlockNumber),
-                ),
-              )
-              .asBroadcastStream();
-
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
           withdrawTx = await sendTransactionWithErrorManagement(
             web3Client,
@@ -238,32 +147,10 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             transactionWithdraw,
             chainId,
             'EVMHTLCERC - signedWithdraw',
+            ref,
+            EVMBridgeProcess.bridge,
           );
           await bridgeNotifier.setWalletConfirmation(null);
-
-          requestTimer = Timer(const Duration(seconds: 30), () {
-            bridgeNotifier.setRequestTooLong(true);
-          });
-
-          unawaited(
-            eventStream
-                .firstWhere((event) => event.transactionHash == withdrawTx)
-                .then<void>(
-              (event) {
-                aedappfm.sl.get<aedappfm.LogManager>().log(
-                      'Event Withdrawn = $event',
-                      name: 'EVMHTLCERC - signedWithdraw',
-                    );
-
-                if (!completer.isCompleted) {
-                  completer.complete();
-                  bridgeNotifier.setRequestTooLong(false);
-                }
-              },
-            ).catchError(completer.completeError),
-          );
-
-          await completer.future.timeout(const Duration(minutes: 60));
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -284,9 +171,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
           }
           rethrow;
         } finally {
-          if (requestTimer != null) {
-            requestTimer.cancel();
-          }
           await web3Client.dispose();
         }
         return withdrawTx;

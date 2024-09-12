@@ -40,8 +40,6 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
       () async {
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-        Timer? requestTimer;
-
         bridgeNotifier.setRequestTooLong(false);
 
         final contractHTLCETH = await getDeployedContract(
@@ -66,24 +64,6 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
 
         String? withdrawTx;
         try {
-          final completer = Completer<void>();
-
-          final latestBlockNumber = await web3Client.getBlockNumber();
-          aedappfm.sl.get<aedappfm.LogManager>().log(
-                'latestBlockNumber: $latestBlockNumber',
-                name: 'EVMHTLCNative - signedWithdraw',
-              );
-
-          final eventStream = web3Client
-              .events(
-                FilterOptions.events(
-                  contract: contractHTLCETH,
-                  event: contractHTLCETH.event('Withdrawn'),
-                  fromBlock: BlockNum.exact(latestBlockNumber),
-                ),
-              )
-              .asBroadcastStream();
-
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
           withdrawTx = await sendTransactionWithErrorManagement(
             web3Client,
@@ -91,31 +71,10 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
             transactionWithdraw,
             chainId,
             'EVMHTLCNative - signedWithdraw',
+            ref,
+            EVMBridgeProcess.bridge,
           );
           await bridgeNotifier.setWalletConfirmation(null);
-
-          requestTimer = Timer(const Duration(seconds: 30), () {
-            bridgeNotifier.setRequestTooLong(true);
-          });
-
-          unawaited(
-            eventStream
-                .firstWhere((event) => event.transactionHash == withdrawTx)
-                .then<void>(
-              (event) {
-                aedappfm.sl.get<aedappfm.LogManager>().log(
-                      'Event Withdrawn = $event',
-                      name: 'EVMHTLCNative - signedWithdraw',
-                    );
-                if (!completer.isCompleted) {
-                  completer.complete();
-                  bridgeNotifier.setRequestTooLong(false);
-                }
-              },
-            ).catchError(completer.completeError),
-          );
-
-          await completer.future.timeout(const Duration(minutes: 60));
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -136,9 +95,6 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
           }
           rethrow;
         } finally {
-          if (requestTimer != null) {
-            requestTimer.cancel();
-          }
           await web3Client.dispose();
         }
         return withdrawTx;
