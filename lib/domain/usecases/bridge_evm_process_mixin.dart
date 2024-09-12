@@ -13,6 +13,7 @@ import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/gas_fee_estimation.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:crypto/crypto.dart';
@@ -25,7 +26,7 @@ import 'package:webthree/browser.dart';
 import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
-enum EVMBridgeProcessStep { none, deploy }
+enum EVMBridgeProcess { bridge, refund }
 
 const contractNameHTLCBase =
     'contracts/evm/artifacts/contracts/HTLC/HTLCBase.sol/HTLCBase.json';
@@ -264,6 +265,8 @@ mixin EVMBridgeProcessMixin {
     Transaction transaction,
     int chainId,
     String fromMethod,
+    WidgetRef ref,
+    EVMBridgeProcess evmBridgeProcess,
   ) async {
     try {
       var newTransaction = transaction;
@@ -279,9 +282,11 @@ mixin EVMBridgeProcessMixin {
             EtherAmount.fromDouble(EtherUnit.wei, newGasPriceInWei);
         newTransaction = newTransaction.copyWith(gasPrice: newGasPrice);
       }
+
       if (transaction.value == null) {
         newTransaction = newTransaction.copyWith(value: EtherAmount.zero());
       }
+
       if (transaction.maxPriorityFeePerGas == null) {
         final maxPriorityFeePerGas =
             _getMaxPriorityFeePerGas(suggestedGasFeesResult, chainId);
@@ -298,6 +303,7 @@ mixin EVMBridgeProcessMixin {
           );
         }
       }
+
       aedappfm.sl.get<aedappfm.LogManager>().log(
             'gasPrice=${newTransaction.gasPrice}, maxPriorityFeePerGas=${newTransaction.maxPriorityFeePerGas}, maxFeePerGas=${newTransaction.maxFeePerGas}',
             name:
@@ -309,7 +315,75 @@ mixin EVMBridgeProcessMixin {
         newTransaction,
         chainId: chainId,
       );
-      return transactionHash;
+
+      switch (evmBridgeProcess) {
+        case EVMBridgeProcess.bridge:
+          await ref
+              .read(BridgeFormProvider.bridgeForm.notifier)
+              .setWalletConfirmation(null);
+
+          break;
+        case EVMBridgeProcess.refund:
+          ref
+              .read(RefundFormProvider.refundForm.notifier)
+              .setWalletConfirmation(null);
+          break;
+      }
+
+      const timeoutDuration = Duration(minutes: 60);
+      const checkInterval = Duration(seconds: 2);
+      const notifyDelay = Duration(seconds: 30);
+
+      var elapsedTime = Duration.zero;
+      var tooLong = false;
+
+      while (elapsedTime < timeoutDuration) {
+        await Future.delayed(
+          checkInterval,
+        );
+        elapsedTime += checkInterval;
+
+        final transactionReceipt =
+            await web3Client.getTransactionReceipt(transactionHash);
+
+        if (transactionReceipt != null && transactionReceipt.status == true) {
+          switch (evmBridgeProcess) {
+            case EVMBridgeProcess.bridge:
+              ref
+                  .read(BridgeFormProvider.bridgeForm.notifier)
+                  .setRequestTooLong(false);
+
+              break;
+            case EVMBridgeProcess.refund:
+              ref
+                  .read(RefundFormProvider.refundForm.notifier)
+                  .setRequestTooLong(false);
+              break;
+          }
+
+          return transactionHash;
+        }
+
+        if (elapsedTime >= notifyDelay && tooLong == false) {
+          switch (evmBridgeProcess) {
+            case EVMBridgeProcess.bridge:
+              ref
+                  .read(BridgeFormProvider.bridgeForm.notifier)
+                  .setRequestTooLong(true);
+
+              break;
+            case EVMBridgeProcess.refund:
+              ref
+                  .read(RefundFormProvider.refundForm.notifier)
+                  .setRequestTooLong(true);
+              break;
+          }
+
+          tooLong = true;
+        }
+      }
+
+      throw TimeoutException('Transaction timeout');
     } catch (e, stackTrace) {
       if (e is EthereumUserRejected) {
         throw const aedappfm.Failure.userRejected();

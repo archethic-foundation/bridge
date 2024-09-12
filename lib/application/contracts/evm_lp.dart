@@ -64,8 +64,6 @@ class EVMLP with EVMBridgeProcessMixin {
     return aedappfm.Result.guard(() async {
       final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
       final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-
-      Timer? requestTimer;
       bridgeNotifier.setRequestTooLong(false);
 
       final web3Client = Web3Client(
@@ -93,27 +91,6 @@ class EVMLP with EVMBridgeProcessMixin {
 
       late String txAddress;
       try {
-        final completer = Completer<void>();
-
-        final contractPoolBase =
-            await getDeployedContract(contractNamePoolBase, poolAddress);
-
-        final latestBlockNumber = await web3Client.getBlockNumber();
-        aedappfm.sl.get<aedappfm.LogManager>().log(
-              'latestBlockNumber: $latestBlockNumber',
-              name: 'EVMLP - deployChargeableHTLC',
-            );
-
-        final eventStream = web3Client
-            .events(
-              FilterOptions.events(
-                contract: contractPoolBase,
-                event: contractPoolBase.event('ContractMinted'),
-                fromBlock: BlockNum.exact(latestBlockNumber),
-              ),
-            )
-            .asBroadcastStream();
-
         await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
         txAddress = await sendTransactionWithErrorManagement(
           web3Client,
@@ -121,36 +98,10 @@ class EVMLP with EVMBridgeProcessMixin {
           transaction,
           chainId,
           'EVMLP - deployChargeableHTLC',
+          ref,
+          EVMBridgeProcess.bridge,
         );
         await bridgeNotifier.setWalletConfirmation(null);
-        requestTimer = Timer(const Duration(seconds: 30), () {
-          bridgeNotifier.setRequestTooLong(true);
-        });
-
-        unawaited(
-          eventStream.firstWhere((event) {
-            aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'Event ContractMinted : ${event.transactionHash} == $txAddress ?',
-                  name: 'EVMHTLCERC - deployChargeableHTLC',
-                );
-
-            return event.transactionHash?.toUpperCase() ==
-                txAddress.toUpperCase();
-          }).then(
-            (event) {
-              aedappfm.sl.get<aedappfm.LogManager>().log(
-                    'Event ContractMinted = $event',
-                    name: 'EVMLP - deployChargeableHTLC',
-                  );
-              if (!completer.isCompleted) {
-                completer.complete();
-                bridgeNotifier.setRequestTooLong(false);
-              }
-            },
-          ),
-        );
-
-        await completer.future.timeout(const Duration(minutes: 60));
       } catch (e, stackTrace) {
         if (e is TimeoutException) {
           aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -171,9 +122,6 @@ class EVMLP with EVMBridgeProcessMixin {
         }
         rethrow;
       } finally {
-        if (requestTimer != null) {
-          requestTimer.cancel();
-        }
         await web3Client.dispose();
       }
 
@@ -207,8 +155,6 @@ class EVMLP with EVMBridgeProcessMixin {
       () async {
         final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-
-        Timer? requestTimer;
         bridgeNotifier.setRequestTooLong(false);
 
         final web3Client = Web3Client(
@@ -246,26 +192,6 @@ class EVMLP with EVMBridgeProcessMixin {
 
         late String txAddress;
         try {
-          final completer = Completer<void>();
-          final contractPoolBase =
-              await getDeployedContract(contractNamePoolBase, poolAddress);
-
-          final latestBlockNumber = await web3Client.getBlockNumber();
-          aedappfm.sl.get<aedappfm.LogManager>().log(
-                'latestBlockNumber: $latestBlockNumber',
-                name: 'EVMLP - deployAndProvisionSignedHTLC',
-              );
-
-          final eventStream = web3Client
-              .events(
-                FilterOptions.events(
-                  contract: contractPoolBase,
-                  event: contractPoolBase.event('ContractProvisioned'),
-                  fromBlock: BlockNum.exact(latestBlockNumber),
-                ),
-              )
-              .asBroadcastStream();
-
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
           txAddress = await sendTransactionWithErrorManagement(
             web3Client,
@@ -273,30 +199,10 @@ class EVMLP with EVMBridgeProcessMixin {
             transactionProvisionHTLC,
             chainId,
             'EVMLP - deployAndProvisionSignedHTLC',
+            ref,
+            EVMBridgeProcess.bridge,
           );
           await bridgeNotifier.setWalletConfirmation(null);
-          requestTimer = Timer(const Duration(seconds: 30), () {
-            bridgeNotifier.setRequestTooLong(true);
-          });
-
-          unawaited(
-            eventStream
-                .firstWhere((event) => event.transactionHash == txAddress)
-                .then<void>(
-              (event) {
-                aedappfm.sl.get<aedappfm.LogManager>().log(
-                      'Event ContractProvisioned = $event',
-                      name: 'EVMLP - deployAndProvisionSignedHTLC',
-                    );
-                if (!completer.isCompleted) {
-                  completer.complete();
-                  bridgeNotifier.setRequestTooLong(false);
-                }
-              },
-            ).catchError(completer.completeError),
-          );
-
-          await completer.future.timeout(const Duration(minutes: 60));
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -318,9 +224,6 @@ class EVMLP with EVMBridgeProcessMixin {
 
           rethrow;
         } finally {
-          if (requestTimer != null) {
-            requestTimer.cancel();
-          }
           await web3Client.dispose();
         }
 
