@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aebridge/application/contracts/evm_lp.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
@@ -9,7 +10,6 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
-import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
 class EVMHTLCNative with EVMBridgeProcessMixin {
@@ -67,9 +67,9 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
               chainId: chainId,
               functionName: 'withdraw',
               args: [
-                hexToBytes(secret.secret!),
-                hexToBytes(secret.secretSignature!.r!),
-                hexToBytes(secret.secretSignature!.s!),
+                secret.secret!.toBytes,
+                secret.secretSignature!.r!.toBytes,
+                secret.secretSignature!.s!.toBytes,
                 BigInt.from(secret.secretSignature!.v!),
               ],
             ),
