@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 
+import 'package:aebridge/application/contracts/evm_lp.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
@@ -14,7 +15,6 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
-import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
 class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
@@ -264,9 +264,9 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
               functionName: 'withdraw',
               chainId: chainId,
               args: [
-                hexToBytes(secret),
-                hexToBytes(signatureAEHTLC.r!),
-                hexToBytes(signatureAEHTLC.s!),
+                secret.toBytes,
+                signatureAEHTLC.r!.toBytes,
+                signatureAEHTLC.s!.toBytes,
                 BigInt.from(signatureAEHTLC.v!),
               ],
             ),

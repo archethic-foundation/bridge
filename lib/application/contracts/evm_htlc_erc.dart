@@ -10,7 +10,6 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
 import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
-import 'package:webthree/crypto.dart';
 import 'package:webthree/webthree.dart';
 
 class EVMHTLCERC with EVMBridgeProcessMixin {
@@ -68,7 +67,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
               functionName: 'approve',
               chainId: chainId,
               args: [
-                poolAddress,
+                poolAddress.toBytes,
                 tokenUnits,
               ],
             ),
@@ -134,9 +133,9 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
               functionName: 'withdraw',
               chainId: chainId,
               args: [
-                hexToBytes(secret.secret!),
-                hexToBytes(secret.secretSignature!.r!),
-                hexToBytes(secret.secretSignature!.s!),
+                secret.secret!.toBytes,
+                secret.secretSignature!.r!.toBytes,
+                secret.secretSignature!.s!.toBytes,
                 BigInt.from(secret.secretSignature!.v!),
               ],
             ),
