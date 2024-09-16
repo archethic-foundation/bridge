@@ -84,11 +84,13 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
     try {
       switch (typeToken) {
         case 'Native':
-          return (await wagmi.Core.getBalance(
-            wagmi.GetBalanceParameters(address: address),
-          ))
-              .value
-              .toDouble();
+          return double.tryParse(
+                (await wagmi.Core.getBalance(
+                  wagmi.GetBalanceParameters(address: address),
+                ))
+                    .formatted,
+              ) ??
+              0;
         // TODO(Chralu): what is the difference between erc20, wrapped and native ?
         case 'ERC20':
         case 'Wrapped':
