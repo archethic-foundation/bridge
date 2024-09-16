@@ -1,17 +1,10 @@
-import 'dart:convert';
-
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:http/http.dart';
-import 'package:js/js.dart';
 import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 import 'package:webthree/browser.dart';
-import 'package:webthree/webthree.dart';
 
 class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
   String? currentAddress;
@@ -44,7 +37,7 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
       metadata: wagmi.Web3ModalMetadata(
         name: 'Archethic Bridge',
         description:
-            'Enable interoperability and facilitate the transfer of data and assets between the two blockchains.',
+            'Bridge in and out of the Archethic blockchain with aeBridge. Enable secure and efficient cross-chain interactions, leveraging UCO tokens to power your decentralized applications.',
         url: 'https://bridge.archethic.net',
         icons: ['https://bridge.archethic.net/favicon.png'],
       ),
@@ -91,44 +84,20 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
                     .formatted,
               ) ??
               0;
-        // TODO(Chralu): what is the difference between erc20, wrapped and native ?
-        case 'ERC20':
         case 'Wrapped':
           if (erc20address.isEmpty) {
             return 0.0;
           }
-          final client = Web3Client(
-            providerEndpoint,
-            Client(),
-          );
-
-          final abiTokenStringJson = jsonDecode(
-            await rootBundle.loadString(
-              contractNameIERC20,
-            ),
-          );
-
-          final contractToken = DeployedContract(
-            ContractAbi.fromJson(
-              jsonEncode(abiTokenStringJson['abi']),
-              abiTokenStringJson['contractName'] as String,
-            ),
-            EthereumAddress.fromHex(erc20address),
-          );
-
-          final balanceResponse = await client.call(
-            contract: contractToken,
-            function: contractToken.function('balanceOf'),
-            params: [
-              EthereumAddress.fromHex(address),
-            ],
-          );
-          final tokenBalance = balanceResponse[0] as BigInt;
-          final adjustedBalance = (Decimal.parse('$tokenBalance') /
-                  Decimal.fromBigInt(BigInt.from(10).pow(decimal)))
-              .toDouble();
-          return adjustedBalance;
-
+          return double.tryParse(
+                (await wagmi.Core.getBalance(
+                  wagmi.GetBalanceParameters(
+                    address: address,
+                    token: erc20address,
+                  ),
+                ))
+                    .formatted,
+              ) ??
+              0;
         default:
           return 0.0;
       }
@@ -154,23 +123,14 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
       switch (typeToken) {
         case 'Native':
           return 18;
-        case 'ERC20':
         case 'Wrapped':
           if (erc20address.isEmpty) {
             return defaultDecimal;
           }
-
-          final contractToken = await loadAbi(contractNameERC20);
-
-          final params = wagmi.ReadContractParameters(
-            abi: contractToken,
-            address: erc20address,
-            functionName: 'decimals',
-            args: [],
+          final token = await wagmi.Core.getToken(
+            wagmi.GetTokenParameters(address: erc20address),
           );
-          final decimalsResponse = await wagmi.Core.readContract(params);
-
-          return decimalsResponse.toInt();
+          return token.decimals;
         default:
           return defaultDecimal;
       }
@@ -184,11 +144,4 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
       return defaultDecimal;
     }
   }
-}
-
-@JS()
-@anonymous
-class JSrawRequestParams {
-  external factory JSrawRequestParams({String chainId});
-  external String get chainId;
 }
