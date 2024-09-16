@@ -4,21 +4,17 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
-import 'package:webthree/browser.dart';
 
 class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
   String? currentAddress;
   String? get accountName => currentAddress;
   int? currentChain;
   bool walletConnected = false;
-  Ethereum? eth;
-  BinanceChainWallet? bsc;
-  OkxWallet? okx;
 
   Future<int> getChainId() async => wagmi.Core.getChainId();
 
-  // TODO(chralu): Utiliser une écoute plutot que du pooling
-  Future<wagmi.Account> _waitForConnexion() async {
+  // TODO(chralu): Utiliser une écoute plutot que du polling
+  Future<wagmi.Account> _waitForConnection() async {
     while (true) {
       final account = wagmi.Core.getAccount();
       if (account.isConnected) return account;
@@ -52,7 +48,7 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
 
     wagmi.Web3Modal.open();
 
-    final currentAccount = await _waitForConnexion();
+    final currentAccount = await _waitForConnection();
 
     currentAddress = currentAccount.address;
     walletConnected = true;

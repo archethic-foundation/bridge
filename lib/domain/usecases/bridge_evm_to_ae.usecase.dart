@@ -17,7 +17,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
-import 'package:webthree/webthree.dart';
 
 class BridgeEVMToArchethicUseCase
     with
@@ -184,7 +183,8 @@ class BridgeEVMToArchethicUseCase
           }
         }
       } catch (e) {
-        if (e is EthereumUserRejected) {
+        // TODO(reddwarf03): Manage errors
+        /*  if (e is EthereumUserRejected) {
           await bridgeNotifier.setFailure(
             const aedappfm.Failure.faucetUCOUserRejected(),
           );
@@ -210,7 +210,7 @@ class BridgeEVMToArchethicUseCase
           );
           await bridgeNotifier.setTransferInProgress(false);
           return;
-        }
+        }*/
       }
 
       // 5) Deploy Archethic HTLC

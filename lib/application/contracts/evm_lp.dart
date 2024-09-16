@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/secret.dart';
@@ -9,32 +10,19 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart';
 import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
-import 'package:webthree/crypto.dart';
-import 'package:webthree/webthree.dart';
 
 class EVMLP with EVMBridgeProcessMixin {
   EVMLP(
     this.providerEndpoint,
     this.chainId,
-  ) {
-    web3Client = Web3Client(
-      providerEndpoint!,
-      Client(),
-      customFilterPingInterval: Duration(
-        // Ethereum is too long to validate a txn...
-        seconds: chainId == 1 ? 20 : 5,
-      ),
-    );
-  }
-  // EVMLP(this.providerEndpoint);
+  );
 
   String? providerEndpoint;
 
-  late Web3Client web3Client;
   final int chainId;
 
   Future<
@@ -75,7 +63,6 @@ class EVMLP with EVMBridgeProcessMixin {
                   .toBigInt(),
             ],
           ),
-          web3Client: web3Client,
           chainId: chainId,
           fromMethod: 'EVMLP - deployChargeableHTLC',
           ref: ref,
@@ -103,8 +90,6 @@ class EVMLP with EVMBridgeProcessMixin {
           }
         }
         rethrow;
-      } finally {
-        await web3Client.dispose();
       }
 
       // Get HTLC address
@@ -142,8 +127,10 @@ class EVMLP with EVMBridgeProcessMixin {
 
         final bigIntValue = Decimal.parse(amount.toString()) *
             Decimal.fromBigInt(BigInt.from(10).pow(decimal));
-        final ethAmount =
-            EtherAmount.fromBigInt(EtherUnit.wei, bigIntValue.toBigInt());
+        final ethAmount = wagmi.EtherAmount.fromBigInt(
+          wagmi.EtherUnit.wei,
+          bigIntValue.toBigInt(),
+        );
 
         final contractAbi = await loadAbi(
           contractNameIPool,
@@ -167,7 +154,6 @@ class EVMLP with EVMBridgeProcessMixin {
                 BigInt.from(secretHash.secretHashSignature!.v!),
               ],
             ),
-            web3Client: web3Client,
             chainId: chainId,
             fromMethod: 'EVMLP - deployAndProvisionSignedHTLC',
             ref: ref,
@@ -194,8 +180,6 @@ class EVMLP with EVMBridgeProcessMixin {
           }
 
           rethrow;
-        } finally {
-          await web3Client.dispose();
         }
 
         // Get HTLC address
@@ -246,8 +230,9 @@ class EVMLP with EVMBridgeProcessMixin {
       for (final swaps in resultMap[0] as List) {
         swapList.add(
           Swap(
-            htlcContractAddressEVM: (swaps[0] as EthereumAddress).hex,
-            htlcContractAddressAE: bytesToHex(swaps[1] as List<int>),
+            htlcContractAddressEVM: swaps[0],
+            htlcContractAddressAE: archethic
+                .uint8ListToHex(Uint8List.fromList(swaps[1] as List<int>)),
             swapProcess: (swaps[2] as BigInt).toInt() == 0
                 ? SwapProcess.chargeable
                 : (swaps[2] as BigInt).toInt() == 1

@@ -8,28 +8,16 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart';
 import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
-import 'package:webthree/webthree.dart';
 
 class EVMHTLCERC with EVMBridgeProcessMixin {
   EVMHTLCERC(
     this.providerEndpoint,
     this.htlcContractAddress,
     this.chainId,
-  ) {
-    web3Client = Web3Client(
-      providerEndpoint,
-      Client(),
-      customFilterPingInterval: Duration(
-        // Ethereum is too long to validate a txn...
-        seconds: chainId == 1 ? 20 : 5,
-      ),
-    );
-  }
+  );
   final String providerEndpoint;
   final String htlcContractAddress;
-  late final Web3Client web3Client;
   final int chainId;
 
   Future<aedappfm.Result<void, aedappfm.Failure>> approveChargeableHTLC(
@@ -72,7 +60,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             ref: ref,
             evmBridgeProcess: EVMBridgeProcess.bridge,
             chainId: chainId,
-            web3Client: web3Client,
           );
           await bridgeNotifier.setWalletConfirmation(null);
 
@@ -99,8 +86,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             }
           }
           rethrow;
-        } finally {
-          await web3Client.dispose();
         }
       },
     );
@@ -140,7 +125,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             ref: ref,
             evmBridgeProcess: EVMBridgeProcess.bridge,
             chainId: chainId,
-            web3Client: web3Client,
           );
 
           await bridgeNotifier.setWalletConfirmation(null);
@@ -163,8 +147,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             }
           }
           rethrow;
-        } finally {
-          await web3Client.dispose();
         }
         return withdrawTx;
       },

@@ -18,6 +18,7 @@ import 'package:aebridge/infrastructure/token_decimals.repository.dart';
 import 'package:aebridge/ui/views/refund/bloc/state.dart';
 import 'package:aebridge/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aebridge/util/browser_util_web.dart';
+import 'package:aebridge/util/ethereum_util.dart';
 import 'package:aebridge/util/service_locator.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -26,7 +27,6 @@ import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:webthree/webthree.dart' as webthree;
 
 const kArchethicAddressLength = 68;
 const kEvmAddressLength = 42;
@@ -439,10 +439,9 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       }
     }
     if (state.htlcAddressFilled.length == kEvmAddressLength) {
-      try {
-        webthree.EthereumAddress.fromHex(state.htlcAddressFilled);
+      if (EVMUtil.isValidEVMAddress(state.htlcAddressFilled)) {
         await setAddressType(AddressType.evm);
-      } catch (e) {
+      } else {
         return (
           result: false,
           failure: aedappfm.Failure.other(

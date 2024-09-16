@@ -8,10 +8,14 @@ part of 'provider.dart';
 
 String _$bridgeFormNotifierHash() =>
 <<<<<<< HEAD
+<<<<<<< HEAD
     r'be67f16847ecc1a0fb6a663b296186d9d765d516';
 =======
     r'b95397b74367a899c5536631e13de2cdd48965cc';
 >>>>>>> a953b8d (chore: :rotating_light: Fix lints)
+=======
+    r'5ea38d56d2d52185ae456f94b0c9dd99fef837fc';
+>>>>>>> 441be25 (chore: :recycle: Remove webthree lib)
 
 /// See also [BridgeFormNotifier].
 @ProviderFor(BridgeFormNotifier)
