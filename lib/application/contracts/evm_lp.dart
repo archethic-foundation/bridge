@@ -149,12 +149,9 @@ class EVMLP with EVMBridgeProcessMixin {
           contractNameIPool,
         );
 
-        final contractPoolBase = await loadAbi(contractNamePoolBase);
-
         late String? txAddress;
         try {
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
-
           txAddress = await writeContractWithErrorManagement(
             parameters: wagmi.WriteContractParameters.eip1559(
               abi: contractAbi,

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:aebridge/application/contracts/evm_lp.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
