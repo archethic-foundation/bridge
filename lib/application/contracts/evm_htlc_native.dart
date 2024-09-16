@@ -7,28 +7,17 @@ import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart';
 import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
-import 'package:webthree/webthree.dart';
 
 class EVMHTLCNative with EVMBridgeProcessMixin {
   EVMHTLCNative(
     this.providerEndpoint,
     this.htlcContractAddress,
     this.chainId,
-  ) {
-    web3Client = Web3Client(
-      providerEndpoint,
-      Client(),
-      customFilterPingInterval: Duration(
-        // Ethereum is too long to validate a txn...
-        seconds: chainId == 1 ? 20 : 5,
-      ),
-    );
-  }
+  );
+
   final String providerEndpoint;
   final String htlcContractAddress;
-  late final Web3Client web3Client;
   final int chainId;
 
   Future<aedappfm.Result<String, aedappfm.Failure>> signedWithdraw(
@@ -74,7 +63,6 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
             ref: ref,
             evmBridgeProcess: EVMBridgeProcess.bridge,
             chainId: chainId,
-            web3Client: web3Client,
           );
           await bridgeNotifier.setWalletConfirmation(null);
         } catch (e, stackTrace) {
@@ -96,8 +84,6 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
             }
           }
           rethrow;
-        } finally {
-          await web3Client.dispose();
         }
         return withdrawTx;
       },
@@ -108,20 +94,19 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
     return aedappfm.Result.guard(
       () async {
         try {
-          final contractHTLC = await getDeployedContract(
-            contractNameChargeableHTLCETH,
-            htlcContractAddress,
+          final abi = await loadAbi(contractNameChargeableHTLCETH);
+          final params = wagmi.ReadContractParameters(
+            abi: abi,
+            address: htlcContractAddress,
+            functionName: 'fee',
+            args: [],
           );
+          final response = await wagmi.Core.readContract(params);
 
-          final feeMap = await web3Client.call(
-            contract: contractHTLC,
-            function: contractHTLC.function('fee'),
-            params: [],
-          );
-
-          final BigInt fee = feeMap[0];
-          final etherAmount = EtherAmount.fromBigInt(EtherUnit.wei, fee);
-          return etherAmount.getValueInUnit(EtherUnit.ether);
+          final BigInt fee = response;
+          final etherAmount =
+              wagmi.EtherAmount.fromBigInt(wagmi.EtherUnit.wei, fee);
+          return etherAmount.getValueInUnit(wagmi.EtherUnit.ether);
         } catch (e) {
           return 0.0;
         }

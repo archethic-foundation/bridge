@@ -12,29 +12,17 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart';
 import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
-import 'package:webthree/webthree.dart';
 
 class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
   EVMHTLC(
     this.providerEndpoint,
     this.htlcContractAddressEVM,
     this.chainId,
-  ) {
-    web3Client = Web3Client(
-      providerEndpoint!,
-      Client(),
-      customFilterPingInterval: Duration(
-        // Ethereum is too long to validate a txn...
-        seconds: chainId == 1 ? 20 : 5,
-      ),
-    );
-  }
+  );
 
   final String? providerEndpoint;
   final String htlcContractAddressEVM;
-  late final Web3Client web3Client;
   final int chainId;
 
   Future<aedappfm.Result<String, aedappfm.Failure>> refund(
@@ -64,7 +52,6 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
               chainId: chainId,
             ),
             fromMethod: 'EVMHTLC - refund',
-            web3Client: web3Client,
             chainId: chainId,
             ref: ref,
             evmBridgeProcess: EVMBridgeProcess.refund,
@@ -91,8 +78,6 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             refundNotifier.setWalletConfirmation(null);
             rethrow;
           }
-        } finally {
-          await web3Client.dispose();
         }
         return refundTx;
       },
@@ -106,7 +91,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
     return aedappfm.Result.guard(
       () async {
         return (
-          dateLockTime: await _getDateLockTime(),
+          dateLockTime: await _getLockTime(),
           canRefund: await _isCanRefund(),
         );
       },
@@ -116,21 +101,22 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
   Future<aedappfm.Result<int, aedappfm.Failure>> getHTLCLockTime() async {
     return aedappfm.Result.guard(
       () async {
-        return _getDateLockTime();
+        return _getLockTime();
       },
     );
   }
 
-  Future<int> _getLockTime(
-    DeployedContract contract,
-  ) async {
-    final lockTimeMap = await web3Client.call(
-      contract: contract,
-      function: contract.function('lockTime'),
-      params: [],
+  Future<int> _getLockTime() async {
+    final abi = await loadAbi(contractNameHTLCBase);
+    final params = wagmi.ReadContractParameters(
+      abi: abi,
+      address: htlcContractAddressEVM,
+      functionName: 'lockTime',
+      args: [],
     );
+    final response = await wagmi.Core.readContract(params);
+    final BigInt lockTime = response;
 
-    final BigInt lockTime = lockTimeMap[0];
     return lockTime.toInt();
   }
 
@@ -139,18 +125,16 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
-        final contractHTLC = await getDeployedContract(
-          contractNameHTLCBase,
-          htlcContractAddressEVM,
-        );
+        final abi = await loadAbi(contractNameHTLCBase);
 
-        final amountMap = await web3Client.call(
-          contract: contractHTLC,
-          function: contractHTLC.function('amount'),
-          params: [],
+        final params = wagmi.ReadContractParameters(
+          abi: abi,
+          address: htlcContractAddressEVM,
+          functionName: 'amount',
+          args: [],
         );
-
-        final BigInt amount = amountMap[0];
+        final response = await wagmi.Core.readContract(params);
+        final BigInt amount = response;
         final convertedAmount = (Decimal.parse('$amount') /
                 Decimal.fromBigInt(BigInt.from(10).pow(decimal)))
             .toDouble();
@@ -165,29 +149,23 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(() async {
       var _isERC20 = false;
-      final contractHTLCERC = await getDeployedContract(
-        contractNameHTLCERC,
-        htlcContractAddressEVM,
-      );
       var currency = nativeCurrency;
       try {
-        final addressToken = await web3Client.call(
-          contract: contractHTLCERC,
-          function: contractHTLCERC.function('token'),
-          params: [],
+        final abi = await loadAbi(contractNameHTLCERC);
+        final params = wagmi.ReadContractParameters(
+          abi: abi,
+          address: htlcContractAddressEVM,
+          functionName: 'token',
+          args: [],
         );
-
+        final response = await wagmi.Core.readContract(params);
+        final addressToken = response.toString();
         if (addressToken.isNotEmpty) {
-          final contratERC20 = await getDeployedContract(
-            contractNameERC20,
-            (addressToken[0] as EthereumAddress).hex,
+          final token = await wagmi.Core.getToken(
+            wagmi.GetTokenParameters(address: addressToken[0]),
           );
 
-          final symbol = await web3Client.call(
-            contract: contratERC20,
-            function: contratERC20.function('symbol'),
-            params: [],
-          );
+          final symbol = token.symbol ?? '';
 
           if (symbol.isNotEmpty) {
             currency = symbol[0];
@@ -202,39 +180,31 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
     });
   }
 
-  Future<int> _getDateLockTime() async {
-    final contract =
-        await getDeployedContract(contractNameHTLCBase, htlcContractAddressEVM);
-    return _getLockTime(contract);
-  }
-
   Future<bool> _isCanRefund() async {
-    final contract =
-        await getDeployedContract(contractNameHTLCBase, htlcContractAddressEVM);
-    final canRefundMap = await web3Client.call(
-      contract: contract,
-      function: contract.function('canRefund'),
-      params: [
+    final abi = await loadAbi(contractNameHTLCBase);
+    final params = wagmi.ReadContractParameters(
+      abi: abi,
+      address: htlcContractAddressEVM,
+      functionName: 'canRefund',
+      args: [
         BigInt.from(DateTime.now().millisecondsSinceEpoch ~/ 1000),
       ],
     );
-
-    final bool canRefund = canRefundMap[0];
+    final response = await wagmi.Core.readContract(params);
+    final bool canRefund = response;
     return canRefund;
   }
 
   Future<int> getStatus() async {
-    final contractHTLC =
-        await getDeployedContract(contractNameHTLCBase, htlcContractAddressEVM);
-
-    final statusResult = await web3Client.call(
-      contract: contractHTLC,
-      function: contractHTLC.function('status'),
-      params: [],
+    final abi = await loadAbi(contractNameHTLCBase);
+    final params = wagmi.ReadContractParameters(
+      abi: abi,
+      address: htlcContractAddressEVM,
+      functionName: 'status',
+      args: [],
     );
-
-    final BigInt status = statusResult[0];
-    return status.toInt();
+    final response = await wagmi.Core.readContract(params);
+    return response;
   }
 
   Future<aedappfm.Result<String, aedappfm.Failure>> withdraw(
@@ -273,7 +243,6 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             ref: ref,
             evmBridgeProcess: EVMBridgeProcess.bridge,
             chainId: chainId,
-            web3Client: web3Client,
           );
 
           await bridgeNotifier.setWalletConfirmation(null);
@@ -296,8 +265,6 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             }
           }
           rethrow;
-        } finally {
-          await web3Client.dispose();
         }
         return withdrawTx;
       },

@@ -1,7 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:aebridge/application/balance.dart';
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/bridge_history.dart';
@@ -15,15 +13,14 @@ import 'package:aebridge/domain/usecases/bridge_evm_to_ae.usecase.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aebridge/util/browser_util_web.dart';
+import 'package:aebridge/util/ethereum_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:decimal/decimal.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:webthree/webthree.dart' as webthree;
 
 part 'provider.g.dart';
 
@@ -106,28 +103,6 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
   ) async {
     state = state.copyWith(blockchainFrom: blockchainFrom);
     await storeBridge();
-
-    // Check provider's endpoint
-    if (blockchainFrom != null && blockchainFrom.isArchethic == false) {
-      final client = webthree.Web3Client(
-        blockchainFrom.providerEndpoint,
-        Client(),
-      );
-
-      try {
-        await client.getBlockNumber();
-      } catch (e) {
-        log('Web3Client endpoint error for ${blockchainFrom.providerEndpoint} : $e');
-
-        await setFailure(
-          aedappfm.Failure.other(
-            cause: localizations.providerEndpointNotAvailable,
-          ),
-        );
-      } finally {
-        await client.dispose();
-      }
-    }
   }
 
   Future<void> setBlockchainFromWithConnection(
@@ -193,28 +168,6 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
   ) async {
     state = state.copyWith(blockchainTo: blockchainTo);
     await storeBridge();
-
-    // Check provider's endpoint
-    if (blockchainTo != null && blockchainTo.isArchethic == false) {
-      final client = webthree.Web3Client(
-        blockchainTo.providerEndpoint,
-        Client(),
-      );
-
-      try {
-        await client.getBlockNumber();
-      } catch (e) {
-        log('Web3Client endpoint error for ${blockchainTo.providerEndpoint} : $e');
-
-        await setFailure(
-          aedappfm.Failure.other(
-            cause: localizations.providerEndpointNotAvailable,
-          ),
-        );
-      } finally {
-        await client.dispose();
-      }
-    }
   }
 
   Future<void> setBlockchainToWithConnection(
@@ -716,11 +669,7 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
         return false;
       }
     } else {
-      try {
-        webthree.EthereumAddress.fromHex(
-          state.targetAddress,
-        );
-      } catch (e) {
+      if (EVMUtil.isValidEVMAddress(state.targetAddress) == false) {
         await setFailure(
           aedappfm.Failure.other(
             cause: localizations.bridgeControlTargetEVMAddressValid,
