@@ -4,6 +4,7 @@ import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/ui/views/blockchain_selection/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -18,7 +19,7 @@ class BlockchainList extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final blockchains = ref.watch(
-      BridgeBlockchainsProviders.getBlockchainsList,
+      getBlockchainsListProvider,
     );
 
     return SizedBox(
@@ -32,7 +33,7 @@ class BlockchainList extends ConsumerWidget {
             );
           }
 
-          final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+          final bridge = ref.watch(bridgeFormNotifierProvider);
           if (blockchainSelectionProvider.forceChoiceTestnetIncluded == false) {
             if (isFrom) {
               if (bridge.blockchainTo != null &&
@@ -158,20 +159,20 @@ class _SingleBlockchain extends ConsumerWidget {
                     .blockchainSelectionForm.notifier,
               )
               .setTestnetIncluded(false);
-          final bridge = ref.read(BridgeFormProvider.bridgeForm);
+          final bridge = ref.read(bridgeFormNotifierProvider);
           if (isFrom) {
             if (bridge.blockchainTo != null &&
                 blockchain.env != bridge.blockchainTo!.env) {
               ref
-                  .read(BridgeFormProvider.bridgeForm.notifier)
-                  .setBlockchainTo(context, null);
+                  .read(bridgeFormNotifierProvider.notifier)
+                  .setBlockchainTo(AppLocalizations.of(context)!, null);
             }
           } else {
             if (bridge.blockchainFrom != null &&
                 blockchain.env != bridge.blockchainFrom!.env) {
               ref
-                  .read(BridgeFormProvider.bridgeForm.notifier)
-                  .setBlockchainFrom(context, null);
+                  .read(bridgeFormNotifierProvider.notifier)
+                  .setBlockchainFrom(AppLocalizations.of(context)!, null);
             }
           }
           Navigator.pop(context, blockchain);

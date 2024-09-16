@@ -14,7 +14,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:webthree/webthree.dart';
@@ -25,16 +25,16 @@ class BridgeEVMToArchethicUseCase
         EVMBridgeProcessMixin,
         aedappfm.TransactionMixin {
   Future<void> run(
-    BuildContext context,
+    AppLocalizations localizations,
     WidgetRef ref, {
     int recoveryStep = 0,
     List<int>? recoverySecret,
     String? recoveryHTLCEVMAddress,
     String? recoveryHTLCAEAddress,
   }) async {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-    final session = ref.read(SessionProviders.session);
+    final bridge = ref.read(bridgeFormNotifierProvider);
+    final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
+    final session = ref.read(sessionNotifierProvider);
     await bridgeNotifier.setCurrentStep(0);
 
     Uint8List? secret;
@@ -100,12 +100,10 @@ class BridgeEVMToArchethicUseCase
       } catch (e) {
         return;
       }
-      var blockchainFrom =
-          ref.read(BridgeFormProvider.bridgeForm).blockchainFrom;
+      var blockchainFrom = ref.read(bridgeFormNotifierProvider).blockchainFrom;
       blockchainFrom = blockchainFrom!.copyWith(htlcAddress: htlcEVMAddress);
-      if (context.mounted) {
-        await bridgeNotifier.setBlockchainFrom(context, blockchainFrom);
-      }
+
+      await bridgeNotifier.setBlockchainFrom(localizations, blockchainFrom);
     }
 
     // 2) Get HTLC Lock time
@@ -264,11 +262,10 @@ class BridgeEVMToArchethicUseCase
       } catch (e) {
         return;
       }
-      var blockchainTo = ref.read(BridgeFormProvider.bridgeForm).blockchainTo;
+      var blockchainTo = ref.read(bridgeFormNotifierProvider).blockchainTo;
       blockchainTo = blockchainTo!.copyWith(htlcAddress: htlcAEAddress);
-      if (context.mounted) {
-        await bridgeNotifier.setBlockchainTo(context, blockchainTo);
-      }
+
+      await bridgeNotifier.setBlockchainTo(localizations, blockchainTo);
     }
 
     // 6) Withdraw
@@ -393,9 +390,9 @@ class BridgeEVMToArchethicUseCase
   }
 
   String getStepLabel(
-    BuildContext context,
+    AppLocalizations localizations,
     int step,
   ) {
-    return getEVMStepLabel(context, step);
+    return getEVMStepLabel(localizations, step);
   }
 }

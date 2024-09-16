@@ -17,7 +17,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'provider.g.dart';
 
 @Riverpod(keepAlive: true)
-class _SessionNotifier extends _$SessionNotifier {
+class SessionNotifier extends _$SessionNotifier {
   StreamSubscription? _connectionStatusSubscription;
 
   @override
@@ -373,8 +373,4 @@ class _SessionNotifier extends _$SessionNotifier {
       }
     }
   }
-}
-
-abstract class SessionProviders {
-  static final session = _sessionNotifierProvider;
 }

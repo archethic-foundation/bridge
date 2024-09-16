@@ -17,7 +17,6 @@ import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:crypto/crypto.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -56,28 +55,28 @@ const contractNameChargeableHTLCETH =
 
 mixin EVMBridgeProcessMixin {
   String getEVMStepLabel(
-    BuildContext context,
+    AppLocalizations localizations,
     int step,
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.evmBridgeProcessStep1;
+        return localizations.evmBridgeProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.evmBridgeProcessStep2;
+        return localizations.evmBridgeProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.evmBridgeProcessStep3;
+        return localizations.evmBridgeProcessStep3;
       case 4:
-        return AppLocalizations.of(context)!.evmBridgeProcessStep4;
+        return localizations.evmBridgeProcessStep4;
       case 5:
-        return AppLocalizations.of(context)!.evmBridgeProcessStep5;
+        return localizations.evmBridgeProcessStep5;
       case 6:
-        return AppLocalizations.of(context)!.evmBridgeProcessStep6;
+        return localizations.evmBridgeProcessStep6;
       case 7:
-        return AppLocalizations.of(context)!.evmBridgeProcessStep7;
+        return localizations.evmBridgeProcessStep7;
       case 8:
-        return AppLocalizations.of(context)!.evmBridgeProcessStep8;
+        return localizations.evmBridgeProcessStep8;
       default:
-        return AppLocalizations.of(context)!.evmBridgeProcessStep0;
+        return localizations.evmBridgeProcessStep0;
     }
   }
 
@@ -93,8 +92,8 @@ mixin EVMBridgeProcessMixin {
     int decimal,
     String htlcContractAddressAE,
   ) async {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+    final bridge = ref.read(bridgeFormNotifierProvider);
+    final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
     final chainId = aedappfm.sl.get<EVMWalletProvider>().currentChain ?? 0;
 
     final evmLP = EVMLP(
@@ -142,8 +141,8 @@ mixin EVMBridgeProcessMixin {
     WidgetRef ref,
     Digest secretHash,
   ) async {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+    final bridge = ref.read(bridgeFormNotifierProvider);
+    final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
     final chainId = aedappfm.sl.get<EVMWalletProvider>().currentChain ?? 0;
 
     final evmLP = EVMLP(
@@ -184,8 +183,8 @@ mixin EVMBridgeProcessMixin {
     Uint8List secret,
     SecretSignature signatureAEHTLC,
   ) async {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+    final bridge = ref.read(bridgeFormNotifierProvider);
+    final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
 
     final htlc = EVMHTLC(
       bridge.blockchainFrom!.providerEndpoint,
@@ -222,7 +221,7 @@ mixin EVMBridgeProcessMixin {
     int decimal,
   ) async {
     double? etlcAmount;
-    final bridge = ref.read(BridgeFormProvider.bridgeForm);
+    final bridge = ref.read(bridgeFormNotifierProvider);
     final htlc = EVMHTLC(
       bridge.blockchainFrom!.providerEndpoint,
       htlcAddress,
@@ -244,8 +243,8 @@ mixin EVMBridgeProcessMixin {
     double amount,
     String poolAddress,
   ) async {
-    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-    final session = ref.read(SessionProviders.session);
+    final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
+    final session = ref.read(sessionNotifierProvider);
     final walletTo = session.walletTo;
     final resultRevealSecretToChargeableHTLC =
         await ArchethicContractChargeable().revealSecretToChargeableHTLC(
@@ -433,7 +432,7 @@ mixin EVMBridgeProcessMixin {
     switch (evmBridgeProcess) {
       case EVMBridgeProcess.bridge:
         await ref
-            .read(BridgeFormProvider.bridgeForm.notifier)
+            .read(bridgeFormNotifierProvider.notifier)
             .setWalletConfirmation(null);
 
         break;
@@ -465,7 +464,7 @@ mixin EVMBridgeProcessMixin {
           switch (evmBridgeProcess) {
             case EVMBridgeProcess.bridge:
               ref
-                  .read(BridgeFormProvider.bridgeForm.notifier)
+                  .read(bridgeFormNotifierProvider.notifier)
                   .setRequestTooLong(false);
 
               break;
@@ -492,7 +491,7 @@ mixin EVMBridgeProcessMixin {
         switch (evmBridgeProcess) {
           case EVMBridgeProcess.bridge:
             ref
-                .read(BridgeFormProvider.bridgeForm.notifier)
+                .read(bridgeFormNotifierProvider.notifier)
                 .setRequestTooLong(true);
 
             break;
@@ -549,8 +548,8 @@ mixin EVMBridgeProcessMixin {
   }
 
   Future<String> withdrawAE(WidgetRef ref, String htlc, Secret secret) async {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+    final bridge = ref.read(bridgeFormNotifierProvider);
+    final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
 
     aedappfm.Result<String, aedappfm.Failure>? resultSignedWithdraw;
     if (bridge.tokenToBridge!.typeSource == 'Native') {

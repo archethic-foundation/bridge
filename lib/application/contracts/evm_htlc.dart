@@ -245,7 +245,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
-        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier)
+        final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier)
           ..setRequestTooLong(false);
         final contractAbi = await loadAbi(
           contract,

@@ -106,7 +106,7 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
 
   @override
   Widget build(BuildContext context) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(bridgeFormNotifierProvider);
     if (bridge.bridgeOk == false) return const SizedBox.shrink();
 
     return finalAmount != null

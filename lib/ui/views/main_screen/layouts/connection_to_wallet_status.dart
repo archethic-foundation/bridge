@@ -25,7 +25,7 @@ class _ConnectionToWalletStatusState
     extends ConsumerState<ConnectionToWalletStatus> {
   @override
   Widget build(BuildContext context) {
-    final session = ref.watch(SessionProviders.session);
+    final session = ref.watch(sessionNotifierProvider);
 
     BridgeWallet? walletArchethic;
     if (session.walletFrom != null &&
@@ -57,7 +57,7 @@ class _ConnectionToWalletStatusState
           ),
         );
 
-        ref.read(SessionProviders.session.notifier).setOldNameAccount();
+        ref.read(sessionNotifierProvider.notifier).setOldNameAccount();
       });
     }
 
@@ -130,9 +130,9 @@ class _ConnectionToWalletStatusState
             iconSize: 18,
             onPressed: () async {
               await ref
-                  .read(SessionProviders.session.notifier)
+                  .read(sessionNotifierProvider.notifier)
                   .cancelAllWalletsConnection();
-              ref.invalidate(BridgeFormProvider.bridgeForm);
+              ref.invalidate(bridgeFormNotifierProvider);
               if (context.mounted) {
                 context.go(BridgeSheet.routerPage);
               }
@@ -154,8 +154,8 @@ class MenuConnectionToWalletStatus extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(SessionProviders.session);
-    final sessionNotifier = ref.watch(SessionProviders.session.notifier);
+    final session = ref.watch(sessionNotifierProvider);
+    final sessionNotifier = ref.watch(sessionNotifierProvider.notifier);
 
     return Column(
       children: [

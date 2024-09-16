@@ -22,7 +22,7 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
     final textTheme = Theme.of(context)
         .textTheme
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(bridgeFormNotifierProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -126,19 +126,20 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
                 if (blockchain == null) return;
 
                 final bridgeFormNotifier =
-                    ref.read(BridgeFormProvider.bridgeForm.notifier);
+                    ref.read(bridgeFormNotifierProvider.notifier);
 
                 // We want to swap values
                 if (bridge.blockchainFrom != null &&
                     blockchain.chainId == bridge.blockchainFrom!.chainId) {
                   if (context.mounted) {
-                    await bridgeFormNotifier.swapDirections(context);
+                    await bridgeFormNotifier
+                        .swapDirections(AppLocalizations.of(context)!);
                   }
                   return;
                 }
                 if (context.mounted) {
                   await bridgeFormNotifier.setBlockchainToWithConnection(
-                    context,
+                    AppLocalizations.of(context)!,
                     blockchain,
                   );
                 }

@@ -36,8 +36,7 @@ class LocalHistorySheet extends ConsumerWidget {
 }
 
 Widget _body(BuildContext context, WidgetRef ref) {
-  final bridgesList =
-      ref.watch(BridgeHistoryProviders.fetchBridgesList(asc: false));
+  final bridgesList = ref.watch(fetchBridgesListProvider(asc: false));
 
   return Padding(
     padding: const EdgeInsets.only(top: 90, left: 50, right: 50),

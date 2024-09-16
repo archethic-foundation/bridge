@@ -120,7 +120,7 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
         }
 
         final currentNameAccount = await getCurrentAccount();
-        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+        final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
         await bridgeNotifier
             .setWalletConfirmation(WalletConfirmation.archethic);
 
@@ -172,7 +172,7 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
           ],
         );
 
-        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+        final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
         await bridgeNotifier
             .setWalletConfirmation(WalletConfirmation.archethic);
 

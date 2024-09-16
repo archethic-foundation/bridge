@@ -7,14 +7,18 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$bridgeFormNotifierHash() =>
+<<<<<<< HEAD
     r'be67f16847ecc1a0fb6a663b296186d9d765d516';
+=======
+    r'b95397b74367a899c5536631e13de2cdd48965cc';
+>>>>>>> a953b8d (chore: :rotating_light: Fix lints)
 
-/// See also [_BridgeFormNotifier].
-@ProviderFor(_BridgeFormNotifier)
-final _bridgeFormNotifierProvider =
-    AutoDisposeNotifierProvider<_BridgeFormNotifier, BridgeFormState>.internal(
-  _BridgeFormNotifier.new,
-  name: r'_bridgeFormNotifierProvider',
+/// See also [BridgeFormNotifier].
+@ProviderFor(BridgeFormNotifier)
+final bridgeFormNotifierProvider =
+    AutoDisposeNotifierProvider<BridgeFormNotifier, BridgeFormState>.internal(
+  BridgeFormNotifier.new,
+  name: r'bridgeFormNotifierProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$bridgeFormNotifierHash,

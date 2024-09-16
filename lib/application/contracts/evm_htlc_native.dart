@@ -37,9 +37,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
-        ref
-            .read(BridgeFormProvider.bridgeForm.notifier)
-            .setRequestTooLong(false);
+        ref.read(bridgeFormNotifierProvider.notifier).setRequestTooLong(false);
 
         final contractAbi = await loadAbi(
           contractNameSignedHTLCETH,
@@ -56,7 +54,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
               );
 
           final bridgeNotifier = ref.read(
-            BridgeFormProvider.bridgeForm.notifier,
+            bridgeFormNotifierProvider.notifier,
           );
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
           withdrawTx = await writeContractWithErrorManagement(

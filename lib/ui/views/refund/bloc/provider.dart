@@ -46,7 +46,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     if (aedappfm.sl.isRegistered<EVMWalletProvider>()) {
       aedappfm.sl.unregister<EVMWalletProvider>();
     }
-    ref.read(SessionProviders.session.notifier).cancelAllWalletsConnection();
+    ref.read(sessionNotifierProvider.notifier).cancelAllWalletsConnection();
 
     ref.onDispose(() {
       connectionStatusSubscription?.cancel();
@@ -189,7 +189,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       );
 
       final blockchain = await ref.read(
-        BridgeBlockchainsProviders.getBlockchainFromChainId(chainId).future,
+        getBlockchainFromChainIdProvider(chainId).future,
       );
 
       state = state.copyWith(isERC20: null);
@@ -526,7 +526,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         try {
           final currentChainId = await evmWalletProvider.getChainId();
           final bridgeBlockchain = await ref.read(
-            BridgeBlockchainsProviders.getBlockchainFromChainId(
+            getBlockchainFromChainIdProvider(
               currentChainId,
             ).future,
           );
@@ -618,7 +618,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
               break;
           }
           final bridgeBlockchain = await ref.read(
-            BridgeBlockchainsProviders.getBlockchainFromChainId(
+            getBlockchainFromChainIdProvider(
               chainId,
             ).future,
           );

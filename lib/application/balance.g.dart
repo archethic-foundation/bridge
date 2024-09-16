@@ -22,7 +22,7 @@ final _balanceRepositoryProvider =
 );
 
 typedef _BalanceRepositoryRef = AutoDisposeProviderRef<BalanceRepository>;
-String _$getBalanceHash() => r'd29a315387d3a35a18d20e40ab033af777e8fcd1';
+String _$getBalanceHash() => r'0e8f5905f8b488dcbbb5127c8c24c978b6fba657';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -45,17 +45,17 @@ class _SystemHash {
   }
 }
 
-/// See also [_getBalance].
-@ProviderFor(_getBalance)
-const _getBalanceProvider = _GetBalanceFamily();
+/// See also [getBalance].
+@ProviderFor(getBalance)
+const getBalanceProvider = GetBalanceFamily();
 
-/// See also [_getBalance].
-class _GetBalanceFamily extends Family<AsyncValue<double>> {
-  /// See also [_getBalance].
-  const _GetBalanceFamily();
+/// See also [getBalance].
+class GetBalanceFamily extends Family<AsyncValue<double>> {
+  /// See also [getBalance].
+  const GetBalanceFamily();
 
-  /// See also [_getBalance].
-  _GetBalanceProvider call(
+  /// See also [getBalance].
+  GetBalanceProvider call(
     bool isArchethic,
     String address,
     String typeToken,
@@ -63,7 +63,7 @@ class _GetBalanceFamily extends Family<AsyncValue<double>> {
     int decimal, {
     String? providerEndpoint,
   }) {
-    return _GetBalanceProvider(
+    return GetBalanceProvider(
       isArchethic,
       address,
       typeToken,
@@ -74,8 +74,8 @@ class _GetBalanceFamily extends Family<AsyncValue<double>> {
   }
 
   @override
-  _GetBalanceProvider getProviderOverride(
-    covariant _GetBalanceProvider provider,
+  GetBalanceProvider getProviderOverride(
+    covariant GetBalanceProvider provider,
   ) {
     return call(
       provider.isArchethic,
@@ -99,13 +99,13 @@ class _GetBalanceFamily extends Family<AsyncValue<double>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'_getBalanceProvider';
+  String? get name => r'getBalanceProvider';
 }
 
-/// See also [_getBalance].
-class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
-  /// See also [_getBalance].
-  _GetBalanceProvider(
+/// See also [getBalance].
+class GetBalanceProvider extends AutoDisposeFutureProvider<double> {
+  /// See also [getBalance].
+  GetBalanceProvider(
     bool isArchethic,
     String address,
     String typeToken,
@@ -113,8 +113,8 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
     int decimal, {
     String? providerEndpoint,
   }) : this._internal(
-          (ref) => _getBalance(
-            ref as _GetBalanceRef,
+          (ref) => getBalance(
+            ref as GetBalanceRef,
             isArchethic,
             address,
             typeToken,
@@ -122,15 +122,15 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
             decimal,
             providerEndpoint: providerEndpoint,
           ),
-          from: _getBalanceProvider,
-          name: r'_getBalanceProvider',
+          from: getBalanceProvider,
+          name: r'getBalanceProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
                   : _$getBalanceHash,
-          dependencies: _GetBalanceFamily._dependencies,
+          dependencies: GetBalanceFamily._dependencies,
           allTransitiveDependencies:
-              _GetBalanceFamily._allTransitiveDependencies,
+              GetBalanceFamily._allTransitiveDependencies,
           isArchethic: isArchethic,
           address: address,
           typeToken: typeToken,
@@ -139,7 +139,7 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
           providerEndpoint: providerEndpoint,
         );
 
-  _GetBalanceProvider._internal(
+  GetBalanceProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -163,12 +163,12 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
 
   @override
   Override overrideWith(
-    FutureOr<double> Function(_GetBalanceRef provider) create,
+    FutureOr<double> Function(GetBalanceRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: _GetBalanceProvider._internal(
-        (ref) => create(ref as _GetBalanceRef),
+      override: GetBalanceProvider._internal(
+        (ref) => create(ref as GetBalanceRef),
         from: from,
         name: null,
         dependencies: null,
@@ -191,7 +191,7 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
 
   @override
   bool operator ==(Object other) {
-    return other is _GetBalanceProvider &&
+    return other is GetBalanceProvider &&
         other.isArchethic == isArchethic &&
         other.address == address &&
         other.typeToken == typeToken &&
@@ -214,7 +214,7 @@ class _GetBalanceProvider extends AutoDisposeFutureProvider<double> {
   }
 }
 
-mixin _GetBalanceRef on AutoDisposeFutureProviderRef<double> {
+mixin GetBalanceRef on AutoDisposeFutureProviderRef<double> {
   /// The parameter `isArchethic` of this provider.
   bool get isArchethic;
 
@@ -235,22 +235,22 @@ mixin _GetBalanceRef on AutoDisposeFutureProviderRef<double> {
 }
 
 class _GetBalanceProviderElement
-    extends AutoDisposeFutureProviderElement<double> with _GetBalanceRef {
+    extends AutoDisposeFutureProviderElement<double> with GetBalanceRef {
   _GetBalanceProviderElement(super.provider);
 
   @override
-  bool get isArchethic => (origin as _GetBalanceProvider).isArchethic;
+  bool get isArchethic => (origin as GetBalanceProvider).isArchethic;
   @override
-  String get address => (origin as _GetBalanceProvider).address;
+  String get address => (origin as GetBalanceProvider).address;
   @override
-  String get typeToken => (origin as _GetBalanceProvider).typeToken;
+  String get typeToken => (origin as GetBalanceProvider).typeToken;
   @override
-  String get tokenAddress => (origin as _GetBalanceProvider).tokenAddress;
+  String get tokenAddress => (origin as GetBalanceProvider).tokenAddress;
   @override
-  int get decimal => (origin as _GetBalanceProvider).decimal;
+  int get decimal => (origin as GetBalanceProvider).decimal;
   @override
   String? get providerEndpoint =>
-      (origin as _GetBalanceProvider).providerEndpoint;
+      (origin as GetBalanceProvider).providerEndpoint;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

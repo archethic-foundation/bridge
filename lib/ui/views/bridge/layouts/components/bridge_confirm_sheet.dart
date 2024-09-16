@@ -28,7 +28,7 @@ class BridgeConfirmSheetState extends ConsumerState<BridgeConfirmSheet> {
   Widget build(
     BuildContext context,
   ) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(bridgeFormNotifierProvider);
     if (bridge.blockchainFrom == null) {
       return const SizedBox.shrink();
     }
@@ -42,9 +42,9 @@ class BridgeConfirmSheetState extends ConsumerState<BridgeConfirmSheet> {
             onPressed: bridge.tokenToBridge == null
                 ? null
                 : () {
-                    ref.read(BridgeFormProvider.bridgeForm.notifier)
+                    ref.read(bridgeFormNotifierProvider.notifier)
                       ..setBridgeProcessStep(
-                        context,
+                        AppLocalizations.of(context)!,
                         aedappfm.ProcessStep.form,
                       )
                       ..setMessageMaxHalfUCO(false);
@@ -164,8 +164,8 @@ class BridgeConfirmSheetState extends ConsumerState<BridgeConfirmSheet> {
             onPressed: () async {
               unawaited(
                 ref
-                    .read(BridgeFormProvider.bridgeForm.notifier)
-                    .bridge(context, ref),
+                    .read(bridgeFormNotifierProvider.notifier)
+                    .bridge(AppLocalizations.of(context)!, ref),
               );
 
               if (!context.mounted) return;
