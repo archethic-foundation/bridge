@@ -23,7 +23,7 @@ class Header extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final indexMenu = ref.watch(navigationIndexMainScreenProvider);
-    final session = ref.watch(SessionProviders.session);
+    final session = ref.watch(sessionNotifierProvider);
     return Stack(
       children: [
         if (aedappfm.Responsive.isMobile(context) == false)
@@ -219,7 +219,7 @@ class Header extends ConsumerWidget {
                       children: [
                         TextButton(
                           onPressed: () {
-                            ref.invalidate(BridgeFormProvider.bridgeForm);
+                            ref.invalidate(bridgeFormNotifierProvider);
                             context.go(BridgeSheet.routerPage);
                           },
                           child: Text(

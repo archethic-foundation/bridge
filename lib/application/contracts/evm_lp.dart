@@ -49,7 +49,7 @@ class EVMLP with EVMBridgeProcessMixin {
     int chainId = 31337,
   }) async {
     return aedappfm.Result.guard(() async {
-      final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+      final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
       final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
       bridgeNotifier.setRequestTooLong(false);
 
@@ -136,7 +136,7 @@ class EVMLP with EVMBridgeProcessMixin {
   }) async {
     return aedappfm.Result.guard(
       () async {
-        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+        final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
         final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
         bridgeNotifier.setRequestTooLong(false);
 

@@ -24,7 +24,7 @@ final _tokenDecimalsRepositoryProvider =
 
 typedef _TokenDecimalsRepositoryRef
     = AutoDisposeProviderRef<TokenDecimalsRepository>;
-String _$getTokenDecimalsHash() => r'195ec37b5452750daf5a2de6245c3746906bb3cc';
+String _$getTokenDecimalsHash() => r'e6cb8780088c854ea1afffc001673dcc489b830f';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -47,23 +47,23 @@ class _SystemHash {
   }
 }
 
-/// See also [_getTokenDecimals].
-@ProviderFor(_getTokenDecimals)
-const _getTokenDecimalsProvider = _GetTokenDecimalsFamily();
+/// See also [getTokenDecimals].
+@ProviderFor(getTokenDecimals)
+const getTokenDecimalsProvider = GetTokenDecimalsFamily();
 
-/// See also [_getTokenDecimals].
-class _GetTokenDecimalsFamily extends Family<AsyncValue<int>> {
-  /// See also [_getTokenDecimals].
-  const _GetTokenDecimalsFamily();
+/// See also [getTokenDecimals].
+class GetTokenDecimalsFamily extends Family<AsyncValue<int>> {
+  /// See also [getTokenDecimals].
+  const GetTokenDecimalsFamily();
 
-  /// See also [_getTokenDecimals].
-  _GetTokenDecimalsProvider call(
+  /// See also [getTokenDecimals].
+  GetTokenDecimalsProvider call(
     bool isArchethic,
     String typeToken,
     String tokenAddress, {
     String? providerEndpoint,
   }) {
-    return _GetTokenDecimalsProvider(
+    return GetTokenDecimalsProvider(
       isArchethic,
       typeToken,
       tokenAddress,
@@ -72,8 +72,8 @@ class _GetTokenDecimalsFamily extends Family<AsyncValue<int>> {
   }
 
   @override
-  _GetTokenDecimalsProvider getProviderOverride(
-    covariant _GetTokenDecimalsProvider provider,
+  GetTokenDecimalsProvider getProviderOverride(
+    covariant GetTokenDecimalsProvider provider,
   ) {
     return call(
       provider.isArchethic,
@@ -95,41 +95,41 @@ class _GetTokenDecimalsFamily extends Family<AsyncValue<int>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'_getTokenDecimalsProvider';
+  String? get name => r'getTokenDecimalsProvider';
 }
 
-/// See also [_getTokenDecimals].
-class _GetTokenDecimalsProvider extends AutoDisposeFutureProvider<int> {
-  /// See also [_getTokenDecimals].
-  _GetTokenDecimalsProvider(
+/// See also [getTokenDecimals].
+class GetTokenDecimalsProvider extends AutoDisposeFutureProvider<int> {
+  /// See also [getTokenDecimals].
+  GetTokenDecimalsProvider(
     bool isArchethic,
     String typeToken,
     String tokenAddress, {
     String? providerEndpoint,
   }) : this._internal(
-          (ref) => _getTokenDecimals(
-            ref as _GetTokenDecimalsRef,
+          (ref) => getTokenDecimals(
+            ref as GetTokenDecimalsRef,
             isArchethic,
             typeToken,
             tokenAddress,
             providerEndpoint: providerEndpoint,
           ),
-          from: _getTokenDecimalsProvider,
-          name: r'_getTokenDecimalsProvider',
+          from: getTokenDecimalsProvider,
+          name: r'getTokenDecimalsProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
                   : _$getTokenDecimalsHash,
-          dependencies: _GetTokenDecimalsFamily._dependencies,
+          dependencies: GetTokenDecimalsFamily._dependencies,
           allTransitiveDependencies:
-              _GetTokenDecimalsFamily._allTransitiveDependencies,
+              GetTokenDecimalsFamily._allTransitiveDependencies,
           isArchethic: isArchethic,
           typeToken: typeToken,
           tokenAddress: tokenAddress,
           providerEndpoint: providerEndpoint,
         );
 
-  _GetTokenDecimalsProvider._internal(
+  GetTokenDecimalsProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -149,12 +149,12 @@ class _GetTokenDecimalsProvider extends AutoDisposeFutureProvider<int> {
 
   @override
   Override overrideWith(
-    FutureOr<int> Function(_GetTokenDecimalsRef provider) create,
+    FutureOr<int> Function(GetTokenDecimalsRef provider) create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: _GetTokenDecimalsProvider._internal(
-        (ref) => create(ref as _GetTokenDecimalsRef),
+      override: GetTokenDecimalsProvider._internal(
+        (ref) => create(ref as GetTokenDecimalsRef),
         from: from,
         name: null,
         dependencies: null,
@@ -175,7 +175,7 @@ class _GetTokenDecimalsProvider extends AutoDisposeFutureProvider<int> {
 
   @override
   bool operator ==(Object other) {
-    return other is _GetTokenDecimalsProvider &&
+    return other is GetTokenDecimalsProvider &&
         other.isArchethic == isArchethic &&
         other.typeToken == typeToken &&
         other.tokenAddress == tokenAddress &&
@@ -194,7 +194,7 @@ class _GetTokenDecimalsProvider extends AutoDisposeFutureProvider<int> {
   }
 }
 
-mixin _GetTokenDecimalsRef on AutoDisposeFutureProviderRef<int> {
+mixin GetTokenDecimalsRef on AutoDisposeFutureProviderRef<int> {
   /// The parameter `isArchethic` of this provider.
   bool get isArchethic;
 
@@ -209,18 +209,18 @@ mixin _GetTokenDecimalsRef on AutoDisposeFutureProviderRef<int> {
 }
 
 class _GetTokenDecimalsProviderElement
-    extends AutoDisposeFutureProviderElement<int> with _GetTokenDecimalsRef {
+    extends AutoDisposeFutureProviderElement<int> with GetTokenDecimalsRef {
   _GetTokenDecimalsProviderElement(super.provider);
 
   @override
-  bool get isArchethic => (origin as _GetTokenDecimalsProvider).isArchethic;
+  bool get isArchethic => (origin as GetTokenDecimalsProvider).isArchethic;
   @override
-  String get typeToken => (origin as _GetTokenDecimalsProvider).typeToken;
+  String get typeToken => (origin as GetTokenDecimalsProvider).typeToken;
   @override
-  String get tokenAddress => (origin as _GetTokenDecimalsProvider).tokenAddress;
+  String get tokenAddress => (origin as GetTokenDecimalsProvider).tokenAddress;
   @override
   String? get providerEndpoint =>
-      (origin as _GetTokenDecimalsProvider).providerEndpoint;
+      (origin as GetTokenDecimalsProvider).providerEndpoint;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

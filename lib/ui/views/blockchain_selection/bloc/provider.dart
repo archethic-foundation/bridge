@@ -24,7 +24,7 @@ class BlockchainSelectionFormNotifier
       testnetIncluded: testnetIncluded,
     );
     ref.invalidate(
-      BridgeBlockchainsProviders.getBlockchainsList,
+      getBlockchainsListProvider,
     );
   }
 
@@ -35,7 +35,7 @@ class BlockchainSelectionFormNotifier
       forceChoiceTestnetIncluded: forceChoiceTestnetIncluded,
     );
     ref.invalidate(
-      BridgeBlockchainsProviders.getBlockchainsList,
+      getBlockchainsListProvider,
     );
   }
 }

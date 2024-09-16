@@ -37,7 +37,7 @@ class _BridgeSheetState extends ConsumerState<BridgeSheet> {
           NavigationIndex.bridge;
 
       if (widget.initialState != null) {
-        ref.read(BridgeFormProvider.bridgeForm.notifier).currentState =
+        ref.read(bridgeFormNotifierProvider.notifier).currentState =
             widget.initialState!;
       }
     });
@@ -48,7 +48,7 @@ class _BridgeSheetState extends ConsumerState<BridgeSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
-      currentStep: ref.watch(BridgeFormProvider.bridgeForm).processStep,
+      currentStep: ref.watch(bridgeFormNotifierProvider).processStep,
       formSheet: const BridgeFormSheet(),
       confirmSheet: const BridgeConfirmSheet(),
       topWidget: Padding(

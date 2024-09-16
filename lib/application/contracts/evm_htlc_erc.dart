@@ -42,9 +42,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
-        ref
-            .read(BridgeFormProvider.bridgeForm.notifier)
-            .setRequestTooLong(false);
+        ref.read(bridgeFormNotifierProvider.notifier).setRequestTooLong(false);
 
         final tokenUnits = (Decimal.parse('$amount') *
                 Decimal.fromBigInt(BigInt.from(10).pow(decimal)))
@@ -55,8 +53,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
         );
 
         try {
-          final bridgeNotifier =
-              ref.read(BridgeFormProvider.bridgeForm.notifier);
+          final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
 
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
 
@@ -115,7 +112,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
-        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier)
+        final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier)
           ..setRequestTooLong(false);
         late String? withdrawTx;
 

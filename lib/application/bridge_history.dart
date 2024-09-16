@@ -6,34 +6,27 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'bridge_history.g.dart';
 
 @riverpod
-BridgeHistoryRepository _bridgeHistoryRepository(
-  _BridgeHistoryRepositoryRef ref,
+BridgeHistoryRepository bridgeHistoryRepository(
+  BridgeHistoryRepositoryRef ref,
 ) =>
     BridgeHistoryRepositoryImpl();
 
 @riverpod
-Future<BridgeHistory?> _fetchBridgeHistory(_FetchBridgeHistoryRef ref) async {
-  return ref.watch(_bridgeHistoryRepositoryProvider).fetchBridgeHistory();
+Future<BridgeHistory?> fetchBridgeHistory(FetchBridgeHistoryRef ref) async {
+  return ref.watch(bridgeHistoryRepositoryProvider).fetchBridgeHistory();
 }
 
 @riverpod
-Future<List<Map<String, dynamic>>> _fetchBridgesList(
-  _FetchBridgesListRef ref, {
+Future<List<Map<String, dynamic>>> fetchBridgesList(
+  FetchBridgesListRef ref, {
   bool asc = true,
 }) async {
-  return ref.watch(_bridgeHistoryRepositoryProvider).fetchBridgesList(asc: asc);
+  return ref.watch(bridgeHistoryRepositoryProvider).fetchBridgesList(asc: asc);
 }
 
 @riverpod
-Future<void> _clearBridgesList(_ClearBridgesListRef ref) async {
-  await ref.watch(_bridgeHistoryRepositoryProvider).clearBridgesList();
-  ref.invalidate(BridgeHistoryProviders.fetchBridgesList);
+Future<void> clearBridgesList(ClearBridgesListRef ref) async {
+  await ref.watch(bridgeHistoryRepositoryProvider).clearBridgesList();
+  ref.invalidate(fetchBridgesListProvider);
   return;
-}
-
-abstract class BridgeHistoryProviders {
-  static final fetchBridgeHistory = _fetchBridgeHistoryProvider;
-  static const fetchBridgesList = _fetchBridgesListProvider;
-  static final bridgeHistoryRepository = _bridgeHistoryRepositoryProvider;
-  static final clearBridgesList = _clearBridgesListProvider;
 }

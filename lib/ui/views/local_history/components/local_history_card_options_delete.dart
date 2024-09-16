@@ -103,8 +103,7 @@ class LocalHistoryCardOptionsDelete extends ConsumerWidget {
                                     onPressed: () async {
                                       await ref
                                           .read(
-                                            BridgeHistoryProviders
-                                                .bridgeHistoryRepository,
+                                            bridgeHistoryRepositoryProvider,
                                           )
                                           .removeBridge(
                                             timestampExec:
@@ -112,7 +111,7 @@ class LocalHistoryCardOptionsDelete extends ConsumerWidget {
                                           );
 
                                       ref.invalidate(
-                                        BridgeHistoryProviders.fetchBridgesList,
+                                        fetchBridgesListProvider,
                                       );
                                       if (context.mounted) {
                                         Navigator.of(context).pop();

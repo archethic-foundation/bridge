@@ -17,7 +17,7 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
 
   Future<int> getChainId() async => wagmi.Core.getChainId();
 
-  // TODO: Utiliser une écoute plutot que du pooling
+  // TODO(chralu): Utiliser une écoute plutot que du pooling
   Future<wagmi.Account> _waitForConnexion() async {
     while (true) {
       final account = wagmi.Core.getAccount();

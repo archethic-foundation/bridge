@@ -31,7 +31,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
   }
 
   void _updateAmountTextController() {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm);
+    final bridge = ref.read(bridgeFormNotifierProvider);
     tokenAmountController = TextEditingController();
     tokenAmountController.value =
         aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
@@ -61,7 +61,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
         .textTheme
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
 
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(bridgeFormNotifierProvider);
     final textNum = double.tryParse(tokenAmountController.text);
     if (!(bridge.tokenToBridgeAmount != 0.0 ||
         tokenAmountController.text == '' ||
@@ -119,7 +119,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                                 controller: tokenAmountController,
                                 onChanged: (text) async {
                                   final bridgeNotifier = ref.read(
-                                    BridgeFormProvider.bridgeForm.notifier,
+                                    bridgeFormNotifierProvider.notifier,
                                   );
                                   await bridgeNotifier.setTokenToBridgeAmount(
                                     double.tryParse(text.replaceAll(' ', '')) ??
@@ -178,7 +178,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                     balanceAmount: bridge.tokenToBridgeBalance,
                     onTap: () async {
                       await ref
-                          .read(BridgeFormProvider.bridgeForm.notifier)
+                          .read(bridgeFormNotifierProvider.notifier)
                           .setMaxHalf();
                       _updateAmountTextController();
                     },
@@ -191,7 +191,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                     balanceAmount: bridge.tokenToBridgeBalance,
                     onTap: () async {
                       await ref
-                          .read(BridgeFormProvider.bridgeForm.notifier)
+                          .read(bridgeFormNotifierProvider.notifier)
                           .setMaxAmount();
                       _updateAmountTextController();
                     },

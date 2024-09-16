@@ -16,7 +16,7 @@ class LocalHistoryClearButton extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
 
-    return ref.watch(BridgeHistoryProviders.fetchBridgesList()).map(
+    return ref.watch(fetchBridgesListProvider()).map(
           data: (data) {
             if (data.value.isEmpty) {
               return const SizedBox.shrink();
@@ -141,8 +141,7 @@ class LocalHistoryClearButton extends ConsumerWidget {
                                                             .yes,
                                                     onPressed: () async {
                                                       ref.read(
-                                                        BridgeHistoryProviders
-                                                            .clearBridgesList,
+                                                        clearBridgesListProvider,
                                                       );
 
                                                       if (!context.mounted) {

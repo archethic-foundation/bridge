@@ -13,7 +13,7 @@ class BridgeErrorMessage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(bridgeFormNotifierProvider);
     if (bridge.failure == null) {
       return const SizedBox(
         height: 10,

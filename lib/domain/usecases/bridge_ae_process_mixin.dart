@@ -11,34 +11,33 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:crypto/crypto.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 mixin ArchethicBridgeProcessMixin {
   String getAEStepLabel(
-    BuildContext context,
+    AppLocalizations localizations,
     int step,
   ) {
     switch (step) {
       case 1:
-        return AppLocalizations.of(context)!.aeBridgeProcessStep1;
+        return localizations.aeBridgeProcessStep1;
       case 2:
-        return AppLocalizations.of(context)!.aeBridgeProcessStep2;
+        return localizations.aeBridgeProcessStep2;
       case 3:
-        return AppLocalizations.of(context)!.aeBridgeProcessStep3;
+        return localizations.aeBridgeProcessStep3;
       case 4:
-        return AppLocalizations.of(context)!.aeBridgeProcessStep4;
+        return localizations.aeBridgeProcessStep4;
       case 5:
-        return AppLocalizations.of(context)!.aeBridgeProcessStep5;
+        return localizations.aeBridgeProcessStep5;
       case 6:
-        return AppLocalizations.of(context)!.aeBridgeProcessStep6;
+        return localizations.aeBridgeProcessStep6;
       case 7:
-        return AppLocalizations.of(context)!.aeBridgeProcessStep7;
+        return localizations.aeBridgeProcessStep7;
       case 8:
-        return AppLocalizations.of(context)!.aeBridgeProcessStep8;
+        return localizations.aeBridgeProcessStep8;
       default:
-        return AppLocalizations.of(context)!.aeBridgeProcessStep0;
+        return localizations.aeBridgeProcessStep0;
     }
   }
 
@@ -47,9 +46,9 @@ mixin ArchethicBridgeProcessMixin {
     String htlcAEAddress,
     String seedHTLC,
   ) async {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-    final session = ref.read(SessionProviders.session);
+    final bridge = ref.read(bridgeFormNotifierProvider);
+    final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
+    final session = ref.read(sessionNotifierProvider);
     final walletFrom = session.walletFrom;
 
     late String archethicHTLCAddress;
@@ -87,8 +86,8 @@ mixin ArchethicBridgeProcessMixin {
     String htlcEVMAddress,
     String txAddress,
   ) async {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+    final bridge = ref.read(bridgeFormNotifierProvider);
+    final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
 
     late String htlcAddress;
     final resultDeployChargeableHTLCAE =
@@ -124,9 +123,9 @@ mixin ArchethicBridgeProcessMixin {
     WidgetRef ref,
     String htlcGenesisAddress,
   ) async {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-    final session = ref.read(SessionProviders.session);
+    final bridge = ref.read(bridgeFormNotifierProvider);
+    final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
+    final session = ref.read(sessionNotifierProvider);
     final walletFrom = session.walletFrom;
     final walletTo = session.walletTo;
 
@@ -201,9 +200,9 @@ mixin ArchethicBridgeProcessMixin {
     String htlcEVMAddress,
     String txAddress,
   ) async {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-    final session = ref.read(SessionProviders.session);
+    final bridge = ref.read(bridgeFormNotifierProvider);
+    final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
+    final session = ref.read(sessionNotifierProvider);
     final walletFrom = session.walletFrom;
 
     final resultRequestSecretFromSignedHTLC =

@@ -7,67 +7,50 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 part 'bridge_blockchain.g.dart';
 
 @riverpod
-Future<List<BridgeBlockchain>> _getBlockchainsListConf(
-  _GetBlockchainsListConfRef ref,
-) async {
-  return ref
-      .watch(_bridgeBlockchainsRepositoryProvider)
-      .getBlockchainsListConf();
-}
-
-@riverpod
-BridgeBlockchainsRepository _bridgeBlockchainsRepository(
-  _BridgeBlockchainsRepositoryRef ref,
+BridgeBlockchainsRepository bridgeBlockchainsRepository(
+  BridgeBlockchainsRepositoryRef ref,
 ) =>
     BridgeBlockchainsRepositoryImpl();
 
 @riverpod
-Future<List<BridgeBlockchain>> _getBlockchainsList(
-  _GetBlockchainsListRef ref,
+Future<List<BridgeBlockchain>> getBlockchainsList(
+  GetBlockchainsListRef ref,
 ) async {
   final blockchainsList = await ref
-      .watch(_bridgeBlockchainsRepositoryProvider)
+      .watch(bridgeBlockchainsRepositoryProvider)
       .getBlockchainsListConf();
   return ref
-      .watch(_bridgeBlockchainsRepositoryProvider)
+      .watch(bridgeBlockchainsRepositoryProvider)
       .getBlockchainsList(blockchainsList);
 }
 
 @riverpod
-Future<BridgeBlockchain?> _getBlockchainFromChainId(
-  _GetBlockchainFromChainIdRef ref,
+Future<BridgeBlockchain?> getBlockchainFromChainId(
+  GetBlockchainFromChainIdRef ref,
   int chainId,
 ) async {
   final blockchainsList = await ref
-      .watch(_bridgeBlockchainsRepositoryProvider)
+      .watch(bridgeBlockchainsRepositoryProvider)
       .getBlockchainsListConf();
 
   return ref
-      .watch(_bridgeBlockchainsRepositoryProvider)
+      .watch(bridgeBlockchainsRepositoryProvider)
       .getBlockchainFromChainId(blockchainsList, chainId);
 }
 
 @riverpod
-Future<BridgeBlockchain?> _getArchethicBlockchainFromEVM(
-  _GetArchethicBlockchainFromEVMRef ref,
+Future<BridgeBlockchain?> getArchethicBlockchainFromEVM(
+  GetArchethicBlockchainFromEVMRef ref,
   BridgeBlockchain? evmBlockchain,
 ) async {
   if (evmBlockchain == null) return null;
   final blockchainsList = await ref
-      .watch(_bridgeBlockchainsRepositoryProvider)
+      .watch(bridgeBlockchainsRepositoryProvider)
       .getBlockchainsListConf();
   return ref
-      .watch(_bridgeBlockchainsRepositoryProvider)
+      .watch(bridgeBlockchainsRepositoryProvider)
       .getArchethicBlockchainFromEVM(
         blockchainsList,
         evmBlockchain,
       );
-}
-
-abstract class BridgeBlockchainsProviders {
-  static final getBlockchainsList = _getBlockchainsListProvider;
-  static const getBlockchainFromChainId = _getBlockchainFromChainIdProvider;
-  static final getBlockchainsListConf = _getBlockchainsListConfProvider;
-  static const getArchethicBlockchainFromEVM =
-      _getArchethicBlockchainFromEVMProvider;
 }

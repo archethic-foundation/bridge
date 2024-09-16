@@ -22,8 +22,8 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
     final textTheme = Theme.of(context)
         .textTheme
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
-    final session = ref.watch(SessionProviders.session);
+    final bridge = ref.watch(bridgeFormNotifierProvider);
+    final session = ref.watch(sessionNotifierProvider);
 
     if (bridge.blockchainFrom == null ||
         bridge.blockchainTo == null ||
@@ -169,7 +169,7 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
                               ),
                               onTap: () async {
                                 final bridge =
-                                    ref.read(BridgeFormProvider.bridgeForm);
+                                    ref.read(bridgeFormNotifierProvider);
                                 final direction =
                                     '${bridge.blockchainFrom!.chainId}->${bridge.blockchainTo!.chainId}';
 
@@ -182,7 +182,7 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
                                 if (token == null) return;
                                 await ref
                                     .read(
-                                      BridgeFormProvider.bridgeForm.notifier,
+                                      bridgeFormNotifierProvider.notifier,
                                     )
                                     .setTokenToBridge(token);
                               },

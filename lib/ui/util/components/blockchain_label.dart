@@ -16,9 +16,7 @@ class BlockchainLabel extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return ref
-        .watch(BridgeBlockchainsProviders.getBlockchainFromChainId(chainId))
-        .when(
+    return ref.watch(getBlockchainFromChainIdProvider(chainId)).when(
       data: (data) {
         return Row(
           mainAxisAlignment: MainAxisAlignment.center,

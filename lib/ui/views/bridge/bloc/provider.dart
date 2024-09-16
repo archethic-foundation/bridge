@@ -19,7 +19,6 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:decimal/decimal.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart';
@@ -29,7 +28,7 @@ import 'package:webthree/webthree.dart' as webthree;
 part 'provider.g.dart';
 
 @riverpod
-class _BridgeFormNotifier extends _$BridgeFormNotifier
+class BridgeFormNotifier extends _$BridgeFormNotifier
     with aedappfm.TransactionMixin {
   @override
   BridgeFormState build() {
@@ -42,19 +41,19 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
   }
 
   Future<BridgeFormState> resume(
-    BuildContext context,
+    AppLocalizations localizations,
     BridgeFormState bridgeFormState,
   ) async {
     await setBlockchainFromWithConnection(
-      context,
+      localizations,
       bridgeFormState.blockchainFrom!,
     );
-    if (context.mounted) {
-      await setBlockchainToWithConnection(
-        context,
-        bridgeFormState.blockchainTo!,
-      );
-    }
+
+    await setBlockchainToWithConnection(
+      localizations,
+      bridgeFormState.blockchainTo!,
+    );
+
     state = bridgeFormState.copyWith(
       archethicOracleUCO: bridgeFormState.archethicOracleUCO,
       archethicProtocolFeesAddress:
@@ -88,7 +87,7 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
     if (state.timestampExec == null) {
       return;
     }
-    await ref.read(BridgeHistoryProviders.bridgeHistoryRepository).setBridge(
+    await ref.read(bridgeHistoryRepositoryProvider).setBridge(
           bridge: state.toJson(),
         );
   }
@@ -102,7 +101,7 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
   }
 
   Future<void> setBlockchainFrom(
-    BuildContext context,
+    AppLocalizations localizations,
     BridgeBlockchain? blockchainFrom,
   ) async {
     state = state.copyWith(blockchainFrom: blockchainFrom);
@@ -119,13 +118,12 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
         await client.getBlockNumber();
       } catch (e) {
         log('Web3Client endpoint error for ${blockchainFrom.providerEndpoint} : $e');
-        if (context.mounted) {
-          await setFailure(
-            aedappfm.Failure.other(
-              cause: AppLocalizations.of(context)!.providerEndpointNotAvailable,
-            ),
-          );
-        }
+
+        await setFailure(
+          aedappfm.Failure.other(
+            cause: localizations.providerEndpointNotAvailable,
+          ),
+        );
       } finally {
         await client.dispose();
       }
@@ -133,10 +131,10 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
   }
 
   Future<void> setBlockchainFromWithConnection(
-    BuildContext context,
+    AppLocalizations localizations,
     BridgeBlockchain blockchainFrom,
   ) async {
-    final sessionNotifier = ref.read(SessionProviders.session.notifier);
+    final sessionNotifier = ref.read(sessionNotifierProvider.notifier);
     state = state.copyWith(
       blockchainFrom: null,
       targetAddress: '',
@@ -150,19 +148,19 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
       messageMaxHalfUCO: false,
     );
     await setFailure(null);
-    if (blockchainFrom.isArchethic && context.mounted) {
+    if (blockchainFrom.isArchethic) {
       final connection = await sessionNotifier.connectToArchethicWallet(
-        AppLocalizations.of(context)!,
+        localizations,
         true,
         blockchainFrom,
       );
       await Future.delayed(const Duration(milliseconds: 500));
       await connection.map(
         success: (success) async {
-          await setBlockchainFrom(context, blockchainFrom);
+          await setBlockchainFrom(localizations, blockchainFrom);
         },
         failure: (failure) async {
-          await setBlockchainFrom(context, null);
+          await setBlockchainFrom(localizations, null);
           await setFailure(failure);
         },
       );
@@ -171,20 +169,18 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
           await sessionNotifier.connectToEVMWallet(blockchainFrom, true);
       await connection.map(
         success: (success) async {
-          await setBlockchainFrom(context, blockchainFrom);
+          await setBlockchainFrom(localizations, blockchainFrom);
           final blockchainTo = await ref.read(
-            BridgeBlockchainsProviders.getArchethicBlockchainFromEVM(
+            getArchethicBlockchainFromEVMProvider(
               blockchainFrom,
             ).future,
           );
           if (blockchainTo != null && state.failure == null) {
-            if (context.mounted) {
-              await setBlockchainToWithConnection(context, blockchainTo);
-            }
+            await setBlockchainToWithConnection(localizations, blockchainTo);
           }
         },
         failure: (failure) async {
-          await setBlockchainFrom(context, null);
+          await setBlockchainFrom(localizations, null);
           await setFailure(failure);
         },
       );
@@ -192,7 +188,7 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
   }
 
   Future<void> setBlockchainTo(
-    BuildContext context,
+    AppLocalizations localizations,
     BridgeBlockchain? blockchainTo,
   ) async {
     state = state.copyWith(blockchainTo: blockchainTo);
@@ -209,13 +205,12 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
         await client.getBlockNumber();
       } catch (e) {
         log('Web3Client endpoint error for ${blockchainTo.providerEndpoint} : $e');
-        if (context.mounted) {
-          await setFailure(
-            aedappfm.Failure.other(
-              cause: AppLocalizations.of(context)!.providerEndpointNotAvailable,
-            ),
-          );
-        }
+
+        await setFailure(
+          aedappfm.Failure.other(
+            cause: localizations.providerEndpointNotAvailable,
+          ),
+        );
       } finally {
         await client.dispose();
       }
@@ -223,10 +218,10 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
   }
 
   Future<void> setBlockchainToWithConnection(
-    BuildContext context,
+    AppLocalizations localizations,
     BridgeBlockchain blockchainTo,
   ) async {
-    final sessionNotifier = ref.read(SessionProviders.session.notifier);
+    final sessionNotifier = ref.read(sessionNotifierProvider.notifier);
     state = state.copyWith(
       targetAddress: '',
       tokenToBridge: null,
@@ -240,19 +235,19 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
     );
 
     await setFailure(null);
-    if (blockchainTo.isArchethic && context.mounted) {
+    if (blockchainTo.isArchethic) {
       final connection = await sessionNotifier.connectToArchethicWallet(
-        AppLocalizations.of(context)!,
+        localizations,
         false,
         blockchainTo,
       );
       await Future.delayed(const Duration(milliseconds: 500));
       await connection.map(
         success: (success) async {
-          await setBlockchainTo(context, blockchainTo);
+          await setBlockchainTo(localizations, blockchainTo);
         },
         failure: (failure) async {
-          await setBlockchainTo(context, null);
+          await setBlockchainTo(localizations, null);
           await setFailure(failure);
         },
       );
@@ -261,20 +256,21 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
           await sessionNotifier.connectToEVMWallet(blockchainTo, false);
       await connection.map(
         success: (success) async {
-          await setBlockchainTo(context, blockchainTo);
+          await setBlockchainTo(localizations, blockchainTo);
           final blockchainFrom = await ref.read(
-            BridgeBlockchainsProviders.getArchethicBlockchainFromEVM(
+            getArchethicBlockchainFromEVMProvider(
               blockchainTo,
             ).future,
           );
           if (blockchainFrom != null && state.failure == null) {
-            if (context.mounted) {
-              await setBlockchainFromWithConnection(context, blockchainFrom);
-            }
+            await setBlockchainFromWithConnection(
+              localizations,
+              blockchainFrom,
+            );
           }
         },
         failure: (failure) async {
-          await setBlockchainTo(context, null);
+          await setBlockchainTo(localizations, null);
           await setFailure(failure);
         },
       );
@@ -294,7 +290,7 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
       messageMaxHalfUCO: false,
     );
     await storeBridge();
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider);
     if (session.walletTo != null &&
         session.walletTo!.genesisAddress.isNotEmpty) {
       await setTargetAddress(session.walletTo!.genesisAddress);
@@ -303,7 +299,7 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
     if (tokenToBridge == null) return;
 
     final tokenToBridgeDecimals = await ref.read(
-      TokenDecimalsProviders.getTokenDecimals(
+      getTokenDecimalsProvider(
         state.blockchainFrom!.isArchethic,
         state.tokenToBridge!.typeSource,
         state.tokenToBridge!.tokenAddressSource,
@@ -313,7 +309,7 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
     await setTokenToBridgeDecimals(tokenToBridgeDecimals);
 
     final tokenBridgedDecimals = await ref.read(
-      TokenDecimalsProviders.getTokenDecimals(
+      getTokenDecimalsProvider(
         state.blockchainTo!.isArchethic,
         state.tokenToBridge!.typeTarget,
         state.tokenToBridge!.tokenAddressTarget,
@@ -323,7 +319,7 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
     await setTokenBridgedDecimals(tokenBridgedDecimals);
 
     final balance = await ref.read(
-      BalanceProviders.getBalance(
+      getBalanceProvider(
         state.blockchainFrom!.isArchethic,
         session.walletFrom!.genesisAddress,
         state.tokenToBridge!.typeSource,
@@ -358,7 +354,7 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
     }
 
     final tokenDecimals = await ref.read(
-      TokenDecimalsProviders.getTokenDecimals(
+      getTokenDecimalsProvider(
         state.blockchainFrom!.isArchethic,
         state.tokenToBridge!.typeSource,
         state.tokenToBridge!.tokenAddressSource,
@@ -368,7 +364,7 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
     await setTokenToBridgeDecimals(tokenDecimals);
 
     final balanceTarget = await ref.read(
-      BalanceProviders.getBalance(
+      getBalanceProvider(
         state.blockchainTo!.isArchethic,
         session.walletTo!.genesisAddress,
         state.tokenToBridge!.typeTarget,
@@ -384,7 +380,7 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
         state.tokenToBridge!.contractToMintAndBurn != null &&
         state.tokenToBridge!.contractToMintAndBurn == false) {
       final poolTargetBalance = await ref.read(
-        BalanceProviders.getBalance(
+        getBalanceProvider(
           state.blockchainTo!.isArchethic,
           state.tokenToBridge!.poolAddressTo,
           state.tokenToBridge!.typeTarget,
@@ -523,11 +519,11 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
   }
 
   Future<void> setBridgeProcessStep(
-    BuildContext context,
+    AppLocalizations localizations,
     aedappfm.ProcessStep bridgeProcessStep,
   ) async {
     if (bridgeProcessStep == aedappfm.ProcessStep.confirmation &&
-        await control(context) == false) {
+        await control(localizations) == false) {
       return;
     }
     state = state.copyWith(
@@ -569,22 +565,20 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
     await storeBridge();
   }
 
-  Future<void> swapDirections(BuildContext context) async {
+  Future<void> swapDirections(
+    AppLocalizations localizations,
+  ) async {
     await setChangeDirectionInProgress(true);
-    final sessionNotifier = ref.read(SessionProviders.session.notifier);
+    final sessionNotifier = ref.read(sessionNotifierProvider.notifier);
     await sessionNotifier.cancelAllWalletsConnection();
     final blockchainFrom = state.blockchainFrom;
     final blockchainTo = state.blockchainTo;
     initState();
     if (blockchainFrom != null) {
-      if (context.mounted) {
-        await setBlockchainToWithConnection(context, blockchainFrom);
-      }
+      await setBlockchainToWithConnection(localizations, blockchainFrom);
     }
     if (blockchainTo != null) {
-      if (context.mounted) {
-        await setBlockchainFromWithConnection(context, blockchainTo);
-      }
+      await setBlockchainFromWithConnection(localizations, blockchainTo);
     }
     await setTokenToBridge(null);
     await setTokenToBridgeAmount(0);
@@ -667,7 +661,9 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
     await storeBridge();
   }
 
-  Future<bool> control(BuildContext context) async {
+  Future<bool> control(
+    AppLocalizations localizations,
+  ) async {
     await setFailure(null);
     setMessageMaxHalfUCO(false);
     if (BrowserUtil().isEdgeBrowser() ||
@@ -679,55 +675,44 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
     }
 
     if (state.blockchainFrom == null && state.blockchainFrom!.name.isEmpty) {
-      if (context.mounted) {
-        await setFailure(
-          aedappfm.Failure.other(
-            cause: AppLocalizations.of(context)!.bridgeControlSelectIssuingBC,
-          ),
-        );
-      }
+      await setFailure(
+        aedappfm.Failure.other(
+          cause: localizations.bridgeControlSelectIssuingBC,
+        ),
+      );
       return false;
     }
     if (state.blockchainTo == null && state.blockchainTo!.name.isEmpty) {
-      if (context.mounted) {
-        await setFailure(
-          aedappfm.Failure.other(
-            cause: AppLocalizations.of(context)!.bridgeControlSelectReceivingBC,
-          ),
-        );
-      }
+      await setFailure(
+        aedappfm.Failure.other(
+          cause: localizations.bridgeControlSelectReceivingBC,
+        ),
+      );
       return false;
     }
     if (state.tokenToBridge == null && state.tokenToBridge!.name.isEmpty) {
-      if (context.mounted) {
-        await setFailure(
-          aedappfm.Failure.other(
-            cause: AppLocalizations.of(context)!.bridgeControlSelectToken,
-          ),
-        );
-      }
+      await setFailure(
+        aedappfm.Failure.other(
+          cause: localizations.bridgeControlSelectToken,
+        ),
+      );
       return false;
     }
     if (state.targetAddress.isEmpty) {
-      if (context.mounted) {
-        await setFailure(
-          aedappfm.Failure.other(
-            cause: AppLocalizations.of(context)!.bridgeControlTargetAddress,
-          ),
-        );
-      }
+      await setFailure(
+        aedappfm.Failure.other(
+          cause: localizations.bridgeControlTargetAddress,
+        ),
+      );
       return false;
     }
     if (state.blockchainTo!.isArchethic) {
       if (archethic.Address(address: state.targetAddress).isValid() == false) {
-        if (context.mounted) {
-          await setFailure(
-            aedappfm.Failure.other(
-              cause: AppLocalizations.of(context)!
-                  .bridgeControlTargetArchethicAddressValid,
-            ),
-          );
-        }
+        await setFailure(
+          aedappfm.Failure.other(
+            cause: localizations.bridgeControlTargetArchethicAddressValid,
+          ),
+        );
         return false;
       }
     } else {
@@ -736,54 +721,44 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
           state.targetAddress,
         );
       } catch (e) {
-        if (context.mounted) {
-          await setFailure(
-            aedappfm.Failure.other(
-              cause: AppLocalizations.of(context)!
-                  .bridgeControlTargetEVMAddressValid,
-            ),
-          );
-        }
+        await setFailure(
+          aedappfm.Failure.other(
+            cause: localizations.bridgeControlTargetEVMAddressValid,
+          ),
+        );
         return false;
       }
     }
 
     if (state.tokenToBridgeAmount.isNaN || state.tokenToBridgeAmount <= 0) {
-      if (context.mounted) {
-        await setFailure(
-          aedappfm.Failure.other(
-            cause: AppLocalizations.of(context)!.bridgeControlAmount,
-          ),
-        );
-      }
+      await setFailure(
+        aedappfm.Failure.other(
+          cause: localizations.bridgeControlAmount,
+        ),
+      );
       return false;
     }
 
     if (state.resumeProcess == false &&
         state.tokenToBridgeBalance < state.tokenToBridgeAmount) {
-      if (context.mounted) {
-        await setFailure(
-          aedappfm.Failure.other(
-            cause: AppLocalizations.of(context)!.bridgeControlAmountTooHigh,
-          ),
-        );
-      }
+      await setFailure(
+        aedappfm.Failure.other(
+          cause: localizations.bridgeControlAmountTooHigh,
+        ),
+      );
       return false;
     }
 
     if (state.blockchainFrom!.isArchethic &&
         state.tokenToBridge!.contractToMintAndBurn == false &&
         state.poolTargetBalance < state.tokenToBridgeAmount) {
-      if (context.mounted) {
-        await setFailure(
-          aedappfm.Failure.other(
-            cause: AppLocalizations.of(context)!
-                .bridgeControlInsufficicientLiquidity
-                .replaceFirst('%1', state.poolTargetBalance.formatNumber())
-                .replaceFirst('%2', state.tokenToBridge!.targetTokenSymbol),
-          ),
-        );
-      }
+      await setFailure(
+        aedappfm.Failure.other(
+          cause: localizations.bridgeControlInsufficicientLiquidity
+              .replaceFirst('%1', state.poolTargetBalance.formatNumber())
+              .replaceFirst('%2', state.tokenToBridge!.targetTokenSymbol),
+        ),
+      );
       return false;
     }
 
@@ -808,7 +783,9 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
     return true;
   }
 
-  Future<void> validateForm(BuildContext context) async {
+  Future<void> validateForm(
+    AppLocalizations localizations,
+  ) async {
     state = state.copyWith(controlInProgress: true);
     if (state.blockchainTo != null &&
         state.blockchainTo!.isArchethic == false) {
@@ -824,7 +801,7 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
       await setArchethicProtocolFeesAddress('');
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider);
     DateTime? consentDateTime;
     if (state.blockchainFrom!.isArchethic) {
       consentDateTime = await aedappfm.ConsentRepositoryImpl()
@@ -837,32 +814,29 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
 
     state = state.copyWith(controlInProgress: false);
 
-    if (context.mounted) {
-      await setBridgeProcessStep(
-        context,
-        aedappfm.ProcessStep.confirmation,
-      );
-    }
+    await setBridgeProcessStep(
+      localizations,
+      aedappfm.ProcessStep.confirmation,
+    );
   }
 
-  Future<void> bridge(BuildContext context, WidgetRef ref) async {
+  Future<void> bridge(AppLocalizations localizations, WidgetRef ref) async {
     setBridgeOk(false);
     await setTransferInProgress(true);
 
     //
-    if (context.mounted) {
-      if (await control(context) == false) {
-        await setTransferInProgress(false);
-        return;
-      }
+
+    if (await control(localizations) == false) {
+      await setTransferInProgress(false);
+      return;
     }
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider);
 
     if (state.resumeProcess == false) {
       setTimestampExec(DateTime.now().millisecondsSinceEpoch);
       await ref
-          .read(BridgeHistoryProviders.bridgeHistoryRepository)
+          .read(bridgeHistoryRepositoryProvider)
           .addBridge(bridge: state.toJson());
     }
 
@@ -870,36 +844,28 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
       await aedappfm.ConsentRepositoryImpl()
           .addAddress(session.walletFrom!.genesisAddress);
 
-      if (context.mounted) {
-        await BridgeArchethicToEVMUseCase().run(
-          context,
-          ref,
-          recoveryStep: state.currentStep,
-          recoveryHTLCAEAddress: state.htlcAEAddress,
-          recoveryHTLCEVMAddress: state.htlcEVMAddress,
-        );
-      }
+      await BridgeArchethicToEVMUseCase().run(
+        localizations,
+        ref,
+        recoveryStep: state.currentStep,
+        recoveryHTLCAEAddress: state.htlcAEAddress,
+        recoveryHTLCEVMAddress: state.htlcEVMAddress,
+      );
     } else {
       await aedappfm.ConsentRepositoryImpl()
           .addAddress(session.walletTo!.genesisAddress);
 
-      if (context.mounted) {
-        await BridgeEVMToArchethicUseCase().run(
-          context,
-          ref,
-          recoveryStep: state.currentStep,
-          recoverySecret: state.secret,
-          recoveryHTLCAEAddress: state.htlcAEAddress,
-          recoveryHTLCEVMAddress: state.htlcEVMAddress,
-        );
-      }
+      await BridgeEVMToArchethicUseCase().run(
+        localizations,
+        ref,
+        recoveryStep: state.currentStep,
+        recoverySecret: state.secret,
+        recoveryHTLCAEAddress: state.htlcAEAddress,
+        recoveryHTLCEVMAddress: state.htlcEVMAddress,
+      );
     }
     setResumeProcess(false);
     await setTransferInProgress(false);
     unawaited(refreshCurrentAccountInfoWallet());
   }
-}
-
-abstract class BridgeFormProvider {
-  static final bridgeForm = _bridgeFormNotifierProvider;
 }

@@ -95,7 +95,7 @@ class FormatAddressLinkCopy extends ConsumerWidget {
         InkWell(
           onTap: () async {
             final blockchain = await ref.read(
-              BridgeBlockchainsProviders.getBlockchainFromChainId(
+              getBlockchainFromChainIdProvider(
                 chainId,
               ).future,
             );

@@ -142,7 +142,7 @@ class ArchethicContractChargeable with aedappfm.TransactionMixin {
           ],
         );
 
-        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+        final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
         await bridgeNotifier
             .setWalletConfirmation(WalletConfirmation.archethic);
         transaction = (await signTx(

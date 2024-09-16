@@ -20,7 +20,7 @@ class BridgeInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(bridgeFormNotifierProvider);
     return [
       if (bridge.isTransferInProgress)
         Text(
@@ -53,14 +53,14 @@ class BridgeInProgressPopup {
       if (bridge.blockchainFrom != null && bridge.blockchainFrom!.isArchethic)
         aedappfm.InProgressCurrentStep(
           steplabel: BridgeArchethicToEVMUseCase().getAEStepLabel(
-            context,
+            AppLocalizations.of(context)!,
             bridge.currentStep,
           ),
         )
       else
         aedappfm.InProgressCurrentStep(
           steplabel: BridgeEVMToArchethicUseCase().getEVMStepLabel(
-            context,
+            AppLocalizations.of(context)!,
             bridge.currentStep,
           ),
         ),
@@ -115,16 +115,16 @@ class BridgeInProgressPopup {
         onPressed: () async {
           ref
               .read(
-                BridgeFormProvider.bridgeForm.notifier,
+                bridgeFormNotifierProvider.notifier,
               )
               .setResumeProcess(true);
 
           if (!context.mounted) return;
           await ref
               .read(
-                BridgeFormProvider.bridgeForm.notifier,
+                bridgeFormNotifierProvider.notifier,
               )
-              .bridge(context, ref);
+              .bridge(AppLocalizations.of(context)!, ref);
         },
         failure: bridge.failure,
       ),
@@ -135,7 +135,7 @@ class BridgeInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(bridgeFormNotifierProvider);
     return aedappfm.PopupCloseButton(
       warningCloseWarning: bridge.isTransferInProgress,
       warningCloseLabel: bridge.isTransferInProgress == true
@@ -143,7 +143,7 @@ class BridgeInProgressPopup {
           : '',
       warningCloseFunction: () async {
         final bridgeNotifier = ref.read(
-          BridgeFormProvider.bridgeForm.notifier,
+          bridgeFormNotifierProvider.notifier,
         );
         if (bridge.failure == null && bridge.isTransferInProgress) {
           await bridgeNotifier.setFailure(
@@ -151,14 +151,14 @@ class BridgeInProgressPopup {
           );
         }
         ref.invalidate(
-          BridgeFormProvider.bridgeForm,
+          bridgeFormNotifierProvider,
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();
       },
       closeFunction: () {
         ref.invalidate(
-          BridgeFormProvider.bridgeForm,
+          bridgeFormNotifierProvider,
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();

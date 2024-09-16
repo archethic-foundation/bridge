@@ -18,8 +18,8 @@ class BridgeTokenBridged extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
-    final session = ref.watch(SessionProviders.session);
+    final bridge = ref.watch(bridgeFormNotifierProvider);
+    final session = ref.watch(sessionNotifierProvider);
 
     if (bridge.blockchainFrom == null ||
         bridge.blockchainTo == null ||

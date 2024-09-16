@@ -14,7 +14,6 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
-import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -25,14 +24,14 @@ class BridgeArchethicToEVMUseCase
         EVMBridgeProcessMixin,
         aedappfm.TransactionMixin {
   Future<void> run(
-    BuildContext context,
+    AppLocalizations localizations,
     WidgetRef ref, {
     int recoveryStep = 0,
     String? recoveryHTLCEVMAddress,
     String? recoveryHTLCAEAddress,
   }) async {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+    final bridge = ref.read(bridgeFormNotifierProvider);
+    final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
 
     String? htlcEVMAddress;
     String? htlcAEAddress;
@@ -64,12 +63,10 @@ class BridgeArchethicToEVMUseCase
         return;
       }
     }
-    var blockchainFrom = ref.read(BridgeFormProvider.bridgeForm).blockchainFrom;
+    var blockchainFrom = ref.read(bridgeFormNotifierProvider).blockchainFrom;
     blockchainFrom = blockchainFrom!.copyWith(htlcAddress: htlcAEAddress);
-    if (context.mounted) {
-      await bridgeNotifier.setBlockchainFrom(context, blockchainFrom);
-    }
 
+    await bridgeNotifier.setBlockchainFrom(localizations, blockchainFrom);
     await bridgeNotifier.setHTLCAEAddress(htlcAEAddress);
 
     // 2) Provision Archethic HTLC
@@ -111,19 +108,18 @@ class BridgeArchethicToEVMUseCase
             secretHash.secretHash == null ||
             secretHash.secretHashSignature == null) {
           // https://github.com/archethic-foundation/bridge/issues/100
-          if (context.mounted) {
-            aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'Error 1405',
-                  level: aedappfm.LogLevel.error,
-                  name: 'BridgeArchethicToEVMUseCase - run',
-                );
-            await bridgeNotifier.setFailure(
-              aedappfm.Failure.other(
-                cause:
-                    AppLocalizations.of(context)!.failureSignedProvisionAsync,
-              ),
-            );
-          }
+
+          aedappfm.sl.get<aedappfm.LogManager>().log(
+                'Error 1405',
+                level: aedappfm.LogLevel.error,
+                name: 'BridgeArchethicToEVMUseCase - run',
+              );
+          await bridgeNotifier.setFailure(
+            aedappfm.Failure.other(
+              cause: localizations.failureSignedProvisionAsync,
+            ),
+          );
+
           await bridgeNotifier.setTransferInProgress(false);
           return;
         }
@@ -157,7 +153,7 @@ class BridgeArchethicToEVMUseCase
             chainId,
           );
           final ownerEVMAddress =
-              ref.read(SessionProviders.session).walletTo?.genesisAddress;
+              ref.read(sessionNotifierProvider).walletTo?.genesisAddress;
           if (ownerEVMAddress != null) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
                   'Resume AE -> EVM Check HTLC EVM Provisioned: getSwapsByOwner - poolAddressTo :${bridge.tokenToBridge!.poolAddressTo}, ownerEVMAddress $ownerEVMAddress',
@@ -237,11 +233,10 @@ class BridgeArchethicToEVMUseCase
       } catch (e) {
         return;
       }
-      var blockchainTo = ref.read(BridgeFormProvider.bridgeForm).blockchainTo;
+      var blockchainTo = ref.read(bridgeFormNotifierProvider).blockchainTo;
       blockchainTo = blockchainTo!.copyWith(htlcAddress: htlcEVMAddress);
-      if (context.mounted) {
-        await bridgeNotifier.setBlockchainTo(context, blockchainTo);
-      }
+
+      await bridgeNotifier.setBlockchainTo(localizations, blockchainTo);
     }
 
     // 5) Request Secret from Archethic LP
@@ -296,10 +291,10 @@ class BridgeArchethicToEVMUseCase
   }
 
   String getStepLabel(
-    BuildContext context,
+    AppLocalizations localizations,
     int step,
   ) {
-    return getAEStepLabel(context, step);
+    return getAEStepLabel(localizations, step);
   }
 
   Future<String?> fetchTxHash(

@@ -3,6 +3,7 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BridgeBlockchainIconDirection extends ConsumerWidget {
@@ -12,8 +13,8 @@ class BridgeBlockchainIconDirection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bridgeForm = ref.watch(BridgeFormProvider.bridgeForm.notifier);
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridgeForm = ref.watch(bridgeFormNotifierProvider.notifier);
+    final bridge = ref.watch(bridgeFormNotifierProvider);
 
     if (bridge.blockchainFrom == null ||
         bridge.blockchainTo == null ||
@@ -32,7 +33,7 @@ class BridgeBlockchainIconDirection extends ConsumerWidget {
       child: IconButton(
         onPressed: () async {
           await bridgeForm.swapDirections(
-            context,
+            AppLocalizations.of(context)!,
           );
         },
         icon: const Icon(aedappfm.Iconsax.arrow_swap_horizontal),
