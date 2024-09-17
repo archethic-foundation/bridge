@@ -1618,9 +1618,10 @@ packages:
     source: path
 =======
       name: wagmi_flutter_web
-      sha256: "8dcb0a1e65ee80c1eb824892c0a319bf3fbf60a72f76da66fb11135b69efe3ec"
+      sha256: "70155f31c43a520b73c3dc7df622b54d38519eb7fcbf212e479e2d9ab96c8443"
       url: "https://pub.dev"
     source: hosted
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 363928e (chore: :construction: use wagmi_flutter_web: ^0.0.1-dev.5 to deploy on testnet)
     version: "0.0.1-dev.5"
@@ -1628,6 +1629,9 @@ packages:
 =======
     version: "0.0.1-dev.6"
 >>>>>>> fa19416 (chore: :arrow_up: Upgrade wagmi_flutter_web: ^0.0.1-dev.6)
+=======
+    version: "0.0.1-dev.7"
+>>>>>>> 56154db (chore: :arrow_up: Upgrade wagmi_flutter_web: ^0.0.1-dev.7)
   watcher:
     dependency: transitive
     description:
