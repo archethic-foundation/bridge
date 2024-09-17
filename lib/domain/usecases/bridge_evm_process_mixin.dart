@@ -590,7 +590,7 @@ mixin EVMBridgeProcessMixin {
     return txAddress;
   }
 
-  Future<Uint8List> signTxFaucetUCO() async {
+  Future<String> signTxFaucetUCO() async {
     if (aedappfm.sl.isRegistered<EVMWalletProvider>() == false) {
       throw const aedappfm.Failure.connectivityEVM();
     }
@@ -602,13 +602,15 @@ mixin EVMBridgeProcessMixin {
     const payload =
         "To help you join the Archethic ecosystem, we're offering you free Archethic transaction fees. For security reasons, this requires your signature. Thank you for joining us, and happy exploring!";
     try {
-      final result = await wagmi.Core.signMessage(
+      final payloadSigned = await wagmi.Core.signMessage(
         wagmi.SignMessageParameters(
           account: wagmi.Core.getAccount().address!,
-          message: payload,
+          message: const wagmi.MessageToSign.rawMessage(
+            message: wagmi.RawMessage.hex(raw: payload),
+          ),
         ),
       );
-      return utf8.encode(result);
+      return payloadSigned;
     } catch (e) {
       aedappfm.sl.get<aedappfm.LogManager>().log(
             'Error signing $e',
