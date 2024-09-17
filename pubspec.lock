@@ -1602,6 +1602,7 @@ packages:
     description:
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       name: wagmi_flutter_web
       sha256: c1158286e33a48467ad42bf2467759780fe641089bb8261ef1d388be6a3383a9
       url: "https://pub.dev"
@@ -1615,6 +1616,12 @@ packages:
 >>>>>>> 441be25 (chore: :recycle: Remove webthree lib)
       relative: true
     source: path
+=======
+      name: wagmi_flutter_web
+      sha256: "98b629ca495a43bc1176ae54aea7e95993f9f2e8991fcb8d34eb90bf7b49bec8"
+      url: "https://pub.dev"
+    source: hosted
+>>>>>>> 363928e (chore: :construction: use wagmi_flutter_web: ^0.0.1-dev.5 to deploy on testnet)
     version: "0.0.1-dev.5"
 >>>>>>> 71b313c (feat: :sparkles: WIP : Use WalletConnect to interact with EVM chains.)
   watcher:
