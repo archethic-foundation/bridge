@@ -162,7 +162,7 @@ class BridgeEVMToArchethicUseCase
             'archethic_address': bridge.targetAddress,
             'evm_contract': htlcEVMAddress,
             'evm_chain_id': bridge.blockchainFrom!.chainId.toString(),
-            'evm_signature': '0x${uint8ListToHex(signature)}',
+            'evm_signature': signature,
           };
 
           final getUrlResult =

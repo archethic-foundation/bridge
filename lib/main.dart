@@ -49,7 +49,7 @@ class _MyAppState extends ConsumerState<MyApp> {
           .read(
             aedappfm.CoinPriceProviders.coinPrices.notifier,
           )
-          .starTimer();
+          .startTimer();
     });
   }
 
