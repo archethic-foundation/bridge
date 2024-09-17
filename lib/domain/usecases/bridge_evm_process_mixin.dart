@@ -591,7 +591,8 @@ mixin EVMBridgeProcessMixin {
   }
 
   Future<String> signTxFaucetUCO() async {
-    if (aedappfm.sl.isRegistered<EVMWalletProvider>() == false) {
+    // TODO: Wait for PR validation
+    /* if (aedappfm.sl.isRegistered<EVMWalletProvider>() == false) {
       throw const aedappfm.Failure.connectivityEVM();
     }
 
@@ -618,6 +619,8 @@ mixin EVMBridgeProcessMixin {
           );
       rethrow;
     }
+  }*/
+    return '';
   }
 }
 
