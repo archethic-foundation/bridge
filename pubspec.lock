@@ -1618,12 +1618,16 @@ packages:
     source: path
 =======
       name: wagmi_flutter_web
-      sha256: "98b629ca495a43bc1176ae54aea7e95993f9f2e8991fcb8d34eb90bf7b49bec8"
+      sha256: "8dcb0a1e65ee80c1eb824892c0a319bf3fbf60a72f76da66fb11135b69efe3ec"
       url: "https://pub.dev"
     source: hosted
+<<<<<<< HEAD
 >>>>>>> 363928e (chore: :construction: use wagmi_flutter_web: ^0.0.1-dev.5 to deploy on testnet)
     version: "0.0.1-dev.5"
 >>>>>>> 71b313c (feat: :sparkles: WIP : Use WalletConnect to interact with EVM chains.)
+=======
+    version: "0.0.1-dev.6"
+>>>>>>> fa19416 (chore: :arrow_up: Upgrade wagmi_flutter_web: ^0.0.1-dev.6)
   watcher:
     dependency: transitive
     description:
