@@ -50,6 +50,10 @@ class EVMLP with EVMBridgeProcessMixin {
       try {
         await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
 
+        final scaledAmount = (Decimal.parse('$amount') *
+                Decimal.fromBigInt(BigInt.from(10).pow(decimal)))
+            .toBigInt();
+
         txAddress = await writeContractWithErrorManagement(
           parameters: wagmi.WriteContractParameters.eip1559(
             abi: contractAbi,
@@ -58,10 +62,9 @@ class EVMLP with EVMBridgeProcessMixin {
             functionName: 'mintHTLC',
             args: [
               hash.toBytes,
-              (Decimal.parse('$amount') *
-                      Decimal.fromBigInt(BigInt.from(10).pow(decimal)))
-                  .toBigInt(),
+              scaledAmount,
             ],
+            value: isWrapped == false ? scaledAmount : null,
           ),
           chainId: chainId,
           fromMethod: 'EVMLP - deployChargeableHTLC',
