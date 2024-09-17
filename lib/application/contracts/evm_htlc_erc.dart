@@ -52,7 +52,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
               functionName: 'approve',
               chainId: chainId,
               args: [
-                poolAddress.toBytes,
+                poolAddress,
                 tokenUnits,
               ],
             ),
@@ -62,11 +62,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             chainId: chainId,
           );
           await bridgeNotifier.setWalletConfirmation(null);
-
-          aedappfm.sl.get<aedappfm.LogManager>().log(
-                'Event Approval after send',
-                name: 'EVMHTLCERC - approveChargeableHTLC',
-              );
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
