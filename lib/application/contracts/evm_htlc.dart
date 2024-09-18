@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 
+import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
@@ -48,6 +49,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
               address: htlcContractAddressEVM,
               functionName: 'refund',
               chainId: chainId,
+              feeValues: await FeeValuesUtils.defaultEIP1559FeeValues(chainId),
             ),
             fromMethod: 'EVMHTLC - refund',
             chainId: chainId,
@@ -112,7 +114,10 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
       functionName: 'lockTime',
       args: [],
     );
-    final response = await wagmi.Core.readContract(params);
+    final response = await wagmi.Core.readContract(
+      aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
+      params,
+    );
     final BigInt lockTime = response;
 
     return lockTime.toInt();
@@ -131,7 +136,10 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
           functionName: 'amount',
           args: [],
         );
-        final response = await wagmi.Core.readContract(params);
+        final response = await wagmi.Core.readContract(
+          aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
+          params,
+        );
         final BigInt amount = response;
         final convertedAmount = (Decimal.parse('$amount') /
                 Decimal.fromBigInt(BigInt.from(10).pow(decimal)))
@@ -158,9 +166,13 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
           functionName: 'token',
           args: [],
         );
-        tokenAddress = await wagmi.Core.readContract(params);
+        tokenAddress = await wagmi.Core.readContract(
+          aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
+          params,
+        );
         if (tokenAddress != null && tokenAddress.isNotEmpty) {
           final token = await wagmi.Core.getToken(
+            aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
             wagmi.GetTokenParameters(
               address: tokenAddress,
               chainId: chainId,
@@ -192,7 +204,10 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
         BigInt.from(DateTime.now().millisecondsSinceEpoch ~/ 1000),
       ],
     );
-    final response = await wagmi.Core.readContract(params);
+    final response = await wagmi.Core.readContract(
+      aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
+      params,
+    );
     final bool canRefund = response;
     return canRefund;
   }
@@ -205,7 +220,10 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
       functionName: 'status',
       args: [],
     );
-    final response = await wagmi.Core.readContract(params);
+    final response = await wagmi.Core.readContract(
+      aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
+      params,
+    );
     return response;
   }
 
@@ -240,6 +258,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
                 signatureAEHTLC.s!.toBytes,
                 BigInt.from(signatureAEHTLC.v!),
               ],
+              feeValues: await FeeValuesUtils.defaultEIP1559FeeValues(chainId),
             ),
             fromMethod: 'EVMHTLC - withdraw',
             ref: ref,

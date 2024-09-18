@@ -8,6 +8,7 @@ import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/application/contracts/evm_htlc_erc.dart';
 import 'package:aebridge/application/contracts/evm_htlc_native.dart';
 import 'package:aebridge/application/contracts/evm_lp.dart';
+import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/gas_fee_estimation.dart';
 import 'package:aebridge/domain/models/secret.dart';
@@ -328,61 +329,6 @@ mixin EVMBridgeProcessMixin {
     }
   }
 
-  Future<String> sendTransactionWithErrorManagement({
-    required wagmi.SendTransactionParameters transaction,
-    required int chainId,
-    required String fromMethod,
-    required WidgetRef ref,
-    required EVMBridgeProcess evmBridgeProcess,
-  }) async =>
-      _handleError(
-        () async {
-          var newTransaction = transaction;
-          if (transaction is wagmi.SendTransactionParametersLegacy) {
-            newTransaction = transaction.copyWith(
-              feeValues: transaction.feeValues ??
-                  await FeeValuesUtils.defaultLegacyFeeValues(transaction),
-            );
-          }
-          if (transaction.value == null) {
-            newTransaction = newTransaction.copyWith(value: BigInt.zero);
-          }
-          if (newTransaction is wagmi.SendTransactionParametersEIP1559) {
-            newTransaction = newTransaction.copyWith(
-              feeValues: await FeeValuesUtils.defaultEIP1559FeeValues(
-                newTransaction,
-              ),
-            );
-          }
-          aedappfm.sl.get<aedappfm.LogManager>().log(
-                'feeValues=${newTransaction.feeValues}',
-                name:
-                    'EVMBridgeProcessMixin - sendTransactionWithErrorManagement from $fromMethod',
-              );
-
-          aedappfm.sl.get<aedappfm.LogManager>().log(
-                newTransaction.feeValues.toString(),
-                name:
-                    'EVMBridgeProcessMixin - sendTransactionWithErrorManagement from $fromMethod',
-              );
-
-          final transactionHash = await wagmi.Core.sendTransaction(
-            newTransaction,
-          );
-
-          await _waitForTransactionValidation(
-            evmBridgeProcess: evmBridgeProcess,
-            ref: ref,
-            transactionHash: transactionHash,
-            fromMethod: fromMethod,
-            chainId: chainId,
-          );
-
-          return transactionHash;
-        },
-        fromMethod,
-      );
-
   Future<String> writeContractWithErrorManagement({
     required wagmi.WriteContractParameters parameters,
     required int chainId,
@@ -392,7 +338,10 @@ mixin EVMBridgeProcessMixin {
   }) async =>
       _handleError(
         () async {
-          final transactionHash = await wagmi.Core.writeContract(parameters);
+          final transactionHash = await wagmi.Core.writeContract(
+            aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
+            parameters,
+          );
           await _waitForTransactionValidation(
             chainId: chainId,
             evmBridgeProcess: evmBridgeProcess,
@@ -442,6 +391,7 @@ mixin EVMBridgeProcessMixin {
       // TODO(reddwarf03): See waitForTransactionReceipt instead of polling
       try {
         final transactionReceipt = await wagmi.Core.getTransactionReceipt(
+          aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
           wagmi.GetTransactionReceiptParameters(hash: transactionHash),
         );
 
@@ -577,8 +527,7 @@ mixin EVMBridgeProcessMixin {
   }
 
   Future<String> signTxFaucetUCO() async {
-    // TODO: Wait for PR validation
-    /* if (aedappfm.sl.isRegistered<EVMWalletProvider>() == false) {
+    if (aedappfm.sl.isRegistered<EVMWalletProvider>() == false) {
       throw const aedappfm.Failure.connectivityEVM();
     }
 
@@ -590,8 +539,11 @@ mixin EVMBridgeProcessMixin {
         "To help you join the Archethic ecosystem, we're offering you free Archethic transaction fees. For security reasons, this requires your signature. Thank you for joining us, and happy exploring!";
     try {
       final payloadSigned = await wagmi.Core.signMessage(
+        aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
         wagmi.SignMessageParameters(
-          account: wagmi.Core.getAccount().address!,
+          account: wagmi.Core.getAccount(
+            aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
+          ).address!,
           message: const wagmi.MessageToSign.rawMessage(
             message: wagmi.RawMessage.hex(raw: payload),
           ),
@@ -605,13 +557,36 @@ mixin EVMBridgeProcessMixin {
           );
       rethrow;
     }
-  }*/
-    return '';
   }
 }
 
-class FeeValuesUtils {
-  static Future<GasFeeEstimation?> suggestedGasFees(
+mixin FeeValuesUtils {
+  static Future<wagmi.FeeValuesEIP1559> defaultEIP1559FeeValues(
+    int chainId,
+  ) async {
+    final suggestedGasFeesResult = await _suggestedGasFees(chainId);
+
+    final maxPriorityFeePerGas = _getMaxPriorityFeePerGas(
+      suggestedGasFeesResult,
+      chainId,
+    );
+    final maxFeePerGas = await _getMaxFeePerGas(
+      suggestedGasFeesResult,
+      maxPriorityFeePerGas.getInWei,
+    );
+
+    aedappfm.sl.get<aedappfm.LogManager>().log(
+          'Default EIP1559 Fee Values (chainId: $chainId) = ${maxPriorityFeePerGas.getInWei} / ${maxFeePerGas.getInWei}',
+          name: 'defaultEIP1559FeeValues',
+        );
+
+    return wagmi.FeeValuesEIP1559(
+      maxPriorityFeePerGas: maxPriorityFeePerGas.getInWei,
+      maxFeePerGas: maxFeePerGas.getInWei,
+    );
+  }
+
+  static Future<GasFeeEstimation?> _suggestedGasFees(
     int chainId,
   ) async {
     try {
@@ -639,40 +614,6 @@ class FeeValuesUtils {
           .log('Error: $e', name: 'suggestedGasFees');
     }
     return null;
-  }
-
-  static Future<wagmi.FeeValuesLegacy> defaultLegacyFeeValues(
-    wagmi.SendTransactionParametersLegacy parameters,
-  ) async {
-    final gasPrice = await wagmi.Core.getGasPrice(
-      wagmi.GetGasPriceParameters(),
-    );
-    final slippage = parameters.chainId == 1 ? 2.5 : 1.5;
-    final gasPriceInWei = gasPrice.toDouble();
-    final newGasPriceInWei = gasPriceInWei * slippage;
-    final newGasPrice =
-        wagmi.EtherAmount.fromDouble(wagmi.EtherUnit.wei, newGasPriceInWei);
-    return wagmi.FeeValuesLegacy(gasPrice: newGasPrice.getInWei);
-  }
-
-  static Future<wagmi.FeeValuesEIP1559> defaultEIP1559FeeValues(
-    wagmi.SendTransactionParametersEIP1559 transaction,
-  ) async {
-    final suggestedGasFeesResult = await suggestedGasFees(transaction.chainId!);
-
-    final maxPriorityFeePerGas = _getMaxPriorityFeePerGas(
-      suggestedGasFeesResult,
-      transaction.chainId!,
-    );
-    return wagmi.FeeValuesEIP1559(
-      maxPriorityFeePerGas: maxPriorityFeePerGas.getInWei,
-      maxFeePerGas: transaction.feeValues?.maxFeePerGas ??
-          (await _getMaxFeePerGas(
-            suggestedGasFeesResult,
-            maxPriorityFeePerGas.getInWei,
-          ))
-              .getInWei,
-    );
   }
 
   static wagmi.EtherAmount _getMaxPriorityFeePerGas(
@@ -711,8 +652,10 @@ class FeeValuesUtils {
       );
     }
 
-    final blockInformation =
-        await wagmi.Core.getBlock(wagmi.GetBlockParameters());
+    final blockInformation = await wagmi.Core.getBlock(
+      aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
+      wagmi.GetBlockParameters(),
+    );
     final baseFeePerGas = blockInformation.baseFeePerGas;
 
     if (baseFeePerGas == null) {
