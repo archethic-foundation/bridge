@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
@@ -33,6 +34,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
         late String? withdrawTx;
         try {
           final latestBlockNumber = await wagmi.Core.getBlockNumber(
+            aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
             wagmi.GetBlockNumberParameters(),
           );
           aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -56,6 +58,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
                 secret.secretSignature!.s!.toBytes,
                 BigInt.from(secret.secretSignature!.v!),
               ],
+              feeValues: await FeeValuesUtils.defaultEIP1559FeeValues(chainId),
             ),
             fromMethod: 'EVMHTLCNative - signedWithdraw',
             ref: ref,
@@ -99,7 +102,10 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
             functionName: 'fee',
             args: [],
           );
-          final response = await wagmi.Core.readContract(params);
+          final response = await wagmi.Core.readContract(
+            aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
+            params,
+          );
 
           final BigInt fee = response;
           final etherAmount =

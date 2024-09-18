@@ -83,9 +83,9 @@ dependencies:
   # web3modal_flutter:
   #   path: ../../packages/Web3ModalFlutter
   # Wagmi JS SDK wrapper for Dart Web
-  wagmi_flutter_web: ^0.0.1-dev.7
-  #wagmi_flutter_web:
-  #  path: ../wagmi_flutter_web
+  #wagmi_flutter_web: ^0.0.1-dev.7
+  wagmi_flutter_web:
+    path: ../wagmi_flutter_web
 
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.
