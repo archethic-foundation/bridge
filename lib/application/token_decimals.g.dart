@@ -24,7 +24,7 @@ final _tokenDecimalsRepositoryProvider =
 
 typedef _TokenDecimalsRepositoryRef
     = AutoDisposeProviderRef<TokenDecimalsRepository>;
-String _$getTokenDecimalsHash() => r'e6cb8780088c854ea1afffc001673dcc489b830f';
+String _$getTokenDecimalsHash() => r'c3db7698f37404937f0a9503c39efeb6e40f5c81';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -60,14 +60,12 @@ class GetTokenDecimalsFamily extends Family<AsyncValue<int>> {
   GetTokenDecimalsProvider call(
     bool isArchethic,
     String typeToken,
-    String tokenAddress, {
-    String? providerEndpoint,
-  }) {
+    String tokenAddress,
+  ) {
     return GetTokenDecimalsProvider(
       isArchethic,
       typeToken,
       tokenAddress,
-      providerEndpoint: providerEndpoint,
     );
   }
 
@@ -79,7 +77,6 @@ class GetTokenDecimalsFamily extends Family<AsyncValue<int>> {
       provider.isArchethic,
       provider.typeToken,
       provider.tokenAddress,
-      providerEndpoint: provider.providerEndpoint,
     );
   }
 
@@ -104,15 +101,13 @@ class GetTokenDecimalsProvider extends AutoDisposeFutureProvider<int> {
   GetTokenDecimalsProvider(
     bool isArchethic,
     String typeToken,
-    String tokenAddress, {
-    String? providerEndpoint,
-  }) : this._internal(
+    String tokenAddress,
+  ) : this._internal(
           (ref) => getTokenDecimals(
             ref as GetTokenDecimalsRef,
             isArchethic,
             typeToken,
             tokenAddress,
-            providerEndpoint: providerEndpoint,
           ),
           from: getTokenDecimalsProvider,
           name: r'getTokenDecimalsProvider',
@@ -126,7 +121,6 @@ class GetTokenDecimalsProvider extends AutoDisposeFutureProvider<int> {
           isArchethic: isArchethic,
           typeToken: typeToken,
           tokenAddress: tokenAddress,
-          providerEndpoint: providerEndpoint,
         );
 
   GetTokenDecimalsProvider._internal(
@@ -139,13 +133,11 @@ class GetTokenDecimalsProvider extends AutoDisposeFutureProvider<int> {
     required this.isArchethic,
     required this.typeToken,
     required this.tokenAddress,
-    required this.providerEndpoint,
   }) : super.internal();
 
   final bool isArchethic;
   final String typeToken;
   final String tokenAddress;
-  final String? providerEndpoint;
 
   @override
   Override overrideWith(
@@ -163,7 +155,6 @@ class GetTokenDecimalsProvider extends AutoDisposeFutureProvider<int> {
         isArchethic: isArchethic,
         typeToken: typeToken,
         tokenAddress: tokenAddress,
-        providerEndpoint: providerEndpoint,
       ),
     );
   }
@@ -178,8 +169,7 @@ class GetTokenDecimalsProvider extends AutoDisposeFutureProvider<int> {
     return other is GetTokenDecimalsProvider &&
         other.isArchethic == isArchethic &&
         other.typeToken == typeToken &&
-        other.tokenAddress == tokenAddress &&
-        other.providerEndpoint == providerEndpoint;
+        other.tokenAddress == tokenAddress;
   }
 
   @override
@@ -188,7 +178,6 @@ class GetTokenDecimalsProvider extends AutoDisposeFutureProvider<int> {
     hash = _SystemHash.combine(hash, isArchethic.hashCode);
     hash = _SystemHash.combine(hash, typeToken.hashCode);
     hash = _SystemHash.combine(hash, tokenAddress.hashCode);
-    hash = _SystemHash.combine(hash, providerEndpoint.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -203,9 +192,6 @@ mixin GetTokenDecimalsRef on AutoDisposeFutureProviderRef<int> {
 
   /// The parameter `tokenAddress` of this provider.
   String get tokenAddress;
-
-  /// The parameter `providerEndpoint` of this provider.
-  String? get providerEndpoint;
 }
 
 class _GetTokenDecimalsProviderElement
@@ -218,9 +204,6 @@ class _GetTokenDecimalsProviderElement
   String get typeToken => (origin as GetTokenDecimalsProvider).typeToken;
   @override
   String get tokenAddress => (origin as GetTokenDecimalsProvider).tokenAddress;
-  @override
-  String? get providerEndpoint =>
-      (origin as GetTokenDecimalsProvider).providerEndpoint;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

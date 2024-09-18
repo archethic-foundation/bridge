@@ -1,3 +1,4 @@
+import 'package:aebridge/ui/views/refund/layouts/components/refund_blockchain_selection.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_btn.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_can_refund_info.dart';
 import 'package:aebridge/ui/views/refund/layouts/components/refund_connect_wallet_btn.dart';
@@ -18,6 +19,10 @@ class RefundFormSheet extends ConsumerWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           RefundInfo(),
+          SizedBox(
+            height: 10,
+          ),
+          RefundBlockchainSelection(),
           SizedBox(
             height: 10,
           ),

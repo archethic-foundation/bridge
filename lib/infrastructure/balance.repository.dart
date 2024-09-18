@@ -11,9 +11,8 @@ class BalanceRepositoryImpl implements BalanceRepository {
     String address,
     String typeToken,
     String tokenAddress,
-    int decimal, {
-    String? providerEndpoint,
-  }) async {
+    int decimal,
+  ) async {
     if (isArchethic) {
       final balanceGetResponseMap =
           await aedappfm.sl.get<ApiService>().fetchBalance([address]);
@@ -35,7 +34,6 @@ class BalanceRepositoryImpl implements BalanceRepository {
         case 'Native':
           final balance = await aedappfm.sl.get<EVMWalletProvider>().getBalance(
                 address,
-                providerEndpoint!,
                 typeToken,
                 decimal,
               );
@@ -43,7 +41,6 @@ class BalanceRepositoryImpl implements BalanceRepository {
         case 'Wrapped':
           final balance = await aedappfm.sl.get<EVMWalletProvider>().getBalance(
                 address,
-                providerEndpoint!,
                 typeToken,
                 decimal,
                 erc20address: tokenAddress,

@@ -8,7 +8,6 @@ import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/application/contracts/evm_htlc_erc.dart';
 import 'package:aebridge/application/contracts/evm_htlc_native.dart';
 import 'package:aebridge/application/contracts/evm_lp.dart';
-import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/gas_fee_estimation.dart';
 import 'package:aebridge/domain/models/secret.dart';
@@ -92,12 +91,8 @@ mixin EVMBridgeProcessMixin {
   ) async {
     final bridge = ref.read(bridgeFormNotifierProvider);
     final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
-    final chainId = aedappfm.sl.get<EVMWalletProvider>().currentChain ?? 0;
 
-    final evmLP = EVMLP(
-      bridge.blockchainTo!.providerEndpoint,
-      chainId,
-    );
+    final evmLP = EVMLP();
     final resultDeployAndProvisionSignedHTLC =
         await evmLP.deployAndProvisionSignedHTLC(
       ref,
@@ -141,12 +136,7 @@ mixin EVMBridgeProcessMixin {
   ) async {
     final bridge = ref.read(bridgeFormNotifierProvider);
     final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
-    final chainId = aedappfm.sl.get<EVMWalletProvider>().currentChain ?? 0;
-
-    final evmLP = EVMLP(
-      bridge.blockchainFrom!.providerEndpoint,
-      chainId,
-    );
+    final evmLP = EVMLP();
     final resultDeployChargeableHTLCEVM = await evmLP.deployChargeableHTLC(
       ref,
       bridge.tokenToBridge!.poolAddressFrom,
@@ -185,7 +175,6 @@ mixin EVMBridgeProcessMixin {
     final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
 
     final htlc = EVMHTLC(
-      bridge.blockchainFrom!.providerEndpoint,
       htlcAddress,
       bridge.blockchainFrom!.chainId,
     );
@@ -221,7 +210,6 @@ mixin EVMBridgeProcessMixin {
     double? etlcAmount;
     final bridge = ref.read(bridgeFormNotifierProvider);
     final htlc = EVMHTLC(
-      bridge.blockchainFrom!.providerEndpoint,
       htlcAddress,
       bridge.blockchainFrom!.chainId,
     );
@@ -542,7 +530,6 @@ mixin EVMBridgeProcessMixin {
     aedappfm.Result<String, aedappfm.Failure>? resultSignedWithdraw;
     if (bridge.tokenToBridge!.typeSource == 'Native') {
       final evmHTLCERC = EVMHTLCERC(
-        bridge.blockchainTo!.providerEndpoint,
         htlc,
         bridge.blockchainTo!.chainId,
       );
@@ -555,7 +542,6 @@ mixin EVMBridgeProcessMixin {
 
     if (bridge.tokenToBridge!.typeSource == 'Wrapped') {
       final evmHTLCNative = EVMHTLCNative(
-        bridge.blockchainTo!.providerEndpoint,
         htlc,
         bridge.blockchainTo!.chainId,
       );

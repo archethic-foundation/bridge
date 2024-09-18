@@ -22,7 +22,7 @@ final _balanceRepositoryProvider =
 );
 
 typedef _BalanceRepositoryRef = AutoDisposeProviderRef<BalanceRepository>;
-String _$getBalanceHash() => r'0e8f5905f8b488dcbbb5127c8c24c978b6fba657';
+String _$getBalanceHash() => r'785f94ec308e0c4993e3fe6155995497aff527f6';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -60,16 +60,14 @@ class GetBalanceFamily extends Family<AsyncValue<double>> {
     String address,
     String typeToken,
     String tokenAddress,
-    int decimal, {
-    String? providerEndpoint,
-  }) {
+    int decimal,
+  ) {
     return GetBalanceProvider(
       isArchethic,
       address,
       typeToken,
       tokenAddress,
       decimal,
-      providerEndpoint: providerEndpoint,
     );
   }
 
@@ -83,7 +81,6 @@ class GetBalanceFamily extends Family<AsyncValue<double>> {
       provider.typeToken,
       provider.tokenAddress,
       provider.decimal,
-      providerEndpoint: provider.providerEndpoint,
     );
   }
 
@@ -110,9 +107,8 @@ class GetBalanceProvider extends AutoDisposeFutureProvider<double> {
     String address,
     String typeToken,
     String tokenAddress,
-    int decimal, {
-    String? providerEndpoint,
-  }) : this._internal(
+    int decimal,
+  ) : this._internal(
           (ref) => getBalance(
             ref as GetBalanceRef,
             isArchethic,
@@ -120,7 +116,6 @@ class GetBalanceProvider extends AutoDisposeFutureProvider<double> {
             typeToken,
             tokenAddress,
             decimal,
-            providerEndpoint: providerEndpoint,
           ),
           from: getBalanceProvider,
           name: r'getBalanceProvider',
@@ -136,7 +131,6 @@ class GetBalanceProvider extends AutoDisposeFutureProvider<double> {
           typeToken: typeToken,
           tokenAddress: tokenAddress,
           decimal: decimal,
-          providerEndpoint: providerEndpoint,
         );
 
   GetBalanceProvider._internal(
@@ -151,7 +145,6 @@ class GetBalanceProvider extends AutoDisposeFutureProvider<double> {
     required this.typeToken,
     required this.tokenAddress,
     required this.decimal,
-    required this.providerEndpoint,
   }) : super.internal();
 
   final bool isArchethic;
@@ -159,7 +152,6 @@ class GetBalanceProvider extends AutoDisposeFutureProvider<double> {
   final String typeToken;
   final String tokenAddress;
   final int decimal;
-  final String? providerEndpoint;
 
   @override
   Override overrideWith(
@@ -179,7 +171,6 @@ class GetBalanceProvider extends AutoDisposeFutureProvider<double> {
         typeToken: typeToken,
         tokenAddress: tokenAddress,
         decimal: decimal,
-        providerEndpoint: providerEndpoint,
       ),
     );
   }
@@ -196,8 +187,7 @@ class GetBalanceProvider extends AutoDisposeFutureProvider<double> {
         other.address == address &&
         other.typeToken == typeToken &&
         other.tokenAddress == tokenAddress &&
-        other.decimal == decimal &&
-        other.providerEndpoint == providerEndpoint;
+        other.decimal == decimal;
   }
 
   @override
@@ -208,7 +198,6 @@ class GetBalanceProvider extends AutoDisposeFutureProvider<double> {
     hash = _SystemHash.combine(hash, typeToken.hashCode);
     hash = _SystemHash.combine(hash, tokenAddress.hashCode);
     hash = _SystemHash.combine(hash, decimal.hashCode);
-    hash = _SystemHash.combine(hash, providerEndpoint.hashCode);
 
     return _SystemHash.finish(hash);
   }
@@ -229,9 +218,6 @@ mixin GetBalanceRef on AutoDisposeFutureProviderRef<double> {
 
   /// The parameter `decimal` of this provider.
   int get decimal;
-
-  /// The parameter `providerEndpoint` of this provider.
-  String? get providerEndpoint;
 }
 
 class _GetBalanceProviderElement
@@ -248,9 +234,6 @@ class _GetBalanceProviderElement
   String get tokenAddress => (origin as GetBalanceProvider).tokenAddress;
   @override
   int get decimal => (origin as GetBalanceProvider).decimal;
-  @override
-  String? get providerEndpoint =>
-      (origin as GetBalanceProvider).providerEndpoint;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

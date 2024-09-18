@@ -15,15 +15,13 @@ Future<double> getBalance(
   String address,
   String typeToken,
   String tokenAddress,
-  int decimal, {
-  String? providerEndpoint,
-}) async {
+  int decimal,
+) async {
   return ref.read(_balanceRepositoryProvider).getBalance(
         isArchethic,
         address,
         typeToken,
         tokenAddress,
         decimal,
-        providerEndpoint: providerEndpoint,
       );
 }

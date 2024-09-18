@@ -4,7 +4,6 @@ import 'dart:convert';
 
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/application/contracts/evm_lp.dart';
-import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/get_contract_creation_response.dart';
 import 'package:aebridge/domain/models/secret.dart';
@@ -145,13 +144,7 @@ class BridgeArchethicToEVMUseCase
 
         if (recoveryHTLCAEAddress != null) {
           var _htlcContractAddressEVM = '';
-          final chainId =
-              aedappfm.sl.get<EVMWalletProvider>().currentChain ?? 0;
-
-          final evmLP = EVMLP(
-            bridge.blockchainTo!.providerEndpoint,
-            chainId,
-          );
+          final evmLP = EVMLP();
           final ownerEVMAddress =
               ref.read(sessionNotifierProvider).walletTo?.genesisAddress;
           if (ownerEVMAddress != null) {

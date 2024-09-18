@@ -47,6 +47,10 @@
         },
         "80002": {
             "UCO": "0xFCC8e7E4a007c13672a43107dd0fF45bBC23C8CF"
+        },
+        "97": {
+            "UCO": "0xb361b5AC4eAEb918dCed9d60417975c89556DDEA",
+            "BNB": "0x3Fa0d410064FcE2744e4feebB3Be338e1fA3C967"
         }
     }
 }
