@@ -36,6 +36,7 @@ class RefundFormState with _$RefundFormState {
     @FailureJsonConverter() Failure? failure,
     @Default(false) bool defineStatusInProgress,
     @Default(false) bool requestTooLong,
+    String? tokenAddress,
   }) = _RefundFormState;
   const RefundFormState._();
 

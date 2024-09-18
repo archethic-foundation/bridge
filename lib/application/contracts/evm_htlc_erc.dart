@@ -146,35 +146,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
     );
   }
 
-  Future<aedappfm.Result<double, aedappfm.Failure>> getFee(int decimal) async {
-    return aedappfm.Result.guard(
-      () async {
-        try {
-          final contractHTLC = await loadAbi(
-            contractNameChargeableHTLCERC,
-          );
-
-          final feeMap = await wagmi.Core.readContract(
-            wagmi.ReadContractParameters(
-              abi: contractHTLC,
-              address: htlcContractAddress,
-              functionName: 'fee',
-            ),
-          );
-
-          final BigInt fee = feeMap[0];
-          final convertedFee = (Decimal.parse('$fee') /
-                  Decimal.fromBigInt(BigInt.from(10).pow(decimal)))
-              .toDouble();
-
-          return convertedFee;
-        } catch (e) {
-          return 0.0;
-        }
-      },
-    );
-  }
-
   Future<aedappfm.Result<int, aedappfm.Failure>> getTokenNbOfDecimal(
     String tokenAddress,
   ) async {

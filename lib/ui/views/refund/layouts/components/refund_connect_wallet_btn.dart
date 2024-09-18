@@ -17,7 +17,7 @@ class RefundConnectWalletButton extends ConsumerWidget {
     final refund = ref.watch(RefundFormProvider.refundForm);
 
     if ((refund.wallet != null && refund.wallet!.isConnected) ||
-        refund.addressType == null) {
+        (refund.blockchain == null || refund.addressType == null)) {
       return const SizedBox.shrink();
     }
     return refund.addressType == AddressType.evm
