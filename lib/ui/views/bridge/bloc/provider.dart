@@ -256,7 +256,6 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
         state.blockchainFrom!.isArchethic,
         state.tokenToBridge!.typeSource,
         state.tokenToBridge!.tokenAddressSource,
-        providerEndpoint: state.blockchainFrom!.providerEndpoint,
       ).future,
     );
     await setTokenToBridgeDecimals(tokenToBridgeDecimals);
@@ -266,7 +265,6 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
         state.blockchainTo!.isArchethic,
         state.tokenToBridge!.typeTarget,
         state.tokenToBridge!.tokenAddressTarget,
-        providerEndpoint: state.blockchainTo!.providerEndpoint,
       ).future,
     );
     await setTokenBridgedDecimals(tokenBridgedDecimals);
@@ -278,7 +276,6 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
         state.tokenToBridge!.typeSource,
         state.tokenToBridge!.tokenAddressSource,
         state.blockchainFrom!.isArchethic ? 8 : state.tokenToBridgeDecimals,
-        providerEndpoint: state.blockchainFrom!.providerEndpoint,
       ).future,
     );
     await setTokenToBridgeBalance(balance);
@@ -311,7 +308,6 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
         state.blockchainFrom!.isArchethic,
         state.tokenToBridge!.typeSource,
         state.tokenToBridge!.tokenAddressSource,
-        providerEndpoint: state.blockchainFrom!.providerEndpoint,
       ).future,
     );
     await setTokenToBridgeDecimals(tokenDecimals);
@@ -323,7 +319,6 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
         state.tokenToBridge!.typeTarget,
         state.tokenToBridge!.tokenAddressTarget,
         state.blockchainTo!.isArchethic ? 8 : state.tokenBridgedDecimals,
-        providerEndpoint: state.blockchainTo!.providerEndpoint,
       ).future,
     );
     await setTokenBridgedBalance(balanceTarget);
@@ -339,7 +334,6 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
           state.tokenToBridge!.typeTarget,
           state.tokenToBridge!.tokenAddressTarget,
           state.tokenBridgedDecimals,
-          providerEndpoint: state.blockchainTo!.providerEndpoint,
         ).future,
       );
       setPoolTargetBalance(poolTargetBalance);

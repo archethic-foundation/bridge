@@ -85,7 +85,6 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
           }
         } else {
           final evmHTLC = EVMHTLC(
-            widget.bridge.blockchainFrom!.providerEndpoint,
             widget.bridge.blockchainFrom!.htlcAddress!,
             widget.bridge.blockchainFrom!.chainId,
           );
@@ -138,7 +137,6 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
           }
         } else {
           final evmHTLC = EVMHTLC(
-            widget.bridge.blockchainTo!.providerEndpoint,
             widget.bridge.blockchainTo!.htlcAddress!,
             widget.bridge.blockchainTo!.chainId,
           );

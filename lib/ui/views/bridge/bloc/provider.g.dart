@@ -9,6 +9,7 @@ part of 'provider.dart';
 String _$bridgeFormNotifierHash() =>
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     r'be67f16847ecc1a0fb6a663b296186d9d765d516';
 =======
     r'b95397b74367a899c5536631e13de2cdd48965cc';
@@ -16,6 +17,9 @@ String _$bridgeFormNotifierHash() =>
 =======
     r'5ea38d56d2d52185ae456f94b0c9dd99fef837fc';
 >>>>>>> 441be25 (chore: :recycle: Remove webthree lib)
+=======
+    r'ad3a10421174d17922bba1f01a1de14fac5733a9';
+>>>>>>> c803278 (chore: :construction: Remove providerEndpoint params)
 
 /// See also [BridgeFormNotifier].
 @ProviderFor(BridgeFormNotifier)

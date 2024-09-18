@@ -1,6 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/secret.dart';
@@ -10,20 +9,12 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
 class EVMLP with EVMBridgeProcessMixin {
-  EVMLP(
-    this.providerEndpoint,
-    this.chainId,
-  );
-
-  String? providerEndpoint;
-
-  final int chainId;
+  EVMLP();
 
   Future<
       aedappfm.Result<({String htlcContractAddress, String txAddress}),
@@ -230,15 +221,14 @@ class EVMLP with EVMBridgeProcessMixin {
         ),
       );
 
-      for (final swaps in resultMap[0] as List) {
+      for (final swaps in resultMap as List) {
         swapList.add(
           Swap(
-            htlcContractAddressEVM: swaps[0],
-            htlcContractAddressAE: archethic
-                .uint8ListToHex(Uint8List.fromList(swaps[1] as List<int>)),
-            swapProcess: (swaps[2] as BigInt).toInt() == 0
+            htlcContractAddressEVM: swaps['evmAddress'] ?? '',
+            htlcContractAddressAE: swaps['archethicAddress'] ?? '',
+            swapProcess: swaps['swapType'] == 0
                 ? SwapProcess.chargeable
-                : (swaps[2] as BigInt).toInt() == 1
+                : swaps['swapType'] == 1
                     ? SwapProcess.signed
                     : null,
           ),

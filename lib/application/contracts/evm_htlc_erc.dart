@@ -12,11 +12,9 @@ import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
 class EVMHTLCERC with EVMBridgeProcessMixin {
   EVMHTLCERC(
-    this.providerEndpoint,
     this.htlcContractAddress,
     this.chainId,
   );
-  final String providerEndpoint;
   final String htlcContractAddress;
   final int chainId;
 

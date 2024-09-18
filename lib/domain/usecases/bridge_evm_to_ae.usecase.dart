@@ -69,7 +69,6 @@ class BridgeEVMToArchethicUseCase
 
         if (bridge.tokenToBridge!.typeSource == 'Wrapped') {
           final resultApproval = await EVMHTLCERC(
-            bridge.blockchainFrom!.providerEndpoint,
             '',
             bridge.blockchainFrom!.chainId,
           ).approveChargeableHTLC(
@@ -109,7 +108,6 @@ class BridgeEVMToArchethicUseCase
     if (recoveryStep <= 3) {
       await bridgeNotifier.setCurrentStep(2);
       final htlc = EVMHTLC(
-        bridge.blockchainFrom!.providerEndpoint,
         htlcEVMAddress!,
         bridge.blockchainFrom!.chainId,
       );
@@ -218,7 +216,6 @@ class BridgeEVMToArchethicUseCase
         await bridgeNotifier.setCurrentStep(5);
         if (endTime == null) {
           final htlc = EVMHTLC(
-            bridge.blockchainFrom!.providerEndpoint,
             htlcEVMAddress,
             bridge.blockchainFrom!.chainId,
           );
@@ -343,7 +340,6 @@ class BridgeEVMToArchethicUseCase
 
       try {
         final htlc = EVMHTLC(
-          bridge.blockchainFrom!.providerEndpoint,
           htlcEVMAddress!,
           bridge.blockchainFrom!.chainId,
         );

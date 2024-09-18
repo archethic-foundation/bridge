@@ -8,7 +8,6 @@ import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
   String? currentAddress;
   String? get accountName => currentAddress;
-  int? currentChain;
   bool walletConnected = false;
 
   Future<int> getChainId() async => wagmi.Core.getChainId();
@@ -34,8 +33,8 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
         name: 'Archethic Bridge',
         description:
             'Bridge in and out of the Archethic blockchain with aeBridge. Enable secure and efficient cross-chain interactions, leveraging UCO tokens to power your decentralized applications.',
-        url: 'https://bridge.archethic.net',
-        icons: ['https://bridge.archethic.net/favicon.png'],
+        url: 'https://testnet.bridge.archethic.net',
+        icons: ['https://testnet.bridge.archethic.net/favicon.png'],
       ),
       email: false,
       showWallets: true,
@@ -65,7 +64,6 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
 
   Future<double> getBalance(
     String address,
-    String providerEndpoint,
     String typeToken,
     int decimal, {
     String erc20address = '',
@@ -109,7 +107,6 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
   }
 
   Future<int> getTokenDecimals(
-    String providerEndpoint,
     String typeToken, {
     String erc20address = '',
   }) async {

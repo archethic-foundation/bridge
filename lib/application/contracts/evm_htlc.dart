@@ -16,12 +16,10 @@ import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
 class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
   EVMHTLC(
-    this.providerEndpoint,
     this.htlcContractAddressEVM,
     this.chainId,
   );
 
-  final String? providerEndpoint;
   final String htlcContractAddressEVM;
   final int chainId;
 

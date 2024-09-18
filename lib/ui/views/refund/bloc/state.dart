@@ -1,3 +1,4 @@
+import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -15,6 +16,7 @@ class RefundFormState with _$RefundFormState {
   const factory RefundFormState({
     @Default('') String htlcAddressFilled,
     String? refundTxAddress,
+    @BridgeBlockchainJsonConverter() BridgeBlockchain? blockchain,
     int? chainId,
     bool? isAlreadyRefunded,
     bool? isAlreadyWithdrawn,
@@ -39,6 +41,7 @@ class RefundFormState with _$RefundFormState {
 
   bool get isControlsOk =>
       failure == null &&
+      blockchain != null &&
       htlcAddressFilled.isNotEmpty &&
       addressType != null &&
       processRefund != null;

@@ -8,6 +8,7 @@ import 'package:aebridge/application/contracts/evm_htlc_native.dart';
 import 'package:aebridge/application/contracts/evm_lp.dart';
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/provider.dart';
+import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:aebridge/domain/models/swap.dart';
 import 'package:aebridge/domain/usecases/refund_archethic.usecase.dart';
@@ -53,6 +54,10 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     });
 
     return const RefundFormState();
+  }
+
+  void setBlockchain(BridgeBlockchain blockchain) {
+    state = state.copyWith(blockchain: blockchain);
   }
 
   Future<void> setContractAddress(
@@ -179,21 +184,17 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       isAlreadyWithdrawn: false,
     );
 
-    final chainId = aedappfm.sl.get<EVMWalletProvider>().currentChain ?? 0;
+    final chainId = state.blockchain?.chainId ?? 0;
 
     if (await control(context)) {
       final evmHTLC = EVMHTLC(
-        state.wallet!.providerEndpoint,
         state.htlcAddressFilled,
         chainId,
       );
 
-      final blockchain = await ref.read(
-        getBlockchainFromChainIdProvider(chainId).future,
-      );
-
       state = state.copyWith(isERC20: null);
-      final resultSymbol = await evmHTLC.getSymbol(blockchain!.nativeCurrency);
+      final resultSymbol =
+          await evmHTLC.getSymbol(state.blockchain!.nativeCurrency);
       resultSymbol.map(
         success: (result) {
           setAmountCurrency(result.symbol);
@@ -230,10 +231,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         return;
       }
 
-      final evmLP = EVMLP(
-        blockchain.providerEndpoint,
-        chainId,
-      );
+      final evmLP = EVMLP();
       final swapByOwnerResult = await evmLP.getSwapsByOwner(
         poolAddress ?? '',
         state.wallet!.genesisAddress,
@@ -305,7 +303,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       final decimal = await TokenDecimalsRepositoryImpl().getTokenDecimals(
         false,
         state.isERC20! ? 'Wrapped' : 'Native',
-        state.htlcAddressFilled,
+        state.isERC20! ? '' : '',
       );
 
       final resultAmount = await evmHTLC.getAmount(decimal);
@@ -318,7 +316,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
 
       if (state.isERC20 != null && state.isERC20!) {
         final evmHTLCERC = EVMHTLCERC(
-          state.wallet!.providerEndpoint!,
           state.htlcAddressFilled,
           chainId,
         );
@@ -331,7 +328,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         );
       } else {
         final evmHTLCNative = EVMHTLCNative(
-          state.wallet!.providerEndpoint!,
           state.htlcAddressFilled,
           chainId,
         );
@@ -494,7 +490,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       case AddressType.evm:
         await RefundEVMCase().run(
           ref,
-          state.wallet!.providerEndpoint!,
           state.htlcAddressFilled,
           state.chainId!,
           state.isERC20!,
@@ -523,13 +518,8 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         final evmWalletProvider = EVMWalletProvider();
 
         try {
-          final currentChainId = await evmWalletProvider.getChainId();
-          final bridgeBlockchain = await ref.read(
-            getBlockchainFromChainIdProvider(
-              currentChainId,
-            ).future,
-          );
-          await evmWalletProvider.connect(bridgeBlockchain!);
+          final bridgeBlockchain = state.blockchain!;
+          await evmWalletProvider.connect(state.blockchain!);
           if (evmWalletProvider.walletConnected) {
             evmWallet = evmWallet.copyWith(
               wallet: kEVMWallet,
@@ -538,12 +528,11 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
               nameAccount: evmWalletProvider.accountName!,
               genesisAddress: evmWalletProvider.currentAddress!,
               endpoint: bridgeBlockchain.name,
-              providerEndpoint: bridgeBlockchain.providerEndpoint,
               env: bridgeBlockchain.env,
             );
             state = state.copyWith(
               wallet: evmWallet,
-              chainId: currentChainId,
+              chainId: bridgeBlockchain.chainId,
             );
             if (aedappfm.sl.isRegistered<EVMWalletProvider>()) {
               await aedappfm.sl.unregister<EVMWalletProvider>();

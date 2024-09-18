@@ -4,7 +4,6 @@ abstract class BalanceRepository {
     String address,
     String typeToken,
     String tokenAddress,
-    int decimal, {
-    String? providerEndpoint,
-  });
+    int decimal,
+  );
 }
