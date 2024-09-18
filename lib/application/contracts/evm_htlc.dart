@@ -141,13 +141,15 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
     );
   }
 
-  Future<aedappfm.Result<({String symbol, bool isERC20}), aedappfm.Failure>>
-      getSymbol(
+  Future<
+      aedappfm.Result<({String symbol, bool isERC20, String? tokenAddress}),
+          aedappfm.Failure>> getSymbol(
     String nativeCurrency,
   ) async {
     return aedappfm.Result.guard(() async {
       var _isERC20 = false;
       var currency = nativeCurrency;
+      String? tokenAddress;
       try {
         final abi = await loadAbi(contractNameHTLCERC);
         final params = wagmi.ReadContractParameters(
@@ -156,25 +158,27 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
           functionName: 'token',
           args: [],
         );
-        final response = await wagmi.Core.readContract(params);
-        final addressToken = response.toString();
-        if (addressToken.isNotEmpty) {
+        tokenAddress = await wagmi.Core.readContract(params);
+        if (tokenAddress != null && tokenAddress.isNotEmpty) {
           final token = await wagmi.Core.getToken(
-            wagmi.GetTokenParameters(address: addressToken[0]),
+            wagmi.GetTokenParameters(
+              address: tokenAddress,
+              chainId: chainId,
+            ),
           );
 
           final symbol = token.symbol ?? '';
 
           if (symbol.isNotEmpty) {
-            currency = symbol[0];
+            currency = symbol;
             _isERC20 = true;
           }
         }
       } catch (e) {
-        return (symbol: currency, isERC20: false);
+        return (symbol: currency, isERC20: false, tokenAddress: tokenAddress);
       }
 
-      return (symbol: currency, isERC20: _isERC20);
+      return (symbol: currency, isERC20: _isERC20, tokenAddress: tokenAddress);
     });
   }
 

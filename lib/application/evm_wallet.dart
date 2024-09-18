@@ -33,8 +33,12 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
         name: 'Archethic Bridge',
         description:
             'Bridge in and out of the Archethic blockchain with aeBridge. Enable secure and efficient cross-chain interactions, leveraging UCO tokens to power your decentralized applications.',
-        url: 'https://testnet.bridge.archethic.net',
-        icons: ['https://testnet.bridge.archethic.net/favicon.png'],
+        url: Uri.base.toString().toLowerCase().contains('bridge.archethic')
+            ? 'https://bridge.archethic.net'
+            : 'https://testnet.bridge.archethic.net',
+        icons: Uri.base.toString().toLowerCase().contains('bridge.archethic')
+            ? ['https://bridge.archethic.net/favicon.png']
+            : ['https://testnet.bridge.archethic.net/favicon.png'],
       ),
       email: false,
       showWallets: true,

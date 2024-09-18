@@ -3,8 +3,6 @@ import 'dart:async';
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/application/contracts/evm_htlc.dart';
-import 'package:aebridge/application/contracts/evm_htlc_erc.dart';
-import 'package:aebridge/application/contracts/evm_htlc_native.dart';
 import 'package:aebridge/application/contracts/evm_lp.dart';
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/provider.dart';
@@ -198,7 +196,10 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       resultSymbol.map(
         success: (result) {
           setAmountCurrency(result.symbol);
-          state = state.copyWith(isERC20: result.isERC20);
+          state = state.copyWith(
+            isERC20: result.isERC20,
+            tokenAddress: result.tokenAddress,
+          );
         },
         failure: setFailure,
       );
@@ -303,7 +304,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       final decimal = await TokenDecimalsRepositoryImpl().getTokenDecimals(
         false,
         state.isERC20! ? 'Wrapped' : 'Native',
-        state.isERC20! ? '' : '',
+        state.isERC20! ? state.tokenAddress ?? '' : '',
       );
 
       final resultAmount = await evmHTLC.getAmount(decimal);
@@ -313,32 +314,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         },
         failure: setFailure,
       );
-
-      if (state.isERC20 != null && state.isERC20!) {
-        final evmHTLCERC = EVMHTLCERC(
-          state.htlcAddressFilled,
-          chainId,
-        );
-        final resultFee = await evmHTLCERC.getFee(decimal);
-        resultFee.map(
-          success: (fee) {
-            setFee(fee);
-          },
-          failure: setFailure,
-        );
-      } else {
-        final evmHTLCNative = EVMHTLCNative(
-          state.htlcAddressFilled,
-          chainId,
-        );
-        final resultFee = await evmHTLCNative.getFee();
-        resultFee.map(
-          success: (fee) {
-            setFee(fee);
-          },
-          failure: setFailure,
-        );
-      }
     }
     state = state.copyWith(
       defineStatusInProgress: false,
