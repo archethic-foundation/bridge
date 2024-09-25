@@ -33,6 +33,7 @@ mixin _$BridgeFormState {
   double get tokenToBridgeBalance => throw _privateConstructorUsedError;
   double get tokenBridgedBalance => throw _privateConstructorUsedError;
   double get poolTargetBalance => throw _privateConstructorUsedError;
+  bool get poolTargetMintAndBurn => throw _privateConstructorUsedError;
   int get tokenToBridgeDecimals => throw _privateConstructorUsedError;
   int get tokenBridgedDecimals => throw _privateConstructorUsedError;
   @FailureJsonConverter()
@@ -59,6 +60,7 @@ mixin _$BridgeFormState {
   bool get controlInProgress => throw _privateConstructorUsedError;
   DateTime? get consentDateTime => throw _privateConstructorUsedError;
   bool get requestTooLong => throw _privateConstructorUsedError;
+  double get ucoV1Balance => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -83,6 +85,7 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       double tokenToBridgeBalance,
       double tokenBridgedBalance,
       double poolTargetBalance,
+      bool poolTargetMintAndBurn,
       int tokenToBridgeDecimals,
       int tokenBridgedDecimals,
       @FailureJsonConverter() Failure? failure,
@@ -104,7 +107,8 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       bool messageMaxHalfUCO,
       bool controlInProgress,
       DateTime? consentDateTime,
-      bool requestTooLong});
+      bool requestTooLong,
+      double ucoV1Balance});
 
   $BridgeBlockchainCopyWith<$Res>? get blockchainFrom;
   $BridgeBlockchainCopyWith<$Res>? get blockchainTo;
@@ -136,6 +140,7 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? tokenToBridgeBalance = null,
     Object? tokenBridgedBalance = null,
     Object? poolTargetBalance = null,
+    Object? poolTargetMintAndBurn = null,
     Object? tokenToBridgeDecimals = null,
     Object? tokenBridgedDecimals = null,
     Object? failure = freezed,
@@ -158,6 +163,7 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? controlInProgress = null,
     Object? consentDateTime = freezed,
     Object? requestTooLong = null,
+    Object? ucoV1Balance = null,
   }) {
     return _then(_value.copyWith(
       resumeProcess: null == resumeProcess
@@ -200,6 +206,10 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
           ? _value.poolTargetBalance
           : poolTargetBalance // ignore: cast_nullable_to_non_nullable
               as double,
+      poolTargetMintAndBurn: null == poolTargetMintAndBurn
+          ? _value.poolTargetMintAndBurn
+          : poolTargetMintAndBurn // ignore: cast_nullable_to_non_nullable
+              as bool,
       tokenToBridgeDecimals: null == tokenToBridgeDecimals
           ? _value.tokenToBridgeDecimals
           : tokenToBridgeDecimals // ignore: cast_nullable_to_non_nullable
@@ -288,6 +298,10 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
           ? _value.requestTooLong
           : requestTooLong // ignore: cast_nullable_to_non_nullable
               as bool,
+      ucoV1Balance: null == ucoV1Balance
+          ? _value.ucoV1Balance
+          : ucoV1Balance // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 
@@ -372,6 +386,7 @@ abstract class _$$BridgeFormStateImplCopyWith<$Res>
       double tokenToBridgeBalance,
       double tokenBridgedBalance,
       double poolTargetBalance,
+      bool poolTargetMintAndBurn,
       int tokenToBridgeDecimals,
       int tokenBridgedDecimals,
       @FailureJsonConverter() Failure? failure,
@@ -393,7 +408,8 @@ abstract class _$$BridgeFormStateImplCopyWith<$Res>
       bool messageMaxHalfUCO,
       bool controlInProgress,
       DateTime? consentDateTime,
-      bool requestTooLong});
+      bool requestTooLong,
+      double ucoV1Balance});
 
   @override
   $BridgeBlockchainCopyWith<$Res>? get blockchainFrom;
@@ -428,6 +444,7 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
     Object? tokenToBridgeBalance = null,
     Object? tokenBridgedBalance = null,
     Object? poolTargetBalance = null,
+    Object? poolTargetMintAndBurn = null,
     Object? tokenToBridgeDecimals = null,
     Object? tokenBridgedDecimals = null,
     Object? failure = freezed,
@@ -450,6 +467,7 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
     Object? controlInProgress = null,
     Object? consentDateTime = freezed,
     Object? requestTooLong = null,
+    Object? ucoV1Balance = null,
   }) {
     return _then(_$BridgeFormStateImpl(
       resumeProcess: null == resumeProcess
@@ -492,6 +510,10 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
           ? _value.poolTargetBalance
           : poolTargetBalance // ignore: cast_nullable_to_non_nullable
               as double,
+      poolTargetMintAndBurn: null == poolTargetMintAndBurn
+          ? _value.poolTargetMintAndBurn
+          : poolTargetMintAndBurn // ignore: cast_nullable_to_non_nullable
+              as bool,
       tokenToBridgeDecimals: null == tokenToBridgeDecimals
           ? _value.tokenToBridgeDecimals
           : tokenToBridgeDecimals // ignore: cast_nullable_to_non_nullable
@@ -580,6 +602,10 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
           ? _value.requestTooLong
           : requestTooLong // ignore: cast_nullable_to_non_nullable
               as bool,
+      ucoV1Balance: null == ucoV1Balance
+          ? _value.ucoV1Balance
+          : ucoV1Balance // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -598,6 +624,7 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
       this.tokenToBridgeBalance = 0,
       this.tokenBridgedBalance = 0,
       this.poolTargetBalance = 0,
+      this.poolTargetMintAndBurn = false,
       this.tokenToBridgeDecimals = 8,
       this.tokenBridgedDecimals = 8,
       @FailureJsonConverter() this.failure,
@@ -619,7 +646,8 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
       this.messageMaxHalfUCO = false,
       this.controlInProgress = false,
       this.consentDateTime,
-      this.requestTooLong = false})
+      this.requestTooLong = false,
+      this.ucoV1Balance = 0})
       : _secret = secret,
         super._();
 
@@ -656,6 +684,9 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
   @override
   @JsonKey()
   final double poolTargetBalance;
+  @override
+  @JsonKey()
+  final bool poolTargetMintAndBurn;
   @override
   @JsonKey()
   final int tokenToBridgeDecimals;
@@ -723,10 +754,13 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
   @override
   @JsonKey()
   final bool requestTooLong;
+  @override
+  @JsonKey()
+  final double ucoV1Balance;
 
   @override
   String toString() {
-    return 'BridgeFormState(resumeProcess: $resumeProcess, processStep: $processStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, poolTargetBalance: $poolTargetBalance, tokenToBridgeDecimals: $tokenToBridgeDecimals, tokenBridgedDecimals: $tokenBridgedDecimals, failure: $failure, isTransferInProgress: $isTransferInProgress, walletConfirmation: $walletConfirmation, bridgeOk: $bridgeOk, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, htlcEVMTxAddress: $htlcEVMTxAddress, secret: $secret, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees, feesEstimatedUCO: $feesEstimatedUCO, messageMaxHalfUCO: $messageMaxHalfUCO, controlInProgress: $controlInProgress, consentDateTime: $consentDateTime, requestTooLong: $requestTooLong)';
+    return 'BridgeFormState(resumeProcess: $resumeProcess, processStep: $processStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, poolTargetBalance: $poolTargetBalance, poolTargetMintAndBurn: $poolTargetMintAndBurn, tokenToBridgeDecimals: $tokenToBridgeDecimals, tokenBridgedDecimals: $tokenBridgedDecimals, failure: $failure, isTransferInProgress: $isTransferInProgress, walletConfirmation: $walletConfirmation, bridgeOk: $bridgeOk, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, htlcEVMTxAddress: $htlcEVMTxAddress, secret: $secret, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees, feesEstimatedUCO: $feesEstimatedUCO, messageMaxHalfUCO: $messageMaxHalfUCO, controlInProgress: $controlInProgress, consentDateTime: $consentDateTime, requestTooLong: $requestTooLong, ucoV1Balance: $ucoV1Balance)';
   }
 
   @override
@@ -754,6 +788,8 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
                 other.tokenBridgedBalance == tokenBridgedBalance) &&
             (identical(other.poolTargetBalance, poolTargetBalance) ||
                 other.poolTargetBalance == poolTargetBalance) &&
+            (identical(other.poolTargetMintAndBurn, poolTargetMintAndBurn) ||
+                other.poolTargetMintAndBurn == poolTargetMintAndBurn) &&
             (identical(other.tokenToBridgeDecimals, tokenToBridgeDecimals) ||
                 other.tokenToBridgeDecimals == tokenToBridgeDecimals) &&
             (identical(other.tokenBridgedDecimals, tokenBridgedDecimals) ||
@@ -780,14 +816,14 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
             (identical(other.htlcEVMTxAddress, htlcEVMTxAddress) ||
                 other.htlcEVMTxAddress == htlcEVMTxAddress) &&
             const DeepCollectionEquality().equals(other._secret, _secret) &&
-            (identical(other.archethicProtocolFeesRate,
-                    archethicProtocolFeesRate) ||
+            (identical(other.archethicProtocolFeesRate, archethicProtocolFeesRate) ||
                 other.archethicProtocolFeesRate == archethicProtocolFeesRate) &&
             (identical(other.archethicProtocolFeesAddress,
                     archethicProtocolFeesAddress) ||
                 other.archethicProtocolFeesAddress ==
                     archethicProtocolFeesAddress) &&
-            (identical(other.archethicTransactionFees, archethicTransactionFees) ||
+            (identical(
+                    other.archethicTransactionFees, archethicTransactionFees) ||
                 other.archethicTransactionFees == archethicTransactionFees) &&
             (identical(other.feesEstimatedUCO, feesEstimatedUCO) ||
                 other.feesEstimatedUCO == feesEstimatedUCO) &&
@@ -798,7 +834,9 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
             (identical(other.consentDateTime, consentDateTime) ||
                 other.consentDateTime == consentDateTime) &&
             (identical(other.requestTooLong, requestTooLong) ||
-                other.requestTooLong == requestTooLong));
+                other.requestTooLong == requestTooLong) &&
+            (identical(other.ucoV1Balance, ucoV1Balance) ||
+                other.ucoV1Balance == ucoV1Balance));
   }
 
   @JsonKey(ignore: true)
@@ -815,6 +853,7 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
         tokenToBridgeBalance,
         tokenBridgedBalance,
         poolTargetBalance,
+        poolTargetMintAndBurn,
         tokenToBridgeDecimals,
         tokenBridgedDecimals,
         failure,
@@ -836,7 +875,8 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
         messageMaxHalfUCO,
         controlInProgress,
         consentDateTime,
-        requestTooLong
+        requestTooLong,
+        ucoV1Balance
       ]);
 
   @JsonKey(ignore: true)
@@ -866,6 +906,7 @@ abstract class _BridgeFormState extends BridgeFormState {
       final double tokenToBridgeBalance,
       final double tokenBridgedBalance,
       final double poolTargetBalance,
+      final bool poolTargetMintAndBurn,
       final int tokenToBridgeDecimals,
       final int tokenBridgedDecimals,
       @FailureJsonConverter() final Failure? failure,
@@ -888,7 +929,8 @@ abstract class _BridgeFormState extends BridgeFormState {
       final bool messageMaxHalfUCO,
       final bool controlInProgress,
       final DateTime? consentDateTime,
-      final bool requestTooLong}) = _$BridgeFormStateImpl;
+      final bool requestTooLong,
+      final double ucoV1Balance}) = _$BridgeFormStateImpl;
   const _BridgeFormState._() : super._();
 
   factory _BridgeFormState.fromJson(Map<String, dynamic> json) =
@@ -917,6 +959,8 @@ abstract class _BridgeFormState extends BridgeFormState {
   double get tokenBridgedBalance;
   @override
   double get poolTargetBalance;
+  @override
+  bool get poolTargetMintAndBurn;
   @override
   int get tokenToBridgeDecimals;
   @override
@@ -963,6 +1007,8 @@ abstract class _BridgeFormState extends BridgeFormState {
   DateTime? get consentDateTime;
   @override
   bool get requestTooLong;
+  @override
+  double get ucoV1Balance;
   @override
   @JsonKey(ignore: true)
   _$$BridgeFormStateImplCopyWith<_$BridgeFormStateImpl> get copyWith =>

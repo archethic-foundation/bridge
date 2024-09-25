@@ -36,6 +36,8 @@ _$TokenDataImpl _$$TokenDataImplFromJson(Map<String, dynamic> json) =>
       typeTarget: json['typeTarget'] as String? ?? '',
       tokenAddressSource: json['tokenAddressSource'] as String? ?? '',
       tokenAddressTarget: json['tokenAddressTarget'] as String? ?? '',
+      ucoV1Address: json['ucoV1Address'] as String? ?? '',
+      contractToMintAndBurn: json['contractToMintAndBurn'] as bool?,
     );
 
 Map<String, dynamic> _$$TokenDataImplToJson(_$TokenDataImpl instance) =>
@@ -50,4 +52,6 @@ Map<String, dynamic> _$$TokenDataImplToJson(_$TokenDataImpl instance) =>
       'typeTarget': instance.typeTarget,
       'tokenAddressSource': instance.tokenAddressSource,
       'tokenAddressTarget': instance.tokenAddressTarget,
+      'ucoV1Address': instance.ucoV1Address,
+      'contractToMintAndBurn': instance.contractToMintAndBurn,
     };

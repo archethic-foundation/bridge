@@ -17,7 +17,9 @@ class BridgeTokenBridgedPoolBalance extends ConsumerWidget {
 
     if (bridge.blockchainFrom == null ||
         bridge.tokenToBridge == null ||
-        bridge.blockchainFrom!.isArchethic == false) {
+        bridge.blockchainFrom!.isArchethic == false ||
+        (bridge.tokenToBridge!.contractToMintAndBurn != null &&
+            bridge.tokenToBridge!.contractToMintAndBurn == true)) {
       return const SizedBox.shrink();
     }
 

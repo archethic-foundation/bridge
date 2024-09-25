@@ -30,6 +30,8 @@ class BridgeToken with _$BridgeToken {
     @Default('') String poolAddressTo,
     @Default('') String typeSource,
     @Default('') String typeTarget,
+    @Default('') String ucoV1Address,
+    bool? contractToMintAndBurn,
   }) = _BridgeToken;
 
   factory BridgeToken.fromJson(Map<String, dynamic> json) =>

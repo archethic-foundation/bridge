@@ -31,6 +31,7 @@ _$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
       tokenBridgedBalance:
           (json['tokenBridgedBalance'] as num?)?.toDouble() ?? 0,
       poolTargetBalance: (json['poolTargetBalance'] as num?)?.toDouble() ?? 0,
+      poolTargetMintAndBurn: json['poolTargetMintAndBurn'] as bool? ?? false,
       tokenToBridgeDecimals:
           (json['tokenToBridgeDecimals'] as num?)?.toInt() ?? 8,
       tokenBridgedDecimals:
@@ -68,6 +69,7 @@ _$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
           ? null
           : DateTime.parse(json['consentDateTime'] as String),
       requestTooLong: json['requestTooLong'] as bool? ?? false,
+      ucoV1Balance: (json['ucoV1Balance'] as num?)?.toDouble() ?? 0,
     );
 
 Map<String, dynamic> _$$BridgeFormStateImplToJson(
@@ -90,6 +92,7 @@ Map<String, dynamic> _$$BridgeFormStateImplToJson(
       'tokenToBridgeBalance': instance.tokenToBridgeBalance,
       'tokenBridgedBalance': instance.tokenBridgedBalance,
       'poolTargetBalance': instance.poolTargetBalance,
+      'poolTargetMintAndBurn': instance.poolTargetMintAndBurn,
       'tokenToBridgeDecimals': instance.tokenToBridgeDecimals,
       'tokenBridgedDecimals': instance.tokenBridgedDecimals,
       'failure': _$JsonConverterToJson<Map<String, dynamic>, Failure>(
@@ -117,6 +120,7 @@ Map<String, dynamic> _$$BridgeFormStateImplToJson(
       'controlInProgress': instance.controlInProgress,
       'consentDateTime': instance.consentDateTime?.toIso8601String(),
       'requestTooLong': instance.requestTooLong,
+      'ucoV1Balance': instance.ucoV1Balance,
     };
 
 const _$ProcessStepEnumMap = {

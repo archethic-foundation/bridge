@@ -14,6 +14,7 @@ import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_bridged
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_bridged_pool_balance.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_balance.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_selection.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_uco_v1_warning.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -80,6 +81,7 @@ class BridgeFormSheet extends ConsumerWidget {
             ],
           ),
           BridgeTokenAddress(),
+          BridgeUCOV1Warning(),
           SizedBox(
             height: 10,
           ),

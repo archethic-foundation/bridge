@@ -30,6 +30,8 @@ mixin _$BridgeToken {
   String get poolAddressTo => throw _privateConstructorUsedError;
   String get typeSource => throw _privateConstructorUsedError;
   String get typeTarget => throw _privateConstructorUsedError;
+  String get ucoV1Address => throw _privateConstructorUsedError;
+  bool? get contractToMintAndBurn => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -53,7 +55,9 @@ abstract class $BridgeTokenCopyWith<$Res> {
       String poolAddressFrom,
       String poolAddressTo,
       String typeSource,
-      String typeTarget});
+      String typeTarget,
+      String ucoV1Address,
+      bool? contractToMintAndBurn});
 }
 
 /// @nodoc
@@ -79,6 +83,8 @@ class _$BridgeTokenCopyWithImpl<$Res, $Val extends BridgeToken>
     Object? poolAddressTo = null,
     Object? typeSource = null,
     Object? typeTarget = null,
+    Object? ucoV1Address = null,
+    Object? contractToMintAndBurn = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -121,6 +127,14 @@ class _$BridgeTokenCopyWithImpl<$Res, $Val extends BridgeToken>
           ? _value.typeTarget
           : typeTarget // ignore: cast_nullable_to_non_nullable
               as String,
+      ucoV1Address: null == ucoV1Address
+          ? _value.ucoV1Address
+          : ucoV1Address // ignore: cast_nullable_to_non_nullable
+              as String,
+      contractToMintAndBurn: freezed == contractToMintAndBurn
+          ? _value.contractToMintAndBurn
+          : contractToMintAndBurn // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -143,7 +157,9 @@ abstract class _$$BridgeTokenImplCopyWith<$Res>
       String poolAddressFrom,
       String poolAddressTo,
       String typeSource,
-      String typeTarget});
+      String typeTarget,
+      String ucoV1Address,
+      bool? contractToMintAndBurn});
 }
 
 /// @nodoc
@@ -167,6 +183,8 @@ class __$$BridgeTokenImplCopyWithImpl<$Res>
     Object? poolAddressTo = null,
     Object? typeSource = null,
     Object? typeTarget = null,
+    Object? ucoV1Address = null,
+    Object? contractToMintAndBurn = freezed,
   }) {
     return _then(_$BridgeTokenImpl(
       name: null == name
@@ -209,6 +227,14 @@ class __$$BridgeTokenImplCopyWithImpl<$Res>
           ? _value.typeTarget
           : typeTarget // ignore: cast_nullable_to_non_nullable
               as String,
+      ucoV1Address: null == ucoV1Address
+          ? _value.ucoV1Address
+          : ucoV1Address // ignore: cast_nullable_to_non_nullable
+              as String,
+      contractToMintAndBurn: freezed == contractToMintAndBurn
+          ? _value.contractToMintAndBurn
+          : contractToMintAndBurn // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -226,7 +252,9 @@ class _$BridgeTokenImpl implements _BridgeToken {
       this.poolAddressFrom = '',
       this.poolAddressTo = '',
       this.typeSource = '',
-      this.typeTarget = ''});
+      this.typeTarget = '',
+      this.ucoV1Address = '',
+      this.contractToMintAndBurn});
 
   factory _$BridgeTokenImpl.fromJson(Map<String, dynamic> json) =>
       _$$BridgeTokenImplFromJson(json);
@@ -261,10 +289,15 @@ class _$BridgeTokenImpl implements _BridgeToken {
   @override
   @JsonKey()
   final String typeTarget;
+  @override
+  @JsonKey()
+  final String ucoV1Address;
+  @override
+  final bool? contractToMintAndBurn;
 
   @override
   String toString() {
-    return 'BridgeToken(name: $name, tokenAddressSource: $tokenAddressSource, tokenAddressTarget: $tokenAddressTarget, symbol: $symbol, targetTokenName: $targetTokenName, targetTokenSymbol: $targetTokenSymbol, poolAddressFrom: $poolAddressFrom, poolAddressTo: $poolAddressTo, typeSource: $typeSource, typeTarget: $typeTarget)';
+    return 'BridgeToken(name: $name, tokenAddressSource: $tokenAddressSource, tokenAddressTarget: $tokenAddressTarget, symbol: $symbol, targetTokenName: $targetTokenName, targetTokenSymbol: $targetTokenSymbol, poolAddressFrom: $poolAddressFrom, poolAddressTo: $poolAddressTo, typeSource: $typeSource, typeTarget: $typeTarget, ucoV1Address: $ucoV1Address, contractToMintAndBurn: $contractToMintAndBurn)';
   }
 
   @override
@@ -289,7 +322,11 @@ class _$BridgeTokenImpl implements _BridgeToken {
             (identical(other.typeSource, typeSource) ||
                 other.typeSource == typeSource) &&
             (identical(other.typeTarget, typeTarget) ||
-                other.typeTarget == typeTarget));
+                other.typeTarget == typeTarget) &&
+            (identical(other.ucoV1Address, ucoV1Address) ||
+                other.ucoV1Address == ucoV1Address) &&
+            (identical(other.contractToMintAndBurn, contractToMintAndBurn) ||
+                other.contractToMintAndBurn == contractToMintAndBurn));
   }
 
   @JsonKey(ignore: true)
@@ -305,7 +342,9 @@ class _$BridgeTokenImpl implements _BridgeToken {
       poolAddressFrom,
       poolAddressTo,
       typeSource,
-      typeTarget);
+      typeTarget,
+      ucoV1Address,
+      contractToMintAndBurn);
 
   @JsonKey(ignore: true)
   @override
@@ -332,7 +371,9 @@ abstract class _BridgeToken implements BridgeToken {
       final String poolAddressFrom,
       final String poolAddressTo,
       final String typeSource,
-      final String typeTarget}) = _$BridgeTokenImpl;
+      final String typeTarget,
+      final String ucoV1Address,
+      final bool? contractToMintAndBurn}) = _$BridgeTokenImpl;
 
   factory _BridgeToken.fromJson(Map<String, dynamic> json) =
       _$BridgeTokenImpl.fromJson;
@@ -357,6 +398,10 @@ abstract class _BridgeToken implements BridgeToken {
   String get typeSource;
   @override
   String get typeTarget;
+  @override
+  String get ucoV1Address;
+  @override
+  bool? get contractToMintAndBurn;
   @override
   @JsonKey(ignore: true)
   _$$BridgeTokenImplCopyWith<_$BridgeTokenImpl> get copyWith =>

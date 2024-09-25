@@ -22,6 +22,7 @@ class BridgeFormState with _$BridgeFormState {
     @Default(0) double tokenToBridgeBalance,
     @Default(0) double tokenBridgedBalance,
     @Default(0) double poolTargetBalance,
+    @Default(false) bool poolTargetMintAndBurn,
     @Default(8) int tokenToBridgeDecimals,
     @Default(8) int tokenBridgedDecimals,
     @FailureJsonConverter() Failure? failure,
@@ -44,6 +45,7 @@ class BridgeFormState with _$BridgeFormState {
     @Default(false) bool controlInProgress,
     DateTime? consentDateTime,
     @Default(false) bool requestTooLong,
+    @Default(0) double ucoV1Balance,
   }) = _BridgeFormState;
   const BridgeFormState._();
 
