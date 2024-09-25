@@ -334,6 +334,29 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
     );
     await setTokenToBridgeBalance(balance);
 
+    if (state.tokenToBridge!.ucoV1Address.isNotEmpty) {
+      final tokenToBridgeUCOV1Decimals = await ref.read(
+        TokenDecimalsProviders.getTokenDecimals(
+          state.blockchainFrom!.isArchethic,
+          state.tokenToBridge!.typeSource,
+          state.tokenToBridge!.ucoV1Address,
+          providerEndpoint: state.blockchainFrom!.providerEndpoint,
+        ).future,
+      );
+
+      final ucoV1Balance = await ref.read(
+        BalanceProviders.getBalance(
+          false,
+          session.walletFrom!.genesisAddress,
+          state.tokenToBridge!.typeSource,
+          state.tokenToBridge!.ucoV1Address,
+          tokenToBridgeUCOV1Decimals,
+          providerEndpoint: state.blockchainFrom!.providerEndpoint,
+        ).future,
+      );
+      await setUCOV1Balance(ucoV1Balance);
+    }
+
     final tokenDecimals = await ref.read(
       TokenDecimalsProviders.getTokenDecimals(
         state.blockchainFrom!.isArchethic,
@@ -356,7 +379,10 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
     );
     await setTokenBridgedBalance(balanceTarget);
 
-    if (state.blockchainTo!.isArchethic == false) {
+    setPoolTargetBalance(0);
+    if (state.blockchainTo!.isArchethic == false &&
+        state.tokenToBridge!.contractToMintAndBurn != null &&
+        state.tokenToBridge!.contractToMintAndBurn == false) {
       final poolTargetBalance = await ref.read(
         BalanceProviders.getBalance(
           state.blockchainTo!.isArchethic,
@@ -376,6 +402,15 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
   ) async {
     state = state.copyWith(
       tokenToBridgeBalance: tokenToBridgeBalance,
+    );
+    await storeBridge();
+  }
+
+  Future<void> setUCOV1Balance(
+    double ucoV1Balance,
+  ) async {
+    state = state.copyWith(
+      ucoV1Balance: ucoV1Balance,
     );
     await storeBridge();
   }
@@ -737,6 +772,7 @@ class _BridgeFormNotifier extends _$BridgeFormNotifier
     }
 
     if (state.blockchainFrom!.isArchethic &&
+        state.tokenToBridge!.contractToMintAndBurn == false &&
         state.poolTargetBalance < state.tokenToBridgeAmount) {
       if (context.mounted) {
         await setFailure(

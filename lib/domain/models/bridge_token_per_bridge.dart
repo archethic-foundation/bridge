@@ -27,6 +27,8 @@ class TokenData with _$TokenData {
     @Default('') String typeTarget,
     @Default('') String tokenAddressSource,
     @Default('') String tokenAddressTarget,
+    @Default('') String ucoV1Address,
+    bool? contractToMintAndBurn,
   }) = _TokenData;
 
   factory TokenData.fromJson(Map<String, dynamic> json) =>

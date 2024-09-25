@@ -35,6 +35,8 @@ class BridgeTokensRepositoryImpl implements BridgeTokensRepository {
               poolAddressTo: token.poolAddressTo,
               tokenAddressSource: token.tokenAddressSource,
               tokenAddressTarget: token.tokenAddressTarget,
+              ucoV1Address: token.ucoV1Address,
+              contractToMintAndBurn: token.contractToMintAndBurn ?? false,
             ),
           );
         }

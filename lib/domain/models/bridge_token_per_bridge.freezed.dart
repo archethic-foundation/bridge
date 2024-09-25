@@ -184,6 +184,8 @@ mixin _$TokenData {
   String get typeTarget => throw _privateConstructorUsedError;
   String get tokenAddressSource => throw _privateConstructorUsedError;
   String get tokenAddressTarget => throw _privateConstructorUsedError;
+  String get ucoV1Address => throw _privateConstructorUsedError;
+  bool? get contractToMintAndBurn => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -206,7 +208,9 @@ abstract class $TokenDataCopyWith<$Res> {
       String typeSource,
       String typeTarget,
       String tokenAddressSource,
-      String tokenAddressTarget});
+      String tokenAddressTarget,
+      String ucoV1Address,
+      bool? contractToMintAndBurn});
 }
 
 /// @nodoc
@@ -232,6 +236,8 @@ class _$TokenDataCopyWithImpl<$Res, $Val extends TokenData>
     Object? typeTarget = null,
     Object? tokenAddressSource = null,
     Object? tokenAddressTarget = null,
+    Object? ucoV1Address = null,
+    Object? contractToMintAndBurn = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -274,6 +280,14 @@ class _$TokenDataCopyWithImpl<$Res, $Val extends TokenData>
           ? _value.tokenAddressTarget
           : tokenAddressTarget // ignore: cast_nullable_to_non_nullable
               as String,
+      ucoV1Address: null == ucoV1Address
+          ? _value.ucoV1Address
+          : ucoV1Address // ignore: cast_nullable_to_non_nullable
+              as String,
+      contractToMintAndBurn: freezed == contractToMintAndBurn
+          ? _value.contractToMintAndBurn
+          : contractToMintAndBurn // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 }
@@ -296,7 +310,9 @@ abstract class _$$TokenDataImplCopyWith<$Res>
       String typeSource,
       String typeTarget,
       String tokenAddressSource,
-      String tokenAddressTarget});
+      String tokenAddressTarget,
+      String ucoV1Address,
+      bool? contractToMintAndBurn});
 }
 
 /// @nodoc
@@ -320,6 +336,8 @@ class __$$TokenDataImplCopyWithImpl<$Res>
     Object? typeTarget = null,
     Object? tokenAddressSource = null,
     Object? tokenAddressTarget = null,
+    Object? ucoV1Address = null,
+    Object? contractToMintAndBurn = freezed,
   }) {
     return _then(_$TokenDataImpl(
       name: null == name
@@ -362,6 +380,14 @@ class __$$TokenDataImplCopyWithImpl<$Res>
           ? _value.tokenAddressTarget
           : tokenAddressTarget // ignore: cast_nullable_to_non_nullable
               as String,
+      ucoV1Address: null == ucoV1Address
+          ? _value.ucoV1Address
+          : ucoV1Address // ignore: cast_nullable_to_non_nullable
+              as String,
+      contractToMintAndBurn: freezed == contractToMintAndBurn
+          ? _value.contractToMintAndBurn
+          : contractToMintAndBurn // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -379,7 +405,9 @@ class _$TokenDataImpl implements _TokenData {
       this.typeSource = '',
       this.typeTarget = '',
       this.tokenAddressSource = '',
-      this.tokenAddressTarget = ''});
+      this.tokenAddressTarget = '',
+      this.ucoV1Address = '',
+      this.contractToMintAndBurn});
 
   factory _$TokenDataImpl.fromJson(Map<String, dynamic> json) =>
       _$$TokenDataImplFromJson(json);
@@ -414,10 +442,15 @@ class _$TokenDataImpl implements _TokenData {
   @override
   @JsonKey()
   final String tokenAddressTarget;
+  @override
+  @JsonKey()
+  final String ucoV1Address;
+  @override
+  final bool? contractToMintAndBurn;
 
   @override
   String toString() {
-    return 'TokenData(name: $name, symbol: $symbol, targetTokenName: $targetTokenName, targetTokenSymbol: $targetTokenSymbol, poolAddressFrom: $poolAddressFrom, poolAddressTo: $poolAddressTo, typeSource: $typeSource, typeTarget: $typeTarget, tokenAddressSource: $tokenAddressSource, tokenAddressTarget: $tokenAddressTarget)';
+    return 'TokenData(name: $name, symbol: $symbol, targetTokenName: $targetTokenName, targetTokenSymbol: $targetTokenSymbol, poolAddressFrom: $poolAddressFrom, poolAddressTo: $poolAddressTo, typeSource: $typeSource, typeTarget: $typeTarget, tokenAddressSource: $tokenAddressSource, tokenAddressTarget: $tokenAddressTarget, ucoV1Address: $ucoV1Address, contractToMintAndBurn: $contractToMintAndBurn)';
   }
 
   @override
@@ -442,7 +475,11 @@ class _$TokenDataImpl implements _TokenData {
             (identical(other.tokenAddressSource, tokenAddressSource) ||
                 other.tokenAddressSource == tokenAddressSource) &&
             (identical(other.tokenAddressTarget, tokenAddressTarget) ||
-                other.tokenAddressTarget == tokenAddressTarget));
+                other.tokenAddressTarget == tokenAddressTarget) &&
+            (identical(other.ucoV1Address, ucoV1Address) ||
+                other.ucoV1Address == ucoV1Address) &&
+            (identical(other.contractToMintAndBurn, contractToMintAndBurn) ||
+                other.contractToMintAndBurn == contractToMintAndBurn));
   }
 
   @JsonKey(ignore: true)
@@ -458,7 +495,9 @@ class _$TokenDataImpl implements _TokenData {
       typeSource,
       typeTarget,
       tokenAddressSource,
-      tokenAddressTarget);
+      tokenAddressTarget,
+      ucoV1Address,
+      contractToMintAndBurn);
 
   @JsonKey(ignore: true)
   @override
@@ -485,7 +524,9 @@ abstract class _TokenData implements TokenData {
       final String typeSource,
       final String typeTarget,
       final String tokenAddressSource,
-      final String tokenAddressTarget}) = _$TokenDataImpl;
+      final String tokenAddressTarget,
+      final String ucoV1Address,
+      final bool? contractToMintAndBurn}) = _$TokenDataImpl;
 
   factory _TokenData.fromJson(Map<String, dynamic> json) =
       _$TokenDataImpl.fromJson;
@@ -510,6 +551,10 @@ abstract class _TokenData implements TokenData {
   String get tokenAddressSource;
   @override
   String get tokenAddressTarget;
+  @override
+  String get ucoV1Address;
+  @override
+  bool? get contractToMintAndBurn;
   @override
   @JsonKey(ignore: true)
   _$$TokenDataImplCopyWith<_$TokenDataImpl> get copyWith =>

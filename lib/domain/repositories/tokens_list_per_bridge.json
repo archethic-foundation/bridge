@@ -10,7 +10,9 @@
                 "poolAddressTo": "0x346Dba8b51485FfBd4b07B0BCb84F48117751AD9",
                 "typeSource": "Native",
                 "typeTarget": "Wrapped",
-                "tokenAddressTarget": "0x8a3d77e9d6968b780564936d15B09805827C21fa"
+                "tokenAddressTarget": "0x1A688D3d294ee7BcC1f59011DE93d608Dc21c377",
+                "ucoV1Address": "0x8a3d77e9d6968b780564936d15B09805827C21fa",
+                "contractToMintAndBurn": true
             },
             {
                 "name": "Wrapped Ether",
@@ -58,7 +60,9 @@
                 "poolAddressTo": "0xd5cA9F76495b853a5054814A10b6365ee8ed745B",
                 "typeSource": "Native",
                 "typeTarget": "Wrapped",
-                "tokenAddressTarget": "0x3C720206bFaCB2d16fA3ac0ed87D2048Dbc401Fc"
+                "tokenAddressTarget": "0xaa53B93608C88EE55fAD8db4C504Fa20E52642aD",
+                "ucoV1Address": "0x3C720206bFaCB2d16fA3ac0ed87D2048Dbc401Fc",
+                "contractToMintAndBurn": true
             },
             {
                 "name": "Wrapped Ether",
@@ -107,7 +111,9 @@
                 "poolAddressTo": "0xE01F0ee653648192812B2D23CBfe7E147727B672",
                 "typeSource": "Native",
                 "typeTarget": "Wrapped",
-                "tokenAddressTarget": "0xb001f1E7c8bda414aC7Cf7Ecba5469fE8d24B6de"
+                "tokenAddressTarget": "0xf1e5bbd997501a8439619266A09a54b2b499eAA3",
+                "ucoV1Address": "0xb001f1E7c8bda414aC7Cf7Ecba5469fE8d24B6de",
+                "contractToMintAndBurn": true
             },
             {
                 "name": "Wrapped Ether",
@@ -240,7 +246,8 @@
                 "poolAddressTo": "00002075e9fb5329c7f5149802eb75f925d79b5fec5bfcf09dc81993cb9c39feaf5d",
                 "typeSource": "Wrapped",
                 "typeTarget": "Native",
-                "tokenAddressSource": "0x8a3d77e9d6968b780564936d15B09805827C21fa"
+                "tokenAddressSource": "0x1A688D3d294ee7BcC1f59011DE93d608Dc21c377",
+                "ucoV1Address": "0x8a3d77e9d6968b780564936d15B09805827C21fa"
             },
             {
                 "name": "Ether",
@@ -288,7 +295,8 @@
                 "poolAddressTo": "00002075e9fb5329c7f5149802eb75f925d79b5fec5bfcf09dc81993cb9c39feaf5d",
                 "typeSource": "Wrapped",
                 "typeTarget": "Native",
-                "tokenAddressSource": "0x3C720206bFaCB2d16fA3ac0ed87D2048Dbc401Fc"
+                "tokenAddressSource": "0xaa53B93608C88EE55fAD8db4C504Fa20E52642aD",
+                "ucoV1Address": "0x3C720206bFaCB2d16fA3ac0ed87D2048Dbc401Fc"
             },
             {
                 "name": "Wrapped Ether",
@@ -337,7 +345,8 @@
                 "poolAddressTo": "00002075e9fb5329c7f5149802eb75f925d79b5fec5bfcf09dc81993cb9c39feaf5d",
                 "typeSource": "Wrapped",
                 "typeTarget": "Native",
-                "tokenAddressSource": "0xb001f1E7c8bda414aC7Cf7Ecba5469fE8d24B6de"
+                "tokenAddressSource": "0xf1e5bbd997501a8439619266A09a54b2b499eAA3",
+                "ucoV1Address": "0xb001f1E7c8bda414aC7Cf7Ecba5469fE8d24B6de"
             },
             {
                 "name": "Wrapped ETH",
