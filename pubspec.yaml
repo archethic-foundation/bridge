@@ -31,6 +31,9 @@ dependencies:
   # The decimal package allows you to deal with decimal numbers without losing precision
   decimal: ^3.0.2
 
+  # A Flutter plugin that provides a WebView widget on web
+  easy_web_view: ^2.0.2
+
   flutter:
     sdk: flutter
 

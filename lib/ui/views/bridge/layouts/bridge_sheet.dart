@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
+import 'package:aebridge/ui/views/bridge/layouts/bridge_evm_sheet.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_sheet.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_form_sheet.dart';
 import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
@@ -11,6 +12,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class BridgeSheet extends ConsumerStatefulWidget {
   const BridgeSheet({
@@ -93,6 +95,26 @@ class _BridgeSheetState extends ConsumerState<BridgeSheet> {
           const aedappfm.ArchethicOracleUco(
             faqLink:
                 'https://wiki.archethic.net/FAQ/bridge-2-ways#how-is-the-price-of-uco-estimated',
+          ),
+        ],
+      ),
+      afterBottomWidget: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 5, top: 10),
+            child: InkWell(
+              onTap: () async {
+                context.go(BridgeEVMSheet.navPage);
+              },
+              child: Text(
+                AppLocalizations.of(context)!.goToEVMBridge,
+                style: TextStyle(
+                  fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize,
+                  color: aedappfm.AppThemeBase.secondaryColor,
+                  decoration: TextDecoration.underline,
+                ),
+              ),
+            ),
           ),
         ],
       ),
