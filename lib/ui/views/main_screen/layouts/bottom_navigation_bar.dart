@@ -33,9 +33,9 @@ class _BottomNavigationBarMainScreenState
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
         child: BottomNavigationBar(
-          elevation: 0,
+          elevation: 1,
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.black.withOpacity(0.3),
           selectedFontSize: 10,
           unselectedFontSize: 10,
           selectedLabelStyle: const TextStyle(

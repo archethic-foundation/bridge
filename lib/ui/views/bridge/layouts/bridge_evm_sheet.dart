@@ -1,5 +1,6 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:ui';
+
+import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/app_bar.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
@@ -8,33 +9,26 @@ import 'package:aebridge/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aebridge/util/browser_util_web.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:easy_web_view/easy_web_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
-class MainScreenSheet extends ConsumerStatefulWidget {
-  const MainScreenSheet({
-    required this.currentStep,
-    required this.formSheet,
-    required this.confirmSheet,
-    this.topWidget,
-    this.bottomWidget,
-    this.afterBottomWidget,
+class BridgeEVMSheet extends ConsumerStatefulWidget {
+  const BridgeEVMSheet({
     super.key,
   });
 
-  final aedappfm.ProcessStep currentStep;
-  final Widget formSheet;
-  final Widget confirmSheet;
-  final Widget? topWidget;
-  final Widget? bottomWidget;
-  final Widget? afterBottomWidget;
+  static const routerPage = 'evm';
+  static const navPage = '/bridge/evm';
+
   @override
-  ConsumerState<MainScreenSheet> createState() => MainScreenSheetState();
+  ConsumerState<BridgeEVMSheet> createState() => _BridgeEVMSheetState();
 }
 
-class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
+class _BridgeEVMSheetState extends ConsumerState<BridgeEVMSheet> {
   List<(String, IconData)> listNavigationLabelIcon = [];
 
   @override
@@ -94,20 +88,41 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
           ),
         ),
         body: Stack(
-          alignment: Alignment.topRight,
+          alignment: Alignment.center,
           children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                const aedappfm.AppBackground(
-                  backgroundImage: 'assets/images/background-welcome.png',
-                ),
-                Align(
+            const aedappfm.AppBackground(
+              backgroundImage: 'assets/images/background-welcome.png',
+            ),
+            Align(
+              child: SingleChildScrollView(
+                child: SizedBox(
+                  width: MediaQuery.of(context).size.width,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      if (widget.topWidget != null)
-                        SizedBox(width: 650, child: widget.topWidget),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            left: 20, right: 20, top: 100),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              AppLocalizations.of(context)!.bridgeEVMHeaderText,
+                              style: Theme.of(context).textTheme.displaySmall,
+                            ),
+                            const SizedBox(
+                              height: 10,
+                            ),
+                            Text(
+                              AppLocalizations.of(context)!
+                                  .bridgeWormholeHeaderDesc,
+                              style: Theme.of(context).textTheme.labelLarge,
+                            ),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                          ],
+                        ),
+                      ),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(20),
                         child: BackdropFilter(
@@ -139,13 +154,20 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
                                       child: IntrinsicHeight(
                                         child: Column(
                                           children: [
-                                            if (widget.currentStep ==
-                                                aedappfm.ProcessStep.form)
-                                              widget.formSheet
-                                            else
-                                              widget.confirmSheet,
-                                            if (widget.bottomWidget != null)
-                                              widget.bottomWidget!,
+                                            SizedBox(
+                                              height: 630,
+                                              width: 630,
+                                              child: EasyWebView(
+                                                src:
+                                                    'http://localhost:62071/bridge-evm.html',
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                height: MediaQuery.of(context)
+                                                    .size
+                                                    .height,
+                                              ),
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -157,20 +179,38 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
                           ),
                         ),
                       ),
-                      if (widget.afterBottomWidget != null)
-                        SizedBox(width: 650, child: widget.afterBottomWidget),
+                      Padding(
+                        padding:
+                            const EdgeInsets.only(left: 5, top: 10, bottom: 30),
+                        child: InkWell(
+                          onTap: () async {
+                            context.go(BridgeSheet.routerPage);
+                          },
+                          child: Text(
+                            AppLocalizations.of(context)!.backToAEBridge,
+                            style: TextStyle(
+                              fontSize: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .fontSize,
+                              color: aedappfm.AppThemeBase.secondaryColor,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ),
+                      ),
                     ],
                   ),
+                ),
+              ),
+            )
+                .animate()
+                .fade(
+                  duration: const Duration(milliseconds: 200),
                 )
-                    .animate()
-                    .fade(
-                      duration: const Duration(milliseconds: 200),
-                    )
-                    .scale(
-                      duration: const Duration(milliseconds: 200),
-                    ),
-              ],
-            ),
+                .scale(
+                  duration: const Duration(milliseconds: 200),
+                ),
           ],
         ),
         bottomNavigationBar: aedappfm.Responsive.isMobile(context) ||

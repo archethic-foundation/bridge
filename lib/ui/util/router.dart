@@ -1,5 +1,6 @@
 import 'package:aebridge/domain/repositories/features_flags.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
+import 'package:aebridge/ui/views/bridge/layouts/bridge_evm_sheet.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/local_history/local_history_sheet.dart';
 import 'package:aebridge/ui/views/maintenance/maintenance_screen.dart';
@@ -50,6 +51,16 @@ final routerProvider = Provider<GoRouter>((ref) {
             ),
           );
         },
+        routes: [
+          GoRoute(
+            path: BridgeEVMSheet.routerPage,
+            pageBuilder: (context, state) {
+              return const NoTransitionPage(
+                child: BridgeEVMSheet(),
+              );
+            },
+          ),
+        ],
       ),
       GoRoute(
         path: LocalHistorySheet.routerPage,
