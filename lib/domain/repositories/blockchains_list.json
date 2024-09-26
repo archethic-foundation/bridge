@@ -88,6 +88,19 @@
             "nativeCurrency": "MATIC"
         },
         {
+            "name": "Amoy",
+            "chainId": 80002,
+            "env": "2-testnet",
+            "icon": "Polygon.svg",
+            "urlExplorerAddress": "https://amoy.polygonscan.com/address/",
+            "urlExplorerTransaction": "https://amoy.polygonscan.com/tx/",
+            "urlExplorerChain": "https://amoy.polygonscan.com/address/",
+            "providerEndpoint": "https://polygon-amoy.g.alchemy.com/v2/eLhVAxz79HO5n2y98mdIl_gMkKSDc3G8",
+            "explorerApi": "https://api-amoy.polygonscan.com/api?apiKey=UEZZZ5VDEV3B2N2J6GKG2T3QTWPZR8RATW",
+            "isArchethic": false,
+            "nativeCurrency": "MATIC"
+        },
+        {
             "name": "BSC",
             "chainId": 56,
             "env": "1-mainnet",
