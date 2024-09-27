@@ -49,6 +49,9 @@
             "ETH": "0x727a6097967815885c51551961e6c3f022616f6A",
             "UCO": "0x26F8C6DB23a4aa5293eEeEe8A3317773e849CF44",
             "DTK": "0x26F8C6DB23a4aa5293eEeEe8A3317773e849CF44"
+        },
+        "80002": {
+            "UCO": "0xFCC8e7E4a007c13672a43107dd0fF45bBC23C8CF"
         }
     }
 }
