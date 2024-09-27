@@ -339,7 +339,6 @@ mixin EVMBridgeProcessMixin {
       _handleError(
         () async {
           final transactionHash = await wagmi.Core.writeContract(
-            aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
             parameters,
           );
           await _waitForTransactionValidation(
@@ -391,7 +390,6 @@ mixin EVMBridgeProcessMixin {
       // TODO(reddwarf03): See waitForTransactionReceipt instead of polling
       try {
         final transactionReceipt = await wagmi.Core.getTransactionReceipt(
-          aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
           wagmi.GetTransactionReceiptParameters(hash: transactionHash),
         );
 
@@ -539,11 +537,8 @@ mixin EVMBridgeProcessMixin {
         "To help you join the Archethic ecosystem, we're offering you free Archethic transaction fees. For security reasons, this requires your signature. Thank you for joining us, and happy exploring!";
     try {
       final payloadSigned = await wagmi.Core.signMessage(
-        aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
         wagmi.SignMessageParameters(
-          account: wagmi.Core.getAccount(
-            aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
-          ).address!,
+          account: wagmi.Core.getAccount().address!,
           message: const wagmi.MessageToSign.rawMessage(
             message: wagmi.RawMessage.hex(raw: payload),
           ),
@@ -653,7 +648,6 @@ mixin FeeValuesUtils {
     }
 
     final blockInformation = await wagmi.Core.getBlock(
-      aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
       wagmi.GetBlockParameters(),
     );
     final baseFeePerGas = blockInformation.baseFeePerGas;

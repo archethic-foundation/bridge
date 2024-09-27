@@ -17,7 +17,7 @@ dependencies:
   #  path: ../archethic-dapp-framework-flutter
 
   # A client dart library to interact with Archethic Wallet RPC API.
-  archethic_wallet_client: ^2.0.8
+  archethic_wallet_client: ^2.1.0
   #archethic_wallet_client:
   #  git:
   #    url: https://github.com/archethic-foundation/archethic-wallet-client-dart.git

@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
@@ -54,7 +53,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
                 poolAddress,
                 tokenUnits,
               ],
-              feeValues: await FeeValuesUtils.defaultEIP1559FeeValues(chainId),
+              // feeValues: await FeeValuesUtils.defaultEIP1559FeeValues(chainId),
             ),
             fromMethod: 'EVMHTLCERC - approveChargeableHTLC',
             ref: ref,
@@ -115,7 +114,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
                 secret.secretSignature!.s!.toBytes,
                 BigInt.from(secret.secretSignature!.v!),
               ],
-              feeValues: await FeeValuesUtils.defaultEIP1559FeeValues(chainId),
+              //   feeValues: await FeeValuesUtils.defaultEIP1559FeeValues(chainId),
             ),
             fromMethod: 'EVMHTLCERC - signedWithdraw',
             ref: ref,
@@ -157,7 +156,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
         final contractHTLC = await loadAbi(contractNameIERC20);
 
         final decimalsMap = await wagmi.Core.readContract(
-          aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
           wagmi.ReadContractParameters(
             abi: contractHTLC,
             address: tokenAddress,
