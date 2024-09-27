@@ -101,7 +101,10 @@ class _BridgeEVMSheetState extends ConsumerState<BridgeEVMSheet> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(
-                            left: 20, right: 20, top: 100),
+                          left: 20,
+                          right: 20,
+                          top: 100,
+                        ),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -158,8 +161,9 @@ class _BridgeEVMSheetState extends ConsumerState<BridgeEVMSheet> {
                                               height: 630,
                                               width: 630,
                                               child: EasyWebView(
+                                                // TODO: To manage
                                                 src:
-                                                    'http://localhost:62071/bridge-evm.html',
+                                                    'http://bridge.testnet.archethic.net/bridge-evm.html',
                                                 width: MediaQuery.of(context)
                                                     .size
                                                     .width,
