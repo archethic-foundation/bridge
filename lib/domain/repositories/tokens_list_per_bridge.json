@@ -150,7 +150,8 @@
                 "poolAddressTo": "0xb361b5AC4eAEb918dCed9d60417975c89556DDEA",
                 "typeSource": "Native",
                 "typeTarget": "Wrapped",
-                "tokenAddressTarget": "0x5e6554593E4fe61276AD09094f16A6D5133461A5"
+                "tokenAddressTarget": "0x5e6554593E4fe61276AD09094f16A6D5133461A5",
+                "contractToMintAndBurn": true
             },
             {
                 "name": "Wrapped BNB",
@@ -162,6 +163,21 @@
                 "typeSource": "Wrapped",
                 "typeTarget": "Native",
                 "tokenAddressSource": "0000288bf6f0e12457b125dc54d2dfa4eb010be3073cf02e10fb79b696180f55b827"
+            }
+        ],
+        "-2->80002": [
+            {
+                "name": "Universal Coin",
+                "symbol": "UCO",
+                "targetTokenName": "ERC20 - Universal Coin",
+                "targetTokenSymbol": "UCO",
+                "poolAddressFrom": "000018d60115ece0c7558a46b4693749bf6beab524fddccf9b10b910619e4ee08801",
+                "poolAddressTo": "0xFCC8e7E4a007c13672a43107dd0fF45bBC23C8CF",
+                "typeSource": "Native",
+                "typeTarget": "Wrapped",
+                "tokenAddressTarget": "0xb10BAF68bECf95AB954198Bc2F467FA04264Ab34",
+                "ucoV1Address": "0xC0f89DC3c6B3f7B2344845e4f66Bd1F13917F750",
+                "contractToMintAndBurn": true
             }
         ],
         "-2->11155111": [
@@ -185,7 +201,9 @@
                 "poolAddressTo": "0x08Bfc8BA9fD137Fb632F79548B150FE0Be493254",
                 "typeSource": "Native",
                 "typeTarget": "Wrapped",
-                "tokenAddressTarget": "0xCBBd3374090113732393DAE1433Bc14E5233d5d7"
+                "tokenAddressTarget": "0x4dB84dCd2140C6BE78ae42BDDce1467E3A7c42DE",
+                "ucoV1Address": "0x02578E4A2d49A294061D50C9A1a0CBdA78a25572",
+                "contractToMintAndBurn": true
             },
             {
                 "name": "Archethic aeEURe",
@@ -394,7 +412,7 @@
                 "poolAddressTo": "000018d60115ece0c7558a46b4693749bf6beab524fddccf9b10b910619e4ee08801",
                 "typeSource": "Wrapped",
                 "typeTarget": "Native",
-                "tokenAddressSource": "0xCBBd3374090113732393DAE1433Bc14E5233d5d7"
+                "tokenAddressSource": "0x4dB84dCd2140C6BE78ae42BDDce1467E3A7c42DE"
             },
             {
                 "name": "EURe (Monerium)",
@@ -467,6 +485,19 @@
                 "typeSource": "Native",
                 "typeTarget": "Wrapped",
                 "tokenAddressTarget": "0000288bf6f0e12457b125dc54d2dfa4eb010be3073cf02e10fb79b696180f55b827"
+            }
+        ],
+        "80002->-2": [
+            {
+                "name": "ERC20 - Universal Coin",
+                "symbol": "UCO",
+                "targetTokenName": "Universal Coin",
+                "targetTokenSymbol": "UCO",
+                "poolAddressFrom": "0xFCC8e7E4a007c13672a43107dd0fF45bBC23C8CF",
+                "poolAddressTo": "000018d60115ece0c7558a46b4693749bf6beab524fddccf9b10b910619e4ee08801",
+                "typeSource": "Wrapped",
+                "typeTarget": "Native",
+                "tokenAddressSource": "0xb10BAF68bECf95AB954198Bc2F467FA04264Ab34"
             }
         ]
     }
