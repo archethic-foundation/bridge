@@ -1608,6 +1608,7 @@ packages:
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
       name: wagmi_flutter_web
       sha256: c1158286e33a48467ad42bf2467759780fe641089bb8261ef1d388be6a3383a9
       url: "https://pub.dev"
@@ -1644,6 +1645,12 @@ packages:
     version: "0.0.1-dev.7"
 >>>>>>> 56154db (chore: :arrow_up: Upgrade wagmi_flutter_web: ^0.0.1-dev.7)
 =======
+=======
+      name: wagmi_flutter_web
+      sha256: "94e8a8ebbbd2d8194379922a2596b7a57cda6c85ce9e61d4845673e2d58b2aac"
+      url: "https://pub.dev"
+    source: hosted
+>>>>>>> 39f4559 (Fix Wagmi declaration)
     version: "0.0.1-dev.8"
 >>>>>>> db99a62 (chore: :arrow_up: Upgrade AWC & Wagmi libs)
   watcher:
