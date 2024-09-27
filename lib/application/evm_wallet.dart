@@ -13,12 +13,12 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
 
   final _projectId = 'f642e3f39ba3e375f8f714f18354faa4';
 
-  Future<int> getChainId() async => wagmi.Core.getChainId(wagmiConfig!);
+  Future<int> getChainId() async => wagmi.Core.getChainId();
 
   // TODO(chralu): Utiliser une écoute plutot que du polling
   Future<wagmi.Account> _waitForConnection() async {
     while (true) {
-      final account = wagmi.Core.getAccount(wagmiConfig!);
+      final account = wagmi.Core.getAccount();
       if (account.isConnected) return account;
       await Future.delayed(const Duration(seconds: 1));
     }
@@ -27,7 +27,7 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
   Future<void> connect(BridgeBlockchain chain) async {
     walletConnected = false;
 
-    wagmiConfig = wagmi.Web3Modal.defaultWagmiConfig(
+    wagmi.Web3Modal.init(
       projectId: _projectId,
       chains: [chain.chainId],
       metadata: wagmi.Web3ModalMetadata(
@@ -42,6 +42,8 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
             : ['https://testnet.bridge.archethic.net/favicon.png'],
       ),
       email: false,
+      enableAnalytics: true,
+      enableOnRamp: true,
       showWallets: true,
       walletFeatures: true,
       transportBuilder: (chainId) => wagmi.Transport.websocket(
@@ -50,10 +52,7 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
       ),
     );
 
-    wagmi.Web3Modal.createWeb3Modal(
-      config: wagmiConfig!,
-      projectId: _projectId,
-    ).open();
+    wagmi.Web3Modal.open();
 
     final currentAccount = await _waitForConnection();
 
@@ -64,6 +63,7 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
   }
 
   Future<void> disconnect() async {
+    await wagmi.Core.disconnect(wagmi.DisconnectParameters());
     wagmi.Web3Modal.close();
     walletConnected = false;
     currentAddress = null;
@@ -81,7 +81,6 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
         case 'Native':
           return double.tryParse(
                 (await wagmi.Core.getBalance(
-                  wagmiConfig!,
                   wagmi.GetBalanceParameters(address: address),
                 ))
                     .formatted,
@@ -93,7 +92,6 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
           }
           return double.tryParse(
                 (await wagmi.Core.getBalance(
-                  wagmiConfig!,
                   wagmi.GetBalanceParameters(
                     address: address,
                     token: erc20address,
@@ -131,7 +129,6 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
             return defaultDecimal;
           }
           final token = await wagmi.Core.getToken(
-            wagmiConfig!,
             wagmi.GetTokenParameters(address: erc20address),
           );
           return token.decimals;

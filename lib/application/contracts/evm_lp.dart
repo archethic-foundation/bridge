@@ -55,7 +55,7 @@ class EVMLP with EVMBridgeProcessMixin {
               hash.toBytes,
               scaledAmount,
             ],
-            feeValues: await FeeValuesUtils.defaultEIP1559FeeValues(chainId),
+            //   feeValues: await FeeValuesUtils.defaultEIP1559FeeValues(chainId),
             value: isWrapped == false ? scaledAmount : null,
           ),
           chainId: chainId,
@@ -89,7 +89,6 @@ class EVMLP with EVMBridgeProcessMixin {
 
       // Get HTLC address
       final String htlcContractAddress = await wagmi.Core.readContract(
-        aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
         wagmi.ReadContractParameters(
           abi: contractAbi,
           address: poolAddress,
@@ -149,7 +148,7 @@ class EVMLP with EVMBridgeProcessMixin {
                 secretHash.secretHashSignature!.s!.toBytes,
                 BigInt.from(secretHash.secretHashSignature!.v!),
               ],
-              feeValues: await FeeValuesUtils.defaultEIP1559FeeValues(chainId),
+              //      feeValues: await FeeValuesUtils.defaultEIP1559FeeValues(chainId),
             ),
             chainId: chainId,
             fromMethod: 'EVMLP - deployAndProvisionSignedHTLC',
@@ -181,7 +180,6 @@ class EVMLP with EVMBridgeProcessMixin {
 
         // Get HTLC address
         final String htlcContractAddressEVM = await wagmi.Core.readContract(
-          aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
           wagmi.ReadContractParameters(
             abi: contractAbi,
             address: poolAddress,
@@ -215,7 +213,6 @@ class EVMLP with EVMBridgeProcessMixin {
       final contractLP = await loadAbi(contractNameIPool);
 
       final resultMap = await wagmi.Core.readContract(
-        aedappfm.sl.get<EVMWalletProvider>().wagmiConfig!,
         wagmi.ReadContractParameters(
           abi: contractLP,
           address: poolAddress,

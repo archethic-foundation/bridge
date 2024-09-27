@@ -91,7 +91,7 @@ class SessionNotifier extends _$SessionNotifier {
 
       awc.ArchethicDAppClient? archethicDAppClient;
       try {
-        archethicDAppClient = awc.ArchethicDAppClient.auto(
+        archethicDAppClient = await awc.ArchethicDAppClient.auto(
           origin: const awc.RequestOrigin(
             name: 'aebridge',
           ),

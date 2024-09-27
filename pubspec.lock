@@ -53,10 +53,10 @@ packages:
     dependency: "direct main"
     description:
       name: archethic_wallet_client
-      sha256: "69bd1dbd85035554e930339d9c03a0fd12ba161003090435fc4d750c366f0595"
+      sha256: ebe06fe5588711277fab347a1df81a4e5e77427991c7170c6e9096b2dd6917bf
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.8"
+    version: "2.1.0"
   archive:
     dependency: transitive
     description:
@@ -369,9 +369,10 @@ packages:
     dependency: transitive
     description:
       name: deeplink_rpc
-      sha256: e08e6422913fcdb12b5243ba6f622c841e523ed0577a6442fe90f7ccd6652901
+      sha256: f141d547c35b14beb246736c529d6520eeff8814a640b4bee8db2cadd984095a
       url: "https://pub.dev"
     source: hosted
+<<<<<<< HEAD
     version: "1.0.8"
   easy_web_view:
     dependency: "direct main"
@@ -381,6 +382,9 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.2"
+=======
+    version: "1.1.0"
+>>>>>>> db99a62 (chore: :arrow_up: Upgrade AWC & Wagmi libs)
   ecdsa:
     dependency: transitive
     description:
@@ -1635,9 +1639,13 @@ packages:
       path: "../wagmi_flutter_web"
       relative: true
     source: path
+<<<<<<< HEAD
 >>>>>>> 6f42a20 (chore: :arrow_up: Manage WagmiConfig)
     version: "0.0.1-dev.7"
 >>>>>>> 56154db (chore: :arrow_up: Upgrade wagmi_flutter_web: ^0.0.1-dev.7)
+=======
+    version: "0.0.1-dev.8"
+>>>>>>> db99a62 (chore: :arrow_up: Upgrade AWC & Wagmi libs)
   watcher:
     dependency: transitive
     description:
