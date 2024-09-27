@@ -61,5 +61,5 @@ jobs:
           sslKey: ${{ secrets.SSL_KEY_TESTNET }}
           keychainFundingService: "archethic-wallet-ARCHETHIC.NET"
           keychainWebsiteService: "aeweb-BRIDGE"
-          sendTransactionTimeout: 180
-          percentageOfConfirmations: 50       
+          sendTransactionTimeout: 260
+          percentageOfConfirmations: 30       
