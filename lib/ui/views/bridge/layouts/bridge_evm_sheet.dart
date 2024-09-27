@@ -163,7 +163,7 @@ class _BridgeEVMSheetState extends ConsumerState<BridgeEVMSheet> {
                                               child: EasyWebView(
                                                 // TODO: To manage
                                                 src:
-                                                    'http://bridge.testnet.archethic.net/bridge-evm.html',
+                                                    'https://bridge.testnet.archethic.net/bridge-evm.html',
                                                 width: MediaQuery.of(context)
                                                     .size
                                                     .width,
