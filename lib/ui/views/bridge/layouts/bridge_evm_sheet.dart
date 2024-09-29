@@ -7,6 +7,7 @@ import 'package:aebridge/ui/views/main_screen/layouts/bottom_navigation_bar.dart
 import 'package:aebridge/ui/views/main_screen/layouts/browser_popup.dart';
 import 'package:aebridge/util/browser_util_desktop.dart'
     if (dart.library.js) 'package:aebridge/util/browser_util_web.dart';
+import 'package:aebridge/util/uri.util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:easy_web_view/easy_web_view.dart';
@@ -161,9 +162,8 @@ class _BridgeEVMSheetState extends ConsumerState<BridgeEVMSheet> {
                                               height: 630,
                                               width: 630,
                                               child: EasyWebView(
-                                                // TODO: To manage
                                                 src:
-                                                    'https://bridge.testnet.archethic.net/bridge-evm.html',
+                                                    '${UriUtil.getBaseUrl()}/bridge-evm.html',
                                                 width: MediaQuery.of(context)
                                                     .size
                                                     .width,
