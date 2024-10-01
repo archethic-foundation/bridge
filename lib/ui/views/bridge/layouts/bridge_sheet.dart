@@ -98,7 +98,7 @@ class _BridgeSheetState extends ConsumerState<BridgeSheet> {
           ),
         ],
       ),
-      afterBottomWidget: Row(
+      afterBottomWidget: Wrap(
         children: [
           Padding(
             padding: const EdgeInsets.only(left: 5, top: 10),
