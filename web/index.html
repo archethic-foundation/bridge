@@ -35,9 +35,10 @@
     window.addEventListener('load', function (ev) {
       // Download main.dart.js
       _flutter.loader.loadEntrypoint({
-        entrypointUrl: "main.dart.js?v=" + serviceWorkerVersion,
+        entrypointUrl: "/main.dart.js",
         serviceWorker: {
           serviceWorkerVersion: serviceWorkerVersion,
+          serviceWorkerUrl: "/flutter_service_worker.js?v=",
         },
         onEntrypointLoaded: function (engineInitializer) {
           engineInitializer.initializeEngine().then(function (appRunner) {
@@ -47,7 +48,6 @@
       });
     });
   </script>
-
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
