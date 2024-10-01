@@ -255,103 +255,41 @@ mixin EVMBridgeProcessMixin {
     );
   }
 
-  Future<T> _handleError<T>(
-    FutureOr<T> Function() action,
-    String fromMethod,
-  ) async {
-    try {
-      return action();
-    } catch (e, stackTrace) {
-      throw aedappfm.Failure.other(cause: e.toString());
-      // TODO(reddwarf03): Manage errors
-      /* if (e is EthereumUserRejected) {
-        throw const aedappfm.Failure.userRejected();
-      }
-      if (e is EthereumException) {
-        aedappfm.sl.get<aedappfm.LogManager>().log(
-              '$e',
-              stackTrace: stackTrace,
-              level: aedappfm.LogLevel.error,
-              name: 'EVMBridgeProcessMixin - $fromMethod',
-            );
-        if (e.data == null &&
-            e.message.contains('insufficient funds for gas * price')) {
-          throw throw const aedappfm.Failure.insufficientFunds();
-        }
-
-        throw aedappfm.Failure.other(
-          cause: e.data ?? e.message,
-          stack: e.data == null ? null : e.message,
-        );
-      }
-      if (e is EthersException) {
-        aedappfm.sl.get<aedappfm.LogManager>().log(
-              '$e',
-              stackTrace: stackTrace,
-              level: aedappfm.LogLevel.error,
-              name: 'EVMBridgeProcessMixin - $fromMethod',
-            );
-        throw aedappfm.Failure.other(
-          cause: e.rawError.toString(),
-          stack: e.reason,
-        );
-      }
-      if (e is WebThreeRPCError) {
-        aedappfm.sl.get<aedappfm.LogManager>().log(
-              '$e',
-              stackTrace: stackTrace,
-              level: aedappfm.LogLevel.error,
-              name: 'EVMBridgeProcessMixin - $fromMethod',
-            );
-        const encoder = JsonEncoder.withIndent('  ');
-        final validJson = encoder.convert(e.data);
-        final Map<String, dynamic> jsonMap = json.decode(validJson);
-        if (jsonMap.entries.first.value is Map) {
-          throw aedappfm.Failure.rpcErrorEVM(
-            (jsonMap.entries.first.value as Map).entries.first.value,
-          );
-        }
-
-        throw aedappfm.Failure.rpcErrorEVM(jsonMap.entries.first.value);
-      }
-      if (e is BinanceWalletException) {
-        throw aedappfm.Failure.other(cause: e.error);
-      }
-
-      aedappfm.sl.get<aedappfm.LogManager>().log(
-            '$e',
-            stackTrace: stackTrace,
-            level: aedappfm.LogLevel.error,
-            name: 'EVMBridgeProcessMixin - $fromMethod',
-          );
-      throw aedappfm.Failure.other(cause: e.toString());
-    }*/
-    }
-  }
-
   Future<String> writeContractWithErrorManagement({
     required wagmi.WriteContractParameters parameters,
     required int chainId,
     required String fromMethod,
     required WidgetRef ref,
     required EVMBridgeProcess evmBridgeProcess,
-  }) async =>
-      _handleError(
-        () async {
-          final transactionHash = await wagmi.Core.writeContract(
-            parameters,
-          );
-          await _waitForTransactionValidation(
-            chainId: chainId,
-            evmBridgeProcess: evmBridgeProcess,
-            fromMethod: fromMethod,
-            ref: ref,
-            transactionHash: transactionHash,
-          );
-          return transactionHash;
-        },
-        fromMethod,
+  }) async {
+    try {
+      final transactionHash = await wagmi.Core.writeContract(
+        parameters,
       );
+      await _waitForTransactionValidation(
+        chainId: chainId,
+        evmBridgeProcess: evmBridgeProcess,
+        fromMethod: fromMethod,
+        ref: ref,
+        transactionHash: transactionHash,
+      );
+      return transactionHash;
+    } on wagmi.WagmiError catch (e, stackTrace) {
+      if (e.findError(wagmi.WagmiErrors.UserRejectedRequestError) != null) {
+        throw const aedappfm.Failure.userRejected();
+      }
+      if (e.findError(wagmi.WagmiErrors.InsufficientFundsError) != null) {
+        throw const aedappfm.Failure.insufficientFunds();
+      }
+      aedappfm.sl.get<aedappfm.LogManager>().log(
+            '${e.name} - ${e.message} - ${e.version} - ${e.cause} - ${e.details}',
+            stackTrace: stackTrace,
+            level: aedappfm.LogLevel.error,
+            name: 'EVMBridgeProcessMixin - $fromMethod',
+          );
+      throw aedappfm.Failure.other(cause: e.shortMessage);
+    }
+  }
 
   Future<String> _waitForTransactionValidation({
     required EVMBridgeProcess evmBridgeProcess,
