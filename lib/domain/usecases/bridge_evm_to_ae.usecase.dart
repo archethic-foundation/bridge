@@ -17,6 +17,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
 class BridgeEVMToArchethicUseCase
     with
@@ -180,9 +181,8 @@ class BridgeEVMToArchethicUseCase
             return;
           }
         }
-      } catch (e) {
-        // TODO(reddwarf03): Manage errors
-        /*  if (e is EthereumUserRejected) {
+      } on wagmi.WagmiError catch (e) {
+        if (e.findError(wagmi.WagmiErrors.UserRejectedRequestError) != null) {
           await bridgeNotifier.setFailure(
             const aedappfm.Failure.faucetUCOUserRejected(),
           );
@@ -190,25 +190,24 @@ class BridgeEVMToArchethicUseCase
           return;
         }
         aedappfm.sl.get<aedappfm.LogManager>().log(
-              'Faucet UCO error : $e',
+              'Faucet UCO error : ${e.name} - ${e.message} - ${e.version} - ${e.cause} - ${e.details}',
               level: aedappfm.LogLevel.error,
               name: 'BridgeEVMToArchethicUseCase - run',
             );
-        if (e is UnsupportedError || e is EthereumException) {
-          await bridgeNotifier.setFailure(
-            aedappfm.Failure.other(cause: '$e'),
-          );
-          await bridgeNotifier.setTransferInProgress(false);
-          return;
-        }
 
+        await bridgeNotifier.setFailure(
+          aedappfm.Failure.other(cause: e.shortMessage),
+        );
+        await bridgeNotifier.setTransferInProgress(false);
+        return;
+      } on Exception catch (_) {
         if (_executeCatch) {
           await bridgeNotifier.setFailure(
             const aedappfm.Failure.faucetUCOError(),
           );
           await bridgeNotifier.setTransferInProgress(false);
           return;
-        }*/
+        }
       }
 
       // 5) Deploy Archethic HTLC
