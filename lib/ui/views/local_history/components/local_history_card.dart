@@ -86,7 +86,6 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
         } else {
           final evmHTLC = EVMHTLC(
             widget.bridge.blockchainFrom!.htlcAddress!,
-            widget.bridge.blockchainFrom!.chainId,
           );
 
           final _statusEVM = await evmHTLC.getStatus();
@@ -138,7 +137,6 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
         } else {
           final evmHTLC = EVMHTLC(
             widget.bridge.blockchainTo!.htlcAddress!,
-            widget.bridge.blockchainTo!.chainId,
           );
 
           final _statusEVM = await evmHTLC.getStatus();

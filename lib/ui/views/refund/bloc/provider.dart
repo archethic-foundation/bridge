@@ -38,17 +38,15 @@ final _refundFormNotifierProvider =
 );
 
 class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
-  StreamSubscription? connectionStatusSubscription;
+  StreamSubscription? _connectionStatusSubscription;
+  final _evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
 
   @override
   RefundFormState build() {
-    if (aedappfm.sl.isRegistered<EVMWalletProvider>()) {
-      aedappfm.sl.unregister<EVMWalletProvider>();
-    }
     ref.read(sessionNotifierProvider.notifier).cancelAllWalletsConnection();
 
     ref.onDispose(() {
-      connectionStatusSubscription?.cancel();
+      _connectionStatusSubscription?.cancel();
     });
 
     return const RefundFormState();
@@ -187,7 +185,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     if (await control(context)) {
       final evmHTLC = EVMHTLC(
         state.htlcAddressFilled,
-        chainId,
       );
 
       state = state.copyWith(isERC20: null);
@@ -236,6 +233,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       final swapByOwnerResult = await evmLP.getSwapsByOwner(
         poolAddress ?? '',
         state.wallet!.genesisAddress,
+        chainId,
       );
       swapByOwnerResult.map(
         success: (swaps) {
@@ -490,30 +488,23 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
           error: '',
         );
         state = state.copyWith(wallet: evmWallet);
-        final evmWalletProvider = EVMWalletProvider();
 
         try {
           final bridgeBlockchain = state.blockchain!;
-          await evmWalletProvider.connect(state.blockchain!);
-          if (evmWalletProvider.walletConnected) {
+          await _evmWalletProvider.connect(state.blockchain!);
+          if (_evmWalletProvider.walletConnected) {
             evmWallet = evmWallet.copyWith(
               wallet: kEVMWallet,
               isConnected: true,
               error: '',
-              nameAccount: evmWalletProvider.currentAddress!,
-              genesisAddress: evmWalletProvider.currentAddress!,
+              nameAccount: _evmWalletProvider.currentAddress!,
+              genesisAddress: _evmWalletProvider.currentAddress!,
               endpoint: bridgeBlockchain.name,
               env: bridgeBlockchain.env,
             );
             state = state.copyWith(
               wallet: evmWallet,
               chainId: bridgeBlockchain.chainId,
-            );
-            if (aedappfm.sl.isRegistered<EVMWalletProvider>()) {
-              await aedappfm.sl.unregister<EVMWalletProvider>();
-            }
-            aedappfm.sl.registerLazySingleton<EVMWalletProvider>(
-              () => evmWalletProvider,
             );
             if (context.mounted) {
               await setStatusEVM(context);
@@ -589,7 +580,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
             endpoint: bridgeBlockchain!.name,
             env: bridgeBlockchain.env,
           );
-          connectionStatusSubscription =
+          _connectionStatusSubscription =
               archethicDAppClient!.connectionStateStream.listen((event) {
             event.when(
               disconnecting: () {},
@@ -698,10 +689,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       await aedappfm.sl.unregister<archethic.ApiService>();
     }
 
-    if (aedappfm.sl.isRegistered<EVMWalletProvider>()) {
-      await aedappfm.sl.get<EVMWalletProvider>().disconnect();
-      await aedappfm.sl.unregister<EVMWalletProvider>();
-    }
+    await _evmWalletProvider.disconnect();
 
     if (state.wallet != null) {
       var wallet = state.wallet;

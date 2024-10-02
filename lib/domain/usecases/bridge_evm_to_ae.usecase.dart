@@ -71,7 +71,6 @@ class BridgeEVMToArchethicUseCase
         if (bridge.tokenToBridge!.typeSource == 'Wrapped') {
           final resultApproval = await EVMHTLCERC(
             '',
-            bridge.blockchainFrom!.chainId,
           ).approveChargeableHTLC(
             ref,
             bridge.tokenToBridgeAmount,
@@ -110,7 +109,6 @@ class BridgeEVMToArchethicUseCase
       await bridgeNotifier.setCurrentStep(2);
       final htlc = EVMHTLC(
         htlcEVMAddress!,
-        bridge.blockchainFrom!.chainId,
       );
       final resultGetHTLCLockTime = await htlc.getHTLCLockTime();
       await resultGetHTLCLockTime.map(
@@ -139,7 +137,6 @@ class BridgeEVMToArchethicUseCase
     if (recoveryStep <= 5) {
       await bridgeNotifier.setCurrentStep(4);
       amount = await getEVMHTLCAmount(
-        ref,
         htlcEVMAddress!,
         bridge.tokenToBridgeDecimals,
       );
@@ -153,8 +150,13 @@ class BridgeEVMToArchethicUseCase
       var _executeCatch = true;
       try {
         await bridgeNotifier.setCurrentStep(5);
-        final balanceUCO = await BalanceRepositoryImpl()
-            .getBalance(true, bridge.targetAddress, '', '', 8);
+        final balanceUCO = await BalanceRepositoryImpl().getBalance(
+          true,
+          bridge.targetAddress,
+          '',
+          '',
+          8,
+        );
         if (balanceUCO == 0) {
           final signature = await signTxFaucetUCO();
           final queryParameters = {
@@ -216,7 +218,6 @@ class BridgeEVMToArchethicUseCase
         if (endTime == null) {
           final htlc = EVMHTLC(
             htlcEVMAddress,
-            bridge.blockchainFrom!.chainId,
           );
           final resultGetHTLCLockTime = await htlc.getHTLCLockTime();
           await resultGetHTLCLockTime.map(
@@ -305,7 +306,6 @@ class BridgeEVMToArchethicUseCase
       }
       if (amount == null) {
         amount = await getEVMHTLCAmount(
-          ref,
           htlcEVMAddress!,
           bridge.tokenToBridgeDecimals,
         );
@@ -340,7 +340,6 @@ class BridgeEVMToArchethicUseCase
       try {
         final htlc = EVMHTLC(
           htlcEVMAddress!,
-          bridge.blockchainFrom!.chainId,
         );
         final status = await htlc.getStatus();
         if (status != 1) {
@@ -362,7 +361,6 @@ class BridgeEVMToArchethicUseCase
         await bridgeNotifier.setCurrentStep(7);
         if (amount == null) {
           amount = await getEVMHTLCAmount(
-            ref,
             htlcEVMAddress!,
             bridge.tokenToBridgeDecimals,
           );

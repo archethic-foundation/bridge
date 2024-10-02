@@ -17,11 +17,9 @@ import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
   EVMHTLC(
     this.htlcContractAddressEVM,
-    this.chainId,
   );
 
   final String htlcContractAddressEVM;
-  final int chainId;
 
   Future<aedappfm.Result<String, aedappfm.Failure>> refund(
     WidgetRef ref,
@@ -46,7 +44,6 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             parameters: wagmi.WriteContractParameters.eip1559(
               abi: contractAbi,
               address: htlcContractAddressEVM,
-              chainId: chainId,
               functionName: 'refund',
               //    feeValues: await FeeValuesUtils.defaultEIP1559FeeValues(chainId),
             ),
@@ -59,7 +56,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'Timeout occurred (htlcContractAddressEVM: $htlcContractAddressEVM, chainId: $chainId)',
+                  'Timeout occurred (htlcContractAddressEVM: $htlcContractAddressEVM, chainId: ${evmWalletProvider.requestedChainId})',
                   level: aedappfm.LogLevel.error,
                   name: 'EVMHTLC - refund',
                 );
@@ -109,11 +106,10 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
     final params = wagmi.ReadContractParameters(
       abi: abi,
       address: htlcContractAddressEVM,
-      chainId: chainId,
       functionName: 'lockTime',
       args: [],
     );
-    final response = await wagmi.Core.readContract(
+    final response = await readContract(
       params,
     );
     final BigInt lockTime = response;
@@ -131,11 +127,10 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
         final params = wagmi.ReadContractParameters(
           abi: abi,
           address: htlcContractAddressEVM,
-          chainId: chainId,
           functionName: 'amount',
           args: [],
         );
-        final response = await wagmi.Core.readContract(
+        final response = await readContract(
           params,
         );
         final BigInt amount = response;
@@ -161,19 +156,15 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
         final params = wagmi.ReadContractParameters(
           abi: abi,
           address: htlcContractAddressEVM,
-          chainId: chainId,
           functionName: 'token',
           args: [],
         );
-        tokenAddress = await wagmi.Core.readContract(
+        tokenAddress = await readContract(
           params,
         );
         if (tokenAddress != null && tokenAddress.isNotEmpty) {
-          final token = await wagmi.Core.getToken(
-            wagmi.GetTokenParameters(
-              address: tokenAddress,
-              chainId: chainId,
-            ),
+          final token = await getToken(
+            address: tokenAddress,
           );
 
           final symbol = token.symbol ?? '';
@@ -196,13 +187,12 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
     final params = wagmi.ReadContractParameters(
       abi: abi,
       address: htlcContractAddressEVM,
-      chainId: chainId,
       functionName: 'canRefund',
       args: [
         BigInt.from(DateTime.now().millisecondsSinceEpoch ~/ 1000),
       ],
     );
-    final response = await wagmi.Core.readContract(
+    final response = await readContract(
       params,
     );
     final bool canRefund = response;
@@ -214,11 +204,10 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
     final params = wagmi.ReadContractParameters(
       abi: abi,
       address: htlcContractAddressEVM,
-      chainId: chainId,
       functionName: 'status',
       args: [],
     );
-    final response = await wagmi.Core.readContract(
+    final response = await readContract(
       params,
     );
     return response;
@@ -247,7 +236,6 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             parameters: wagmi.WriteContractParametersEIP1559(
               abi: contractAbi,
               address: htlcContractAddressEVM,
-              chainId: chainId,
               functionName: 'withdraw',
               args: [
                 secret.toBytes,
@@ -266,7 +254,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'Timeout occurred (htlcContractAddressEVM: $htlcContractAddressEVM, chainId: $chainId)',
+                  'Timeout occurred (htlcContractAddressEVM: $htlcContractAddressEVM, chainId: ${evmWalletProvider.requestedChainId})',
                   level: aedappfm.LogLevel.error,
                   name: 'EVMHTLC - withdraw',
                 );

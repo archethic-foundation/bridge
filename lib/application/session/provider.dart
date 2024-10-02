@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 
+import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/state.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
@@ -19,7 +20,7 @@ part 'provider.g.dart';
 @Riverpod(keepAlive: true)
 class SessionNotifier extends _$SessionNotifier {
   StreamSubscription? _connectionStatusSubscription;
-  EVMWalletProvider? __evmWalletProvider;
+  final __evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
 
   @override
   Session build() {
@@ -30,11 +31,12 @@ class SessionNotifier extends _$SessionNotifier {
   }
 
   Future<EVMWalletProvider> get _evmWalletProvider async {
-    if (__evmWalletProvider != null) return __evmWalletProvider!;
-
-    __evmWalletProvider = EVMWalletProvider();
-    await __evmWalletProvider!.init(ref);
-    return __evmWalletProvider!;
+    if (!__evmWalletProvider.isInit) {
+      await __evmWalletProvider.init(
+        ref.read(bridgeBlockchainsRepositoryProvider),
+      );
+    }
+    return __evmWalletProvider;
   }
 
   Future<aedappfm.Result<void, aedappfm.Failure>> connectToEVMWallet(
@@ -61,12 +63,6 @@ class SessionNotifier extends _$SessionNotifier {
               nameAccount: evmWalletProvider.currentAddress!,
               genesisAddress: evmWalletProvider.currentAddress!,
               endpoint: blockchain.name,
-            );
-            if (aedappfm.sl.isRegistered<EVMWalletProvider>()) {
-              await aedappfm.sl.unregister<EVMWalletProvider>();
-            }
-            aedappfm.sl.registerLazySingleton<EVMWalletProvider>(
-              () => evmWalletProvider,
             );
           }
 
@@ -343,10 +339,6 @@ class SessionNotifier extends _$SessionNotifier {
   }
 
   Future<void> cancelEVMWalletConnection() async {
-    if (aedappfm.sl.isRegistered<EVMWalletProvider>()) {
-      await aedappfm.sl.get<EVMWalletProvider>().disconnect();
-      await aedappfm.sl.unregister<EVMWalletProvider>();
-    }
     if (state.walletFrom != null && state.walletFrom!.wallet == kEVMWallet) {
       var walletFrom = state.walletFrom;
 

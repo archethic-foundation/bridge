@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/infrastructure/hive/db_helper.hive.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -10,6 +11,9 @@ Future<void> setupServiceLocator() async {
   }
 
   aedappfm.sl
+    ..registerSingleton<EVMWalletProvider>(
+      EVMWalletProvider(),
+    )
     ..registerLazySingleton<DBHelper>(DBHelper.new)
     ..registerLazySingleton<OracleService>(
       () =>

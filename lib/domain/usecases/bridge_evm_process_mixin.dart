@@ -52,6 +52,9 @@ const contractNameChargeableHTLCETH =
     'contracts/evm/artifacts/contracts/HTLC/ChargeableHTLC_ETH.sol/ChargeableHTLC_ETH.json';
 
 mixin EVMBridgeProcessMixin {
+  EVMWalletProvider get evmWalletProvider =>
+      aedappfm.sl.get<EVMWalletProvider>();
+
   String getEVMStepLabel(
     AppLocalizations localizations,
     int step,
@@ -90,6 +93,7 @@ mixin EVMBridgeProcessMixin {
     int decimal,
     String htlcContractAddressAE,
   ) async {
+    await evmWalletProvider.useRequestedChain();
     final bridge = ref.read(bridgeFormNotifierProvider);
     final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
 
@@ -103,7 +107,7 @@ mixin EVMBridgeProcessMixin {
       amount,
       decimal,
       endTime,
-      chainId: bridge.blockchainTo!.chainId,
+      evmWalletProvider.requestedChainId,
     );
     late String htlcAddress;
     late String txAddress;
@@ -135,6 +139,7 @@ mixin EVMBridgeProcessMixin {
     WidgetRef ref,
     Digest secretHash,
   ) async {
+    await evmWalletProvider.useRequestedChain();
     final bridge = ref.read(bridgeFormNotifierProvider);
     final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
     final evmLP = EVMLP();
@@ -145,7 +150,6 @@ mixin EVMBridgeProcessMixin {
       bridge.tokenToBridgeAmount,
       bridge.tokenToBridgeDecimals,
       bridge.tokenToBridge!.typeSource != 'Native',
-      chainId: bridge.blockchainFrom!.chainId,
     );
     late String htlcAddress;
     late String txAddress;
@@ -174,10 +178,8 @@ mixin EVMBridgeProcessMixin {
   ) async {
     final bridge = ref.read(bridgeFormNotifierProvider);
     final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
-
     final htlc = EVMHTLC(
       htlcAddress,
-      bridge.blockchainFrom!.chainId,
     );
 
     var contract = contractNameChargeableHTLCERC;
@@ -204,15 +206,12 @@ mixin EVMBridgeProcessMixin {
   }
 
   Future<double?> getEVMHTLCAmount(
-    WidgetRef ref,
     String htlcAddress,
     int decimal,
   ) async {
     double? etlcAmount;
-    final bridge = ref.read(bridgeFormNotifierProvider);
     final htlc = EVMHTLC(
       htlcAddress,
-      bridge.blockchainFrom!.chainId,
     );
 
     final resultAmount = await htlc.getAmount(decimal);
@@ -255,6 +254,133 @@ mixin EVMBridgeProcessMixin {
     );
   }
 
+  Future<BigInt> getBlockNumber({int? cacheTime}) async {
+    await evmWalletProvider.useRequestedChain();
+    return wagmi.Core.getBlockNumber(
+      wagmi.GetBlockNumberParameters(
+        cacheTime: cacheTime,
+        chainId: evmWalletProvider.requestedChainId,
+      ),
+    );
+  }
+
+  Future<wagmi.GetTokenReturnType> getToken({
+    required String address,
+    wagmi.FormatUnit? formatUnits,
+  }) async {
+    await evmWalletProvider.useRequestedChain();
+    return wagmi.Core.getToken(
+      wagmi.GetTokenParameters(
+        address: address,
+        formatUnits: formatUnits,
+        chainId: evmWalletProvider.requestedChainId,
+      ),
+    );
+  }
+
+  Future<dynamic> readContract(
+    wagmi.ReadContractParameters params,
+  ) async {
+    await evmWalletProvider.useRequestedChain();
+    return wagmi.Core.readContract(
+      wagmi.ReadContractParameters(
+        abi: params.abi,
+        address: params.address,
+        functionName: params.functionName,
+        account: params.account,
+        args: params.args,
+        blockNumber: params.blockNumber,
+        blockTag: params.blockTag,
+        chainId: evmWalletProvider.requestedChainId,
+      ),
+    );
+  }
+
+  Future<double> getBalance(
+    String address,
+    String typeToken,
+    int decimal, {
+    String erc20address = '',
+  }) async {
+    await evmWalletProvider.useRequestedChain();
+    try {
+      switch (typeToken) {
+        case 'Native':
+          return double.tryParse(
+                (await wagmi.Core.getBalance(
+                  wagmi.GetBalanceParameters(
+                    address: address,
+                    chainId: evmWalletProvider.requestedChainId,
+                  ),
+                ))
+                    .formatted,
+              ) ??
+              0;
+        case 'Wrapped':
+          if (erc20address.isEmpty) {
+            return 0.0;
+          }
+          return double.tryParse(
+                (await wagmi.Core.getBalance(
+                  wagmi.GetBalanceParameters(
+                    address: address,
+                    token: erc20address,
+                    chainId: evmWalletProvider.requestedChainId,
+                  ),
+                ))
+                    .formatted,
+              ) ??
+              0;
+        default:
+          return 0.0;
+      }
+    } catch (e, stackTrace) {
+      aedappfm.sl.get<aedappfm.LogManager>().log(
+            '$e',
+            stackTrace: stackTrace,
+            level: aedappfm.LogLevel.error,
+            name: 'EVMWalletProvider - getBalance',
+          );
+      return 0.0;
+    }
+  }
+
+  Future<int> getTokenDecimals(
+    String typeToken, {
+    String erc20address = '',
+  }) async {
+    await evmWalletProvider.useRequestedChain();
+    const defaultDecimal = 8;
+
+    try {
+      switch (typeToken) {
+        case 'Native':
+          return 18;
+        case 'Wrapped':
+          if (erc20address.isEmpty) {
+            return defaultDecimal;
+          }
+          final token = await wagmi.Core.getToken(
+            wagmi.GetTokenParameters(
+              address: erc20address,
+              chainId: evmWalletProvider.requestedChainId,
+            ),
+          );
+          return token.decimals;
+        default:
+          return defaultDecimal;
+      }
+    } catch (e, stackTrace) {
+      aedappfm.sl.get<aedappfm.LogManager>().log(
+            '$e',
+            stackTrace: stackTrace,
+            level: aedappfm.LogLevel.error,
+            name: 'EVMWalletProvider - getTokenDecimals',
+          );
+      return defaultDecimal;
+    }
+  }
+
   Future<String> writeContractWithErrorManagement({
     required wagmi.WriteContractParameters parameters,
     required String fromMethod,
@@ -262,12 +388,12 @@ mixin EVMBridgeProcessMixin {
     required EVMBridgeProcess evmBridgeProcess,
   }) async {
     try {
+      await evmWalletProvider.useRequestedChain();
       final transactionHash = await wagmi.Core.writeContract(
-        parameters,
+        parameters.copyWith(chainId: evmWalletProvider.requestedChainId),
       );
-      final chainId = parameters.chainId!;
       await _waitForTransactionValidation(
-        chainId: chainId,
+        chainId: evmWalletProvider.requestedChainId,
         evmBridgeProcess: evmBridgeProcess,
         fromMethod: fromMethod,
         ref: ref,
@@ -420,7 +546,6 @@ mixin EVMBridgeProcessMixin {
     if (bridge.tokenToBridge!.typeSource == 'Native') {
       final evmHTLCERC = EVMHTLCERC(
         htlc,
-        bridge.blockchainTo!.chainId,
       );
 
       resultSignedWithdraw = await evmHTLCERC.signedWithdraw(
@@ -432,7 +557,6 @@ mixin EVMBridgeProcessMixin {
     if (bridge.tokenToBridge!.typeSource == 'Wrapped') {
       final evmHTLCNative = EVMHTLCNative(
         htlc,
-        bridge.blockchainTo!.chainId,
       );
 
       resultSignedWithdraw = await evmHTLCNative.signedWithdraw(
@@ -466,11 +590,6 @@ mixin EVMBridgeProcessMixin {
   }
 
   Future<String> signTxFaucetUCO() async {
-    if (aedappfm.sl.isRegistered<EVMWalletProvider>() == false) {
-      throw const aedappfm.Failure.connectivityEVM();
-    }
-
-    final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
     if (evmWalletProvider.walletConnected == false) {
       throw const aedappfm.Failure.connectivityEVM();
     }

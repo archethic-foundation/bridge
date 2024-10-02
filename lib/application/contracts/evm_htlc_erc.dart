@@ -13,10 +13,8 @@ import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 class EVMHTLCERC with EVMBridgeProcessMixin {
   EVMHTLCERC(
     this.htlcContractAddress,
-    this.chainId,
   );
   final String htlcContractAddress;
-  final int chainId;
 
   Future<aedappfm.Result<void, aedappfm.Failure>> approveChargeableHTLC(
     WidgetRef ref,
@@ -47,7 +45,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             parameters: wagmi.WriteContractParameters.eip1559(
               abi: contractAbi,
               address: tokenAddress,
-              chainId: chainId,
               functionName: 'approve',
               args: [
                 poolAddress,
@@ -63,7 +60,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'Timeout occurred (htlcContractAddress: $htlcContractAddress, chainId: $chainId, userAddress: $userAddress, poolAddress: $poolAddress, tokenAddress: $tokenAddress, amount: $amount)',
+                  'Timeout occurred (htlcContractAddress: $htlcContractAddress, chainId: ${evmWalletProvider.requestedChainId}, userAddress: $userAddress, poolAddress: $poolAddress, tokenAddress: $tokenAddress, amount: $amount)',
                   level: aedappfm.LogLevel.error,
                   name: 'EVMHTLCERC - approveChargeableHTLC',
                 );
@@ -106,7 +103,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
               abi: contractAbi,
               address: htlcContractAddress,
               functionName: 'withdraw',
-              chainId: chainId,
               args: [
                 secret.secret!.toBytes,
                 secret.secretSignature!.r!.toBytes,
@@ -124,7 +120,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'Timeout occurred (htlcContractAddress: $htlcContractAddress, chainId: $chainId)',
+                  'Timeout occurred (htlcContractAddress: $htlcContractAddress, chainId: ${evmWalletProvider.requestedChainId})',
                   level: aedappfm.LogLevel.error,
                   name: 'EVMHTLCERC - signedWithdraw',
                 );
@@ -153,11 +149,10 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
       () async {
         final contractHTLC = await loadAbi(contractNameIERC20);
 
-        final decimalsMap = await wagmi.Core.readContract(
+        final decimalsMap = await readContract(
           wagmi.ReadContractParameters(
             abi: contractHTLC,
             address: tokenAddress,
-            chainId: chainId,
             functionName: 'decimals',
           ),
         );

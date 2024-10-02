@@ -21,7 +21,6 @@ class RefundEVMCase {
 
     final result = await EVMHTLC(
       htlcContractAddress,
-      chaindId,
     ).refund(
       ref,
       isERC20,
