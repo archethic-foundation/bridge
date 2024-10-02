@@ -157,6 +157,7 @@ class BridgeArchethicToEVMUseCase
             final swapsByOwnerResult = await evmLP.getSwapsByOwner(
               bridge.tokenToBridge!.poolAddressTo,
               ownerEVMAddress,
+              bridge.blockchainTo!.chainId,
             );
             swapsByOwnerResult.map(
               success: (swaps) {

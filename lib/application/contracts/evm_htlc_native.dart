@@ -12,11 +12,9 @@ import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 class EVMHTLCNative with EVMBridgeProcessMixin {
   EVMHTLCNative(
     this.htlcContractAddress,
-    this.chainId,
   );
 
   final String htlcContractAddress;
-  final int chainId;
 
   Future<aedappfm.Result<String, aedappfm.Failure>> signedWithdraw(
     WidgetRef ref,
@@ -32,9 +30,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
 
         late String? withdrawTx;
         try {
-          final latestBlockNumber = await wagmi.Core.getBlockNumber(
-            wagmi.GetBlockNumberParameters(chainId: chainId),
-          );
+          final latestBlockNumber = await getBlockNumber();
           aedappfm.sl.get<aedappfm.LogManager>().log(
                 'latestBlockNumber: $latestBlockNumber',
                 name: 'EVMHTLCNative - signedWithdraw',
@@ -48,7 +44,6 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
             parameters: wagmi.WriteContractParameters.eip1559(
               abi: contractAbi,
               address: htlcContractAddress,
-              chainId: chainId,
               functionName: 'withdraw',
               args: [
                 secret.secret!.toBytes,
@@ -66,7 +61,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'Timeout occurred (htlcContractAddress: $htlcContractAddress, chainId: $chainId)',
+                  'Timeout occurred (htlcContractAddress: $htlcContractAddress, chainId: ${evmWalletProvider.requestedChainId})',
                   level: aedappfm.LogLevel.error,
                   name: 'EVMHTLCNative - signedWithdraw',
                 );
@@ -96,11 +91,10 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
           final params = wagmi.ReadContractParameters(
             abi: abi,
             address: htlcContractAddress,
-            chainId: chainId,
             functionName: 'fee',
             args: [],
           );
-          final response = await wagmi.Core.readContract(
+          final response = await readContract(
             params,
           );
 

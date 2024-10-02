@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 
-import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/models/swap.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
@@ -24,13 +23,11 @@ class EVMLP with EVMBridgeProcessMixin {
     String hash,
     double amount,
     int decimal,
-    bool isWrapped, {
-    int chainId = 31337,
-  }) async {
+    bool isWrapped,
+  ) async {
     return aedappfm.Result.guard(() async {
-      final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
-      final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-      bridgeNotifier.setRequestTooLong(false);
+      final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier)
+        ..setRequestTooLong(false);
 
       final contractAbi = await loadAbi(
         contractNameIPool,
@@ -49,7 +46,6 @@ class EVMLP with EVMBridgeProcessMixin {
           parameters: wagmi.WriteContractParameters.eip1559(
             abi: contractAbi,
             address: poolAddress,
-            chainId: chainId,
             functionName: 'mintHTLC',
             args: [
               hash.toBytes,
@@ -68,7 +64,7 @@ class EVMLP with EVMBridgeProcessMixin {
       } catch (e, stackTrace) {
         if (e is TimeoutException) {
           aedappfm.sl.get<aedappfm.LogManager>().log(
-                'Timeout occurred (poolAddress: $poolAddress, chainId: $chainId, address: ${evmWalletProvider.currentAddress})',
+                'Timeout occurred (poolAddress: $poolAddress, chainId: ${evmWalletProvider.requestedChainId}, address: ${evmWalletProvider.currentAddress})',
                 level: aedappfm.LogLevel.error,
                 name: 'EVMLP - deployChargeableHTLC',
               );
@@ -87,11 +83,10 @@ class EVMLP with EVMBridgeProcessMixin {
       }
 
       // Get HTLC address
-      final String htlcContractAddress = await wagmi.Core.readContract(
+      final String htlcContractAddress = await readContract(
         wagmi.ReadContractParameters(
           abi: contractAbi,
           address: poolAddress,
-          chainId: chainId,
           functionName: 'mintedSwap',
           args: [
             hash.toBytes,
@@ -111,14 +106,13 @@ class EVMLP with EVMBridgeProcessMixin {
     SecretHash secretHash,
     double amount,
     int decimal,
-    int endTime, {
-    int chainId = 31337,
-  }) async {
+    int endTime,
+    int chainId,
+  ) async {
     return aedappfm.Result.guard(
       () async {
-        final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
-        final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-        bridgeNotifier.setRequestTooLong(false);
+        final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier)
+          ..setRequestTooLong(false);
 
         final bigIntValue = Decimal.parse(amount.toString()) *
             Decimal.fromBigInt(BigInt.from(10).pow(decimal));
@@ -179,7 +173,7 @@ class EVMLP with EVMBridgeProcessMixin {
         }
 
         // Get HTLC address
-        final String htlcContractAddressEVM = await wagmi.Core.readContract(
+        final String htlcContractAddressEVM = await readContract(
           wagmi.ReadContractParameters(
             abi: contractAbi,
             address: poolAddress,
@@ -206,15 +200,15 @@ class EVMLP with EVMBridgeProcessMixin {
 
   Future<aedappfm.Result<List<Swap>, aedappfm.Failure>> getSwapsByOwner(
     String poolAddress,
-    String ownerAddress, {
-    int chainId = 31337,
-  }) async {
+    String ownerAddress,
+    int chainId,
+  ) async {
     return aedappfm.Result.guard(() async {
       final swapList = <Swap>[];
 
       final contractLP = await loadAbi(contractNameIPool);
 
-      final resultMap = await wagmi.Core.readContract(
+      final resultMap = await readContract(
         wagmi.ReadContractParameters(
           abi: contractLP,
           address: poolAddress,

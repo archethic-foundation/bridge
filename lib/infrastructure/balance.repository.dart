@@ -5,6 +5,8 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
 class BalanceRepositoryImpl implements BalanceRepository {
+  final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+
   @override
   Future<double> getBalance(
     bool isArchethic,
@@ -32,19 +34,19 @@ class BalanceRepositoryImpl implements BalanceRepository {
     } else {
       switch (typeToken) {
         case 'Native':
-          final balance = await aedappfm.sl.get<EVMWalletProvider>().getBalance(
-                address,
-                typeToken,
-                decimal,
-              );
+          final balance = await evmWalletProvider.getBalance(
+            address,
+            typeToken,
+            decimal,
+          );
           return balance;
         case 'Wrapped':
-          final balance = await aedappfm.sl.get<EVMWalletProvider>().getBalance(
-                address,
-                typeToken,
-                decimal,
-                erc20address: tokenAddress,
-              );
+          final balance = await evmWalletProvider.getBalance(
+            address,
+            typeToken,
+            decimal,
+            erc20address: tokenAddress,
+          );
           return balance;
         default:
       }

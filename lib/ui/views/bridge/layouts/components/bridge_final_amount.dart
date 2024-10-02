@@ -51,7 +51,6 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
       try {
         final evmHTLC = EVMHTLC(
           widget.address,
-          widget.chainId ?? 0,
         );
         final resultAmount = await evmHTLC.getAmount(widget.decimal);
         resultAmount.map(

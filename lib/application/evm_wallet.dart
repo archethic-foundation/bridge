@@ -1,16 +1,25 @@
-import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
+import 'package:aebridge/domain/repositories/bridge_blockchain.repository.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
-import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
-    as aedappfm;
-import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
 class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
-  Future<void> init(Ref ref) async {
-    final repository = ref.watch(bridgeBlockchainsRepositoryProvider);
+  bool isInit = false;
+
+  int? _requestedChainId;
+  int get requestedChainId {
+    if (_requestedChainId == null) {
+      throw Exception(
+        'You must call `EVMWalletProvider.connect` before any action',
+      );
+    }
+    return _requestedChainId!;
+  }
+
+  Future<void> init(BridgeBlockchainsRepository repository) async {
+    if (isInit) return;
+
     final blockchains = await repository.getEVMBlockchains();
     wagmi.Web3Modal.init(
       projectId: _projectId,
@@ -31,19 +40,8 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
       enableOnRamp: true,
       showWallets: true,
       walletFeatures: true,
-      transportBuilder: (chainId) {
-        final chain =
-            blockchains.firstWhereOrNull((chain) => chain.chainId == chainId);
-        if (chain == null) {
-          throw Exception('Chain $chainId not found in predefined setups.');
-        }
-        return wagmi.Transport.websocket(
-          url: Uri.parse(chain.providerEndpoint)
-              .replace(scheme: 'wss')
-              .toString(),
-        );
-      },
     );
+    isInit = true;
   }
 
   String? get currentAddress {
@@ -83,95 +81,22 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
 
       await _waitForConnection();
     }
-    await useChain(chain);
+    await useChain(chain.chainId);
     notifyListeners();
   }
 
-  Future<void> useChain(BridgeBlockchain chain) async {
-    if (wagmi.Core.getChainId() == chain.chainId) return;
+  Future<void> useChain(int chainId) async {
+    _requestedChainId = chainId;
+    if (wagmi.Core.getChainId() == chainId) return;
     await wagmi.Core.switchChain(
       wagmi.SwitchChainParameters(
         connector: walletConnector,
-        chainId: chain.chainId,
+        chainId: chainId,
       ),
     );
   }
 
+  Future<void> useRequestedChain() async => useChain(requestedChainId);
+
   Future<void> disconnect() async {}
-
-  Future<double> getBalance(
-    String address,
-    String typeToken,
-    int decimal, {
-    String erc20address = '',
-  }) async {
-    try {
-      switch (typeToken) {
-        case 'Native':
-          return double.tryParse(
-                (await wagmi.Core.getBalance(
-                  wagmi.GetBalanceParameters(address: address),
-                ))
-                    .formatted,
-              ) ??
-              0;
-        case 'Wrapped':
-          if (erc20address.isEmpty) {
-            return 0.0;
-          }
-          return double.tryParse(
-                (await wagmi.Core.getBalance(
-                  wagmi.GetBalanceParameters(
-                    address: address,
-                    token: erc20address,
-                  ),
-                ))
-                    .formatted,
-              ) ??
-              0;
-        default:
-          return 0.0;
-      }
-    } catch (e, stackTrace) {
-      aedappfm.sl.get<aedappfm.LogManager>().log(
-            '$e',
-            stackTrace: stackTrace,
-            level: aedappfm.LogLevel.error,
-            name: 'EVMWalletProvider - getBalance',
-          );
-      return 0.0;
-    }
-  }
-
-  Future<int> getTokenDecimals(
-    String typeToken, {
-    String erc20address = '',
-  }) async {
-    const defaultDecimal = 8;
-
-    try {
-      switch (typeToken) {
-        case 'Native':
-          return 18;
-        case 'Wrapped':
-          if (erc20address.isEmpty) {
-            return defaultDecimal;
-          }
-          final token = await wagmi.Core.getToken(
-            wagmi.GetTokenParameters(address: erc20address),
-          );
-          return token.decimals;
-        default:
-          return defaultDecimal;
-      }
-    } catch (e, stackTrace) {
-      aedappfm.sl.get<aedappfm.LogManager>().log(
-            '$e',
-            stackTrace: stackTrace,
-            level: aedappfm.LogLevel.error,
-            name: 'EVMWalletProvider - getTokenDecimals',
-          );
-      return defaultDecimal;
-    }
-  }
 }
