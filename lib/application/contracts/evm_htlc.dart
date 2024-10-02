@@ -46,12 +46,11 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             parameters: wagmi.WriteContractParameters.eip1559(
               abi: contractAbi,
               address: htlcContractAddressEVM,
-              functionName: 'refund',
               chainId: chainId,
+              functionName: 'refund',
               //    feeValues: await FeeValuesUtils.defaultEIP1559FeeValues(chainId),
             ),
             fromMethod: 'EVMHTLC - refund',
-            chainId: chainId,
             ref: ref,
             evmBridgeProcess: EVMBridgeProcess.refund,
           );
@@ -110,6 +109,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
     final params = wagmi.ReadContractParameters(
       abi: abi,
       address: htlcContractAddressEVM,
+      chainId: chainId,
       functionName: 'lockTime',
       args: [],
     );
@@ -131,6 +131,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
         final params = wagmi.ReadContractParameters(
           abi: abi,
           address: htlcContractAddressEVM,
+          chainId: chainId,
           functionName: 'amount',
           args: [],
         );
@@ -160,6 +161,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
         final params = wagmi.ReadContractParameters(
           abi: abi,
           address: htlcContractAddressEVM,
+          chainId: chainId,
           functionName: 'token',
           args: [],
         );
@@ -194,6 +196,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
     final params = wagmi.ReadContractParameters(
       abi: abi,
       address: htlcContractAddressEVM,
+      chainId: chainId,
       functionName: 'canRefund',
       args: [
         BigInt.from(DateTime.now().millisecondsSinceEpoch ~/ 1000),
@@ -211,6 +214,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
     final params = wagmi.ReadContractParameters(
       abi: abi,
       address: htlcContractAddressEVM,
+      chainId: chainId,
       functionName: 'status',
       args: [],
     );
@@ -243,8 +247,8 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             parameters: wagmi.WriteContractParametersEIP1559(
               abi: contractAbi,
               address: htlcContractAddressEVM,
-              functionName: 'withdraw',
               chainId: chainId,
+              functionName: 'withdraw',
               args: [
                 secret.toBytes,
                 signatureAEHTLC.r!.toBytes,
@@ -256,7 +260,6 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
             fromMethod: 'EVMHTLC - withdraw',
             ref: ref,
             evmBridgeProcess: EVMBridgeProcess.bridge,
-            chainId: chainId,
           );
 
           await bridgeNotifier.setWalletConfirmation(null);

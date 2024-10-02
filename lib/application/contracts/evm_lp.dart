@@ -58,7 +58,6 @@ class EVMLP with EVMBridgeProcessMixin {
             //   feeValues: await FeeValuesUtils.defaultEIP1559FeeValues(chainId),
             value: isWrapped == false ? scaledAmount : null,
           ),
-          chainId: chainId,
           fromMethod: 'EVMLP - deployChargeableHTLC',
           ref: ref,
           evmBridgeProcess: EVMBridgeProcess.bridge,
@@ -92,6 +91,7 @@ class EVMLP with EVMBridgeProcessMixin {
         wagmi.ReadContractParameters(
           abi: contractAbi,
           address: poolAddress,
+          chainId: chainId,
           functionName: 'mintedSwap',
           args: [
             hash.toBytes,
@@ -138,6 +138,7 @@ class EVMLP with EVMBridgeProcessMixin {
             parameters: wagmi.WriteContractParameters.eip1559(
               abi: contractAbi,
               address: poolAddress,
+              chainId: chainId,
               functionName: 'provisionHTLC',
               args: [
                 secretHash.secretHash!.toBytes,
@@ -150,7 +151,6 @@ class EVMLP with EVMBridgeProcessMixin {
               ],
               //      feeValues: await FeeValuesUtils.defaultEIP1559FeeValues(chainId),
             ),
-            chainId: chainId,
             fromMethod: 'EVMLP - deployAndProvisionSignedHTLC',
             ref: ref,
             evmBridgeProcess: EVMBridgeProcess.bridge,
@@ -183,6 +183,7 @@ class EVMLP with EVMBridgeProcessMixin {
           wagmi.ReadContractParameters(
             abi: contractAbi,
             address: poolAddress,
+            chainId: chainId,
             functionName: 'provisionedSwap',
             args: [
               secretHash.secretHash!.toBytes,
@@ -205,8 +206,9 @@ class EVMLP with EVMBridgeProcessMixin {
 
   Future<aedappfm.Result<List<Swap>, aedappfm.Failure>> getSwapsByOwner(
     String poolAddress,
-    String ownerAddress,
-  ) async {
+    String ownerAddress, {
+    int chainId = 31337,
+  }) async {
     return aedappfm.Result.guard(() async {
       final swapList = <Swap>[];
 
@@ -216,6 +218,7 @@ class EVMLP with EVMBridgeProcessMixin {
         wagmi.ReadContractParameters(
           abi: contractLP,
           address: poolAddress,
+          chainId: chainId,
           functionName: 'getSwapsByOwner',
           args: [
             ownerAddress.toBytes,
