@@ -491,12 +491,13 @@ mixin EVMBridgeProcessMixin {
             'An unknown error has occurred. Please refer to your EVM explorer',
           );
         }
-      } catch (e) {
+      } on wagmi.WagmiError catch (e) {
         aedappfm.sl.get<aedappfm.LogManager>().log(
               'transactionHash: $transactionHash - not found (chainId $chainId) - $e',
               name: 'EVMBridgeProcessMixin - $fromMethod',
             );
-        if (e.toString().contains('TransactionReceiptNotFoundError') == false) {
+        if (e.findError(wagmi.WagmiErrors.TransactionReceiptNotFoundError) ==
+            null) {
           aedappfm.sl.get<aedappfm.LogManager>().log(
                 'transactionHash: $transactionHash - error (chainId $chainId) - $e',
                 level: aedappfm.LogLevel.error,
