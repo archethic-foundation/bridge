@@ -500,7 +500,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
               wallet: kEVMWallet,
               isConnected: true,
               error: '',
-              nameAccount: evmWalletProvider.accountName!,
+              nameAccount: evmWalletProvider.currentAddress!,
               genesisAddress: evmWalletProvider.currentAddress!,
               endpoint: bridgeBlockchain.name,
               env: bridgeBlockchain.env,

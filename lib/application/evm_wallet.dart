@@ -1,35 +1,20 @@
+import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
 class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
-  String? currentAddress;
-  String? get accountName => currentAddress;
-  bool walletConnected = false;
-  wagmi.Config? wagmiConfig;
-
-  final _projectId = 'f642e3f39ba3e375f8f714f18354faa4';
-
-  Future<int> getChainId() async => wagmi.Core.getChainId();
-
-  // TODO(chralu): Utiliser une écoute plutot que du polling
-  Future<wagmi.Account> _waitForConnection() async {
-    while (true) {
-      final account = wagmi.Core.getAccount();
-      if (account.isConnected) return account;
-      await Future.delayed(const Duration(seconds: 1));
-    }
-  }
-
-  Future<void> connect(BridgeBlockchain chain) async {
-    walletConnected = false;
-
+  Future<void> init(Ref ref) async {
+    final repository = ref.watch(bridgeBlockchainsRepositoryProvider);
+    final blockchains = await repository.getEVMBlockchains();
     wagmi.Web3Modal.init(
       projectId: _projectId,
-      chains: [chain.chainId],
+      chains: blockchains.map((blockchain) => blockchain.chainId).toList(),
       metadata: wagmi.Web3ModalMetadata(
         name: 'Archethic Bridge',
         description:
@@ -46,29 +31,70 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
       enableOnRamp: true,
       showWallets: true,
       walletFeatures: true,
-      transportBuilder: (chainId) => wagmi.Transport.websocket(
-        url:
-            Uri.parse(chain.providerEndpoint).replace(scheme: 'wss').toString(),
+      transportBuilder: (chainId) {
+        final chain =
+            blockchains.firstWhereOrNull((chain) => chain.chainId == chainId);
+        if (chain == null) {
+          throw Exception('Chain $chainId not found in predefined setups.');
+        }
+        return wagmi.Transport.websocket(
+          url: Uri.parse(chain.providerEndpoint)
+              .replace(scheme: 'wss')
+              .toString(),
+        );
+      },
+    );
+  }
+
+  String? get currentAddress {
+    try {
+      return wagmi.Core.getAccount().address;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  wagmi.Connector? get walletConnector {
+    try {
+      return wagmi.Core.getAccount().connector;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  bool get walletConnected => walletConnector != null;
+
+  static const _projectId = 'f642e3f39ba3e375f8f714f18354faa4';
+
+  Future<int> getChainId() async => wagmi.Core.getChainId();
+
+  // TODO(chralu): Utiliser une écoute plutot que du polling
+  Future<wagmi.Account> _waitForConnection() async {
+    while (true) {
+      final account = wagmi.Core.getAccount();
+      if (account.isConnected) return account;
+      await Future.delayed(const Duration(seconds: 1));
+    }
+  }
+
+  Future<void> connect(BridgeBlockchain chain) async {
+    if (walletConnector == null) {
+      wagmi.Web3Modal.open();
+
+      await _waitForConnection();
+    }
+    if (wagmi.Core.getChainId() == chain.chainId) return;
+    await wagmi.Core.switchChain(
+      wagmi.SwitchChainParameters(
+        connector: walletConnector,
+        chainId: chain.chainId,
       ),
     );
 
-    wagmi.Web3Modal.open();
-
-    final currentAccount = await _waitForConnection();
-
-    currentAddress = currentAccount.address;
-    walletConnected = true;
-
     notifyListeners();
   }
 
-  Future<void> disconnect() async {
-    await wagmi.Core.disconnect(wagmi.DisconnectParameters());
-    wagmi.Web3Modal.close();
-    walletConnected = false;
-    currentAddress = null;
-    notifyListeners();
-  }
+  Future<void> disconnect() async {}
 
   Future<double> getBalance(
     String address,

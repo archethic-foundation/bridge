@@ -19,6 +19,12 @@ class BridgeBlockchainsRepositoryImpl implements BridgeBlockchainsRepository {
   }
 
   @override
+  Future<List<BridgeBlockchain>> getEVMBlockchains() async {
+    final blockchains = await getBlockchainsListConf();
+    return blockchains.where((blockchain) => !blockchain.isArchethic).toList();
+  }
+
+  @override
   List<BridgeBlockchain> getBlockchainsList(
     List<BridgeBlockchain> blockchainsList,
   ) {
