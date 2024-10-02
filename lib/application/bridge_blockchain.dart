@@ -6,7 +6,7 @@ import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'bridge_blockchain.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 BridgeBlockchainsRepository bridgeBlockchainsRepository(
   BridgeBlockchainsRepositoryRef ref,
 ) =>

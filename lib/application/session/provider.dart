@@ -19,6 +19,7 @@ part 'provider.g.dart';
 @Riverpod(keepAlive: true)
 class SessionNotifier extends _$SessionNotifier {
   StreamSubscription? _connectionStatusSubscription;
+  EVMWalletProvider? __evmWalletProvider;
 
   @override
   Session build() {
@@ -26,6 +27,14 @@ class SessionNotifier extends _$SessionNotifier {
       _connectionStatusSubscription?.cancel();
     });
     return const Session();
+  }
+
+  Future<EVMWalletProvider> get _evmWalletProvider async {
+    if (__evmWalletProvider != null) return __evmWalletProvider!;
+
+    __evmWalletProvider = EVMWalletProvider();
+    await __evmWalletProvider!.init(ref);
+    return __evmWalletProvider!;
   }
 
   Future<aedappfm.Result<void, aedappfm.Failure>> connectToEVMWallet(
@@ -41,16 +50,15 @@ class SessionNotifier extends _$SessionNotifier {
         );
         _fillState(bridgeWallet, from);
 
-        final evmWalletProvider = EVMWalletProvider();
-
         try {
+          final evmWalletProvider = await _evmWalletProvider;
           await evmWalletProvider.connect(blockchain);
           if (evmWalletProvider.walletConnected) {
             bridgeWallet = bridgeWallet.copyWith(
               wallet: kEVMWallet,
               isConnected: true,
               error: '',
-              nameAccount: evmWalletProvider.accountName!,
+              nameAccount: evmWalletProvider.currentAddress!,
               genesisAddress: evmWalletProvider.currentAddress!,
               endpoint: blockchain.name,
             );

@@ -7,12 +7,12 @@ part of 'bridge_blockchain.dart';
 // **************************************************************************
 
 String _$bridgeBlockchainsRepositoryHash() =>
-    r'92b91d70fc0cfeca952186f64841609e72323f71';
+    r'7f7628c08ea93ed5d9c4ecff168191945cd7e726';
 
 /// See also [bridgeBlockchainsRepository].
 @ProviderFor(bridgeBlockchainsRepository)
 final bridgeBlockchainsRepositoryProvider =
-    AutoDisposeProvider<BridgeBlockchainsRepository>.internal(
+    Provider<BridgeBlockchainsRepository>.internal(
   bridgeBlockchainsRepository,
   name: r'bridgeBlockchainsRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -23,7 +23,7 @@ final bridgeBlockchainsRepositoryProvider =
 );
 
 typedef BridgeBlockchainsRepositoryRef
-    = AutoDisposeProviderRef<BridgeBlockchainsRepository>;
+    = ProviderRef<BridgeBlockchainsRepository>;
 String _$getBlockchainsListHash() =>
     r'bcd386d39798e44315f7ca212817c3728ceacf1b';
 
