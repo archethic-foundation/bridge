@@ -33,7 +33,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
         late String? withdrawTx;
         try {
           final latestBlockNumber = await wagmi.Core.getBlockNumber(
-            wagmi.GetBlockNumberParameters(),
+            wagmi.GetBlockNumberParameters(chainId: chainId),
           );
           aedappfm.sl.get<aedappfm.LogManager>().log(
                 'latestBlockNumber: $latestBlockNumber',
@@ -61,7 +61,6 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
             fromMethod: 'EVMHTLCNative - signedWithdraw',
             ref: ref,
             evmBridgeProcess: EVMBridgeProcess.bridge,
-            chainId: chainId,
           );
           await bridgeNotifier.setWalletConfirmation(null);
         } catch (e, stackTrace) {
@@ -97,6 +96,7 @@ class EVMHTLCNative with EVMBridgeProcessMixin {
           final params = wagmi.ReadContractParameters(
             abi: abi,
             address: htlcContractAddress,
+            chainId: chainId,
             functionName: 'fee',
             args: [],
           );

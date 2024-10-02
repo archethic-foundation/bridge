@@ -47,8 +47,8 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             parameters: wagmi.WriteContractParameters.eip1559(
               abi: contractAbi,
               address: tokenAddress,
-              functionName: 'approve',
               chainId: chainId,
+              functionName: 'approve',
               args: [
                 poolAddress,
                 tokenUnits,
@@ -58,7 +58,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             fromMethod: 'EVMHTLCERC - approveChargeableHTLC',
             ref: ref,
             evmBridgeProcess: EVMBridgeProcess.bridge,
-            chainId: chainId,
           );
           await bridgeNotifier.setWalletConfirmation(null);
         } catch (e, stackTrace) {
@@ -119,7 +118,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             fromMethod: 'EVMHTLCERC - signedWithdraw',
             ref: ref,
             evmBridgeProcess: EVMBridgeProcess.bridge,
-            chainId: chainId,
           );
 
           await bridgeNotifier.setWalletConfirmation(null);
@@ -159,6 +157,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
           wagmi.ReadContractParameters(
             abi: contractHTLC,
             address: tokenAddress,
+            chainId: chainId,
             functionName: 'decimals',
           ),
         );

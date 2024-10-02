@@ -257,7 +257,6 @@ mixin EVMBridgeProcessMixin {
 
   Future<String> writeContractWithErrorManagement({
     required wagmi.WriteContractParameters parameters,
-    required int chainId,
     required String fromMethod,
     required WidgetRef ref,
     required EVMBridgeProcess evmBridgeProcess,
@@ -266,6 +265,7 @@ mixin EVMBridgeProcessMixin {
       final transactionHash = await wagmi.Core.writeContract(
         parameters,
       );
+      final chainId = parameters.chainId!;
       await _waitForTransactionValidation(
         chainId: chainId,
         evmBridgeProcess: evmBridgeProcess,
@@ -328,7 +328,10 @@ mixin EVMBridgeProcessMixin {
       // TODO(reddwarf03): See waitForTransactionReceipt instead of polling
       try {
         final transactionReceipt = await wagmi.Core.getTransactionReceipt(
-          wagmi.GetTransactionReceiptParameters(hash: transactionHash),
+          wagmi.GetTransactionReceiptParameters(
+            hash: transactionHash,
+            chainId: chainId,
+          ),
         );
 
         if (transactionReceipt.status == 'success') {
@@ -506,6 +509,7 @@ mixin FeeValuesUtils {
     final maxFeePerGas = await _getMaxFeePerGas(
       suggestedGasFeesResult,
       maxPriorityFeePerGas.getInWei,
+      chainId,
     );
 
     aedappfm.sl.get<aedappfm.LogManager>().log(
@@ -574,6 +578,7 @@ mixin FeeValuesUtils {
   static Future<wagmi.EtherAmount> _getMaxFeePerGas(
     GasFeeEstimation? suggestedGasFeesResult,
     BigInt maxPriorityFeePerGas,
+    int chainId,
   ) async {
     if (suggestedGasFeesResult != null &&
         suggestedGasFeesResult.medium.suggestedMaxFeePerGas.isValidNumber()) {
@@ -586,7 +591,9 @@ mixin FeeValuesUtils {
     }
 
     final blockInformation = await wagmi.Core.getBlock(
-      wagmi.GetBlockParameters(),
+      wagmi.GetBlockParameters(
+        chainId: chainId,
+      ),
     );
     final baseFeePerGas = blockInformation.baseFeePerGas;
 

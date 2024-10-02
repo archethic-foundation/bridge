@@ -83,6 +83,11 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
 
       await _waitForConnection();
     }
+    await useChain(chain);
+    notifyListeners();
+  }
+
+  Future<void> useChain(BridgeBlockchain chain) async {
     if (wagmi.Core.getChainId() == chain.chainId) return;
     await wagmi.Core.switchChain(
       wagmi.SwitchChainParameters(
@@ -90,8 +95,6 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
         chainId: chain.chainId,
       ),
     );
-
-    notifyListeners();
   }
 
   Future<void> disconnect() async {}
