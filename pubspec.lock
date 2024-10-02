@@ -1651,9 +1651,10 @@ packages:
 =======
 =======
       name: wagmi_flutter_web
-      sha256: "75c824e36b084685a38c93800cc838971f8c4d40e78951ece40fae0312e5f7d1"
+      sha256: "6f8330f49602f830ad8c7ca7c3d613823bc8cceae11806419ec46ed2cab88a80"
       url: "https://pub.dev"
     source: hosted
+<<<<<<< HEAD
 <<<<<<< HEAD
 >>>>>>> 39f4559 (Fix Wagmi declaration)
     version: "0.0.1-dev.8"
@@ -1661,6 +1662,9 @@ packages:
 =======
     version: "1.0.0-rc.2"
 >>>>>>> d44017e (chore: :recycle: Use Wagmi Error management)
+=======
+    version: "1.0.0-rc.3"
+>>>>>>> 9c96f8d (build: :arrow_up: Use wagmi_flutter_web 1.1.0-rc.3)
   watcher:
     dependency: transitive
     description:
