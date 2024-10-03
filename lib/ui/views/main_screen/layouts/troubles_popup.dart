@@ -99,10 +99,9 @@ class TroublesPopup extends ConsumerWidget {
                                 context,
                                 AppLocalizations.of(context)!.troubleItem4Title,
                                 AppLocalizations.of(context)!.troubleItem4Desc,
-                                'assets', () {
-                              context
-                                ..pop()
-                                ..go(RefundSheet.routerPage);
+                                'assets', () async {
+                              context.pop();
+                              await context.push(RefundSheet.routerPage);
                             }),
                           ],
                         ),

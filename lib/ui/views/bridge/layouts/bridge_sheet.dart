@@ -97,6 +97,7 @@ class _BridgeSheetState extends ConsumerState<BridgeSheet> {
           const aedappfm.ArchethicOracleUco(
             faqLink:
                 'https://wiki.archethic.net/FAQ/bridge-2-ways#how-is-the-price-of-uco-estimated',
+            precision: 4,
           ),
         ],
       ),
