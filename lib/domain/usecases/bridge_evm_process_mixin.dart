@@ -235,9 +235,8 @@ mixin EVMBridgeProcessMixin {
     final walletTo = session.walletTo;
     final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
     final resultRevealSecretToChargeableHTLC =
-        await ArchethicContractChargeable(
-      dappClient: dappClient,
-    ).revealSecretToChargeableHTLC(
+        await ArchethicContractChargeable().revealSecretToChargeableHTLC(
+      dappClient,
       ref,
       walletTo!.genesisAddress,
       walletTo.nameAccount,

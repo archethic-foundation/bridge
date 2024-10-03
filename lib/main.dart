@@ -1,4 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/bridge_blockchain.dart';
+import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/infrastructure/hive/db_helper.hive.dart';
 import 'package:aebridge/ui/util/router.dart';
 import 'package:aebridge/util/service_locator.dart';
@@ -50,6 +52,13 @@ class _MyAppState extends ConsumerState<MyApp> {
             aedappfm.CoinPriceProviders.coinPrices.notifier,
           )
           .startTimer();
+
+      final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+      if (!evmWalletProvider.isInit) {
+        await evmWalletProvider.init(
+          ref.read(bridgeBlockchainsRepositoryProvider),
+        );
+      }
     });
   }
 

@@ -13,7 +13,6 @@ import 'package:aebridge/ui/views/local_history/components/local_history_card_tr
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
-import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
@@ -44,7 +43,6 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
   @override
   void initState() {
     Future.delayed(Duration.zero, () async {
-      final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
       if (widget.bridge.blockchainFrom != null &&
           widget.bridge.blockchainFrom!.htlcAddress != null) {
         if (widget.bridge.blockchainFrom!.isArchethic) {
@@ -60,8 +58,7 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
             );
 
             try {
-              final info =
-                  await ArchethicContract(dappClient: dappClient).getInfo(
+              final info = await ArchethicContract().getInfo(
                 apiService,
                 widget.bridge.blockchainFrom!.htlcAddress!,
               );
@@ -74,8 +71,7 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
             } catch (e) {}
 
             try {
-              final htlcInfo =
-                  await ArchethicContract(dappClient: dappClient).getHTLCInfo(
+              final htlcInfo = await ArchethicContract().getHTLCInfo(
                 apiService,
                 widget.bridge.blockchainFrom!.htlcAddress!,
               );
@@ -128,8 +124,7 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
               widget.bridge.blockchainTo!.providerEndpoint,
             );
             try {
-              final info =
-                  await ArchethicContract(dappClient: dappClient).getInfo(
+              final info = await ArchethicContract().getInfo(
                 apiService,
                 widget.bridge.blockchainTo!.htlcAddress!,
               );

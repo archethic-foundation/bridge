@@ -112,8 +112,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       isAlreadyRefunded: false,
       isAlreadyWithdrawn: false,
     );
-    final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
-    final archethicContract = ArchethicContract(dappClient: dappClient);
+    final archethicContract = ArchethicContract();
     if (await control(context)) {
       try {
         final htlcInfo = await archethicContract.getHTLCInfo(

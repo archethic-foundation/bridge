@@ -25,8 +25,12 @@ class RefundArchethicCase {
       ..setRefundOk(false)
       ..setWalletConfirmation(null);
 
-    final result = await ArchethicContract(dappClient: dappClient)
-        .refund(ref, currentNameAccount, htlcContractAddressAE);
+    final result = await ArchethicContract().refund(
+      dappClient,
+      ref,
+      currentNameAccount,
+      htlcContractAddressAE,
+    );
 
     result.map(
       success: (refundTxAddress) {
