@@ -40,7 +40,13 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
       enableOnRamp: true,
       showWallets: true,
       walletFeatures: true,
+      transportBuilder: (chainId) => wagmi.Transport.http(
+        url: blockchains
+            .firstWhere((element) => element.chainId == chainId)
+            .providerEndpoint,
+      ),
     );
+
     isInit = true;
   }
 
