@@ -94,7 +94,6 @@ mixin EVMBridgeProcessMixin {
     int decimal,
     String htlcContractAddressAE,
   ) async {
-    await evmWalletProvider.useRequestedChain();
     final bridge = ref.read(bridgeFormNotifierProvider);
     final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
 
@@ -140,7 +139,6 @@ mixin EVMBridgeProcessMixin {
     WidgetRef ref,
     Digest secretHash,
   ) async {
-    await evmWalletProvider.useRequestedChain();
     final bridge = ref.read(bridgeFormNotifierProvider);
     final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
     final evmLP = EVMLP();
@@ -258,7 +256,6 @@ mixin EVMBridgeProcessMixin {
   }
 
   Future<BigInt> getBlockNumber({int? cacheTime}) async {
-    await evmWalletProvider.useRequestedChain();
     return wagmi.Core.getBlockNumber(
       wagmi.GetBlockNumberParameters(
         cacheTime: cacheTime,
@@ -271,7 +268,6 @@ mixin EVMBridgeProcessMixin {
     required String address,
     wagmi.FormatUnit? formatUnits,
   }) async {
-    await evmWalletProvider.useRequestedChain();
     return wagmi.Core.getToken(
       wagmi.GetTokenParameters(
         address: address,
@@ -304,7 +300,6 @@ mixin EVMBridgeProcessMixin {
     int decimal, {
     String erc20address = '',
   }) async {
-    await evmWalletProvider.useRequestedChain();
     try {
       switch (typeToken) {
         case 'Native':
@@ -351,7 +346,6 @@ mixin EVMBridgeProcessMixin {
     String typeToken, {
     String erc20address = '',
   }) async {
-    await evmWalletProvider.useRequestedChain();
     const defaultDecimal = 8;
 
     try {
@@ -390,7 +384,6 @@ mixin EVMBridgeProcessMixin {
     required EVMBridgeProcess evmBridgeProcess,
   }) async {
     try {
-      await evmWalletProvider.useRequestedChain();
       final transactionHash = await wagmi.Core.writeContract(
         parameters.copyWith(chainId: evmWalletProvider.requestedChainId),
       );

@@ -46,6 +46,7 @@ class BridgeFormState with _$BridgeFormState {
     DateTime? consentDateTime,
     @Default(false) bool requestTooLong,
     @Default(0) double ucoV1Balance,
+    @Default(false) bool chainIdUpdated,
   }) = _BridgeFormState;
   const BridgeFormState._();
 
