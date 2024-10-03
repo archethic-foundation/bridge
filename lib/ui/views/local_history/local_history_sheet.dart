@@ -3,7 +3,6 @@ import 'dart:convert';
 
 import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
-import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/local_history/bloc/provider.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_bridge_finished_included_switch.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card.dart';
@@ -51,8 +50,8 @@ Widget _body(BuildContext context, WidgetRef ref) {
             child: Row(
               children: [
                 InkWell(
-                  onTap: () async {
-                    context.go(BridgeSheet.routerPage);
+                  onTap: () {
+                    context.pop();
                   },
                   child: Row(
                     children: [
@@ -71,7 +70,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
                         AppLocalizations.of(context)!.backToBridge,
                         style: TextStyle(
                           fontSize:
-                              Theme.of(context).textTheme.labelSmall!.fontSize,
+                              Theme.of(context).textTheme.labelMedium!.fontSize,
                           color: aedappfm.AppThemeBase.secondaryColor,
                           decoration: TextDecoration.underline,
                         ),
