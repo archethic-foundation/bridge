@@ -281,7 +281,6 @@ mixin EVMBridgeProcessMixin {
   Future<dynamic> readContract(
     wagmi.ReadContractParameters params,
   ) async {
-    await evmWalletProvider.useRequestedChain();
     return wagmi.Core.readContract(
       wagmi.ReadContractParameters(
         abi: params.abi,

@@ -199,18 +199,29 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
     return canRefund;
   }
 
-  Future<int> getStatus() async {
+  Future<int> getStatus({int? chainId}) async {
     final abi = await loadAbi(contractNameHTLCBase);
-    final params = wagmi.ReadContractParameters(
-      abi: abi,
-      address: htlcContractAddressEVM,
-      functionName: 'status',
-      args: [],
+
+    if (chainId == null) {
+      return await readContract(
+        wagmi.ReadContractParameters(
+          abi: abi,
+          address: htlcContractAddressEVM,
+          functionName: 'status',
+          args: [],
+        ),
+      );
+    }
+
+    return await wagmi.Core.readContract(
+      wagmi.ReadContractParameters(
+        abi: abi,
+        address: htlcContractAddressEVM,
+        functionName: 'status',
+        args: [],
+        chainId: chainId,
+      ),
     );
-    final response = await readContract(
-      params,
-    );
-    return response;
   }
 
   Future<aedappfm.Result<String, aedappfm.Failure>> withdraw(
