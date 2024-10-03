@@ -60,7 +60,11 @@ mixin _$BridgeFormState {
   bool get controlInProgress => throw _privateConstructorUsedError;
   DateTime? get consentDateTime => throw _privateConstructorUsedError;
   bool get requestTooLong => throw _privateConstructorUsedError;
+<<<<<<< HEAD
   double get ucoV1Balance => throw _privateConstructorUsedError;
+=======
+  bool get chainIdUpdated => throw _privateConstructorUsedError;
+>>>>>>> 80d3ea8 (feat: :sparkles: Watch when user changes network)
 
   /// Serializes this BridgeFormState to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -112,7 +116,11 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       bool controlInProgress,
       DateTime? consentDateTime,
       bool requestTooLong,
+<<<<<<< HEAD
       double ucoV1Balance});
+=======
+      bool chainIdUpdated});
+>>>>>>> 80d3ea8 (feat: :sparkles: Watch when user changes network)
 
   $BridgeBlockchainCopyWith<$Res>? get blockchainFrom;
   $BridgeBlockchainCopyWith<$Res>? get blockchainTo;
@@ -169,7 +177,11 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? controlInProgress = null,
     Object? consentDateTime = freezed,
     Object? requestTooLong = null,
+<<<<<<< HEAD
     Object? ucoV1Balance = null,
+=======
+    Object? chainIdUpdated = null,
+>>>>>>> 80d3ea8 (feat: :sparkles: Watch when user changes network)
   }) {
     return _then(_value.copyWith(
       resumeProcess: null == resumeProcess
@@ -304,10 +316,17 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
           ? _value.requestTooLong
           : requestTooLong // ignore: cast_nullable_to_non_nullable
               as bool,
+<<<<<<< HEAD
       ucoV1Balance: null == ucoV1Balance
           ? _value.ucoV1Balance
           : ucoV1Balance // ignore: cast_nullable_to_non_nullable
               as double,
+=======
+      chainIdUpdated: null == chainIdUpdated
+          ? _value.chainIdUpdated
+          : chainIdUpdated // ignore: cast_nullable_to_non_nullable
+              as bool,
+>>>>>>> 80d3ea8 (feat: :sparkles: Watch when user changes network)
     ) as $Val);
   }
 
@@ -425,7 +444,11 @@ abstract class _$$BridgeFormStateImplCopyWith<$Res>
       bool controlInProgress,
       DateTime? consentDateTime,
       bool requestTooLong,
+<<<<<<< HEAD
       double ucoV1Balance});
+=======
+      bool chainIdUpdated});
+>>>>>>> 80d3ea8 (feat: :sparkles: Watch when user changes network)
 
   @override
   $BridgeBlockchainCopyWith<$Res>? get blockchainFrom;
@@ -485,7 +508,11 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
     Object? controlInProgress = null,
     Object? consentDateTime = freezed,
     Object? requestTooLong = null,
+<<<<<<< HEAD
     Object? ucoV1Balance = null,
+=======
+    Object? chainIdUpdated = null,
+>>>>>>> 80d3ea8 (feat: :sparkles: Watch when user changes network)
   }) {
     return _then(_$BridgeFormStateImpl(
       resumeProcess: null == resumeProcess
@@ -620,10 +647,17 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
           ? _value.requestTooLong
           : requestTooLong // ignore: cast_nullable_to_non_nullable
               as bool,
+<<<<<<< HEAD
       ucoV1Balance: null == ucoV1Balance
           ? _value.ucoV1Balance
           : ucoV1Balance // ignore: cast_nullable_to_non_nullable
               as double,
+=======
+      chainIdUpdated: null == chainIdUpdated
+          ? _value.chainIdUpdated
+          : chainIdUpdated // ignore: cast_nullable_to_non_nullable
+              as bool,
+>>>>>>> 80d3ea8 (feat: :sparkles: Watch when user changes network)
     ));
   }
 }
@@ -665,7 +699,11 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
       this.controlInProgress = false,
       this.consentDateTime,
       this.requestTooLong = false,
+<<<<<<< HEAD
       this.ucoV1Balance = 0})
+=======
+      this.chainIdUpdated = false})
+>>>>>>> 80d3ea8 (feat: :sparkles: Watch when user changes network)
       : _secret = secret,
         super._();
 
@@ -774,11 +812,19 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
   final bool requestTooLong;
   @override
   @JsonKey()
+<<<<<<< HEAD
   final double ucoV1Balance;
 
   @override
   String toString() {
     return 'BridgeFormState(resumeProcess: $resumeProcess, processStep: $processStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, poolTargetBalance: $poolTargetBalance, poolTargetMintAndBurn: $poolTargetMintAndBurn, tokenToBridgeDecimals: $tokenToBridgeDecimals, tokenBridgedDecimals: $tokenBridgedDecimals, failure: $failure, isTransferInProgress: $isTransferInProgress, walletConfirmation: $walletConfirmation, bridgeOk: $bridgeOk, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, htlcEVMTxAddress: $htlcEVMTxAddress, secret: $secret, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees, feesEstimatedUCO: $feesEstimatedUCO, messageMaxHalfUCO: $messageMaxHalfUCO, controlInProgress: $controlInProgress, consentDateTime: $consentDateTime, requestTooLong: $requestTooLong, ucoV1Balance: $ucoV1Balance)';
+=======
+  final bool chainIdUpdated;
+
+  @override
+  String toString() {
+    return 'BridgeFormState(resumeProcess: $resumeProcess, processStep: $processStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, poolTargetBalance: $poolTargetBalance, tokenToBridgeDecimals: $tokenToBridgeDecimals, tokenBridgedDecimals: $tokenBridgedDecimals, failure: $failure, isTransferInProgress: $isTransferInProgress, walletConfirmation: $walletConfirmation, bridgeOk: $bridgeOk, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, htlcEVMTxAddress: $htlcEVMTxAddress, secret: $secret, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees, feesEstimatedUCO: $feesEstimatedUCO, messageMaxHalfUCO: $messageMaxHalfUCO, controlInProgress: $controlInProgress, consentDateTime: $consentDateTime, requestTooLong: $requestTooLong, chainIdUpdated: $chainIdUpdated)';
+>>>>>>> 80d3ea8 (feat: :sparkles: Watch when user changes network)
   }
 
   @override
@@ -853,8 +899,13 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
                 other.consentDateTime == consentDateTime) &&
             (identical(other.requestTooLong, requestTooLong) ||
                 other.requestTooLong == requestTooLong) &&
+<<<<<<< HEAD
             (identical(other.ucoV1Balance, ucoV1Balance) ||
                 other.ucoV1Balance == ucoV1Balance));
+=======
+            (identical(other.chainIdUpdated, chainIdUpdated) ||
+                other.chainIdUpdated == chainIdUpdated));
+>>>>>>> 80d3ea8 (feat: :sparkles: Watch when user changes network)
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -894,7 +945,11 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
         controlInProgress,
         consentDateTime,
         requestTooLong,
+<<<<<<< HEAD
         ucoV1Balance
+=======
+        chainIdUpdated
+>>>>>>> 80d3ea8 (feat: :sparkles: Watch when user changes network)
       ]);
 
   /// Create a copy of BridgeFormState
@@ -950,7 +1005,11 @@ abstract class _BridgeFormState extends BridgeFormState {
       final bool controlInProgress,
       final DateTime? consentDateTime,
       final bool requestTooLong,
+<<<<<<< HEAD
       final double ucoV1Balance}) = _$BridgeFormStateImpl;
+=======
+      final bool chainIdUpdated}) = _$BridgeFormStateImpl;
+>>>>>>> 80d3ea8 (feat: :sparkles: Watch when user changes network)
   const _BridgeFormState._() : super._();
 
   factory _BridgeFormState.fromJson(Map<String, dynamic> json) =
@@ -1027,6 +1086,8 @@ abstract class _BridgeFormState extends BridgeFormState {
   DateTime? get consentDateTime;
   @override
   bool get requestTooLong;
+  @override
+  bool get chainIdUpdated;
 
   /// Create a copy of BridgeFormState
   /// with the given fields replaced by the non-null parameter values.

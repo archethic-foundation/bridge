@@ -23,14 +23,19 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
 part 'provider.g.dart';
 
 @riverpod
 class BridgeFormNotifier extends _$BridgeFormNotifier
     with aedappfm.TransactionMixin {
+  wagmi.WatchChainIdReturnType? _watchChainIdUnsubscribe;
+
   @override
   BridgeFormState build() {
+    ref.onDispose(_unwatchChainId);
+
     return const BridgeFormState();
   }
 
@@ -97,6 +102,10 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
 
   void setRequestTooLong(bool requestTooLong) {
     state = state.copyWith(requestTooLong: requestTooLong);
+  }
+
+  void setChainIdUpdated(bool chainIdUpdated) {
+    state = state.copyWith(chainIdUpdated: chainIdUpdated);
   }
 
   Future<void> setBlockchainFrom(
@@ -778,6 +787,8 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
 
     final session = ref.read(sessionNotifierProvider);
 
+    await _watchChainId();
+
     if (state.resumeProcess == false) {
       setTimestampExec(DateTime.now().millisecondsSinceEpoch);
       await ref
@@ -811,6 +822,29 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     }
     setResumeProcess(false);
     await setTransferInProgress(false);
+
+    _unwatchChainId();
+
     unawaited(refreshCurrentAccountInfoWallet(dappClient));
+  }
+
+  Future<void> _watchChainId() async {
+    _unwatchChainId();
+    final watchChainIdParameters = wagmi.WatchChainIdParameters(
+      onChange: (chainId, prevChainId) {
+        if (chainId != prevChainId) setChainIdUpdated(true);
+      },
+    );
+    _watchChainIdUnsubscribe = await wagmi.Core.watchChainId(
+      watchChainIdParameters,
+    );
+  }
+
+  void _unwatchChainId() {
+    setChainIdUpdated(false);
+    if (_watchChainIdUnsubscribe != null) {
+      _watchChainIdUnsubscribe?.call();
+      _watchChainIdUnsubscribe = null;
+    }
   }
 }

@@ -7,6 +7,7 @@
     "yes": "Yes",
     "no": "No",
     "ok": "Ok",
+    "btn_switch_network": "Switch network",
     "connectionWalletDisconnect": "Disconnect wallet",
     "confirmationPopupTitle": "Confirmation Request",
     "connectionWalletDisconnectWarning": "Are you sure you want to disconnect your wallets\nand exit the application?",
@@ -191,5 +192,7 @@
     "bridgeEVMHeaderText": "aeBridge - Special EVM Bridge",
     "bridgeWormholeHeaderDesc": "Bridge UCO between Ethereum, Polygon and BSC blockchains with Wormhole Protocol",
     "backToAEBridge": "Go Back to Archethic Bridge Form",
-    "goToEVMBridge": "If you want to bridge your UCOs between Ethereum, Polygon and BSC, click here!"
+    "goToEVMBridge": "If you want to bridge your UCOs between Ethereum, Polygon and BSC, click here!",
+    "switchNetworkTitle": "Warning",
+    "switchNetworkDescBridge": "You cannot change the network during the ongoing process. Please click the next button to restore the network related to the current bridge."
 }

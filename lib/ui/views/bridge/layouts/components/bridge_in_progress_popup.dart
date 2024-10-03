@@ -5,6 +5,7 @@ import 'package:aebridge/ui/util/components/blockchain_label.dart';
 import 'package:aebridge/ui/util/failure_message.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_chainid_updated.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_final_amount.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_in_progress_contracts.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_in_progress_user_explorer.dart';
@@ -24,6 +25,7 @@ class BridgeInProgressPopup {
     final bridge = ref.watch(bridgeFormNotifierProvider);
     final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
     return [
+      const BridgeChainIdUpdated(),
       if (bridge.isTransferInProgress)
         Text(
           AppLocalizations.of(context)!.bridgeInProgressPopupHeader,

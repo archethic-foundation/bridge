@@ -11,6 +11,7 @@ String _$bridgeFormNotifierHash() =>
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
     r'be67f16847ecc1a0fb6a663b296186d9d765d516';
 =======
     r'b95397b74367a899c5536631e13de2cdd48965cc';
@@ -24,6 +25,9 @@ String _$bridgeFormNotifierHash() =>
 =======
     r'7dfb577a40491b7b03849ccdc8878fe35ddd0fd0';
 >>>>>>> 595266d (fix: :bug: Fix walletconnect init)
+=======
+    r'2671ed4860b9440fec5e9123fe729ace4da56c5e';
+>>>>>>> 80d3ea8 (feat: :sparkles: Watch when user changes network)
 
 /// See also [BridgeFormNotifier].
 @ProviderFor(BridgeFormNotifier)
