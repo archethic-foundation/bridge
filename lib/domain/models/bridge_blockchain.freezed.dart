@@ -34,8 +34,12 @@ mixin _$BridgeBlockchain {
   String? get htlcAddress => throw _privateConstructorUsedError;
   String? get archethicFactoryAddress => throw _privateConstructorUsedError;
 
+  /// Serializes this BridgeBlockchain to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BridgeBlockchain
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BridgeBlockchainCopyWith<BridgeBlockchain> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -72,6 +76,8 @@ class _$BridgeBlockchainCopyWithImpl<$Res, $Val extends BridgeBlockchain>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BridgeBlockchain
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -178,6 +184,8 @@ class __$$BridgeBlockchainImplCopyWithImpl<$Res>
       $Res Function(_$BridgeBlockchainImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BridgeBlockchain
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -347,7 +355,7 @@ class _$BridgeBlockchainImpl extends _BridgeBlockchain {
                 other.archethicFactoryAddress == archethicFactoryAddress));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -365,7 +373,9 @@ class _$BridgeBlockchainImpl extends _BridgeBlockchain {
       htlcAddress,
       archethicFactoryAddress);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BridgeBlockchain
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BridgeBlockchainImplCopyWith<_$BridgeBlockchainImpl> get copyWith =>
@@ -426,8 +436,11 @@ abstract class _BridgeBlockchain extends BridgeBlockchain {
   String? get htlcAddress;
   @override
   String? get archethicFactoryAddress;
+
+  /// Create a copy of BridgeBlockchain
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BridgeBlockchainImplCopyWith<_$BridgeBlockchainImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

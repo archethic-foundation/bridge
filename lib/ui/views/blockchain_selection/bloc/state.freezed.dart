@@ -19,7 +19,9 @@ mixin _$BlockchainSelectionFormState {
   bool get testnetIncluded => throw _privateConstructorUsedError;
   bool get forceChoiceTestnetIncluded => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BlockchainSelectionFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BlockchainSelectionFormStateCopyWith<BlockchainSelectionFormState>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -46,6 +48,8 @@ class _$BlockchainSelectionFormStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BlockchainSelectionFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -87,6 +91,8 @@ class __$$BlockchainSelectionFormStateImplCopyWithImpl<$Res>
       $Res Function(_$BlockchainSelectionFormStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BlockchainSelectionFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -142,7 +148,9 @@ class _$BlockchainSelectionFormStateImpl extends _BlockchainSelectionFormState {
   int get hashCode =>
       Object.hash(runtimeType, testnetIncluded, forceChoiceTestnetIncluded);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BlockchainSelectionFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BlockchainSelectionFormStateImplCopyWith<
@@ -162,8 +170,11 @@ abstract class _BlockchainSelectionFormState
   bool get testnetIncluded;
   @override
   bool get forceChoiceTestnetIncluded;
+
+  /// Create a copy of BlockchainSelectionFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BlockchainSelectionFormStateImplCopyWith<
           _$BlockchainSelectionFormStateImpl>
       get copyWith => throw _privateConstructorUsedError;

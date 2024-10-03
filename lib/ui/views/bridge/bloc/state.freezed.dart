@@ -62,8 +62,12 @@ mixin _$BridgeFormState {
   bool get requestTooLong => throw _privateConstructorUsedError;
   double get ucoV1Balance => throw _privateConstructorUsedError;
 
+  /// Serializes this BridgeFormState to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BridgeFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BridgeFormStateCopyWith<BridgeFormState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -127,6 +131,8 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BridgeFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -305,6 +311,8 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     ) as $Val);
   }
 
+  /// Create a copy of BridgeFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $BridgeBlockchainCopyWith<$Res>? get blockchainFrom {
@@ -317,6 +325,8 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     });
   }
 
+  /// Create a copy of BridgeFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $BridgeBlockchainCopyWith<$Res>? get blockchainTo {
@@ -329,6 +339,8 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     });
   }
 
+  /// Create a copy of BridgeFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $BridgeTokenCopyWith<$Res>? get tokenToBridge {
@@ -341,6 +353,8 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     });
   }
 
+  /// Create a copy of BridgeFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res>? get failure {
@@ -353,6 +367,8 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     });
   }
 
+  /// Create a copy of BridgeFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ArchethicOracleUCOCopyWith<$Res>? get archethicOracleUCO {
@@ -431,6 +447,8 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
       _$BridgeFormStateImpl _value, $Res Function(_$BridgeFormStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BridgeFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -839,7 +857,7 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
                 other.ucoV1Balance == ucoV1Balance));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
@@ -879,7 +897,9 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
         ucoV1Balance
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BridgeFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BridgeFormStateImplCopyWith<_$BridgeFormStateImpl> get copyWith =>
@@ -1007,10 +1027,17 @@ abstract class _BridgeFormState extends BridgeFormState {
   DateTime? get consentDateTime;
   @override
   bool get requestTooLong;
+
+  /// Create a copy of BridgeFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
+<<<<<<< HEAD
   double get ucoV1Balance;
   @override
   @JsonKey(ignore: true)
+=======
+  @JsonKey(includeFromJson: false, includeToJson: false)
+>>>>>>> 820ac30 (chore: :arrow_up: Upgrade dependencies)
   _$$BridgeFormStateImplCopyWith<_$BridgeFormStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

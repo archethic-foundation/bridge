@@ -112,8 +112,8 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       isAlreadyRefunded: false,
       isAlreadyWithdrawn: false,
     );
-
-    final archethicContract = ArchethicContract();
+    final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
+    final archethicContract = ArchethicContract(dappClient: dappClient);
     if (await control(context)) {
       try {
         final htlcInfo = await archethicContract.getHTLCInfo(
@@ -491,7 +491,8 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         );
         break;
       case AddressType.archethic:
-        await RefundArchethicCase()
+        final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
+        await RefundArchethicCase(dappClient: dappClient)
             .run(ref, state.wallet!.nameAccount, state.htlcAddressFilled);
         break;
       case null:

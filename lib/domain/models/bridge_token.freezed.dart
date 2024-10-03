@@ -33,8 +33,12 @@ mixin _$BridgeToken {
   String get ucoV1Address => throw _privateConstructorUsedError;
   bool? get contractToMintAndBurn => throw _privateConstructorUsedError;
 
+  /// Serializes this BridgeToken to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BridgeToken
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BridgeTokenCopyWith<BridgeToken> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -70,6 +74,8 @@ class _$BridgeTokenCopyWithImpl<$Res, $Val extends BridgeToken>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BridgeToken
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -170,6 +176,8 @@ class __$$BridgeTokenImplCopyWithImpl<$Res>
       _$BridgeTokenImpl _value, $Res Function(_$BridgeTokenImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BridgeToken
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -329,7 +337,7 @@ class _$BridgeTokenImpl implements _BridgeToken {
                 other.contractToMintAndBurn == contractToMintAndBurn));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -346,7 +354,9 @@ class _$BridgeTokenImpl implements _BridgeToken {
       ucoV1Address,
       contractToMintAndBurn);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BridgeToken
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BridgeTokenImplCopyWith<_$BridgeTokenImpl> get copyWith =>
@@ -398,12 +408,19 @@ abstract class _BridgeToken implements BridgeToken {
   String get typeSource;
   @override
   String get typeTarget;
+
+  /// Create a copy of BridgeToken
+  /// with the given fields replaced by the non-null parameter values.
   @override
+<<<<<<< HEAD
   String get ucoV1Address;
   @override
   bool? get contractToMintAndBurn;
   @override
   @JsonKey(ignore: true)
+=======
+  @JsonKey(includeFromJson: false, includeToJson: false)
+>>>>>>> 820ac30 (chore: :arrow_up: Upgrade dependencies)
   _$$BridgeTokenImplCopyWith<_$BridgeTokenImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

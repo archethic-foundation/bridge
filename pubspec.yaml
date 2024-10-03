@@ -8,7 +8,7 @@ environment:
   sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
-  archethic_dapp_framework_flutter: ^1.3.0
+  archethic_dapp_framework_flutter: ^2.1.3
   #archethic_dapp_framework_flutter:
   #  git:
   #    url: https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git
@@ -17,7 +17,7 @@ dependencies:
   #  path: ../archethic-dapp-framework-flutter
 
   # A client dart library to interact with Archethic Wallet RPC API.
-  archethic_wallet_client: ^2.1.0
+  archethic_wallet_client: ^2.1.3
   #archethic_wallet_client:
   #  git:
   #    url: https://github.com/archethic-foundation/archethic-wallet-client-dart.git
@@ -50,58 +50,58 @@ dependencies:
   flutter_svg: ^2.0.10+1
 
   # Annotations for freezed
-  freezed_annotation: ^2.4.1
+  freezed_annotation: ^2.4.4
 
   # A declarative router for Flutter based on Navigation 2 supporting deep linking, data-driven routes and more
-  go_router: ^13.2.0
+  go_router: ^14.2.8
 
   # Hive is a lightweight and blazing fast key-value database written in pure Dart
   hive: ^2.2.3
   hive_flutter: ^1.1.0
 
   # A composable, multi-platform, Future-based API for HTTP requests
-  http: ^1.2.1
+  http: ^1.2.2
 
   # Contains code to deal with internationalized/localized messages, date and number formatting and parsing, bi-directional text, and other internationalization issues.
   intl: ^0.19.0
 
   # Defines the annotations used by json_serializable to create code for JSON serialization and deserialization.
-  json_annotation: ^4.8.1
+  json_annotation: ^4.9.0
 
   # Flutter plugin for getting commonly used locations on host platform file systems, such as the temp and app data directories.
-  path_provider: ^2.1.2
+  path_provider: ^2.1.4
 
   # A package exposing annotations for riverpod_generator
   riverpod_annotation: ^2.3.5
 
   # Flutter plugin for launching a URL. Supports web, phone, SMS, and email schemes
-  url_launcher: ^6.2.5
+  url_launcher: ^6.3.0
 
   # Flutter package that allows setting the web app URL strategy with a single line of code.
-  url_strategy: ^0.2.0
+  url_strategy: ^0.3.0
 
   # web3modal_flutter:
   #   path: ../../packages/Web3ModalFlutter
   # Wagmi JS SDK wrapper for Dart Web
-  wagmi_flutter_web: ^1.0.0-rc.3
+  wagmi_flutter_web: ^1.0.0-rc.4
   # wagmi_flutter_web:
   #   path: ../../packages/wagmi_flutter_web
 
 dev_dependencies:
   # A build system for Dart code generation and modular compilation.
-  build_runner: ^2.4.8
+  build_runner: ^2.4.13
   custom_lint: ^0.6.4
   # Code generation for immutable classes that has a simple syntax/API without compromising on the features.
-  freezed: ^2.4.7
+  freezed: ^2.5.7
   # Extension for Hive. Automatically generates TypeAdapters to store any class.
   hive_generator: ^2.0.1
   # Automatically generate code for converting to and from JSON by annotating Dart classes.
-  json_serializable: ^6.7.1
+  json_serializable: ^6.8.0
   # A code generator for Riverpod. This both simplifies the syntax empowers it, such as allowing stateful hot-reload.
   riverpod_generator: ^2.4.0
   riverpod_lint: ^2.3.10
   # A full featured library for writing and running Dart tests across platforms.
-  test: ^1.25.2
+  test: ^1.25.8
 
 flutter:
   generate: true

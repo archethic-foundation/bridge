@@ -5,6 +5,7 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -47,6 +48,7 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
   }
 
   void startTimerAEToEVM() {
+    final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
     timer = Timer.periodic(const Duration(seconds: 3), (Timer t) async {
       try {
         final evmHTLC = EVMHTLC(
@@ -59,7 +61,7 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
               setState(() {
                 finalAmount = amount;
               });
-              unawaited(refreshCurrentAccountInfoWallet());
+              unawaited(refreshCurrentAccountInfoWallet(dappClient));
               timer?.cancel();
             }
           },
@@ -72,6 +74,7 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
   }
 
   void startTimerEVMToAE() {
+    final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
     timer = Timer.periodic(const Duration(seconds: 3), (Timer t) async {
       try {
         final apiService = aedappfm.sl.get<archethic.ApiService>();
@@ -86,7 +89,7 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
           setState(() {
             finalAmount = amount;
           });
-          unawaited(refreshCurrentAccountInfoWallet());
+          unawaited(refreshCurrentAccountInfoWallet(dappClient));
           timer?.cancel();
         }
         // ignore: empty_catches

@@ -17,6 +17,7 @@ import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:crypto/crypto.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -232,8 +233,11 @@ mixin EVMBridgeProcessMixin {
     final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
     final session = ref.read(sessionNotifierProvider);
     final walletTo = session.walletTo;
+    final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
     final resultRevealSecretToChargeableHTLC =
-        await ArchethicContractChargeable().revealSecretToChargeableHTLC(
+        await ArchethicContractChargeable(
+      dappClient: dappClient,
+    ).revealSecretToChargeableHTLC(
       ref,
       walletTo!.genesisAddress,
       walletTo.nameAccount,

@@ -24,8 +24,12 @@ mixin _$BridgeTokensPerBridge {
   Map<String, List<TokenData>>? get tokens =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this BridgeTokensPerBridge to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BridgeTokensPerBridge
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BridgeTokensPerBridgeCopyWith<BridgeTokensPerBridge> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -50,6 +54,8 @@ class _$BridgeTokensPerBridgeCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BridgeTokensPerBridge
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -85,6 +91,8 @@ class __$$BridgeTokensPerBridgeImplCopyWithImpl<$Res>
       $Res Function(_$BridgeTokensPerBridgeImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BridgeTokensPerBridge
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -132,12 +140,14 @@ class _$BridgeTokensPerBridgeImpl implements _BridgeTokensPerBridge {
             const DeepCollectionEquality().equals(other._tokens, _tokens));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, const DeepCollectionEquality().hash(_tokens));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BridgeTokensPerBridge
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BridgeTokensPerBridgeImplCopyWith<_$BridgeTokensPerBridgeImpl>
@@ -162,8 +172,11 @@ abstract class _BridgeTokensPerBridge implements BridgeTokensPerBridge {
 
   @override
   Map<String, List<TokenData>>? get tokens;
+
+  /// Create a copy of BridgeTokensPerBridge
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BridgeTokensPerBridgeImplCopyWith<_$BridgeTokensPerBridgeImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -187,8 +200,12 @@ mixin _$TokenData {
   String get ucoV1Address => throw _privateConstructorUsedError;
   bool? get contractToMintAndBurn => throw _privateConstructorUsedError;
 
+  /// Serializes this TokenData to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of TokenData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $TokenDataCopyWith<TokenData> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -223,6 +240,8 @@ class _$TokenDataCopyWithImpl<$Res, $Val extends TokenData>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of TokenData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -323,6 +342,8 @@ class __$$TokenDataImplCopyWithImpl<$Res>
       _$TokenDataImpl _value, $Res Function(_$TokenDataImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of TokenData
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -482,7 +503,7 @@ class _$TokenDataImpl implements _TokenData {
                 other.contractToMintAndBurn == contractToMintAndBurn));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -499,7 +520,9 @@ class _$TokenDataImpl implements _TokenData {
       ucoV1Address,
       contractToMintAndBurn);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of TokenData
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$TokenDataImplCopyWith<_$TokenDataImpl> get copyWith =>
@@ -551,12 +574,19 @@ abstract class _TokenData implements TokenData {
   String get tokenAddressSource;
   @override
   String get tokenAddressTarget;
+
+  /// Create a copy of TokenData
+  /// with the given fields replaced by the non-null parameter values.
   @override
+<<<<<<< HEAD
   String get ucoV1Address;
   @override
   bool? get contractToMintAndBurn;
   @override
   @JsonKey(ignore: true)
+=======
+  @JsonKey(includeFromJson: false, includeToJson: false)
+>>>>>>> 820ac30 (chore: :arrow_up: Upgrade dependencies)
   _$$TokenDataImplCopyWith<_$TokenDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

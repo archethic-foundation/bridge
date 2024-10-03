@@ -5,6 +5,7 @@ import 'package:aebridge/ui/util/failure_message.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 
@@ -82,6 +83,7 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
     Color statusColor,
     String stepText,
   ) {
+    final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -116,7 +118,7 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
             if (bridge.blockchainFrom != null &&
                 bridge.blockchainFrom!.isArchethic)
               SelectableText(
-                ' (${BridgeArchethicToEVMUseCase().getStepLabel(AppLocalizations.of(context)!, bridge.currentStep)})',
+                ' (${BridgeArchethicToEVMUseCase(dappClient: dappClient).getStepLabel(AppLocalizations.of(context)!, bridge.currentStep)})',
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                         context,
