@@ -68,7 +68,7 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
 
   bool get walletConnected => walletConnector != null;
 
-  static const _projectId = 'f642e3f39ba3e375f8f714f18354faa4';
+  static const _projectId = 'ce9ee3c8e58873e8708247895990bc27';
 
   Future<int> getChainId() async => wagmi.Core.getChainId();
 
