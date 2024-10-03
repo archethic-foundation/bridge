@@ -18,6 +18,7 @@ import 'package:aebridge/util/ethereum_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:decimal/decimal.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -783,12 +784,12 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
           .read(bridgeHistoryRepositoryProvider)
           .addBridge(bridge: state.toJson());
     }
-
+    final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
     if (state.blockchainFrom!.isArchethic) {
       await aedappfm.ConsentRepositoryImpl()
           .addAddress(session.walletFrom!.genesisAddress);
 
-      await BridgeArchethicToEVMUseCase().run(
+      await BridgeArchethicToEVMUseCase(dappClient: dappClient).run(
         localizations,
         ref,
         recoveryStep: state.currentStep,
@@ -810,6 +811,6 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     }
     setResumeProcess(false);
     await setTransferInProgress(false);
-    unawaited(refreshCurrentAccountInfoWallet());
+    unawaited(refreshCurrentAccountInfoWallet(dappClient));
   }
 }

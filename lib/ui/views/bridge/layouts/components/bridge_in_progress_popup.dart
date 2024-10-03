@@ -11,6 +11,7 @@ import 'package:aebridge/ui/views/bridge/layouts/components/bridge_in_progress_u
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_interrup_info.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,6 +22,7 @@ class BridgeInProgressPopup {
     WidgetRef ref,
   ) {
     final bridge = ref.watch(bridgeFormNotifierProvider);
+    final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
     return [
       if (bridge.isTransferInProgress)
         Text(
@@ -52,7 +54,8 @@ class BridgeInProgressPopup {
       ),
       if (bridge.blockchainFrom != null && bridge.blockchainFrom!.isArchethic)
         aedappfm.InProgressCurrentStep(
-          steplabel: BridgeArchethicToEVMUseCase().getAEStepLabel(
+          steplabel: BridgeArchethicToEVMUseCase(dappClient: dappClient)
+              .getAEStepLabel(
             AppLocalizations.of(context)!,
             bridge.currentStep,
           ),

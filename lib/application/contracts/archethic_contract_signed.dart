@@ -7,10 +7,15 @@ import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ArchethicContractSigned with aedappfm.TransactionMixin {
-  ArchethicContractSigned();
+  ArchethicContractSigned({
+    required this.dappClient,
+  });
+
+  final awc.ArchethicDAppClient dappClient;
 
   Future<aedappfm.Result<String, aedappfm.Failure>> deploySignedHTLC(
     WidgetRef ref,
@@ -42,7 +47,8 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
             );
 
         const slippageFees = 3.0;
-        final resultDeploy = await ArchethicContract().deployHTLC(
+        final resultDeploy =
+            await ArchethicContract(dappClient: dappClient).deployHTLC(
           ref,
           null,
           code.toString(),
@@ -119,12 +125,13 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
               );
         }
 
-        final currentNameAccount = await getCurrentAccount();
+        final currentNameAccount = await getCurrentAccount(dappClient);
         final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
         await bridgeNotifier
             .setWalletConfirmation(WalletConfirmation.archethic);
 
         transactionTransfer = (await signTx(
+          dappClient,
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionTransfer],
@@ -177,6 +184,7 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
             .setWalletConfirmation(WalletConfirmation.archethic);
 
         transaction = (await signTx(
+          dappClient,
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transaction],

@@ -10,6 +10,7 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:crypto/crypto.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -50,10 +51,11 @@ mixin ArchethicBridgeProcessMixin {
     final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
     final session = ref.read(sessionNotifierProvider);
     final walletFrom = session.walletFrom;
-
+    final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
     late String archethicHTLCAddress;
-    final resultDeploySignedHTLC =
-        await ArchethicContractSigned().deploySignedHTLC(
+    final resultDeploySignedHTLC = await ArchethicContractSigned(
+      dappClient: dappClient,
+    ).deploySignedHTLC(
       ref,
       htlcAEAddress,
       seedHTLC,
@@ -88,10 +90,11 @@ mixin ArchethicBridgeProcessMixin {
   ) async {
     final bridge = ref.read(bridgeFormNotifierProvider);
     final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
-
+    final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
     late String htlcAddress;
-    final resultDeployChargeableHTLCAE =
-        await ArchethicContractChargeable().deployChargeableHTLC(
+    final resultDeployChargeableHTLCAE = await ArchethicContractChargeable(
+      dappClient: dappClient,
+    ).deployChargeableHTLC(
       ref,
       bridge.blockchainTo!.archethicFactoryAddress!,
       bridge.tokenToBridge!.poolAddressTo,
@@ -128,9 +131,10 @@ mixin ArchethicBridgeProcessMixin {
     final session = ref.read(sessionNotifierProvider);
     final walletFrom = session.walletFrom;
     final walletTo = session.walletTo;
-
-    final resultProvisionSignedHTLC =
-        await ArchethicContractSigned().provisionSignedHTLC(
+    final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
+    final resultProvisionSignedHTLC = await ArchethicContractSigned(
+      dappClient: dappClient,
+    ).provisionSignedHTLC(
       ref,
       bridge.tokenToBridgeAmount,
       bridge.tokenToBridge!.tokenAddressSource,
@@ -204,9 +208,10 @@ mixin ArchethicBridgeProcessMixin {
     final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
     final session = ref.read(sessionNotifierProvider);
     final walletFrom = session.walletFrom;
-
-    final resultRequestSecretFromSignedHTLC =
-        await ArchethicContractSigned().requestSecretFromSignedHTLC(
+    final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
+    final resultRequestSecretFromSignedHTLC = await ArchethicContractSigned(
+      dappClient: dappClient,
+    ).requestSecretFromSignedHTLC(
       ref,
       walletFrom!.nameAccount,
       htlcAddress,

@@ -36,8 +36,12 @@ mixin _$GasFeeEstimation {
   String get priorityFeeTrend => throw _privateConstructorUsedError;
   String get baseFeeTrend => throw _privateConstructorUsedError;
 
+  /// Serializes this GasFeeEstimation to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of GasFeeEstimation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $GasFeeEstimationCopyWith<GasFeeEstimation> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -76,6 +80,8 @@ class _$GasFeeEstimationCopyWithImpl<$Res, $Val extends GasFeeEstimation>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of GasFeeEstimation
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -139,6 +145,8 @@ class _$GasFeeEstimationCopyWithImpl<$Res, $Val extends GasFeeEstimation>
     ) as $Val);
   }
 
+  /// Create a copy of GasFeeEstimation
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FeeLevelCopyWith<$Res> get low {
@@ -147,6 +155,8 @@ class _$GasFeeEstimationCopyWithImpl<$Res, $Val extends GasFeeEstimation>
     });
   }
 
+  /// Create a copy of GasFeeEstimation
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FeeLevelCopyWith<$Res> get medium {
@@ -155,6 +165,8 @@ class _$GasFeeEstimationCopyWithImpl<$Res, $Val extends GasFeeEstimation>
     });
   }
 
+  /// Create a copy of GasFeeEstimation
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FeeLevelCopyWith<$Res> get high {
@@ -201,6 +213,8 @@ class __$$GasFeeEstimationImplCopyWithImpl<$Res>
       $Res Function(_$GasFeeEstimationImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of GasFeeEstimation
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -366,7 +380,7 @@ class _$GasFeeEstimationImpl implements _GasFeeEstimation {
                 other.baseFeeTrend == baseFeeTrend));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(
       runtimeType,
@@ -382,7 +396,9 @@ class _$GasFeeEstimationImpl implements _GasFeeEstimation {
       priorityFeeTrend,
       baseFeeTrend);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of GasFeeEstimation
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GasFeeEstimationImplCopyWith<_$GasFeeEstimationImpl> get copyWith =>
@@ -439,8 +455,11 @@ abstract class _GasFeeEstimation implements GasFeeEstimation {
   String get priorityFeeTrend;
   @override
   String get baseFeeTrend;
+
+  /// Create a copy of GasFeeEstimation
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GasFeeEstimationImplCopyWith<_$GasFeeEstimationImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

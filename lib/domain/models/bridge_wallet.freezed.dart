@@ -28,7 +28,9 @@ mixin _$BridgeWallet {
   StreamSubscription<Account>? get accountStreamSub =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BridgeWallet
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BridgeWalletCopyWith<BridgeWallet> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -64,6 +66,8 @@ class _$BridgeWalletCopyWithImpl<$Res, $Val extends BridgeWallet>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BridgeWallet
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -122,6 +126,8 @@ class _$BridgeWalletCopyWithImpl<$Res, $Val extends BridgeWallet>
     ) as $Val);
   }
 
+  /// Create a copy of BridgeWallet
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SubscriptionCopyWith<Account, $Res>? get accountSub {
@@ -167,6 +173,8 @@ class __$$BridgeWalletImplCopyWithImpl<$Res>
       _$BridgeWalletImpl _value, $Res Function(_$BridgeWalletImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BridgeWallet
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -314,7 +322,9 @@ class _$BridgeWalletImpl extends _BridgeWallet {
       accountSub,
       accountStreamSub);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BridgeWallet
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BridgeWalletImplCopyWith<_$BridgeWalletImpl> get copyWith =>
@@ -356,8 +366,11 @@ abstract class _BridgeWallet extends BridgeWallet {
   Subscription<Account>? get accountSub;
   @override
   StreamSubscription<Account>? get accountStreamSub;
+
+  /// Create a copy of BridgeWallet
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BridgeWalletImplCopyWith<_$BridgeWalletImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -43,7 +43,9 @@ mixin _$RefundFormState {
   bool get requestTooLong => throw _privateConstructorUsedError;
   String? get tokenAddress => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RefundFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RefundFormStateCopyWith<RefundFormState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -94,6 +96,8 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RefundFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -217,6 +221,8 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
     ) as $Val);
   }
 
+  /// Create a copy of RefundFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $BridgeBlockchainCopyWith<$Res>? get blockchain {
@@ -229,6 +235,8 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
     });
   }
 
+  /// Create a copy of RefundFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $BridgeWalletCopyWith<$Res>? get wallet {
@@ -241,6 +249,8 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
     });
   }
 
+  /// Create a copy of RefundFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res>? get failure {
@@ -303,6 +313,8 @@ class __$$RefundFormStateImplCopyWithImpl<$Res>
       _$RefundFormStateImpl _value, $Res Function(_$RefundFormStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RefundFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -594,7 +606,9 @@ class _$RefundFormStateImpl extends _RefundFormState {
         tokenAddress
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RefundFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RefundFormStateImplCopyWith<_$RefundFormStateImpl> get copyWith =>
@@ -677,8 +691,11 @@ abstract class _RefundFormState extends RefundFormState {
   bool get requestTooLong;
   @override
   String? get tokenAddress;
+
+  /// Create a copy of RefundFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RefundFormStateImplCopyWith<_$RefundFormStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

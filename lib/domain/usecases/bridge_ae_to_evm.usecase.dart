@@ -13,6 +13,7 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
@@ -22,6 +23,12 @@ class BridgeArchethicToEVMUseCase
         ArchethicBridgeProcessMixin,
         EVMBridgeProcessMixin,
         aedappfm.TransactionMixin {
+  BridgeArchethicToEVMUseCase({
+    required this.dappClient,
+  });
+
+  final awc.ArchethicDAppClient dappClient;
+
   Future<void> run(
     AppLocalizations localizations,
     WidgetRef ref, {
@@ -44,7 +51,9 @@ class BridgeArchethicToEVMUseCase
     if (recoveryHTLCAEAddress != null) {
       htlcAEAddress = recoveryHTLCAEAddress;
     } else {
-      final resultDefineHTLCAddress = ArchethicContract().defineHTLCAddress();
+      final resultDefineHTLCAddress = ArchethicContract(
+        dappClient: dappClient,
+      ).defineHTLCAddress();
       htlcAEAddress = resultDefineHTLCAddress.genesisAddressHTLC;
       seedHTLC = resultDefineHTLCAddress.seedHTLC;
     }

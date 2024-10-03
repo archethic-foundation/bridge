@@ -3,9 +3,16 @@ import 'dart:async';
 
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class RefundArchethicCase {
+  RefundArchethicCase({
+    required this.dappClient,
+  });
+
+  final awc.ArchethicDAppClient dappClient;
+
   Future<void> run(
     WidgetRef ref,
     String currentNameAccount,
@@ -18,7 +25,7 @@ class RefundArchethicCase {
       ..setRefundOk(false)
       ..setWalletConfirmation(null);
 
-    final result = await ArchethicContract()
+    final result = await ArchethicContract(dappClient: dappClient)
         .refund(ref, currentNameAccount, htlcContractAddressAE);
 
     result.map(
