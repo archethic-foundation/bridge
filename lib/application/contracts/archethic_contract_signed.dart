@@ -11,13 +11,10 @@ import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ArchethicContractSigned with aedappfm.TransactionMixin {
-  ArchethicContractSigned({
-    required this.dappClient,
-  });
-
-  final awc.ArchethicDAppClient dappClient;
+  ArchethicContractSigned();
 
   Future<aedappfm.Result<String, aedappfm.Failure>> deploySignedHTLC(
+    awc.ArchethicDAppClient dappClient,
     WidgetRef ref,
     String htlcGenesisAddress,
     String seedSC,
@@ -47,8 +44,8 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
             );
 
         const slippageFees = 3.0;
-        final resultDeploy =
-            await ArchethicContract(dappClient: dappClient).deployHTLC(
+        final resultDeploy = await ArchethicContract().deployHTLC(
+          dappClient,
           ref,
           null,
           code.toString(),
@@ -69,6 +66,7 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
   }
 
   Future<aedappfm.Result<void, aedappfm.Failure>> provisionSignedHTLC(
+    awc.ArchethicDAppClient dappClient,
     WidgetRef ref,
     double amount,
     String tokenAddress,
@@ -150,6 +148,7 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
   }
 
   Future<aedappfm.Result<String, aedappfm.Failure>> requestSecretFromSignedHTLC(
+    awc.ArchethicDAppClient dappClient,
     WidgetRef ref,
     String currentNameAccount,
     String htlcAddress,

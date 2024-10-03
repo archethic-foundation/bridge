@@ -53,9 +53,9 @@ mixin ArchethicBridgeProcessMixin {
     final walletFrom = session.walletFrom;
     final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
     late String archethicHTLCAddress;
-    final resultDeploySignedHTLC = await ArchethicContractSigned(
-      dappClient: dappClient,
-    ).deploySignedHTLC(
+    final resultDeploySignedHTLC =
+        await ArchethicContractSigned().deploySignedHTLC(
+      dappClient,
       ref,
       htlcAEAddress,
       seedHTLC,
@@ -92,9 +92,9 @@ mixin ArchethicBridgeProcessMixin {
     final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
     final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
     late String htlcAddress;
-    final resultDeployChargeableHTLCAE = await ArchethicContractChargeable(
-      dappClient: dappClient,
-    ).deployChargeableHTLC(
+    final resultDeployChargeableHTLCAE =
+        await ArchethicContractChargeable().deployChargeableHTLC(
+      dappClient,
       ref,
       bridge.blockchainTo!.archethicFactoryAddress!,
       bridge.tokenToBridge!.poolAddressTo,
@@ -132,9 +132,9 @@ mixin ArchethicBridgeProcessMixin {
     final walletFrom = session.walletFrom;
     final walletTo = session.walletTo;
     final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
-    final resultProvisionSignedHTLC = await ArchethicContractSigned(
-      dappClient: dappClient,
-    ).provisionSignedHTLC(
+    final resultProvisionSignedHTLC =
+        await ArchethicContractSigned().provisionSignedHTLC(
+      dappClient,
       ref,
       bridge.tokenToBridgeAmount,
       bridge.tokenToBridge!.tokenAddressSource,
@@ -209,9 +209,9 @@ mixin ArchethicBridgeProcessMixin {
     final session = ref.read(sessionNotifierProvider);
     final walletFrom = session.walletFrom;
     final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
-    final resultRequestSecretFromSignedHTLC = await ArchethicContractSigned(
-      dappClient: dappClient,
-    ).requestSecretFromSignedHTLC(
+    final resultRequestSecretFromSignedHTLC =
+        await ArchethicContractSigned().requestSecretFromSignedHTLC(
+      dappClient,
       ref,
       walletFrom!.nameAccount,
       htlcAddress,

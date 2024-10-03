@@ -17,11 +17,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ArchethicContract
     with aedappfm.TransactionMixin, ArchethicBridgeProcessMixin {
-  ArchethicContract({
-    required this.dappClient,
-  });
-
-  final awc.ArchethicDAppClient dappClient;
+  ArchethicContract();
 
   ({String seedHTLC, String genesisAddressHTLC}) defineHTLCAddress() {
     var seedSC = '';
@@ -36,6 +32,7 @@ class ArchethicContract
   }
 
   Future<aedappfm.Result<void, aedappfm.Failure>> deployHTLC(
+    awc.ArchethicDAppClient dappClient,
     WidgetRef ref,
     Recipient? recipient,
     String code,
@@ -137,6 +134,7 @@ class ArchethicContract
   }
 
   Future<aedappfm.Result<String, aedappfm.Failure>> refund(
+    awc.ArchethicDAppClient dappClient,
     WidgetRef ref,
     String currentNameAccount,
     String htlcAddress,

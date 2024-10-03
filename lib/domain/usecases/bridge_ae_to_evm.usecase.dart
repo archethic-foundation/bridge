@@ -51,9 +51,7 @@ class BridgeArchethicToEVMUseCase
     if (recoveryHTLCAEAddress != null) {
       htlcAEAddress = recoveryHTLCAEAddress;
     } else {
-      final resultDefineHTLCAddress = ArchethicContract(
-        dappClient: dappClient,
-      ).defineHTLCAddress();
+      final resultDefineHTLCAddress = ArchethicContract().defineHTLCAddress();
       htlcAEAddress = resultDefineHTLCAddress.genesisAddressHTLC;
       seedHTLC = resultDefineHTLCAddress.seedHTLC;
     }
