@@ -574,19 +574,15 @@ abstract class _TokenData implements TokenData {
   String get tokenAddressSource;
   @override
   String get tokenAddressTarget;
+  @override
+  String get ucoV1Address;
+  @override
+  bool? get contractToMintAndBurn;
 
   /// Create a copy of TokenData
   /// with the given fields replaced by the non-null parameter values.
   @override
-<<<<<<< HEAD
-  String get ucoV1Address;
-  @override
-  bool? get contractToMintAndBurn;
-  @override
-  @JsonKey(ignore: true)
-=======
   @JsonKey(includeFromJson: false, includeToJson: false)
->>>>>>> 820ac30 (chore: :arrow_up: Upgrade dependencies)
   _$$TokenDataImplCopyWith<_$TokenDataImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

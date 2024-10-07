@@ -7,27 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$bridgeFormNotifierHash() =>
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-    r'be67f16847ecc1a0fb6a663b296186d9d765d516';
-=======
-    r'b95397b74367a899c5536631e13de2cdd48965cc';
->>>>>>> a953b8d (chore: :rotating_light: Fix lints)
-=======
-    r'5ea38d56d2d52185ae456f94b0c9dd99fef837fc';
->>>>>>> 441be25 (chore: :recycle: Remove webthree lib)
-=======
-    r'ad3a10421174d17922bba1f01a1de14fac5733a9';
->>>>>>> c803278 (chore: :construction: Remove providerEndpoint params)
-=======
-    r'7dfb577a40491b7b03849ccdc8878fe35ddd0fd0';
->>>>>>> 595266d (fix: :bug: Fix walletconnect init)
-=======
-    r'2671ed4860b9440fec5e9123fe729ace4da56c5e';
->>>>>>> 80d3ea8 (feat: :sparkles: Watch when user changes network)
+    r'793fd0d612fb9b8dd799c5c90eb5babf558f5da0';
 
 /// See also [BridgeFormNotifier].
 @ProviderFor(BridgeFormNotifier)
