@@ -62,4 +62,4 @@ jobs:
           keychainFundingService: "archethic-wallet-archethic-front-app"
           keychainWebsiteService: "aeweb-BRIDGE"
           sendTransactionTimeout: 180
-          percentageOfConfirmations: 50
+          percentageOfConfirmations: 30
