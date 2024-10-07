@@ -293,22 +293,20 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
 
     if (state.tokenToBridge!.ucoV1Address.isNotEmpty) {
       final tokenToBridgeUCOV1Decimals = await ref.read(
-        TokenDecimalsProviders.getTokenDecimals(
+        getTokenDecimalsProvider(
           state.blockchainFrom!.isArchethic,
           state.tokenToBridge!.typeSource,
           state.tokenToBridge!.ucoV1Address,
-          providerEndpoint: state.blockchainFrom!.providerEndpoint,
         ).future,
       );
 
       final ucoV1Balance = await ref.read(
-        BalanceProviders.getBalance(
+        getBalanceProvider(
           false,
           session.walletFrom!.genesisAddress,
           state.tokenToBridge!.typeSource,
           state.tokenToBridge!.ucoV1Address,
           tokenToBridgeUCOV1Decimals,
-          providerEndpoint: state.blockchainFrom!.providerEndpoint,
         ).future,
       );
       await setUCOV1Balance(ucoV1Balance);

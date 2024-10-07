@@ -69,11 +69,8 @@ _$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
           ? null
           : DateTime.parse(json['consentDateTime'] as String),
       requestTooLong: json['requestTooLong'] as bool? ?? false,
-<<<<<<< HEAD
       ucoV1Balance: (json['ucoV1Balance'] as num?)?.toDouble() ?? 0,
-=======
       chainIdUpdated: json['chainIdUpdated'] as bool? ?? false,
->>>>>>> 80d3ea8 (feat: :sparkles: Watch when user changes network)
     );
 
 Map<String, dynamic> _$$BridgeFormStateImplToJson(
@@ -124,11 +121,8 @@ Map<String, dynamic> _$$BridgeFormStateImplToJson(
       'controlInProgress': instance.controlInProgress,
       'consentDateTime': instance.consentDateTime?.toIso8601String(),
       'requestTooLong': instance.requestTooLong,
-<<<<<<< HEAD
       'ucoV1Balance': instance.ucoV1Balance,
-=======
       'chainIdUpdated': instance.chainIdUpdated,
->>>>>>> 80d3ea8 (feat: :sparkles: Watch when user changes network)
     };
 
 const _$ProcessStepEnumMap = {

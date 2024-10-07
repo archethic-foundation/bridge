@@ -16,7 +16,7 @@ class BridgeUCOV1Warning extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(bridgeFormNotifierProvider);
 
     if (bridge.tokenToBridge == null ||
         bridge.tokenToBridge!.ucoV1Address.isEmpty ||

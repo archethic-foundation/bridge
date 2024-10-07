@@ -408,19 +408,15 @@ abstract class _BridgeToken implements BridgeToken {
   String get typeSource;
   @override
   String get typeTarget;
+  @override
+  String get ucoV1Address;
+  @override
+  bool? get contractToMintAndBurn;
 
   /// Create a copy of BridgeToken
   /// with the given fields replaced by the non-null parameter values.
   @override
-<<<<<<< HEAD
-  String get ucoV1Address;
-  @override
-  bool? get contractToMintAndBurn;
-  @override
-  @JsonKey(ignore: true)
-=======
   @JsonKey(includeFromJson: false, includeToJson: false)
->>>>>>> 820ac30 (chore: :arrow_up: Upgrade dependencies)
   _$$BridgeTokenImplCopyWith<_$BridgeTokenImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

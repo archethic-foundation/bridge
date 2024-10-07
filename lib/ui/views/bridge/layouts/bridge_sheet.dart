@@ -13,7 +13,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:web3modal_flutter/web3modal_flutter.dart';
 
 class BridgeSheet extends ConsumerStatefulWidget {
   const BridgeSheet({
