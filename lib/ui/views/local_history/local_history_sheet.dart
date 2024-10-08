@@ -18,17 +18,19 @@ import 'package:go_router/go_router.dart';
 
 class LocalHistorySheet extends ConsumerWidget {
   const LocalHistorySheet({
+    required this.isEmbedded,
     super.key,
   });
 
   static const routerPage = '/localHistory';
-
+  final bool isEmbedded;
   @override
   Widget build(
     BuildContext context,
     WidgetRef ref,
   ) {
     return MainScreenList(
+      isEmbedded: isEmbedded,
       body: _body(context, ref),
     );
   }
