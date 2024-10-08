@@ -15,6 +15,8 @@ import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  aedappfm.LoggerOutput.setup();
+
   await DBHelper.setupDatabase();
   await setupServiceLocator();
   await wagmi.init();
@@ -22,7 +24,7 @@ Future<void> main() async {
   runApp(
     ProviderScope(
       observers: [
-        aedappfm.ProvidersLogger(logger: false),
+        aedappfm.ProvidersLogger(),
       ],
       child: const MyApp(),
     ),
