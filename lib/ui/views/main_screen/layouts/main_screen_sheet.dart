@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:ui';
+
 import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/app_bar.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
@@ -18,12 +19,14 @@ class MainScreenSheet extends ConsumerStatefulWidget {
     required this.currentStep,
     required this.formSheet,
     required this.confirmSheet,
+    required this.isEmbedded,
     this.topWidget,
     this.bottomWidget,
     this.afterBottomWidget,
     super.key,
   });
 
+  final bool isEmbedded;
   final aedappfm.ProcessStep currentStep;
   final Widget formSheet;
   final Widget confirmSheet;
@@ -89,7 +92,9 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
           child: ClipRRect(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: const AppBarMainScreen(),
+              child: AppBarMainScreen(
+                isEmbedded: widget.isEmbedded,
+              ),
             ),
           ),
         ),
@@ -173,8 +178,9 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
             ),
           ],
         ),
-        bottomNavigationBar: aedappfm.Responsive.isMobile(context) ||
-                aedappfm.Responsive.isTablet(context)
+        bottomNavigationBar: !widget.isEmbedded &&
+                (aedappfm.Responsive.isMobile(context) ||
+                    aedappfm.Responsive.isTablet(context))
             ? BottomNavigationBarMainScreen(
                 listNavigationLabelIcon: listNavigationLabelIcon,
                 navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),

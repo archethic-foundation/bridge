@@ -18,12 +18,14 @@ class BridgeSheet extends ConsumerStatefulWidget {
   const BridgeSheet({
     super.key,
     this.initialState,
+    required this.isEmbedded,
   });
 
   final BridgeFormState? initialState;
 
   static const routerPage = '/bridge';
 
+  final bool isEmbedded;
   @override
   ConsumerState<BridgeSheet> createState() => _BridgeSheetState();
 }
@@ -47,6 +49,7 @@ class _BridgeSheetState extends ConsumerState<BridgeSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
+      isEmbedded: widget.isEmbedded,
       currentStep: ref.watch(bridgeFormNotifierProvider).processStep,
       formSheet: const BridgeFormSheet(),
       confirmSheet: const BridgeConfirmSheet(),

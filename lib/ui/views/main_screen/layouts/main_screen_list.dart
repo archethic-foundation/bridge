@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:ui';
+
 import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/app_bar.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
@@ -14,9 +15,14 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MainScreenList extends ConsumerStatefulWidget {
-  const MainScreenList({required this.body, super.key});
+  const MainScreenList({
+    required this.body,
+    required this.isEmbedded,
+    super.key,
+  });
 
   final Widget body;
+  final bool isEmbedded;
   @override
   ConsumerState<MainScreenList> createState() => MainScreenListState();
 }
@@ -76,7 +82,9 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
           child: ClipRRect(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: const AppBarMainScreen(),
+              child: AppBarMainScreen(
+                isEmbedded: widget.isEmbedded,
+              ),
             ),
           ),
         ),

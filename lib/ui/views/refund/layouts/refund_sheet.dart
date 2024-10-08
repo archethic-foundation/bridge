@@ -12,11 +12,13 @@ class RefundSheet extends ConsumerStatefulWidget {
   const RefundSheet({
     this.htlcAddress,
     this.chainId,
+    required this.isEmbedded,
     super.key,
   });
 
   final String? htlcAddress;
   final int? chainId;
+  final bool isEmbedded;
 
   static const routerPage = '/refund';
 
@@ -45,6 +47,7 @@ class _RefundSheetState extends ConsumerState<RefundSheet> {
   @override
   Widget build(BuildContext context) {
     return MainScreenSheet(
+      isEmbedded: widget.isEmbedded,
       currentStep: aedappfm.ProcessStep.form,
       formSheet: const RefundFormSheet(),
       confirmSheet: const SizedBox.shrink(),
