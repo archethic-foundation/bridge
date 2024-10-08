@@ -649,7 +649,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
           await setupServiceLocatorApiService(result.endpointUrl);
 
           final preferences = await HivePreferencesDatasource.getInstance();
-          aedappfm.sl.get<aedappfm.LogManager>().logsActived =
+          aedappfm.sl.get<aedappfm.LogManager>().remoteLogsEnabled =
               preferences.isLogsActived();
 
           final subscription =

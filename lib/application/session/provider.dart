@@ -210,7 +210,7 @@ class SessionNotifier extends _$SessionNotifier {
           );
           await setupServiceLocatorApiService(result.endpointUrl);
           final preferences = await HivePreferencesDatasource.getInstance();
-          aedappfm.sl.get<aedappfm.LogManager>().logsActived =
+          aedappfm.sl.get<aedappfm.LogManager>().remoteLogsEnabled =
               preferences.isLogsActived();
 
           final subscription =
