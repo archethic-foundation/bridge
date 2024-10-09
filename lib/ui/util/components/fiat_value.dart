@@ -38,6 +38,7 @@ class FiatValue {
           break;
         case 'MATIC':
         case 'aeMATIC':
+        case 'POL':
           price = price = prices.matic;
           break;
         case 'WBTC':
