@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
+import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
 import 'package:aebridge/ui/views/local_history/bloc/provider.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_bridge_finished_included_switch.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card.dart';
@@ -53,7 +54,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
               children: [
                 InkWell(
                   onTap: () {
-                    context.pop();
+                    context.go(BridgeSheet.routerPage);
                   },
                   child: Row(
                     children: [
