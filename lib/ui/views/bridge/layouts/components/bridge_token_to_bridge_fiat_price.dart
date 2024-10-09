@@ -38,6 +38,7 @@ class BridgeTokenToBridgeFiatPrice extends ConsumerWidget {
       case 'aeEURe':
         price = prices.eure;
         break;
+      case 'POL':
       case 'MATIC':
       case 'aeMATIC':
         price = prices.matic;

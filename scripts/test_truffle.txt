@@ -30,7 +30,7 @@ Address: 0x5bA1D8DC7E0baC18D7dD7664AAB59998FC6d3229
 Network Name: Mumbai
 New RPC URL: https://polygon-mumbai.infura.io/v3/4458cf4d1689497b9a38b1d6bbf05e78
 Chain ID: 80001
-Currency Symbol: MATIC
+Currency Symbol: POL
 Block Explorer URL: https://mumbai.polygonscan.com
 
 

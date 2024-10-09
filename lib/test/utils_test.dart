@@ -43,7 +43,7 @@ void main() {
             'providerEndpoint':
                 'https://polygon-mainnet.g.alchemy.com/v2/DynWKvz6PUFaeZNmlxPXNiV1nK4Ac_2D',
             'isArchethic': false,
-            'nativeCurrency': 'MATIC',
+            'nativeCurrency': 'POL',
           },
         ),
         blockchainTo: BridgeBlockchain.fromJson(
