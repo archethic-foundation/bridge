@@ -88,29 +88,27 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
             ),
           ),
         ),
-        body: Stack(
-          alignment: Alignment.topRight,
-          children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                const aedappfm.AppBackground(
-                  backgroundImage: 'assets/images/background-welcome.png',
-                ),
-                widget.body
-                    .animate()
-                    .fade(
-                      duration: const Duration(milliseconds: 200),
-                    )
-                    .scale(
-                      duration: const Duration(milliseconds: 200),
-                    ),
-              ],
-            ),
-          ],
+        body: SafeArea(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              const aedappfm.AppBackground(
+                backgroundImage: 'assets/images/background-welcome.png',
+              ),
+              widget.body
+                  .animate()
+                  .fade(
+                    duration: const Duration(milliseconds: 200),
+                  )
+                  .scale(
+                    duration: const Duration(milliseconds: 200),
+                  ),
+            ],
+          ),
         ),
-        bottomNavigationBar: aedappfm.Responsive.isMobile(context) ||
-                aedappfm.Responsive.isTablet(context)
+        bottomNavigationBar: !widget.isEmbedded &&
+                (aedappfm.Responsive.isMobile(context) ||
+                    aedappfm.Responsive.isTablet(context))
             ? BottomNavigationBarMainScreen(
                 listNavigationLabelIcon: listNavigationLabelIcon,
                 navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),

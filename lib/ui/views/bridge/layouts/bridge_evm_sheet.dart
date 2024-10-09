@@ -76,7 +76,7 @@ class _BridgeEVMSheetState extends ConsumerState<BridgeEVMSheet> {
     return MainScreenList(
       isEmbedded: widget.isEmbedded,
       body: Padding(
-        padding: const EdgeInsets.only(top: 80),
+        padding: const EdgeInsets.only(top: 24),
         child: Column(
           children: [
             Padding(

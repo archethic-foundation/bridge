@@ -98,24 +98,26 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
             ),
           ),
         ),
-        body: SingleChildScrollView(
-          child: SafeArea(
-            child: Stack(
-              alignment: Alignment.topRight,
-              children: [
-                Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    const aedappfm.AppBackground(
-                      backgroundImage: 'assets/images/background-welcome.png',
-                    ),
-                    Align(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          if (widget.topWidget != null)
-                            SizedBox(width: 650, child: widget.topWidget),
-                          ClipRRect(
+        body: SafeArea(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              const aedappfm.AppBackground(
+                backgroundImage: 'assets/images/background-welcome.png',
+              ),
+              aedappfm.ArchethicScrollbar(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints.tightFor(
+                      width: MediaQuery.of(context).size.width),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (widget.topWidget != null)
+                          SizedBox(width: 650, child: widget.topWidget),
+                        IntrinsicHeight(
+                          child: ClipRRect(
                             borderRadius: BorderRadius.circular(20),
                             child: BackdropFilter(
                               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
@@ -135,40 +137,29 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
                                     top: 11,
                                     bottom: 5,
                                   ),
-                                  child: LayoutBuilder(
-                                    builder: (context, constraint) {
-                                      return aedappfm.ArchethicScrollbar(
-                                        child: Container(
-                                          constraints: BoxConstraints(
-                                            minHeight: 100,
-                                            maxHeight: constraint.maxHeight,
-                                          ),
-                                          child: IntrinsicHeight(
-                                            child: Column(
-                                              children: [
-                                                if (widget.currentStep ==
-                                                    aedappfm.ProcessStep.form)
-                                                  widget.formSheet
-                                                else
-                                                  widget.confirmSheet,
-                                                if (widget.bottomWidget != null)
-                                                  widget.bottomWidget!,
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    },
+                                  child: Column(
+                                    children: [
+                                      IntrinsicHeight(
+                                        child: widget.currentStep ==
+                                                aedappfm.ProcessStep.form
+                                            ? widget.formSheet
+                                            : widget.confirmSheet,
+                                      ),
+                                      if (widget.bottomWidget != null)
+                                        widget.bottomWidget!,
+                                    ],
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                          if (widget.afterBottomWidget != null)
-                            SizedBox(
-                                width: 650, child: widget.afterBottomWidget),
-                        ],
-                      ),
+                        ),
+                        if (widget.afterBottomWidget != null)
+                          SizedBox(
+                            width: 650,
+                            child: widget.afterBottomWidget,
+                          ),
+                      ],
                     )
                         .animate()
                         .fade(
@@ -177,10 +168,10 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
                         .scale(
                           duration: const Duration(milliseconds: 200),
                         ),
-                  ],
+                  ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
         bottomNavigationBar: !widget.isEmbedded &&
