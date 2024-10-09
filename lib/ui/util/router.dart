@@ -13,8 +13,11 @@ import 'package:go_router/go_router.dart';
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 
 extension GoRouterStateEmbeddedExt on GoRouterState {
-  static const kIsEmbeddedFlag = 'isEmbedded';
-  bool get isEmbedded => uri.queryParameters[kIsEmbeddedFlag] != null;
+  /// trick to save the isEmbedded flag on the first loaded page.
+  /// Value will be automatically  used by the next navigations.
+  static bool? _isEmbedded;
+  bool get isEmbedded =>
+      _isEmbedded ?? (_isEmbedded = uri.queryParameters['isEmbedded'] != null);
 }
 
 final routerProvider = Provider<GoRouter>((ref) {
