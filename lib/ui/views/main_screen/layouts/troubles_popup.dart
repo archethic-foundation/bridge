@@ -23,90 +23,99 @@ class TroublesPopup extends ConsumerWidget {
       },
       child: Scaffold(
         backgroundColor: Colors.transparent.withAlpha(120),
-        body: AlertDialog(
+        body: Dialog(
           backgroundColor: Colors.transparent,
           elevation: 0,
-          content: ClipRRect(
-            child: BackdropFilter(
-              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: Container(
-                margin: const EdgeInsets.only(
-                  top: 30,
-                  right: 15,
-                  left: 8,
-                ),
-                padding: const EdgeInsets.all(20),
-                width: MediaQuery.of(context).size.width * 0.6,
-                decoration: BoxDecoration(
-                  color: aedappfm.AppThemeBase.sheetBackground,
-                  border: Border.all(
-                    color: aedappfm.AppThemeBase.sheetBorder,
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(
+              maxWidth: 500,
+            ),
+            child: ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                child: Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: aedappfm.AppThemeBase.sheetBackground,
+                    border: Border.all(
+                      color: aedappfm.AppThemeBase.sheetBorder,
+                    ),
+                    borderRadius: BorderRadius.circular(20),
                   ),
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: aedappfm.ArchethicScrollbar(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SelectableText(
-                        AppLocalizations.of(context)!.havingTroubleHeader,
-                        style:
-                            Theme.of(context).textTheme.headlineLarge!.copyWith(
-                                  fontWeight: FontWeight.w500,
-                                  color: aedappfm.AppThemeBase.secondaryColor,
-                                ),
-                      ),
-                      const SizedBox(height: 30),
-                      Opacity(
-                        opacity: AppTextStyles.kOpacityText,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            _line(
-                                context,
-                                AppLocalizations.of(context)!.troubleItem1Title,
-                                AppLocalizations.of(context)!.troubleItem1Desc,
-                                'FAQ', () {
-                              launchUrl(
-                                Uri.parse(
-                                  'https://wiki.archethic.net/FAQ/bridge-2-ways',
-                                ),
-                              );
-                            }),
-                            _line(
-                                context,
-                                AppLocalizations.of(context)!.troubleItem2Title,
-                                AppLocalizations.of(context)!.troubleItem2Desc,
-                                'tutorials', () {
-                              launchUrl(
-                                Uri.parse(
-                                  'https://wiki.archethic.net/participate/bridge/usage',
-                                ),
-                              );
-                            }),
-                            _line(
-                                context,
-                                AppLocalizations.of(context)!.troubleItem3Title,
-                                AppLocalizations.of(context)!.troubleItem3Desc,
-                                'history', () {
-                              context
-                                ..pop()
-                                ..go(LocalHistorySheet.routerPage);
-                            }),
-                            _line(
-                                context,
-                                AppLocalizations.of(context)!.troubleItem4Title,
-                                AppLocalizations.of(context)!.troubleItem4Desc,
-                                'assets', () async {
-                              context.pop();
-                              await context.push(RefundSheet.routerPage);
-                            }),
-                          ],
+                  child: aedappfm.ArchethicScrollbar(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        SelectableText(
+                          AppLocalizations.of(context)!.havingTroubleHeader,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineLarge!
+                              .copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: aedappfm.AppThemeBase.secondaryColor,
+                              ),
                         ),
-                      ),
-                    ],
+                        const SizedBox(height: 30),
+                        Opacity(
+                          opacity: AppTextStyles.kOpacityText,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              _line(
+                                  context,
+                                  AppLocalizations.of(context)!
+                                      .troubleItem1Title,
+                                  AppLocalizations.of(context)!
+                                      .troubleItem1Desc,
+                                  'FAQ', () {
+                                launchUrl(
+                                  Uri.parse(
+                                    'https://wiki.archethic.net/FAQ/bridge-2-ways',
+                                  ),
+                                );
+                              }),
+                              _line(
+                                  context,
+                                  AppLocalizations.of(context)!
+                                      .troubleItem2Title,
+                                  AppLocalizations.of(context)!
+                                      .troubleItem2Desc,
+                                  'tutorials', () {
+                                launchUrl(
+                                  Uri.parse(
+                                    'https://wiki.archethic.net/participate/bridge/usage',
+                                  ),
+                                );
+                              }),
+                              _line(
+                                  context,
+                                  AppLocalizations.of(context)!
+                                      .troubleItem3Title,
+                                  AppLocalizations.of(context)!
+                                      .troubleItem3Desc,
+                                  'history', () {
+                                context
+                                  ..pop()
+                                  ..go(LocalHistorySheet.routerPage);
+                              }),
+                              _line(
+                                  context,
+                                  AppLocalizations.of(context)!
+                                      .troubleItem4Title,
+                                  AppLocalizations.of(context)!
+                                      .troubleItem4Desc,
+                                  'assets', () async {
+                                context.pop();
+                                await context.push(RefundSheet.routerPage);
+                              }),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

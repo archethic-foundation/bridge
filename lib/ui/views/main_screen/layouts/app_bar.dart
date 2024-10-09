@@ -36,8 +36,9 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
       child: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: widget.isEmbedded ? null : const Header(),
-        leadingWidth: MediaQuery.of(context).size.width,
+        leading: widget.isEmbedded ? const SizedBox() : const Header(),
+        leadingWidth:
+            widget.isEmbedded ? null : MediaQuery.of(context).size.width,
         actions: const [
           ConnectionToWalletStatus(),
           SizedBox(

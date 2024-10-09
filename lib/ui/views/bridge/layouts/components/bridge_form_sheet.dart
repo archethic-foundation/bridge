@@ -23,79 +23,77 @@ class BridgeFormSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const Expanded(
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              BridgeBlockchainFromSelection(),
-              BridgeBlockchainIconDirection(),
-              BridgeBlockchainToSelection(),
-            ],
-          ),
-          SizedBox(
-            height: 5,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              BridgeTokenToBridgeSelection(),
-              BridgeTokenBridged(),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
-                child: Row(
-                  children: [
-                    BridgeTokenToBridgeBalance(),
-                    BridgeBalanceWarning(
-                      swapProcess: SwapProcess.signed,
-                    ),
-                  ],
-                ),
+    return const Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            BridgeBlockchainFromSelection(),
+            BridgeBlockchainIconDirection(),
+            BridgeBlockchainToSelection(),
+          ],
+        ),
+        SizedBox(
+          height: 5,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            BridgeTokenToBridgeSelection(),
+            BridgeTokenBridged(),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Row(
+                children: [
+                  BridgeTokenToBridgeBalance(),
+                  BridgeBalanceWarning(
+                    swapProcess: SwapProcess.signed,
+                  ),
+                ],
               ),
-              SizedBox(width: 20),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    BridgeTokenBridgedBalance(),
-                    BridgeBalanceWarning(
-                      swapProcess: SwapProcess.chargeable,
-                    ),
-                  ],
-                ),
+            ),
+            SizedBox(width: 20),
+            Expanded(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: [
+                  BridgeTokenBridgedBalance(),
+                  BridgeBalanceWarning(
+                    swapProcess: SwapProcess.chargeable,
+                  ),
+                ],
               ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              SizedBox.shrink(),
-              SizedBox(width: 20),
-              BridgeTokenBridgedPoolBalance(),
-            ],
-          ),
-          BridgeTokenAddress(),
-          BridgeUCOV1Warning(),
-          SizedBox(
-            height: 10,
-          ),
-          BridgeTargetAddress(),
-          SizedBox(
-            height: 10,
-          ),
-          BridgeTokenAmount(),
-          BridgeErrorMessage(),
-          Spacer(),
-          BridgeButton(),
-          SizedBox(height: 10),
-        ],
-      ),
+            ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            SizedBox.shrink(),
+            SizedBox(width: 20),
+            BridgeTokenBridgedPoolBalance(),
+          ],
+        ),
+        BridgeTokenAddress(),
+        BridgeUCOV1Warning(),
+        SizedBox(
+          height: 10,
+        ),
+        BridgeTargetAddress(),
+        SizedBox(
+          height: 10,
+        ),
+        BridgeTokenAmount(),
+        BridgeErrorMessage(),
+        Spacer(),
+        BridgeButton(),
+        SizedBox(height: 10),
+      ],
     );
   }
 }
