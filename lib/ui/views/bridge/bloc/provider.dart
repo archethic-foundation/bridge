@@ -34,7 +34,12 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
 
   @override
   BridgeFormState build() {
-    ref.onDispose(_unwatchChainId);
+    ref.onDispose(() {
+      if (_watchChainIdUnsubscribe != null) {
+        _watchChainIdUnsubscribe?.call();
+        _watchChainIdUnsubscribe = null;
+      }
+    });
 
     return const BridgeFormState();
   }
