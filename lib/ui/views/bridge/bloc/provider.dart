@@ -798,14 +798,15 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
           .read(bridgeHistoryRepositoryProvider)
           .addBridge(bridge: state.toJson());
     }
-    final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
+    final dappClient = await aedappfm.sl.getAsync<awc.ArchethicDAppClient>();
     if (state.blockchainFrom!.isArchethic) {
       await aedappfm.ConsentRepositoryImpl()
           .addAddress(session.walletFrom!.genesisAddress);
 
-      await BridgeArchethicToEVMUseCase(dappClient: dappClient).run(
+      await BridgeArchethicToEVMUseCase().run(
         localizations,
         ref,
+        dappClient,
         recoveryStep: state.currentStep,
         recoveryHTLCAEAddress: state.htlcAEAddress,
         recoveryHTLCEVMAddress: state.htlcEVMAddress,

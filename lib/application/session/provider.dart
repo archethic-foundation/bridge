@@ -93,23 +93,8 @@ class SessionNotifier extends _$SessionNotifier {
       );
       _fillState(bridgeWallet, from);
 
-      awc.ArchethicDAppClient? archethicDAppClient;
-      try {
-        archethicDAppClient = await awc.ArchethicDAppClient.auto(
-          origin: const awc.RequestOrigin(
-            name: 'aebridge',
-          ),
-          replyBaseUrl: 'aebridge://archethic.tech',
-        );
-      } catch (e, stackTrace) {
-        aedappfm.sl.get<aedappfm.LogManager>().log(
-              '$e',
-              stackTrace: stackTrace,
-              level: aedappfm.LogLevel.error,
-              name: '_SessionNotifier - connectToArchethicWallet',
-            );
-        throw const aedappfm.Failure.connectivityArchethic();
-      }
+      final archethicDAppClient =
+          await aedappfm.sl.getAsync<awc.ArchethicDAppClient>();
 
       final endpointResponse = await archethicDAppClient.getEndpoint();
       await endpointResponse.when(
@@ -165,7 +150,7 @@ class SessionNotifier extends _$SessionNotifier {
 
           bridgeWallet = bridgeWallet.copyWith(endpoint: result.endpointUrl);
           _connectionStatusSubscription =
-              archethicDAppClient!.connectionStateStream.listen((event) {
+              archethicDAppClient.connectionStateStream.listen((event) {
             event.when(
               disconnected: () {
                 bridgeWallet = bridgeWallet.copyWith(
@@ -202,12 +187,6 @@ class SessionNotifier extends _$SessionNotifier {
               },
             );
           });
-          if (aedappfm.sl.isRegistered<awc.ArchethicDAppClient>()) {
-            await aedappfm.sl.unregister<awc.ArchethicDAppClient>();
-          }
-          aedappfm.sl.registerLazySingleton<awc.ArchethicDAppClient>(
-            () => archethicDAppClient!,
-          );
           await setupServiceLocatorApiService(result.endpointUrl);
           final preferences = await HivePreferencesDatasource.getInstance();
           aedappfm.sl.get<aedappfm.LogManager>().remoteLogsEnabled =
@@ -292,10 +271,7 @@ class SessionNotifier extends _$SessionNotifier {
   }
 
   Future<void> cancelArchethicConnection() async {
-    if (aedappfm.sl.isRegistered<awc.ArchethicDAppClient>()) {
-      await aedappfm.sl.get<awc.ArchethicDAppClient>().close();
-      await aedappfm.sl.unregister<awc.ArchethicDAppClient>();
-    }
+    aedappfm.sl.resetLazySingleton<awc.ArchethicDAppClient>();
 
     if (aedappfm.sl.isRegistered<ApiService>()) {
       await aedappfm.sl.unregister<ApiService>();

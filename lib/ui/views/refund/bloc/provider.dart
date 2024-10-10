@@ -490,7 +490,8 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         );
         break;
       case AddressType.archethic:
-        final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
+        final dappClient =
+            await aedappfm.sl.getAsync<awc.ArchethicDAppClient>();
         await RefundArchethicCase(dappClient: dappClient)
             .run(ref, state.wallet!.nameAccount, state.htlcAddressFilled);
         break;
@@ -550,24 +551,8 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         error: '',
       );
       state = state.copyWith(wallet: archethicWallet);
-      awc.ArchethicDAppClient? archethicDAppClient;
-
-      try {
-        archethicDAppClient = await awc.ArchethicDAppClient.auto(
-          origin: const awc.RequestOrigin(
-            name: 'aebridge',
-          ),
-          replyBaseUrl: 'aebridge://archethic.tech',
-        );
-      } catch (e, stackTrace) {
-        aedappfm.sl.get<aedappfm.LogManager>().log(
-              '$e',
-              stackTrace: stackTrace,
-              level: aedappfm.LogLevel.error,
-              name: '_SessionNotifier - connectToArchethicWallet',
-            );
-        throw const aedappfm.Failure.connectivityArchethic();
-      }
+      final archethicDAppClient =
+          await aedappfm.sl.getAsync<awc.ArchethicDAppClient>();
 
       final endpointResponse = await archethicDAppClient.getEndpoint();
       await endpointResponse.when(
@@ -604,7 +589,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
             env: bridgeBlockchain.env,
           );
           _connectionStatusSubscription =
-              archethicDAppClient!.connectionStateStream.listen((event) {
+              archethicDAppClient.connectionStateStream.listen((event) {
             event.when(
               disconnecting: () {},
               disconnected: () {
@@ -640,12 +625,6 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
               },
             );
           });
-          if (aedappfm.sl.isRegistered<awc.ArchethicDAppClient>()) {
-            await aedappfm.sl.unregister<awc.ArchethicDAppClient>();
-          }
-          aedappfm.sl.registerLazySingleton<awc.ArchethicDAppClient>(
-            () => archethicDAppClient!,
-          );
           await setupServiceLocatorApiService(result.endpointUrl);
 
           final preferences = await HivePreferencesDatasource.getInstance();
@@ -703,10 +682,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
   }
 
   Future<void> cancelWalletsConnection() async {
-    if (aedappfm.sl.isRegistered<awc.ArchethicDAppClient>()) {
-      await aedappfm.sl.get<awc.ArchethicDAppClient>().close();
-      await aedappfm.sl.unregister<awc.ArchethicDAppClient>();
-    }
+    aedappfm.sl.resetLazySingleton<awc.ArchethicDAppClient>();
 
     if (aedappfm.sl.isRegistered<archethic.ApiService>()) {
       await aedappfm.sl.unregister<archethic.ApiService>();

@@ -48,9 +48,10 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
   }
 
   void startTimerAEToEVM() {
-    final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
     timer = Timer.periodic(const Duration(seconds: 3), (Timer t) async {
       try {
+        final dappClient =
+            await aedappfm.sl.getAsync<awc.ArchethicDAppClient>();
         final evmHTLC = EVMHTLC(
           widget.address,
         );
@@ -74,9 +75,10 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
   }
 
   void startTimerEVMToAE() {
-    final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
     timer = Timer.periodic(const Duration(seconds: 3), (Timer t) async {
       try {
+        final dappClient =
+            await aedappfm.sl.getAsync<awc.ArchethicDAppClient>();
         final apiService = aedappfm.sl.get<archethic.ApiService>();
         final amount = await getAmountFromTx(
           apiService,

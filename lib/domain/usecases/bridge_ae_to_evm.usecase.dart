@@ -23,15 +23,12 @@ class BridgeArchethicToEVMUseCase
         ArchethicBridgeProcessMixin,
         EVMBridgeProcessMixin,
         aedappfm.TransactionMixin {
-  BridgeArchethicToEVMUseCase({
-    required this.dappClient,
-  });
-
-  final awc.ArchethicDAppClient dappClient;
+  BridgeArchethicToEVMUseCase();
 
   Future<void> run(
     AppLocalizations localizations,
-    WidgetRef ref, {
+    WidgetRef ref,
+    awc.ArchethicDAppClient dappClient, {
     int recoveryStep = 0,
     String? recoveryHTLCEVMAddress,
     String? recoveryHTLCAEAddress,

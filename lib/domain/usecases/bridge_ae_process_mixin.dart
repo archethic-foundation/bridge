@@ -51,7 +51,7 @@ mixin ArchethicBridgeProcessMixin {
     final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
     final session = ref.read(sessionNotifierProvider);
     final walletFrom = session.walletFrom;
-    final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
+    final dappClient = await aedappfm.sl.getAsync<awc.ArchethicDAppClient>();
     late String archethicHTLCAddress;
     final resultDeploySignedHTLC =
         await ArchethicContractSigned().deploySignedHTLC(
@@ -90,7 +90,7 @@ mixin ArchethicBridgeProcessMixin {
   ) async {
     final bridge = ref.read(bridgeFormNotifierProvider);
     final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
-    final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
+    final dappClient = await aedappfm.sl.getAsync<awc.ArchethicDAppClient>();
     late String htlcAddress;
     final resultDeployChargeableHTLCAE =
         await ArchethicContractChargeable().deployChargeableHTLC(
@@ -131,7 +131,7 @@ mixin ArchethicBridgeProcessMixin {
     final session = ref.read(sessionNotifierProvider);
     final walletFrom = session.walletFrom;
     final walletTo = session.walletTo;
-    final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
+    final dappClient = await aedappfm.sl.getAsync<awc.ArchethicDAppClient>();
     final resultProvisionSignedHTLC =
         await ArchethicContractSigned().provisionSignedHTLC(
       dappClient,
@@ -208,7 +208,7 @@ mixin ArchethicBridgeProcessMixin {
     final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
     final session = ref.read(sessionNotifierProvider);
     final walletFrom = session.walletFrom;
-    final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
+    final dappClient = await aedappfm.sl.getAsync<awc.ArchethicDAppClient>();
     final resultRequestSecretFromSignedHTLC =
         await ArchethicContractSigned().requestSecretFromSignedHTLC(
       dappClient,
