@@ -231,7 +231,7 @@ mixin EVMBridgeProcessMixin {
     final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
     final session = ref.read(sessionNotifierProvider);
     final walletTo = session.walletTo;
-    final dappClient = aedappfm.sl.get<awc.ArchethicDAppClient>();
+    final dappClient = await aedappfm.sl.getAsync<awc.ArchethicDAppClient>();
     final resultRevealSecretToChargeableHTLC =
         await ArchethicContractChargeable().revealSecretToChargeableHTLC(
       dappClient,
