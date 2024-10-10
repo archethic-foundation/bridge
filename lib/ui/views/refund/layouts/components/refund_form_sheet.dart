@@ -13,38 +13,36 @@ class RefundFormSheet extends ConsumerWidget {
   const RefundFormSheet({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return const Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          RefundInfo(),
-          SizedBox(
-            height: 10,
-          ),
-          RefundBlockchainSelection(),
-          SizedBox(
-            height: 10,
-          ),
-          RefundContractAddress(),
-          RefundInfosWallet(),
-          RefundCanRefundInfo(),
-          SizedBox(
-            height: 20,
-          ),
-          Spacer(),
-          RefundMessage(),
-          SizedBox(
-            height: 20,
-          ),
-          //RefundTransaction(),
-          RefundConnectWalletButton(),
-          RefundButton(),
-          SizedBox(
-            height: 10,
-          ),
-        ],
-      ),
+    return const Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        RefundInfo(),
+        SizedBox(
+          height: 10,
+        ),
+        RefundBlockchainSelection(),
+        SizedBox(
+          height: 10,
+        ),
+        RefundContractAddress(),
+        RefundInfosWallet(),
+        RefundCanRefundInfo(),
+        SizedBox(
+          height: 20,
+        ),
+        Spacer(),
+        RefundMessage(),
+        SizedBox(
+          height: 20,
+        ),
+        //RefundTransaction(),
+        RefundConnectWalletButton(),
+        RefundButton(),
+        SizedBox(
+          height: 10,
+        ),
+      ],
     );
   }
 }
