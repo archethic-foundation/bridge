@@ -17,8 +17,7 @@ Future<void> setupServiceLocator() async {
     )
     ..registerLazySingleton<DBHelper>(DBHelper.new)
     ..registerLazySingleton<OracleService>(
-      () =>
-          OracleService('https://mainnet.archethic.net', logsActivation: false),
+      () => OracleService('https://mainnet.archethic.net'),
     )
     ..registerLazySingleton<aedappfm.LogManager>(() {
       if (Uri.base.toString().toLowerCase().contains('bridge.archethic')) {
@@ -65,6 +64,6 @@ Future<void> setupServiceLocatorApiService(String endpoint) async {
     await aedappfm.sl.unregister<ApiService>();
   }
   aedappfm.sl.registerLazySingleton<ApiService>(
-    () => ApiService(endpoint, logsActivation: false),
+    () => ApiService(endpoint),
   );
 }
