@@ -8,7 +8,7 @@ environment:
   sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
-  archethic_dapp_framework_flutter: ^3.0.0
+  archethic_dapp_framework_flutter: ^3.0.1
   #archethic_dapp_framework_flutter:
   #  git:
   #    url: https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git
@@ -16,8 +16,13 @@ dependencies:
   # archethic_dapp_framework_flutter:
   #   path: ../../packages/archethic-dapp-framework-flutter
 
+  # Archethic dart library for Flutter
+  archethic_lib_dart: ^4.0.0
+  # archethic_lib_dart:
+  #   path: ../../packages/libdart
+
   # A client dart library to interact with Archethic Wallet RPC API.
-  archethic_wallet_client: ^2.1.3
+  archethic_wallet_client: ^2.1.4
   #archethic_wallet_client:
   #  git:
   #    url: https://github.com/archethic-foundation/archethic-wallet-client-dart.git
