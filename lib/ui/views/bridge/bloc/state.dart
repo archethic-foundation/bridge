@@ -47,6 +47,7 @@ class BridgeFormState with _$BridgeFormState {
     @Default(false) bool requestTooLong,
     @Default(0) double ucoV1Balance,
     @Default(false) bool chainIdUpdated,
+    @Default(false) bool accountUpdated,
   }) = _BridgeFormState;
   const BridgeFormState._();
 

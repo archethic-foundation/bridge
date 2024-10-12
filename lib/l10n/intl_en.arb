@@ -8,6 +8,7 @@
     "no": "No",
     "ok": "Ok",
     "btn_switch_network": "Switch network",
+    "btn_switch_account": "Switch account",
     "connectionWalletDisconnect": "Disconnect wallet",
     "confirmationPopupTitle": "Confirmation Request",
     "connectionWalletDisconnectWarning": "Are you sure you want to disconnect your wallets\nand exit the application?",
@@ -194,5 +195,6 @@
     "backToAEBridge": "Go Back to Archethic Bridge Form",
     "goToEVMBridge": "If you want to bridge your UCOs between Ethereum, Polygon and BSC, click here!",
     "switchNetworkTitle": "Warning",
-    "switchNetworkDescBridge": "You cannot change the network during the ongoing process. Please click the next button to restore the network related to the current bridge."
+    "switchNetworkDescBridge": "You cannot change the network during the ongoing process. Please click the next button to restore the network related to the current bridge.",
+    "switchAccountDescBridge": "You cannot change the account during the ongoing process. Please click the next button to restore the account related to the current bridge."
 }

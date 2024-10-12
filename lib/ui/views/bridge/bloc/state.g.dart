@@ -71,6 +71,7 @@ _$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
       requestTooLong: json['requestTooLong'] as bool? ?? false,
       ucoV1Balance: (json['ucoV1Balance'] as num?)?.toDouble() ?? 0,
       chainIdUpdated: json['chainIdUpdated'] as bool? ?? false,
+      accountUpdated: json['accountUpdated'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$BridgeFormStateImplToJson(
@@ -123,6 +124,7 @@ Map<String, dynamic> _$$BridgeFormStateImplToJson(
       'requestTooLong': instance.requestTooLong,
       'ucoV1Balance': instance.ucoV1Balance,
       'chainIdUpdated': instance.chainIdUpdated,
+      'accountUpdated': instance.accountUpdated,
     };
 
 const _$ProcessStepEnumMap = {
