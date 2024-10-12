@@ -4,15 +4,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class SwitchNetworkPopup extends ConsumerWidget {
-  const SwitchNetworkPopup({
+class SwitchEVMContextPopup extends ConsumerWidget {
+  const SwitchEVMContextPopup({
     super.key,
-    required this.onNetworkSwitched,
-    required this.switchNetworkDesc,
+    required this.onEVMContextSwitched,
+    required this.switchEVMContextDesc,
+    required this.switchEVMContextBtnLabel,
   });
 
-  final VoidCallback onNetworkSwitched;
-  final String switchNetworkDesc;
+  final VoidCallback onEVMContextSwitched;
+  final String switchEVMContextDesc;
+  final String switchEVMContextBtnLabel;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -48,13 +50,13 @@ class SwitchNetworkPopup extends ConsumerWidget {
                 ),
                 const SizedBox(height: 40),
                 SelectableText(
-                  switchNetworkDesc,
+                  switchEVMContextDesc,
                 ),
                 const SizedBox(height: 40),
                 aedappfm.AppButton(
-                  labelBtn: AppLocalizations.of(context)!.btn_switch_network,
+                  labelBtn: switchEVMContextBtnLabel,
                   onPressed: () async {
-                    onNetworkSwitched();
+                    onEVMContextSwitched();
                   },
                 ),
                 const SizedBox(height: 20),

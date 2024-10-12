@@ -5,6 +5,7 @@ import 'package:aebridge/application/balance.dart';
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/application/contracts/archethic_factory.dart';
+import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/application/token_decimals.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
@@ -31,6 +32,7 @@ part 'provider.g.dart';
 class BridgeFormNotifier extends _$BridgeFormNotifier
     with aedappfm.TransactionMixin {
   wagmi.WatchChainIdReturnType? _watchChainIdUnsubscribe;
+  wagmi.WatchAccountReturnType? _watchAccountUnsubscribe;
 
   @override
   BridgeFormState build() {
@@ -113,6 +115,10 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     state = state.copyWith(chainIdUpdated: chainIdUpdated);
   }
 
+  void setAccountUpdated(bool accountUpdated) {
+    state = state.copyWith(accountUpdated: accountUpdated);
+  }
+
   Future<void> setBlockchainFrom(
     AppLocalizations localizations,
     BridgeBlockchain? blockchainFrom,
@@ -169,6 +175,7 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
           if (blockchainTo != null && state.failure == null) {
             await setBlockchainToWithConnection(localizations, blockchainTo);
           }
+          await _watchAccount();
         },
         failure: (failure) async {
           await setBlockchainFrom(localizations, null);
@@ -828,6 +835,7 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     await setTransferInProgress(false);
 
     _unwatchChainId();
+    _unwatchAccount();
 
     unawaited(refreshCurrentAccountInfoWallet(dappClient));
   }
@@ -849,6 +857,43 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     if (_watchChainIdUnsubscribe != null) {
       _watchChainIdUnsubscribe?.call();
       _watchChainIdUnsubscribe = null;
+    }
+  }
+
+  Future<void> _watchAccount() async {
+    _unwatchAccount();
+    final watchAccountParameters = wagmi.WatchAccountParameters(
+      onChange: (account, prevAccount) async {
+        if (account.address != null &&
+            prevAccount.address != null &&
+            account.address!.toUpperCase() !=
+                prevAccount.address!.toUpperCase()) {
+          await aedappfm.sl.get<EVMWalletProvider>().useAccount(account);
+          await ref
+              .read(
+                sessionNotifierProvider.notifier,
+              )
+              .connectToEVMWallet(
+                state.blockchainFrom?.isArchethic == false
+                    ? state.blockchainFrom!
+                    : state.blockchainTo!,
+                !state.blockchainFrom!.isArchethic,
+              );
+          await setTokenToBridge(state.tokenToBridge);
+          setAccountUpdated(true);
+        }
+      },
+    );
+    _watchAccountUnsubscribe = await wagmi.Core.watchAccount(
+      watchAccountParameters,
+    );
+  }
+
+  void _unwatchAccount() {
+    setChainIdUpdated(false);
+    if (_watchAccountUnsubscribe != null) {
+      _watchAccountUnsubscribe?.call();
+      _watchAccountUnsubscribe = null;
     }
   }
 }

@@ -8,6 +8,7 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
   bool isInit = false;
 
   int? _requestedChainId;
+  wagmi.Account? _requestedAccount;
   int get requestedChainId {
     if (_requestedChainId == null) {
       throw Exception(
@@ -15,6 +16,15 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
       );
     }
     return _requestedChainId!;
+  }
+
+  wagmi.Account get requestedAccount {
+    if (_requestedAccount == null) {
+      throw Exception(
+        'You must call `EVMWalletProvider.connect` before any action',
+      );
+    }
+    return _requestedAccount!;
   }
 
   Future<void> init(BridgeBlockchainsRepository repository) async {
@@ -74,7 +84,10 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
   Future<wagmi.Account> _waitForConnection() async {
     while (true) {
       final account = wagmi.Core.getAccount();
-      if (account.isConnected) return account;
+      if (account.isConnected) {
+        await useAccount(account);
+        return account;
+      }
       await Future.delayed(const Duration(seconds: 1));
     }
   }
@@ -86,6 +99,7 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
       await _waitForConnection();
     }
     await useChain(chain.chainId);
+
     notifyListeners();
   }
 
@@ -100,7 +114,19 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
     );
   }
 
+  Future<void> useAccount(wagmi.Account account) async {
+    _requestedAccount = account;
+    await wagmi.Core.switchAccount(
+      wagmi.SwitchAccountParameters(
+        connector: account.connector,
+      ),
+    );
+    notifyListeners();
+  }
+
   Future<void> useRequestedChain() async => useChain(requestedChainId);
+
+  Future<void> useRequestedAccount() async => useAccount(requestedAccount);
 
   Future<void> disconnect() async {}
 }
