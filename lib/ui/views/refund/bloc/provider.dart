@@ -682,7 +682,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
   }
 
   Future<void> cancelWalletsConnection() async {
-    aedappfm.sl.resetLazySingleton<awc.ArchethicDAppClient>();
+    await aedappfm.sl.resetLazySingleton<awc.ArchethicDAppClient>();
 
     if (aedappfm.sl.isRegistered<archethic.ApiService>()) {
       await aedappfm.sl.unregister<archethic.ApiService>();
