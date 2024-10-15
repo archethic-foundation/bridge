@@ -10,12 +10,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  aedappfm.LoggerOutput.setup();
+  // TODO(Chralu): Remove forced log level
+  aedappfm.LoggerOutput.setup(level: Level.ALL);
 
   await DBHelper.setupDatabase();
   await setupServiceLocator();

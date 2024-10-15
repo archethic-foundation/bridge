@@ -23,6 +23,7 @@ import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:decimal/decimal.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
@@ -33,6 +34,8 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     with aedappfm.TransactionMixin {
   wagmi.WatchChainIdReturnType? _watchChainIdUnsubscribe;
   wagmi.WatchAccountReturnType? _watchAccountUnsubscribe;
+
+  final _logger = Logger('BridgeFormNotifierProvider');
 
   @override
   BridgeFormState build() {
@@ -862,26 +865,28 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
 
   Future<void> _watchAccount() async {
     _unwatchAccount();
+    _logger.finer('Watching Account updates');
     final watchAccountParameters = wagmi.WatchAccountParameters(
       onChange: (account, prevAccount) async {
-        if (account.address != null &&
-            prevAccount.address != null &&
-            account.address!.toUpperCase() !=
-                prevAccount.address!.toUpperCase()) {
-          await aedappfm.sl.get<EVMWalletProvider>().useAccount(account);
-          await ref
-              .read(
-                sessionNotifierProvider.notifier,
-              )
-              .connectToEVMWallet(
-                state.blockchainFrom?.isArchethic == false
-                    ? state.blockchainFrom!
-                    : state.blockchainTo!,
-                !state.blockchainFrom!.isArchethic,
-              );
-          await setTokenToBridge(state.tokenToBridge);
-          setAccountUpdated(true);
+        if (account.address?.toUpperCase() ==
+            prevAccount.address?.toUpperCase()) {
+          return;
         }
+        _logger.finer('Account updated: ${account.address}');
+
+        await aedappfm.sl.get<EVMWalletProvider>().useAccount(account);
+        await ref
+            .read(
+              sessionNotifierProvider.notifier,
+            )
+            .connectToEVMWallet(
+              state.blockchainFrom?.isArchethic == false
+                  ? state.blockchainFrom!
+                  : state.blockchainTo!,
+              !state.blockchainFrom!.isArchethic,
+            );
+        await setTokenToBridge(state.tokenToBridge);
+        setAccountUpdated(true);
       },
     );
     _watchAccountUnsubscribe = await wagmi.Core.watchAccount(
@@ -890,6 +895,8 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
   }
 
   void _unwatchAccount() {
+    _logger.finer('Unwatching Account updates');
+
     setChainIdUpdated(false);
     if (_watchAccountUnsubscribe != null) {
       _watchAccountUnsubscribe?.call();

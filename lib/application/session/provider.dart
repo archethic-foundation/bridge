@@ -315,6 +315,9 @@ class SessionNotifier extends _$SessionNotifier {
   }
 
   Future<void> cancelEVMWalletConnection() async {
+    final evmWalletProvider = await _evmWalletProvider;
+    await evmWalletProvider.disconnect();
+
     if (state.walletFrom != null && state.walletFrom!.wallet == kEVMWallet) {
       var walletFrom = state.walletFrom;
 

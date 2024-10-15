@@ -2,10 +2,13 @@ import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/domain/repositories/bridge_blockchain.repository.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:flutter/material.dart';
+import 'package:logging/logging.dart';
 import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
 class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
   bool isInit = false;
+
+  final _logger = Logger('EVMWalletProvider');
 
   int? _requestedChainId;
   wagmi.Account? _requestedAccount;
@@ -74,7 +77,7 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
     }
   }
 
-  bool get walletConnected => walletConnector != null;
+  bool get walletConnected => wagmi.Core.getAccount().isConnected;
 
   static const _projectId = 'ce9ee3c8e58873e8708247895990bc27';
 
@@ -93,7 +96,9 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
   }
 
   Future<void> connect(BridgeBlockchain chain) async {
-    if (walletConnector == null) {
+    _logger.finest('Connecting to ${chain.name}');
+    if (!walletConnected) {
+      _logger.finest('Wallet not connected -> opening web3modal');
       wagmi.Web3Modal.open();
 
       await _waitForConnection();
@@ -128,5 +133,10 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
 
   Future<void> useRequestedAccount() async => useAccount(requestedAccount);
 
-  Future<void> disconnect() async {}
+  Future<void> disconnect() async {
+    _logger.finest('Disconnecting wallet');
+
+    await wagmi.Core.disconnect(wagmi.DisconnectParameters());
+    wagmi.Web3Modal.close();
+  }
 }
