@@ -271,7 +271,7 @@ class SessionNotifier extends _$SessionNotifier {
   }
 
   Future<void> cancelArchethicConnection() async {
-    aedappfm.sl.resetLazySingleton<awc.ArchethicDAppClient>();
+    await aedappfm.sl.resetLazySingleton<awc.ArchethicDAppClient>();
 
     if (aedappfm.sl.isRegistered<ApiService>()) {
       await aedappfm.sl.unregister<ApiService>();
