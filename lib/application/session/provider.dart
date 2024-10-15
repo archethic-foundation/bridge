@@ -74,6 +74,11 @@ class SessionNotifier extends _$SessionNotifier {
           if (e.toString().toLowerCase().contains('unrecognized chain')) {
             throw const aedappfm.Failure.paramEVMChain();
           }
+          aedappfm.sl.get<aedappfm.LogManager>().log(
+                'connectivityEVM Error : $e',
+                level: aedappfm.LogLevel.error,
+                name: 'session - connectToEVMWallet',
+              );
           throw const aedappfm.Failure.connectivityEVM();
         }
       },
