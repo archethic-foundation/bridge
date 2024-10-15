@@ -89,11 +89,19 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
   Future<wagmi.Account> _waitForConnection() async {
     while (true) {
       final account = wagmi.Core.getAccount();
+
       aedappfm.sl.get<aedappfm.LogManager>().log(
             'account address: ${account.address}, isConnected: ${account.isConnected}, connector: ${account.connector}',
             level: aedappfm.LogLevel.debug,
             name: 'EVMWalletProvider - _waitForConnection',
           );
+      if (account.connector != null) {
+        aedappfm.sl.get<aedappfm.LogManager>().log(
+              'Chain Id: ${account.connector!.getChainId} - ${account.connector!.type} - ${account.connector!.name} - ${account.connector!.supportsSimulation}',
+              level: aedappfm.LogLevel.debug,
+              name: 'EVMWalletProvider - _waitForConnection',
+            );
+      }
       if (account.isConnected && account.connector != null) {
         await useAccount(account);
         return account;
@@ -110,14 +118,28 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
 
       await _waitForConnection();
     }
+    aedappfm.sl.get<aedappfm.LogManager>().log(
+          'Before useChain : Chain Id: ${chain.chainId}',
+          level: aedappfm.LogLevel.debug,
+          name: 'EVMWalletProvider - _waitForConnection',
+        );
     await useChain(chain.chainId);
-
+    aedappfm.sl.get<aedappfm.LogManager>().log(
+          'After useChain : Chain Id: ${chain.chainId}',
+          level: aedappfm.LogLevel.debug,
+          name: 'EVMWalletProvider - _waitForConnection',
+        );
     notifyListeners();
   }
 
   Future<void> useChain(int chainId) async {
     _requestedChainId = chainId;
     if (wagmi.Core.getChainId() == chainId) return;
+    aedappfm.sl.get<aedappfm.LogManager>().log(
+          'Before switchChain : walletConnector: $walletConnector - ${walletConnector?.name}',
+          level: aedappfm.LogLevel.debug,
+          name: 'EVMWalletProvider - _waitForConnection',
+        );
     await wagmi.Core.switchChain(
       wagmi.SwitchChainParameters(
         connector: walletConnector,
@@ -128,11 +150,23 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
 
   Future<void> useAccount(wagmi.Account account) async {
     _requestedAccount = account;
+    if (account.connector != null) {
+      aedappfm.sl.get<aedappfm.LogManager>().log(
+            'Start useAccount : Chain Id: ${account.connector!.getChainId} - ${account.connector!.type} - ${account.connector!.name} - ${account.connector!.supportsSimulation}',
+            level: aedappfm.LogLevel.debug,
+            name: 'EVMWalletProvider - _waitForConnection',
+          );
+    }
     await wagmi.Core.switchAccount(
       wagmi.SwitchAccountParameters(
         connector: account.connector,
       ),
     );
+    aedappfm.sl.get<aedappfm.LogManager>().log(
+          'End useAccount : Chain Id: ${account.connector!.getChainId} - ${account.connector!.type} - ${account.connector!.name} - ${account.connector!.supportsSimulation}',
+          level: aedappfm.LogLevel.debug,
+          name: 'EVMWalletProvider - _waitForConnection',
+        );
     notifyListeners();
   }
 
