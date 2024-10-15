@@ -137,6 +137,5 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
     _logger.finest('Disconnecting wallet');
 
     await wagmi.Core.disconnect(wagmi.DisconnectParameters());
-    wagmi.Web3Modal.close();
   }
 }
