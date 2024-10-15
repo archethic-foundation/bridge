@@ -1,6 +1,8 @@
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/domain/repositories/bridge_blockchain.repository.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:logging/logging.dart';
 import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
@@ -87,7 +89,12 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
   Future<wagmi.Account> _waitForConnection() async {
     while (true) {
       final account = wagmi.Core.getAccount();
-      if (account.isConnected) {
+      aedappfm.sl.get<aedappfm.LogManager>().log(
+            'account address: ${account.address}, isConnected: ${account.isConnected}, connector: ${account.connector}',
+            level: aedappfm.LogLevel.debug,
+            name: 'EVMWalletProvider - _waitForConnection',
+          );
+      if (account.isConnected && account.connector != null) {
         await useAccount(account);
         return account;
       }
