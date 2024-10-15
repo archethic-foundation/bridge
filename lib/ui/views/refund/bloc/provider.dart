@@ -535,6 +535,11 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
             }
           }
         } catch (e) {
+          aedappfm.sl.get<aedappfm.LogManager>().log(
+                'connectivityEVM Error : $e',
+                level: aedappfm.LogLevel.error,
+                name: 'refund - connectToEVMWallet',
+              );
           throw const aedappfm.Failure.connectivityEVM();
         }
       },
