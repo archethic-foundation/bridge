@@ -20,22 +20,22 @@ class BridgeChainIdUpdated extends ConsumerWidget {
           context: context,
           builder: (BuildContext context) {
             return SwitchEVMContextPopup(
-                switchEVMContextDesc:
-                    AppLocalizations.of(context)!.switchNetworkDescBridge,
-                onEVMContextSwitched: () async {
-                  final evmWalletProvider =
-                      aedappfm.sl.get<EVMWalletProvider>();
-                  await evmWalletProvider.useRequestedChain();
+              switchEVMContextDesc:
+                  AppLocalizations.of(context)!.switchNetworkDescBridge,
+              onEVMContextSwitched: () async {
+                final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+                await evmWalletProvider.useRequestedChain();
 
-                  ref
-                      .read(bridgeFormNotifierProvider.notifier)
-                      .setChainIdUpdated(false);
+                ref
+                    .read(bridgeFormNotifierProvider.notifier)
+                    .setChainIdUpdated(false);
 
-                  if (!context.mounted) return;
-                  Navigator.of(context).pop();
-                },
-                switchEVMContextBtnLabel:
-                    AppLocalizations.of(context)!.btn_switch_network);
+                if (!context.mounted) return;
+                Navigator.of(context).pop();
+              },
+              switchEVMContextBtnLabel:
+                  AppLocalizations.of(context)!.btn_switch_network,
+            );
           },
         );
       }

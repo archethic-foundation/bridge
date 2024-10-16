@@ -24,7 +24,7 @@ class BridgeAccountUpdated extends ConsumerWidget {
                   AppLocalizations.of(context)!.switchAccountDescBridge,
               onEVMContextSwitched: () async {
                 final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-                await evmWalletProvider.useRequestedChain();
+                await evmWalletProvider.useRequestedAccount();
 
                 ref
                     .read(bridgeFormNotifierProvider.notifier)
