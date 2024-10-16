@@ -167,7 +167,7 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
     _requestedAccount = account;
     if (account.connector != null) {
       aedappfm.sl.get<aedappfm.LogManager>().log(
-            'Start useAccount : Chain Id: ${account.connector!.getChainId} - ${account.connector!.type} - ${account.connector!.name} - ${account.connector!.supportsSimulation}',
+            'Start useAccount : Chain Id: ${account.connector!.getChainId} - ${account.connector!.type} - ${account.connector!.name} - ${account.connector!.supportsSimulation} - ${account.connector!.uid}',
             level: aedappfm.LogLevel.debug,
             name: 'EVMWalletProvider - _waitForConnection',
           );
