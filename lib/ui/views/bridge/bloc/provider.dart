@@ -89,7 +89,8 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
             );
             await setTokenToBridgeBalance(balance);
 
-            if (state.tokenToBridge!.ucoV1Address.isNotEmpty) {
+            if (state.tokenToBridge!.ucoV1Address.isNotEmpty &&
+                state.blockchainFrom!.isArchethic == false) {
               final tokenToBridgeUCOV1Decimals = await ref.read(
                 getTokenDecimalsProvider(
                   state.blockchainFrom!.isArchethic,
@@ -378,7 +379,8 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     );
     await setTokenToBridgeBalance(balance);
 
-    if (state.tokenToBridge!.ucoV1Address.isNotEmpty) {
+    if (state.tokenToBridge!.ucoV1Address.isNotEmpty &&
+        state.blockchainFrom!.isArchethic == false) {
       final tokenToBridgeUCOV1Decimals = await ref.read(
         getTokenDecimalsProvider(
           state.blockchainFrom!.isArchethic,
