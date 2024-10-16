@@ -117,39 +117,37 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
                       children: [
                         if (widget.topWidget != null)
                           SizedBox(width: 650, child: widget.topWidget),
-                        IntrinsicHeight(
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: BackdropFilter(
-                              filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-                              child: Container(
-                                width: 650,
-                                decoration: BoxDecoration(
-                                  color: aedappfm.AppThemeBase.sheetBackground,
-                                  border: Border.all(
-                                    color: aedappfm.AppThemeBase.sheetBorder,
-                                  ),
-                                  borderRadius: BorderRadius.circular(20),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: BackdropFilter(
+                            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                            child: Container(
+                              width: 650,
+                              decoration: BoxDecoration(
+                                color: aedappfm.AppThemeBase.sheetBackground,
+                                border: Border.all(
+                                  color: aedappfm.AppThemeBase.sheetBorder,
                                 ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    left: 30,
-                                    right: 30,
-                                    top: 11,
-                                    bottom: 5,
-                                  ),
-                                  child: Column(
-                                    children: [
-                                      IntrinsicHeight(
-                                        child: widget.currentStep ==
-                                                aedappfm.ProcessStep.form
-                                            ? widget.formSheet
-                                            : widget.confirmSheet,
-                                      ),
-                                      if (widget.bottomWidget != null)
-                                        widget.bottomWidget!,
-                                    ],
-                                  ),
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.only(
+                                  left: 30,
+                                  right: 30,
+                                  top: 11,
+                                  bottom: 5,
+                                ),
+                                child: Column(
+                                  children: [
+                                    IntrinsicHeight(
+                                      child: widget.currentStep ==
+                                              aedappfm.ProcessStep.form
+                                          ? widget.formSheet
+                                          : widget.confirmSheet,
+                                    ),
+                                    if (widget.bottomWidget != null)
+                                      widget.bottomWidget!,
+                                  ],
                                 ),
                               ),
                             ),
