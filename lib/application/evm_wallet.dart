@@ -118,7 +118,7 @@ class EVMWalletProvider extends ChangeNotifier with EVMBridgeProcessMixin {
             );
       }
       if (account.isConnected && account.connector != null) {
-        await useAccount(account);
+        //await useAccount(account);
         return account;
       }
       await Future.delayed(const Duration(seconds: 1));
