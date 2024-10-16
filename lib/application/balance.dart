@@ -17,6 +17,7 @@ Future<double> getBalance(
   String tokenAddress,
   int decimal,
 ) async {
+  print('address $address');
   return ref.read(_balanceRepositoryProvider).getBalance(
         isArchethic,
         address,

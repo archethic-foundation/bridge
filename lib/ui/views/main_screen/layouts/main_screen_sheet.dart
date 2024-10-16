@@ -108,7 +108,8 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
               aedappfm.ArchethicScrollbar(
                 child: ConstrainedBox(
                   constraints: BoxConstraints.tightFor(
-                      width: MediaQuery.of(context).size.width),
+                    width: MediaQuery.of(context).size.width,
+                  ),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Column(

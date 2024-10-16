@@ -5,7 +5,6 @@ import 'package:aebridge/application/balance.dart';
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/application/contracts/archethic_factory.dart';
-import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/application/token_decimals.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
@@ -23,7 +22,6 @@ import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:decimal/decimal.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
@@ -33,18 +31,87 @@ part 'provider.g.dart';
 class BridgeFormNotifier extends _$BridgeFormNotifier
     with aedappfm.TransactionMixin {
   wagmi.WatchChainIdReturnType? _watchChainIdUnsubscribe;
-  wagmi.WatchAccountReturnType? _watchAccountUnsubscribe;
-
-  final _logger = Logger('BridgeFormNotifierProvider');
 
   @override
   BridgeFormState build() {
-    ref.onDispose(() {
-      if (_watchChainIdUnsubscribe != null) {
-        _watchChainIdUnsubscribe?.call();
-        _watchChainIdUnsubscribe = null;
-      }
-    });
+    ref
+      ..onDispose(() {
+        if (_watchChainIdUnsubscribe != null) {
+          _watchChainIdUnsubscribe?.call();
+          _watchChainIdUnsubscribe = null;
+        }
+      })
+      ..listen(sessionNotifierProvider, (previous, next) async {
+        setAccountUpdated(false);
+        if (next.walletTo != null &&
+            next.walletFrom != null &&
+            (next.walletTo!.nameAccount != next.walletTo!.oldNameAccount ||
+                next.walletFrom!.nameAccount !=
+                    next.walletFrom!.oldNameAccount) &&
+            state.isTransferInProgress == true) {
+          setAccountUpdated(true);
+        }
+
+        if (next.walletTo != null &&
+            next.walletTo!.nameAccount != next.walletTo!.oldNameAccount &&
+            next.walletTo!.oldNameAccount.isNotEmpty) {
+          await setTargetAddress(next.walletTo!.genesisAddress);
+
+          if (state.tokenToBridge != null && state.blockchainTo != null) {
+            final balanceTarget = await ref.read(
+              getBalanceProvider(
+                state.blockchainTo!.isArchethic,
+                next.walletTo!.genesisAddress,
+                state.tokenToBridge!.typeTarget,
+                state.tokenToBridge!.tokenAddressTarget,
+                state.blockchainTo!.isArchethic
+                    ? 8
+                    : state.tokenBridgedDecimals,
+              ).future,
+            );
+            await setTokenBridgedBalance(balanceTarget);
+          }
+        }
+        if (next.walletFrom != null &&
+            next.walletFrom!.nameAccount != next.walletFrom!.oldNameAccount &&
+            next.walletFrom!.oldNameAccount.isNotEmpty) {
+          if (state.tokenToBridge != null && state.blockchainFrom != null) {
+            final balance = await ref.read(
+              getBalanceProvider(
+                state.blockchainFrom!.isArchethic,
+                next.walletFrom!.genesisAddress,
+                state.tokenToBridge!.typeSource,
+                state.tokenToBridge!.tokenAddressSource,
+                state.blockchainFrom!.isArchethic
+                    ? 8
+                    : state.tokenToBridgeDecimals,
+              ).future,
+            );
+            await setTokenToBridgeBalance(balance);
+
+            if (state.tokenToBridge!.ucoV1Address.isNotEmpty) {
+              final tokenToBridgeUCOV1Decimals = await ref.read(
+                getTokenDecimalsProvider(
+                  state.blockchainFrom!.isArchethic,
+                  state.tokenToBridge!.typeSource,
+                  state.tokenToBridge!.ucoV1Address,
+                ).future,
+              );
+
+              final ucoV1Balance = await ref.read(
+                getBalanceProvider(
+                  false,
+                  next.walletFrom!.genesisAddress,
+                  state.tokenToBridge!.typeSource,
+                  state.tokenToBridge!.ucoV1Address,
+                  tokenToBridgeUCOV1Decimals,
+                ).future,
+              );
+              await setUCOV1Balance(ucoV1Balance);
+            }
+          }
+        }
+      });
 
     return const BridgeFormState();
   }
@@ -165,8 +232,11 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
         },
       );
     } else {
-      final connection =
-          await sessionNotifier.connectToEVMWallet(blockchainFrom, true);
+      final connection = await sessionNotifier.connectToEVMWallet(
+        blockchainFrom,
+        true,
+        localizations,
+      );
       await connection.map(
         success: (success) async {
           await setBlockchainFrom(localizations, blockchainFrom);
@@ -178,7 +248,6 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
           if (blockchainTo != null && state.failure == null) {
             await setBlockchainToWithConnection(localizations, blockchainTo);
           }
-          await _watchAccount();
         },
         failure: (failure) async {
           await setBlockchainFrom(localizations, null);
@@ -231,8 +300,11 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
         },
       );
     } else {
-      final connection =
-          await sessionNotifier.connectToEVMWallet(blockchainTo, false);
+      final connection = await sessionNotifier.connectToEVMWallet(
+        blockchainTo,
+        false,
+        localizations,
+      );
       await connection.map(
         success: (success) async {
           await setBlockchainTo(localizations, blockchainTo);
@@ -838,7 +910,6 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     await setTransferInProgress(false);
 
     _unwatchChainId();
-    _unwatchAccount();
 
     unawaited(refreshCurrentAccountInfoWallet(dappClient));
   }
@@ -860,47 +931,6 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     if (_watchChainIdUnsubscribe != null) {
       _watchChainIdUnsubscribe?.call();
       _watchChainIdUnsubscribe = null;
-    }
-  }
-
-  Future<void> _watchAccount() async {
-    _unwatchAccount();
-    _logger.finer('Watching Account updates');
-    final watchAccountParameters = wagmi.WatchAccountParameters(
-      onChange: (account, prevAccount) async {
-        if (account.address?.toUpperCase() ==
-            prevAccount.address?.toUpperCase()) {
-          return;
-        }
-        _logger.finer('Account updated: ${account.address}');
-
-        await aedappfm.sl.get<EVMWalletProvider>().useAccount(account);
-        await ref
-            .read(
-              sessionNotifierProvider.notifier,
-            )
-            .connectToEVMWallet(
-              state.blockchainFrom?.isArchethic == false
-                  ? state.blockchainFrom!
-                  : state.blockchainTo!,
-              !state.blockchainFrom!.isArchethic,
-            );
-        await setTokenToBridge(state.tokenToBridge);
-        setAccountUpdated(true);
-      },
-    );
-    _watchAccountUnsubscribe = await wagmi.Core.watchAccount(
-      watchAccountParameters,
-    );
-  }
-
-  void _unwatchAccount() {
-    _logger.finer('Unwatching Account updates');
-
-    setChainIdUpdated(false);
-    if (_watchAccountUnsubscribe != null) {
-      _watchAccountUnsubscribe?.call();
-      _watchAccountUnsubscribe = null;
     }
   }
 }

@@ -13,19 +13,25 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
+import 'package:logging/logging.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
 part 'provider.g.dart';
 
 @Riverpod(keepAlive: true)
 class SessionNotifier extends _$SessionNotifier {
-  StreamSubscription? _connectionStatusSubscription;
+  StreamSubscription? _archethicConnectionStatusSubscription;
+  wagmi.WatchAccountReturnType? _watchAccountUnsubscribe;
+
   final __evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+  final _logger = Logger('SessionNotifier');
 
   @override
   Session build() {
     ref.onDispose(() {
-      _connectionStatusSubscription?.cancel();
+      _archethicConnectionStatusSubscription?.cancel();
+      _unwatchEVMAccount();
     });
     return const Session();
   }
@@ -42,9 +48,12 @@ class SessionNotifier extends _$SessionNotifier {
   Future<aedappfm.Result<void, aedappfm.Failure>> connectToEVMWallet(
     BridgeBlockchain blockchain,
     bool from,
+    AppLocalizations appLocalizations,
   ) async {
     return aedappfm.Result.guard(
       () async {
+        _unwatchEVMAccount();
+
         var bridgeWallet = const BridgeWallet();
         bridgeWallet = bridgeWallet.copyWith(
           isConnected: false,
@@ -67,6 +76,35 @@ class SessionNotifier extends _$SessionNotifier {
           }
 
           _fillState(bridgeWallet, from);
+
+          await _watchEVMAccount(
+            onChange: (wagmi.Account account, wagmi.Account prevAccount) async {
+              if (account.address?.toUpperCase() ==
+                  prevAccount.address?.toUpperCase()) {
+                return;
+              }
+              _logger.finer('Account updated: ${account.address}');
+
+              await aedappfm.sl.get<EVMWalletProvider>().useAccount(account);
+
+              if (account.address == null || account.isConnected == false) {
+                bridgeWallet = bridgeWallet.copyWith(
+                  oldNameAccount: bridgeWallet.nameAccount,
+                  nameAccount: '',
+                  error: appLocalizations.failureConnectivityEVM,
+                  isConnected: false,
+                );
+                _fillState(bridgeWallet, from);
+                return;
+              }
+              bridgeWallet = bridgeWallet.copyWith(
+                oldNameAccount: bridgeWallet.nameAccount,
+                genesisAddress: account.address!,
+                nameAccount: account.address!,
+              );
+              _fillState(bridgeWallet, from);
+            },
+          );
         } catch (e) {
           // if (e is EthereumChainSwitchNotSupported) {
           //   throw const aedappfm.Failure.chainSwitchNotSupported();
@@ -154,7 +192,7 @@ class SessionNotifier extends _$SessionNotifier {
           }
 
           bridgeWallet = bridgeWallet.copyWith(endpoint: result.endpointUrl);
-          _connectionStatusSubscription =
+          _archethicConnectionStatusSubscription =
               archethicDAppClient.connectionStateStream.listen((event) {
             event.when(
               disconnected: () {
@@ -355,6 +393,28 @@ class SessionNotifier extends _$SessionNotifier {
         );
         state = state.copyWith(walletTo: walletTo);
       }
+    }
+  }
+
+  Future<void> _watchEVMAccount({
+    required void Function(wagmi.Account, wagmi.Account) onChange,
+  }) async {
+    _unwatchEVMAccount();
+    _logger.finer('Watching Account updates');
+    final watchAccountParameters = wagmi.WatchAccountParameters(
+      onChange: onChange,
+    );
+    _watchAccountUnsubscribe = await wagmi.Core.watchAccount(
+      watchAccountParameters,
+    );
+  }
+
+  void _unwatchEVMAccount() {
+    _logger.finer('Unwatching Account updates');
+
+    if (_watchAccountUnsubscribe != null) {
+      _watchAccountUnsubscribe?.call();
+      _watchAccountUnsubscribe = null;
     }
   }
 }
