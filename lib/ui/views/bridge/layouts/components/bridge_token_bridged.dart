@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:math';
 
+import 'package:aebridge/application/app_embedded.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/util/token_icon.dart';
@@ -18,6 +19,8 @@ class BridgeTokenBridged extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
+
     final bridge = ref.watch(bridgeFormNotifierProvider);
     final session = ref.watch(sessionNotifierProvider);
 
@@ -36,13 +39,20 @@ class BridgeTokenBridged extends ConsumerWidget {
             padding: const EdgeInsets.only(top: 5, bottom: 5),
             child: SelectableText(
               AppLocalizations.of(context)!.bridge_token_bridged_lbl,
+              style: isAppEmbedded
+                  ? Theme.of(context).textTheme.titleSmall!.copyWith(
+                        color: aedappfm.AppThemeBase.secondaryColor,
+                      )
+                  : null,
             ),
           ),
           SizedBox(
-            width: min(
-              aedappfm.AppThemeBase.sizeBoxComponentWidth / 2 - 40,
-              MediaQuery.of(context).size.width / 3 - 5,
-            ),
+            width: isAppEmbedded
+                ? MediaQuery.of(context).size.width
+                : min(
+                    aedappfm.AppThemeBase.sizeBoxComponentWidth / 2 - 40,
+                    MediaQuery.of(context).size.width / 3 - 5,
+                  ),
             child: Row(
               children: [
                 Expanded(
@@ -99,8 +109,15 @@ class BridgeTokenBridged extends ConsumerWidget {
                                                       Flexible(
                                                         child: Text(
                                                           '${bridge.tokenToBridge!.targetTokenName} ',
-                                                          style:
-                                                              Theme.of(context)
+                                                          style: isAppEmbedded
+                                                              ? Theme.of(
+                                                                  context,
+                                                                )
+                                                                  .textTheme
+                                                                  .labelSmall!
+                                                              : Theme.of(
+                                                                  context,
+                                                                )
                                                                   .textTheme
                                                                   .labelSmall!
                                                                   .copyWith(
@@ -125,19 +142,25 @@ class BridgeTokenBridged extends ConsumerWidget {
                                                     child: Text(
                                                       bridge.tokenToBridge!
                                                           .targetTokenSymbol,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .labelSmall!
-                                                          .copyWith(
-                                                            fontSize: aedappfm
-                                                                    .Responsive
-                                                                .fontSizeFromTextStyle(
-                                                              context,
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .labelSmall!,
-                                                            ),
-                                                          ),
+                                                      style: isAppEmbedded
+                                                          ? Theme.of(context)
+                                                              .textTheme
+                                                              .labelSmall!
+                                                          : Theme.of(context)
+                                                              .textTheme
+                                                              .labelSmall!
+                                                              .copyWith(
+                                                                fontSize: aedappfm
+                                                                        .Responsive
+                                                                    .fontSizeFromTextStyle(
+                                                                  context,
+                                                                  Theme.of(
+                                                                    context,
+                                                                  )
+                                                                      .textTheme
+                                                                      .labelSmall!,
+                                                                ),
+                                                              ),
                                                       overflow:
                                                           TextOverflow.ellipsis,
                                                     ),

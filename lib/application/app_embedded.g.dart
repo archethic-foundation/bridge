@@ -1,27 +1,25 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'provider.dart';
+part of 'app_embedded.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$bridgeFormNotifierHash() =>
-    r'8cd981c845d02990ba4ce7586985cc5c3bf71b84';
+String _$isAppEmbeddedHash() => r'9900edb92b227c6aa420a820e748a13a2b67ff02';
 
-/// See also [BridgeFormNotifier].
-@ProviderFor(BridgeFormNotifier)
-final bridgeFormNotifierProvider =
-    AutoDisposeNotifierProvider<BridgeFormNotifier, BridgeFormState>.internal(
-  BridgeFormNotifier.new,
-  name: r'bridgeFormNotifierProvider',
+/// See also [isAppEmbedded].
+@ProviderFor(isAppEmbedded)
+final isAppEmbeddedProvider = Provider<bool>.internal(
+  isAppEmbedded,
+  name: r'isAppEmbeddedProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
-      : _$bridgeFormNotifierHash,
+      : _$isAppEmbeddedHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef _$BridgeFormNotifier = AutoDisposeNotifier<BridgeFormState>;
+typedef IsAppEmbeddedRef = ProviderRef<bool>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

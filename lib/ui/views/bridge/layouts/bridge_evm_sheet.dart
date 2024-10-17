@@ -15,12 +15,10 @@ import 'package:go_router/go_router.dart';
 class BridgeEVMSheet extends ConsumerStatefulWidget {
   const BridgeEVMSheet({
     super.key,
-    required this.isEmbedded,
   });
 
   static const routerPage = 'evm';
   static const navPage = '/bridge/evm';
-  final bool isEmbedded;
   @override
   ConsumerState<BridgeEVMSheet> createState() => _BridgeEVMSheetState();
 }
@@ -74,7 +72,6 @@ class _BridgeEVMSheetState extends ConsumerState<BridgeEVMSheet> {
       return const SizedBox.shrink();
     }
     return MainScreenList(
-      isEmbedded: widget.isEmbedded,
       body: Padding(
         padding: const EdgeInsets.only(top: 24),
         child: Column(
