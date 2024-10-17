@@ -31,10 +31,12 @@ class RefundBlockchainSelection extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          width: min(
-            aedappfm.AppThemeBase.sizeBoxComponentWidth / 2 - 40,
-            MediaQuery.of(context).size.width / 3 - 5,
-          ),
+          width: isAppMobileFormat
+              ? MediaQuery.of(context).size.width
+              : min(
+                  aedappfm.AppThemeBase.sizeBoxComponentWidth / 2 - 40,
+                  MediaQuery.of(context).size.width / 3 - 5,
+                ),
           child: DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(
@@ -61,13 +63,17 @@ class RefundBlockchainSelection extends ConsumerWidget {
                                 child: Text(
                                   AppLocalizations.of(context)!
                                       .btn_selectBlockchain,
-                                  style: textTheme.titleMedium!.copyWith(
-                                    fontSize: aedappfm.Responsive
-                                        .fontSizeFromTextStyle(
-                                      context,
-                                      Theme.of(context).textTheme.titleMedium!,
-                                    ),
-                                  ),
+                                  style: isAppMobileFormat
+                                      ? textTheme.titleMedium!
+                                      : textTheme.titleMedium!.copyWith(
+                                          fontSize: aedappfm.Responsive
+                                              .fontSizeFromTextStyle(
+                                            context,
+                                            Theme.of(context)
+                                                .textTheme
+                                                .titleMedium!,
+                                          ),
+                                        ),
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ),
@@ -86,13 +92,17 @@ class RefundBlockchainSelection extends ConsumerWidget {
                             Flexible(
                               child: Text(
                                 refund.blockchain!.name,
-                                style: textTheme.titleMedium!.copyWith(
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.titleMedium!,
-                                  ),
-                                ),
+                                style: isAppMobileFormat
+                                    ? textTheme.titleMedium!
+                                    : textTheme.titleMedium!.copyWith(
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromTextStyle(
+                                          context,
+                                          Theme.of(context)
+                                              .textTheme
+                                              .titleMedium!,
+                                        ),
+                                      ),
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),

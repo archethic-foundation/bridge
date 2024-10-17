@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -46,7 +47,7 @@ class _RefundContractAddressState extends ConsumerState<RefundContractAddress> {
     BuildContext context,
   ) {
     final refund = ref.watch(RefundFormProvider.refundForm);
-
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
     if (refund.htlcAddressFilled != addressController.text) {
       _updateTextController();
     }
@@ -58,6 +59,11 @@ class _RefundContractAddressState extends ConsumerState<RefundContractAddress> {
           padding: const EdgeInsets.only(bottom: 5),
           child: SelectableText(
             AppLocalizations.of(context)!.refund_contract_address_lbl,
+            style: isAppMobileFormat
+                ? Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: aedappfm.AppThemeBase.secondaryColor,
+                    )
+                : null,
           ),
         ),
         SizedBox(
@@ -89,10 +95,12 @@ class _RefundContractAddressState extends ConsumerState<RefundContractAddress> {
                           child: TextField(
                             style: TextStyle(
                               fontFamily: aedappfm.AppThemeBase.addressFont,
-                              fontSize: aedappfm.Responsive.fontSizeFromValue(
-                                context,
-                                desktopValue: 14,
-                              ),
+                              fontSize: isAppMobileFormat
+                                  ? 14
+                                  : aedappfm.Responsive.fontSizeFromValue(
+                                      context,
+                                      desktopValue: 14,
+                                    ),
                             ),
                             autocorrect: false,
                             controller: addressController,
