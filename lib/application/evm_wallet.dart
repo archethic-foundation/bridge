@@ -142,18 +142,7 @@ class EVMWalletProvider with EVMBridgeProcessMixin {
     );
   }
 
-  Future<void> useAccount(wagmi.Account account) async {
-    if (wagmi.Core.getAccount().address == requestedAccount.address) return;
-    await wagmi.Core.switchAccount(
-      wagmi.SwitchAccountParameters(
-        connector: requestedAccount.connector,
-      ),
-    );
-  }
-
   Future<void> useRequestedChain() async => useChain(requestedChainId);
-
-  Future<void> useRequestedAccount() async => useAccount(requestedAccount);
 
   Future<void> disconnect() async {
     _logger.finest('Disconnecting wallet');

@@ -85,8 +85,6 @@ class SessionNotifier extends _$SessionNotifier {
               }
               _logger.finer('Account updated: ${account.address}');
 
-              await aedappfm.sl.get<EVMWalletProvider>().useAccount(account);
-
               if (account.address == null || account.isConnected == false) {
                 bridgeWallet = bridgeWallet.copyWith(
                   oldNameAccount: bridgeWallet.nameAccount,

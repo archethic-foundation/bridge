@@ -36,6 +36,8 @@ class BridgeFormState with _$BridgeFormState {
     String? htlcAEAddress,
     String? htlcEVMAddress,
     String? htlcEVMTxAddress,
+    String? processCurrentAccountAddressEVM,
+    String? processCurrentAccountAddressAE,
     List<int>? secret,
     @Default(0.0) double archethicProtocolFeesRate,
     @Default('') String archethicProtocolFeesAddress,
