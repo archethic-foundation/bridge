@@ -93,16 +93,19 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
                                           child: Text(
                                             AppLocalizations.of(context)!
                                                 .btn_selectToken,
-                                            style:
-                                                textTheme.titleMedium!.copyWith(
-                                              fontSize: aedappfm.Responsive
-                                                  .fontSizeFromTextStyle(
-                                                context,
-                                                Theme.of(context)
-                                                    .textTheme
-                                                    .titleMedium!,
-                                              ),
-                                            ),
+                                            style: isAppMobileFormat
+                                                ? textTheme.titleMedium!
+                                                : textTheme.titleMedium!
+                                                    .copyWith(
+                                                    fontSize: aedappfm
+                                                            .Responsive
+                                                        .fontSizeFromTextStyle(
+                                                      context,
+                                                      Theme.of(context)
+                                                          .textTheme
+                                                          .titleMedium!,
+                                                    ),
+                                                  ),
                                           ),
                                         )
                                       : Row(

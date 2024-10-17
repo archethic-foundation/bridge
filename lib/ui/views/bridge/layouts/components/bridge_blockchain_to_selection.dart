@@ -78,15 +78,17 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
                                     child: Text(
                                       AppLocalizations.of(context)!
                                           .btn_selectBlockchain,
-                                      style: textTheme.titleMedium!.copyWith(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromTextStyle(
-                                          context,
-                                          Theme.of(context)
-                                              .textTheme
-                                              .titleMedium!,
-                                        ),
-                                      ),
+                                      style: isAppMobileFormat
+                                          ? textTheme.titleMedium!
+                                          : textTheme.titleMedium!.copyWith(
+                                              fontSize: aedappfm.Responsive
+                                                  .fontSizeFromTextStyle(
+                                                context,
+                                                Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium!,
+                                              ),
+                                            ),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
@@ -105,15 +107,17 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
                                 Flexible(
                                   child: Text(
                                     bridge.blockchainTo!.name,
-                                    style: textTheme.titleMedium!.copyWith(
-                                      fontSize: aedappfm.Responsive
-                                          .fontSizeFromTextStyle(
-                                        context,
-                                        Theme.of(context)
-                                            .textTheme
-                                            .titleMedium!,
-                                      ),
-                                    ),
+                                    style: isAppMobileFormat
+                                        ? textTheme.titleMedium!
+                                        : textTheme.titleMedium!.copyWith(
+                                            fontSize: aedappfm.Responsive
+                                                .fontSizeFromTextStyle(
+                                              context,
+                                              Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium!,
+                                            ),
+                                          ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),

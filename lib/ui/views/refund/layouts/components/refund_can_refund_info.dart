@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -22,6 +23,7 @@ class RefundCanRefundInfo extends ConsumerWidget {
         refund.defineStatusInProgress == true) {
       return const SizedBox.shrink();
     }
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
 
     if (refund.htlcCanRefund) {
       return Row(
@@ -31,10 +33,12 @@ class RefundCanRefundInfo extends ConsumerWidget {
             padding: const EdgeInsets.only(bottom: 2),
             child: Icon(
               aedappfm.Iconsax.tick_circle5,
-              size: aedappfm.Responsive.fontSizeFromValue(
-                context,
-                desktopValue: 12,
-              ),
+              size: isAppMobileFormat
+                  ? 12
+                  : aedappfm.Responsive.fontSizeFromValue(
+                      context,
+                      desktopValue: 12,
+                    ),
               color: aedappfm.ArchethicThemeBase.systemPositive500,
             ),
           ),
@@ -46,10 +50,12 @@ class RefundCanRefundInfo extends ConsumerWidget {
               '${AppLocalizations.of(context)!.refundCanRefundYes} ${refund.totalAmountToRefund.formatNumber()} ${refund.amountCurrency}',
               style: TextStyle(
                 color: aedappfm.ArchethicThemeBase.systemPositive500,
-                fontSize: aedappfm.Responsive.fontSizeFromValue(
-                  context,
-                  desktopValue: 13,
-                ),
+                fontSize: isAppMobileFormat
+                    ? 13
+                    : aedappfm.Responsive.fontSizeFromValue(
+                        context,
+                        desktopValue: 13,
+                      ),
               ),
               textAlign: TextAlign.end,
             ),
@@ -65,10 +71,12 @@ class RefundCanRefundInfo extends ConsumerWidget {
               padding: const EdgeInsets.only(bottom: 2),
               child: Icon(
                 aedappfm.Iconsax.close_circle5,
-                size: aedappfm.Responsive.fontSizeFromValue(
-                  context,
-                  desktopValue: 12,
-                ),
+                size: isAppMobileFormat
+                    ? 12
+                    : aedappfm.Responsive.fontSizeFromValue(
+                        context,
+                        desktopValue: 12,
+                      ),
                 color: aedappfm.ArchethicThemeBase.systemDanger300,
               ),
             ),
@@ -95,10 +103,12 @@ class RefundCanRefundInfo extends ConsumerWidget {
                     ),
                 style: TextStyle(
                   color: aedappfm.ArchethicThemeBase.systemDanger300,
-                  fontSize: aedappfm.Responsive.fontSizeFromValue(
-                    context,
-                    desktopValue: 13,
-                  ),
+                  fontSize: isAppMobileFormat
+                      ? 13
+                      : aedappfm.Responsive.fontSizeFromValue(
+                          context,
+                          desktopValue: 13,
+                        ),
                 ),
                 textAlign: TextAlign.end,
               ),

@@ -1,3 +1,4 @@
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/util/components/format_address_link_copy.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -22,6 +23,9 @@ class RefundInfosWallet extends ConsumerWidget {
         refund.defineStatusInProgress == true) {
       return const SizedBox.shrink();
     }
+
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -34,16 +38,19 @@ class RefundInfosWallet extends ConsumerWidget {
               address: refund.wallet!.genesisAddress,
               chainId: refund.chainId!,
               reduceAddress: true,
+              fontSize: isAppMobileFormat ? 16 : 13,
             ),
           ),
         SelectableText(
           '${refund.wallet!.endpoint} to ${refund.blockchainTo}',
           textAlign: TextAlign.end,
           style: TextStyle(
-            fontSize: aedappfm.Responsive.fontSizeFromValue(
-              context,
-              desktopValue: 13,
-            ),
+            fontSize: isAppMobileFormat
+                ? 13
+                : aedappfm.Responsive.fontSizeFromValue(
+                    context,
+                    desktopValue: 13,
+                  ),
           ),
         ),
       ],
