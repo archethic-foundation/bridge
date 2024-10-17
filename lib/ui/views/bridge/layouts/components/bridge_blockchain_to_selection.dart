@@ -1,10 +1,12 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:math';
 
+import 'package:aebridge/application/app_embedded.dart';
 import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/views/blockchain_selection/bloc/provider.dart';
 import 'package:aebridge/ui/views/blockchain_selection/blockchain_selection_popup.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/mobile_info/layouts/mobile_info.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -21,6 +23,7 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
 
     final textTheme = Theme.of(context)
         .textTheme
@@ -119,6 +122,23 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
                 ),
               ),
               onTap: () async {
+                if (isAppMobileFormat && isAppEmbedded == false) {
+                  await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Scaffold(
+                        extendBodyBehindAppBar: true,
+                        extendBody: true,
+                        backgroundColor: Colors.transparent.withAlpha(120),
+                        body: const Align(
+                          child: MobileInfoScreen(),
+                        ),
+                      );
+                    },
+                  );
+                  return;
+                }
+
                 final blockchainSelectionNotifier = ref.read(
                   BlockchainSelectionFormProvider
                       .blockchainSelectionForm.notifier,

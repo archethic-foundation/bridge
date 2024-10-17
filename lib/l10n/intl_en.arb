@@ -196,5 +196,12 @@
     "goToEVMBridge": "If you want to bridge your UCOs between Ethereum, Polygon and BSC, click here!",
     "switchNetworkTitle": "Warning",
     "switchNetworkDescBridge": "You cannot change the network during the ongoing process. Please click the next button to restore the network related to the current bridge.",
-    "switchAccountDescBridge": "You cannot change the account during the ongoing process. Please change your account in your EVM wallet with the bridge current account."
+    "switchAccountDescBridge": "You cannot change the account during the ongoing process. Please change your account in your EVM wallet with the bridge current account.",
+    "mobileInfoTitle": "Mobile Compatibility",
+    "mobileInfoTxt1": "We have detected that you are using a mobile device. Currently, our application is not optimized for mobile devices.\nFor the best experience, we recommend the following options:",
+    "mobileInfoTxt2": "1. Use our application on a desktop computer.",
+    "mobileInfoTxt3": "2. Use our application within your Archethic wallet version 3 on iOS or Android, Bridge tab.",
+    "mobileInfoTxt4": "Please note that updates for mobile compatibility are coming soon.",
+    "mobileInfoTxt5": "Thank you for your understanding.",
+    "btn_close": "Close"
 }
