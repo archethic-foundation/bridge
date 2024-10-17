@@ -1,11 +1,9 @@
-import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/switch_evm_context_popup.dart';
-import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
-    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
 class BridgeAccountUpdated extends ConsumerWidget {
   const BridgeAccountUpdated({
@@ -23,8 +21,13 @@ class BridgeAccountUpdated extends ConsumerWidget {
               switchEVMContextDesc:
                   AppLocalizations.of(context)!.switchAccountDescBridge,
               onEVMContextSwitched: () async {
-                final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-                await evmWalletProvider.useRequestedAccount();
+                final currentAccountAddress = wagmi.Core.getAccount().address;
+                if (currentAccountAddress == null ||
+                    next.processCurrentAccountAddressEVM == null ||
+                    currentAccountAddress.toUpperCase() !=
+                        next.processCurrentAccountAddressEVM!.toUpperCase()) {
+                  return;
+                }
 
                 ref
                     .read(bridgeFormNotifierProvider.notifier)

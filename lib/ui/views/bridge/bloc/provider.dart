@@ -9,6 +9,7 @@ import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/application/token_decimals.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/domain/models/bridge_token.dart';
+import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_to_evm.usecase.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_to_ae.usecase.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
@@ -42,73 +43,79 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
         }
       })
       ..listen(sessionNotifierProvider, (previous, next) async {
-        setAccountUpdated(false);
-        if (next.walletTo != null &&
-            next.walletFrom != null &&
-            (next.walletTo!.nameAccount != next.walletTo!.oldNameAccount ||
-                next.walletFrom!.nameAccount !=
-                    next.walletFrom!.oldNameAccount) &&
-            state.isTransferInProgress == true) {
-          setAccountUpdated(true);
-        }
+        if (state.currentStep == 0) {
+          await setFailure(null);
 
-        if (next.walletTo != null &&
-            next.walletTo!.nameAccount != next.walletTo!.oldNameAccount &&
-            next.walletTo!.oldNameAccount.isNotEmpty) {
-          await setTargetAddress(next.walletTo!.genesisAddress);
+          if (next.walletTo != null &&
+              next.walletTo!.nameAccount != next.walletTo!.oldNameAccount &&
+              next.walletTo!.oldNameAccount.isNotEmpty) {
+            await setTargetAddress(next.walletTo!.genesisAddress);
 
-          if (state.tokenToBridge != null && state.blockchainTo != null) {
-            final balanceTarget = await ref.read(
-              getBalanceProvider(
-                state.blockchainTo!.isArchethic,
-                next.walletTo!.genesisAddress,
-                state.tokenToBridge!.typeTarget,
-                state.tokenToBridge!.tokenAddressTarget,
-                state.blockchainTo!.isArchethic
-                    ? 8
-                    : state.tokenBridgedDecimals,
-              ).future,
-            );
-            await setTokenBridgedBalance(balanceTarget);
-          }
-        }
-        if (next.walletFrom != null &&
-            next.walletFrom!.nameAccount != next.walletFrom!.oldNameAccount &&
-            next.walletFrom!.oldNameAccount.isNotEmpty) {
-          if (state.tokenToBridge != null && state.blockchainFrom != null) {
-            final balance = await ref.read(
-              getBalanceProvider(
-                state.blockchainFrom!.isArchethic,
-                next.walletFrom!.genesisAddress,
-                state.tokenToBridge!.typeSource,
-                state.tokenToBridge!.tokenAddressSource,
-                state.blockchainFrom!.isArchethic
-                    ? 8
-                    : state.tokenToBridgeDecimals,
-              ).future,
-            );
-            await setTokenToBridgeBalance(balance);
-
-            if (state.tokenToBridge!.ucoV1Address.isNotEmpty &&
-                state.blockchainFrom!.isArchethic == false) {
-              final tokenToBridgeUCOV1Decimals = await ref.read(
-                getTokenDecimalsProvider(
-                  state.blockchainFrom!.isArchethic,
-                  state.tokenToBridge!.typeSource,
-                  state.tokenToBridge!.ucoV1Address,
+            if (state.tokenToBridge != null && state.blockchainTo != null) {
+              final balanceTarget = await ref.read(
+                getBalanceProvider(
+                  state.blockchainTo!.isArchethic,
+                  next.walletTo!.genesisAddress,
+                  state.tokenToBridge!.typeTarget,
+                  state.tokenToBridge!.tokenAddressTarget,
+                  state.blockchainTo!.isArchethic
+                      ? 8
+                      : state.tokenBridgedDecimals,
                 ).future,
               );
-
-              final ucoV1Balance = await ref.read(
+              await setTokenBridgedBalance(balanceTarget);
+            }
+          }
+          if (next.walletFrom != null &&
+              next.walletFrom!.nameAccount != next.walletFrom!.oldNameAccount &&
+              next.walletFrom!.oldNameAccount.isNotEmpty) {
+            if (state.tokenToBridge != null && state.blockchainFrom != null) {
+              final balance = await ref.read(
                 getBalanceProvider(
-                  false,
+                  state.blockchainFrom!.isArchethic,
                   next.walletFrom!.genesisAddress,
                   state.tokenToBridge!.typeSource,
-                  state.tokenToBridge!.ucoV1Address,
-                  tokenToBridgeUCOV1Decimals,
+                  state.tokenToBridge!.tokenAddressSource,
+                  state.blockchainFrom!.isArchethic
+                      ? 8
+                      : state.tokenToBridgeDecimals,
                 ).future,
               );
-              await setUCOV1Balance(ucoV1Balance);
+              await setTokenToBridgeBalance(balance);
+
+              if (state.tokenToBridge != null &&
+                  state.blockchainFrom != null &&
+                  state.tokenToBridge!.ucoV1Address.isNotEmpty &&
+                  state.blockchainFrom!.isArchethic == false) {
+                final tokenToBridgeUCOV1Decimals = await ref.read(
+                  getTokenDecimalsProvider(
+                    state.blockchainFrom!.isArchethic,
+                    state.tokenToBridge!.typeSource,
+                    state.tokenToBridge!.ucoV1Address,
+                  ).future,
+                );
+
+                final ucoV1Balance = await ref.read(
+                  getBalanceProvider(
+                    false,
+                    next.walletFrom!.genesisAddress,
+                    state.tokenToBridge!.typeSource,
+                    state.tokenToBridge!.ucoV1Address,
+                    tokenToBridgeUCOV1Decimals,
+                  ).future,
+                );
+                await setUCOV1Balance(ucoV1Balance);
+              }
+            }
+          }
+        } else {
+          if (state.bridgeOk == false) {
+            if (next.walletTo != null &&
+                next.walletFrom != null &&
+                (next.walletTo!.nameAccount != next.walletTo!.oldNameAccount ||
+                    next.walletFrom!.nameAccount !=
+                        next.walletFrom!.oldNameAccount)) {
+              setAccountUpdated(true);
             }
           }
         }
@@ -684,6 +691,24 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     await storeBridge();
   }
 
+  Future<void> setProcessCurrentAccountAddressEVM(
+    String processCurrentAccountAddressEVM,
+  ) async {
+    state = state.copyWith(
+      processCurrentAccountAddressEVM: processCurrentAccountAddressEVM,
+    );
+    await storeBridge();
+  }
+
+  Future<void> setProcessCurrentAccountAddressAE(
+    String processCurrentAccountAddressAE,
+  ) async {
+    state = state.copyWith(
+      processCurrentAccountAddressAE: processCurrentAccountAddressAE,
+    );
+    await storeBridge();
+  }
+
   Future<void> setSecret(List<int> secret) async {
     state = state.copyWith(
       secret: secret,
@@ -873,6 +898,17 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     }
 
     final session = ref.read(sessionNotifierProvider);
+
+    await setProcessCurrentAccountAddressEVM(
+      session.walletFrom!.wallet == kEVMWallet
+          ? session.walletFrom!.genesisAddress
+          : session.walletTo!.genesisAddress,
+    );
+    await setProcessCurrentAccountAddressAE(
+      session.walletFrom!.wallet == kArchethicWallet
+          ? session.walletFrom!.genesisAddress
+          : session.walletTo!.genesisAddress,
+    );
 
     await _watchChainId();
 

@@ -51,6 +51,10 @@ mixin _$BridgeFormState {
   String? get htlcAEAddress => throw _privateConstructorUsedError;
   String? get htlcEVMAddress => throw _privateConstructorUsedError;
   String? get htlcEVMTxAddress => throw _privateConstructorUsedError;
+  String? get processCurrentAccountAddressEVM =>
+      throw _privateConstructorUsedError;
+  String? get processCurrentAccountAddressAE =>
+      throw _privateConstructorUsedError;
   List<int>? get secret => throw _privateConstructorUsedError;
   double get archethicProtocolFeesRate => throw _privateConstructorUsedError;
   String get archethicProtocolFeesAddress => throw _privateConstructorUsedError;
@@ -105,6 +109,8 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       String? htlcAEAddress,
       String? htlcEVMAddress,
       String? htlcEVMTxAddress,
+      String? processCurrentAccountAddressEVM,
+      String? processCurrentAccountAddressAE,
       List<int>? secret,
       double archethicProtocolFeesRate,
       String archethicProtocolFeesAddress,
@@ -164,6 +170,8 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? htlcAEAddress = freezed,
     Object? htlcEVMAddress = freezed,
     Object? htlcEVMTxAddress = freezed,
+    Object? processCurrentAccountAddressEVM = freezed,
+    Object? processCurrentAccountAddressAE = freezed,
     Object? secret = freezed,
     Object? archethicProtocolFeesRate = null,
     Object? archethicProtocolFeesAddress = null,
@@ -273,6 +281,15 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
       htlcEVMTxAddress: freezed == htlcEVMTxAddress
           ? _value.htlcEVMTxAddress
           : htlcEVMTxAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      processCurrentAccountAddressEVM: freezed ==
+              processCurrentAccountAddressEVM
+          ? _value.processCurrentAccountAddressEVM
+          : processCurrentAccountAddressEVM // ignore: cast_nullable_to_non_nullable
+              as String?,
+      processCurrentAccountAddressAE: freezed == processCurrentAccountAddressAE
+          ? _value.processCurrentAccountAddressAE
+          : processCurrentAccountAddressAE // ignore: cast_nullable_to_non_nullable
               as String?,
       secret: freezed == secret
           ? _value.secret
@@ -430,6 +447,8 @@ abstract class _$$BridgeFormStateImplCopyWith<$Res>
       String? htlcAEAddress,
       String? htlcEVMAddress,
       String? htlcEVMTxAddress,
+      String? processCurrentAccountAddressEVM,
+      String? processCurrentAccountAddressAE,
       List<int>? secret,
       double archethicProtocolFeesRate,
       String archethicProtocolFeesAddress,
@@ -492,6 +511,8 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
     Object? htlcAEAddress = freezed,
     Object? htlcEVMAddress = freezed,
     Object? htlcEVMTxAddress = freezed,
+    Object? processCurrentAccountAddressEVM = freezed,
+    Object? processCurrentAccountAddressAE = freezed,
     Object? secret = freezed,
     Object? archethicProtocolFeesRate = null,
     Object? archethicProtocolFeesAddress = null,
@@ -602,6 +623,15 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
           ? _value.htlcEVMTxAddress
           : htlcEVMTxAddress // ignore: cast_nullable_to_non_nullable
               as String?,
+      processCurrentAccountAddressEVM: freezed ==
+              processCurrentAccountAddressEVM
+          ? _value.processCurrentAccountAddressEVM
+          : processCurrentAccountAddressEVM // ignore: cast_nullable_to_non_nullable
+              as String?,
+      processCurrentAccountAddressAE: freezed == processCurrentAccountAddressAE
+          ? _value.processCurrentAccountAddressAE
+          : processCurrentAccountAddressAE // ignore: cast_nullable_to_non_nullable
+              as String?,
       secret: freezed == secret
           ? _value._secret
           : secret // ignore: cast_nullable_to_non_nullable
@@ -682,6 +712,8 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
       this.htlcAEAddress,
       this.htlcEVMAddress,
       this.htlcEVMTxAddress,
+      this.processCurrentAccountAddressEVM,
+      this.processCurrentAccountAddressAE,
       final List<int>? secret,
       this.archethicProtocolFeesRate = 0.0,
       this.archethicProtocolFeesAddress = '',
@@ -767,6 +799,10 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
   final String? htlcEVMAddress;
   @override
   final String? htlcEVMTxAddress;
+  @override
+  final String? processCurrentAccountAddressEVM;
+  @override
+  final String? processCurrentAccountAddressAE;
   final List<int>? _secret;
   @override
   List<int>? get secret {
@@ -812,7 +848,7 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
 
   @override
   String toString() {
-    return 'BridgeFormState(resumeProcess: $resumeProcess, processStep: $processStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, poolTargetBalance: $poolTargetBalance, poolTargetMintAndBurn: $poolTargetMintAndBurn, tokenToBridgeDecimals: $tokenToBridgeDecimals, tokenBridgedDecimals: $tokenBridgedDecimals, failure: $failure, isTransferInProgress: $isTransferInProgress, walletConfirmation: $walletConfirmation, bridgeOk: $bridgeOk, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, htlcEVMTxAddress: $htlcEVMTxAddress, secret: $secret, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees, feesEstimatedUCO: $feesEstimatedUCO, messageMaxHalfUCO: $messageMaxHalfUCO, controlInProgress: $controlInProgress, consentDateTime: $consentDateTime, requestTooLong: $requestTooLong, ucoV1Balance: $ucoV1Balance, chainIdUpdated: $chainIdUpdated, accountUpdated: $accountUpdated)';
+    return 'BridgeFormState(resumeProcess: $resumeProcess, processStep: $processStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, poolTargetBalance: $poolTargetBalance, poolTargetMintAndBurn: $poolTargetMintAndBurn, tokenToBridgeDecimals: $tokenToBridgeDecimals, tokenBridgedDecimals: $tokenBridgedDecimals, failure: $failure, isTransferInProgress: $isTransferInProgress, walletConfirmation: $walletConfirmation, bridgeOk: $bridgeOk, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, htlcEVMTxAddress: $htlcEVMTxAddress, processCurrentAccountAddressEVM: $processCurrentAccountAddressEVM, processCurrentAccountAddressAE: $processCurrentAccountAddressAE, secret: $secret, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees, feesEstimatedUCO: $feesEstimatedUCO, messageMaxHalfUCO: $messageMaxHalfUCO, controlInProgress: $controlInProgress, consentDateTime: $consentDateTime, requestTooLong: $requestTooLong, ucoV1Balance: $ucoV1Balance, chainIdUpdated: $chainIdUpdated, accountUpdated: $accountUpdated)';
   }
 
   @override
@@ -867,14 +903,19 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
                 other.htlcEVMAddress == htlcEVMAddress) &&
             (identical(other.htlcEVMTxAddress, htlcEVMTxAddress) ||
                 other.htlcEVMTxAddress == htlcEVMTxAddress) &&
+            (identical(other.processCurrentAccountAddressEVM, processCurrentAccountAddressEVM) ||
+                other.processCurrentAccountAddressEVM ==
+                    processCurrentAccountAddressEVM) &&
+            (identical(other.processCurrentAccountAddressAE, processCurrentAccountAddressAE) ||
+                other.processCurrentAccountAddressAE ==
+                    processCurrentAccountAddressAE) &&
             const DeepCollectionEquality().equals(other._secret, _secret) &&
             (identical(other.archethicProtocolFeesRate, archethicProtocolFeesRate) ||
                 other.archethicProtocolFeesRate == archethicProtocolFeesRate) &&
             (identical(other.archethicProtocolFeesAddress, archethicProtocolFeesAddress) ||
                 other.archethicProtocolFeesAddress ==
                     archethicProtocolFeesAddress) &&
-            (identical(
-                    other.archethicTransactionFees, archethicTransactionFees) ||
+            (identical(other.archethicTransactionFees, archethicTransactionFees) ||
                 other.archethicTransactionFees == archethicTransactionFees) &&
             (identical(other.feesEstimatedUCO, feesEstimatedUCO) ||
                 other.feesEstimatedUCO == feesEstimatedUCO) &&
@@ -888,10 +929,8 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
                 other.requestTooLong == requestTooLong) &&
             (identical(other.ucoV1Balance, ucoV1Balance) ||
                 other.ucoV1Balance == ucoV1Balance) &&
-            (identical(other.chainIdUpdated, chainIdUpdated) ||
-                other.chainIdUpdated == chainIdUpdated) &&
-            (identical(other.accountUpdated, accountUpdated) ||
-                other.accountUpdated == accountUpdated));
+            (identical(other.chainIdUpdated, chainIdUpdated) || other.chainIdUpdated == chainIdUpdated) &&
+            (identical(other.accountUpdated, accountUpdated) || other.accountUpdated == accountUpdated));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -922,6 +961,8 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
         htlcAEAddress,
         htlcEVMAddress,
         htlcEVMTxAddress,
+        processCurrentAccountAddressEVM,
+        processCurrentAccountAddressAE,
         const DeepCollectionEquality().hash(_secret),
         archethicProtocolFeesRate,
         archethicProtocolFeesAddress,
@@ -980,6 +1021,8 @@ abstract class _BridgeFormState extends BridgeFormState {
       final String? htlcAEAddress,
       final String? htlcEVMAddress,
       final String? htlcEVMTxAddress,
+      final String? processCurrentAccountAddressEVM,
+      final String? processCurrentAccountAddressAE,
       final List<int>? secret,
       final double archethicProtocolFeesRate,
       final String archethicProtocolFeesAddress,
@@ -1050,6 +1093,10 @@ abstract class _BridgeFormState extends BridgeFormState {
   String? get htlcEVMAddress;
   @override
   String? get htlcEVMTxAddress;
+  @override
+  String? get processCurrentAccountAddressEVM;
+  @override
+  String? get processCurrentAccountAddressAE;
   @override
   List<int>? get secret;
   @override

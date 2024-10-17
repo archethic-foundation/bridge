@@ -53,6 +53,10 @@ _$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
       htlcAEAddress: json['htlcAEAddress'] as String?,
       htlcEVMAddress: json['htlcEVMAddress'] as String?,
       htlcEVMTxAddress: json['htlcEVMTxAddress'] as String?,
+      processCurrentAccountAddressEVM:
+          json['processCurrentAccountAddressEVM'] as String?,
+      processCurrentAccountAddressAE:
+          json['processCurrentAccountAddressAE'] as String?,
       secret: (json['secret'] as List<dynamic>?)
           ?.map((e) => (e as num).toInt())
           .toList(),
@@ -113,6 +117,9 @@ Map<String, dynamic> _$$BridgeFormStateImplToJson(
       'htlcAEAddress': instance.htlcAEAddress,
       'htlcEVMAddress': instance.htlcEVMAddress,
       'htlcEVMTxAddress': instance.htlcEVMTxAddress,
+      'processCurrentAccountAddressEVM':
+          instance.processCurrentAccountAddressEVM,
+      'processCurrentAccountAddressAE': instance.processCurrentAccountAddressAE,
       'secret': instance.secret,
       'archethicProtocolFeesRate': instance.archethicProtocolFeesRate,
       'archethicProtocolFeesAddress': instance.archethicProtocolFeesAddress,
