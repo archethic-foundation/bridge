@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/app_embedded.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
@@ -26,7 +27,7 @@ class _ConnectionToWalletStatusState
   @override
   Widget build(BuildContext context) {
     final session = ref.watch(sessionNotifierProvider);
-
+    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
     BridgeWallet? walletArchethic;
     if (session.walletFrom != null &&
         session.walletFrom!.wallet == 'archethic') {
@@ -122,25 +123,30 @@ class _ConnectionToWalletStatusState
               ),
             ],
           ),
-          const SizedBox(
-            width: 16,
-          ),
-          IconButton(
-            icon: const Icon(aedappfm.Iconsax.logout),
-            iconSize: 18,
-            onPressed: () async {
-              await ref
-                  .read(sessionNotifierProvider.notifier)
-                  .cancelAllWalletsConnection();
-              ref.invalidate(bridgeFormNotifierProvider);
-              if (context.mounted) {
-                context.go(BridgeSheet.routerPage);
-              }
-            },
-          ),
-          const SizedBox(
-            width: 4,
-          ),
+          if (isAppEmbedded == false)
+            Row(
+              children: [
+                const SizedBox(
+                  width: 16,
+                ),
+                IconButton(
+                  icon: const Icon(aedappfm.Iconsax.logout),
+                  iconSize: 18,
+                  onPressed: () async {
+                    await ref
+                        .read(sessionNotifierProvider.notifier)
+                        .cancelAllWalletsConnection();
+                    ref.invalidate(bridgeFormNotifierProvider);
+                    if (context.mounted) {
+                      context.go(BridgeSheet.routerPage);
+                    }
+                  },
+                ),
+                const SizedBox(
+                  width: 4,
+                ),
+              ],
+            ),
         ],
       ),
     );

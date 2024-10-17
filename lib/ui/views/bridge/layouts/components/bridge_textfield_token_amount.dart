@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:math';
 
+import 'package:aebridge/application/app_embedded.dart';
 import 'package:aebridge/ui/util/components/fiat_value.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -60,6 +61,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
     final textTheme = Theme.of(context)
         .textTheme
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
+    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
 
     final bridge = ref.watch(bridgeFormNotifierProvider);
     final textNum = double.tryParse(tokenAmountController.text);
@@ -108,13 +110,17 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                                     .AppThemeBase.gradientInputFormBackground,
                               ),
                               child: TextField(
-                                style: textTheme.titleMedium!.copyWith(
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.titleMedium!,
-                                  ),
-                                ),
+                                style: isAppEmbedded
+                                    ? Theme.of(context).textTheme.titleMedium!
+                                    : textTheme.titleMedium!.copyWith(
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromTextStyle(
+                                          context,
+                                          Theme.of(context)
+                                              .textTheme
+                                              .titleMedium!,
+                                        ),
+                                      ),
                                 autocorrect: false,
                                 controller: tokenAmountController,
                                 onChanged: (text) async {
@@ -168,37 +174,41 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                 ],
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  width: 80,
-                  padding: const EdgeInsets.only(right: 10),
-                  child: aedappfm.ButtonHalf(
-                    balanceAmount: bridge.tokenToBridgeBalance,
-                    onTap: () async {
-                      await ref
-                          .read(bridgeFormNotifierProvider.notifier)
-                          .setMaxHalf();
-                      _updateAmountTextController();
-                    },
-                  ),
+            if (isAppEmbedded == false)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      width: 80,
+                      padding: const EdgeInsets.only(right: 10),
+                      child: aedappfm.ButtonHalf(
+                        balanceAmount: bridge.tokenToBridgeBalance,
+                        onTap: () async {
+                          await ref
+                              .read(bridgeFormNotifierProvider.notifier)
+                              .setMaxHalf();
+                          _updateAmountTextController();
+                        },
+                      ),
+                    ),
+                    Container(
+                      width: 80,
+                      padding: const EdgeInsets.only(right: 10),
+                      child: aedappfm.ButtonMax(
+                        balanceAmount: bridge.tokenToBridgeBalance,
+                        onTap: () async {
+                          await ref
+                              .read(bridgeFormNotifierProvider.notifier)
+                              .setMaxAmount();
+                          _updateAmountTextController();
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                Container(
-                  width: 80,
-                  padding: const EdgeInsets.only(right: 10),
-                  child: aedappfm.ButtonMax(
-                    balanceAmount: bridge.tokenToBridgeBalance,
-                    onTap: () async {
-                      await ref
-                          .read(bridgeFormNotifierProvider.notifier)
-                          .setMaxAmount();
-                      _updateAmountTextController();
-                    },
-                  ),
-                ),
-              ],
-            ),
+              ),
           ],
         ),
         Padding(
@@ -228,6 +238,40 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
             ],
           ),
         ),
+        if (isAppEmbedded)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 80,
+                padding: const EdgeInsets.only(right: 10),
+                child: aedappfm.ButtonHalf(
+                  height: 40,
+                  balanceAmount: bridge.tokenToBridgeBalance,
+                  onTap: () async {
+                    await ref
+                        .read(bridgeFormNotifierProvider.notifier)
+                        .setMaxHalf();
+                    _updateAmountTextController();
+                  },
+                ),
+              ),
+              Container(
+                width: 80,
+                padding: const EdgeInsets.only(right: 10),
+                child: aedappfm.ButtonMax(
+                  height: 40,
+                  balanceAmount: bridge.tokenToBridgeBalance,
+                  onTap: () async {
+                    await ref
+                        .read(bridgeFormNotifierProvider.notifier)
+                        .setMaxAmount();
+                    _updateAmountTextController();
+                  },
+                ),
+              ),
+            ],
+          ),
       ],
     )
         .animate()

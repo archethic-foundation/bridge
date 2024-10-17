@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:ui';
 
+import 'package:aebridge/application/app_embedded.dart';
 import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/app_bar.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
@@ -17,12 +18,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class MainScreenList extends ConsumerStatefulWidget {
   const MainScreenList({
     required this.body,
-    required this.isEmbedded,
     super.key,
   });
 
   final Widget body;
-  final bool isEmbedded;
   @override
   ConsumerState<MainScreenList> createState() => MainScreenListState();
 }
@@ -70,6 +69,8 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
 
   @override
   Widget build(BuildContext context) {
+    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
+
     return Title(
       title: 'aeBridge - Bridge Archethic blockchain',
       color: Colors.black,
@@ -82,9 +83,7 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
           child: ClipRRect(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: AppBarMainScreen(
-                isEmbedded: widget.isEmbedded,
-              ),
+              child: const AppBarMainScreen(),
             ),
           ),
         ),
@@ -106,7 +105,7 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
             ],
           ),
         ),
-        bottomNavigationBar: !widget.isEmbedded &&
+        bottomNavigationBar: !isAppEmbedded &&
                 (aedappfm.Responsive.isMobile(context) ||
                     aedappfm.Responsive.isTablet(context))
             ? BottomNavigationBarMainScreen(

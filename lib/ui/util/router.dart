@@ -12,14 +12,6 @@ import 'package:go_router/go_router.dart';
 
 final rootNavigatorKey = GlobalKey<NavigatorState>();
 
-extension GoRouterStateEmbeddedExt on GoRouterState {
-  /// trick to save the isEmbedded flag on the first loaded page.
-  /// Value will be automatically  used by the next navigations.
-  static bool? _isEmbedded;
-  bool get isEmbedded =>
-      _isEmbedded ?? (_isEmbedded = uri.queryParameters['isEmbedded'] != null);
-}
-
 final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     navigatorKey: rootNavigatorKey,
@@ -29,10 +21,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: '/',
         pageBuilder: (context, state) {
-          return NoTransitionPage(
-            child: BridgeSheet(
-              isEmbedded: state.isEmbedded,
-            ),
+          return const NoTransitionPage(
+            child: BridgeSheet(),
           );
         },
       ),
@@ -58,7 +48,6 @@ final routerProvider = Provider<GoRouter>((ref) {
           return NoTransitionPage(
             child: BridgeSheet(
               initialState: bridgeFormState,
-              isEmbedded: state.isEmbedded,
             ),
           );
         },
@@ -66,10 +55,8 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: BridgeEVMSheet.routerPage,
             pageBuilder: (context, state) {
-              return NoTransitionPage(
-                child: BridgeEVMSheet(
-                  isEmbedded: state.isEmbedded,
-                ),
+              return const NoTransitionPage(
+                child: BridgeEVMSheet(),
               );
             },
           ),
@@ -78,10 +65,8 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: LocalHistorySheet.routerPage,
         pageBuilder: (context, state) {
-          return NoTransitionPage(
-            child: LocalHistorySheet(
-              isEmbedded: state.isEmbedded,
-            ),
+          return const NoTransitionPage(
+            child: LocalHistorySheet(),
           );
         },
       ),
@@ -105,7 +90,6 @@ final routerProvider = Provider<GoRouter>((ref) {
           {}
           return NoTransitionPage(
             child: RefundSheet(
-              isEmbedded: state.isEmbedded,
               htlcAddress: htlcAddress,
               chainId: chainId,
             ),
@@ -128,8 +112,6 @@ final routerProvider = Provider<GoRouter>((ref) {
 
       return null;
     },
-    errorBuilder: (context, state) => BridgeSheet(
-      isEmbedded: state.isEmbedded,
-    ),
+    errorBuilder: (context, state) => const BridgeSheet(),
   );
 });

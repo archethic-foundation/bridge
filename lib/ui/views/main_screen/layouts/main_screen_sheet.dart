@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:ui';
 
+import 'package:aebridge/application/app_embedded.dart';
 import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/app_bar.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
@@ -19,14 +20,12 @@ class MainScreenSheet extends ConsumerStatefulWidget {
     required this.currentStep,
     required this.formSheet,
     required this.confirmSheet,
-    required this.isEmbedded,
     this.topWidget,
     this.bottomWidget,
     this.afterBottomWidget,
     super.key,
   });
 
-  final bool isEmbedded;
   final aedappfm.ProcessStep currentStep;
   final Widget formSheet;
   final Widget confirmSheet;
@@ -80,6 +79,8 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
+
     return Title(
       title: 'aeBridge - Bridge Archethic blockchain',
       color: Colors.black,
@@ -92,26 +93,40 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
           child: ClipRRect(
             child: BackdropFilter(
               filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
-              child: AppBarMainScreen(
-                isEmbedded: widget.isEmbedded,
-              ),
+              child: const AppBarMainScreen(),
             ),
           ),
         ),
         body: SafeArea(
           child: Stack(
-            alignment: Alignment.center,
+            alignment: isAppEmbedded ? Alignment.topCenter : Alignment.center,
             children: [
-              const aedappfm.AppBackground(
-                backgroundImage: 'assets/images/background-welcome.png',
-              ),
+              if (isAppEmbedded)
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                        'assets/images/background-embedded.png',
+                      ),
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
+                )
+              else
+                const aedappfm.AppBackground(
+                  backgroundImage: 'assets/images/background-welcome.png',
+                ),
               aedappfm.ArchethicScrollbar(
                 child: ConstrainedBox(
                   constraints: BoxConstraints.tightFor(
                     width: MediaQuery.of(context).size.width,
                   ),
                   child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: isAppEmbedded ? 0 : 24,
+                    ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -123,13 +138,17 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
                             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                             child: Container(
                               width: 650,
-                              decoration: BoxDecoration(
-                                color: aedappfm.AppThemeBase.sheetBackground,
-                                border: Border.all(
-                                  color: aedappfm.AppThemeBase.sheetBorder,
-                                ),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
+                              decoration: isAppEmbedded
+                                  ? null
+                                  : BoxDecoration(
+                                      color:
+                                          aedappfm.AppThemeBase.sheetBackground,
+                                      border: Border.all(
+                                        color:
+                                            aedappfm.AppThemeBase.sheetBorder,
+                                      ),
+                                      borderRadius: BorderRadius.circular(20),
+                                    ),
                               child: Padding(
                                 padding: const EdgeInsets.only(
                                   left: 30,
@@ -173,7 +192,7 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
             ],
           ),
         ),
-        bottomNavigationBar: !widget.isEmbedded &&
+        bottomNavigationBar: !isAppEmbedded &&
                 (aedappfm.Responsive.isMobile(context) ||
                     aedappfm.Responsive.isTablet(context))
             ? BottomNavigationBarMainScreen(

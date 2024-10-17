@@ -1,3 +1,4 @@
+import 'package:aebridge/application/app_embedded.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/app_bar_menu_info.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/connection_to_wallet_status.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/header.dart';
@@ -8,10 +9,7 @@ class AppBarMainScreen extends ConsumerStatefulWidget
     implements PreferredSizeWidget {
   const AppBarMainScreen({
     super.key,
-    required this.isEmbedded,
   });
-
-  final bool isEmbedded;
 
   @override
   Size get preferredSize => AppBar().preferredSize;
@@ -31,14 +29,15 @@ class _AppBarMainScreenState extends ConsumerState<AppBarMainScreen> {
   );
   @override
   Widget build(BuildContext context) {
+    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
+
     return Padding(
       padding: const EdgeInsets.only(top: 8),
       child: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: widget.isEmbedded ? const SizedBox() : const Header(),
-        leadingWidth:
-            widget.isEmbedded ? null : MediaQuery.of(context).size.width,
+        leading: isAppEmbedded ? const SizedBox() : const Header(),
+        leadingWidth: isAppEmbedded ? null : MediaQuery.of(context).size.width,
         actions: const [
           ConnectionToWalletStatus(),
           SizedBox(
