@@ -26,7 +26,7 @@ class RefundConnectWalletButton extends ConsumerWidget {
             onPressed: () async {
               await ref
                   .read(RefundFormProvider.refundForm.notifier)
-                  .connectToEVMWallet(context);
+                  .connectToEVMWallet(AppLocalizations.of(context)!);
             },
           )
         : aedappfm.AppButton(
@@ -35,7 +35,7 @@ class RefundConnectWalletButton extends ConsumerWidget {
             onPressed: () async {
               await ref
                   .read(RefundFormProvider.refundForm.notifier)
-                  .connectToArchethicWallet(context);
+                  .connectToArchethicWallet(AppLocalizations.of(context)!);
             },
           );
   }

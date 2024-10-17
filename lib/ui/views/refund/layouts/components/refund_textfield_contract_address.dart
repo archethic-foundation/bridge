@@ -100,7 +100,7 @@ class _RefundContractAddressState extends ConsumerState<RefundContractAddress> {
                               await ref
                                   .read(RefundFormProvider.refundForm.notifier)
                                   .setContractAddress(
-                                    context,
+                                    AppLocalizations.of(context)!,
                                     text,
                                   );
                             },
