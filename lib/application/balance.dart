@@ -9,26 +9,19 @@ BalanceRepository _balanceRepository(_BalanceRepositoryRef ref) =>
     BalanceRepositoryImpl();
 
 @riverpod
-Future<double> _getBalance(
-  _GetBalanceRef ref,
+Future<double> getBalance(
+  GetBalanceRef ref,
   bool isArchethic,
   String address,
   String typeToken,
   String tokenAddress,
-  int decimal, {
-  String? providerEndpoint,
-}) async {
+  int decimal,
+) async {
   return ref.read(_balanceRepositoryProvider).getBalance(
         isArchethic,
         address,
         typeToken,
         tokenAddress,
         decimal,
-        providerEndpoint: providerEndpoint,
       );
-}
-
-abstract class BalanceProviders {
-  static const getBalance = _getBalanceProvider;
-  static final balanceRepository = _balanceRepositoryProvider;
 }

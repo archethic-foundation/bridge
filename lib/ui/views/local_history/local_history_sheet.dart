@@ -36,8 +36,7 @@ class LocalHistorySheet extends ConsumerWidget {
 }
 
 Widget _body(BuildContext context, WidgetRef ref) {
-  final bridgesList =
-      ref.watch(BridgeHistoryProviders.fetchBridgesList(asc: false));
+  final bridgesList = ref.watch(fetchBridgesListProvider(asc: false));
 
   return Padding(
     padding: const EdgeInsets.only(top: 90, left: 50, right: 50),
@@ -52,7 +51,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
             child: Row(
               children: [
                 InkWell(
-                  onTap: () async {
+                  onTap: () {
                     context.go(BridgeSheet.routerPage);
                   },
                   child: Row(
@@ -72,7 +71,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
                         AppLocalizations.of(context)!.backToBridge,
                         style: TextStyle(
                           fontSize:
-                              Theme.of(context).textTheme.labelSmall!.fontSize,
+                              Theme.of(context).textTheme.labelMedium!.fontSize,
                           color: aedappfm.AppThemeBase.secondaryColor,
                           decoration: TextDecoration.underline,
                         ),

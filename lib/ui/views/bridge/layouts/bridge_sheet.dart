@@ -1,4 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/app_embedded.dart';
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_evm_sheet.dart';
@@ -31,22 +33,27 @@ class BridgeSheet extends ConsumerStatefulWidget {
 class _BridgeSheetState extends ConsumerState<BridgeSheet> {
   @override
   void initState() {
-    Future.delayed(Duration.zero, () {
+    Future.delayed(Duration.zero, () async {
       ref.read(navigationIndexMainScreenProvider.notifier).state =
           NavigationIndex.bridge;
 
       if (widget.initialState != null) {
-        ref.read(BridgeFormProvider.bridgeForm.notifier).currentState =
+        ref.read(bridgeFormNotifierProvider.notifier).currentState =
             widget.initialState!;
       }
     });
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
+    final processStep = ref.watch(bridgeFormNotifierProvider).processStep;
+
     return MainScreenSheet(
-      currentStep: ref.watch(BridgeFormProvider.bridgeForm).processStep,
+      currentStep: processStep,
       formSheet: const BridgeFormSheet(),
       confirmSheet: const BridgeConfirmSheet(),
       topWidget: Padding(
@@ -54,70 +61,131 @@ class _BridgeSheetState extends ConsumerState<BridgeSheet> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              AppLocalizations.of(context)!.bridgeHeaderText,
-              style: Theme.of(context).textTheme.displaySmall,
-            ),
-            const SizedBox(
-              height: 10,
-            ),
-            Text(
-              AppLocalizations.of(context)!.bridgeHeaderDesc,
-              style: Theme.of(context).textTheme.labelLarge,
-            ),
-            const SizedBox(
-              height: 30,
-            ),
+            if (isAppEmbedded == false)
+              Text(
+                AppLocalizations.of(context)!.bridgeHeaderText,
+                style: Theme.of(context).textTheme.displaySmall,
+              ),
+            if (isAppMobileFormat == false)
+              const SizedBox(
+                height: 10,
+              ),
+            if (isAppMobileFormat == false ||
+                (isAppMobileFormat && processStep == aedappfm.ProcessStep.form))
+              Text(
+                AppLocalizations.of(context)!.bridgeHeaderDesc,
+                style: isAppMobileFormat
+                    ? Theme.of(context).textTheme.labelLarge!.copyWith(
+                          color: aedappfm.AppThemeBase.secondaryColor,
+                        )
+                    : Theme.of(context).textTheme.labelLarge,
+              ),
+            if (isAppMobileFormat == false)
+              const SizedBox(
+                height: 30,
+              ),
           ],
         ),
       ),
-      bottomWidget: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          InkWell(
-            onTap: () async {
-              await showDialog(
-                context: context,
-                builder: (BuildContext context) {
-                  return const TroublesPopup();
-                },
-              );
-            },
-            child: Text(
-              AppLocalizations.of(context)!.havingTrouble,
-              style: TextStyle(
-                fontSize: Theme.of(context).textTheme.labelSmall!.fontSize,
-                color: aedappfm.AppThemeBase.secondaryColor,
-                decoration: TextDecoration.underline,
-              ),
-            ),
-          ),
-          const aedappfm.ArchethicOracleUco(
-            faqLink:
-                'https://wiki.archethic.net/FAQ/bridge-2-ways#how-is-the-price-of-uco-estimated',
-          ),
-        ],
-      ),
-      afterBottomWidget: Wrap(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 5, top: 10),
-            child: InkWell(
-              onTap: () async {
-                context.go(BridgeEVMSheet.navPage);
-              },
-              child: Text(
-                AppLocalizations.of(context)!.goToEVMBridge,
-                style: TextStyle(
-                  fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize,
-                  color: aedappfm.AppThemeBase.secondaryColor,
-                  decoration: TextDecoration.underline,
+      bottomWidget: isAppMobileFormat
+          ? processStep == aedappfm.ProcessStep.form
+              ? Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    InkWell(
+                      onTap: () async {
+                        await showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return const TroublesPopup();
+                          },
+                        );
+                      },
+                      child: Text(
+                        AppLocalizations.of(context)!.havingTrouble,
+                        style: TextStyle(
+                          fontSize:
+                              Theme.of(context).textTheme.bodyLarge!.fontSize,
+                          color: aedappfm.AppThemeBase.secondaryColor,
+                          decoration: TextDecoration.underline,
+                        ),
+                      ),
+                    ),
+                    const aedappfm.ArchethicOracleUco(
+                      faqLink:
+                          'https://wiki.archethic.net/FAQ/bridge-2-ways#how-is-the-price-of-uco-estimated',
+                      precision: 4,
+                    ),
+                  ],
+                )
+              : const Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    aedappfm.ArchethicOracleUco(
+                      faqLink:
+                          'https://wiki.archethic.net/FAQ/bridge-2-ways#how-is-the-price-of-uco-estimated',
+                      precision: 4,
+                    ),
+                  ],
+                )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                InkWell(
+                  onTap: () async {
+                    await showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return const TroublesPopup();
+                      },
+                    );
+                  },
+                  child: Text(
+                    AppLocalizations.of(context)!.havingTrouble,
+                    style: TextStyle(
+                      fontSize:
+                          Theme.of(context).textTheme.labelSmall!.fontSize,
+                      color: aedappfm.AppThemeBase.secondaryColor,
+                      decoration: TextDecoration.underline,
+                    ),
+                  ),
                 ),
-              ),
+                const aedappfm.ArchethicOracleUco(
+                  faqLink:
+                      'https://wiki.archethic.net/FAQ/bridge-2-ways#how-is-the-price-of-uco-estimated',
+                  precision: 4,
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
+      afterBottomWidget: processStep == aedappfm.ProcessStep.confirmation &&
+              isAppMobileFormat
+          ? null
+          : Wrap(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 5,
+                    top: 10,
+                    bottom: isAppMobileFormat ? 30 : 0,
+                  ),
+                  child: InkWell(
+                    onTap: () async {
+                      context.go(BridgeEVMSheet.navPage);
+                    },
+                    child: Text(
+                      textAlign: isAppMobileFormat ? TextAlign.center : null,
+                      AppLocalizations.of(context)!.goToEVMBridge,
+                      style: TextStyle(
+                        fontSize:
+                            Theme.of(context).textTheme.bodyLarge!.fontSize,
+                        color: aedappfm.AppThemeBase.secondaryColor,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
     );
   }
 }

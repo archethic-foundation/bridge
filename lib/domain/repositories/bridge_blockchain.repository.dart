@@ -7,6 +7,8 @@ abstract class BridgeBlockchainsRepository {
     List<BridgeBlockchain> blockchainsList,
   );
 
+  Future<List<BridgeBlockchain>> getEVMBlockchains();
+
   Future<BridgeBlockchain?> getBlockchainFromChainId(
     List<BridgeBlockchain> blockchainsList,
     int chainId,

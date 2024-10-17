@@ -5,6 +5,8 @@ import 'package:aebridge/ui/util/components/blockchain_label.dart';
 import 'package:aebridge/ui/util/failure_message.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_account_updated.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_chainid_updated.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_final_amount.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_in_progress_contracts.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_in_progress_user_explorer.dart';
@@ -20,8 +22,10 @@ class BridgeInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(bridgeFormNotifierProvider);
     return [
+      const BridgeChainIdUpdated(),
+      const BridgeAccountUpdated(),
       if (bridge.isTransferInProgress)
         Text(
           AppLocalizations.of(context)!.bridgeInProgressPopupHeader,
@@ -53,14 +57,14 @@ class BridgeInProgressPopup {
       if (bridge.blockchainFrom != null && bridge.blockchainFrom!.isArchethic)
         aedappfm.InProgressCurrentStep(
           steplabel: BridgeArchethicToEVMUseCase().getAEStepLabel(
-            context,
+            AppLocalizations.of(context)!,
             bridge.currentStep,
           ),
         )
       else
         aedappfm.InProgressCurrentStep(
           steplabel: BridgeEVMToArchethicUseCase().getEVMStepLabel(
-            context,
+            AppLocalizations.of(context)!,
             bridge.currentStep,
           ),
         ),
@@ -103,9 +107,6 @@ class BridgeInProgressPopup {
           chainId: bridge.blockchainFrom!.isArchethic
               ? bridge.blockchainTo!.chainId
               : null,
-          providerEndpoint: bridge.blockchainFrom!.isArchethic
-              ? bridge.blockchainTo!.providerEndpoint
-              : null,
         ),
       const BridgeInterrupInfo(),
       const Spacer(),
@@ -115,16 +116,16 @@ class BridgeInProgressPopup {
         onPressed: () async {
           ref
               .read(
-                BridgeFormProvider.bridgeForm.notifier,
+                bridgeFormNotifierProvider.notifier,
               )
               .setResumeProcess(true);
 
           if (!context.mounted) return;
           await ref
               .read(
-                BridgeFormProvider.bridgeForm.notifier,
+                bridgeFormNotifierProvider.notifier,
               )
-              .bridge(context, ref);
+              .bridge(AppLocalizations.of(context)!, ref);
         },
         failure: bridge.failure,
       ),
@@ -135,7 +136,7 @@ class BridgeInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(bridgeFormNotifierProvider);
     return aedappfm.PopupCloseButton(
       warningCloseWarning: bridge.isTransferInProgress,
       warningCloseLabel: bridge.isTransferInProgress == true
@@ -143,7 +144,7 @@ class BridgeInProgressPopup {
           : '',
       warningCloseFunction: () async {
         final bridgeNotifier = ref.read(
-          BridgeFormProvider.bridgeForm.notifier,
+          bridgeFormNotifierProvider.notifier,
         );
         if (bridge.failure == null && bridge.isTransferInProgress) {
           await bridgeNotifier.setFailure(
@@ -151,14 +152,14 @@ class BridgeInProgressPopup {
           );
         }
         ref.invalidate(
-          BridgeFormProvider.bridgeForm,
+          bridgeFormNotifierProvider,
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();
       },
       closeFunction: () {
         ref.invalidate(
-          BridgeFormProvider.bridgeForm,
+          bridgeFormNotifierProvider,
         );
         if (!context.mounted) return;
         Navigator.of(context).pop();

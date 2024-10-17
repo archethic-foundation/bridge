@@ -14,10 +14,10 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
-import 'package:webthree/webthree.dart';
+import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
 class BridgeEVMToArchethicUseCase
     with
@@ -25,16 +25,16 @@ class BridgeEVMToArchethicUseCase
         EVMBridgeProcessMixin,
         aedappfm.TransactionMixin {
   Future<void> run(
-    BuildContext context,
+    AppLocalizations localizations,
     WidgetRef ref, {
     int recoveryStep = 0,
     List<int>? recoverySecret,
     String? recoveryHTLCEVMAddress,
     String? recoveryHTLCAEAddress,
   }) async {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm);
-    final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-    final session = ref.read(SessionProviders.session);
+    final bridge = ref.read(bridgeFormNotifierProvider);
+    final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
+    final session = ref.read(sessionNotifierProvider);
     await bridgeNotifier.setCurrentStep(0);
 
     Uint8List? secret;
@@ -70,9 +70,7 @@ class BridgeEVMToArchethicUseCase
 
         if (bridge.tokenToBridge!.typeSource == 'Wrapped') {
           final resultApproval = await EVMHTLCERC(
-            bridge.blockchainFrom!.providerEndpoint,
             '',
-            bridge.blockchainFrom!.chainId,
           ).approveChargeableHTLC(
             ref,
             bridge.tokenToBridgeAmount,
@@ -100,21 +98,17 @@ class BridgeEVMToArchethicUseCase
       } catch (e) {
         return;
       }
-      var blockchainFrom =
-          ref.read(BridgeFormProvider.bridgeForm).blockchainFrom;
+      var blockchainFrom = ref.read(bridgeFormNotifierProvider).blockchainFrom;
       blockchainFrom = blockchainFrom!.copyWith(htlcAddress: htlcEVMAddress);
-      if (context.mounted) {
-        await bridgeNotifier.setBlockchainFrom(context, blockchainFrom);
-      }
+
+      await bridgeNotifier.setBlockchainFrom(localizations, blockchainFrom);
     }
 
     // 2) Get HTLC Lock time
     if (recoveryStep <= 3) {
       await bridgeNotifier.setCurrentStep(2);
       final htlc = EVMHTLC(
-        bridge.blockchainFrom!.providerEndpoint,
         htlcEVMAddress!,
-        bridge.blockchainFrom!.chainId,
       );
       final resultGetHTLCLockTime = await htlc.getHTLCLockTime();
       await resultGetHTLCLockTime.map(
@@ -143,7 +137,6 @@ class BridgeEVMToArchethicUseCase
     if (recoveryStep <= 5) {
       await bridgeNotifier.setCurrentStep(4);
       amount = await getEVMHTLCAmount(
-        ref,
         htlcEVMAddress!,
         bridge.tokenToBridgeDecimals,
       );
@@ -157,15 +150,20 @@ class BridgeEVMToArchethicUseCase
       var _executeCatch = true;
       try {
         await bridgeNotifier.setCurrentStep(5);
-        final balanceUCO = await BalanceRepositoryImpl()
-            .getBalance(true, bridge.targetAddress, '', '', 8);
+        final balanceUCO = await BalanceRepositoryImpl().getBalance(
+          true,
+          bridge.targetAddress,
+          '',
+          '',
+          8,
+        );
         if (balanceUCO == 0) {
           final signature = await signTxFaucetUCO();
           final queryParameters = {
             'archethic_address': bridge.targetAddress,
             'evm_contract': htlcEVMAddress,
             'evm_chain_id': bridge.blockchainFrom!.chainId.toString(),
-            'evm_signature': '0x${uint8ListToHex(signature)}',
+            'evm_signature': signature,
           };
 
           final getUrlResult =
@@ -185,8 +183,8 @@ class BridgeEVMToArchethicUseCase
             return;
           }
         }
-      } catch (e) {
-        if (e is EthereumUserRejected) {
+      } on wagmi.WagmiError catch (e) {
+        if (e.findError(wagmi.WagmiErrors.UserRejectedRequestError) != null) {
           await bridgeNotifier.setFailure(
             const aedappfm.Failure.faucetUCOUserRejected(),
           );
@@ -194,18 +192,17 @@ class BridgeEVMToArchethicUseCase
           return;
         }
         aedappfm.sl.get<aedappfm.LogManager>().log(
-              'Faucet UCO error : $e',
+              'Faucet UCO error : ${e.name} - ${e.message} - ${e.version} - ${e.cause} - ${e.details}',
               level: aedappfm.LogLevel.error,
               name: 'BridgeEVMToArchethicUseCase - run',
             );
-        if (e is UnsupportedError || e is EthereumException) {
-          await bridgeNotifier.setFailure(
-            aedappfm.Failure.other(cause: '$e'),
-          );
-          await bridgeNotifier.setTransferInProgress(false);
-          return;
-        }
 
+        await bridgeNotifier.setFailure(
+          aedappfm.Failure.other(cause: e.shortMessage),
+        );
+        await bridgeNotifier.setTransferInProgress(false);
+        return;
+      } on Exception catch (_) {
         if (_executeCatch) {
           await bridgeNotifier.setFailure(
             const aedappfm.Failure.faucetUCOError(),
@@ -220,9 +217,7 @@ class BridgeEVMToArchethicUseCase
         await bridgeNotifier.setCurrentStep(5);
         if (endTime == null) {
           final htlc = EVMHTLC(
-            bridge.blockchainFrom!.providerEndpoint,
             htlcEVMAddress,
-            bridge.blockchainFrom!.chainId,
           );
           final resultGetHTLCLockTime = await htlc.getHTLCLockTime();
           await resultGetHTLCLockTime.map(
@@ -264,11 +259,10 @@ class BridgeEVMToArchethicUseCase
       } catch (e) {
         return;
       }
-      var blockchainTo = ref.read(BridgeFormProvider.bridgeForm).blockchainTo;
+      var blockchainTo = ref.read(bridgeFormNotifierProvider).blockchainTo;
       blockchainTo = blockchainTo!.copyWith(htlcAddress: htlcAEAddress);
-      if (context.mounted) {
-        await bridgeNotifier.setBlockchainTo(context, blockchainTo);
-      }
+
+      await bridgeNotifier.setBlockchainTo(localizations, blockchainTo);
     }
 
     // 6) Withdraw
@@ -312,7 +306,6 @@ class BridgeEVMToArchethicUseCase
       }
       if (amount == null) {
         amount = await getEVMHTLCAmount(
-          ref,
           htlcEVMAddress!,
           bridge.tokenToBridgeDecimals,
         );
@@ -346,9 +339,7 @@ class BridgeEVMToArchethicUseCase
 
       try {
         final htlc = EVMHTLC(
-          bridge.blockchainFrom!.providerEndpoint,
           htlcEVMAddress!,
-          bridge.blockchainFrom!.chainId,
         );
         final status = await htlc.getStatus();
         if (status != 1) {
@@ -370,7 +361,6 @@ class BridgeEVMToArchethicUseCase
         await bridgeNotifier.setCurrentStep(7);
         if (amount == null) {
           amount = await getEVMHTLCAmount(
-            ref,
             htlcEVMAddress!,
             bridge.tokenToBridgeDecimals,
           );
@@ -393,9 +383,9 @@ class BridgeEVMToArchethicUseCase
   }
 
   String getStepLabel(
-    BuildContext context,
+    AppLocalizations localizations,
     int step,
   ) {
-    return getEVMStepLabel(context, step);
+    return getEVMStepLabel(localizations, step);
   }
 }

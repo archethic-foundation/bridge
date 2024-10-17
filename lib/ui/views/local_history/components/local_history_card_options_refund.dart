@@ -32,18 +32,21 @@ class LocalHistoryCardOptionsRefund extends ConsumerWidget {
     return Padding(
       padding: const EdgeInsets.only(left: 10),
       child: InkWell(
-        onTap: () {
+        onTap: () async {
           final helper = aedappfm.QueryParameterHelper();
           final htlcAddressEncoded = helper.encodeQueryParameter(
             bridge.blockchainFrom!.isArchethic == true
                 ? bridge.htlcAEAddress!
                 : bridge.htlcEVMAddress!,
           );
-          context.go(
+          final chainIdEncoded =
+              helper.encodeQueryParameter(bridge.blockchainFrom!.chainId);
+          await context.push(
             Uri(
               path: RefundSheet.routerPage,
               queryParameters: {
                 'htlcAddress': htlcAddressEncoded,
+                'chainId': chainIdEncoded,
               },
             ).toString(),
           );

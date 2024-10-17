@@ -1,278 +1,157 @@
-import 'dart:convert';
-import 'dart:html';
+import 'package:aebridge/domain/models/bridge_blockchain.dart';
+import 'package:aebridge/domain/repositories/bridge_blockchain.repository.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
-import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
-    as aedappfm;
-import 'package:decimal/decimal.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:http/http.dart';
-import 'package:js/js.dart';
-import 'package:webthree/browser.dart';
-import 'package:webthree/webthree.dart';
+import 'package:logging/logging.dart';
+import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
-class EVMWalletProvider extends ChangeNotifier {
-  String? currentAddress;
-  String? get accountName => currentAddress;
-  int? currentChain;
-  bool walletConnected = false;
-  Ethereum? eth;
-  BinanceChainWallet? bsc;
-  OkxWallet? okx;
+class EVMWalletProvider with EVMBridgeProcessMixin {
+  bool isInit = false;
 
-  Web3Client? web3Client;
-  CredentialsWithKnownAddress? credentials;
+  final _logger = Logger('EVMWalletProvider');
 
-  Future<int> getChainId() async {
-    if (window.OkxChainWallet != null) {
-      try {
-        okx = window.OkxChainWallet;
-        final okxRPC = okx!.asRpcService();
+  // https://explorer.walletconnect.com/
+  static const includeWalletIds = [
+    'c57ca95b47569778a828d19178114f4db188b89b763c899ba0be274e97267d96', // Metamask
+    '18388be9ac2d02726dbac9777c96efaac06d744b2f6d580fccdd4127a6d01fd1', // Rabby
+    '4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0', // TrustWallet
+    '971e689d0a5be527bac79629b4ee9b925e82208e5168b733496a09c0faed0709', // OKSWallet
+    '8a0ee50d1f22f6651afcae7eb4253e52a3310b90af5daef78a8c4929a9bb99d4', // Binance WEB3 Wallet
+    'c03dfee351b6fcc421b4494ea33b9d4b92a984f87aa76d1663bb28705e95034a', // Uniswap
+    'a9751f17a3292f2d1493927f0555603d69e9a3fcbcdf5626f01b49afa21ced91', // Frame
+    '0b415a746fb9ee99cce155c2ceca0c6f6061b1dbca2d722b3ba16381d0562150', // SafePAL
+    '1ae92b26df02f0abca6304df07debccd18262fdf5fe82daa81593582dac9a369', // Rainbow
+    'e9ff15be73584489ca4a66f64d32c4537711797e30b6660dbcb71ea72a42b1f4', // Exodus
+    'fd20dc426fb37566d803205b19bbc1d4096b248ac04548e3cfb6b3a38bd033aa', // Coinbase
+    'a797aa35c0fadbfc1a53e7f675162ed5226968b44a19ee3d24385c64d1d3c393', // Phantom
+    '225affb176778569276e484e1b92637ad061b01e13a048b35a9d280c3b58970f', // Safe
+  ];
 
-        web3Client = Web3Client.custom(okxRPC);
-        if (web3Client == null) {
-          throw Exception('EVM Wallet is not available');
-        }
-        final currentChain = await web3Client!.getChainId();
-        return currentChain.toInt();
-      } catch (e) {
-        throw Exception('Please, connect your Wallet.');
-      }
-    } else {
-      if (window.BinanceChain != null) {
-        try {
-          bsc = window.BinanceChain;
-          final bscRPC = bsc!.asRpcService();
+  static const includeWalletIdsEmbedded = [
+    'c57ca95b47569778a828d19178114f4db188b89b763c899ba0be274e97267d96', // Metamask
+    '18388be9ac2d02726dbac9777c96efaac06d744b2f6d580fccdd4127a6d01fd1', // Rabby
+    '4622a2b2d6af1c9844944291e5e7351a6aa24cd7b23099efac1b2fd875da31a0', // TrustWallet
+    '971e689d0a5be527bac79629b4ee9b925e82208e5168b733496a09c0faed0709', // OKSWallet
+    'c03dfee351b6fcc421b4494ea33b9d4b92a984f87aa76d1663bb28705e95034a', // Uniswap
+  ];
 
-          web3Client = Web3Client.custom(bscRPC);
-          if (web3Client == null) {
-            throw Exception('EVM Wallet is not available');
-          }
-          final currentChain = await web3Client!.getChainId();
-          return currentChain.toInt();
-        } catch (e) {
-          throw Exception('Please, connect your Wallet.');
-        }
-      } else {
-        if (window.ethereum != null) {
-          try {
-            eth = window.ethereum;
-            final ethRPC = eth!.asRpcService();
+  int? _requestedChainId;
 
-            web3Client = Web3Client.custom(ethRPC);
-            if (web3Client == null) {
-              throw Exception('EVM Wallet is not available');
-            }
-            final currentChain = await web3Client!.getChainId();
-            return currentChain.toInt();
-          } catch (e) {
-            throw Exception('Please, connect your Wallet.');
-          }
-        } else {
-          throw Exception('No provider installed');
-        }
-      }
-    }
-  }
-
-  Future<void> connect(int chainId) async {
-    walletConnected = false;
-
-    currentChain = await getChainId();
-    if (currentChain != chainId) {
-      await changeChainId(chainId);
-    }
-
-    var credentialsList = <CredentialsWithKnownAddress>[];
-    if (okx != null) {
-      credentialsList = await okx!.requestAccounts();
-    } else {
-      if (bsc != null) {
-        credentialsList = await bsc!.requestAccounts();
-      } else {
-        if (eth != null) {
-          credentialsList = await eth!.requestAccounts();
-        }
-      }
-    }
-
-    if (credentialsList.isNotEmpty) {
-      credentials = credentialsList.first;
-      currentAddress = credentials!.address.hex;
-      walletConnected = true;
-
-      notifyListeners();
-    }
-  }
-
-  Future<void> changeChainId(int chainId) async {
-    if (okx != null) {
-      await okx!.rawRequest(
-        'wallet_switchEthereumChain',
-        params: [
-          JSrawRequestParams(chainId: '0x${chainId.toRadixString(16)}'),
-        ],
+  int get requestedChainId {
+    if (_requestedChainId == null) {
+      throw Exception(
+        'You must call `EVMWalletProvider.connect` before any action',
       );
-    } else {
-      if (bsc != null) {
-        await bsc!.rawRequest(
-          'wallet_switchEthereumChain',
-          params: [
-            JSrawRequestParams(chainId: '0x${chainId.toRadixString(16)}'),
-          ],
-        );
-      } else {
-        if (eth != null) {
-          await eth!.rawRequest(
-            'wallet_switchEthereumChain',
-            params: [
-              JSrawRequestParams(chainId: '0x${chainId.toRadixString(16)}'),
-            ],
-          );
-        }
-      }
     }
-
-    currentChain = chainId;
-    notifyListeners();
+    return _requestedChainId!;
   }
+
+  wagmi.Account? _requestedAccount;
+  wagmi.Account get requestedAccount {
+    if (_requestedAccount == null) {
+      throw Exception(
+        'You must call `EVMWalletProvider.connect` before any action',
+      );
+    }
+    return _requestedAccount!;
+  }
+
+  Future<void> init(
+    BridgeBlockchainsRepository repository,
+    bool isEmbedded,
+  ) async {
+    if (isInit) return;
+
+    final blockchains = await repository.getEVMBlockchains();
+    wagmi.Web3Modal.init(
+      projectId: _projectId,
+      chains: blockchains.map((blockchain) => blockchain.chainId).toList(),
+      metadata: wagmi.Web3ModalMetadata(
+        name: 'Archethic Bridge',
+        description:
+            'Bridge in and out of the Archethic blockchain with aeBridge. Enable secure and efficient cross-chain interactions, leveraging UCO tokens to power your decentralized applications.',
+        url: Uri.base.toString(),
+        icons: Uri.base.toString().toLowerCase().contains('bridge.archethic')
+            ? ['https://bridge.archethic.net/favicon.png']
+            : ['https://bridge.testnet.archethic.net/favicon.png'],
+      ),
+      email: false,
+      enableAnalytics: true,
+      enableOnRamp: true,
+      showWallets: true,
+      walletFeatures: true,
+      transportBuilder: (chainId) => wagmi.Transport.http(
+        url: blockchains
+            .firstWhere((element) => element.chainId == chainId)
+            .providerEndpoint,
+      ),
+      includeWalletIds:
+          isEmbedded ? includeWalletIdsEmbedded : includeWalletIds,
+    );
+
+    isInit = true;
+  }
+
+  String? get currentAddress {
+    try {
+      return wagmi.Core.getAccount().address;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  wagmi.Connector? get walletConnector {
+    try {
+      return wagmi.Core.getAccount().connector;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  bool get walletConnected => wagmi.Core.getAccount().isConnected;
+
+  static const _projectId = 'ce9ee3c8e58873e8708247895990bc27';
+
+  Future<int> getChainId() async => wagmi.Core.getChainId();
+
+  // TODO(chralu): Utiliser une écoute plutot que du polling
+  Future<wagmi.Account> _waitForConnection() async {
+    while (true) {
+      final account = wagmi.Core.getAccount();
+      if (account.isConnected) {
+        _requestedAccount = account;
+        return account;
+      }
+      await Future.delayed(const Duration(seconds: 1));
+    }
+  }
+
+  Future<void> connect(BridgeBlockchain chain) async {
+    _logger.finest('Connecting to ${chain.name}');
+    if (!walletConnected) {
+      _logger.finest('Wallet not connected -> opening web3modal');
+      wagmi.Web3Modal.open();
+
+      await _waitForConnection();
+    }
+    await useChain(chain.chainId);
+  }
+
+  Future<void> useChain(int chainId) async {
+    _requestedChainId = chainId;
+    if (wagmi.Core.getChainId() == chainId) return;
+    await wagmi.Core.switchChain(
+      wagmi.SwitchChainParameters(
+        connector: walletConnector,
+        chainId: chainId,
+      ),
+    );
+  }
+
+  Future<void> useRequestedChain() async => useChain(requestedChainId);
 
   Future<void> disconnect() async {
-    walletConnected = false;
-    currentAddress = null;
-    notifyListeners();
+    _logger.finest('Disconnecting wallet');
+
+    await wagmi.Core.disconnect(wagmi.DisconnectParameters());
   }
-
-  Future<double> getBalance(
-    String address,
-    String providerEndpoint,
-    String typeToken,
-    int decimal, {
-    String erc20address = '',
-  }) async {
-    try {
-      if (web3Client == null || credentials == null) {
-        return 0.0;
-      }
-      switch (typeToken) {
-        case 'Native':
-          final balance =
-              await web3Client!.getBalance(EthereumAddress.fromHex(address));
-          return balance.getValueInUnit(EtherUnit.ether);
-        case 'ERC20':
-        case 'Wrapped':
-          if (erc20address.isEmpty) {
-            return 0.0;
-          }
-          final client = Web3Client(
-            providerEndpoint,
-            Client(),
-          );
-
-          final abiTokenStringJson = jsonDecode(
-            await rootBundle.loadString(
-              contractNameIERC20,
-            ),
-          );
-
-          final contractToken = DeployedContract(
-            ContractAbi.fromJson(
-              jsonEncode(abiTokenStringJson['abi']),
-              abiTokenStringJson['contractName'] as String,
-            ),
-            EthereumAddress.fromHex(erc20address),
-          );
-
-          final balanceResponse = await client.call(
-            contract: contractToken,
-            function: contractToken.function('balanceOf'),
-            params: [
-              EthereumAddress.fromHex(address),
-            ],
-          );
-          final tokenBalance = balanceResponse[0] as BigInt;
-          final adjustedBalance = (Decimal.parse('$tokenBalance') /
-                  Decimal.fromBigInt(BigInt.from(10).pow(decimal)))
-              .toDouble();
-          return adjustedBalance;
-
-        default:
-          return 0.0;
-      }
-    } catch (e, stackTrace) {
-      aedappfm.sl.get<aedappfm.LogManager>().log(
-            '$e',
-            stackTrace: stackTrace,
-            level: aedappfm.LogLevel.error,
-            name: 'EVMWalletProvider - getBalance',
-          );
-      return 0.0;
-    }
-  }
-
-  Future<int> getTokenDecimals(
-    String providerEndpoint,
-    String typeToken, {
-    String erc20address = '',
-  }) async {
-    const defaultDecimal = 8;
-
-    try {
-      if (web3Client == null || credentials == null) {
-        return 8;
-      }
-      switch (typeToken) {
-        case 'Native':
-          return 18;
-        case 'ERC20':
-        case 'Wrapped':
-          if (erc20address.isEmpty) {
-            return defaultDecimal;
-          }
-          final client = Web3Client(
-            providerEndpoint,
-            Client(),
-          );
-
-          final abiTokenStringJson = jsonDecode(
-            await rootBundle.loadString(
-              contractNameERC20,
-            ),
-          );
-
-          final contractToken = DeployedContract(
-            ContractAbi.fromJson(
-              jsonEncode(abiTokenStringJson['abi']),
-              abiTokenStringJson['contractName'] as String,
-            ),
-            EthereumAddress.fromHex(erc20address),
-          );
-
-          final decimalsResponse = await client.call(
-            contract: contractToken,
-            function: contractToken.function('decimals'),
-            params: [],
-          );
-
-          return decimalsResponse[0].toInt();
-        default:
-          return defaultDecimal;
-      }
-    } catch (e, stackTrace) {
-      aedappfm.sl.get<aedappfm.LogManager>().log(
-            '$e',
-            stackTrace: stackTrace,
-            level: aedappfm.LogLevel.error,
-            name: 'EVMWalletProvider - getTokenDecimals',
-          );
-      return defaultDecimal;
-    }
-  }
-}
-
-@JS()
-@anonymous
-class JSrawRequestParams {
-  external factory JSrawRequestParams({String chainId});
-  external String get chainId;
 }

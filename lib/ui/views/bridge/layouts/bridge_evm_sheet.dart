@@ -19,7 +19,6 @@ class BridgeEVMSheet extends ConsumerStatefulWidget {
 
   static const routerPage = 'evm';
   static const navPage = '/bridge/evm';
-
   @override
   ConsumerState<BridgeEVMSheet> createState() => _BridgeEVMSheetState();
 }
@@ -34,12 +33,14 @@ class _BridgeEVMSheetState extends ConsumerState<BridgeEVMSheet> {
     if (BrowserUtil().isEdgeBrowser() ||
         BrowserUtil().isInternetExplorerBrowser()) {
       Future.delayed(Duration.zero, () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return const BrowserPopup();
-          },
-        );
+        if (mounted) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const BrowserPopup();
+            },
+          );
+        }
       });
     }
   }
@@ -74,7 +75,7 @@ class _BridgeEVMSheetState extends ConsumerState<BridgeEVMSheet> {
     }
     return MainScreenList(
       body: Padding(
-        padding: const EdgeInsets.only(top: 80),
+        padding: const EdgeInsets.only(top: 24),
         child: Column(
           children: [
             Padding(

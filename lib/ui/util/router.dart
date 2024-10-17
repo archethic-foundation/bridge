@@ -74,11 +74,16 @@ final routerProvider = Provider<GoRouter>((ref) {
         path: RefundSheet.routerPage,
         pageBuilder: (context, state) {
           String? htlcAddress;
+          int? chainId;
           try {
             final helper = QueryParameterHelper();
             final htlcAddressEncoded = state.uri.queryParameters['htlcAddress'];
             if (htlcAddressEncoded != null) {
               htlcAddress = helper.decodeQueryParameter(htlcAddressEncoded);
+            }
+            final chainIdEncoded = state.uri.queryParameters['chainId'];
+            if (chainIdEncoded != null) {
+              chainId = helper.decodeQueryParameter(chainIdEncoded);
             }
           } catch (e)
           // ignore: empty_catches
@@ -86,6 +91,7 @@ final routerProvider = Provider<GoRouter>((ref) {
           return NoTransitionPage(
             child: RefundSheet(
               htlcAddress: htlcAddress,
+              chainId: chainId,
             ),
           );
         },

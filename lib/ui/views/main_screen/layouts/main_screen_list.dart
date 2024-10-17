@@ -1,5 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:ui';
+
+import 'package:aebridge/application/app_embedded.dart';
 import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/app_bar.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
@@ -14,7 +16,10 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class MainScreenList extends ConsumerStatefulWidget {
-  const MainScreenList({required this.body, super.key});
+  const MainScreenList({
+    required this.body,
+    super.key,
+  });
 
   final Widget body;
   @override
@@ -31,12 +36,14 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
     if (BrowserUtil().isEdgeBrowser() ||
         BrowserUtil().isInternetExplorerBrowser()) {
       Future.delayed(Duration.zero, () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return const BrowserPopup();
-          },
-        );
+        if (mounted) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const BrowserPopup();
+            },
+          );
+        }
       });
     }
   }
@@ -64,6 +71,8 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
 
   @override
   Widget build(BuildContext context) {
+    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
+
     return Title(
       title: 'aeBridge - Bridge Archethic blockchain',
       color: Colors.black,
@@ -80,29 +89,27 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
             ),
           ),
         ),
-        body: Stack(
-          alignment: Alignment.topRight,
-          children: [
-            Stack(
-              alignment: Alignment.center,
-              children: [
-                const aedappfm.AppBackground(
-                  backgroundImage: 'assets/images/background-welcome.png',
-                ),
-                widget.body
-                    .animate()
-                    .fade(
-                      duration: const Duration(milliseconds: 200),
-                    )
-                    .scale(
-                      duration: const Duration(milliseconds: 200),
-                    ),
-              ],
-            ),
-          ],
+        body: SafeArea(
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              const aedappfm.AppBackground(
+                backgroundImage: 'assets/images/background-welcome.png',
+              ),
+              widget.body
+                  .animate()
+                  .fade(
+                    duration: const Duration(milliseconds: 200),
+                  )
+                  .scale(
+                    duration: const Duration(milliseconds: 200),
+                  ),
+            ],
+          ),
         ),
-        bottomNavigationBar: aedappfm.Responsive.isMobile(context) ||
-                aedappfm.Responsive.isTablet(context)
+        bottomNavigationBar: !isAppEmbedded &&
+                (aedappfm.Responsive.isMobile(context) ||
+                    aedappfm.Responsive.isTablet(context))
             ? BottomNavigationBarMainScreen(
                 listNavigationLabelIcon: listNavigationLabelIcon,
                 navDrawerIndex: ref.watch(navigationIndexMainScreenProvider),

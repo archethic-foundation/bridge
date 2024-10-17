@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/app_embedded.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
@@ -25,8 +26,8 @@ class _ConnectionToWalletStatusState
     extends ConsumerState<ConnectionToWalletStatus> {
   @override
   Widget build(BuildContext context) {
-    final session = ref.watch(SessionProviders.session);
-
+    final session = ref.watch(sessionNotifierProvider);
+    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
     BridgeWallet? walletArchethic;
     if (session.walletFrom != null &&
         session.walletFrom!.wallet == 'archethic') {
@@ -57,7 +58,7 @@ class _ConnectionToWalletStatusState
           ),
         );
 
-        ref.read(SessionProviders.session.notifier).setOldNameAccount();
+        ref.read(sessionNotifierProvider.notifier).setOldNameAccount();
       });
     }
 
@@ -122,25 +123,30 @@ class _ConnectionToWalletStatusState
               ),
             ],
           ),
-          const SizedBox(
-            width: 16,
-          ),
-          IconButton(
-            icon: const Icon(aedappfm.Iconsax.logout),
-            iconSize: 18,
-            onPressed: () async {
-              await ref
-                  .read(SessionProviders.session.notifier)
-                  .cancelAllWalletsConnection();
-              ref.invalidate(BridgeFormProvider.bridgeForm);
-              if (context.mounted) {
-                context.go(BridgeSheet.routerPage);
-              }
-            },
-          ),
-          const SizedBox(
-            width: 4,
-          ),
+          if (isAppEmbedded == false)
+            Row(
+              children: [
+                const SizedBox(
+                  width: 16,
+                ),
+                IconButton(
+                  icon: const Icon(aedappfm.Iconsax.logout),
+                  iconSize: 18,
+                  onPressed: () async {
+                    await ref
+                        .read(sessionNotifierProvider.notifier)
+                        .cancelAllWalletsConnection();
+                    ref.invalidate(bridgeFormNotifierProvider);
+                    if (context.mounted) {
+                      context.go(BridgeSheet.routerPage);
+                    }
+                  },
+                ),
+                const SizedBox(
+                  width: 4,
+                ),
+              ],
+            ),
         ],
       ),
     );
@@ -154,8 +160,8 @@ class MenuConnectionToWalletStatus extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final session = ref.watch(SessionProviders.session);
-    final sessionNotifier = ref.watch(SessionProviders.session.notifier);
+    final session = ref.watch(sessionNotifierProvider);
+    final sessionNotifier = ref.watch(sessionNotifierProvider.notifier);
 
     return Column(
       children: [

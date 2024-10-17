@@ -20,7 +20,9 @@ mixin _$BridgeHistoryHiveDTO {
   List<Map<String, dynamic>>? get bridgeList =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BridgeHistoryHiveDTO
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BridgeHistoryHiveDTOCopyWith<BridgeHistoryHiveDTO> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -45,6 +47,8 @@ class _$BridgeHistoryHiveDTOCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BridgeHistoryHiveDTO
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -78,6 +82,8 @@ class __$$BridgeHistoryHiveDTOImplCopyWithImpl<$Res>
       $Res Function(_$BridgeHistoryHiveDTOImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BridgeHistoryHiveDTO
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -130,7 +136,9 @@ class _$BridgeHistoryHiveDTOImpl extends _BridgeHistoryHiveDTO {
   int get hashCode => Object.hash(
       runtimeType, const DeepCollectionEquality().hash(_bridgeList));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BridgeHistoryHiveDTO
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BridgeHistoryHiveDTOImplCopyWith<_$BridgeHistoryHiveDTOImpl>
@@ -148,8 +156,11 @@ abstract class _BridgeHistoryHiveDTO extends BridgeHistoryHiveDTO {
   @override
   @HiveField(0)
   List<Map<String, dynamic>>? get bridgeList;
+
+  /// Create a copy of BridgeHistoryHiveDTO
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BridgeHistoryHiveDTOImplCopyWith<_$BridgeHistoryHiveDTOImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

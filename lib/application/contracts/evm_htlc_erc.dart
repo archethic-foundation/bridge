@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/domain/models/secret.dart';
 import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
@@ -9,29 +8,13 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:http/http.dart';
-import 'package:webthree/crypto.dart';
-import 'package:webthree/webthree.dart';
+import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
 class EVMHTLCERC with EVMBridgeProcessMixin {
   EVMHTLCERC(
-    this.providerEndpoint,
     this.htlcContractAddress,
-    this.chainId,
-  ) {
-    web3Client = Web3Client(
-      providerEndpoint,
-      Client(),
-      customFilterPingInterval: Duration(
-        // Ethereum is too long to validate a txn...
-        seconds: chainId == 1 ? 20 : 5,
-      ),
-    );
-  }
-  final String providerEndpoint;
+  );
   final String htlcContractAddress;
-  late final Web3Client web3Client;
-  final int chainId;
 
   Future<aedappfm.Result<void, aedappfm.Failure>> approveChargeableHTLC(
     WidgetRef ref,
@@ -43,49 +26,41 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
-        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-        final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-        bridgeNotifier.setRequestTooLong(false);
-        final contract =
-            await getDeployedContract(contractNameIERC20, tokenAddress);
+        ref.read(bridgeFormNotifierProvider.notifier).setRequestTooLong(false);
 
         final tokenUnits = (Decimal.parse('$amount') *
                 Decimal.fromBigInt(BigInt.from(10).pow(decimal)))
             .toBigInt();
-        final transactionTransfer = Transaction.callContract(
-          contract: contract,
-          function: contract.function('approve'),
-          parameters: [
-            EthereumAddress.fromHex(poolAddress),
-            tokenUnits,
-          ],
-          maxGas: 1500000,
+
+        final contractAbi = await loadAbi(
+          contractNameIERC20,
         );
 
         try {
-          final bridgeNotifier =
-              ref.read(BridgeFormProvider.bridgeForm.notifier);
+          final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
 
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
-          await sendTransactionWithErrorManagement(
-            web3Client,
-            evmWalletProvider.credentials!,
-            transactionTransfer,
-            chainId,
-            'EVMHTLCERC - approveChargeableHTLC',
-            ref,
-            EVMBridgeProcess.bridge,
+
+          await writeContractWithErrorManagement(
+            parameters: wagmi.WriteContractParameters.eip1559(
+              abi: contractAbi,
+              address: tokenAddress,
+              functionName: 'approve',
+              args: [
+                poolAddress,
+                tokenUnits,
+              ],
+              // feeValues: await FeeValuesUtils.defaultEIP1559FeeValues(chainId),
+            ),
+            fromMethod: 'EVMHTLCERC - approveChargeableHTLC',
+            ref: ref,
+            evmBridgeProcess: EVMBridgeProcess.bridge,
           );
           await bridgeNotifier.setWalletConfirmation(null);
-
-          aedappfm.sl.get<aedappfm.LogManager>().log(
-                'Event Approval after send',
-                name: 'EVMHTLCERC - approveChargeableHTLC',
-              );
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'Timeout occurred (htlcContractAddress: $htlcContractAddress, chainId: $chainId, userAddress: $userAddress, poolAddress: $poolAddress, tokenAddress: $tokenAddress, amount: $amount)',
+                  'Timeout occurred (htlcContractAddress: $htlcContractAddress, chainId: ${evmWalletProvider.requestedChainId}, userAddress: $userAddress, poolAddress: $poolAddress, tokenAddress: $tokenAddress, amount: $amount)',
                   level: aedappfm.LogLevel.error,
                   name: 'EVMHTLCERC - approveChargeableHTLC',
                 );
@@ -101,8 +76,6 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             }
           }
           rethrow;
-        } finally {
-          await web3Client.dispose();
         }
       },
     );
@@ -114,47 +87,40 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
-        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
-        final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
-        bridgeNotifier.setRequestTooLong(false);
+        final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier)
+          ..setRequestTooLong(false);
+        late String? withdrawTx;
 
-        final contractHTLCERC = await getDeployedContract(
-          contractNameSignedHTLCERC,
-          htlcContractAddress,
-        );
-
-        final transactionWithdraw = Transaction.callContract(
-          contract: contractHTLCERC,
-          function: contractHTLCERC.findFunctionByNameAndNbOfParameters(
-            'withdraw',
-            4,
-          ),
-          parameters: [
-            hexToBytes(secret.secret!),
-            hexToBytes(secret.secretSignature!.r!),
-            hexToBytes(secret.secretSignature!.s!),
-            BigInt.from(secret.secretSignature!.v!),
-          ],
-          maxGas: 1500000,
-        );
-
-        String? withdrawTx;
         try {
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
-          withdrawTx = await sendTransactionWithErrorManagement(
-            web3Client,
-            evmWalletProvider.credentials!,
-            transactionWithdraw,
-            chainId,
-            'EVMHTLCERC - signedWithdraw',
-            ref,
-            EVMBridgeProcess.bridge,
+
+          final contractAbi = await loadAbi(
+            contractNameSignedHTLCERC,
           );
+
+          withdrawTx = await writeContractWithErrorManagement(
+            parameters: wagmi.WriteContractParameters.eip1559(
+              abi: contractAbi,
+              address: htlcContractAddress,
+              functionName: 'withdraw',
+              args: [
+                secret.secret!.toBytes,
+                secret.secretSignature!.r!.toBytes,
+                secret.secretSignature!.s!.toBytes,
+                BigInt.from(secret.secretSignature!.v!),
+              ],
+              //   feeValues: await FeeValuesUtils.defaultEIP1559FeeValues(chainId),
+            ),
+            fromMethod: 'EVMHTLCERC - signedWithdraw',
+            ref: ref,
+            evmBridgeProcess: EVMBridgeProcess.bridge,
+          );
+
           await bridgeNotifier.setWalletConfirmation(null);
         } catch (e, stackTrace) {
           if (e is TimeoutException) {
             aedappfm.sl.get<aedappfm.LogManager>().log(
-                  'Timeout occurred (htlcContractAddress: $htlcContractAddress, chainId: $chainId)',
+                  'Timeout occurred (htlcContractAddress: $htlcContractAddress, chainId: ${evmWalletProvider.requestedChainId})',
                   level: aedappfm.LogLevel.error,
                   name: 'EVMHTLCERC - signedWithdraw',
                 );
@@ -170,38 +136,8 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             }
           }
           rethrow;
-        } finally {
-          await web3Client.dispose();
         }
         return withdrawTx;
-      },
-    );
-  }
-
-  Future<aedappfm.Result<double, aedappfm.Failure>> getFee(int decimal) async {
-    return aedappfm.Result.guard(
-      () async {
-        try {
-          final contractHTLC = await getDeployedContract(
-            contractNameChargeableHTLCERC,
-            htlcContractAddress,
-          );
-
-          final feeMap = await web3Client.call(
-            contract: contractHTLC,
-            function: contractHTLC.function('fee'),
-            params: [],
-          );
-
-          final BigInt fee = feeMap[0];
-          final convertedFee = (Decimal.parse('$fee') /
-                  Decimal.fromBigInt(BigInt.from(10).pow(decimal)))
-              .toDouble();
-
-          return convertedFee;
-        } catch (e) {
-          return 0.0;
-        }
       },
     );
   }
@@ -211,15 +147,14 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
-        final contractHTLC = await getDeployedContract(
-          contractNameIERC20,
-          tokenAddress,
-        );
+        final contractHTLC = await loadAbi(contractNameIERC20);
 
-        final decimalsMap = await web3Client.call(
-          contract: contractHTLC,
-          function: contractHTLC.function('decimals'),
-          params: [],
+        final decimalsMap = await readContract(
+          wagmi.ReadContractParameters(
+            abi: contractHTLC,
+            address: tokenAddress,
+            functionName: 'decimals',
+          ),
         );
 
         final int decimals = decimalsMap[0].toInt();

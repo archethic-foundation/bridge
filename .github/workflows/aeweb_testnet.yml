@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - testnet
+      - 153-test-wallect-connect
 
 jobs:
   deploy_to_aeHosting:
@@ -27,7 +28,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: "stable"
-          flutter-version: '3.22.3'
+          flutter-version: '3.24.3'
       - run: flutter --version
 
       - name: Install dependencies

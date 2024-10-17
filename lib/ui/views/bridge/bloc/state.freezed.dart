@@ -51,6 +51,10 @@ mixin _$BridgeFormState {
   String? get htlcAEAddress => throw _privateConstructorUsedError;
   String? get htlcEVMAddress => throw _privateConstructorUsedError;
   String? get htlcEVMTxAddress => throw _privateConstructorUsedError;
+  String? get processCurrentAccountAddressEVM =>
+      throw _privateConstructorUsedError;
+  String? get processCurrentAccountAddressAE =>
+      throw _privateConstructorUsedError;
   List<int>? get secret => throw _privateConstructorUsedError;
   double get archethicProtocolFeesRate => throw _privateConstructorUsedError;
   String get archethicProtocolFeesAddress => throw _privateConstructorUsedError;
@@ -61,9 +65,15 @@ mixin _$BridgeFormState {
   DateTime? get consentDateTime => throw _privateConstructorUsedError;
   bool get requestTooLong => throw _privateConstructorUsedError;
   double get ucoV1Balance => throw _privateConstructorUsedError;
+  bool get chainIdUpdated => throw _privateConstructorUsedError;
+  bool get accountUpdated => throw _privateConstructorUsedError;
 
+  /// Serializes this BridgeFormState to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of BridgeFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BridgeFormStateCopyWith<BridgeFormState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -99,6 +109,8 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       String? htlcAEAddress,
       String? htlcEVMAddress,
       String? htlcEVMTxAddress,
+      String? processCurrentAccountAddressEVM,
+      String? processCurrentAccountAddressAE,
       List<int>? secret,
       double archethicProtocolFeesRate,
       String archethicProtocolFeesAddress,
@@ -108,7 +120,9 @@ abstract class $BridgeFormStateCopyWith<$Res> {
       bool controlInProgress,
       DateTime? consentDateTime,
       bool requestTooLong,
-      double ucoV1Balance});
+      double ucoV1Balance,
+      bool chainIdUpdated,
+      bool accountUpdated});
 
   $BridgeBlockchainCopyWith<$Res>? get blockchainFrom;
   $BridgeBlockchainCopyWith<$Res>? get blockchainTo;
@@ -127,6 +141,8 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BridgeFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -154,6 +170,8 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? htlcAEAddress = freezed,
     Object? htlcEVMAddress = freezed,
     Object? htlcEVMTxAddress = freezed,
+    Object? processCurrentAccountAddressEVM = freezed,
+    Object? processCurrentAccountAddressAE = freezed,
     Object? secret = freezed,
     Object? archethicProtocolFeesRate = null,
     Object? archethicProtocolFeesAddress = null,
@@ -164,6 +182,8 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     Object? consentDateTime = freezed,
     Object? requestTooLong = null,
     Object? ucoV1Balance = null,
+    Object? chainIdUpdated = null,
+    Object? accountUpdated = null,
   }) {
     return _then(_value.copyWith(
       resumeProcess: null == resumeProcess
@@ -262,6 +282,15 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
           ? _value.htlcEVMTxAddress
           : htlcEVMTxAddress // ignore: cast_nullable_to_non_nullable
               as String?,
+      processCurrentAccountAddressEVM: freezed ==
+              processCurrentAccountAddressEVM
+          ? _value.processCurrentAccountAddressEVM
+          : processCurrentAccountAddressEVM // ignore: cast_nullable_to_non_nullable
+              as String?,
+      processCurrentAccountAddressAE: freezed == processCurrentAccountAddressAE
+          ? _value.processCurrentAccountAddressAE
+          : processCurrentAccountAddressAE // ignore: cast_nullable_to_non_nullable
+              as String?,
       secret: freezed == secret
           ? _value.secret
           : secret // ignore: cast_nullable_to_non_nullable
@@ -302,9 +331,19 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
           ? _value.ucoV1Balance
           : ucoV1Balance // ignore: cast_nullable_to_non_nullable
               as double,
+      chainIdUpdated: null == chainIdUpdated
+          ? _value.chainIdUpdated
+          : chainIdUpdated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      accountUpdated: null == accountUpdated
+          ? _value.accountUpdated
+          : accountUpdated // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 
+  /// Create a copy of BridgeFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $BridgeBlockchainCopyWith<$Res>? get blockchainFrom {
@@ -317,6 +356,8 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     });
   }
 
+  /// Create a copy of BridgeFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $BridgeBlockchainCopyWith<$Res>? get blockchainTo {
@@ -329,6 +370,8 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     });
   }
 
+  /// Create a copy of BridgeFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $BridgeTokenCopyWith<$Res>? get tokenToBridge {
@@ -341,6 +384,8 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     });
   }
 
+  /// Create a copy of BridgeFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res>? get failure {
@@ -353,6 +398,8 @@ class _$BridgeFormStateCopyWithImpl<$Res, $Val extends BridgeFormState>
     });
   }
 
+  /// Create a copy of BridgeFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $ArchethicOracleUCOCopyWith<$Res>? get archethicOracleUCO {
@@ -400,6 +447,8 @@ abstract class _$$BridgeFormStateImplCopyWith<$Res>
       String? htlcAEAddress,
       String? htlcEVMAddress,
       String? htlcEVMTxAddress,
+      String? processCurrentAccountAddressEVM,
+      String? processCurrentAccountAddressAE,
       List<int>? secret,
       double archethicProtocolFeesRate,
       String archethicProtocolFeesAddress,
@@ -409,7 +458,9 @@ abstract class _$$BridgeFormStateImplCopyWith<$Res>
       bool controlInProgress,
       DateTime? consentDateTime,
       bool requestTooLong,
-      double ucoV1Balance});
+      double ucoV1Balance,
+      bool chainIdUpdated,
+      bool accountUpdated});
 
   @override
   $BridgeBlockchainCopyWith<$Res>? get blockchainFrom;
@@ -431,6 +482,8 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
       _$BridgeFormStateImpl _value, $Res Function(_$BridgeFormStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BridgeFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -458,6 +511,8 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
     Object? htlcAEAddress = freezed,
     Object? htlcEVMAddress = freezed,
     Object? htlcEVMTxAddress = freezed,
+    Object? processCurrentAccountAddressEVM = freezed,
+    Object? processCurrentAccountAddressAE = freezed,
     Object? secret = freezed,
     Object? archethicProtocolFeesRate = null,
     Object? archethicProtocolFeesAddress = null,
@@ -468,6 +523,8 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
     Object? consentDateTime = freezed,
     Object? requestTooLong = null,
     Object? ucoV1Balance = null,
+    Object? chainIdUpdated = null,
+    Object? accountUpdated = null,
   }) {
     return _then(_$BridgeFormStateImpl(
       resumeProcess: null == resumeProcess
@@ -566,6 +623,15 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
           ? _value.htlcEVMTxAddress
           : htlcEVMTxAddress // ignore: cast_nullable_to_non_nullable
               as String?,
+      processCurrentAccountAddressEVM: freezed ==
+              processCurrentAccountAddressEVM
+          ? _value.processCurrentAccountAddressEVM
+          : processCurrentAccountAddressEVM // ignore: cast_nullable_to_non_nullable
+              as String?,
+      processCurrentAccountAddressAE: freezed == processCurrentAccountAddressAE
+          ? _value.processCurrentAccountAddressAE
+          : processCurrentAccountAddressAE // ignore: cast_nullable_to_non_nullable
+              as String?,
       secret: freezed == secret
           ? _value._secret
           : secret // ignore: cast_nullable_to_non_nullable
@@ -606,6 +672,14 @@ class __$$BridgeFormStateImplCopyWithImpl<$Res>
           ? _value.ucoV1Balance
           : ucoV1Balance // ignore: cast_nullable_to_non_nullable
               as double,
+      chainIdUpdated: null == chainIdUpdated
+          ? _value.chainIdUpdated
+          : chainIdUpdated // ignore: cast_nullable_to_non_nullable
+              as bool,
+      accountUpdated: null == accountUpdated
+          ? _value.accountUpdated
+          : accountUpdated // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -638,6 +712,8 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
       this.htlcAEAddress,
       this.htlcEVMAddress,
       this.htlcEVMTxAddress,
+      this.processCurrentAccountAddressEVM,
+      this.processCurrentAccountAddressAE,
       final List<int>? secret,
       this.archethicProtocolFeesRate = 0.0,
       this.archethicProtocolFeesAddress = '',
@@ -647,7 +723,9 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
       this.controlInProgress = false,
       this.consentDateTime,
       this.requestTooLong = false,
-      this.ucoV1Balance = 0})
+      this.ucoV1Balance = 0,
+      this.chainIdUpdated = false,
+      this.accountUpdated = false})
       : _secret = secret,
         super._();
 
@@ -721,6 +799,10 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
   final String? htlcEVMAddress;
   @override
   final String? htlcEVMTxAddress;
+  @override
+  final String? processCurrentAccountAddressEVM;
+  @override
+  final String? processCurrentAccountAddressAE;
   final List<int>? _secret;
   @override
   List<int>? get secret {
@@ -757,10 +839,16 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
   @override
   @JsonKey()
   final double ucoV1Balance;
+  @override
+  @JsonKey()
+  final bool chainIdUpdated;
+  @override
+  @JsonKey()
+  final bool accountUpdated;
 
   @override
   String toString() {
-    return 'BridgeFormState(resumeProcess: $resumeProcess, processStep: $processStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, poolTargetBalance: $poolTargetBalance, poolTargetMintAndBurn: $poolTargetMintAndBurn, tokenToBridgeDecimals: $tokenToBridgeDecimals, tokenBridgedDecimals: $tokenBridgedDecimals, failure: $failure, isTransferInProgress: $isTransferInProgress, walletConfirmation: $walletConfirmation, bridgeOk: $bridgeOk, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, htlcEVMTxAddress: $htlcEVMTxAddress, secret: $secret, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees, feesEstimatedUCO: $feesEstimatedUCO, messageMaxHalfUCO: $messageMaxHalfUCO, controlInProgress: $controlInProgress, consentDateTime: $consentDateTime, requestTooLong: $requestTooLong, ucoV1Balance: $ucoV1Balance)';
+    return 'BridgeFormState(resumeProcess: $resumeProcess, processStep: $processStep, blockchainFrom: $blockchainFrom, blockchainTo: $blockchainTo, tokenToBridge: $tokenToBridge, tokenToBridgeAmount: $tokenToBridgeAmount, targetAddress: $targetAddress, tokenToBridgeBalance: $tokenToBridgeBalance, tokenBridgedBalance: $tokenBridgedBalance, poolTargetBalance: $poolTargetBalance, poolTargetMintAndBurn: $poolTargetMintAndBurn, tokenToBridgeDecimals: $tokenToBridgeDecimals, tokenBridgedDecimals: $tokenBridgedDecimals, failure: $failure, isTransferInProgress: $isTransferInProgress, walletConfirmation: $walletConfirmation, bridgeOk: $bridgeOk, currentStep: $currentStep, changeDirectionInProgress: $changeDirectionInProgress, timestampExec: $timestampExec, archethicOracleUCO: $archethicOracleUCO, htlcAEAddress: $htlcAEAddress, htlcEVMAddress: $htlcEVMAddress, htlcEVMTxAddress: $htlcEVMTxAddress, processCurrentAccountAddressEVM: $processCurrentAccountAddressEVM, processCurrentAccountAddressAE: $processCurrentAccountAddressAE, secret: $secret, archethicProtocolFeesRate: $archethicProtocolFeesRate, archethicProtocolFeesAddress: $archethicProtocolFeesAddress, archethicTransactionFees: $archethicTransactionFees, feesEstimatedUCO: $feesEstimatedUCO, messageMaxHalfUCO: $messageMaxHalfUCO, controlInProgress: $controlInProgress, consentDateTime: $consentDateTime, requestTooLong: $requestTooLong, ucoV1Balance: $ucoV1Balance, chainIdUpdated: $chainIdUpdated, accountUpdated: $accountUpdated)';
   }
 
   @override
@@ -815,15 +903,19 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
                 other.htlcEVMAddress == htlcEVMAddress) &&
             (identical(other.htlcEVMTxAddress, htlcEVMTxAddress) ||
                 other.htlcEVMTxAddress == htlcEVMTxAddress) &&
+            (identical(other.processCurrentAccountAddressEVM, processCurrentAccountAddressEVM) ||
+                other.processCurrentAccountAddressEVM ==
+                    processCurrentAccountAddressEVM) &&
+            (identical(other.processCurrentAccountAddressAE, processCurrentAccountAddressAE) ||
+                other.processCurrentAccountAddressAE ==
+                    processCurrentAccountAddressAE) &&
             const DeepCollectionEquality().equals(other._secret, _secret) &&
             (identical(other.archethicProtocolFeesRate, archethicProtocolFeesRate) ||
                 other.archethicProtocolFeesRate == archethicProtocolFeesRate) &&
-            (identical(other.archethicProtocolFeesAddress,
-                    archethicProtocolFeesAddress) ||
+            (identical(other.archethicProtocolFeesAddress, archethicProtocolFeesAddress) ||
                 other.archethicProtocolFeesAddress ==
                     archethicProtocolFeesAddress) &&
-            (identical(
-                    other.archethicTransactionFees, archethicTransactionFees) ||
+            (identical(other.archethicTransactionFees, archethicTransactionFees) ||
                 other.archethicTransactionFees == archethicTransactionFees) &&
             (identical(other.feesEstimatedUCO, feesEstimatedUCO) ||
                 other.feesEstimatedUCO == feesEstimatedUCO) &&
@@ -836,10 +928,12 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
             (identical(other.requestTooLong, requestTooLong) ||
                 other.requestTooLong == requestTooLong) &&
             (identical(other.ucoV1Balance, ucoV1Balance) ||
-                other.ucoV1Balance == ucoV1Balance));
+                other.ucoV1Balance == ucoV1Balance) &&
+            (identical(other.chainIdUpdated, chainIdUpdated) || other.chainIdUpdated == chainIdUpdated) &&
+            (identical(other.accountUpdated, accountUpdated) || other.accountUpdated == accountUpdated));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hashAll([
         runtimeType,
@@ -867,6 +961,8 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
         htlcAEAddress,
         htlcEVMAddress,
         htlcEVMTxAddress,
+        processCurrentAccountAddressEVM,
+        processCurrentAccountAddressAE,
         const DeepCollectionEquality().hash(_secret),
         archethicProtocolFeesRate,
         archethicProtocolFeesAddress,
@@ -876,10 +972,14 @@ class _$BridgeFormStateImpl extends _BridgeFormState {
         controlInProgress,
         consentDateTime,
         requestTooLong,
-        ucoV1Balance
+        ucoV1Balance,
+        chainIdUpdated,
+        accountUpdated
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BridgeFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BridgeFormStateImplCopyWith<_$BridgeFormStateImpl> get copyWith =>
@@ -921,6 +1021,8 @@ abstract class _BridgeFormState extends BridgeFormState {
       final String? htlcAEAddress,
       final String? htlcEVMAddress,
       final String? htlcEVMTxAddress,
+      final String? processCurrentAccountAddressEVM,
+      final String? processCurrentAccountAddressAE,
       final List<int>? secret,
       final double archethicProtocolFeesRate,
       final String archethicProtocolFeesAddress,
@@ -930,7 +1032,9 @@ abstract class _BridgeFormState extends BridgeFormState {
       final bool controlInProgress,
       final DateTime? consentDateTime,
       final bool requestTooLong,
-      final double ucoV1Balance}) = _$BridgeFormStateImpl;
+      final double ucoV1Balance,
+      final bool chainIdUpdated,
+      final bool accountUpdated}) = _$BridgeFormStateImpl;
   const _BridgeFormState._() : super._();
 
   factory _BridgeFormState.fromJson(Map<String, dynamic> json) =
@@ -990,6 +1094,10 @@ abstract class _BridgeFormState extends BridgeFormState {
   @override
   String? get htlcEVMTxAddress;
   @override
+  String? get processCurrentAccountAddressEVM;
+  @override
+  String? get processCurrentAccountAddressAE;
+  @override
   List<int>? get secret;
   @override
   double get archethicProtocolFeesRate;
@@ -1010,7 +1118,14 @@ abstract class _BridgeFormState extends BridgeFormState {
   @override
   double get ucoV1Balance;
   @override
-  @JsonKey(ignore: true)
+  bool get chainIdUpdated;
+  @override
+  bool get accountUpdated;
+
+  /// Create a copy of BridgeFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BridgeFormStateImplCopyWith<_$BridgeFormStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

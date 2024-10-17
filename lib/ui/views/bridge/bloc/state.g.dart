@@ -53,6 +53,10 @@ _$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
       htlcAEAddress: json['htlcAEAddress'] as String?,
       htlcEVMAddress: json['htlcEVMAddress'] as String?,
       htlcEVMTxAddress: json['htlcEVMTxAddress'] as String?,
+      processCurrentAccountAddressEVM:
+          json['processCurrentAccountAddressEVM'] as String?,
+      processCurrentAccountAddressAE:
+          json['processCurrentAccountAddressAE'] as String?,
       secret: (json['secret'] as List<dynamic>?)
           ?.map((e) => (e as num).toInt())
           .toList(),
@@ -70,6 +74,8 @@ _$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
           : DateTime.parse(json['consentDateTime'] as String),
       requestTooLong: json['requestTooLong'] as bool? ?? false,
       ucoV1Balance: (json['ucoV1Balance'] as num?)?.toDouble() ?? 0,
+      chainIdUpdated: json['chainIdUpdated'] as bool? ?? false,
+      accountUpdated: json['accountUpdated'] as bool? ?? false,
     );
 
 Map<String, dynamic> _$$BridgeFormStateImplToJson(
@@ -111,6 +117,9 @@ Map<String, dynamic> _$$BridgeFormStateImplToJson(
       'htlcAEAddress': instance.htlcAEAddress,
       'htlcEVMAddress': instance.htlcEVMAddress,
       'htlcEVMTxAddress': instance.htlcEVMTxAddress,
+      'processCurrentAccountAddressEVM':
+          instance.processCurrentAccountAddressEVM,
+      'processCurrentAccountAddressAE': instance.processCurrentAccountAddressAE,
       'secret': instance.secret,
       'archethicProtocolFeesRate': instance.archethicProtocolFeesRate,
       'archethicProtocolFeesAddress': instance.archethicProtocolFeesAddress,
@@ -121,6 +130,8 @@ Map<String, dynamic> _$$BridgeFormStateImplToJson(
       'consentDateTime': instance.consentDateTime?.toIso8601String(),
       'requestTooLong': instance.requestTooLong,
       'ucoV1Balance': instance.ucoV1Balance,
+      'chainIdUpdated': instance.chainIdUpdated,
+      'accountUpdated': instance.accountUpdated,
     };
 
 const _$ProcessStepEnumMap = {

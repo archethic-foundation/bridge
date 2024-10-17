@@ -7,12 +7,14 @@ import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ArchethicContractChargeable with aedappfm.TransactionMixin {
   ArchethicContractChargeable();
 
   Future<aedappfm.Result<String, aedappfm.Failure>> deployChargeableHTLC(
+    awc.ArchethicDAppClient dappClient,
     WidgetRef ref,
     String factoryAddress,
     String poolAddress,
@@ -67,6 +69,7 @@ class ArchethicContractChargeable with aedappfm.TransactionMixin {
         final _seedSC = resultDefineHTLCAddress.seedHTLC;
         const slippageFees = 1.5;
         final resultDeployHTLC = await ArchethicContract().deployHTLC(
+          dappClient,
           ref,
           recipient,
           code.toString(),
@@ -88,6 +91,7 @@ class ArchethicContractChargeable with aedappfm.TransactionMixin {
 
   Future<aedappfm.Result<String, aedappfm.Failure>>
       revealSecretToChargeableHTLC(
+    awc.ArchethicDAppClient dappClient,
     WidgetRef ref,
     String userGenesisAddress,
     String currentNameAccount,
@@ -142,10 +146,11 @@ class ArchethicContractChargeable with aedappfm.TransactionMixin {
           ],
         );
 
-        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+        final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
         await bridgeNotifier
             .setWalletConfirmation(WalletConfirmation.archethic);
         transaction = (await signTx(
+          dappClient,
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transaction],

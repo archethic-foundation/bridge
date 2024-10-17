@@ -15,8 +15,8 @@ class BridgeInProgressUserExplorer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
-    final session = ref.watch(SessionProviders.session);
+    final bridge = ref.watch(bridgeFormNotifierProvider);
+    final session = ref.watch(sessionNotifierProvider);
 
     if (bridge.requestTooLong == true ||
         (bridge.failure != null && bridge.failure is aedappfm.Timeout)) {

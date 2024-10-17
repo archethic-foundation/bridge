@@ -23,13 +23,14 @@ mixin _$BridgeWallet {
   String get genesisAddress => throw _privateConstructorUsedError;
   String get error => throw _privateConstructorUsedError;
   String get env => throw _privateConstructorUsedError;
-  String? get providerEndpoint => throw _privateConstructorUsedError;
   bool get isConnected => throw _privateConstructorUsedError;
   Subscription<Account>? get accountSub => throw _privateConstructorUsedError;
   StreamSubscription<Account>? get accountStreamSub =>
       throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BridgeWallet
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $BridgeWalletCopyWith<BridgeWallet> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,7 +49,6 @@ abstract class $BridgeWalletCopyWith<$Res> {
       String genesisAddress,
       String error,
       String env,
-      String? providerEndpoint,
       bool isConnected,
       Subscription<Account>? accountSub,
       StreamSubscription<Account>? accountStreamSub});
@@ -66,6 +66,8 @@ class _$BridgeWalletCopyWithImpl<$Res, $Val extends BridgeWallet>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of BridgeWallet
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -76,7 +78,6 @@ class _$BridgeWalletCopyWithImpl<$Res, $Val extends BridgeWallet>
     Object? genesisAddress = null,
     Object? error = null,
     Object? env = null,
-    Object? providerEndpoint = freezed,
     Object? isConnected = null,
     Object? accountSub = freezed,
     Object? accountStreamSub = freezed,
@@ -110,10 +111,6 @@ class _$BridgeWalletCopyWithImpl<$Res, $Val extends BridgeWallet>
           ? _value.env
           : env // ignore: cast_nullable_to_non_nullable
               as String,
-      providerEndpoint: freezed == providerEndpoint
-          ? _value.providerEndpoint
-          : providerEndpoint // ignore: cast_nullable_to_non_nullable
-              as String?,
       isConnected: null == isConnected
           ? _value.isConnected
           : isConnected // ignore: cast_nullable_to_non_nullable
@@ -129,6 +126,8 @@ class _$BridgeWalletCopyWithImpl<$Res, $Val extends BridgeWallet>
     ) as $Val);
   }
 
+  /// Create a copy of BridgeWallet
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SubscriptionCopyWith<Account, $Res>? get accountSub {
@@ -158,7 +157,6 @@ abstract class _$$BridgeWalletImplCopyWith<$Res>
       String genesisAddress,
       String error,
       String env,
-      String? providerEndpoint,
       bool isConnected,
       Subscription<Account>? accountSub,
       StreamSubscription<Account>? accountStreamSub});
@@ -175,6 +173,8 @@ class __$$BridgeWalletImplCopyWithImpl<$Res>
       _$BridgeWalletImpl _value, $Res Function(_$BridgeWalletImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of BridgeWallet
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -185,7 +185,6 @@ class __$$BridgeWalletImplCopyWithImpl<$Res>
     Object? genesisAddress = null,
     Object? error = null,
     Object? env = null,
-    Object? providerEndpoint = freezed,
     Object? isConnected = null,
     Object? accountSub = freezed,
     Object? accountStreamSub = freezed,
@@ -219,10 +218,6 @@ class __$$BridgeWalletImplCopyWithImpl<$Res>
           ? _value.env
           : env // ignore: cast_nullable_to_non_nullable
               as String,
-      providerEndpoint: freezed == providerEndpoint
-          ? _value.providerEndpoint
-          : providerEndpoint // ignore: cast_nullable_to_non_nullable
-              as String?,
       isConnected: null == isConnected
           ? _value.isConnected
           : isConnected // ignore: cast_nullable_to_non_nullable
@@ -250,7 +245,6 @@ class _$BridgeWalletImpl extends _BridgeWallet {
       this.genesisAddress = '',
       this.error = '',
       this.env = '',
-      this.providerEndpoint,
       this.isConnected = false,
       this.accountSub,
       this.accountStreamSub})
@@ -278,8 +272,6 @@ class _$BridgeWalletImpl extends _BridgeWallet {
   @JsonKey()
   final String env;
   @override
-  final String? providerEndpoint;
-  @override
   @JsonKey()
   final bool isConnected;
   @override
@@ -289,7 +281,7 @@ class _$BridgeWalletImpl extends _BridgeWallet {
 
   @override
   String toString() {
-    return 'BridgeWallet(wallet: $wallet, endpoint: $endpoint, nameAccount: $nameAccount, oldNameAccount: $oldNameAccount, genesisAddress: $genesisAddress, error: $error, env: $env, providerEndpoint: $providerEndpoint, isConnected: $isConnected, accountSub: $accountSub, accountStreamSub: $accountStreamSub)';
+    return 'BridgeWallet(wallet: $wallet, endpoint: $endpoint, nameAccount: $nameAccount, oldNameAccount: $oldNameAccount, genesisAddress: $genesisAddress, error: $error, env: $env, isConnected: $isConnected, accountSub: $accountSub, accountStreamSub: $accountStreamSub)';
   }
 
   @override
@@ -308,8 +300,6 @@ class _$BridgeWalletImpl extends _BridgeWallet {
                 other.genesisAddress == genesisAddress) &&
             (identical(other.error, error) || other.error == error) &&
             (identical(other.env, env) || other.env == env) &&
-            (identical(other.providerEndpoint, providerEndpoint) ||
-                other.providerEndpoint == providerEndpoint) &&
             (identical(other.isConnected, isConnected) ||
                 other.isConnected == isConnected) &&
             (identical(other.accountSub, accountSub) ||
@@ -328,12 +318,13 @@ class _$BridgeWalletImpl extends _BridgeWallet {
       genesisAddress,
       error,
       env,
-      providerEndpoint,
       isConnected,
       accountSub,
       accountStreamSub);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of BridgeWallet
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$BridgeWalletImplCopyWith<_$BridgeWalletImpl> get copyWith =>
@@ -349,7 +340,6 @@ abstract class _BridgeWallet extends BridgeWallet {
           final String genesisAddress,
           final String error,
           final String env,
-          final String? providerEndpoint,
           final bool isConnected,
           final Subscription<Account>? accountSub,
           final StreamSubscription<Account>? accountStreamSub}) =
@@ -371,15 +361,16 @@ abstract class _BridgeWallet extends BridgeWallet {
   @override
   String get env;
   @override
-  String? get providerEndpoint;
-  @override
   bool get isConnected;
   @override
   Subscription<Account>? get accountSub;
   @override
   StreamSubscription<Account>? get accountStreamSub;
+
+  /// Create a copy of BridgeWallet
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$BridgeWalletImplCopyWith<_$BridgeWalletImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

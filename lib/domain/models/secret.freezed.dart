@@ -23,8 +23,12 @@ mixin _$Secret {
   String? get secret => throw _privateConstructorUsedError;
   SecretSignature? get secretSignature => throw _privateConstructorUsedError;
 
+  /// Serializes this Secret to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of Secret
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SecretCopyWith<Secret> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -48,6 +52,8 @@ class _$SecretCopyWithImpl<$Res, $Val extends Secret>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Secret
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -66,6 +72,8 @@ class _$SecretCopyWithImpl<$Res, $Val extends Secret>
     ) as $Val);
   }
 
+  /// Create a copy of Secret
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SecretSignatureCopyWith<$Res>? get secretSignature {
@@ -100,6 +108,8 @@ class __$$SecretImplCopyWithImpl<$Res>
       _$SecretImpl _value, $Res Function(_$SecretImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Secret
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -147,11 +157,13 @@ class _$SecretImpl implements _Secret {
                 other.secretSignature == secretSignature));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, secret, secretSignature);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Secret
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SecretImplCopyWith<_$SecretImpl> get copyWith =>
@@ -176,8 +188,11 @@ abstract class _Secret implements Secret {
   String? get secret;
   @override
   SecretSignature? get secretSignature;
+
+  /// Create a copy of Secret
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SecretImplCopyWith<_$SecretImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -192,8 +207,12 @@ mixin _$SecretSignature {
   String? get s => throw _privateConstructorUsedError;
   int? get v => throw _privateConstructorUsedError;
 
+  /// Serializes this SecretSignature to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SecretSignature
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SecretSignatureCopyWith<SecretSignature> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -217,6 +236,8 @@ class _$SecretSignatureCopyWithImpl<$Res, $Val extends SecretSignature>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SecretSignature
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -260,6 +281,8 @@ class __$$SecretSignatureImplCopyWithImpl<$Res>
       _$SecretSignatureImpl _value, $Res Function(_$SecretSignatureImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SecretSignature
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -314,11 +337,13 @@ class _$SecretSignatureImpl implements _SecretSignature {
             (identical(other.v, v) || other.v == v));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, r, s, v);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SecretSignature
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SecretSignatureImplCopyWith<_$SecretSignatureImpl> get copyWith =>
@@ -346,8 +371,11 @@ abstract class _SecretSignature implements SecretSignature {
   String? get s;
   @override
   int? get v;
+
+  /// Create a copy of SecretSignature
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SecretSignatureImplCopyWith<_$SecretSignatureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -362,8 +390,12 @@ mixin _$SecretHash {
   SecretHashSignature? get secretHashSignature =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this SecretHash to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SecretHash
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SecretHashCopyWith<SecretHash> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -389,6 +421,8 @@ class _$SecretHashCopyWithImpl<$Res, $Val extends SecretHash>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SecretHash
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -407,6 +441,8 @@ class _$SecretHashCopyWithImpl<$Res, $Val extends SecretHash>
     ) as $Val);
   }
 
+  /// Create a copy of SecretHash
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $SecretHashSignatureCopyWith<$Res>? get secretHashSignature {
@@ -443,6 +479,8 @@ class __$$SecretHashImplCopyWithImpl<$Res>
       _$SecretHashImpl _value, $Res Function(_$SecretHashImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SecretHash
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -491,11 +529,13 @@ class _$SecretHashImpl implements _SecretHash {
                 other.secretHashSignature == secretHashSignature));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, secretHash, secretHashSignature);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SecretHash
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SecretHashImplCopyWith<_$SecretHashImpl> get copyWith =>
@@ -521,8 +561,11 @@ abstract class _SecretHash implements SecretHash {
   String? get secretHash;
   @override
   SecretHashSignature? get secretHashSignature;
+
+  /// Create a copy of SecretHash
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SecretHashImplCopyWith<_$SecretHashImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -537,8 +580,12 @@ mixin _$SecretHashSignature {
   String? get s => throw _privateConstructorUsedError;
   int? get v => throw _privateConstructorUsedError;
 
+  /// Serializes this SecretHashSignature to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of SecretHashSignature
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SecretHashSignatureCopyWith<SecretHashSignature> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -562,6 +609,8 @@ class _$SecretHashSignatureCopyWithImpl<$Res, $Val extends SecretHashSignature>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of SecretHashSignature
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -605,6 +654,8 @@ class __$$SecretHashSignatureImplCopyWithImpl<$Res>
       $Res Function(_$SecretHashSignatureImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of SecretHashSignature
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -659,11 +710,13 @@ class _$SecretHashSignatureImpl implements _SecretHashSignature {
             (identical(other.v, v) || other.v == v));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, r, s, v);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of SecretHashSignature
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SecretHashSignatureImplCopyWith<_$SecretHashSignatureImpl> get copyWith =>
@@ -693,8 +746,11 @@ abstract class _SecretHashSignature implements SecretHashSignature {
   String? get s;
   @override
   int? get v;
+
+  /// Create a copy of SecretHashSignature
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SecretHashSignatureImplCopyWith<_$SecretHashSignatureImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -17,7 +17,7 @@ class RefundConnectWalletButton extends ConsumerWidget {
     final refund = ref.watch(RefundFormProvider.refundForm);
 
     if ((refund.wallet != null && refund.wallet!.isConnected) ||
-        refund.addressType == null) {
+        (refund.blockchain == null || refund.addressType == null)) {
       return const SizedBox.shrink();
     }
     return refund.addressType == AddressType.evm
@@ -26,7 +26,7 @@ class RefundConnectWalletButton extends ConsumerWidget {
             onPressed: () async {
               await ref
                   .read(RefundFormProvider.refundForm.notifier)
-                  .connectToEVMWallet(context);
+                  .connectToEVMWallet(AppLocalizations.of(context)!);
             },
           )
         : aedappfm.AppButton(
@@ -35,7 +35,7 @@ class RefundConnectWalletButton extends ConsumerWidget {
             onPressed: () async {
               await ref
                   .read(RefundFormProvider.refundForm.notifier)
-                  .connectToArchethicWallet(context);
+                  .connectToArchethicWallet(AppLocalizations.of(context)!);
             },
           );
   }

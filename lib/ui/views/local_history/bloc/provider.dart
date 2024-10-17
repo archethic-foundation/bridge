@@ -24,21 +24,21 @@ class LocalHistoryFormNotifier
       processCompletedIncluded: processCompletedIncluded,
     );
     ref.invalidate(
-      BridgeHistoryProviders.fetchBridgesList,
+      fetchBridgesListProvider,
     );
   }
 
   void setFilterPeriodStart(DateTime filterPeriodStart) {
     state = state.copyWith(filterPeriodStart: filterPeriodStart);
     ref.invalidate(
-      BridgeHistoryProviders.fetchBridgesList,
+      fetchBridgesListProvider,
     );
   }
 
   void setFilterPeriodEnd(DateTime filterPeriodEnd) {
     state = state.copyWith(filterPeriodEnd: filterPeriodEnd);
     ref.invalidate(
-      BridgeHistoryProviders.fetchBridgesList,
+      fetchBridgesListProvider,
     );
   }
 }

@@ -26,8 +26,12 @@ mixin _$FeeLevel {
   int get minWaitTimeEstimate => throw _privateConstructorUsedError;
   int get maxWaitTimeEstimate => throw _privateConstructorUsedError;
 
+  /// Serializes this FeeLevel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of FeeLevel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $FeeLevelCopyWith<FeeLevel> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54,6 +58,8 @@ class _$FeeLevelCopyWithImpl<$Res, $Val extends FeeLevel>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of FeeLevel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -106,6 +112,8 @@ class __$$FeeLevelImplCopyWithImpl<$Res>
       _$FeeLevelImpl _value, $Res Function(_$FeeLevelImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of FeeLevel
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -178,12 +186,14 @@ class _$FeeLevelImpl implements _FeeLevel {
                 other.maxWaitTimeEstimate == maxWaitTimeEstimate));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, suggestedMaxPriorityFeePerGas,
       suggestedMaxFeePerGas, minWaitTimeEstimate, maxWaitTimeEstimate);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of FeeLevel
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$FeeLevelImplCopyWith<_$FeeLevelImpl> get copyWith =>
@@ -215,8 +225,11 @@ abstract class _FeeLevel implements FeeLevel {
   int get minWaitTimeEstimate;
   @override
   int get maxWaitTimeEstimate;
+
+  /// Create a copy of FeeLevel
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FeeLevelImplCopyWith<_$FeeLevelImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

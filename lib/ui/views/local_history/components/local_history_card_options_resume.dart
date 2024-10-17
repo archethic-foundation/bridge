@@ -39,8 +39,8 @@ class LocalHistoryCardOptionsResumeState
             onTap: () async {
               try {
                 final state = await ref
-                    .read(BridgeFormProvider.bridgeForm.notifier)
-                    .resume(context, widget.bridge);
+                    .read(bridgeFormNotifierProvider.notifier)
+                    .resume(AppLocalizations.of(context)!, widget.bridge);
                 if (!context.mounted) return;
                 final helper = aedappfm.QueryParameterHelper();
                 final initialStateEncoded = helper.encodeQueryParameter(state);

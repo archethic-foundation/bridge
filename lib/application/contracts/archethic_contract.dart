@@ -11,6 +11,7 @@ import 'package:aebridge/ui/views/refund/bloc/state.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:decimal/decimal.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -31,6 +32,7 @@ class ArchethicContract
   }
 
   Future<aedappfm.Result<void, aedappfm.Failure>> deployHTLC(
+    awc.ArchethicDAppClient dappClient,
     WidgetRef ref,
     Recipient? recipient,
     String code,
@@ -108,12 +110,15 @@ class ArchethicContract
           ),
         );
 
-        final currentNameAccount = await getCurrentAccount();
+        final currentNameAccount = await getCurrentAccount(
+          dappClient,
+        );
 
-        final bridgeNotifier = ref.read(BridgeFormProvider.bridgeForm.notifier);
+        final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
         await bridgeNotifier
             .setWalletConfirmation(WalletConfirmation.archethic);
         transactionTransfer = (await signTx(
+          dappClient,
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionTransfer],
@@ -129,6 +134,7 @@ class ArchethicContract
   }
 
   Future<aedappfm.Result<String, aedappfm.Failure>> refund(
+    awc.ArchethicDAppClient dappClient,
     WidgetRef ref,
     String currentNameAccount,
     String htlcAddress,
@@ -159,6 +165,7 @@ class ArchethicContract
             .read(RefundFormProvider.refundForm.notifier)
             .setWalletConfirmation(WalletConfirmationRefund.archethic);
         transaction = (await signTx(
+          dappClient,
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transaction],

@@ -20,7 +20,9 @@ mixin _$Swap {
   String? get htlcContractAddressAE => throw _privateConstructorUsedError;
   SwapProcess? get swapProcess => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Swap
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $SwapCopyWith<Swap> get copyWith => throw _privateConstructorUsedError;
 }
 
@@ -45,6 +47,8 @@ class _$SwapCopyWithImpl<$Res, $Val extends Swap>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Swap
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -89,6 +93,8 @@ class __$$SwapImplCopyWithImpl<$Res>
   __$$SwapImplCopyWithImpl(_$SwapImpl _value, $Res Function(_$SwapImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of Swap
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -151,7 +157,9 @@ class _$SwapImpl extends _Swap {
   int get hashCode => Object.hash(
       runtimeType, htlcContractAddressEVM, htlcContractAddressAE, swapProcess);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of Swap
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$SwapImplCopyWith<_$SwapImpl> get copyWith =>
@@ -171,8 +179,11 @@ abstract class _Swap extends Swap {
   String? get htlcContractAddressAE;
   @override
   SwapProcess? get swapProcess;
+
+  /// Create a copy of Swap
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$SwapImplCopyWith<_$SwapImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

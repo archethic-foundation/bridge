@@ -36,6 +36,8 @@ class BridgeFormState with _$BridgeFormState {
     String? htlcAEAddress,
     String? htlcEVMAddress,
     String? htlcEVMTxAddress,
+    String? processCurrentAccountAddressEVM,
+    String? processCurrentAccountAddressAE,
     List<int>? secret,
     @Default(0.0) double archethicProtocolFeesRate,
     @Default('') String archethicProtocolFeesAddress,
@@ -46,6 +48,8 @@ class BridgeFormState with _$BridgeFormState {
     DateTime? consentDateTime,
     @Default(false) bool requestTooLong,
     @Default(0) double ucoV1Balance,
+    @Default(false) bool chainIdUpdated,
+    @Default(false) bool accountUpdated,
   }) = _BridgeFormState;
   const BridgeFormState._();
 

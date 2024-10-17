@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -37,7 +38,7 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
   }
 
   void _updateTextController() {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm);
+    final bridge = ref.read(bridgeFormNotifierProvider);
     addressController = TextEditingController(text: bridge.targetAddress);
   }
 
@@ -45,7 +46,8 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
   Widget build(
     BuildContext context,
   ) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(bridgeFormNotifierProvider);
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
 
     if (bridge.targetAddress != addressController.text) {
       _updateTextController();
@@ -65,6 +67,11 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
           padding: const EdgeInsets.only(bottom: 5),
           child: SelectableText(
             AppLocalizations.of(context)!.bridge_target_address_lbl,
+            style: isAppMobileFormat
+                ? Theme.of(context).textTheme.titleSmall!.copyWith(
+                      color: aedappfm.AppThemeBase.secondaryColor,
+                    )
+                : null,
           ),
         ),
         SizedBox(
@@ -97,16 +104,18 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
                             maxLines: maxLines,
                             style: TextStyle(
                               fontFamily: aedappfm.AppThemeBase.addressFont,
-                              fontSize: aedappfm.Responsive.fontSizeFromValue(
-                                context,
-                                desktopValue: 14,
-                              ),
+                              fontSize: isAppMobileFormat
+                                  ? 12
+                                  : aedappfm.Responsive.fontSizeFromValue(
+                                      context,
+                                      desktopValue: 14,
+                                    ),
                             ),
                             autocorrect: false,
                             controller: addressController,
                             onChanged: (text) async {
                               final bridgeNotifier = ref.read(
-                                BridgeFormProvider.bridgeForm.notifier,
+                                bridgeFormNotifierProvider.notifier,
                               );
                               await bridgeNotifier.setTargetAddress(
                                 text,

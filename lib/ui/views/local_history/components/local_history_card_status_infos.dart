@@ -116,7 +116,7 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
             if (bridge.blockchainFrom != null &&
                 bridge.blockchainFrom!.isArchethic)
               SelectableText(
-                ' (${BridgeArchethicToEVMUseCase().getStepLabel(context, bridge.currentStep)})',
+                ' (${BridgeArchethicToEVMUseCase().getStepLabel(AppLocalizations.of(context)!, bridge.currentStep)})',
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                         context,
@@ -126,7 +126,7 @@ class LocalHistoryCardStatusInfos extends StatelessWidget {
               )
             else
               SelectableText(
-                ' (${BridgeEVMToArchethicUseCase().getStepLabel(context, bridge.currentStep)})',
+                ' (${BridgeEVMToArchethicUseCase().getStepLabel(AppLocalizations.of(context)!, bridge.currentStep)})',
                 style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                       fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                         context,

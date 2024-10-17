@@ -20,7 +20,9 @@ mixin _$LocalHistoryFormState {
   DateTime? get filterPeriodStart => throw _privateConstructorUsedError;
   DateTime? get filterPeriodEnd => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LocalHistoryFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $LocalHistoryFormStateCopyWith<LocalHistoryFormState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -48,6 +50,8 @@ class _$LocalHistoryFormStateCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of LocalHistoryFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -96,6 +100,8 @@ class __$$LocalHistoryFormStateImplCopyWithImpl<$Res>
       $Res Function(_$LocalHistoryFormStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of LocalHistoryFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -160,7 +166,9 @@ class _$LocalHistoryFormStateImpl extends _LocalHistoryFormState {
   int get hashCode => Object.hash(runtimeType, processCompletedIncluded,
       filterPeriodStart, filterPeriodEnd);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of LocalHistoryFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$LocalHistoryFormStateImplCopyWith<_$LocalHistoryFormStateImpl>
@@ -181,8 +189,11 @@ abstract class _LocalHistoryFormState extends LocalHistoryFormState {
   DateTime? get filterPeriodStart;
   @override
   DateTime? get filterPeriodEnd;
+
+  /// Create a copy of LocalHistoryFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$LocalHistoryFormStateImplCopyWith<_$LocalHistoryFormStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

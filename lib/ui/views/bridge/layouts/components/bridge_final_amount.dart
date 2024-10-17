@@ -5,6 +5,7 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,7 +19,6 @@ class BridgeFinalAmount extends ConsumerStatefulWidget {
     required this.to,
     required this.decimal,
     this.chainId,
-    this.providerEndpoint,
   });
 
   final bool directionAEToEVM;
@@ -26,7 +26,6 @@ class BridgeFinalAmount extends ConsumerStatefulWidget {
   final bool isUCO;
   final String to;
   final int? chainId;
-  final String? providerEndpoint;
   final int decimal;
 
   @override
@@ -51,10 +50,10 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
   void startTimerAEToEVM() {
     timer = Timer.periodic(const Duration(seconds: 3), (Timer t) async {
       try {
+        final dappClient =
+            await aedappfm.sl.getAsync<awc.ArchethicDAppClient>();
         final evmHTLC = EVMHTLC(
-          widget.providerEndpoint ?? '',
           widget.address,
-          widget.chainId ?? 0,
         );
         final resultAmount = await evmHTLC.getAmount(widget.decimal);
         resultAmount.map(
@@ -63,7 +62,7 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
               setState(() {
                 finalAmount = amount;
               });
-              unawaited(refreshCurrentAccountInfoWallet());
+              unawaited(refreshCurrentAccountInfoWallet(dappClient));
               timer?.cancel();
             }
           },
@@ -78,6 +77,8 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
   void startTimerEVMToAE() {
     timer = Timer.periodic(const Duration(seconds: 3), (Timer t) async {
       try {
+        final dappClient =
+            await aedappfm.sl.getAsync<awc.ArchethicDAppClient>();
         final apiService = aedappfm.sl.get<archethic.ApiService>();
         final amount = await getAmountFromTx(
           apiService,
@@ -90,7 +91,7 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
           setState(() {
             finalAmount = amount;
           });
-          unawaited(refreshCurrentAccountInfoWallet());
+          unawaited(refreshCurrentAccountInfoWallet(dappClient));
           timer?.cancel();
         }
         // ignore: empty_catches
@@ -106,7 +107,7 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
 
   @override
   Widget build(BuildContext context) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(bridgeFormNotifierProvider);
     if (bridge.bridgeOk == false) return const SizedBox.shrink();
 
     return finalAmount != null

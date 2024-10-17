@@ -7,14 +7,14 @@ part of 'bridge_history.dart';
 // **************************************************************************
 
 String _$bridgeHistoryRepositoryHash() =>
-    r'd7580b6d32e4bdc92352952502c944e6188da53b';
+    r'9996e3267164e0d5706cb9c6694a6a307168a6ec';
 
-/// See also [_bridgeHistoryRepository].
-@ProviderFor(_bridgeHistoryRepository)
-final _bridgeHistoryRepositoryProvider =
+/// See also [bridgeHistoryRepository].
+@ProviderFor(bridgeHistoryRepository)
+final bridgeHistoryRepositoryProvider =
     AutoDisposeProvider<BridgeHistoryRepository>.internal(
-  _bridgeHistoryRepository,
-  name: r'_bridgeHistoryRepositoryProvider',
+  bridgeHistoryRepository,
+  name: r'bridgeHistoryRepositoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$bridgeHistoryRepositoryHash,
@@ -22,17 +22,17 @@ final _bridgeHistoryRepositoryProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _BridgeHistoryRepositoryRef
+typedef BridgeHistoryRepositoryRef
     = AutoDisposeProviderRef<BridgeHistoryRepository>;
 String _$fetchBridgeHistoryHash() =>
-    r'57610cc346f1f2bb1446603181f3767dcb9a8388';
+    r'd1dfc789e96d141e821134e64a47bea86617d23a';
 
-/// See also [_fetchBridgeHistory].
-@ProviderFor(_fetchBridgeHistory)
-final _fetchBridgeHistoryProvider =
+/// See also [fetchBridgeHistory].
+@ProviderFor(fetchBridgeHistory)
+final fetchBridgeHistoryProvider =
     AutoDisposeFutureProvider<BridgeHistory?>.internal(
-  _fetchBridgeHistory,
-  name: r'_fetchBridgeHistoryProvider',
+  fetchBridgeHistory,
+  name: r'fetchBridgeHistoryProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$fetchBridgeHistoryHash,
@@ -40,8 +40,8 @@ final _fetchBridgeHistoryProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _FetchBridgeHistoryRef = AutoDisposeFutureProviderRef<BridgeHistory?>;
-String _$fetchBridgesListHash() => r'4eb43c97f3fde4f4fba38c6bf4e3cb0f07d1ed05';
+typedef FetchBridgeHistoryRef = AutoDisposeFutureProviderRef<BridgeHistory?>;
+String _$fetchBridgesListHash() => r'113903bc26a81de3b99e55ef4f5f3b7bb518f93f';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -64,28 +64,28 @@ class _SystemHash {
   }
 }
 
-/// See also [_fetchBridgesList].
-@ProviderFor(_fetchBridgesList)
-const _fetchBridgesListProvider = _FetchBridgesListFamily();
+/// See also [fetchBridgesList].
+@ProviderFor(fetchBridgesList)
+const fetchBridgesListProvider = FetchBridgesListFamily();
 
-/// See also [_fetchBridgesList].
-class _FetchBridgesListFamily
+/// See also [fetchBridgesList].
+class FetchBridgesListFamily
     extends Family<AsyncValue<List<Map<String, dynamic>>>> {
-  /// See also [_fetchBridgesList].
-  const _FetchBridgesListFamily();
+  /// See also [fetchBridgesList].
+  const FetchBridgesListFamily();
 
-  /// See also [_fetchBridgesList].
-  _FetchBridgesListProvider call({
+  /// See also [fetchBridgesList].
+  FetchBridgesListProvider call({
     bool asc = true,
   }) {
-    return _FetchBridgesListProvider(
+    return FetchBridgesListProvider(
       asc: asc,
     );
   }
 
   @override
-  _FetchBridgesListProvider getProviderOverride(
-    covariant _FetchBridgesListProvider provider,
+  FetchBridgesListProvider getProviderOverride(
+    covariant FetchBridgesListProvider provider,
   ) {
     return call(
       asc: provider.asc,
@@ -104,33 +104,33 @@ class _FetchBridgesListFamily
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'_fetchBridgesListProvider';
+  String? get name => r'fetchBridgesListProvider';
 }
 
-/// See also [_fetchBridgesList].
-class _FetchBridgesListProvider
+/// See also [fetchBridgesList].
+class FetchBridgesListProvider
     extends AutoDisposeFutureProvider<List<Map<String, dynamic>>> {
-  /// See also [_fetchBridgesList].
-  _FetchBridgesListProvider({
+  /// See also [fetchBridgesList].
+  FetchBridgesListProvider({
     bool asc = true,
   }) : this._internal(
-          (ref) => _fetchBridgesList(
-            ref as _FetchBridgesListRef,
+          (ref) => fetchBridgesList(
+            ref as FetchBridgesListRef,
             asc: asc,
           ),
-          from: _fetchBridgesListProvider,
-          name: r'_fetchBridgesListProvider',
+          from: fetchBridgesListProvider,
+          name: r'fetchBridgesListProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
                   : _$fetchBridgesListHash,
-          dependencies: _FetchBridgesListFamily._dependencies,
+          dependencies: FetchBridgesListFamily._dependencies,
           allTransitiveDependencies:
-              _FetchBridgesListFamily._allTransitiveDependencies,
+              FetchBridgesListFamily._allTransitiveDependencies,
           asc: asc,
         );
 
-  _FetchBridgesListProvider._internal(
+  FetchBridgesListProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -144,13 +144,13 @@ class _FetchBridgesListProvider
 
   @override
   Override overrideWith(
-    FutureOr<List<Map<String, dynamic>>> Function(_FetchBridgesListRef provider)
+    FutureOr<List<Map<String, dynamic>>> Function(FetchBridgesListRef provider)
         create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: _FetchBridgesListProvider._internal(
-        (ref) => create(ref as _FetchBridgesListRef),
+      override: FetchBridgesListProvider._internal(
+        (ref) => create(ref as FetchBridgesListRef),
         from: from,
         name: null,
         dependencies: null,
@@ -168,7 +168,7 @@ class _FetchBridgesListProvider
 
   @override
   bool operator ==(Object other) {
-    return other is _FetchBridgesListProvider && other.asc == asc;
+    return other is FetchBridgesListProvider && other.asc == asc;
   }
 
   @override
@@ -180,7 +180,7 @@ class _FetchBridgesListProvider
   }
 }
 
-mixin _FetchBridgesListRef
+mixin FetchBridgesListRef
     on AutoDisposeFutureProviderRef<List<Map<String, dynamic>>> {
   /// The parameter `asc` of this provider.
   bool get asc;
@@ -188,20 +188,20 @@ mixin _FetchBridgesListRef
 
 class _FetchBridgesListProviderElement
     extends AutoDisposeFutureProviderElement<List<Map<String, dynamic>>>
-    with _FetchBridgesListRef {
+    with FetchBridgesListRef {
   _FetchBridgesListProviderElement(super.provider);
 
   @override
-  bool get asc => (origin as _FetchBridgesListProvider).asc;
+  bool get asc => (origin as FetchBridgesListProvider).asc;
 }
 
-String _$clearBridgesListHash() => r'781a7283eb1f4ecfb88491460e5aace9fc66ecee';
+String _$clearBridgesListHash() => r'17e04982f8498973f73f9767b827da86e6e11fee';
 
-/// See also [_clearBridgesList].
-@ProviderFor(_clearBridgesList)
-final _clearBridgesListProvider = AutoDisposeFutureProvider<void>.internal(
-  _clearBridgesList,
-  name: r'_clearBridgesListProvider',
+/// See also [clearBridgesList].
+@ProviderFor(clearBridgesList)
+final clearBridgesListProvider = AutoDisposeFutureProvider<void>.internal(
+  clearBridgesList,
+  name: r'clearBridgesListProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
       ? null
       : _$clearBridgesListHash,
@@ -209,6 +209,6 @@ final _clearBridgesListProvider = AutoDisposeFutureProvider<void>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _ClearBridgesListRef = AutoDisposeFutureProviderRef<void>;
+typedef ClearBridgesListRef = AutoDisposeFutureProviderRef<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

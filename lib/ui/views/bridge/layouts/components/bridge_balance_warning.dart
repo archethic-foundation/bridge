@@ -20,7 +20,7 @@ class BridgeBalanceWarning extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(bridgeFormNotifierProvider);
     if (bridge.blockchainTo == null ||
         bridge.tokenToBridge == null ||
         bridge.blockchainFrom == null ||
@@ -51,13 +51,13 @@ class BridgeBalanceWarning extends ConsumerWidget {
         ? minAmountDollars = 0.16
         : minAmountDollars = 0.17;
 
-    final session = ref.read(SessionProviders.session);
+    final session = ref.read(sessionNotifierProvider);
     if (session.walletTo == null && session.walletFrom == null) {
       return const SizedBox.shrink();
     }
     return FutureBuilder<double?>(
       future: ref.read(
-        BalanceProviders.getBalance(
+        getBalanceProvider(
           true,
           bridge.blockchainTo!.isArchethic
               ? session.walletTo!.genesisAddress

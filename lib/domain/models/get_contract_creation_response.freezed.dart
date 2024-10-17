@@ -26,8 +26,12 @@ mixin _$GetContractCreationResponse {
   List<GetContractCreationResponseResult> get result =>
       throw _privateConstructorUsedError;
 
+  /// Serializes this GetContractCreationResponse to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of GetContractCreationResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $GetContractCreationResponseCopyWith<GetContractCreationResponse>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -57,6 +61,8 @@ class _$GetContractCreationResponseCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of GetContractCreationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -106,6 +112,8 @@ class __$$GetContractCreationResponseImplCopyWithImpl<$Res>
       $Res Function(_$GetContractCreationResponseImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of GetContractCreationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -171,12 +179,14 @@ class _$GetContractCreationResponseImpl
             const DeepCollectionEquality().equals(other._result, _result));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, status, message,
       const DeepCollectionEquality().hash(_result));
 
-  @JsonKey(ignore: true)
+  /// Create a copy of GetContractCreationResponse
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetContractCreationResponseImplCopyWith<_$GetContractCreationResponseImpl>
@@ -208,8 +218,11 @@ abstract class _GetContractCreationResponse
   String get message;
   @override
   List<GetContractCreationResponseResult> get result;
+
+  /// Create a copy of GetContractCreationResponse
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetContractCreationResponseImplCopyWith<_$GetContractCreationResponseImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -225,8 +238,12 @@ mixin _$GetContractCreationResponseResult {
   String get contractCreator => throw _privateConstructorUsedError;
   String get txHash => throw _privateConstructorUsedError;
 
+  /// Serializes this GetContractCreationResponseResult to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
-  @JsonKey(ignore: true)
+
+  /// Create a copy of GetContractCreationResponseResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $GetContractCreationResponseResultCopyWith<GetContractCreationResponseResult>
       get copyWith => throw _privateConstructorUsedError;
 }
@@ -253,6 +270,8 @@ class _$GetContractCreationResponseResultCopyWithImpl<$Res,
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of GetContractCreationResponseResult
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -299,6 +318,8 @@ class __$$GetContractCreationResponseResultImplCopyWithImpl<$Res>
       $Res Function(_$GetContractCreationResponseResultImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of GetContractCreationResponseResult
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -360,12 +381,14 @@ class _$GetContractCreationResponseResultImpl
             (identical(other.txHash, txHash) || other.txHash == txHash));
   }
 
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
       Object.hash(runtimeType, contractAddress, contractCreator, txHash);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of GetContractCreationResponseResult
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$GetContractCreationResponseResultImplCopyWith<
@@ -398,8 +421,11 @@ abstract class _GetContractCreationResponseResult
   String get contractCreator;
   @override
   String get txHash;
+
+  /// Create a copy of GetContractCreationResponseResult
+  /// with the given fields replaced by the non-null parameter values.
   @override
-  @JsonKey(ignore: true)
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$GetContractCreationResponseResultImplCopyWith<
           _$GetContractCreationResponseResultImpl>
       get copyWith => throw _privateConstructorUsedError;

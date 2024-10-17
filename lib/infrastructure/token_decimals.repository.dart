@@ -5,13 +5,14 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 
 class TokenDecimalsRepositoryImpl implements TokenDecimalsRepository {
+  final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+
   @override
   Future<int> getTokenDecimals(
     bool isArchethic,
     String typeToken,
-    String tokenAddress, {
-    String? providerEndpoint,
-  }) async {
+    String tokenAddress,
+  ) async {
     if (isArchethic) {
       final balanceGetResponseMap = await aedappfm.sl
           .get<ApiService>()
@@ -24,19 +25,15 @@ class TokenDecimalsRepositoryImpl implements TokenDecimalsRepository {
     } else {
       switch (typeToken) {
         case 'Native':
-          final decimals =
-              await aedappfm.sl.get<EVMWalletProvider>().getTokenDecimals(
-                    providerEndpoint!,
-                    typeToken,
-                  );
+          final decimals = await evmWalletProvider.getTokenDecimals(
+            typeToken,
+          );
           return decimals;
         case 'Wrapped':
-          final decimals =
-              await aedappfm.sl.get<EVMWalletProvider>().getTokenDecimals(
-                    providerEndpoint!,
-                    typeToken,
-                    erc20address: tokenAddress,
-                  );
+          final decimals = await evmWalletProvider.getTokenDecimals(
+            typeToken,
+            erc20address: tokenAddress,
+          );
           return decimals;
         default:
       }

@@ -13,7 +13,7 @@ class BridgeInterrupInfo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(bridgeFormNotifierProvider);
 
     if (bridge.blockchainFrom == null) {
       return const SizedBox.shrink();

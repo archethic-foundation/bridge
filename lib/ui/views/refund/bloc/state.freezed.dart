@@ -18,6 +18,8 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$RefundFormState {
   String get htlcAddressFilled => throw _privateConstructorUsedError;
   String? get refundTxAddress => throw _privateConstructorUsedError;
+  @BridgeBlockchainJsonConverter()
+  BridgeBlockchain? get blockchain => throw _privateConstructorUsedError;
   int? get chainId => throw _privateConstructorUsedError;
   bool? get isAlreadyRefunded => throw _privateConstructorUsedError;
   bool? get isAlreadyWithdrawn => throw _privateConstructorUsedError;
@@ -39,8 +41,11 @@ mixin _$RefundFormState {
   Failure? get failure => throw _privateConstructorUsedError;
   bool get defineStatusInProgress => throw _privateConstructorUsedError;
   bool get requestTooLong => throw _privateConstructorUsedError;
+  String? get tokenAddress => throw _privateConstructorUsedError;
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RefundFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   $RefundFormStateCopyWith<RefundFormState> get copyWith =>
       throw _privateConstructorUsedError;
 }
@@ -54,6 +59,7 @@ abstract class $RefundFormStateCopyWith<$Res> {
   $Res call(
       {String htlcAddressFilled,
       String? refundTxAddress,
+      @BridgeBlockchainJsonConverter() BridgeBlockchain? blockchain,
       int? chainId,
       bool? isAlreadyRefunded,
       bool? isAlreadyWithdrawn,
@@ -72,8 +78,10 @@ abstract class $RefundFormStateCopyWith<$Res> {
       BridgeWallet? wallet,
       @FailureJsonConverter() Failure? failure,
       bool defineStatusInProgress,
-      bool requestTooLong});
+      bool requestTooLong,
+      String? tokenAddress});
 
+  $BridgeBlockchainCopyWith<$Res>? get blockchain;
   $BridgeWalletCopyWith<$Res>? get wallet;
   $FailureCopyWith<$Res>? get failure;
 }
@@ -88,11 +96,14 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
   // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of RefundFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? htlcAddressFilled = null,
     Object? refundTxAddress = freezed,
+    Object? blockchain = freezed,
     Object? chainId = freezed,
     Object? isAlreadyRefunded = freezed,
     Object? isAlreadyWithdrawn = freezed,
@@ -112,6 +123,7 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
     Object? failure = freezed,
     Object? defineStatusInProgress = null,
     Object? requestTooLong = null,
+    Object? tokenAddress = freezed,
   }) {
     return _then(_value.copyWith(
       htlcAddressFilled: null == htlcAddressFilled
@@ -122,6 +134,10 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
           ? _value.refundTxAddress
           : refundTxAddress // ignore: cast_nullable_to_non_nullable
               as String?,
+      blockchain: freezed == blockchain
+          ? _value.blockchain
+          : blockchain // ignore: cast_nullable_to_non_nullable
+              as BridgeBlockchain?,
       chainId: freezed == chainId
           ? _value.chainId
           : chainId // ignore: cast_nullable_to_non_nullable
@@ -198,9 +214,29 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
           ? _value.requestTooLong
           : requestTooLong // ignore: cast_nullable_to_non_nullable
               as bool,
+      tokenAddress: freezed == tokenAddress
+          ? _value.tokenAddress
+          : tokenAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 
+  /// Create a copy of RefundFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $BridgeBlockchainCopyWith<$Res>? get blockchain {
+    if (_value.blockchain == null) {
+      return null;
+    }
+
+    return $BridgeBlockchainCopyWith<$Res>(_value.blockchain!, (value) {
+      return _then(_value.copyWith(blockchain: value) as $Val);
+    });
+  }
+
+  /// Create a copy of RefundFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $BridgeWalletCopyWith<$Res>? get wallet {
@@ -213,6 +249,8 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
     });
   }
 
+  /// Create a copy of RefundFormState
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @pragma('vm:prefer-inline')
   $FailureCopyWith<$Res>? get failure {
@@ -237,6 +275,7 @@ abstract class _$$RefundFormStateImplCopyWith<$Res>
   $Res call(
       {String htlcAddressFilled,
       String? refundTxAddress,
+      @BridgeBlockchainJsonConverter() BridgeBlockchain? blockchain,
       int? chainId,
       bool? isAlreadyRefunded,
       bool? isAlreadyWithdrawn,
@@ -255,8 +294,11 @@ abstract class _$$RefundFormStateImplCopyWith<$Res>
       BridgeWallet? wallet,
       @FailureJsonConverter() Failure? failure,
       bool defineStatusInProgress,
-      bool requestTooLong});
+      bool requestTooLong,
+      String? tokenAddress});
 
+  @override
+  $BridgeBlockchainCopyWith<$Res>? get blockchain;
   @override
   $BridgeWalletCopyWith<$Res>? get wallet;
   @override
@@ -271,11 +313,14 @@ class __$$RefundFormStateImplCopyWithImpl<$Res>
       _$RefundFormStateImpl _value, $Res Function(_$RefundFormStateImpl) _then)
       : super(_value, _then);
 
+  /// Create a copy of RefundFormState
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? htlcAddressFilled = null,
     Object? refundTxAddress = freezed,
+    Object? blockchain = freezed,
     Object? chainId = freezed,
     Object? isAlreadyRefunded = freezed,
     Object? isAlreadyWithdrawn = freezed,
@@ -295,6 +340,7 @@ class __$$RefundFormStateImplCopyWithImpl<$Res>
     Object? failure = freezed,
     Object? defineStatusInProgress = null,
     Object? requestTooLong = null,
+    Object? tokenAddress = freezed,
   }) {
     return _then(_$RefundFormStateImpl(
       htlcAddressFilled: null == htlcAddressFilled
@@ -305,6 +351,10 @@ class __$$RefundFormStateImplCopyWithImpl<$Res>
           ? _value.refundTxAddress
           : refundTxAddress // ignore: cast_nullable_to_non_nullable
               as String?,
+      blockchain: freezed == blockchain
+          ? _value.blockchain
+          : blockchain // ignore: cast_nullable_to_non_nullable
+              as BridgeBlockchain?,
       chainId: freezed == chainId
           ? _value.chainId
           : chainId // ignore: cast_nullable_to_non_nullable
@@ -381,6 +431,10 @@ class __$$RefundFormStateImplCopyWithImpl<$Res>
           ? _value.requestTooLong
           : requestTooLong // ignore: cast_nullable_to_non_nullable
               as bool,
+      tokenAddress: freezed == tokenAddress
+          ? _value.tokenAddress
+          : tokenAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -391,6 +445,7 @@ class _$RefundFormStateImpl extends _RefundFormState {
   const _$RefundFormStateImpl(
       {this.htlcAddressFilled = '',
       this.refundTxAddress,
+      @BridgeBlockchainJsonConverter() this.blockchain,
       this.chainId,
       this.isAlreadyRefunded,
       this.isAlreadyWithdrawn,
@@ -409,7 +464,8 @@ class _$RefundFormStateImpl extends _RefundFormState {
       this.wallet,
       @FailureJsonConverter() this.failure,
       this.defineStatusInProgress = false,
-      this.requestTooLong = false})
+      this.requestTooLong = false,
+      this.tokenAddress})
       : super._();
 
   @override
@@ -417,6 +473,9 @@ class _$RefundFormStateImpl extends _RefundFormState {
   final String htlcAddressFilled;
   @override
   final String? refundTxAddress;
+  @override
+  @BridgeBlockchainJsonConverter()
+  final BridgeBlockchain? blockchain;
   @override
   final int? chainId;
   @override
@@ -464,10 +523,12 @@ class _$RefundFormStateImpl extends _RefundFormState {
   @override
   @JsonKey()
   final bool requestTooLong;
+  @override
+  final String? tokenAddress;
 
   @override
   String toString() {
-    return 'RefundFormState(htlcAddressFilled: $htlcAddressFilled, refundTxAddress: $refundTxAddress, chainId: $chainId, isAlreadyRefunded: $isAlreadyRefunded, isAlreadyWithdrawn: $isAlreadyWithdrawn, refundOk: $refundOk, refundInProgress: $refundInProgress, addressType: $addressType, htlcDateLock: $htlcDateLock, amount: $amount, amountCurrency: $amountCurrency, fee: $fee, htlcCanRefund: $htlcCanRefund, walletConfirmation: $walletConfirmation, processRefund: $processRefund, blockchainTo: $blockchainTo, isERC20: $isERC20, wallet: $wallet, failure: $failure, defineStatusInProgress: $defineStatusInProgress, requestTooLong: $requestTooLong)';
+    return 'RefundFormState(htlcAddressFilled: $htlcAddressFilled, refundTxAddress: $refundTxAddress, blockchain: $blockchain, chainId: $chainId, isAlreadyRefunded: $isAlreadyRefunded, isAlreadyWithdrawn: $isAlreadyWithdrawn, refundOk: $refundOk, refundInProgress: $refundInProgress, addressType: $addressType, htlcDateLock: $htlcDateLock, amount: $amount, amountCurrency: $amountCurrency, fee: $fee, htlcCanRefund: $htlcCanRefund, walletConfirmation: $walletConfirmation, processRefund: $processRefund, blockchainTo: $blockchainTo, isERC20: $isERC20, wallet: $wallet, failure: $failure, defineStatusInProgress: $defineStatusInProgress, requestTooLong: $requestTooLong, tokenAddress: $tokenAddress)';
   }
 
   @override
@@ -479,6 +540,8 @@ class _$RefundFormStateImpl extends _RefundFormState {
                 other.htlcAddressFilled == htlcAddressFilled) &&
             (identical(other.refundTxAddress, refundTxAddress) ||
                 other.refundTxAddress == refundTxAddress) &&
+            (identical(other.blockchain, blockchain) ||
+                other.blockchain == blockchain) &&
             (identical(other.chainId, chainId) || other.chainId == chainId) &&
             (identical(other.isAlreadyRefunded, isAlreadyRefunded) ||
                 other.isAlreadyRefunded == isAlreadyRefunded) &&
@@ -510,7 +573,9 @@ class _$RefundFormStateImpl extends _RefundFormState {
             (identical(other.defineStatusInProgress, defineStatusInProgress) ||
                 other.defineStatusInProgress == defineStatusInProgress) &&
             (identical(other.requestTooLong, requestTooLong) ||
-                other.requestTooLong == requestTooLong));
+                other.requestTooLong == requestTooLong) &&
+            (identical(other.tokenAddress, tokenAddress) ||
+                other.tokenAddress == tokenAddress));
   }
 
   @override
@@ -518,6 +583,7 @@ class _$RefundFormStateImpl extends _RefundFormState {
         runtimeType,
         htlcAddressFilled,
         refundTxAddress,
+        blockchain,
         chainId,
         isAlreadyRefunded,
         isAlreadyWithdrawn,
@@ -536,10 +602,13 @@ class _$RefundFormStateImpl extends _RefundFormState {
         wallet,
         failure,
         defineStatusInProgress,
-        requestTooLong
+        requestTooLong,
+        tokenAddress
       ]);
 
-  @JsonKey(ignore: true)
+  /// Create a copy of RefundFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
   _$$RefundFormStateImplCopyWith<_$RefundFormStateImpl> get copyWith =>
@@ -551,6 +620,7 @@ abstract class _RefundFormState extends RefundFormState {
   const factory _RefundFormState(
       {final String htlcAddressFilled,
       final String? refundTxAddress,
+      @BridgeBlockchainJsonConverter() final BridgeBlockchain? blockchain,
       final int? chainId,
       final bool? isAlreadyRefunded,
       final bool? isAlreadyWithdrawn,
@@ -569,13 +639,17 @@ abstract class _RefundFormState extends RefundFormState {
       final BridgeWallet? wallet,
       @FailureJsonConverter() final Failure? failure,
       final bool defineStatusInProgress,
-      final bool requestTooLong}) = _$RefundFormStateImpl;
+      final bool requestTooLong,
+      final String? tokenAddress}) = _$RefundFormStateImpl;
   const _RefundFormState._() : super._();
 
   @override
   String get htlcAddressFilled;
   @override
   String? get refundTxAddress;
+  @override
+  @BridgeBlockchainJsonConverter()
+  BridgeBlockchain? get blockchain;
   @override
   int? get chainId;
   @override
@@ -616,7 +690,12 @@ abstract class _RefundFormState extends RefundFormState {
   @override
   bool get requestTooLong;
   @override
-  @JsonKey(ignore: true)
+  String? get tokenAddress;
+
+  /// Create a copy of RefundFormState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
   _$$RefundFormStateImplCopyWith<_$RefundFormStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:math';
 
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/util/components/fiat_value.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -31,7 +32,7 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
   }
 
   void _updateAmountTextController() {
-    final bridge = ref.read(BridgeFormProvider.bridgeForm);
+    final bridge = ref.read(bridgeFormNotifierProvider);
     tokenAmountController = TextEditingController();
     tokenAmountController.value =
         aedappfm.AmountTextInputFormatter(precision: 8).formatEditUpdate(
@@ -60,8 +61,9 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
     final textTheme = Theme.of(context)
         .textTheme
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
 
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(bridgeFormNotifierProvider);
     final textNum = double.tryParse(tokenAmountController.text);
     if (!(bridge.tokenToBridgeAmount != 0.0 ||
         tokenAmountController.text == '' ||
@@ -108,18 +110,22 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                                     .AppThemeBase.gradientInputFormBackground,
                               ),
                               child: TextField(
-                                style: textTheme.titleMedium!.copyWith(
-                                  fontSize:
-                                      aedappfm.Responsive.fontSizeFromTextStyle(
-                                    context,
-                                    Theme.of(context).textTheme.titleMedium!,
-                                  ),
-                                ),
+                                style: isAppMobileFormat
+                                    ? Theme.of(context).textTheme.titleMedium!
+                                    : textTheme.titleMedium!.copyWith(
+                                        fontSize: aedappfm.Responsive
+                                            .fontSizeFromTextStyle(
+                                          context,
+                                          Theme.of(context)
+                                              .textTheme
+                                              .titleMedium!,
+                                        ),
+                                      ),
                                 autocorrect: false,
                                 controller: tokenAmountController,
                                 onChanged: (text) async {
                                   final bridgeNotifier = ref.read(
-                                    BridgeFormProvider.bridgeForm.notifier,
+                                    bridgeFormNotifierProvider.notifier,
                                   );
                                   await bridgeNotifier.setTokenToBridgeAmount(
                                     double.tryParse(text.replaceAll(' ', '')) ??
@@ -168,37 +174,41 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
                 ],
               ),
             ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Container(
-                  width: 80,
-                  padding: const EdgeInsets.only(right: 10),
-                  child: aedappfm.ButtonHalf(
-                    balanceAmount: bridge.tokenToBridgeBalance,
-                    onTap: () async {
-                      await ref
-                          .read(BridgeFormProvider.bridgeForm.notifier)
-                          .setMaxHalf();
-                      _updateAmountTextController();
-                    },
-                  ),
+            if (isAppMobileFormat == false)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 10),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Container(
+                      width: 80,
+                      padding: const EdgeInsets.only(right: 10),
+                      child: aedappfm.ButtonHalf(
+                        balanceAmount: bridge.tokenToBridgeBalance,
+                        onTap: () async {
+                          await ref
+                              .read(bridgeFormNotifierProvider.notifier)
+                              .setMaxHalf();
+                          _updateAmountTextController();
+                        },
+                      ),
+                    ),
+                    Container(
+                      width: 80,
+                      padding: const EdgeInsets.only(right: 10),
+                      child: aedappfm.ButtonMax(
+                        balanceAmount: bridge.tokenToBridgeBalance,
+                        onTap: () async {
+                          await ref
+                              .read(bridgeFormNotifierProvider.notifier)
+                              .setMaxAmount();
+                          _updateAmountTextController();
+                        },
+                      ),
+                    ),
+                  ],
                 ),
-                Container(
-                  width: 80,
-                  padding: const EdgeInsets.only(right: 10),
-                  child: aedappfm.ButtonMax(
-                    balanceAmount: bridge.tokenToBridgeBalance,
-                    onTap: () async {
-                      await ref
-                          .read(BridgeFormProvider.bridgeForm.notifier)
-                          .setMaxAmount();
-                      _updateAmountTextController();
-                    },
-                  ),
-                ),
-              ],
-            ),
+              ),
           ],
         ),
         Padding(
@@ -228,6 +238,40 @@ class _BridgeTokenAmountState extends ConsumerState<BridgeTokenAmount> {
             ],
           ),
         ),
+        if (isAppMobileFormat)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 80,
+                padding: const EdgeInsets.only(right: 10),
+                child: aedappfm.ButtonHalf(
+                  height: 40,
+                  balanceAmount: bridge.tokenToBridgeBalance,
+                  onTap: () async {
+                    await ref
+                        .read(bridgeFormNotifierProvider.notifier)
+                        .setMaxHalf();
+                    _updateAmountTextController();
+                  },
+                ),
+              ),
+              Container(
+                width: 80,
+                padding: const EdgeInsets.only(right: 10),
+                child: aedappfm.ButtonMax(
+                  height: 40,
+                  balanceAmount: bridge.tokenToBridgeBalance,
+                  onTap: () async {
+                    await ref
+                        .read(bridgeFormNotifierProvider.notifier)
+                        .setMaxAmount();
+                    _updateAmountTextController();
+                  },
+                ),
+              ),
+            ],
+          ),
       ],
     )
         .animate()

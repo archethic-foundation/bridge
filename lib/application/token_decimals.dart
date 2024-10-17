@@ -11,22 +11,15 @@ TokenDecimalsRepository _tokenDecimalsRepository(
     TokenDecimalsRepositoryImpl();
 
 @riverpod
-Future<int> _getTokenDecimals(
-  _GetTokenDecimalsRef ref,
+Future<int> getTokenDecimals(
+  GetTokenDecimalsRef ref,
   bool isArchethic,
   String typeToken,
-  String tokenAddress, {
-  String? providerEndpoint,
-}) async {
+  String tokenAddress,
+) async {
   return ref.read(_tokenDecimalsRepositoryProvider).getTokenDecimals(
         isArchethic,
         typeToken,
         tokenAddress,
-        providerEndpoint: providerEndpoint,
       );
-}
-
-abstract class TokenDecimalsProviders {
-  static const getTokenDecimals = _getTokenDecimalsProvider;
-  static final tokenDecimalsRepository = _tokenDecimalsRepositoryProvider;
 }

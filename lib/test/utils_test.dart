@@ -9,23 +9,9 @@ import 'package:aebridge/domain/models/bridge_token.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:decimal/decimal.dart';
 import 'package:test/test.dart';
-import 'package:webthree/webthree.dart';
 
 void main() {
-  group('Other', () {
-    test('Test 1', () {
-      const amount = 120139.69456927;
-      final bigIntValue = Decimal.parse(amount.toString()) *
-          Decimal.parse('1000000000000000000');
-      final ethAmount =
-          EtherAmount.fromBigInt(EtherUnit.wei, bigIntValue.toBigInt());
-
-      expect(ethAmount.getValueInUnit(EtherUnit.ether), amount);
-    });
-  });
-
   group('Generate url test Mone', () {
     test('Test 1', () {
       final bridgeFormState = BridgeFormState(

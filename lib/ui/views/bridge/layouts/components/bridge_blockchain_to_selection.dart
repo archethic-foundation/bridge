@@ -1,9 +1,12 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:math';
 
+import 'package:aebridge/application/app_embedded.dart';
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/views/blockchain_selection/bloc/provider.dart';
 import 'package:aebridge/ui/views/blockchain_selection/blockchain_selection_popup.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/mobile_info/layouts/mobile_info.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -19,10 +22,13 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
+
     final textTheme = Theme.of(context)
         .textTheme
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
-    final bridge = ref.watch(BridgeFormProvider.bridgeForm);
+    final bridge = ref.watch(bridgeFormNotifierProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -30,13 +36,20 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
           padding: const EdgeInsets.only(bottom: 5),
           child: SelectableText(
             AppLocalizations.of(context)!.bridge_blockchain_to_lbl,
+            style: isAppMobileFormat
+                ? Theme.of(context).textTheme.titleSmall!.copyWith(
+                      color: aedappfm.AppThemeBase.secondaryColor,
+                    )
+                : null,
           ),
         ),
         SizedBox(
-          width: min(
-            aedappfm.AppThemeBase.sizeBoxComponentWidth / 2 - 40,
-            MediaQuery.of(context).size.width / 3 - 5,
-          ),
+          width: isAppMobileFormat
+              ? MediaQuery.of(context).size.width
+              : min(
+                  aedappfm.AppThemeBase.sizeBoxComponentWidth / 2 - 40,
+                  MediaQuery.of(context).size.width / 3 - 5,
+                ),
           child: DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(
@@ -65,15 +78,17 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
                                     child: Text(
                                       AppLocalizations.of(context)!
                                           .btn_selectBlockchain,
-                                      style: textTheme.titleMedium!.copyWith(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromTextStyle(
-                                          context,
-                                          Theme.of(context)
-                                              .textTheme
-                                              .titleMedium!,
-                                        ),
-                                      ),
+                                      style: isAppMobileFormat
+                                          ? textTheme.titleMedium!
+                                          : textTheme.titleMedium!.copyWith(
+                                              fontSize: aedappfm.Responsive
+                                                  .fontSizeFromTextStyle(
+                                                context,
+                                                Theme.of(context)
+                                                    .textTheme
+                                                    .titleMedium!,
+                                              ),
+                                            ),
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),
@@ -92,15 +107,17 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
                                 Flexible(
                                   child: Text(
                                     bridge.blockchainTo!.name,
-                                    style: textTheme.titleMedium!.copyWith(
-                                      fontSize: aedappfm.Responsive
-                                          .fontSizeFromTextStyle(
-                                        context,
-                                        Theme.of(context)
-                                            .textTheme
-                                            .titleMedium!,
-                                      ),
-                                    ),
+                                    style: isAppMobileFormat
+                                        ? textTheme.titleMedium!
+                                        : textTheme.titleMedium!.copyWith(
+                                            fontSize: aedappfm.Responsive
+                                                .fontSizeFromTextStyle(
+                                              context,
+                                              Theme.of(context)
+                                                  .textTheme
+                                                  .titleMedium!,
+                                            ),
+                                          ),
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
@@ -109,6 +126,23 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
                 ),
               ),
               onTap: () async {
+                if (isAppMobileFormat && isAppEmbedded == false) {
+                  await showDialog(
+                    context: context,
+                    builder: (context) {
+                      return Scaffold(
+                        extendBodyBehindAppBar: true,
+                        extendBody: true,
+                        backgroundColor: Colors.transparent.withAlpha(120),
+                        body: const Align(
+                          child: MobileInfoScreen(),
+                        ),
+                      );
+                    },
+                  );
+                  return;
+                }
+
                 final blockchainSelectionNotifier = ref.read(
                   BlockchainSelectionFormProvider
                       .blockchainSelectionForm.notifier,
@@ -126,19 +160,20 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
                 if (blockchain == null) return;
 
                 final bridgeFormNotifier =
-                    ref.read(BridgeFormProvider.bridgeForm.notifier);
+                    ref.read(bridgeFormNotifierProvider.notifier);
 
                 // We want to swap values
                 if (bridge.blockchainFrom != null &&
                     blockchain.chainId == bridge.blockchainFrom!.chainId) {
                   if (context.mounted) {
-                    await bridgeFormNotifier.swapDirections(context);
+                    await bridgeFormNotifier
+                        .swapDirections(AppLocalizations.of(context)!);
                   }
                   return;
                 }
                 if (context.mounted) {
                   await bridgeFormNotifier.setBlockchainToWithConnection(
-                    context,
+                    AppLocalizations.of(context)!,
                     blockchain,
                   );
                 }
