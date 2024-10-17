@@ -1,3 +1,5 @@
+import 'package:aebridge/application/app_embedded.dart';
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
@@ -22,6 +24,8 @@ class Header extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
     final indexMenu = ref.watch(navigationIndexMainScreenProvider);
     final session = ref.watch(sessionNotifierProvider);
     return Stack(
@@ -297,6 +301,47 @@ class Header extends ConsumerWidget {
               ),
           ],
         ),
+        if (isAppMobileFormat &&
+            isAppEmbedded == false &&
+            (((session.walletFrom != null &&
+                        session.walletFrom!.wallet == kArchethicWallet &&
+                        session.walletFrom!.isConnected == true) ||
+                    (session.walletTo != null &&
+                        session.walletTo!.wallet == kArchethicWallet &&
+                        session.walletTo!.isConnected == true)) ==
+                false))
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: TextButton(
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(
+                      aedappfm.ArchethicThemeBase.blue600.withOpacity(0.7),
+                    ),
+                  ),
+                  onPressed: () async {
+                    await launchUrl(
+                      Uri.parse(
+                        'https://www.archethic.net/wallet.html',
+                      ),
+                    );
+                  },
+                  child: Text(
+                    AppLocalizations.of(context)!.menu_get_wallet,
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w300,
+                      color: indexMenu == NavigationIndex.getWallet
+                          ? aedappfm.ArchethicThemeBase.raspberry200
+                          : aedappfm.ArchethicThemeBase.neutral0,
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
       ],
     );
   }

@@ -2,6 +2,7 @@
 import 'dart:ui';
 
 import 'package:aebridge/application/app_embedded.dart';
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/app_bar.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
@@ -81,6 +82,7 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
     final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
 
     return Title(
@@ -101,9 +103,10 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
         ),
         body: SafeArea(
           child: Stack(
-            alignment: isAppEmbedded ? Alignment.topCenter : Alignment.center,
+            alignment:
+                isAppMobileFormat ? Alignment.topCenter : Alignment.center,
             children: [
-              if (isAppEmbedded)
+              if (isAppMobileFormat)
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height,
@@ -127,7 +130,7 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
                   ),
                   child: Padding(
                     padding: EdgeInsets.symmetric(
-                      horizontal: isAppEmbedded ? 0 : 24,
+                      horizontal: isAppMobileFormat ? 0 : 24,
                     ),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -140,7 +143,7 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
                             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                             child: Container(
                               width: 650,
-                              decoration: isAppEmbedded
+                              decoration: isAppMobileFormat
                                   ? null
                                   : BoxDecoration(
                                       color:

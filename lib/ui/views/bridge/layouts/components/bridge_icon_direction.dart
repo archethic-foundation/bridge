@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/app_embedded.dart';
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -16,18 +16,18 @@ class BridgeBlockchainIconDirection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final bridgeForm = ref.watch(bridgeFormNotifierProvider.notifier);
     final bridge = ref.watch(bridgeFormNotifierProvider);
-    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
 
     if (bridge.blockchainFrom == null ||
         bridge.blockchainTo == null ||
         bridge.changeDirectionInProgress) {
       return Padding(
         padding: EdgeInsets.only(
-          top: isAppEmbedded ? 10 : 25,
-          bottom: isAppEmbedded ? 10 : 0,
+          top: isAppMobileFormat ? 10 : 25,
+          bottom: isAppMobileFormat ? 10 : 0,
         ),
         child: Icon(
-          isAppEmbedded
+          isAppMobileFormat
               ? aedappfm.Iconsax.arrow_swap
               : aedappfm.Iconsax.arrow_swap_horizontal,
           color: Colors.white.withOpacity(0.2),
@@ -37,7 +37,7 @@ class BridgeBlockchainIconDirection extends ConsumerWidget {
 
     return Padding(
       padding: EdgeInsets.only(
-        top: isAppEmbedded ? 0 : 25,
+        top: isAppMobileFormat ? 0 : 25,
       ),
       child: IconButton(
         onPressed: () async {
@@ -46,7 +46,7 @@ class BridgeBlockchainIconDirection extends ConsumerWidget {
           );
         },
         icon: Icon(
-          isAppEmbedded
+          isAppMobileFormat
               ? aedappfm.Iconsax.arrow_swap
               : aedappfm.Iconsax.arrow_swap_horizontal,
         ),
