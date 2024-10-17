@@ -29,10 +29,15 @@ class _RefundSheetState extends ConsumerState<RefundSheet> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () async {
-      if (widget.htlcAddress != null && widget.htlcAddress!.isNotEmpty) {
+      if (widget.htlcAddress != null &&
+          widget.htlcAddress!.isNotEmpty &&
+          mounted) {
         await ref
             .read(RefundFormProvider.refundForm.notifier)
-            .setContractAddress(context, widget.htlcAddress!);
+            .setContractAddress(
+              AppLocalizations.of(context)!,
+              widget.htlcAddress!,
+            );
       }
       if (widget.chainId != null && widget.chainId!.isNaN == false) {
         await ref

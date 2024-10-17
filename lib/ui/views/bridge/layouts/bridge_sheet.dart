@@ -72,7 +72,11 @@ class _BridgeSheetState extends ConsumerState<BridgeSheet> {
                 (isAppEmbedded && processStep == aedappfm.ProcessStep.form))
               Text(
                 AppLocalizations.of(context)!.bridgeHeaderDesc,
-                style: Theme.of(context).textTheme.labelLarge,
+                style: isAppEmbedded
+                    ? Theme.of(context).textTheme.labelLarge!.copyWith(
+                          color: aedappfm.AppThemeBase.secondaryColor,
+                        )
+                    : Theme.of(context).textTheme.labelLarge,
               ),
             if (isAppEmbedded == false)
               const SizedBox(

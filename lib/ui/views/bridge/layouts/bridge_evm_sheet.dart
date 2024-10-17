@@ -33,12 +33,14 @@ class _BridgeEVMSheetState extends ConsumerState<BridgeEVMSheet> {
     if (BrowserUtil().isEdgeBrowser() ||
         BrowserUtil().isInternetExplorerBrowser()) {
       Future.delayed(Duration.zero, () {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return const BrowserPopup();
-          },
-        );
+        if (mounted) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return const BrowserPopup();
+            },
+          );
+        }
       });
     }
   }
