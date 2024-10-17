@@ -1,7 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:math';
 
-import 'package:aebridge/application/app_embedded.dart';
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/token_selection/token_selection_popup.dart';
@@ -20,7 +20,7 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
 
     final textTheme = Theme.of(context)
         .textTheme
@@ -43,7 +43,7 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
             padding: const EdgeInsets.only(top: 5, bottom: 5),
             child: SelectableText(
               AppLocalizations.of(context)!.bridge_token_selection_lbl,
-              style: isAppEmbedded
+              style: isAppMobileFormat
                   ? Theme.of(context).textTheme.titleSmall!.copyWith(
                         color: aedappfm.AppThemeBase.secondaryColor,
                       )
@@ -51,7 +51,7 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
             ),
           ),
           SizedBox(
-            width: isAppEmbedded
+            width: isAppMobileFormat
                 ? MediaQuery.of(context).size.width
                 : min(
                     aedappfm.AppThemeBase.sizeBoxComponentWidth / 2 - 40,
@@ -129,29 +129,28 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
                                                       Flexible(
                                                         child: Text(
                                                           '${bridge.tokenToBridge!.name} ',
-                                                          style: isAppEmbedded
-                                                              ? Theme.of(
-                                                                  context,
-                                                                )
-                                                                  .textTheme
-                                                                  .labelSmall!
-                                                              : Theme.of(
-                                                                  context,
-                                                                )
-                                                                  .textTheme
-                                                                  .labelSmall!
-                                                                  .copyWith(
-                                                                    fontSize: aedappfm
-                                                                            .Responsive
-                                                                        .fontSizeFromTextStyle(
+                                                          style:
+                                                              isAppMobileFormat
+                                                                  ? Theme.of(
                                                                       context,
-                                                                      Theme.of(
-                                                                        context,
-                                                                      )
-                                                                          .textTheme
-                                                                          .labelSmall!,
-                                                                    ),
-                                                                  ),
+                                                                    )
+                                                                      .textTheme
+                                                                      .labelSmall!
+                                                                  : Theme.of(
+                                                                      context,
+                                                                    )
+                                                                      .textTheme
+                                                                      .labelSmall!
+                                                                      .copyWith(
+                                                                        fontSize:
+                                                                            aedappfm.Responsive.fontSizeFromTextStyle(
+                                                                          context,
+                                                                          Theme
+                                                                              .of(
+                                                                            context,
+                                                                          ).textTheme.labelSmall!,
+                                                                        ),
+                                                                      ),
                                                           overflow: TextOverflow
                                                               .ellipsis,
                                                         ),
@@ -162,7 +161,7 @@ class BridgeTokenToBridgeSelection extends ConsumerWidget {
                                                     child: SelectableText(
                                                       bridge.tokenToBridge!
                                                           .symbol,
-                                                      style: isAppEmbedded
+                                                      style: isAppMobileFormat
                                                           ? Theme.of(context)
                                                               .textTheme
                                                               .labelSmall!

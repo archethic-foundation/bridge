@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/app_embedded.dart';
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -47,7 +47,7 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
     BuildContext context,
   ) {
     final bridge = ref.watch(bridgeFormNotifierProvider);
-    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
 
     if (bridge.targetAddress != addressController.text) {
       _updateTextController();
@@ -67,7 +67,7 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
           padding: const EdgeInsets.only(bottom: 5),
           child: SelectableText(
             AppLocalizations.of(context)!.bridge_target_address_lbl,
-            style: isAppEmbedded
+            style: isAppMobileFormat
                 ? Theme.of(context).textTheme.titleSmall!.copyWith(
                       color: aedappfm.AppThemeBase.secondaryColor,
                     )
@@ -104,7 +104,7 @@ class _BridgeTargetAddressState extends ConsumerState<BridgeTargetAddress> {
                             maxLines: maxLines,
                             style: TextStyle(
                               fontFamily: aedappfm.AppThemeBase.addressFont,
-                              fontSize: isAppEmbedded
+                              fontSize: isAppMobileFormat
                                   ? 12
                                   : aedappfm.Responsive.fontSizeFromValue(
                                       context,

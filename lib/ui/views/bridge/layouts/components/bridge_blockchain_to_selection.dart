@@ -1,7 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:math';
 
-import 'package:aebridge/application/app_embedded.dart';
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/views/blockchain_selection/bloc/provider.dart';
 import 'package:aebridge/ui/views/blockchain_selection/blockchain_selection_popup.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
@@ -20,7 +20,7 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
 
     final textTheme = Theme.of(context)
         .textTheme
@@ -33,7 +33,7 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
           padding: const EdgeInsets.only(bottom: 5),
           child: SelectableText(
             AppLocalizations.of(context)!.bridge_blockchain_to_lbl,
-            style: isAppEmbedded
+            style: isAppMobileFormat
                 ? Theme.of(context).textTheme.titleSmall!.copyWith(
                       color: aedappfm.AppThemeBase.secondaryColor,
                     )
@@ -41,7 +41,7 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
           ),
         ),
         SizedBox(
-          width: isAppEmbedded
+          width: isAppMobileFormat
               ? MediaQuery.of(context).size.width
               : min(
                   aedappfm.AppThemeBase.sizeBoxComponentWidth / 2 - 40,

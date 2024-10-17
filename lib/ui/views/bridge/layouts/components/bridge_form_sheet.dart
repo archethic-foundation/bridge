@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/app_embedded.dart';
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/domain/models/swap.dart';
 import 'package:aebridge/ui/util/components/format_address_link_copy.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
@@ -26,10 +26,10 @@ class BridgeFormSheet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
     final bridge = ref.watch(bridgeFormNotifierProvider);
 
-    return isAppEmbedded
+    return isAppMobileFormat
         ? Column(
             children: [
               const Column(
