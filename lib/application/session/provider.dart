@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 
+import 'package:aebridge/application/app_embedded.dart';
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/state.dart';
@@ -40,6 +41,7 @@ class SessionNotifier extends _$SessionNotifier {
     if (!__evmWalletProvider.isInit) {
       await __evmWalletProvider.init(
         ref.read(bridgeBlockchainsRepositoryProvider),
+        ref.read(isAppEmbeddedProvider),
       );
     }
     return __evmWalletProvider;

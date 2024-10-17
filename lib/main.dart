@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/app_embedded.dart';
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/infrastructure/hive/db_helper.hive.dart';
@@ -61,6 +62,7 @@ class _MyAppState extends ConsumerState<MyApp> {
       if (!evmWalletProvider.isInit) {
         await evmWalletProvider.init(
           ref.read(bridgeBlockchainsRepositoryProvider),
+          ref.read(isAppEmbeddedProvider),
         );
       }
     });

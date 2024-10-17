@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:aebridge/application/app_embedded.dart';
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/application/contracts/evm_htlc.dart';
@@ -56,6 +57,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
     if (!__evmWalletProvider.isInit) {
       await __evmWalletProvider.init(
         ref.read(bridgeBlockchainsRepositoryProvider),
+        ref.read(isAppEmbeddedProvider),
       );
     }
     return __evmWalletProvider;
