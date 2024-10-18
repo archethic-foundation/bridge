@@ -2,7 +2,6 @@ on:
   push:
     branches:
       - testnet
-      - 153-test-wallect-connect
 
 jobs:
   deploy_to_aeHosting:
