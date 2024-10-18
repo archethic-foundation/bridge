@@ -458,7 +458,6 @@ mixin EVMBridgeProcessMixin {
         if (transactionReceipt.status == 'success') {
           aedappfm.sl.get<aedappfm.LogManager>().log(
                 'transactionHash: $transactionHash - status true (chainId $chainId)',
-                level: aedappfm.LogLevel.error,
                 name: 'EVMBridgeProcessMixin - $fromMethod',
               );
 
