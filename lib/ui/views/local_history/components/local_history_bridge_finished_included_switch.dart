@@ -21,10 +21,10 @@ class _LocalHistoryBridgeFinishedIncludedSwitchState
     BuildContext context,
   ) {
     final localHistoryNotifier = ref.watch(
-      LocalHistoryFormProvider.localHistoryForm.notifier,
+      localHistoryFormNotifierProvider.notifier,
     );
 
-    final localHistory = ref.watch(LocalHistoryFormProvider.localHistoryForm);
+    final localHistory = ref.watch(localHistoryFormNotifierProvider);
     final thumbIcon = WidgetStateProperty.resolveWith<Icon?>(
       (Set<WidgetState> states) {
         if (states.contains(WidgetState.selected)) {

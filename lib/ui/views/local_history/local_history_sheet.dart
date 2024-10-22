@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:convert';
 
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
@@ -37,15 +38,16 @@ class LocalHistorySheet extends ConsumerWidget {
 
 Widget _body(BuildContext context, WidgetRef ref) {
   final bridgesList = ref.watch(fetchBridgesListProvider(asc: false));
-
+  final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
   return Padding(
-    padding: const EdgeInsets.only(top: 90, left: 50, right: 50),
+    padding: isAppMobileFormat
+        ? const EdgeInsets.only(top: 20)
+        : const EdgeInsets.only(top: 90, left: 50, right: 50),
     child: Align(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          if (!aedappfm.Responsive.isDesktop(context))
-            const SizedBox(width: 20),
+          if (!isAppMobileFormat) const SizedBox(width: 20),
           Padding(
             padding: const EdgeInsets.only(bottom: 10, left: 5),
             child: Row(
@@ -71,7 +73,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
                         AppLocalizations.of(context)!.backToBridge,
                         style: TextStyle(
                           fontSize:
-                              Theme.of(context).textTheme.labelMedium!.fontSize,
+                              Theme.of(context).textTheme.labelLarge!.fontSize,
                           color: aedappfm.AppThemeBase.secondaryColor,
                           decoration: TextDecoration.underline,
                         ),
@@ -143,8 +145,7 @@ Widget _body(BuildContext context, WidgetRef ref) {
           ),
           bridgesList.map(
             data: (data) {
-              final localHistory =
-                  ref.read(LocalHistoryFormProvider.localHistoryForm);
+              final localHistory = ref.read(localHistoryFormNotifierProvider);
               return Expanded(
                 child: SizedBox(
                   width: 700,

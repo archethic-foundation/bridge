@@ -2,6 +2,7 @@
 import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/domain/models/swap.dart';
 import 'package:aebridge/ui/util/components/format_address_link_copy.dart';
+import 'package:aebridge/ui/util/components/format_address_link_copy_big_icon.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_balance_warning.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_blockchain_from_selection.dart';
@@ -18,6 +19,7 @@ import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_bridged
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_balance.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_selection.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_uco_v1_warning.dart';
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -71,12 +73,23 @@ class BridgeFormSheet extends ConsumerWidget {
                   if (bridge.tokenToBridge != null &&
                       bridge.blockchainFrom != null &&
                       bridge.tokenToBridge!.tokenAddressSource.isNotEmpty)
-                    FormatAddressLinkCopy(
-                      address: bridge.tokenToBridge!.tokenAddressSource,
-                      chainId: bridge.blockchainFrom!.chainId,
-                      reduceAddress: true,
-                      fontSize: 16,
-                    ),
+                    if (isAppMobileFormat)
+                      SizedBox(
+                        height: 30,
+                        child: FormatAddressLinkCopyBigIcon(
+                          address: bridge.tokenToBridge!.tokenAddressSource,
+                          chainId: bridge.blockchainFrom!.chainId,
+                          reduceAddress: true,
+                          fontSize: 14,
+                        ),
+                      )
+                    else
+                      FormatAddressLinkCopy(
+                        address: bridge.tokenToBridge!.tokenAddressSource,
+                        chainId: bridge.blockchainFrom!.chainId,
+                        reduceAddress: true,
+                        fontSize: 16,
+                      ),
                   const SizedBox(height: 20),
                   const BridgeTokenBridged(),
                   const Row(
@@ -90,22 +103,41 @@ class BridgeFormSheet extends ConsumerWidget {
                   if (bridge.tokenToBridge != null &&
                       bridge.blockchainTo != null &&
                       bridge.tokenToBridge!.tokenAddressTarget.isNotEmpty)
-                    FormatAddressLinkCopy(
-                      address: bridge.tokenToBridge!.tokenAddressTarget,
-                      chainId: bridge.blockchainTo!.chainId,
-                      reduceAddress: true,
-                      fontSize: 16,
-                    ),
+                    if (isAppMobileFormat)
+                      SizedBox(
+                        height: 30,
+                        child: FormatAddressLinkCopyBigIcon(
+                          address: bridge.tokenToBridge!.tokenAddressTarget,
+                          chainId: bridge.blockchainTo!.chainId,
+                          reduceAddress: true,
+                          fontSize: 14,
+                        ),
+                      )
+                    else
+                      FormatAddressLinkCopy(
+                        address: bridge.tokenToBridge!.tokenAddressTarget,
+                        chainId: bridge.blockchainTo!.chainId,
+                        reduceAddress: true,
+                        fontSize: 16,
+                      ),
                 ],
               ),
-              const Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox.shrink(),
-                  SizedBox(width: 20),
-                  BridgeTokenBridgedPoolBalance(),
-                ],
-              ),
+              if (isAppMobileFormat)
+                const Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    BridgeTokenBridgedPoolBalance(),
+                  ],
+                )
+              else
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    SizedBox.shrink(),
+                    SizedBox(width: 20),
+                    BridgeTokenBridgedPoolBalance(),
+                  ],
+                ),
               const BridgeUCOV1Warning(),
               const SizedBox(
                 height: 20,

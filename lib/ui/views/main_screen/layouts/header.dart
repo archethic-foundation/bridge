@@ -28,9 +28,10 @@ class Header extends ConsumerWidget {
     final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
     final indexMenu = ref.watch(navigationIndexMainScreenProvider);
     final session = ref.watch(sessionNotifierProvider);
+
     return Stack(
       children: [
-        if (aedappfm.Responsive.isMobile(context) == false)
+        if (isAppMobileFormat == false)
           Positioned(
             top: 40,
             left: 65,
@@ -47,7 +48,7 @@ class Header extends ConsumerWidget {
             const SizedBox(
               width: 16,
             ),
-            if (aedappfm.Responsive.isMobile(context) == false)
+            if (isAppMobileFormat == false)
               Padding(
                 padding: const EdgeInsets.only(top: 8),
                 child: SvgPicture.asset(
@@ -63,11 +64,11 @@ class Header extends ConsumerWidget {
                   height: 24,
                 ),
               ),
-            if (aedappfm.Responsive.isMobile(context) == false)
+            if (isAppMobileFormat == false)
               const SizedBox(
                 width: 8,
               ),
-            if (aedappfm.Responsive.isMobile(context) == false)
+            if (isAppMobileFormat == false)
               Padding(
                 padding: const EdgeInsets.only(bottom: 4),
                 child: SelectableText(
@@ -82,7 +83,7 @@ class Header extends ConsumerWidget {
                 ),
               ),
             if (withMenu &&
-                aedappfm.Responsive.isMobile(context) == false &&
+                isAppMobileFormat == false &&
                 aedappfm.Responsive.isTablet(context) == false)
               Row(
                 children: [

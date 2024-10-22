@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:convert';
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_logs_popup.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -17,6 +18,7 @@ class LocalHistoryCardOptionsLogs extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
     return Padding(
       padding: const EdgeInsets.only(left: 10),
       child: InkWell(
@@ -29,10 +31,22 @@ class LocalHistoryCardOptionsLogs extends ConsumerWidget {
             formattedJson,
           );
         },
-        child: aedappfm.IconAnimated(
-          icon: aedappfm.Iconsax.code,
-          color: Colors.white,
-          tooltip: AppLocalizations.of(context)!.local_history_option_logs,
+        child: Column(
+          children: [
+            aedappfm.IconAnimated(
+              icon: aedappfm.Iconsax.code,
+              color: Colors.white,
+              tooltip: AppLocalizations.of(context)!.local_history_option_logs,
+            ),
+            if (isAppMobileFormat)
+              Padding(
+                padding: const EdgeInsets.only(top: 2),
+                child: Text(
+                  AppLocalizations.of(context)!.local_history_option_logs,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
+          ],
         ),
       ),
     );

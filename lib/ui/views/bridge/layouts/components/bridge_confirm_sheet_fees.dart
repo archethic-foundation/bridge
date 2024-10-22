@@ -1,5 +1,7 @@
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/util/components/fiat_value.dart';
 import 'package:aebridge/ui/util/components/format_address_link_copy.dart';
+import 'package:aebridge/ui/util/components/format_address_link_copy_big_icon.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -78,7 +80,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final bridge = ref.watch(bridgeFormNotifierProvider);
-
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -96,22 +98,28 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
                   if (bridge.blockchainFrom!.isArchethic)
                     SelectableText(
                       '${bridge.archethicProtocolFeesRate}${AppLocalizations.of(context)!.bridgeConfirmFeesAEProtocolSigned}',
-                      style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.labelSmall!,
-                            ),
-                          ),
+                      style: isAppMobileFormat
+                          ? Theme.of(context).textTheme.labelSmall
+                          : Theme.of(context).textTheme.labelSmall!.copyWith(
+                                fontSize:
+                                    aedappfm.Responsive.fontSizeFromTextStyle(
+                                  context,
+                                  Theme.of(context).textTheme.labelSmall!,
+                                ),
+                              ),
                     )
                   else
                     SelectableText(
                       '${bridge.archethicProtocolFeesRate}${AppLocalizations.of(context)!.bridgeConfirmFeesAEProtocolChargeable}',
-                      style: Theme.of(context).textTheme.labelSmall!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.labelSmall!,
-                            ),
-                          ),
+                      style: isAppMobileFormat
+                          ? Theme.of(context).textTheme.labelSmall
+                          : Theme.of(context).textTheme.labelSmall!.copyWith(
+                                fontSize:
+                                    aedappfm.Responsive.fontSizeFromTextStyle(
+                                  context,
+                                  Theme.of(context).textTheme.labelSmall!,
+                                ),
+                              ),
                     ),
                 ],
               ),
@@ -136,12 +144,23 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
             ),
           ],
         ),
-        FormatAddressLinkCopy(
-          address: bridge.archethicProtocolFeesAddress,
-          chainId: bridge.blockchainFrom!.chainId,
-          reduceAddress: true,
-          fontSize: Theme.of(context).textTheme.labelSmall!.fontSize!,
-        ),
+        if (isAppMobileFormat)
+          SizedBox(
+            height: 30,
+            child: FormatAddressLinkCopyBigIcon(
+              address: bridge.archethicProtocolFeesAddress,
+              chainId: bridge.blockchainFrom!.chainId,
+              reduceAddress: true,
+              fontSize: 14,
+            ),
+          )
+        else
+          FormatAddressLinkCopy(
+            address: bridge.archethicProtocolFeesAddress,
+            chainId: bridge.blockchainFrom!.chainId,
+            reduceAddress: true,
+            fontSize: Theme.of(context).textTheme.labelSmall!.fontSize!,
+          ),
         const SizedBox(
           height: 15,
         ),

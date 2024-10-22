@@ -1,9 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/util/components/blockchain_label.dart';
 import 'package:aebridge/ui/util/components/fiat_value.dart';
 import 'package:aebridge/ui/util/components/format_address_link_copy.dart';
+import 'package:aebridge/ui/util/components/format_address_link_copy_big_icon.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_sheet_fees.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_in_progress_popup.dart';
@@ -32,6 +34,7 @@ class BridgeConfirmSheetState extends ConsumerState<BridgeConfirmSheet> {
     if (bridge.blockchainFrom == null) {
       return const SizedBox.shrink();
     }
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -104,24 +107,42 @@ class BridgeConfirmSheetState extends ConsumerState<BridgeConfirmSheet> {
           height: 3,
         ),
         if (bridge.targetAddress.isNotEmpty)
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Flexible(
-                child: SelectableText(
+          if (isAppMobileFormat)
+            Column(
+              children: [
+                SelectableText(
                   AppLocalizations.of(context)!.bridge_target_address_lbl,
                 ),
-              ),
-              const SizedBox(
-                width: 20,
-              ),
-              FormatAddressLinkCopy(
-                address: bridge.targetAddress,
-                chainId: bridge.blockchainTo!.chainId,
-                reduceAddress: true,
-              ),
-            ],
-          ),
+                SizedBox(
+                  height: 30,
+                  child: FormatAddressLinkCopyBigIcon(
+                    address: bridge.targetAddress,
+                    chainId: bridge.blockchainTo!.chainId,
+                    reduceAddress: true,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            )
+          else
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Flexible(
+                  child: SelectableText(
+                    AppLocalizations.of(context)!.bridge_target_address_lbl,
+                  ),
+                ),
+                const SizedBox(
+                  width: 20,
+                ),
+                FormatAddressLinkCopy(
+                  address: bridge.targetAddress,
+                  chainId: bridge.blockchainTo!.chainId,
+                  reduceAddress: true,
+                ),
+              ],
+            ),
         const SizedBox(
           height: 10,
         ),

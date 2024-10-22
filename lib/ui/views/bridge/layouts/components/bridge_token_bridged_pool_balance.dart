@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/util/components/fiat_value.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -14,7 +15,7 @@ class BridgeTokenBridgedPoolBalance extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(bridgeFormNotifierProvider);
-
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
     if (bridge.blockchainFrom == null ||
         bridge.tokenToBridge == null ||
         bridge.blockchainFrom!.isArchethic == false ||
@@ -35,7 +36,7 @@ class BridgeTokenBridgedPoolBalance extends ConsumerWidget {
             child: Text(
               '${AppLocalizations.of(context)!.pool_balance_title_infos} ${bridge.poolTargetBalance.formatNumber()} ${bridge.tokenToBridge!.targetTokenSymbol} ${snapshot.data}',
               overflow: TextOverflow.visible,
-              textAlign: TextAlign.end,
+              textAlign: isAppMobileFormat ? TextAlign.start : TextAlign.end,
             ),
           );
         }
