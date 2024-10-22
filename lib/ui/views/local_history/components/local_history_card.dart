@@ -254,17 +254,17 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
                 ],
               ),
               LocalHistoryCardStatusInfos(bridge: widget.bridge),
-              _line(context),
+              _line(context, isAppMobileFormat),
               LocalHistoryCardDirectionInfos(bridge: widget.bridge),
-              _line(context),
+              _line(context, isAppMobileFormat),
               LocalHistoryCardTrfInfos(bridge: widget.bridge),
-              _line(context),
+              _line(context, isAppMobileFormat),
               LocalHistoryCardHTLCInfos(
                 bridge: widget.bridge,
                 statusEVM: statusEVM,
                 statusAE: statusAE,
               ),
-              _line(context),
+              _line(context, isAppMobileFormat),
               if (isAppMobileFormat)
                 Padding(
                   padding: const EdgeInsets.only(top: 10),
