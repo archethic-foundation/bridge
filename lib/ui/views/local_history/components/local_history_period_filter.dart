@@ -67,7 +67,7 @@ class LocalHistoryPeriodFilter extends ConsumerWidget {
       return picked;
     }
 
-    final localHistory = ref.watch(LocalHistoryFormProvider.localHistoryForm);
+    final localHistory = ref.watch(localHistoryFormNotifierProvider);
 
     return MenuItemButton(
       child: Padding(
@@ -101,11 +101,11 @@ class LocalHistoryPeriodFilter extends ConsumerWidget {
       ),
       onPressed: () async {
         final localHistoryNotifier = ref.read(
-          LocalHistoryFormProvider.localHistoryForm.notifier,
+          localHistoryFormNotifierProvider.notifier,
         );
 
         final date = await dateTimeRangePicker();
-        if (date != null) {
+        if (date != null && context.mounted) {
           localHistoryNotifier
             ..setFilterPeriodStart(
               date.start,

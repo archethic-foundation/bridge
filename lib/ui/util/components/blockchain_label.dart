@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -16,6 +17,8 @@ class BlockchainLabel extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+
     return ref.watch(getBlockchainFromChainIdProvider(chainId)).when(
       data: (data) {
         return Row(
@@ -31,12 +34,14 @@ class BlockchainLabel extends ConsumerWidget {
             Text(
               data.name,
               overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                      context,
-                      Theme.of(context).textTheme.bodyMedium!,
-                    ),
-                  ),
+              style: isAppMobileFormat
+                  ? Theme.of(context).textTheme.bodyMedium
+                  : Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.bodyMedium!,
+                        ),
+                      ),
             ),
           ],
         );

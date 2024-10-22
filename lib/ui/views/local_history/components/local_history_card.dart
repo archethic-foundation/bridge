@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
@@ -197,9 +198,14 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
   @override
   Widget build(BuildContext context) {
     super.build(context);
+
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
     return Padding(
       padding: const EdgeInsets.only(bottom: 50),
       child: aedappfm.SingleCard(
+        decorationColor: aedappfm.AppThemeBase.sheetBackgroundTertiary,
+        decorationBorderColor: aedappfm.AppThemeBase.sheetBorderTertiary,
+        globalPadding: 10,
         cardContent: Align(
           alignment: Alignment.centerLeft,
           child: Column(
@@ -220,14 +226,50 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
                     textAlign: TextAlign.center,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                          fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                            context,
-                            Theme.of(context).textTheme.bodyMedium!,
-                          ),
-                        ),
+                    style: isAppMobileFormat
+                        ? Theme.of(context).textTheme.bodyMedium
+                        : Theme.of(context).textTheme.bodyMedium!.copyWith(
+                              fontSize:
+                                  aedappfm.Responsive.fontSizeFromTextStyle(
+                                context,
+                                Theme.of(context).textTheme.bodyMedium!,
+                              ),
+                            ),
                   ),
-                  Row(
+                  if (isAppMobileFormat == false)
+                    Row(
+                      children: [
+                        LocalHistoryCardOptionsDelete(bridge: widget.bridge),
+                        LocalHistoryCardOptionsResume(
+                          bridge: widget.bridge,
+                          canResume: canResume,
+                        ),
+                        LocalHistoryCardOptionsRefund(
+                          bridge: widget.bridge,
+                          isRefunded: isRefunded,
+                        ),
+                        LocalHistoryCardOptionsLogs(bridge: widget.bridge),
+                      ],
+                    ),
+                ],
+              ),
+              LocalHistoryCardStatusInfos(bridge: widget.bridge),
+              _line(context),
+              LocalHistoryCardDirectionInfos(bridge: widget.bridge),
+              _line(context),
+              LocalHistoryCardTrfInfos(bridge: widget.bridge),
+              _line(context),
+              LocalHistoryCardHTLCInfos(
+                bridge: widget.bridge,
+                statusEVM: statusEVM,
+                statusAE: statusAE,
+              ),
+              _line(context),
+              if (isAppMobileFormat)
+                Padding(
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       LocalHistoryCardOptionsDelete(bridge: widget.bridge),
                       LocalHistoryCardOptionsResume(
@@ -241,20 +283,26 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
                       LocalHistoryCardOptionsLogs(bridge: widget.bridge),
                     ],
                   ),
-                ],
-              ),
-              LocalHistoryCardStatusInfos(bridge: widget.bridge),
-              LocalHistoryCardDirectionInfos(bridge: widget.bridge),
-              LocalHistoryCardTrfInfos(bridge: widget.bridge),
-              LocalHistoryCardHTLCInfos(
-                bridge: widget.bridge,
-                statusEVM: statusEVM,
-                statusAE: statusAE,
-              ),
+                ),
             ],
           ),
         ),
       ),
     );
+  }
+
+  Widget _line(BuildContext context, bool isAppMobileFormat) {
+    return isAppMobileFormat
+        ? Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5),
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 1,
+              decoration: BoxDecoration(
+                gradient: aedappfm.AppThemeBase.gradient,
+              ),
+            ),
+          )
+        : const SizedBox.shrink();
   }
 }

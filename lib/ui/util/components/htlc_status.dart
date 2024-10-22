@@ -1,9 +1,11 @@
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class HTLCStatus extends StatelessWidget {
+class HTLCStatus extends ConsumerWidget {
   const HTLCStatus({
     required this.status,
     super.key,
@@ -12,20 +14,27 @@ class HTLCStatus extends StatelessWidget {
   final int? status;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
     if (status == null) {
       return Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
         children: [
-          SelectableText(
-            ' - ${AppLocalizations.of(context)!.htlcStatusHeader}: ',
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                    context,
-                    Theme.of(context).textTheme.bodyMedium!,
+          if (isAppMobileFormat)
+            SelectableText(
+              '${AppLocalizations.of(context)!.htlcStatusHeader}: ',
+              style: Theme.of(context).textTheme.bodyMedium,
+            )
+          else
+            SelectableText(
+              ' - ${AppLocalizations.of(context)!.htlcStatusHeader}: ',
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                      context,
+                      Theme.of(context).textTheme.bodyMedium!,
+                    ),
                   ),
-                ),
-          ),
+            ),
           const SizedBox(
             height: 10,
             width: 10,
@@ -38,29 +47,37 @@ class HTLCStatus extends StatelessWidget {
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.center,
       children: [
-        SelectableText(
-          ' - ${AppLocalizations.of(context)!.htlcStatusHeader}: ',
-          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                  context,
-                  Theme.of(context).textTheme.bodyMedium!,
-                ),
-              ),
-        ),
-        SelectableText(
-          _htlcStatusLabel(context, status),
-          style: TextStyle(
-            color: _htlcColor(status),
-            fontSize: Theme.of(context)
-                .textTheme
-                .bodyMedium!
-                .copyWith(
+        if (isAppMobileFormat)
+          SelectableText(
+            '${AppLocalizations.of(context)!.htlcStatusHeader}: ',
+            style: Theme.of(context).textTheme.bodyMedium,
+          )
+        else
+          SelectableText(
+            ' - ${AppLocalizations.of(context)!.htlcStatusHeader}: ',
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
                     context,
                     Theme.of(context).textTheme.bodyMedium!,
                   ),
-                )
-                .fontSize,
+                ),
+          ),
+        SelectableText(
+          _htlcStatusLabel(context, status),
+          style: TextStyle(
+            color: _htlcColor(status),
+            fontSize: isAppMobileFormat
+                ? Theme.of(context).textTheme.bodyMedium!.fontSize
+                : Theme.of(context)
+                    .textTheme
+                    .bodyMedium!
+                    .copyWith(
+                      fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                        context,
+                        Theme.of(context).textTheme.bodyMedium!,
+                      ),
+                    )
+                    .fontSize,
           ),
         ),
       ],

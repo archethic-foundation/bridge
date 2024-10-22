@@ -1,3 +1,4 @@
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
@@ -30,7 +31,7 @@ class LocalHistoryCardOptionsResumeState
         (widget.bridge.failure == null && widget.bridge.currentStep == 8)) {
       return const SizedBox.shrink();
     }
-
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
     return Row(
       children: [
         Padding(
@@ -77,11 +78,23 @@ class LocalHistoryCardOptionsResumeState
                 );
               }
             },
-            child: aedappfm.IconAnimated(
-              icon: aedappfm.Iconsax.play_circle,
-              color: Colors.white,
-              tooltip:
-                  AppLocalizations.of(context)!.local_history_option_resume,
+            child: Column(
+              children: [
+                aedappfm.IconAnimated(
+                  icon: aedappfm.Iconsax.play_circle,
+                  color: Colors.white,
+                  tooltip:
+                      AppLocalizations.of(context)!.local_history_option_resume,
+                ),
+                if (isAppMobileFormat)
+                  Padding(
+                    padding: const EdgeInsets.only(top: 2),
+                    child: Text(
+                      AppLocalizations.of(context)!.local_history_option_resume,
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ),
+              ],
             ),
           ),
         ),

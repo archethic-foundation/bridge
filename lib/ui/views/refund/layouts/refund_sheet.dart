@@ -78,7 +78,7 @@ class _RefundSheetState extends ConsumerState<RefundSheet> {
                     AppLocalizations.of(context)!.backToBridge,
                     style: TextStyle(
                       fontSize:
-                          Theme.of(context).textTheme.labelMedium!.fontSize,
+                          Theme.of(context).textTheme.labelLarge!.fontSize,
                       color: aedappfm.AppThemeBase.secondaryColor,
                       decoration: TextDecoration.underline,
                     ),

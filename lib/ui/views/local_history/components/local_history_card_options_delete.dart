@@ -1,4 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 
@@ -18,7 +19,7 @@ class LocalHistoryCardOptionsDelete extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
-
+    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
     return InkWell(
       onTap: () async {
         await showDialog(
@@ -132,10 +133,22 @@ class LocalHistoryCardOptionsDelete extends ConsumerWidget {
           },
         );
       },
-      child: aedappfm.IconAnimated(
-        icon: aedappfm.Iconsax.trash,
-        color: Colors.white,
-        tooltip: AppLocalizations.of(context)!.local_history_option_delete,
+      child: Column(
+        children: [
+          aedappfm.IconAnimated(
+            icon: aedappfm.Iconsax.trash,
+            color: Colors.white,
+            tooltip: AppLocalizations.of(context)!.local_history_option_delete,
+          ),
+          if (isAppMobileFormat)
+            Padding(
+              padding: const EdgeInsets.only(top: 2),
+              child: Text(
+                AppLocalizations.of(context)!.local_history_option_delete,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ),
+        ],
       ),
     );
   }

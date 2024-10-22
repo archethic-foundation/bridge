@@ -1,19 +1,12 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/ui/views/local_history/bloc/state.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-final _localHistoryFormProvider = NotifierProvider.autoDispose<
-    LocalHistoryFormNotifier, LocalHistoryFormState>(
-  () {
-    return LocalHistoryFormNotifier();
-  },
-);
+part 'provider.g.dart';
 
-class LocalHistoryFormNotifier
-    extends AutoDisposeNotifier<LocalHistoryFormState> {
-  LocalHistoryFormNotifier();
-
+@riverpod
+class LocalHistoryFormNotifier extends _$LocalHistoryFormNotifier {
   @override
   LocalHistoryFormState build() => const LocalHistoryFormState();
 
@@ -41,8 +34,4 @@ class LocalHistoryFormNotifier
       fetchBridgesListProvider,
     );
   }
-}
-
-abstract class LocalHistoryFormProvider {
-  static final localHistoryForm = _localHistoryFormProvider;
 }

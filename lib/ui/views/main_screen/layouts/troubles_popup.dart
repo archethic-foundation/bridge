@@ -164,10 +164,12 @@ class TroublesPopup extends ConsumerWidget {
                   TextSpan(
                     text: '$title ',
                     style: textStyleTitle,
+                    recognizer: TapGestureRecognizer()..onTap = link,
                   ),
                   TextSpan(
                     text: beforeKeyword,
                     style: textStyleDesc,
+                    recognizer: TapGestureRecognizer()..onTap = link,
                   ),
                   TextSpan(
                     text: keyword,
@@ -180,6 +182,7 @@ class TroublesPopup extends ConsumerWidget {
                   TextSpan(
                     text: afterKeyword,
                     style: textStyleDesc,
+                    recognizer: TapGestureRecognizer()..onTap = link,
                   ),
                 ],
               ),
