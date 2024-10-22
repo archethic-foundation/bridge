@@ -19,7 +19,6 @@ import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_bridged
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_balance.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_to_bridge_selection.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_uco_v1_warning.dart';
-import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
