@@ -162,15 +162,17 @@ class BridgeConfirmSheetState extends ConsumerState<BridgeConfirmSheet> {
         ),
         const Spacer(),
         if (bridge.consentDateTime == null)
-          aedappfm.ConsentToCheck(
-            consentChecked: consentChecked,
-            onToggleConsent: (newValue) {
-              setState(() {
-                consentChecked = newValue!;
-              });
-            },
-            uriPrivacyPolicy: kURIPrivacyPolicy,
-            uriTermsOfUse: kURITermsOfUse,
+          Expanded(
+            child: aedappfm.ConsentToCheck(
+              consentChecked: consentChecked,
+              onToggleConsent: (newValue) {
+                setState(() {
+                  consentChecked = newValue!;
+                });
+              },
+              uriPrivacyPolicy: kURIPrivacyPolicy,
+              uriTermsOfUse: kURITermsOfUse,
+            ),
           )
         else
           aedappfm.ConsentAlready(
@@ -178,6 +180,9 @@ class BridgeConfirmSheetState extends ConsumerState<BridgeConfirmSheet> {
             uriPrivacyPolicy: kURIPrivacyPolicy,
             uriTermsOfUse: kURITermsOfUse,
           ),
+        const SizedBox(
+          height: 10,
+        ),
         aedappfm.ButtonConfirm(
           labelBtn: AppLocalizations.of(context)!.btn_confirm_bridge,
           disabled: !consentChecked && bridge.consentDateTime == null,
