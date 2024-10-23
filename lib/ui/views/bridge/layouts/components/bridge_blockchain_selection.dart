@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:aebridge/application/app_embedded.dart';
 import 'package:aebridge/application/app_mobile_format.dart';
+import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/ui/views/blockchain_selection/bloc/provider.dart';
 import 'package:aebridge/ui/views/blockchain_selection/blockchain_selection_popup.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
@@ -15,20 +16,30 @@ import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 
-class BridgeBlockchainFromSelection extends ConsumerWidget {
-  const BridgeBlockchainFromSelection({
+class BridgeBlockchainSelection extends ConsumerWidget {
+  const BridgeBlockchainSelection({
     super.key,
+    required this.onSelect,
+    required this.selectedBlockchain,
+    required this.otherBlockchain,
+    required this.enabled,
   });
+
+  final Future<void> Function(BridgeBlockchain? blockchain) onSelect;
+  final BridgeBlockchain? selectedBlockchain;
+  final BridgeBlockchain? otherBlockchain;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final testnetIncluded = otherBlockchain?.env != '1-mainnet';
     final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
     final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
 
     final textTheme = Theme.of(context)
         .textTheme
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
-    final bridge = ref.watch(bridgeFormNotifierProvider);
+    // final bridge = ref.watch(bridgeFormNotifierProvider);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -67,9 +78,9 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
                 height: 45,
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: bridge.changeDirectionInProgress == true
+                  child: enabled == false
                       ? const SelectableText('')
-                      : bridge.blockchainFrom == null
+                      : selectedBlockchain == null
                           ? Padding(
                               padding: const EdgeInsets.only(left: 5),
                               child: Row(
@@ -98,7 +109,7 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
                           : Row(
                               children: [
                                 SvgPicture.asset(
-                                  'assets/images/bc-logos/${bridge.blockchainFrom!.icon}',
+                                  'assets/images/bc-logos/${selectedBlockchain!.icon}',
                                   width: 20,
                                 ),
                                 const SizedBox(
@@ -106,7 +117,7 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
                                 ),
                                 Flexible(
                                   child: Text(
-                                    bridge.blockchainFrom!.name,
+                                    selectedBlockchain!.name,
                                     style: isAppMobileFormat
                                         ? textTheme.titleMedium!
                                         : textTheme.titleMedium!.copyWith(
@@ -143,39 +154,21 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
                   return;
                 }
 
-                final blockchainSelectionNotifier = ref.read(
-                  BlockchainSelectionFormProvider
-                      .blockchainSelectionForm.notifier,
-                );
-                if (bridge.blockchainTo != null &&
-                    bridge.blockchainTo!.env != '1-mainnet') {
-                  blockchainSelectionNotifier.setTestnetIncluded(true);
-                }
+                ref
+                    .read(
+                      BlockchainSelectionFormProvider
+                          .blockchainSelectionForm.notifier,
+                    )
+                    .setTestnetIncluded(testnetIncluded);
 
                 final blockchain = await BlockchainSelectionPopup.getDialog(
                   context,
                   ref,
                   true,
                 );
-                if (blockchain == null) return;
 
-                final bridgeFormNotifier =
-                    ref.read(bridgeFormNotifierProvider.notifier);
-                // We want to swap values
-                if (bridge.blockchainTo != null &&
-                    blockchain.chainId == bridge.blockchainTo!.chainId) {
-                  if (context.mounted) {
-                    await bridgeFormNotifier
-                        .swapDirections(AppLocalizations.of(context)!);
-                  }
-                  return;
-                }
-                if (context.mounted) {
-                  await bridgeFormNotifier.setBlockchainFromWithConnection(
-                    AppLocalizations.of(context)!,
-                    blockchain,
-                  );
-                }
+                onSelect(blockchain);
+                if (blockchain == null) return;
               },
             ),
           ),
@@ -185,5 +178,71 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
         .animate()
         .fade(duration: const Duration(milliseconds: 200))
         .scale(duration: const Duration(milliseconds: 200));
+  }
+}
+
+class BridgeBlockchainFromSelection extends ConsumerWidget {
+  const BridgeBlockchainFromSelection({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bridge = ref.watch(bridgeFormNotifierProvider);
+    final localizations = AppLocalizations.of(context)!;
+
+    return BridgeBlockchainSelection(
+      selectedBlockchain: bridge.blockchainFrom,
+      otherBlockchain: bridge.blockchainTo,
+      enabled: bridge.changeDirectionInProgress == false,
+      onSelect: (blockchain) async {
+        if (blockchain == null) return;
+        final bridgeFormNotifier =
+            ref.read(bridgeFormNotifierProvider.notifier);
+        // We want to swap values
+        if (blockchain.chainId == bridge.blockchainTo?.chainId) {
+          await bridgeFormNotifier.swapDirections(localizations);
+          return;
+        }
+
+        await bridgeFormNotifier.setBlockchainFromWithConnection(
+          localizations,
+          blockchain,
+        );
+      },
+    );
+  }
+}
+
+class BridgeBlockchainToSelection extends ConsumerWidget {
+  const BridgeBlockchainToSelection({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final bridge = ref.watch(bridgeFormNotifierProvider);
+    final localizations = AppLocalizations.of(context)!;
+
+    return BridgeBlockchainSelection(
+      selectedBlockchain: bridge.blockchainTo,
+      otherBlockchain: bridge.blockchainFrom,
+      enabled: bridge.changeDirectionInProgress == false,
+      onSelect: (blockchain) async {
+        if (blockchain == null) return;
+        final bridgeFormNotifier =
+            ref.read(bridgeFormNotifierProvider.notifier);
+        // We want to swap values
+        if (blockchain.chainId == bridge.blockchainFrom?.chainId) {
+          await bridgeFormNotifier.swapDirections(localizations);
+          return;
+        }
+
+        await bridgeFormNotifier.setBlockchainToWithConnection(
+          localizations,
+          blockchain,
+        );
+      },
+    );
   }
 }
