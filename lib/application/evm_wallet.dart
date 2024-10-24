@@ -137,6 +137,12 @@ class EVMWalletProvider with EVMBridgeProcessMixin {
       await wagmi.Web3Modal.open();
 
       await _waitForConnection();
+
+      /// Wait for the application to get focus back
+      /// If not, deeplink call will be dismissed by web browser
+      ///
+      /// Ideally, we should listen to the focus event (https://developer.mozilla.org/en-US/docs/Web/API/Window/focus_event)
+      await Future.delayed(const Duration(seconds: 1));
     }
     await useChain(chain.chainId);
   }
