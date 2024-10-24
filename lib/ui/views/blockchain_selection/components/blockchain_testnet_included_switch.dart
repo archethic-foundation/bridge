@@ -4,21 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class BlockchainTestnetIncludedSwitch extends ConsumerStatefulWidget {
+class BlockchainTestnetIncludedSwitch extends ConsumerWidget {
   const BlockchainTestnetIncludedSwitch({
     super.key,
   });
 
   @override
-  ConsumerState<BlockchainTestnetIncludedSwitch> createState() =>
-      _BlockchainTestnetIncludedSwitchState();
-}
-
-class _BlockchainTestnetIncludedSwitchState
-    extends ConsumerState<BlockchainTestnetIncludedSwitch> {
-  @override
   Widget build(
     BuildContext context,
+    WidgetRef ref,
   ) {
     final blockchainSelectionNotifier = ref.watch(
       BlockchainSelectionFormProvider.blockchainSelectionForm.notifier,
@@ -54,16 +48,7 @@ class _BlockchainTestnetIncludedSwitchState
                   child: Switch(
                     thumbIcon: thumbIcon,
                     value: blockchainSelectionProvider.testnetIncluded,
-                    onChanged: (value) {
-                      Future.delayed(
-                        Duration.zero,
-                        () {
-                          blockchainSelectionNotifier
-                            ..setTestnetIncluded(value)
-                            ..setForceChoiceTestnetIncluded(true);
-                        },
-                      );
-                    },
+                    onChanged: blockchainSelectionNotifier.setTestnetIncluded,
                   ),
                 ),
               ),

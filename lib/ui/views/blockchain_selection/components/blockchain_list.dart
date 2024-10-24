@@ -1,12 +1,13 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
+import 'package:aebridge/domain/models/bridge_blockchain_environment.dart';
 import 'package:aebridge/ui/views/blockchain_selection/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:go_router/go_router.dart';
 
 class BlockchainList extends ConsumerWidget {
   const BlockchainList({
@@ -21,74 +22,39 @@ class BlockchainList extends ConsumerWidget {
     final blockchains = ref.watch(
       getBlockchainsListProvider,
     );
+    final blockchainSelectionProvider = ref.watch(
+      BlockchainSelectionFormProvider.blockchainSelectionForm,
+    );
 
     return SizedBox(
       child: blockchains.map(
         data: (data) {
-          final blockchainSelectionProvider = ref
-              .watch(BlockchainSelectionFormProvider.blockchainSelectionForm);
+          final filteredChains = [...data.value];
           if (blockchainSelectionProvider.testnetIncluded == false) {
-            data.value.removeWhere(
-              (element) => element.env != '1-mainnet',
+            filteredChains.removeWhere(
+              (element) => element.env != BridgeBlockchainEnvironment.mainnet,
             );
           }
 
-          final bridge = ref.watch(bridgeFormNotifierProvider);
-          if (blockchainSelectionProvider.forceChoiceTestnetIncluded == false) {
-            if (isFrom) {
-              if (bridge.blockchainTo != null &&
-                  bridge.blockchainTo!.env.isNotEmpty) {
-                if (bridge.blockchainTo!.env != '1-mainnet') {
-                  Future.delayed(
-                    Duration.zero,
-                    () {
-                      ref
-                          .read(
-                            BlockchainSelectionFormProvider
-                                .blockchainSelectionForm.notifier,
-                          )
-                          .setTestnetIncluded(true);
-                    },
-                  );
-                }
-                data.value.removeWhere(
-                  (element) => element.env != bridge.blockchainTo!.env,
+          final otherBlockchain = isFrom
+              ? ref.watch(
+                  bridgeFormNotifierProvider
+                      .select((bridge) => bridge.blockchainTo),
+                )
+              : ref.watch(
+                  bridgeFormNotifierProvider
+                      .select((bridge) => bridge.blockchainFrom),
                 );
-                data.value.removeWhere(
-                  (element) =>
-                      element.env == bridge.blockchainTo!.env &&
-                      element.name == bridge.blockchainTo!.name,
-                );
-              }
-            } else {
-              if (bridge.blockchainFrom != null &&
-                  bridge.blockchainFrom!.env.isNotEmpty) {
-                if (bridge.blockchainFrom!.env != '1-mainnet') {
-                  Future.delayed(
-                    Duration.zero,
-                    () {
-                      ref
-                          .read(
-                            BlockchainSelectionFormProvider
-                                .blockchainSelectionForm.notifier,
-                          )
-                          .setTestnetIncluded(true);
-                    },
-                  );
-                }
-                data.value.removeWhere(
-                  (element) => element.env != bridge.blockchainFrom!.env,
-                );
-                data.value.removeWhere(
-                  (element) =>
-                      element.env == bridge.blockchainFrom!.env &&
-                      element.name == bridge.blockchainFrom!.name,
-                );
-              }
-            }
+
+          if (otherBlockchain != null) {
+            filteredChains.removeWhere(
+              (element) =>
+                  element.env == otherBlockchain.env &&
+                  element.name == otherBlockchain.name,
+            );
           }
 
-          return _BlockchainsList(isFrom: isFrom, blockchains: data.value);
+          return _BlockchainsList(isFrom: isFrom, blockchains: filteredChains);
         },
         error: (error) => const SizedBox(
           height: 300,
@@ -153,29 +119,7 @@ class _SingleBlockchain extends ConsumerWidget {
       ),
       child: InkWell(
         onTap: () {
-          ref
-              .read(
-                BlockchainSelectionFormProvider
-                    .blockchainSelectionForm.notifier,
-              )
-              .setTestnetIncluded(false);
-          final bridge = ref.read(bridgeFormNotifierProvider);
-          if (isFrom) {
-            if (bridge.blockchainTo != null &&
-                blockchain.env != bridge.blockchainTo!.env) {
-              ref
-                  .read(bridgeFormNotifierProvider.notifier)
-                  .setBlockchainTo(AppLocalizations.of(context)!, null);
-            }
-          } else {
-            if (bridge.blockchainFrom != null &&
-                blockchain.env != bridge.blockchainFrom!.env) {
-              ref
-                  .read(bridgeFormNotifierProvider.notifier)
-                  .setBlockchainFrom(AppLocalizations.of(context)!, null);
-            }
-          }
-          Navigator.pop(context, blockchain);
+          context.pop(blockchain);
         },
         child: Row(
           children: [

@@ -6,12 +6,10 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class BlockchainSelectionPopup {
   static Future<BridgeBlockchain?> getDialog(
     BuildContext context,
-    WidgetRef ref,
     bool isFrom,
   ) async {
     return showDialog<BridgeBlockchain>(

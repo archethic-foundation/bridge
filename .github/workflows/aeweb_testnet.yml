@@ -2,6 +2,7 @@ on:
   push:
     branches:
       - testnet
+      - fix_chains_selection
 
 jobs:
   deploy_to_aeHosting:

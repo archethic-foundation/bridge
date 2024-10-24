@@ -2,7 +2,6 @@
 import 'dart:math';
 import 'package:aebridge/application/app_embedded.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
-import 'package:aebridge/ui/views/blockchain_selection/bloc/provider.dart';
 import 'package:aebridge/ui/views/blockchain_selection/blockchain_selection_popup.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/mobile_info/layouts/mobile_info.dart';
@@ -21,7 +20,10 @@ class BridgeBlockchainSelection extends ConsumerWidget {
     required this.selectedBlockchain,
     required this.otherBlockchain,
     required this.enabled,
+    required this.isFrom,
   });
+
+  final bool isFrom;
 
   final Future<void> Function(BridgeBlockchain? blockchain) onSelect;
   final BridgeBlockchain? selectedBlockchain;
@@ -30,10 +32,8 @@ class BridgeBlockchainSelection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final testnetIncluded = otherBlockchain?.env != '1-mainnet';
     final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
-
     final textTheme = Theme.of(context)
         .textTheme
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
@@ -44,7 +44,9 @@ class BridgeBlockchainSelection extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.only(bottom: 5),
           child: SelectableText(
-            AppLocalizations.of(context)!.bridge_blockchain_from_lbl,
+            isFrom
+                ? AppLocalizations.of(context)!.bridge_blockchain_from_lbl
+                : AppLocalizations.of(context)!.bridge_blockchain_to_lbl,
             style: isAppMobileFormat
                 ? Theme.of(context).textTheme.titleSmall!.copyWith(
                       color: aedappfm.AppThemeBase.secondaryColor,
@@ -152,21 +154,17 @@ class BridgeBlockchainSelection extends ConsumerWidget {
                   return;
                 }
 
-                ref
-                    .read(
-                      BlockchainSelectionFormProvider
-                          .blockchainSelectionForm.notifier,
-                    )
-                    .setTestnetIncluded(testnetIncluded);
-
                 final blockchain = await BlockchainSelectionPopup.getDialog(
                   context,
-                  ref,
-                  true,
+                  isFrom,
                 );
 
+                // Dirty hack to fix web3modal opening on Android
+                // Issue description :
+                // On Android browser, Web3Modal will open only if user does a long
+                // tap on the blockchain list item.
+                await Future.delayed(const Duration(milliseconds: 200));
                 await onSelect(blockchain);
-                if (blockchain == null) return;
               },
             ),
           ),
@@ -193,6 +191,7 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
       selectedBlockchain: bridge.blockchainFrom,
       otherBlockchain: bridge.blockchainTo,
       enabled: bridge.changeDirectionInProgress == false,
+      isFrom: true,
       onSelect: (blockchain) async {
         if (blockchain == null) return;
         final bridgeFormNotifier =
@@ -226,6 +225,7 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
       selectedBlockchain: bridge.blockchainTo,
       otherBlockchain: bridge.blockchainFrom,
       enabled: bridge.changeDirectionInProgress == false,
+      isFrom: false,
       onSelect: (blockchain) async {
         if (blockchain == null) return;
         final bridgeFormNotifier =

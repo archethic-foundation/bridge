@@ -11,7 +11,10 @@ _$BridgeBlockchainImpl _$$BridgeBlockchainImplFromJson(
     _$BridgeBlockchainImpl(
       name: json['name'] as String? ?? '',
       chainId: (json['chainId'] as num?)?.toInt() ?? 0,
-      env: json['env'] as String? ?? '',
+      env: json['env'] == null
+          ? BridgeBlockchainEnvironment.mainnet
+          : const BridgeBlockchainEnvironmentJsonConverter()
+              .fromJson(json['env'] as String),
       icon: json['icon'] as String? ?? '',
       urlExplorerAddress: json['urlExplorerAddress'] as String? ?? '',
       urlExplorerTransaction: json['urlExplorerTransaction'] as String? ?? '',
@@ -29,7 +32,8 @@ Map<String, dynamic> _$$BridgeBlockchainImplToJson(
     <String, dynamic>{
       'name': instance.name,
       'chainId': instance.chainId,
-      'env': instance.env,
+      'env':
+          const BridgeBlockchainEnvironmentJsonConverter().toJson(instance.env),
       'icon': instance.icon,
       'urlExplorerAddress': instance.urlExplorerAddress,
       'urlExplorerTransaction': instance.urlExplorerTransaction,

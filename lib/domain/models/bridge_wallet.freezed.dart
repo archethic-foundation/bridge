@@ -22,7 +22,7 @@ mixin _$BridgeWallet {
   String get oldNameAccount => throw _privateConstructorUsedError;
   String get genesisAddress => throw _privateConstructorUsedError;
   String get error => throw _privateConstructorUsedError;
-  String get env => throw _privateConstructorUsedError;
+  BridgeBlockchainEnvironment? get env => throw _privateConstructorUsedError;
   bool get isConnected => throw _privateConstructorUsedError;
   Subscription<Account>? get accountSub => throw _privateConstructorUsedError;
   StreamSubscription<Account>? get accountStreamSub =>
@@ -48,7 +48,7 @@ abstract class $BridgeWalletCopyWith<$Res> {
       String oldNameAccount,
       String genesisAddress,
       String error,
-      String env,
+      BridgeBlockchainEnvironment? env,
       bool isConnected,
       Subscription<Account>? accountSub,
       StreamSubscription<Account>? accountStreamSub});
@@ -77,7 +77,7 @@ class _$BridgeWalletCopyWithImpl<$Res, $Val extends BridgeWallet>
     Object? oldNameAccount = null,
     Object? genesisAddress = null,
     Object? error = null,
-    Object? env = null,
+    Object? env = freezed,
     Object? isConnected = null,
     Object? accountSub = freezed,
     Object? accountStreamSub = freezed,
@@ -107,10 +107,10 @@ class _$BridgeWalletCopyWithImpl<$Res, $Val extends BridgeWallet>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String,
-      env: null == env
+      env: freezed == env
           ? _value.env
           : env // ignore: cast_nullable_to_non_nullable
-              as String,
+              as BridgeBlockchainEnvironment?,
       isConnected: null == isConnected
           ? _value.isConnected
           : isConnected // ignore: cast_nullable_to_non_nullable
@@ -156,7 +156,7 @@ abstract class _$$BridgeWalletImplCopyWith<$Res>
       String oldNameAccount,
       String genesisAddress,
       String error,
-      String env,
+      BridgeBlockchainEnvironment? env,
       bool isConnected,
       Subscription<Account>? accountSub,
       StreamSubscription<Account>? accountStreamSub});
@@ -184,7 +184,7 @@ class __$$BridgeWalletImplCopyWithImpl<$Res>
     Object? oldNameAccount = null,
     Object? genesisAddress = null,
     Object? error = null,
-    Object? env = null,
+    Object? env = freezed,
     Object? isConnected = null,
     Object? accountSub = freezed,
     Object? accountStreamSub = freezed,
@@ -214,10 +214,10 @@ class __$$BridgeWalletImplCopyWithImpl<$Res>
           ? _value.error
           : error // ignore: cast_nullable_to_non_nullable
               as String,
-      env: null == env
+      env: freezed == env
           ? _value.env
           : env // ignore: cast_nullable_to_non_nullable
-              as String,
+              as BridgeBlockchainEnvironment?,
       isConnected: null == isConnected
           ? _value.isConnected
           : isConnected // ignore: cast_nullable_to_non_nullable
@@ -244,7 +244,7 @@ class _$BridgeWalletImpl extends _BridgeWallet {
       this.oldNameAccount = '',
       this.genesisAddress = '',
       this.error = '',
-      this.env = '',
+      this.env,
       this.isConnected = false,
       this.accountSub,
       this.accountStreamSub})
@@ -269,8 +269,7 @@ class _$BridgeWalletImpl extends _BridgeWallet {
   @JsonKey()
   final String error;
   @override
-  @JsonKey()
-  final String env;
+  final BridgeBlockchainEnvironment? env;
   @override
   @JsonKey()
   final bool isConnected;
@@ -339,7 +338,7 @@ abstract class _BridgeWallet extends BridgeWallet {
           final String oldNameAccount,
           final String genesisAddress,
           final String error,
-          final String env,
+          final BridgeBlockchainEnvironment? env,
           final bool isConnected,
           final Subscription<Account>? accountSub,
           final StreamSubscription<Account>? accountStreamSub}) =
@@ -359,7 +358,7 @@ abstract class _BridgeWallet extends BridgeWallet {
   @override
   String get error;
   @override
-  String get env;
+  BridgeBlockchainEnvironment? get env;
   @override
   bool get isConnected;
   @override

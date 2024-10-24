@@ -2,7 +2,6 @@
 import 'dart:async';
 
 import 'package:aebridge/application/balance.dart';
-import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/application/contracts/archethic_factory.dart';
 import 'package:aebridge/application/session/provider.dart';
@@ -209,6 +208,9 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     AppLocalizations localizations,
     BridgeBlockchain blockchainFrom,
   ) async {
+    final otherBlockchainInWrongEnv = state.blockchainTo != null &&
+        blockchainFrom.env != state.blockchainTo!.env;
+
     final sessionNotifier = ref.read(sessionNotifierProvider.notifier);
     state = state.copyWith(
       blockchainFrom: null,
@@ -221,8 +223,10 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
       tokenToBridgeDecimals: 8,
       timestampExec: null,
       messageMaxHalfUCO: false,
+      blockchainTo: otherBlockchainInWrongEnv ? null : state.blockchainTo,
     );
     await setFailure(null);
+
     if (blockchainFrom.isArchethic) {
       final connection = await sessionNotifier.connectToArchethicWallet(
         localizations,
@@ -248,14 +252,6 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
       await connection.map(
         success: (success) async {
           await setBlockchainFrom(localizations, blockchainFrom);
-          final blockchainTo = await ref.read(
-            getArchethicBlockchainFromEVMProvider(
-              blockchainFrom,
-            ).future,
-          );
-          if (blockchainTo != null && state.failure == null) {
-            await setBlockchainToWithConnection(localizations, blockchainTo);
-          }
         },
         failure: (failure) async {
           await setBlockchainFrom(localizations, null);
@@ -277,6 +273,9 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     AppLocalizations localizations,
     BridgeBlockchain blockchainTo,
   ) async {
+    final otherBlockchainInWrongEnv = state.blockchainFrom != null &&
+        blockchainTo.env != state.blockchainFrom!.env;
+
     final sessionNotifier = ref.read(sessionNotifierProvider.notifier);
     state = state.copyWith(
       targetAddress: '',
@@ -288,6 +287,7 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
       tokenToBridgeDecimals: 8,
       timestampExec: null,
       messageMaxHalfUCO: false,
+      blockchainFrom: otherBlockchainInWrongEnv ? null : state.blockchainFrom,
     );
 
     await setFailure(null);
@@ -316,17 +316,6 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
       await connection.map(
         success: (success) async {
           await setBlockchainTo(localizations, blockchainTo);
-          final blockchainFrom = await ref.read(
-            getArchethicBlockchainFromEVMProvider(
-              blockchainTo,
-            ).future,
-          );
-          if (blockchainFrom != null && state.failure == null) {
-            await setBlockchainFromWithConnection(
-              localizations,
-              blockchainFrom,
-            );
-          }
         },
         failure: (failure) async {
           await setBlockchainTo(localizations, null);
@@ -617,23 +606,33 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     await storeBridge();
   }
 
-  Future<void> swapDirections(
-    AppLocalizations localizations,
-  ) async {
+  Future<void> swapDirections(AppLocalizations localizations) async {
     await setChangeDirectionInProgress(true);
-    final sessionNotifier = ref.read(sessionNotifierProvider.notifier);
-    await sessionNotifier.cancelAllWalletsConnection();
-    final blockchainFrom = state.blockchainFrom;
-    final blockchainTo = state.blockchainTo;
-    initState();
-    if (blockchainFrom != null) {
-      await setBlockchainToWithConnection(localizations, blockchainFrom);
+
+    final newBlockchainTo = state.blockchainFrom;
+    final newBlockchainFrom = state.blockchainTo;
+    final oldTokenToBridge = state.tokenToBridge;
+
+    await setBlockchainFrom(localizations, newBlockchainFrom);
+    await setBlockchainTo(localizations, newBlockchainTo);
+    ref.read(sessionNotifierProvider.notifier).swapBridgeWallet();
+
+    if (oldTokenToBridge != null) {
+      final newTokenToBridge = oldTokenToBridge.copyWith(
+        typeSource: oldTokenToBridge.typeTarget,
+        tokenAddressSource: oldTokenToBridge.tokenAddressTarget,
+        typeTarget: oldTokenToBridge.typeSource,
+        tokenAddressTarget: oldTokenToBridge.tokenAddressSource,
+        poolAddressFrom: oldTokenToBridge.poolAddressTo,
+        poolAddressTo: oldTokenToBridge.poolAddressFrom,
+        name: oldTokenToBridge.targetTokenName,
+        targetTokenName: oldTokenToBridge.name,
+        symbol: oldTokenToBridge.targetTokenSymbol,
+        targetTokenSymbol: oldTokenToBridge.symbol,
+      );
+      await setTokenToBridge(newTokenToBridge);
     }
-    if (blockchainTo != null) {
-      await setBlockchainFromWithConnection(localizations, blockchainTo);
-    }
-    await setTokenToBridge(null);
-    await setTokenToBridgeAmount(0);
+
     await setChangeDirectionInProgress(false);
   }
 

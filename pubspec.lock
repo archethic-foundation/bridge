@@ -42,10 +42,10 @@ packages:
     dependency: "direct main"
     description:
       name: archethic_dapp_framework_flutter
-      sha256: "88e14465771c53c54bf0a4b3cb06d27e4e6f4ac27a608870ef34ec58284402e8"
+      sha256: "71ae3c60cb11dc63651e3f114e2c23752b9505abf5679b023b41aaf872c4150d"
       url: "https://pub.dev"
     source: hosted
-    version: "3.2.1"
+    version: "3.0.3"
   archethic_lib_dart:
     dependency: "direct main"
     description:
@@ -1598,10 +1598,10 @@ packages:
     dependency: "direct main"
     description:
       name: wagmi_flutter_web
-      sha256: d0b1875372b3166eb4d1bb7d33cfcec72bdcd83dae168e437555fc58cf14ddb2
+      sha256: "0649dbede6f3e6a10f046e2d0e68c56616236cbf743653c73a7c476491bb8810"
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0-rc.8"
+    version: "1.0.0-rc.9"
   wakelock_plus:
     dependency: transitive
     description:

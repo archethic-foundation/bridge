@@ -22,7 +22,8 @@ BridgeBlockchain _$BridgeBlockchainFromJson(Map<String, dynamic> json) {
 mixin _$BridgeBlockchain {
   String get name => throw _privateConstructorUsedError;
   int get chainId => throw _privateConstructorUsedError;
-  String get env => throw _privateConstructorUsedError;
+  @BridgeBlockchainEnvironmentJsonConverter()
+  BridgeBlockchainEnvironment get env => throw _privateConstructorUsedError;
   String get icon => throw _privateConstructorUsedError;
   String get urlExplorerAddress => throw _privateConstructorUsedError;
   String get urlExplorerTransaction => throw _privateConstructorUsedError;
@@ -53,7 +54,8 @@ abstract class $BridgeBlockchainCopyWith<$Res> {
   $Res call(
       {String name,
       int chainId,
-      String env,
+      @BridgeBlockchainEnvironmentJsonConverter()
+      BridgeBlockchainEnvironment env,
       String icon,
       String urlExplorerAddress,
       String urlExplorerTransaction,
@@ -107,7 +109,7 @@ class _$BridgeBlockchainCopyWithImpl<$Res, $Val extends BridgeBlockchain>
       env: null == env
           ? _value.env
           : env // ignore: cast_nullable_to_non_nullable
-              as String,
+              as BridgeBlockchainEnvironment,
       icon: null == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
@@ -163,7 +165,8 @@ abstract class _$$BridgeBlockchainImplCopyWith<$Res>
   $Res call(
       {String name,
       int chainId,
-      String env,
+      @BridgeBlockchainEnvironmentJsonConverter()
+      BridgeBlockchainEnvironment env,
       String icon,
       String urlExplorerAddress,
       String urlExplorerTransaction,
@@ -215,7 +218,7 @@ class __$$BridgeBlockchainImplCopyWithImpl<$Res>
       env: null == env
           ? _value.env
           : env // ignore: cast_nullable_to_non_nullable
-              as String,
+              as BridgeBlockchainEnvironment,
       icon: null == icon
           ? _value.icon
           : icon // ignore: cast_nullable_to_non_nullable
@@ -266,7 +269,8 @@ class _$BridgeBlockchainImpl extends _BridgeBlockchain {
   const _$BridgeBlockchainImpl(
       {this.name = '',
       this.chainId = 0,
-      this.env = '',
+      @BridgeBlockchainEnvironmentJsonConverter()
+      this.env = BridgeBlockchainEnvironment.mainnet,
       this.icon = '',
       this.urlExplorerAddress = '',
       this.urlExplorerTransaction = '',
@@ -290,7 +294,8 @@ class _$BridgeBlockchainImpl extends _BridgeBlockchain {
   final int chainId;
   @override
   @JsonKey()
-  final String env;
+  @BridgeBlockchainEnvironmentJsonConverter()
+  final BridgeBlockchainEnvironment env;
   @override
   @JsonKey()
   final String icon;
@@ -394,7 +399,8 @@ abstract class _BridgeBlockchain extends BridgeBlockchain {
   const factory _BridgeBlockchain(
       {final String name,
       final int chainId,
-      final String env,
+      @BridgeBlockchainEnvironmentJsonConverter()
+      final BridgeBlockchainEnvironment env,
       final String icon,
       final String urlExplorerAddress,
       final String urlExplorerTransaction,
@@ -415,7 +421,8 @@ abstract class _BridgeBlockchain extends BridgeBlockchain {
   @override
   int get chainId;
   @override
-  String get env;
+  @BridgeBlockchainEnvironmentJsonConverter()
+  BridgeBlockchainEnvironment get env;
   @override
   String get icon;
   @override

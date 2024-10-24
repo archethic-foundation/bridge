@@ -6,6 +6,7 @@ import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/state.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
+import 'package:aebridge/domain/models/bridge_blockchain_environment.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
 import 'package:aebridge/util/service_locator.dart';
@@ -39,6 +40,7 @@ class SessionNotifier extends _$SessionNotifier {
 
   Future<EVMWalletProvider> get _evmWalletProvider async {
     if (!__evmWalletProvider.isInit) {
+      _logger.info('Initializing EVM Wallet Provider');
       await __evmWalletProvider.init(
         ref.read(bridgeBlockchainsRepositoryProvider),
         ref.read(isAppEmbeddedProvider),
@@ -151,7 +153,7 @@ class SessionNotifier extends _$SessionNotifier {
         },
         success: (result) async {
           switch (blockchain.env) {
-            case '1-mainnet':
+            case BridgeBlockchainEnvironment.mainnet:
               if (result.endpointUrl != 'https://mainnet.archethic.net') {
                 bridgeWallet = bridgeWallet.copyWith(
                   isConnected: false,
@@ -161,7 +163,7 @@ class SessionNotifier extends _$SessionNotifier {
                 throw aedappfm.Failure.wrongNetwork(bridgeWallet.error);
               }
               break;
-            case '2-testnet':
+            case BridgeBlockchainEnvironment.testnet:
               if (result.endpointUrl != 'https://testnet.archethic.net') {
                 bridgeWallet = bridgeWallet.copyWith(
                   isConnected: false,
@@ -171,7 +173,7 @@ class SessionNotifier extends _$SessionNotifier {
                 throw aedappfm.Failure.wrongNetwork(bridgeWallet.error);
               }
               break;
-            case '3-devnet':
+            case BridgeBlockchainEnvironment.devnet:
               if (result.endpointUrl == 'https://testnet.archethic.net' ||
                   result.endpointUrl == 'https://mainnet.archethic.net') {
                 bridgeWallet = bridgeWallet.copyWith(
@@ -182,13 +184,6 @@ class SessionNotifier extends _$SessionNotifier {
                 throw aedappfm.Failure.wrongNetwork(bridgeWallet.error);
               }
               break;
-            default:
-              bridgeWallet = bridgeWallet.copyWith(
-                isConnected: false,
-                error: localizations.failureConnectivityArchethiRightNetwork,
-              );
-              _fillState(bridgeWallet, from);
-              throw aedappfm.Failure.wrongNetwork(bridgeWallet.error);
           }
 
           bridgeWallet = bridgeWallet.copyWith(endpoint: result.endpointUrl);
@@ -416,5 +411,12 @@ class SessionNotifier extends _$SessionNotifier {
       _watchAccountUnsubscribe?.call();
       _watchAccountUnsubscribe = null;
     }
+  }
+
+  void swapBridgeWallet() {
+    final newBridgeWalletTo = state.walletFrom;
+    final newBridgeWalletFrom = state.walletTo;
+    state = state.copyWith(
+        walletFrom: newBridgeWalletFrom, walletTo: newBridgeWalletTo);
   }
 }
