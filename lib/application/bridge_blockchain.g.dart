@@ -7,7 +7,7 @@ part of 'bridge_blockchain.dart';
 // **************************************************************************
 
 String _$bridgeBlockchainsRepositoryHash() =>
-    r'7f7628c08ea93ed5d9c4ecff168191945cd7e726';
+    r'1dc4e09f12a497c96badc598a6c6ea1609b109df';
 
 /// See also [bridgeBlockchainsRepository].
 @ProviderFor(bridgeBlockchainsRepository)
@@ -27,7 +27,7 @@ final bridgeBlockchainsRepositoryProvider =
 typedef BridgeBlockchainsRepositoryRef
     = ProviderRef<BridgeBlockchainsRepository>;
 String _$getBlockchainsListHash() =>
-    r'bcd386d39798e44315f7ca212817c3728ceacf1b';
+    r'ef68a48afe25283154602804a57039485e3bd984';
 
 /// See also [getBlockchainsList].
 @ProviderFor(getBlockchainsList)
@@ -47,7 +47,7 @@ final getBlockchainsListProvider =
 typedef GetBlockchainsListRef
     = AutoDisposeFutureProviderRef<List<BridgeBlockchain>>;
 String _$getBlockchainFromChainIdHash() =>
-    r'818d954db8310c7b92281559ecf0beb1d6eaad1d';
+    r'63bfaac3de93d7df7e5521630b58263dfdc29919';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -205,7 +205,7 @@ class _GetBlockchainFromChainIdProviderElement
 }
 
 String _$getArchethicBlockchainFromEVMHash() =>
-    r'0523c5842f197504b9591ebcebcd610557f5c075';
+    r'0091f9103c8cd1ab138bc679b8f66f11a369b6ee';
 
 /// See also [getArchethicBlockchainFromEVM].
 @ProviderFor(getArchethicBlockchainFromEVM)

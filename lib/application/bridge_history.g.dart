@@ -7,7 +7,7 @@ part of 'bridge_history.dart';
 // **************************************************************************
 
 String _$bridgeHistoryRepositoryHash() =>
-    r'9996e3267164e0d5706cb9c6694a6a307168a6ec';
+    r'c4627adfcff61a4f339fe85c4139a9248f17dac3';
 
 /// See also [bridgeHistoryRepository].
 @ProviderFor(bridgeHistoryRepository)
@@ -27,7 +27,7 @@ final bridgeHistoryRepositoryProvider =
 typedef BridgeHistoryRepositoryRef
     = AutoDisposeProviderRef<BridgeHistoryRepository>;
 String _$fetchBridgeHistoryHash() =>
-    r'd1dfc789e96d141e821134e64a47bea86617d23a';
+    r'924ced50d33f5a8f01fd9bb60aeb014aed25d939';
 
 /// See also [fetchBridgeHistory].
 @ProviderFor(fetchBridgeHistory)
@@ -45,7 +45,7 @@ final fetchBridgeHistoryProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef FetchBridgeHistoryRef = AutoDisposeFutureProviderRef<BridgeHistory?>;
-String _$fetchBridgesListHash() => r'113903bc26a81de3b99e55ef4f5f3b7bb518f93f';
+String _$fetchBridgesListHash() => r'e60c8033f9b5ae35a7af01b6fbe0298690d228f0';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -201,7 +201,7 @@ class _FetchBridgesListProviderElement
   bool get asc => (origin as FetchBridgesListProvider).asc;
 }
 
-String _$clearBridgesListHash() => r'17e04982f8498973f73f9767b827da86e6e11fee';
+String _$clearBridgesListHash() => r'b886250dd92ee23397c32b7ff3792666fdf6766a';
 
 /// See also [clearBridgesList].
 @ProviderFor(clearBridgesList)

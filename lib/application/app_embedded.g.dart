@@ -6,7 +6,7 @@ part of 'app_embedded.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$isAppEmbeddedHash() => r'9900edb92b227c6aa420a820e748a13a2b67ff02';
+String _$isAppEmbeddedHash() => r'f79c6c9e57d1f4ebf09f05cb5db19efecd0e63dc';
 
 /// See also [isAppEmbedded].
 @ProviderFor(isAppEmbedded)

@@ -7,7 +7,7 @@ part of 'token_decimals.dart';
 // **************************************************************************
 
 String _$tokenDecimalsRepositoryHash() =>
-    r'6ae9f6f4486b638f811612623a171b31cd1a962c';
+    r'ea1021065d9a1888bcf8e38c442ad8373bb0e0a2';
 
 /// See also [_tokenDecimalsRepository].
 @ProviderFor(_tokenDecimalsRepository)
@@ -26,7 +26,7 @@ final _tokenDecimalsRepositoryProvider =
 // ignore: unused_element
 typedef _TokenDecimalsRepositoryRef
     = AutoDisposeProviderRef<TokenDecimalsRepository>;
-String _$getTokenDecimalsHash() => r'c3db7698f37404937f0a9503c39efeb6e40f5c81';
+String _$getTokenDecimalsHash() => r'776f1076334b86b07b3cbd0733c20e8b708655b6';
 
 /// Copied from Dart SDK
 class _SystemHash {

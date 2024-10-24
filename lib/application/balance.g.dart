@@ -6,7 +6,7 @@ part of 'balance.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$balanceRepositoryHash() => r'694ad0789c371d8ff21073c2834711009024d9ae';
+String _$balanceRepositoryHash() => r'505ab09d6ee914d57af57fdbf7ad2f65fed1c619';
 
 /// See also [_balanceRepository].
 @ProviderFor(_balanceRepository)
@@ -24,7 +24,7 @@ final _balanceRepositoryProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef _BalanceRepositoryRef = AutoDisposeProviderRef<BalanceRepository>;
-String _$getBalanceHash() => r'785f94ec308e0c4993e3fe6155995497aff527f6';
+String _$getBalanceHash() => r'6a9f811412410a5db54967b0e7e0c3be766ce6d1';
 
 /// Copied from Dart SDK
 class _SystemHash {
