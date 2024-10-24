@@ -55,6 +55,6 @@ class BridgeBlockchainsRepositoryImpl implements BridgeBlockchainsRepository {
     BridgeBlockchain evmBlockchain,
   ) async =>
       blockchainsList.firstWhereOrNull(
-        (element) => element.env == evmBlockchain.env && !element.isArchethic,
+        (element) => element.env == evmBlockchain.env && element.isArchethic,
       );
 }
