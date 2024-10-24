@@ -209,6 +209,9 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     AppLocalizations localizations,
     BridgeBlockchain blockchainFrom,
   ) async {
+    final otherBlockchainInWrongEnv = state.blockchainTo != null &&
+        blockchainFrom.env != state.blockchainTo!.env;
+
     final sessionNotifier = ref.read(sessionNotifierProvider.notifier);
     state = state.copyWith(
       blockchainFrom: null,
@@ -221,8 +224,10 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
       tokenToBridgeDecimals: 8,
       timestampExec: null,
       messageMaxHalfUCO: false,
+      blockchainTo: otherBlockchainInWrongEnv ? null : state.blockchainTo,
     );
     await setFailure(null);
+
     if (blockchainFrom.isArchethic) {
       final connection = await sessionNotifier.connectToArchethicWallet(
         localizations,
@@ -277,6 +282,9 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     AppLocalizations localizations,
     BridgeBlockchain blockchainTo,
   ) async {
+    final otherBlockchainInWrongEnv = state.blockchainFrom != null &&
+        blockchainTo.env != state.blockchainFrom!.env;
+
     final sessionNotifier = ref.read(sessionNotifierProvider.notifier);
     state = state.copyWith(
       targetAddress: '',
@@ -288,6 +296,7 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
       tokenToBridgeDecimals: 8,
       timestampExec: null,
       messageMaxHalfUCO: false,
+      blockchainFrom: otherBlockchainInWrongEnv ? null : state.blockchainFrom,
     );
 
     await setFailure(null);
