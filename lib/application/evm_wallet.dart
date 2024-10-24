@@ -59,6 +59,8 @@ class EVMWalletProvider with EVMBridgeProcessMixin {
     BridgeBlockchainsRepository repository,
     bool isEmbedded,
   ) async {
+    _logger.finest('Initializing');
+
     if (isInit) return;
 
     final blockchains = await repository.getEVMBlockchains();
@@ -89,6 +91,7 @@ class EVMWalletProvider with EVMBridgeProcessMixin {
     );
 
     isInit = true;
+    _logger.finest('Initialized');
   }
 
   String? get currentAddress {
@@ -116,9 +119,11 @@ class EVMWalletProvider with EVMBridgeProcessMixin {
   // TODO(chralu): Utiliser une écoute plutot que du polling
   Future<wagmi.Account> _waitForConnection() async {
     while (true) {
+      _logger.finest('... wait for connection');
       final account = wagmi.Core.getAccount();
       if (account.isConnected) {
         _requestedAccount = account;
+        _logger.finest('Connected to $account !');
         return account;
       }
       await Future.delayed(const Duration(seconds: 1));
@@ -139,19 +144,22 @@ class EVMWalletProvider with EVMBridgeProcessMixin {
   Future<void> useChain(int chainId) async {
     _requestedChainId = chainId;
     if (wagmi.Core.getChainId() == chainId) return;
+    _logger.finest('Switch to chain $chainId');
     await wagmi.Core.switchChain(
       wagmi.SwitchChainParameters(
         connector: walletConnector,
         chainId: chainId,
       ),
     );
+    _logger.finest('Chain switch done');
   }
 
   Future<void> useRequestedChain() async => useChain(requestedChainId);
 
   Future<void> disconnect() async {
-    _logger.finest('Disconnecting wallet');
+    _logger.finest('Disconnecting');
 
     await wagmi.Core.disconnect(wagmi.DisconnectParameters());
+    _logger.finest('Disconnected');
   }
 }

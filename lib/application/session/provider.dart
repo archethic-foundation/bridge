@@ -6,6 +6,7 @@ import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/state.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
+import 'package:aebridge/domain/models/bridge_blockchain_environment.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
 import 'package:aebridge/util/service_locator.dart';
@@ -39,6 +40,7 @@ class SessionNotifier extends _$SessionNotifier {
 
   Future<EVMWalletProvider> get _evmWalletProvider async {
     if (!__evmWalletProvider.isInit) {
+      _logger.info('Initializing EVM Wallet Provider');
       await __evmWalletProvider.init(
         ref.read(bridgeBlockchainsRepositoryProvider),
         ref.read(isAppEmbeddedProvider),
