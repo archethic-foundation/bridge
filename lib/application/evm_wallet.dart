@@ -134,7 +134,7 @@ class EVMWalletProvider with EVMBridgeProcessMixin {
     _logger.finest('Connecting to ${chain.name}');
     if (!walletConnected) {
       _logger.finest('Wallet not connected -> opening web3modal');
-      wagmi.Web3Modal.open();
+      await wagmi.Web3Modal.open();
 
       await _waitForConnection();
     }
