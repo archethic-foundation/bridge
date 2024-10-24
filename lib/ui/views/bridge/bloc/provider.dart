@@ -2,7 +2,6 @@
 import 'dart:async';
 
 import 'package:aebridge/application/balance.dart';
-import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/application/contracts/archethic_factory.dart';
 import 'package:aebridge/application/session/provider.dart';
@@ -253,14 +252,6 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
       await connection.map(
         success: (success) async {
           await setBlockchainFrom(localizations, blockchainFrom);
-          final blockchainTo = await ref.read(
-            getArchethicBlockchainFromEVMProvider(
-              blockchainFrom,
-            ).future,
-          );
-          if (blockchainTo != null && state.failure == null) {
-            await setBlockchainToWithConnection(localizations, blockchainTo);
-          }
         },
         failure: (failure) async {
           await setBlockchainFrom(localizations, null);
@@ -325,17 +316,6 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
       await connection.map(
         success: (success) async {
           await setBlockchainTo(localizations, blockchainTo);
-          final blockchainFrom = await ref.read(
-            getArchethicBlockchainFromEVMProvider(
-              blockchainTo,
-            ).future,
-          );
-          if (blockchainFrom != null && state.failure == null) {
-            await setBlockchainFromWithConnection(
-              localizations,
-              blockchainFrom,
-            );
-          }
         },
         failure: (failure) async {
           await setBlockchainTo(localizations, null);
