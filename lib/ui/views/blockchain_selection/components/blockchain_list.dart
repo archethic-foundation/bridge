@@ -5,7 +5,6 @@ import 'package:aebridge/domain/models/bridge_blockchain_environment.dart';
 import 'package:aebridge/ui/views/blockchain_selection/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
@@ -120,24 +119,6 @@ class _SingleBlockchain extends ConsumerWidget {
       ),
       child: InkWell(
         onTap: () {
-          // TODO(Chralu): This should not be done here
-          final bridge = ref.read(bridgeFormNotifierProvider);
-          if (isFrom) {
-            if (bridge.blockchainTo != null &&
-                blockchain.env != bridge.blockchainTo!.env) {
-              ref
-                  .read(bridgeFormNotifierProvider.notifier)
-                  .setBlockchainTo(AppLocalizations.of(context)!, null);
-            }
-          } else {
-            if (bridge.blockchainFrom != null &&
-                blockchain.env != bridge.blockchainFrom!.env) {
-              ref
-                  .read(bridgeFormNotifierProvider.notifier)
-                  .setBlockchainFrom(AppLocalizations.of(context)!, null);
-            }
-          }
-          //TODO end
           context.pop(blockchain);
         },
         child: Row(

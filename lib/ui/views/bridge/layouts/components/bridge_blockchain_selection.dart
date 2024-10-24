@@ -20,7 +20,10 @@ class BridgeBlockchainSelection extends ConsumerWidget {
     required this.selectedBlockchain,
     required this.otherBlockchain,
     required this.enabled,
+    required this.isFrom,
   });
+
+  final bool isFrom;
 
   final Future<void> Function(BridgeBlockchain? blockchain) onSelect;
   final BridgeBlockchain? selectedBlockchain;
@@ -32,7 +35,6 @@ class BridgeBlockchainSelection extends ConsumerWidget {
     final testnetIncluded = otherBlockchain?.env != '1-mainnet';
     final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
-    final localizations = AppLocalizations.of(context)!;
     final textTheme = Theme.of(context)
         .textTheme
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
@@ -43,7 +45,9 @@ class BridgeBlockchainSelection extends ConsumerWidget {
         Padding(
           padding: const EdgeInsets.only(bottom: 5),
           child: SelectableText(
-            AppLocalizations.of(context)!.bridge_blockchain_from_lbl,
+            isFrom
+                ? AppLocalizations.of(context)!.bridge_blockchain_from_lbl
+                : AppLocalizations.of(context)!.bridge_blockchain_to_lbl,
             style: isAppMobileFormat
                 ? Theme.of(context).textTheme.titleSmall!.copyWith(
                       color: aedappfm.AppThemeBase.secondaryColor,
@@ -153,7 +157,7 @@ class BridgeBlockchainSelection extends ConsumerWidget {
 
                 final blockchain = await BlockchainSelectionPopup.getDialog(
                   context,
-                  true,
+                  isFrom,
                 );
 
                 // Dirty hack to fix web3modal opening on Android
@@ -188,6 +192,7 @@ class BridgeBlockchainFromSelection extends ConsumerWidget {
       selectedBlockchain: bridge.blockchainFrom,
       otherBlockchain: bridge.blockchainTo,
       enabled: bridge.changeDirectionInProgress == false,
+      isFrom: true,
       onSelect: (blockchain) async {
         if (blockchain == null) return;
         final bridgeFormNotifier =
@@ -221,6 +226,7 @@ class BridgeBlockchainToSelection extends ConsumerWidget {
       selectedBlockchain: bridge.blockchainTo,
       otherBlockchain: bridge.blockchainFrom,
       enabled: bridge.changeDirectionInProgress == false,
+      isFrom: false,
       onSelect: (blockchain) async {
         if (blockchain == null) return;
         final bridgeFormNotifier =
