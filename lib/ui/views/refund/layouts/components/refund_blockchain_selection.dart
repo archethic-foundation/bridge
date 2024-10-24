@@ -130,7 +130,6 @@ class RefundBlockchainSelection extends ConsumerWidget {
 
                 final blockchain = await BlockchainSelectionPopup.getDialog(
                   context,
-                  ref,
                   true,
                 );
                 if (blockchain == null) return;

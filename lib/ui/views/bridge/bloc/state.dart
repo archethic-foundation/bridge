@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
+import 'package:aebridge/domain/models/bridge_blockchain_environment.dart';
 import 'package:aebridge/domain/models/bridge_token.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -75,4 +76,12 @@ class BridgeFormState with _$BridgeFormState {
       targetAddress.isNotEmpty &&
       tokenToBridgeAmount > 0 &&
       controlInProgress == false;
+
+  bool get isFromMainnet =>
+      blockchainFrom == null ||
+      blockchainFrom?.env == BridgeBlockchainEnvironment.mainnet;
+  bool get isToMainnet =>
+      blockchainTo == null ||
+      blockchainTo?.env == BridgeBlockchainEnvironment.mainnet;
+  bool get isTestnetSelected => !isFromMainnet || !isToMainnet;
 }
