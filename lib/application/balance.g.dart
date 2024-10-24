@@ -21,6 +21,8 @@ final _balanceRepositoryProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef _BalanceRepositoryRef = AutoDisposeProviderRef<BalanceRepository>;
 String _$getBalanceHash() => r'785f94ec308e0c4993e3fe6155995497aff527f6';
 
@@ -203,6 +205,8 @@ class GetBalanceProvider extends AutoDisposeFutureProvider<double> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin GetBalanceRef on AutoDisposeFutureProviderRef<double> {
   /// The parameter `isArchethic` of this provider.
   bool get isArchethic;
@@ -236,4 +240,4 @@ class _GetBalanceProviderElement
   int get decimal => (origin as GetBalanceProvider).decimal;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

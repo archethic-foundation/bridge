@@ -2,7 +2,7 @@
 import 'dart:math';
 
 import 'package:aebridge/application/app_embedded.dart';
-import 'package:aebridge/application/app_mobile_format.dart';
+
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/ui/views/blockchain_selection/bloc/provider.dart';
 import 'package:aebridge/ui/views/blockchain_selection/blockchain_selection_popup.dart';
@@ -33,7 +33,7 @@ class BridgeBlockchainSelection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final testnetIncluded = otherBlockchain?.env != '1-mainnet';
-    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
 
     final textTheme = Theme.of(context)

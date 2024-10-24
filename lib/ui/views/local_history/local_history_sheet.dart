@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:convert';
 
-import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
@@ -38,7 +37,7 @@ class LocalHistorySheet extends ConsumerWidget {
 
 Widget _body(BuildContext context, WidgetRef ref) {
   final bridgesList = ref.watch(fetchBridgesListProvider(asc: false));
-  final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+  final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
   return Padding(
     padding: isAppMobileFormat
         ? const EdgeInsets.only(top: 20)

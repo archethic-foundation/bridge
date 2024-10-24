@@ -22,6 +22,8 @@ final bridgeHistoryRepositoryProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef BridgeHistoryRepositoryRef
     = AutoDisposeProviderRef<BridgeHistoryRepository>;
 String _$fetchBridgeHistoryHash() =>
@@ -40,6 +42,8 @@ final fetchBridgeHistoryProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef FetchBridgeHistoryRef = AutoDisposeFutureProviderRef<BridgeHistory?>;
 String _$fetchBridgesListHash() => r'113903bc26a81de3b99e55ef4f5f3b7bb518f93f';
 
@@ -180,6 +184,8 @@ class FetchBridgesListProvider
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin FetchBridgesListRef
     on AutoDisposeFutureProviderRef<List<Map<String, dynamic>>> {
   /// The parameter `asc` of this provider.
@@ -209,6 +215,8 @@ final clearBridgesListProvider = AutoDisposeFutureProvider<void>.internal(
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef ClearBridgesListRef = AutoDisposeFutureProviderRef<void>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

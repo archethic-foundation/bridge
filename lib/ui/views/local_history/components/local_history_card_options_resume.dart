@@ -1,4 +1,3 @@
-import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
@@ -31,7 +30,7 @@ class LocalHistoryCardOptionsResumeState
         (widget.bridge.failure == null && widget.bridge.currentStep == 8)) {
       return const SizedBox.shrink();
     }
-    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     return Row(
       children: [
         Padding(

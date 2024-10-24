@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/app_mobile_format.dart';
+
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -47,7 +47,7 @@ class _RefundContractAddressState extends ConsumerState<RefundContractAddress> {
     BuildContext context,
   ) {
     final refund = ref.watch(RefundFormProvider.refundForm);
-    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     if (refund.htlcAddressFilled != addressController.text) {
       _updateTextController();
     }

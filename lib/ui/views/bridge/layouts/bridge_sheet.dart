@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/app_embedded.dart';
-import 'package:aebridge/application/app_mobile_format.dart';
+
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_evm_sheet.dart';
@@ -48,7 +48,7 @@ class _BridgeSheetState extends ConsumerState<BridgeSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
     final processStep = ref.watch(bridgeFormNotifierProvider).processStep;
 

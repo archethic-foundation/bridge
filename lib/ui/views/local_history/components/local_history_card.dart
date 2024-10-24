@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/app_mobile_format.dart';
+
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
@@ -199,7 +199,7 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
   Widget build(BuildContext context) {
     super.build(context);
 
-    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 50),
       child: aedappfm.SingleCard(

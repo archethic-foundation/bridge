@@ -22,6 +22,8 @@ final _tokenDecimalsRepositoryProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef _TokenDecimalsRepositoryRef
     = AutoDisposeProviderRef<TokenDecimalsRepository>;
 String _$getTokenDecimalsHash() => r'c3db7698f37404937f0a9503c39efeb6e40f5c81';
@@ -183,6 +185,8 @@ class GetTokenDecimalsProvider extends AutoDisposeFutureProvider<int> {
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin GetTokenDecimalsRef on AutoDisposeFutureProviderRef<int> {
   /// The parameter `isArchethic` of this provider.
   bool get isArchethic;
@@ -206,4 +210,4 @@ class _GetTokenDecimalsProviderElement
   String get tokenAddress => (origin as GetTokenDecimalsProvider).tokenAddress;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

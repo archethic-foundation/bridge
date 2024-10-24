@@ -1,4 +1,3 @@
-import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/util/components/format_address_link_copy.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -24,7 +23,7 @@ class RefundInfosWallet extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,

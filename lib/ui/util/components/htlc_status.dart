@@ -1,4 +1,3 @@
-import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -15,7 +14,7 @@ class HTLCStatus extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     if (status == null) {
       return Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,

@@ -1,4 +1,3 @@
-import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/util/components/fiat_value.dart';
 import 'package:aebridge/ui/util/components/format_address_link_copy.dart';
 import 'package:aebridge/ui/util/components/format_address_link_copy_big_icon.dart';
@@ -80,7 +79,7 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final bridge = ref.watch(bridgeFormNotifierProvider);
-    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
