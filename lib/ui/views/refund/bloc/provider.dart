@@ -8,6 +8,7 @@ import 'package:aebridge/application/contracts/evm_lp.dart';
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
+import 'package:aebridge/domain/models/bridge_blockchain_environment.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:aebridge/domain/models/swap.dart';
 import 'package:aebridge/domain/usecases/refund_archethic.usecase.dart';
@@ -140,16 +141,16 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
 
         var chainId = 0;
         switch (state.wallet!.env) {
-          case '1-mainnet':
+          case BridgeBlockchainEnvironment.mainnet:
             chainId = -1;
             break;
-          case '2-testnet':
+          case BridgeBlockchainEnvironment.testnet:
             chainId = -2;
             break;
-          case '3-devnet':
+          case BridgeBlockchainEnvironment.devnet:
             chainId = -3;
             break;
-          default:
+          case null:
         }
 
         final symbol = await PoolsRepositoryImpl()

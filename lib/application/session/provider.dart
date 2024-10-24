@@ -153,7 +153,7 @@ class SessionNotifier extends _$SessionNotifier {
         },
         success: (result) async {
           switch (blockchain.env) {
-            case '1-mainnet':
+            case BridgeBlockchainEnvironment.mainnet:
               if (result.endpointUrl != 'https://mainnet.archethic.net') {
                 bridgeWallet = bridgeWallet.copyWith(
                   isConnected: false,
@@ -163,7 +163,7 @@ class SessionNotifier extends _$SessionNotifier {
                 throw aedappfm.Failure.wrongNetwork(bridgeWallet.error);
               }
               break;
-            case '2-testnet':
+            case BridgeBlockchainEnvironment.testnet:
               if (result.endpointUrl != 'https://testnet.archethic.net') {
                 bridgeWallet = bridgeWallet.copyWith(
                   isConnected: false,
@@ -173,7 +173,7 @@ class SessionNotifier extends _$SessionNotifier {
                 throw aedappfm.Failure.wrongNetwork(bridgeWallet.error);
               }
               break;
-            case '3-devnet':
+            case BridgeBlockchainEnvironment.devnet:
               if (result.endpointUrl == 'https://testnet.archethic.net' ||
                   result.endpointUrl == 'https://mainnet.archethic.net') {
                 bridgeWallet = bridgeWallet.copyWith(
@@ -184,13 +184,6 @@ class SessionNotifier extends _$SessionNotifier {
                 throw aedappfm.Failure.wrongNetwork(bridgeWallet.error);
               }
               break;
-            default:
-              bridgeWallet = bridgeWallet.copyWith(
-                isConnected: false,
-                error: localizations.failureConnectivityArchethiRightNetwork,
-              );
-              _fillState(bridgeWallet, from);
-              throw aedappfm.Failure.wrongNetwork(bridgeWallet.error);
           }
 
           bridgeWallet = bridgeWallet.copyWith(endpoint: result.endpointUrl);

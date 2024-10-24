@@ -1,9 +1,11 @@
+import 'package:aebridge/domain/models/bridge_blockchain_environment.dart';
+
 class FaucetUtil {
   static ({Uri uri, bool executeCatch}) getUrl(
-    String env,
+    BridgeBlockchainEnvironment env,
     Map<String, dynamic> queryParameters,
   ) {
-    if (env == '1-mainnet') {
+    if (env == BridgeBlockchainEnvironment.mainnet) {
       return (
         uri: Uri.https(
           'faucet.bridge.archethic.net',
@@ -13,7 +15,7 @@ class FaucetUtil {
         executeCatch: true
       );
     } else {
-      if (env == '2-testnet') {
+      if (env == BridgeBlockchainEnvironment.testnet) {
         return (
           uri: Uri.https(
             'faucet.bridge.testnet.archethic.net',
