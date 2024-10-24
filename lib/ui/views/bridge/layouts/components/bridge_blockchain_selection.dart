@@ -165,8 +165,12 @@ class BridgeBlockchainSelection extends ConsumerWidget {
                   true,
                 );
 
+                // Dirty hack to fix web3modal opening on Android
+                // Issue description :
+                // On Android browser, Web3Modal will open only if user does a long
+                // tap on the blockchain list item.
+                await Future.delayed(const Duration(milliseconds: 200));
                 await onSelect(blockchain);
-                if (blockchain == null) return;
               },
             ),
           ),
