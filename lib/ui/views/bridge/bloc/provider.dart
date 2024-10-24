@@ -626,23 +626,33 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     await storeBridge();
   }
 
-  Future<void> swapDirections(
-    AppLocalizations localizations,
-  ) async {
+  Future<void> swapDirections(AppLocalizations localizations) async {
     await setChangeDirectionInProgress(true);
-    final sessionNotifier = ref.read(sessionNotifierProvider.notifier);
-    await sessionNotifier.cancelAllWalletsConnection();
-    final blockchainFrom = state.blockchainFrom;
-    final blockchainTo = state.blockchainTo;
-    initState();
-    if (blockchainFrom != null) {
-      await setBlockchainToWithConnection(localizations, blockchainFrom);
+
+    final newBlockchainTo = state.blockchainFrom;
+    final newBlockchainFrom = state.blockchainTo;
+    final oldTokenToBridge = state.tokenToBridge;
+
+    await setBlockchainFrom(localizations, newBlockchainFrom);
+    await setBlockchainTo(localizations, newBlockchainTo);
+    ref.read(sessionNotifierProvider.notifier).swapBridgeWallet();
+
+    if (oldTokenToBridge != null) {
+      final newTokenToBridge = oldTokenToBridge.copyWith(
+        typeSource: oldTokenToBridge.typeTarget,
+        tokenAddressSource: oldTokenToBridge.tokenAddressTarget,
+        typeTarget: oldTokenToBridge.typeSource,
+        tokenAddressTarget: oldTokenToBridge.tokenAddressSource,
+        poolAddressFrom: oldTokenToBridge.poolAddressTo,
+        poolAddressTo: oldTokenToBridge.poolAddressFrom,
+        name: oldTokenToBridge.targetTokenName,
+        targetTokenName: oldTokenToBridge.name,
+        symbol: oldTokenToBridge.targetTokenSymbol,
+        targetTokenSymbol: oldTokenToBridge.symbol,
+      );
+      await setTokenToBridge(newTokenToBridge);
     }
-    if (blockchainTo != null) {
-      await setBlockchainFromWithConnection(localizations, blockchainTo);
-    }
-    await setTokenToBridge(null);
-    await setTokenToBridgeAmount(0);
+
     await setChangeDirectionInProgress(false);
   }
 
