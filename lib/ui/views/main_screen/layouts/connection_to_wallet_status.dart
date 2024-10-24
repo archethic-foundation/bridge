@@ -4,6 +4,7 @@ import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_sheet.dart';
+import 'package:aebridge/ui/views/util/app_styles.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -28,6 +29,7 @@ class _ConnectionToWalletStatusState
   Widget build(BuildContext context) {
     final session = ref.watch(sessionNotifierProvider);
     final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     BridgeWallet? walletArchethic;
     if (session.walletFrom != null &&
         session.walletFrom!.wallet == 'archethic') {
@@ -84,45 +86,69 @@ class _ConnectionToWalletStatusState
           const SizedBox(
             width: 16,
           ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Tooltip(
-                message: session.walletFrom!.genesisAddress,
-                child: Text(
+          if (isAppMobileFormat)
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
                   overflow: TextOverflow.ellipsis,
                   session.walletFrom!.nameAccountDisplayed,
-                  style: TextStyle(
-                    fontSize: aedappfm.Responsive.fontSizeFromValue(
-                      context,
-                      desktopValue: 12,
-                    ),
+                  style: AppTextStyles.bodyLarge(context),
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 5),
+                  child: Icon(
+                    Icons.arrow_forward_rounded,
+                    size: 12,
                   ),
                 ),
-              ),
-              const Padding(
-                padding: EdgeInsets.only(bottom: 3),
-                child: Icon(
-                  aedappfm.Iconsax.arrow_down,
-                  size: 10,
-                ),
-              ),
-              Tooltip(
-                message: session.walletTo!.genesisAddress,
-                child: Text(
+                Text(
                   overflow: TextOverflow.ellipsis,
                   session.walletTo!.nameAccountDisplayed,
-                  style: TextStyle(
-                    fontSize: aedappfm.Responsive.fontSizeFromValue(
-                      context,
-                      desktopValue: 12,
+                  style: AppTextStyles.bodyLarge(context),
+                ),
+              ],
+            )
+          else
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Tooltip(
+                  message: session.walletFrom!.genesisAddress,
+                  child: Text(
+                    overflow: TextOverflow.ellipsis,
+                    session.walletFrom!.nameAccountDisplayed,
+                    style: TextStyle(
+                      fontSize: aedappfm.Responsive.fontSizeFromValue(
+                        context,
+                        desktopValue: 12,
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ],
-          ),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 3),
+                  child: Icon(
+                    aedappfm.Iconsax.arrow_down,
+                    size: 10,
+                  ),
+                ),
+                Tooltip(
+                  message: session.walletTo!.genesisAddress,
+                  child: Text(
+                    overflow: TextOverflow.ellipsis,
+                    session.walletTo!.nameAccountDisplayed,
+                    style: TextStyle(
+                      fontSize: aedappfm.Responsive.fontSizeFromValue(
+                        context,
+                        desktopValue: 12,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           if (isAppEmbedded == false)
             Row(
               children: [

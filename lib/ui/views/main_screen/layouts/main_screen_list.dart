@@ -71,6 +71,7 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
 
   @override
   Widget build(BuildContext context) {
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
 
     return Title(
@@ -91,11 +92,26 @@ class MainScreenListState extends ConsumerState<MainScreenList> {
         ),
         body: SafeArea(
           child: Stack(
-            alignment: Alignment.center,
+            alignment:
+                isAppMobileFormat ? Alignment.topCenter : Alignment.center,
             children: [
-              const aedappfm.AppBackground(
-                backgroundImage: 'assets/images/background-welcome.png',
-              ),
+              if (isAppMobileFormat)
+                Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height,
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                        'assets/images/background-embedded.png',
+                      ),
+                      fit: BoxFit.fitHeight,
+                    ),
+                  ),
+                )
+              else
+                const aedappfm.AppBackground(
+                  backgroundImage: 'assets/images/background-welcome.png',
+                ),
               widget.body
                   .animate()
                   .fade(

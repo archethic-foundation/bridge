@@ -108,6 +108,7 @@ class BridgeConfirmSheetState extends ConsumerState<BridgeConfirmSheet> {
         if (bridge.targetAddress.isNotEmpty)
           if (isAppMobileFormat)
             Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SelectableText(
                   AppLocalizations.of(context)!.bridge_target_address_lbl,

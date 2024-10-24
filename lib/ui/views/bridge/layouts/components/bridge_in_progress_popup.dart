@@ -23,6 +23,8 @@ class BridgeInProgressPopup {
     WidgetRef ref,
   ) {
     final bridge = ref.watch(bridgeFormNotifierProvider);
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
+
     return [
       const BridgeChainIdUpdated(),
       const BridgeAccountUpdated(),
@@ -30,30 +32,57 @@ class BridgeInProgressPopup {
         Text(
           AppLocalizations.of(context)!.bridgeInProgressPopupHeader,
         ),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (bridge.blockchainFrom != null)
-            BlockchainLabel(
-              chainId: bridge.blockchainFrom!.chainId,
+      if (isAppMobileFormat)
+        Padding(
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Align(
+            child: Column(
+              children: [
+                if (bridge.blockchainFrom != null)
+                  BlockchainLabel(
+                    chainId: bridge.blockchainFrom!.chainId,
+                  ),
+                if (bridge.blockchainFrom != null)
+                  aedappfm.InProgressCircularStepProgressIndicator(
+                    totalSteps: 8,
+                    currentStep: bridge.currentStep,
+                    isProcessInProgress: bridge.isTransferInProgress,
+                    failure: bridge.failure,
+                    icon: aedappfm.Iconsax.arrow_square_down,
+                  ),
+                if (bridge.blockchainTo != null)
+                  BlockchainLabel(
+                    chainId: bridge.blockchainTo!.chainId,
+                  ),
+              ],
             ),
-          if (bridge.blockchainFrom != null)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: aedappfm.InProgressCircularStepProgressIndicator(
-                totalSteps: 8,
-                currentStep: bridge.currentStep,
-                isProcessInProgress: bridge.isTransferInProgress,
-                failure: bridge.failure,
-                icon: aedappfm.Iconsax.arrow_right,
+          ),
+        )
+      else
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (bridge.blockchainFrom != null)
+              BlockchainLabel(
+                chainId: bridge.blockchainFrom!.chainId,
               ),
-            ),
-          if (bridge.blockchainTo != null)
-            BlockchainLabel(
-              chainId: bridge.blockchainTo!.chainId,
-            ),
-        ],
-      ),
+            if (bridge.blockchainFrom != null)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: aedappfm.InProgressCircularStepProgressIndicator(
+                  totalSteps: 8,
+                  currentStep: bridge.currentStep,
+                  isProcessInProgress: bridge.isTransferInProgress,
+                  failure: bridge.failure,
+                  icon: aedappfm.Iconsax.arrow_right,
+                ),
+              ),
+            if (bridge.blockchainTo != null)
+              BlockchainLabel(
+                chainId: bridge.blockchainTo!.chainId,
+              ),
+          ],
+        ),
       if (bridge.blockchainFrom != null && bridge.blockchainFrom!.isArchethic)
         aedappfm.InProgressCurrentStep(
           steplabel: BridgeArchethicToEVMUseCase().getAEStepLabel(
