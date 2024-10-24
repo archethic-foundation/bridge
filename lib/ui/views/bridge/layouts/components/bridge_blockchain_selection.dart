@@ -1,8 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:math';
-
 import 'package:aebridge/application/app_embedded.dart';
-
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/ui/views/blockchain_selection/bloc/provider.dart';
 import 'package:aebridge/ui/views/blockchain_selection/blockchain_selection_popup.dart';
@@ -167,7 +165,7 @@ class BridgeBlockchainSelection extends ConsumerWidget {
                   true,
                 );
 
-                onSelect(blockchain);
+                await onSelect(blockchain);
                 if (blockchain == null) return;
               },
             ),

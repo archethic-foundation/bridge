@@ -7,7 +7,7 @@ part of 'bridge_token.dart';
 // **************************************************************************
 
 String _$bridgeTokensRepositoryHash() =>
-    r'988cc3d03376b3bab084a9e5ebe54f30072ff377';
+    r'4ff92ad5bf46367fef4e336f50ce63d97cbb3c72';
 
 /// See also [_bridgeTokensRepository].
 @ProviderFor(_bridgeTokensRepository)
@@ -27,7 +27,7 @@ final _bridgeTokensRepositoryProvider =
 typedef _BridgeTokensRepositoryRef
     = AutoDisposeProviderRef<BridgeTokensRepository>;
 String _$getTokensListPerBridgeHash() =>
-    r'918b6b0c84ea079954c007ccf241c6526808a29e';
+    r'ba18f310d01fa8fc739d476d1b2a2f0a18daf9bf';
 
 /// Copied from Dart SDK
 class _SystemHash {
