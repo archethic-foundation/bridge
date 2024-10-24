@@ -412,4 +412,11 @@ class SessionNotifier extends _$SessionNotifier {
       _watchAccountUnsubscribe = null;
     }
   }
+
+  void swapBridgeWallet() {
+    final newBridgeWalletTo = state.walletFrom;
+    final newBridgeWalletFrom = state.walletTo;
+    state = state.copyWith(
+        walletFrom: newBridgeWalletFrom, walletTo: newBridgeWalletTo);
+  }
 }
