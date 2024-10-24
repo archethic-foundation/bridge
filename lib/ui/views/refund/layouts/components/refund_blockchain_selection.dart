@@ -2,7 +2,7 @@
 import 'dart:math';
 
 import 'package:aebridge/application/app_embedded.dart';
-import 'package:aebridge/application/app_mobile_format.dart';
+
 import 'package:aebridge/ui/views/blockchain_selection/blockchain_selection_popup.dart';
 import 'package:aebridge/ui/views/mobile_info/layouts/mobile_info.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
@@ -26,7 +26,7 @@ class RefundBlockchainSelection extends ConsumerWidget {
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
     final refund = ref.watch(RefundFormProvider.refundForm);
     final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
-    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [

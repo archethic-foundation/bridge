@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/app_mobile_format.dart';
+
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
 
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -23,7 +23,7 @@ class RefundCanRefundInfo extends ConsumerWidget {
         refund.defineStatusInProgress == true) {
       return const SizedBox.shrink();
     }
-    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
 
     if (refund.htlcCanRefund) {
       return Row(

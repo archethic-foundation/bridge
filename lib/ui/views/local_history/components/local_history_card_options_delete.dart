@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/app_mobile_format.dart';
+
 import 'package:aebridge/application/bridge_history.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 
@@ -19,7 +19,7 @@ class LocalHistoryCardOptionsDelete extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
-    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     return InkWell(
       onTap: () async {
         await showDialog(

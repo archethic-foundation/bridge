@@ -2,7 +2,7 @@
 import 'dart:ui';
 
 import 'package:aebridge/application/app_embedded.dart';
-import 'package:aebridge/application/app_mobile_format.dart';
+
 import 'package:aebridge/ui/views/main_screen/bloc/provider.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/app_bar.dart';
 import 'package:aebridge/ui/views/main_screen/layouts/bottom_navigation_bar.dart';
@@ -82,7 +82,7 @@ class MainScreenSheetState extends ConsumerState<MainScreenSheet> {
 
   @override
   Widget build(BuildContext context) {
-    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
 
     return Title(

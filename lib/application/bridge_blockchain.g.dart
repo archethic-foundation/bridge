@@ -22,6 +22,8 @@ final bridgeBlockchainsRepositoryProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef BridgeBlockchainsRepositoryRef
     = ProviderRef<BridgeBlockchainsRepository>;
 String _$getBlockchainsListHash() =>
@@ -40,6 +42,8 @@ final getBlockchainsListProvider =
   allTransitiveDependencies: null,
 );
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 typedef GetBlockchainsListRef
     = AutoDisposeFutureProviderRef<List<BridgeBlockchain>>;
 String _$getBlockchainFromChainIdHash() =>
@@ -183,6 +187,8 @@ class GetBlockchainFromChainIdProvider
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin GetBlockchainFromChainIdRef
     on AutoDisposeFutureProviderRef<BridgeBlockchain?> {
   /// The parameter `chainId` of this provider.
@@ -320,6 +326,8 @@ class GetArchethicBlockchainFromEVMProvider
   }
 }
 
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
 mixin GetArchethicBlockchainFromEVMRef
     on AutoDisposeFutureProviderRef<BridgeBlockchain?> {
   /// The parameter `evmBlockchain` of this provider.
@@ -336,4 +344,4 @@ class _GetArchethicBlockchainFromEVMProviderElement
       (origin as GetArchethicBlockchainFromEVMProvider).evmBlockchain;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member, deprecated_member_use_from_same_package

@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/app_mobile_format.dart';
+
 import 'package:aebridge/ui/util/components/blockchain_label.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -16,7 +16,7 @@ class LocalHistoryCardDirectionInfos extends ConsumerWidget {
   final BridgeFormState bridge;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
 
     if (isAppMobileFormat) {
       return _buildSmallDisplay(context, bridge);

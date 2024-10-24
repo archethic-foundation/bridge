@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:math';
 
-import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/util/token_icon.dart';
@@ -19,7 +18,7 @@ class BridgeTokenBridged extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
 
     final bridge = ref.watch(bridgeFormNotifierProvider);
     final session = ref.watch(sessionNotifierProvider);

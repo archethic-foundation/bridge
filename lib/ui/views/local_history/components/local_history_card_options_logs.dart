@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:convert';
-import 'package:aebridge/application/app_mobile_format.dart';
+
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_logs_popup.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
@@ -18,7 +18,7 @@ class LocalHistoryCardOptionsLogs extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     return Padding(
       padding: const EdgeInsets.only(left: 10),
       child: InkWell(

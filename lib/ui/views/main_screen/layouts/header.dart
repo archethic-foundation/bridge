@@ -1,5 +1,5 @@
 import 'package:aebridge/application/app_embedded.dart';
-import 'package:aebridge/application/app_mobile_format.dart';
+
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
@@ -24,7 +24,7 @@ class Header extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
     final indexMenu = ref.watch(navigationIndexMainScreenProvider);
     final session = ref.watch(sessionNotifierProvider);

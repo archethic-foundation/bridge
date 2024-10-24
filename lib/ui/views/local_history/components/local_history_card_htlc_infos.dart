@@ -1,9 +1,11 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/app_mobile_format.dart';
+
 import 'package:aebridge/ui/util/components/format_address_link_copy.dart';
 import 'package:aebridge/ui/util/components/format_address_link_copy_big_icon.dart';
 import 'package:aebridge/ui/util/components/htlc_status.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
+import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
+    as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -25,7 +27,7 @@ class LocalHistoryCardHTLCInfos extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     return Padding(
       padding: const EdgeInsets.only(top: 10),
       child: Column(

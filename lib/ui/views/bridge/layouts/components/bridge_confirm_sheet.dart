@@ -1,7 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 
-import 'package:aebridge/application/app_mobile_format.dart';
 import 'package:aebridge/ui/util/components/blockchain_label.dart';
 import 'package:aebridge/ui/util/components/fiat_value.dart';
 import 'package:aebridge/ui/util/components/format_address_link_copy.dart';
@@ -34,7 +33,7 @@ class BridgeConfirmSheetState extends ConsumerState<BridgeConfirmSheet> {
     if (bridge.blockchainFrom == null) {
       return const SizedBox.shrink();
     }
-    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
 
     return Column(
       mainAxisSize: MainAxisSize.min,

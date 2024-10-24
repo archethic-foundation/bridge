@@ -1,5 +1,5 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/app_mobile_format.dart';
+
 import 'package:aebridge/ui/util/components/fiat_value.dart';
 import 'package:aebridge/ui/util/components/format_address_link_copy.dart';
 import 'package:aebridge/ui/util/components/format_address_link_copy_big_icon.dart';
@@ -18,7 +18,7 @@ class LocalHistoryCardTrfInfos extends ConsumerWidget {
   final BridgeFormState bridge;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isAppMobileFormat = ref.watch(isAppMobileFormatProvider(context));
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     if (bridge.tokenToBridge != null && bridge.blockchainTo != null) {
       return Padding(
         padding: const EdgeInsets.only(top: 5),
