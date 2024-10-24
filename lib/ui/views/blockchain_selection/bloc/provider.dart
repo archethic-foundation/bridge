@@ -8,6 +8,7 @@ final _blockchainSelectionFormProvider = NotifierProvider.autoDispose<
   () {
     return BlockchainSelectionFormNotifier();
   },
+  name: 'BlockchainSelectionFormNotifierProvider',
 );
 
 class BlockchainSelectionFormNotifier
