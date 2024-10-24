@@ -32,7 +32,6 @@ class BridgeBlockchainSelection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final testnetIncluded = otherBlockchain?.env != '1-mainnet';
     final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
     final textTheme = Theme.of(context)
