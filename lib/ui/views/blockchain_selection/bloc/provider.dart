@@ -1,6 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/ui/views/blockchain_selection/bloc/state.dart';
+import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final _blockchainSelectionFormProvider = NotifierProvider.autoDispose<
@@ -16,27 +16,20 @@ class BlockchainSelectionFormNotifier
   BlockchainSelectionFormNotifier();
 
   @override
-  BlockchainSelectionFormState build() => const BlockchainSelectionFormState();
+  BlockchainSelectionFormState build() {
+    final isTestnetSelected = ref.watch(
+      bridgeFormNotifierProvider.select((bridge) => bridge.isTestnetSelected),
+    );
+    return BlockchainSelectionFormState(
+      testnetIncluded: isTestnetSelected,
+    );
+  }
 
   void setTestnetIncluded(
     bool testnetIncluded,
   ) {
     state = state.copyWith(
       testnetIncluded: testnetIncluded,
-    );
-    ref.invalidate(
-      getBlockchainsListProvider,
-    );
-  }
-
-  void setForceChoiceTestnetIncluded(
-    bool forceChoiceTestnetIncluded,
-  ) {
-    state = state.copyWith(
-      forceChoiceTestnetIncluded: forceChoiceTestnetIncluded,
-    );
-    ref.invalidate(
-      getBlockchainsListProvider,
     );
   }
 }

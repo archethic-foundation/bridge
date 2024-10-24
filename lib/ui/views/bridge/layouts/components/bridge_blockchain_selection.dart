@@ -2,7 +2,6 @@
 import 'dart:math';
 import 'package:aebridge/application/app_embedded.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
-import 'package:aebridge/ui/views/blockchain_selection/bloc/provider.dart';
 import 'package:aebridge/ui/views/blockchain_selection/blockchain_selection_popup.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/mobile_info/layouts/mobile_info.dart';
@@ -33,7 +32,7 @@ class BridgeBlockchainSelection extends ConsumerWidget {
     final testnetIncluded = otherBlockchain?.env != '1-mainnet';
     final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
-
+    final localizations = AppLocalizations.of(context)!;
     final textTheme = Theme.of(context)
         .textTheme
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
@@ -152,16 +151,8 @@ class BridgeBlockchainSelection extends ConsumerWidget {
                   return;
                 }
 
-                ref
-                    .read(
-                      BlockchainSelectionFormProvider
-                          .blockchainSelectionForm.notifier,
-                    )
-                    .setTestnetIncluded(testnetIncluded);
-
                 final blockchain = await BlockchainSelectionPopup.getDialog(
                   context,
-                  ref,
                   true,
                 );
 
