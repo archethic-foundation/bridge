@@ -34,13 +34,9 @@ const contractNameHTLCERC =
 const contractNameHTLCETH =
     'contracts/evm/artifacts/contracts/HTLC/HTLC_ETH.sol/HTLC_ETH.json';
 
-const contractNameIPool =
-    'contracts/evm/artifacts/interfaces/IPool.sol/IPool.json';
 const contractNamePoolBase =
     'contracts/evm/artifacts/contracts/Pool/PoolBase.sol/PoolBase.json';
 
-const contractNameIERC20 =
-    'contracts/evm/artifacts/@openzeppelin/contracts/token/ERC20/IERC20.sol/IERC20.json';
 const contractNameERC20 =
     'contracts/evm/artifacts/@openzeppelin/contracts/token/ERC20/ERC20.sol/ERC20.json';
 const contractNameSignedHTLCERC =
@@ -402,6 +398,99 @@ mixin EVMBridgeProcessMixin {
       if (e.findError(wagmi.WagmiErrors.InsufficientFundsError) != null) {
         throw const aedappfm.Failure.insufficientFunds();
       }
+      // Look at if revert error from SC error
+      if (e.findError(wagmi.WagmiErrors.ContractFunctionRevertedError) !=
+          null) {
+        final errorName =
+            e.cause?.details?['data']?['errorName']?.toString() ?? '';
+        switch (errorName) {
+          case 'AlreadyMinted':
+            throw const aedappfm.Failure.other(
+              cause: 'The HTLC have been minted already',
+            );
+          case 'AlreadyWithdrawn':
+            throw const aedappfm.Failure.other(
+              cause: 'The HTLC have been withdrawn already',
+            );
+          case 'AlreadyRefunded':
+            throw const aedappfm.Failure.other(
+              cause: 'The HTLC have been refunded already',
+            );
+          case 'AlreadyProvisioned':
+            throw const aedappfm.Failure.other(
+              cause: 'The HTLC have been provisoned already',
+            );
+          case 'InsufficientFunds':
+            throw const aedappfm.Failure.insufficientFunds();
+          case 'InvalidAmount':
+            throw const aedappfm.Failure.other(
+              cause: "The HTLC's amount is invalid",
+            );
+          case 'InvalidArchethicPoolSigner':
+            throw const aedappfm.Failure.other(
+              cause: "The Archethic's pool signer is invalid",
+            );
+          case 'InvalidHash':
+            throw const aedappfm.Failure.other(
+              cause: "The HTLC's hash is invalid",
+            );
+          case 'InvalidLockTime':
+            throw const aedappfm.Failure.other(
+              cause: "The HTLC's locktime is invalid",
+            );
+          case 'InvalidLockTimePeriod':
+            throw const aedappfm.Failure.other(
+              cause: 'The lock time is invalid',
+            );
+          case 'InvalidSignature':
+            throw const aedappfm.Failure.other(
+              cause: "The Archethic's pool signature is invalid",
+            );
+          case 'Locked':
+            throw const aedappfm.Failure.other(
+              cause: 'The pool is locked',
+            );
+          case 'ContractNotProvisioned':
+            throw const aedappfm.Failure.other(
+              cause: 'The contract is not provisioned',
+            );
+          case 'ProvisionLimitReached':
+            throw const aedappfm.Failure.other(
+              cause: "The pool's capacity is reached",
+            );
+          case 'InvalidToken':
+            throw const aedappfm.Failure.other(
+              cause: 'The token address is invalid',
+            );
+          case 'TooLate':
+            throw const aedappfm.Failure.other(
+              cause: "The HTLC's locktime is reached",
+            );
+          case 'TooEarly':
+            throw const aedappfm.Failure.other(
+              cause: "The HTLC's locktime is not yet reached",
+            );
+          case 'InvalidSecret':
+            throw const aedappfm.Failure.other(
+              cause: "The secret doesn't match the hash",
+            );
+          case 'InvalidRecipient':
+            throw const aedappfm.Failure.other(
+              cause: "The HTLC's recipient is invalid",
+            );
+          case 'InvalidPoolSigner':
+            throw const aedappfm.Failure.other(
+              cause: "The Archethic's pool signer is invalid",
+            );
+          case 'CannotSendEthers':
+            throw const aedappfm.Failure.other(
+              cause: 'This pool cannot received ethers',
+            );
+          default:
+            throw aedappfm.Failure.other(cause: e.shortMessage);
+        }
+      }
+
       aedappfm.sl.get<aedappfm.LogManager>().log(
             '${e.name} - ${e.message} - ${e.version} - ${e.cause} - ${e.details}',
             stackTrace: stackTrace,
