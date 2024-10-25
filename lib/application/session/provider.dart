@@ -417,6 +417,8 @@ class SessionNotifier extends _$SessionNotifier {
     final newBridgeWalletTo = state.walletFrom;
     final newBridgeWalletFrom = state.walletTo;
     state = state.copyWith(
-        walletFrom: newBridgeWalletFrom, walletTo: newBridgeWalletTo);
+      walletFrom: newBridgeWalletFrom,
+      walletTo: newBridgeWalletTo,
+    );
   }
 }
