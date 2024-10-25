@@ -33,7 +33,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
             .toBigInt();
 
         final contractAbi = await loadAbi(
-          contractNameIERC20,
+          contractNameERC20,
         );
 
         try {
@@ -147,7 +147,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
-        final contractHTLC = await loadAbi(contractNameIERC20);
+        final contractHTLC = await loadAbi(contractNameERC20);
 
         final decimalsMap = await readContract(
           wagmi.ReadContractParameters(

@@ -30,7 +30,7 @@ class EVMLP with EVMBridgeProcessMixin {
         ..setRequestTooLong(false);
 
       final contractAbi = await loadAbi(
-        contractNameIPool,
+        contractNamePoolBase,
       );
 
       late String? txAddress;
@@ -122,7 +122,7 @@ class EVMLP with EVMBridgeProcessMixin {
         );
 
         final contractAbi = await loadAbi(
-          contractNameIPool,
+          contractNamePoolBase,
         );
 
         late String? txAddress;
@@ -206,7 +206,7 @@ class EVMLP with EVMBridgeProcessMixin {
     return aedappfm.Result.guard(() async {
       final swapList = <Swap>[];
 
-      final contractLP = await loadAbi(contractNameIPool);
+      final contractLP = await loadAbi(contractNamePoolBase);
 
       final resultMap = await readContract(
         wagmi.ReadContractParameters(
