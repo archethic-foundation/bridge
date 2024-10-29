@@ -70,16 +70,7 @@ class LocalHistoryCardOptionsDelete extends ConsumerWidget {
                               child: SelectableText(
                                 AppLocalizations.of(context)!
                                     .bridgeClearWarning,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyMedium!
-                                    .copyWith(
-                                      fontSize: aedappfm.Responsive
-                                          .fontSizeFromTextStyle(
-                                        context,
-                                        Theme.of(context).textTheme.bodyMedium!,
-                                      ),
-                                    ),
+                                style: Theme.of(context).textTheme.bodyMedium,
                               ),
                             ),
                             const SizedBox(

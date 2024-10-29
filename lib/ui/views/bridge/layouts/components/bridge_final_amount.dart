@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/util/app_styles.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
@@ -114,10 +115,7 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
         ? SelectableText(
             '${AppLocalizations.of(context)!.bridgeFinalAmountLabelAmountBridged} ${finalAmount!.formatNumber(precision: 8)} ${bridge.tokenToBridge!.targetTokenSymbol}',
             style: TextStyle(
-              fontSize: aedappfm.Responsive.fontSizeFromValue(
-                context,
-                desktopValue: 13,
-              ),
+              fontSize: AppTextStyles.bodyLarge(context).fontSize,
             ),
           )
         : Row(
@@ -126,10 +124,7 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
                 AppLocalizations.of(context)!
                     .bridgeFinalAmountLabelAmountBridged,
                 style: TextStyle(
-                  fontSize: aedappfm.Responsive.fontSizeFromValue(
-                    context,
-                    desktopValue: 13,
-                  ),
+                  fontSize: AppTextStyles.bodyLarge(context).fontSize,
                 ),
               ),
               const SizedBox(

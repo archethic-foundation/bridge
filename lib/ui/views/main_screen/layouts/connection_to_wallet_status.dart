@@ -295,18 +295,7 @@ class MenuConnectionToWalletStatus extends ConsumerWidget {
                                 child: SelectableText(
                                   AppLocalizations.of(context)!
                                       .connectionWalletDisconnectWarning,
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium!
-                                      .copyWith(
-                                        fontSize: aedappfm.Responsive
-                                            .fontSizeFromTextStyle(
-                                          context,
-                                          Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium!,
-                                        ),
-                                      ),
+                                  style: Theme.of(context).textTheme.bodyMedium,
                                 ),
                               ),
                               const SizedBox(

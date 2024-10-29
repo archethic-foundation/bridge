@@ -22,6 +22,77 @@ class BridgeInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
+
+    if (isAppMobileFormat) {
+      return [
+        SizedBox(
+          height: 400,
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: _content(context, ref),
+            ),
+          ),
+        ),
+      ];
+    } else {
+      return _content(context, ref);
+    }
+  }
+
+  static aedappfm.PopupCloseButton popupCloseButton(
+    BuildContext context,
+    WidgetRef ref,
+  ) {
+    final bridge = ref.watch(bridgeFormNotifierProvider);
+    return aedappfm.PopupCloseButton(
+      warningCloseWarning: bridge.isTransferInProgress,
+      warningCloseLabel: bridge.isTransferInProgress == true
+          ? AppLocalizations.of(context)!.bridgeProcessInterruptionWarning
+          : '',
+      warningCloseFunction: () async {
+        final bridgeNotifier = ref.read(
+          bridgeFormNotifierProvider.notifier,
+        );
+        if (bridge.failure == null && bridge.isTransferInProgress) {
+          await bridgeNotifier.setFailure(
+            const aedappfm.Failure.userRejected(),
+          );
+        }
+        ref.invalidate(
+          bridgeFormNotifierProvider,
+        );
+        if (!context.mounted) return;
+        Navigator.of(context).pop();
+      },
+      closeFunction: () {
+        ref.invalidate(
+          bridgeFormNotifierProvider,
+        );
+        if (!context.mounted) return;
+        Navigator.of(context).pop();
+      },
+    );
+  }
+
+  static Future<void> getDialog(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    return aedappfm.InProgressPopup.getDialog(
+      context,
+      body,
+      popupCloseButton,
+      height: 450,
+    );
+  }
+
+  static List<Widget> _content(
+    BuildContext context,
+    WidgetRef ref,
+  ) {
     final bridge = ref.watch(bridgeFormNotifierProvider);
     final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
 
@@ -138,7 +209,7 @@ class BridgeInProgressPopup {
               : null,
         ),
       const BridgeInterrupInfo(),
-      const Spacer(),
+      if (isAppMobileFormat == false) const Spacer(),
       aedappfm.InProgressResumeBtn(
         currentStep: bridge.currentStep,
         isProcessInProgress: bridge.isTransferInProgress,
@@ -159,52 +230,5 @@ class BridgeInProgressPopup {
         failure: bridge.failure,
       ),
     ];
-  }
-
-  static aedappfm.PopupCloseButton popupCloseButton(
-    BuildContext context,
-    WidgetRef ref,
-  ) {
-    final bridge = ref.watch(bridgeFormNotifierProvider);
-    return aedappfm.PopupCloseButton(
-      warningCloseWarning: bridge.isTransferInProgress,
-      warningCloseLabel: bridge.isTransferInProgress == true
-          ? AppLocalizations.of(context)!.bridgeProcessInterruptionWarning
-          : '',
-      warningCloseFunction: () async {
-        final bridgeNotifier = ref.read(
-          bridgeFormNotifierProvider.notifier,
-        );
-        if (bridge.failure == null && bridge.isTransferInProgress) {
-          await bridgeNotifier.setFailure(
-            const aedappfm.Failure.userRejected(),
-          );
-        }
-        ref.invalidate(
-          bridgeFormNotifierProvider,
-        );
-        if (!context.mounted) return;
-        Navigator.of(context).pop();
-      },
-      closeFunction: () {
-        ref.invalidate(
-          bridgeFormNotifierProvider,
-        );
-        if (!context.mounted) return;
-        Navigator.of(context).pop();
-      },
-    );
-  }
-
-  static Future<void> getDialog(
-    BuildContext context,
-    WidgetRef ref,
-  ) async {
-    return aedappfm.InProgressPopup.getDialog(
-      context,
-      body,
-      popupCloseButton,
-      height: 450,
-    );
   }
 }
