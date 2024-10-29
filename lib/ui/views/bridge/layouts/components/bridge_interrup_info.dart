@@ -1,4 +1,6 @@
+import 'package:aebridge/ui/util/components/format_address_link_copy_big_icon.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/util/app_styles.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -14,6 +16,7 @@ class BridgeInterrupInfo extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(bridgeFormNotifierProvider);
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
 
     if (bridge.blockchainFrom == null) {
       return const SizedBox.shrink();
@@ -36,79 +39,68 @@ class BridgeInterrupInfo extends ConsumerWidget {
       children: [
         SelectableText(
           AppLocalizations.of(context)!.bridgeInterrupInfoText1,
-          style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                  context,
-                  Theme.of(context).textTheme.labelMedium!,
-                ),
-              ),
+          style: Theme.of(context).textTheme.labelMedium,
         ),
         SelectableText(
           AppLocalizations.of(context)!.bridgeInterrupInfoText2,
-          style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                  context,
-                  Theme.of(context).textTheme.labelMedium!,
-                ),
-              ),
+          style: Theme.of(context).textTheme.labelMedium,
         ),
         SelectableText(
           AppLocalizations.of(context)!.bridgeInterrupInfoText3,
-          style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                  context,
-                  Theme.of(context).textTheme.labelMedium!,
+          style: Theme.of(context).textTheme.labelMedium,
+        ),
+        if (isAppMobileFormat == false)
+          Wrap(
+            children: [
+              SelectableText(
+                htlcAddress,
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
+              const SizedBox(width: 5),
+              InkWell(
+                onTap: () {
+                  Clipboard.setData(
+                    ClipboardData(text: htlcAddress),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor:
+                          Theme.of(context).snackBarTheme.backgroundColor,
+                      content: SelectableText(
+                        AppLocalizations.of(context)!.addressCopied,
+                        style:
+                            Theme.of(context).textTheme.labelMedium!.copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.labelMedium!,
+                                  ),
+                                ),
+                      ),
+                      duration: const Duration(seconds: 3),
+                      action: SnackBarAction(
+                        label: AppLocalizations.of(context)!.addressCopied,
+                        onPressed: () {},
+                      ),
+                    ),
+                  );
+                },
+                child: const Padding(
+                  padding: EdgeInsets.only(bottom: 3),
+                  child: Icon(
+                    aedappfm.Iconsax.copy,
+                    size: 12,
+                  ),
                 ),
               ),
-        ),
-        Row(
-          children: [
-            SelectableText(
-              htlcAddress,
-              style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                      context,
-                      Theme.of(context).textTheme.labelMedium!,
-                    ),
-                  ),
-            ),
-            const SizedBox(width: 5),
-            InkWell(
-              onTap: () {
-                Clipboard.setData(
-                  ClipboardData(text: htlcAddress),
-                );
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    backgroundColor:
-                        Theme.of(context).snackBarTheme.backgroundColor,
-                    content: SelectableText(
-                      AppLocalizations.of(context)!.addressCopied,
-                      style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.labelMedium!,
-                            ),
-                          ),
-                    ),
-                    duration: const Duration(seconds: 3),
-                    action: SnackBarAction(
-                      label: AppLocalizations.of(context)!.addressCopied,
-                      onPressed: () {},
-                    ),
-                  ),
-                );
-              },
-              child: const Padding(
-                padding: EdgeInsets.only(bottom: 3),
-                child: Icon(
-                  aedappfm.Iconsax.copy,
-                  size: 12,
-                ),
-              ),
-            ),
-          ],
-        ),
+            ],
+          )
+        else
+          FormatAddressLinkCopyBigIcon(
+            address: htlcAddress,
+            chainId: bridge.blockchainFrom!.chainId,
+            fontSize: AppTextStyles.bodyLarge(context).fontSize!,
+          ),
       ],
     );
   }

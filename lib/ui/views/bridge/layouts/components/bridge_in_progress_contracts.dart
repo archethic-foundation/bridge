@@ -1,6 +1,8 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/ui/util/components/format_address_link_copy.dart';
+import 'package:aebridge/ui/util/components/format_address_link_copy_big_icon.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/util/app_styles.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -15,6 +17,7 @@ class BridgeInProgressContracts extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final bridge = ref.watch(bridgeFormNotifierProvider);
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     return Padding(
       padding: const EdgeInsets.only(top: 20),
       child: Column(
@@ -34,12 +37,7 @@ class BridgeInProgressContracts extends ConsumerWidget {
                     child: Text(
                       AppLocalizations.of(context)!
                           .bridgeInProgressContractsLink,
-                      style: Theme.of(context).textTheme.titleSmall!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.titleSmall!,
-                            ),
-                          ),
+                      style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ),
                 ),
@@ -60,14 +58,28 @@ class BridgeInProgressContracts extends ConsumerWidget {
               if (bridge.blockchainFrom != null &&
                   bridge.blockchainFrom!.htlcAddress != null &&
                   bridge.blockchainFrom!.htlcAddress!.isNotEmpty)
-                FormatAddressLinkCopy(
-                  address: bridge.blockchainFrom!.htlcAddress!,
-                  chainId: bridge.blockchainFrom!.chainId,
-                  reduceAddress: true,
-                  typeAddress: TypeAddress.chain,
-                  header:
-                      '${bridge.blockchainFrom!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
-                ),
+                if (isAppMobileFormat)
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.65,
+                    child: FormatAddressLinkCopyBigIcon(
+                      address: bridge.blockchainFrom!.htlcAddress!,
+                      chainId: bridge.blockchainFrom!.chainId,
+                      reduceAddress: true,
+                      typeAddress: TypeAddressLinkCopyBigIcon.chain,
+                      header:
+                          '${bridge.blockchainFrom!.name}\n${AppLocalizations.of(context)!.localHistoryContractLbl}:',
+                      fontSize: AppTextStyles.bodyLarge(context).fontSize!,
+                    ),
+                  )
+                else
+                  FormatAddressLinkCopy(
+                    address: bridge.blockchainFrom!.htlcAddress!,
+                    chainId: bridge.blockchainFrom!.chainId,
+                    reduceAddress: true,
+                    typeAddress: TypeAddress.chain,
+                    header:
+                        '${bridge.blockchainFrom!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
+                  ),
             ],
           ),
           const SizedBox(
@@ -78,14 +90,28 @@ class BridgeInProgressContracts extends ConsumerWidget {
               if (bridge.blockchainTo != null &&
                   bridge.blockchainTo!.htlcAddress != null &&
                   bridge.blockchainTo!.htlcAddress!.isNotEmpty)
-                FormatAddressLinkCopy(
-                  address: bridge.blockchainTo!.htlcAddress!,
-                  chainId: bridge.blockchainTo!.chainId,
-                  typeAddress: TypeAddress.chain,
-                  reduceAddress: true,
-                  header:
-                      '${bridge.blockchainTo!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
-                ),
+                if (isAppMobileFormat)
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.65,
+                    child: FormatAddressLinkCopyBigIcon(
+                      address: bridge.blockchainTo!.htlcAddress!,
+                      chainId: bridge.blockchainTo!.chainId,
+                      typeAddress: TypeAddressLinkCopyBigIcon.chain,
+                      reduceAddress: true,
+                      fontSize: AppTextStyles.bodyLarge(context).fontSize!,
+                      header:
+                          '${bridge.blockchainTo!.name}\n${AppLocalizations.of(context)!.localHistoryContractLbl}:',
+                    ),
+                  )
+                else
+                  FormatAddressLinkCopy(
+                    address: bridge.blockchainTo!.htlcAddress!,
+                    chainId: bridge.blockchainTo!.chainId,
+                    typeAddress: TypeAddress.chain,
+                    reduceAddress: true,
+                    header:
+                        '${bridge.blockchainTo!.name} ${AppLocalizations.of(context)!.localHistoryContractLbl}:',
+                  ),
             ],
           ),
           const SizedBox(

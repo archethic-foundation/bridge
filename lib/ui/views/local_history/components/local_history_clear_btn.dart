@@ -97,17 +97,7 @@ class LocalHistoryClearButton extends ConsumerWidget {
                                                     .bridgesListClearWarning,
                                                 style: Theme.of(context)
                                                     .textTheme
-                                                    .bodyMedium!
-                                                    .copyWith(
-                                                      fontSize: aedappfm
-                                                              .Responsive
-                                                          .fontSizeFromTextStyle(
-                                                        context,
-                                                        Theme.of(context)
-                                                            .textTheme
-                                                            .bodyMedium!,
-                                                      ),
-                                                    ),
+                                                    .bodyMedium,
                                               ),
                                             ),
                                             const SizedBox(
