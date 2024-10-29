@@ -194,6 +194,7 @@
     "bridgeWormholeHeaderDesc": "Bridge UCO between Ethereum, Polygon and BSC blockchains with Wormhole Protocol",
     "backToAEBridge": "Go Back to Archethic Bridge Form",
     "goToEVMBridge": "If you want to bridge your UCOs between Ethereum, Polygon and BSC, click here!",
+    "goToEVMBridgeWithBC": "If you want to bridge your ERC20 UCOs from %1 to %2\nclick here!",
     "switchNetworkTitle": "Warning",
     "switchNetworkDescBridge": "You cannot change the network during the ongoing process. Please click the next button to restore the network related to the current bridge.",
     "switchAccountDescBridge": "You cannot change the account during the ongoing process. Please change your account in your EVM wallet with the bridge current account.",

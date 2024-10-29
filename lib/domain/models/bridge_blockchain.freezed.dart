@@ -34,6 +34,7 @@ mixin _$BridgeBlockchain {
   String get nativeCurrency => throw _privateConstructorUsedError;
   String? get htlcAddress => throw _privateConstructorUsedError;
   String? get archethicFactoryAddress => throw _privateConstructorUsedError;
+  String? get wormholeId => throw _privateConstructorUsedError;
 
   /// Serializes this BridgeBlockchain to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -65,7 +66,8 @@ abstract class $BridgeBlockchainCopyWith<$Res> {
       bool isArchethic,
       String nativeCurrency,
       String? htlcAddress,
-      String? archethicFactoryAddress});
+      String? archethicFactoryAddress,
+      String? wormholeId});
 }
 
 /// @nodoc
@@ -96,6 +98,7 @@ class _$BridgeBlockchainCopyWithImpl<$Res, $Val extends BridgeBlockchain>
     Object? nativeCurrency = null,
     Object? htlcAddress = freezed,
     Object? archethicFactoryAddress = freezed,
+    Object? wormholeId = freezed,
   }) {
     return _then(_value.copyWith(
       name: null == name
@@ -150,6 +153,10 @@ class _$BridgeBlockchainCopyWithImpl<$Res, $Val extends BridgeBlockchain>
           ? _value.archethicFactoryAddress
           : archethicFactoryAddress // ignore: cast_nullable_to_non_nullable
               as String?,
+      wormholeId: freezed == wormholeId
+          ? _value.wormholeId
+          : wormholeId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -176,7 +183,8 @@ abstract class _$$BridgeBlockchainImplCopyWith<$Res>
       bool isArchethic,
       String nativeCurrency,
       String? htlcAddress,
-      String? archethicFactoryAddress});
+      String? archethicFactoryAddress,
+      String? wormholeId});
 }
 
 /// @nodoc
@@ -205,6 +213,7 @@ class __$$BridgeBlockchainImplCopyWithImpl<$Res>
     Object? nativeCurrency = null,
     Object? htlcAddress = freezed,
     Object? archethicFactoryAddress = freezed,
+    Object? wormholeId = freezed,
   }) {
     return _then(_$BridgeBlockchainImpl(
       name: null == name
@@ -259,6 +268,10 @@ class __$$BridgeBlockchainImplCopyWithImpl<$Res>
           ? _value.archethicFactoryAddress
           : archethicFactoryAddress // ignore: cast_nullable_to_non_nullable
               as String?,
+      wormholeId: freezed == wormholeId
+          ? _value.wormholeId
+          : wormholeId // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -280,7 +293,8 @@ class _$BridgeBlockchainImpl extends _BridgeBlockchain {
       this.isArchethic = false,
       this.nativeCurrency = '',
       this.htlcAddress,
-      this.archethicFactoryAddress})
+      this.archethicFactoryAddress,
+      this.wormholeId})
       : super._();
 
   factory _$BridgeBlockchainImpl.fromJson(Map<String, dynamic> json) =>
@@ -324,10 +338,12 @@ class _$BridgeBlockchainImpl extends _BridgeBlockchain {
   final String? htlcAddress;
   @override
   final String? archethicFactoryAddress;
+  @override
+  final String? wormholeId;
 
   @override
   String toString() {
-    return 'BridgeBlockchain(name: $name, chainId: $chainId, env: $env, icon: $icon, urlExplorerAddress: $urlExplorerAddress, urlExplorerTransaction: $urlExplorerTransaction, urlExplorerChain: $urlExplorerChain, explorerApi: $explorerApi, providerEndpoint: $providerEndpoint, isArchethic: $isArchethic, nativeCurrency: $nativeCurrency, htlcAddress: $htlcAddress, archethicFactoryAddress: $archethicFactoryAddress)';
+    return 'BridgeBlockchain(name: $name, chainId: $chainId, env: $env, icon: $icon, urlExplorerAddress: $urlExplorerAddress, urlExplorerTransaction: $urlExplorerTransaction, urlExplorerChain: $urlExplorerChain, explorerApi: $explorerApi, providerEndpoint: $providerEndpoint, isArchethic: $isArchethic, nativeCurrency: $nativeCurrency, htlcAddress: $htlcAddress, archethicFactoryAddress: $archethicFactoryAddress, wormholeId: $wormholeId)';
   }
 
   @override
@@ -357,7 +373,9 @@ class _$BridgeBlockchainImpl extends _BridgeBlockchain {
                 other.htlcAddress == htlcAddress) &&
             (identical(
                     other.archethicFactoryAddress, archethicFactoryAddress) ||
-                other.archethicFactoryAddress == archethicFactoryAddress));
+                other.archethicFactoryAddress == archethicFactoryAddress) &&
+            (identical(other.wormholeId, wormholeId) ||
+                other.wormholeId == wormholeId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -376,7 +394,8 @@ class _$BridgeBlockchainImpl extends _BridgeBlockchain {
       isArchethic,
       nativeCurrency,
       htlcAddress,
-      archethicFactoryAddress);
+      archethicFactoryAddress,
+      wormholeId);
 
   /// Create a copy of BridgeBlockchain
   /// with the given fields replaced by the non-null parameter values.
@@ -410,7 +429,8 @@ abstract class _BridgeBlockchain extends BridgeBlockchain {
       final bool isArchethic,
       final String nativeCurrency,
       final String? htlcAddress,
-      final String? archethicFactoryAddress}) = _$BridgeBlockchainImpl;
+      final String? archethicFactoryAddress,
+      final String? wormholeId}) = _$BridgeBlockchainImpl;
   const _BridgeBlockchain._() : super._();
 
   factory _BridgeBlockchain.fromJson(Map<String, dynamic> json) =
@@ -443,6 +463,8 @@ abstract class _BridgeBlockchain extends BridgeBlockchain {
   String? get htlcAddress;
   @override
   String? get archethicFactoryAddress;
+  @override
+  String? get wormholeId;
 
   /// Create a copy of BridgeBlockchain
   /// with the given fields replaced by the non-null parameter values.

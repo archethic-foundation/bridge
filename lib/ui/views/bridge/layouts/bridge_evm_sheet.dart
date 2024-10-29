@@ -14,8 +14,13 @@ import 'package:go_router/go_router.dart';
 
 class BridgeEVMSheet extends ConsumerStatefulWidget {
   const BridgeEVMSheet({
+    this.fromNetwork,
+    this.toNetwork,
     super.key,
   });
+
+  final String? fromNetwork;
+  final String? toNetwork;
 
   static const routerPage = 'evm';
   static const navPage = '/bridge/evm';
@@ -112,7 +117,8 @@ class _BridgeEVMSheetState extends ConsumerState<BridgeEVMSheet> {
             ),
             Expanded(
               child: EasyWebView(
-                src: '${UriUtil.getBaseUrl()}/bridge-evm.html',
+                src:
+                    '${UriUtil.getBaseUrl()}/bridge-evm.html?fromNetwork=${widget.fromNetwork ?? ''}&toNetwork=${widget.toNetwork ?? ''}',
               ),
             ),
           ],

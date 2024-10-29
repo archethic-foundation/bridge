@@ -152,6 +152,29 @@
   </div>
 
 
+  <script>
+    function getQueryParam(param) {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get(param);
+    }
+
+    const fromNetwork = getQueryParam('fromNetwork') || 'ethereum';
+    const toNetwork = getQueryParam('toNetwork') || 'polygon';
+    const token = getQueryParam('token') || 'UCOEthereum';
+
+    const wormholeConnectDiv = document.getElementById('wormhole-connect');
+    const dataConfig = JSON.parse(wormholeConnectDiv.getAttribute('data-config'));
+
+    dataConfig.bridgeDefaults = {
+      fromNetwork: fromNetwork,
+      toNetwork: toNetwork,
+      token: token
+    };
+
+    wormholeConnectDiv.setAttribute('data-config', JSON.stringify(dataConfig));
+  </script>
+
+
   <script type="module" src="wormhole-connect-0.3.21/dist/main.js" defer></script>
   <link rel="stylesheet" href="wormhole-connect-0.3.21/dist/main.css" />
 </body>
