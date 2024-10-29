@@ -223,6 +223,7 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
       tokenToBridgeDecimals: 8,
       timestampExec: null,
       messageMaxHalfUCO: false,
+      messageOfferUCO: false,
       blockchainTo: otherBlockchainInWrongEnv ? null : state.blockchainTo,
     );
     await setFailure(null);
@@ -287,6 +288,7 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
       tokenToBridgeDecimals: 8,
       timestampExec: null,
       messageMaxHalfUCO: false,
+      messageOfferUCO: false,
       blockchainFrom: otherBlockchainInWrongEnv ? null : state.blockchainFrom,
     );
 
@@ -336,6 +338,7 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     state = state.copyWith(
       tokenToBridge: tokenToBridge,
       messageMaxHalfUCO: false,
+      messageOfferUCO: false,
     );
     await storeBridge();
     final session = ref.read(sessionNotifierProvider);
@@ -493,6 +496,7 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     state = state.copyWith(
       tokenToBridgeAmount: tokenToBridgeAmount,
       messageMaxHalfUCO: false,
+      messageOfferUCO: false,
       failure: null,
     );
     await storeBridge();
@@ -512,6 +516,14 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
   ) {
     state = state.copyWith(
       messageMaxHalfUCO: messageMaxHalfUCO,
+    );
+  }
+
+  void setMessageOfferUCO(
+    bool messageOfferUCO,
+  ) {
+    state = state.copyWith(
+      messageOfferUCO: messageOfferUCO,
     );
   }
 
@@ -598,6 +610,7 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
       archethicOracleUCO: null,
       archethicProtocolFeesAddress: '',
       messageMaxHalfUCO: false,
+      messageOfferUCO: false,
     );
   }
 
@@ -735,6 +748,7 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
   ) async {
     await setFailure(null);
     setMessageMaxHalfUCO(false);
+    setMessageOfferUCO(false);
     if (BrowserUtil().isEdgeBrowser() ||
         BrowserUtil().isInternetExplorerBrowser()) {
       await setFailure(
@@ -827,21 +841,51 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
       return false;
     }
 
-    const kFeesEstimatedUCOBridge = 2.0;
-    if (state.blockchainFrom!.isArchethic &&
-        state.tokenToBridge!.symbol == 'UCO' &&
-        state.tokenToBridgeAmount + kFeesEstimatedUCOBridge >
-            state.tokenToBridgeBalance) {
-      state = state.copyWith(feesEstimatedUCO: kFeesEstimatedUCOBridge);
-      final adjustedAmount =
-          state.tokenToBridgeAmount - kFeesEstimatedUCOBridge;
-      if (adjustedAmount < 0) {
-        state = state.copyWith(messageMaxHalfUCO: true);
-        await setFailure(const aedappfm.Failure.insufficientFunds());
+    double? balanceUCO;
+    double? minAmountDollars;
+
+    state.blockchainTo!.isArchethic
+        ? minAmountDollars = 0.16
+        : minAmountDollars = 0.17;
+
+    final session = ref.read(sessionNotifierProvider);
+
+    balanceUCO = await ref.read(
+      getBalanceProvider(
+        true,
+        state.blockchainTo!.isArchethic
+            ? session.walletTo!.genesisAddress
+            : session.walletFrom!.genesisAddress,
+        '',
+        '',
+        18,
+      ).future,
+    );
+
+    if (balanceUCO == 0 && state.blockchainTo!.isArchethic) {
+      setMessageOfferUCO(
+        true,
+      );
+    } else {
+      final archethicOracleUCO =
+          ref.read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
+
+      final minAmountUCO = (Decimal.parse(minAmountDollars.toString()) /
+              Decimal.parse(archethicOracleUCO.usd.toString()))
+          .toDouble();
+      var minAmountUCOTotal = minAmountUCO;
+      if (state.blockchainFrom!.isArchethic &&
+          state.tokenToBridge!.symbol == 'UCO') {
+        minAmountUCOTotal = minAmountUCOTotal + state.tokenToBridgeAmount;
+      }
+      if (balanceUCO! > 0 && minAmountUCOTotal > balanceUCO) {
+        await setFailure(
+          aedappfm.Failure.other(
+            cause:
+                '${localizations.warningBalanceUCOTooLow} (approx: ${minAmountUCO.formatNumber(precision: 2)} UCO)',
+          ),
+        );
         return false;
-      } else {
-        await setTokenToBridgeAmount(adjustedAmount);
-        state = state.copyWith(messageMaxHalfUCO: true);
       }
     }
 

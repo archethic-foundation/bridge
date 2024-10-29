@@ -1,10 +1,6 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
-
-import 'package:aebridge/domain/models/swap.dart';
 import 'package:aebridge/ui/util/components/format_address_link_copy.dart';
 import 'package:aebridge/ui/util/components/format_address_link_copy_big_icon.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
-import 'package:aebridge/ui/views/bridge/layouts/components/bridge_balance_warning.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_blockchain_selection.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_btn.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_error_message.dart';
@@ -70,9 +66,6 @@ class BridgeFormSheet extends ConsumerWidget {
                     const Row(
                       children: [
                         BridgeTokenToBridgeBalance(),
-                        BridgeBalanceWarning(
-                          swapProcess: SwapProcess.signed,
-                        ),
                       ],
                     ),
                     if (bridge.tokenToBridge != null &&
@@ -100,9 +93,6 @@ class BridgeFormSheet extends ConsumerWidget {
                     const Row(
                       children: [
                         BridgeTokenBridgedBalance(),
-                        BridgeBalanceWarning(
-                          swapProcess: SwapProcess.chargeable,
-                        ),
                       ],
                     ),
                     if (bridge.tokenToBridge != null &&
@@ -194,9 +184,6 @@ class BridgeFormSheet extends ConsumerWidget {
                     child: Row(
                       children: [
                         BridgeTokenToBridgeBalance(),
-                        BridgeBalanceWarning(
-                          swapProcess: SwapProcess.signed,
-                        ),
                       ],
                     ),
                   ),
@@ -206,9 +193,6 @@ class BridgeFormSheet extends ConsumerWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         BridgeTokenBridgedBalance(),
-                        BridgeBalanceWarning(
-                          swapProcess: SwapProcess.chargeable,
-                        ),
                       ],
                     ),
                   ),

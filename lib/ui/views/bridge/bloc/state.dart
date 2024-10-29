@@ -45,6 +45,7 @@ class BridgeFormState with _$BridgeFormState {
     @Default(0.0) double archethicTransactionFees,
     @Default(0.0) double feesEstimatedUCO,
     @Default(false) bool messageMaxHalfUCO,
+    @Default(false) bool messageOfferUCO,
     @Default(false) bool controlInProgress,
     DateTime? consentDateTime,
     @Default(false) bool requestTooLong,

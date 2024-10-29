@@ -110,12 +110,18 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
   Widget build(BuildContext context) {
     final bridge = ref.watch(bridgeFormNotifierProvider);
     if (bridge.bridgeOk == false) return const SizedBox.shrink();
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
 
     return finalAmount != null
         ? SelectableText(
             '${AppLocalizations.of(context)!.bridgeFinalAmountLabelAmountBridged} ${finalAmount!.formatNumber(precision: 8)} ${bridge.tokenToBridge!.targetTokenSymbol}',
             style: TextStyle(
-              fontSize: AppTextStyles.bodyLarge(context).fontSize,
+              fontSize: isAppMobileFormat
+                  ? AppTextStyles.bodyLarge(context).fontSize
+                  : aedappfm.Responsive.fontSizeFromValue(
+                      context,
+                      desktopValue: 13,
+                    ),
             ),
           )
         : Row(
@@ -124,7 +130,12 @@ class _BridgeFinalAmountState extends ConsumerState<BridgeFinalAmount>
                 AppLocalizations.of(context)!
                     .bridgeFinalAmountLabelAmountBridged,
                 style: TextStyle(
-                  fontSize: AppTextStyles.bodyLarge(context).fontSize,
+                  fontSize: isAppMobileFormat
+                      ? AppTextStyles.bodyLarge(context).fontSize
+                      : aedappfm.Responsive.fontSizeFromValue(
+                          context,
+                          desktopValue: 13,
+                        ),
                 ),
               ),
               const SizedBox(
