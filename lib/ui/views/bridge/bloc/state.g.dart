@@ -68,6 +68,7 @@ _$BridgeFormStateImpl _$$BridgeFormStateImplFromJson(
           (json['archethicTransactionFees'] as num?)?.toDouble() ?? 0.0,
       feesEstimatedUCO: (json['feesEstimatedUCO'] as num?)?.toDouble() ?? 0.0,
       messageMaxHalfUCO: json['messageMaxHalfUCO'] as bool? ?? false,
+      messageOfferUCO: json['messageOfferUCO'] as bool? ?? false,
       controlInProgress: json['controlInProgress'] as bool? ?? false,
       consentDateTime: json['consentDateTime'] == null
           ? null
@@ -126,6 +127,7 @@ Map<String, dynamic> _$$BridgeFormStateImplToJson(
       'archethicTransactionFees': instance.archethicTransactionFees,
       'feesEstimatedUCO': instance.feesEstimatedUCO,
       'messageMaxHalfUCO': instance.messageMaxHalfUCO,
+      'messageOfferUCO': instance.messageOfferUCO,
       'controlInProgress': instance.controlInProgress,
       'consentDateTime': instance.consentDateTime?.toIso8601String(),
       'requestTooLong': instance.requestTooLong,

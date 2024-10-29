@@ -48,7 +48,8 @@ class BridgeConfirmSheetState extends ConsumerState<BridgeConfirmSheet> {
                       AppLocalizations.of(context)!,
                       aedappfm.ProcessStep.form,
                     )
-                    ..setMessageMaxHalfUCO(false);
+                    ..setMessageMaxHalfUCO(false)
+                    ..setMessageOfferUCO(false);
                 },
         ),
         const SizedBox(height: 15),
@@ -153,6 +154,16 @@ class BridgeConfirmSheetState extends ConsumerState<BridgeConfirmSheet> {
             child: SizedBox(
               child: aedappfm.InfoBanner(
                 AppLocalizations.of(context)!.bridgeConfirmMessageMaxHalfUCO,
+                aedappfm.InfoBannerType.request,
+              ),
+            ),
+          ),
+        if (bridge.messageOfferUCO)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: SizedBox(
+              child: aedappfm.InfoBanner(
+                AppLocalizations.of(context)!.infoBalanceUCOZero,
                 aedappfm.InfoBannerType.request,
               ),
             ),
