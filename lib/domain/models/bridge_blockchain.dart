@@ -49,6 +49,7 @@ class BridgeBlockchain with _$BridgeBlockchain {
     @Default('') String nativeCurrency,
     String? htlcAddress,
     String? archethicFactoryAddress,
+    String? wormholeId,
   }) = _BridgeBlockchain;
 
   const BridgeBlockchain._();

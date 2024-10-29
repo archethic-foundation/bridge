@@ -9,6 +9,7 @@ import 'package:aebridge/ui/views/bridge/layouts/components/bridge_blockchain_se
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_btn.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_error_message.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_icon_direction.dart';
+import 'package:aebridge/ui/views/bridge/layouts/components/bridge_link_to_wormhole.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_textfield_target_address.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_textfield_token_amount.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_token_address.dart';
@@ -57,71 +58,77 @@ class BridgeFormSheet extends ConsumerWidget {
               const SizedBox(
                 height: 20,
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const BridgeTokenToBridgeSelection(),
-                  const Row(
-                    children: [
-                      BridgeTokenToBridgeBalance(),
-                      BridgeBalanceWarning(
-                        swapProcess: SwapProcess.signed,
-                      ),
-                    ],
-                  ),
-                  if (bridge.tokenToBridge != null &&
-                      bridge.blockchainFrom != null &&
-                      bridge.tokenToBridge!.tokenAddressSource.isNotEmpty)
-                    if (isAppMobileFormat)
-                      SizedBox(
-                        height: 30,
-                        child: FormatAddressLinkCopyBigIcon(
+              if (!(bridge.blockchainFrom != null &&
+                  bridge.blockchainTo != null &&
+                  bridge.blockchainFrom!.isArchethic == false &&
+                  bridge.blockchainTo!.isArchethic == false))
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const BridgeTokenToBridgeSelection(),
+                    const Row(
+                      children: [
+                        BridgeTokenToBridgeBalance(),
+                        BridgeBalanceWarning(
+                          swapProcess: SwapProcess.signed,
+                        ),
+                      ],
+                    ),
+                    if (bridge.tokenToBridge != null &&
+                        bridge.blockchainFrom != null &&
+                        bridge.tokenToBridge!.tokenAddressSource.isNotEmpty)
+                      if (isAppMobileFormat)
+                        SizedBox(
+                          height: 30,
+                          child: FormatAddressLinkCopyBigIcon(
+                            address: bridge.tokenToBridge!.tokenAddressSource,
+                            chainId: bridge.blockchainFrom!.chainId,
+                            reduceAddress: true,
+                            fontSize: 14,
+                          ),
+                        )
+                      else
+                        FormatAddressLinkCopy(
                           address: bridge.tokenToBridge!.tokenAddressSource,
                           chainId: bridge.blockchainFrom!.chainId,
                           reduceAddress: true,
-                          fontSize: 14,
+                          fontSize: 16,
                         ),
-                      )
-                    else
-                      FormatAddressLinkCopy(
-                        address: bridge.tokenToBridge!.tokenAddressSource,
-                        chainId: bridge.blockchainFrom!.chainId,
-                        reduceAddress: true,
-                        fontSize: 16,
-                      ),
-                  const SizedBox(height: 20),
-                  const BridgeTokenBridged(),
-                  const Row(
-                    children: [
-                      BridgeTokenBridgedBalance(),
-                      BridgeBalanceWarning(
-                        swapProcess: SwapProcess.chargeable,
-                      ),
-                    ],
-                  ),
-                  if (bridge.tokenToBridge != null &&
-                      bridge.blockchainTo != null &&
-                      bridge.tokenToBridge!.tokenAddressTarget.isNotEmpty)
-                    if (isAppMobileFormat)
-                      SizedBox(
-                        height: 30,
-                        child: FormatAddressLinkCopyBigIcon(
+                    const SizedBox(height: 20),
+                    const BridgeTokenBridged(),
+                    const Row(
+                      children: [
+                        BridgeTokenBridgedBalance(),
+                        BridgeBalanceWarning(
+                          swapProcess: SwapProcess.chargeable,
+                        ),
+                      ],
+                    ),
+                    if (bridge.tokenToBridge != null &&
+                        bridge.blockchainTo != null &&
+                        bridge.tokenToBridge!.tokenAddressTarget.isNotEmpty)
+                      if (isAppMobileFormat)
+                        SizedBox(
+                          height: 30,
+                          child: FormatAddressLinkCopyBigIcon(
+                            address: bridge.tokenToBridge!.tokenAddressTarget,
+                            chainId: bridge.blockchainTo!.chainId,
+                            reduceAddress: true,
+                            fontSize: 14,
+                          ),
+                        )
+                      else
+                        FormatAddressLinkCopy(
                           address: bridge.tokenToBridge!.tokenAddressTarget,
                           chainId: bridge.blockchainTo!.chainId,
                           reduceAddress: true,
-                          fontSize: 14,
+                          fontSize: 16,
                         ),
-                      )
-                    else
-                      FormatAddressLinkCopy(
-                        address: bridge.tokenToBridge!.tokenAddressTarget,
-                        chainId: bridge.blockchainTo!.chainId,
-                        reduceAddress: true,
-                        fontSize: 16,
-                      ),
-                ],
-              ),
+                  ],
+                )
+              else
+                const BridgeLinkToWormhole(),
               if (isAppMobileFormat)
                 const Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -153,10 +160,10 @@ class BridgeFormSheet extends ConsumerWidget {
               const SizedBox(height: 10),
             ],
           )
-        : const Column(
+        : Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   BridgeBlockchainFromSelection(),
@@ -164,17 +171,23 @@ class BridgeFormSheet extends ConsumerWidget {
                   BridgeBlockchainToSelection(),
                 ],
               ),
-              SizedBox(
+              const SizedBox(
                 height: 5,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  BridgeTokenToBridgeSelection(),
-                  BridgeTokenBridged(),
-                ],
-              ),
-              Row(
+              if (!(bridge.blockchainFrom != null &&
+                  bridge.blockchainTo != null &&
+                  bridge.blockchainFrom!.isArchethic == false &&
+                  bridge.blockchainTo!.isArchethic == false))
+                const Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    BridgeTokenToBridgeSelection(),
+                    BridgeTokenBridged(),
+                  ],
+                )
+              else
+                const BridgeLinkToWormhole(),
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Expanded(
@@ -201,7 +214,7 @@ class BridgeFormSheet extends ConsumerWidget {
                   ),
                 ],
               ),
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox.shrink(),
@@ -209,20 +222,20 @@ class BridgeFormSheet extends ConsumerWidget {
                   BridgeTokenBridgedPoolBalance(),
                 ],
               ),
-              BridgeTokenAddress(),
-              BridgeUCOV1Warning(),
-              SizedBox(
+              const BridgeTokenAddress(),
+              const BridgeUCOV1Warning(),
+              const SizedBox(
                 height: 10,
               ),
-              BridgeTargetAddress(),
-              SizedBox(
+              const BridgeTargetAddress(),
+              const SizedBox(
                 height: 10,
               ),
-              BridgeTokenAmount(),
-              BridgeErrorMessage(),
-              Spacer(),
-              BridgeButton(),
-              SizedBox(height: 10),
+              const BridgeTokenAmount(),
+              const BridgeErrorMessage(),
+              const Spacer(),
+              const BridgeButton(),
+              const SizedBox(height: 10),
             ],
           );
   }

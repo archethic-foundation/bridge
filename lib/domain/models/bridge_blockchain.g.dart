@@ -25,6 +25,7 @@ _$BridgeBlockchainImpl _$$BridgeBlockchainImplFromJson(
       nativeCurrency: json['nativeCurrency'] as String? ?? '',
       htlcAddress: json['htlcAddress'] as String?,
       archethicFactoryAddress: json['archethicFactoryAddress'] as String?,
+      wormholeId: json['wormholeId'] as String?,
     );
 
 Map<String, dynamic> _$$BridgeBlockchainImplToJson(
@@ -44,4 +45,5 @@ Map<String, dynamic> _$$BridgeBlockchainImplToJson(
       'nativeCurrency': instance.nativeCurrency,
       'htlcAddress': instance.htlcAddress,
       'archethicFactoryAddress': instance.archethicFactoryAddress,
+      'wormholeId': instance.wormholeId,
     };

@@ -55,8 +55,20 @@ final routerProvider = Provider<GoRouter>((ref) {
           GoRoute(
             path: BridgeEVMSheet.routerPage,
             pageBuilder: (context, state) {
-              return const NoTransitionPage(
-                child: BridgeEVMSheet(),
+              String? fromNetwork;
+              String? toNetwork;
+              try {
+                fromNetwork = state.uri.queryParameters['fromNetwork'] ?? '';
+                toNetwork = state.uri.queryParameters['toNetwork'] ?? '';
+              } catch (e)
+              // ignore: empty_catches
+              {}
+
+              return NoTransitionPage(
+                child: BridgeEVMSheet(
+                  fromNetwork: fromNetwork,
+                  toNetwork: toNetwork,
+                ),
               );
             },
           ),
