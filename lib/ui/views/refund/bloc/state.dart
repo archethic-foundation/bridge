@@ -16,6 +16,7 @@ class RefundFormState with _$RefundFormState {
   const factory RefundFormState({
     @Default('') String htlcAddressFilled,
     String? refundTxAddress,
+    String? senderAddress,
     @BridgeBlockchainJsonConverter() BridgeBlockchain? blockchain,
     int? chainId,
     bool? isAlreadyRefunded,

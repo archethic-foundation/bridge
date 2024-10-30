@@ -25,34 +25,49 @@ class RefundInfosWallet extends ConsumerWidget {
 
     final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        if (refund.chainId != null)
-          Align(
-            alignment: Alignment.centerRight,
-            child: FormatAddressLinkCopy(
-              header:
-                  '${AppLocalizations.of(context)!.refundInfosWalletWalletAddressLabel} ',
-              address: refund.wallet!.genesisAddress,
-              chainId: refund.chainId!,
-              reduceAddress: true,
-              fontSize: isAppMobileFormat ? 16 : 13,
+    return Padding(
+      padding: const EdgeInsets.only(top: 5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (refund.chainId != null)
+            Align(
+              alignment: Alignment.centerRight,
+              child: FormatAddressLinkCopy(
+                header:
+                    '${AppLocalizations.of(context)!.refundInfosWalletWalletAddressLabel} ',
+                address: refund.wallet!.genesisAddress,
+                chainId: refund.chainId!,
+                reduceAddress: true,
+                fontSize: isAppMobileFormat ? 16 : 13,
+              ),
+            ),
+          if (refund.senderAddress != null)
+            Align(
+              alignment: Alignment.centerRight,
+              child: FormatAddressLinkCopy(
+                header:
+                    '${AppLocalizations.of(context)!.refundInfosWalletSenderAddressLabel} ',
+                address: refund.senderAddress!,
+                chainId: refund.chainId!,
+                reduceAddress: true,
+                fontSize: isAppMobileFormat ? 16 : 13,
+              ),
+            ),
+          SelectableText(
+            '${refund.wallet!.endpoint} to ${refund.blockchainTo}',
+            textAlign: TextAlign.end,
+            style: TextStyle(
+              fontSize: isAppMobileFormat
+                  ? 13
+                  : aedappfm.Responsive.fontSizeFromValue(
+                      context,
+                      desktopValue: 13,
+                    ),
             ),
           ),
-        SelectableText(
-          '${refund.wallet!.endpoint} to ${refund.blockchainTo}',
-          textAlign: TextAlign.end,
-          style: TextStyle(
-            fontSize: isAppMobileFormat
-                ? 13
-                : aedappfm.Responsive.fontSizeFromValue(
-                    context,
-                    desktopValue: 13,
-                  ),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

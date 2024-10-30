@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$RefundFormState {
   String get htlcAddressFilled => throw _privateConstructorUsedError;
   String? get refundTxAddress => throw _privateConstructorUsedError;
+  String? get senderAddress => throw _privateConstructorUsedError;
   @BridgeBlockchainJsonConverter()
   BridgeBlockchain? get blockchain => throw _privateConstructorUsedError;
   int? get chainId => throw _privateConstructorUsedError;
@@ -59,6 +60,7 @@ abstract class $RefundFormStateCopyWith<$Res> {
   $Res call(
       {String htlcAddressFilled,
       String? refundTxAddress,
+      String? senderAddress,
       @BridgeBlockchainJsonConverter() BridgeBlockchain? blockchain,
       int? chainId,
       bool? isAlreadyRefunded,
@@ -103,6 +105,7 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
   $Res call({
     Object? htlcAddressFilled = null,
     Object? refundTxAddress = freezed,
+    Object? senderAddress = freezed,
     Object? blockchain = freezed,
     Object? chainId = freezed,
     Object? isAlreadyRefunded = freezed,
@@ -133,6 +136,10 @@ class _$RefundFormStateCopyWithImpl<$Res, $Val extends RefundFormState>
       refundTxAddress: freezed == refundTxAddress
           ? _value.refundTxAddress
           : refundTxAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      senderAddress: freezed == senderAddress
+          ? _value.senderAddress
+          : senderAddress // ignore: cast_nullable_to_non_nullable
               as String?,
       blockchain: freezed == blockchain
           ? _value.blockchain
@@ -275,6 +282,7 @@ abstract class _$$RefundFormStateImplCopyWith<$Res>
   $Res call(
       {String htlcAddressFilled,
       String? refundTxAddress,
+      String? senderAddress,
       @BridgeBlockchainJsonConverter() BridgeBlockchain? blockchain,
       int? chainId,
       bool? isAlreadyRefunded,
@@ -320,6 +328,7 @@ class __$$RefundFormStateImplCopyWithImpl<$Res>
   $Res call({
     Object? htlcAddressFilled = null,
     Object? refundTxAddress = freezed,
+    Object? senderAddress = freezed,
     Object? blockchain = freezed,
     Object? chainId = freezed,
     Object? isAlreadyRefunded = freezed,
@@ -350,6 +359,10 @@ class __$$RefundFormStateImplCopyWithImpl<$Res>
       refundTxAddress: freezed == refundTxAddress
           ? _value.refundTxAddress
           : refundTxAddress // ignore: cast_nullable_to_non_nullable
+              as String?,
+      senderAddress: freezed == senderAddress
+          ? _value.senderAddress
+          : senderAddress // ignore: cast_nullable_to_non_nullable
               as String?,
       blockchain: freezed == blockchain
           ? _value.blockchain
@@ -445,6 +458,7 @@ class _$RefundFormStateImpl extends _RefundFormState {
   const _$RefundFormStateImpl(
       {this.htlcAddressFilled = '',
       this.refundTxAddress,
+      this.senderAddress,
       @BridgeBlockchainJsonConverter() this.blockchain,
       this.chainId,
       this.isAlreadyRefunded,
@@ -473,6 +487,8 @@ class _$RefundFormStateImpl extends _RefundFormState {
   final String htlcAddressFilled;
   @override
   final String? refundTxAddress;
+  @override
+  final String? senderAddress;
   @override
   @BridgeBlockchainJsonConverter()
   final BridgeBlockchain? blockchain;
@@ -528,7 +544,7 @@ class _$RefundFormStateImpl extends _RefundFormState {
 
   @override
   String toString() {
-    return 'RefundFormState(htlcAddressFilled: $htlcAddressFilled, refundTxAddress: $refundTxAddress, blockchain: $blockchain, chainId: $chainId, isAlreadyRefunded: $isAlreadyRefunded, isAlreadyWithdrawn: $isAlreadyWithdrawn, refundOk: $refundOk, refundInProgress: $refundInProgress, addressType: $addressType, htlcDateLock: $htlcDateLock, amount: $amount, amountCurrency: $amountCurrency, fee: $fee, htlcCanRefund: $htlcCanRefund, walletConfirmation: $walletConfirmation, processRefund: $processRefund, blockchainTo: $blockchainTo, isERC20: $isERC20, wallet: $wallet, failure: $failure, defineStatusInProgress: $defineStatusInProgress, requestTooLong: $requestTooLong, tokenAddress: $tokenAddress)';
+    return 'RefundFormState(htlcAddressFilled: $htlcAddressFilled, refundTxAddress: $refundTxAddress, senderAddress: $senderAddress, blockchain: $blockchain, chainId: $chainId, isAlreadyRefunded: $isAlreadyRefunded, isAlreadyWithdrawn: $isAlreadyWithdrawn, refundOk: $refundOk, refundInProgress: $refundInProgress, addressType: $addressType, htlcDateLock: $htlcDateLock, amount: $amount, amountCurrency: $amountCurrency, fee: $fee, htlcCanRefund: $htlcCanRefund, walletConfirmation: $walletConfirmation, processRefund: $processRefund, blockchainTo: $blockchainTo, isERC20: $isERC20, wallet: $wallet, failure: $failure, defineStatusInProgress: $defineStatusInProgress, requestTooLong: $requestTooLong, tokenAddress: $tokenAddress)';
   }
 
   @override
@@ -540,6 +556,8 @@ class _$RefundFormStateImpl extends _RefundFormState {
                 other.htlcAddressFilled == htlcAddressFilled) &&
             (identical(other.refundTxAddress, refundTxAddress) ||
                 other.refundTxAddress == refundTxAddress) &&
+            (identical(other.senderAddress, senderAddress) ||
+                other.senderAddress == senderAddress) &&
             (identical(other.blockchain, blockchain) ||
                 other.blockchain == blockchain) &&
             (identical(other.chainId, chainId) || other.chainId == chainId) &&
@@ -583,6 +601,7 @@ class _$RefundFormStateImpl extends _RefundFormState {
         runtimeType,
         htlcAddressFilled,
         refundTxAddress,
+        senderAddress,
         blockchain,
         chainId,
         isAlreadyRefunded,
@@ -620,6 +639,7 @@ abstract class _RefundFormState extends RefundFormState {
   const factory _RefundFormState(
       {final String htlcAddressFilled,
       final String? refundTxAddress,
+      final String? senderAddress,
       @BridgeBlockchainJsonConverter() final BridgeBlockchain? blockchain,
       final int? chainId,
       final bool? isAlreadyRefunded,
@@ -647,6 +667,8 @@ abstract class _RefundFormState extends RefundFormState {
   String get htlcAddressFilled;
   @override
   String? get refundTxAddress;
+  @override
+  String? get senderAddress;
   @override
   @BridgeBlockchainJsonConverter()
   BridgeBlockchain? get blockchain;

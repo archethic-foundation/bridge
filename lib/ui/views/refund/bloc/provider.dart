@@ -1,16 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:aebridge/application/app_embedded.dart';
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/application/contracts/evm_htlc.dart';
-import 'package:aebridge/application/contracts/evm_lp.dart';
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/domain/models/bridge_blockchain_environment.dart';
 import 'package:aebridge/domain/models/bridge_wallet.dart';
-import 'package:aebridge/domain/models/swap.dart';
+import 'package:aebridge/domain/usecases/bridge_evm_process_mixin.dart';
 import 'package:aebridge/domain/usecases/refund_archethic.usecase.dart';
 import 'package:aebridge/domain/usecases/refund_evm.usecase.dart';
 import 'package:aebridge/infrastructure/hive/preferences.hive.dart';
@@ -26,8 +26,10 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
 const kArchethicAddressLength = 68;
 const kEvmAddressLength = 42;
@@ -200,6 +202,7 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       refundTxAddress: null,
       isAlreadyRefunded: false,
       isAlreadyWithdrawn: false,
+      senderAddress: null,
     );
 
     final chainId = state.blockchain?.chainId ?? 0;
@@ -251,41 +254,41 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
         return;
       }
 
-      final evmLP = EVMLP();
-      final swapByOwnerResult = await evmLP.getSwapsByOwner(
-        poolAddress ?? '',
-        state.wallet!.genesisAddress,
-        chainId,
+      final abi = jsonDecode(
+        await rootBundle.loadString(contractNameHTLCBase),
+      )['abi'] as List;
+
+      final params = wagmi.ReadContractParameters(
+        abi: abi.cast<Map<String, dynamic>>(),
+        address: state.htlcAddressFilled,
+        functionName: 'from',
+        args: [],
       );
-      swapByOwnerResult.map(
-        success: (swaps) {
-          for (final swap in swaps) {
-            if (swap.htlcContractAddressEVM != null &&
-                swap.htlcContractAddressEVM!.toUpperCase() ==
-                    state.htlcAddressFilled.toUpperCase()) {
-              if (swap.swapProcess == SwapProcess.signed) {
-                state = state.copyWith(processRefund: ProcessRefund.signed);
-              } else {
-                state = state.copyWith(processRefund: ProcessRefund.chargeable);
-              }
-              break;
-            }
-          }
-        },
-        failure: (failure) {},
+      final response = await wagmi.Core.readContract(
+        wagmi.ReadContractParameters(
+          abi: params.abi,
+          address: params.address,
+          functionName: params.functionName,
+          account: params.account,
+          args: params.args,
+          blockNumber: params.blockNumber,
+          blockTag: params.blockTag,
+          chainId: chainId,
+        ),
       );
 
-      if (state.processRefund == null) {
-        setFailure(
-          aedappfm.Failure.other(
-            cause: appLocalizations.refundNotOwner,
-          ),
-        );
-
-        state = state.copyWith(
-          defineStatusInProgress: false,
-        );
-        return;
+      if (response != null &&
+          response is String &&
+          poolAddress != null &&
+          response.toUpperCase() == poolAddress.toUpperCase()) {
+        state = state.copyWith(processRefund: ProcessRefund.signed);
+      } else {
+        if (response != null && response is String) {
+          state = state.copyWith(
+            processRefund: ProcessRefund.chargeable,
+            senderAddress: response,
+          );
+        }
       }
 
       if (state.processRefund == ProcessRefund.signed) {

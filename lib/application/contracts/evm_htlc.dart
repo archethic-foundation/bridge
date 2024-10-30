@@ -41,7 +41,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
         try {
           refundNotifier.setWalletConfirmation(WalletConfirmationRefund.evm);
           refundTx = await writeContractWithErrorManagement(
-            parameters: wagmi.WriteContractParameters.eip1559(
+            parameters: wagmi.WriteContractParametersEIP1559(
               abi: contractAbi,
               address: htlcContractAddressEVM,
               functionName: 'refund',
