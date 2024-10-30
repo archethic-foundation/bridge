@@ -28,7 +28,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
       () async {
         ref.read(bridgeFormNotifierProvider.notifier).setRequestTooLong(false);
 
-        final tokenUnits = (Decimal.parse('$amount') *
+        var tokenUnits = (Decimal.parse('$amount') *
                 Decimal.fromBigInt(BigInt.from(10).pow(decimal)))
             .toBigInt();
 
@@ -37,6 +37,26 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
         );
 
         try {
+          // Check if approvement is necessary
+          final params = wagmi.ReadContractParameters(
+            abi: contractAbi,
+            address: tokenAddress,
+            functionName: 'allowance',
+            args: [
+              userAddress,
+              poolAddress,
+            ],
+          );
+          final allowanceAmount = await readContract(
+            params,
+          );
+
+          if (allowanceAmount != null &&
+              allowanceAmount is BigInt &&
+              allowanceAmount >= tokenUnits) {
+            return;
+          }
+
           final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
 
           await bridgeNotifier.setWalletConfirmation(WalletConfirmation.evm);
