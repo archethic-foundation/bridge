@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:math';
+
 import 'package:aebridge/application/app_embedded.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/ui/views/blockchain_selection/blockchain_selection_popup.dart';
@@ -159,11 +160,6 @@ class BridgeBlockchainSelection extends ConsumerWidget {
                   isFrom,
                 );
 
-                // Dirty hack to fix web3modal opening on Android
-                // Issue description :
-                // On Android browser, Web3Modal will open only if user does a long
-                // tap on the blockchain list item.
-                await Future.delayed(const Duration(milliseconds: 200));
                 await onSelect(blockchain);
               },
             ),
