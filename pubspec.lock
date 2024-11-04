@@ -1598,10 +1598,10 @@ packages:
     dependency: "direct main"
     description:
       name: wagmi_flutter_web
-      sha256: "0649dbede6f3e6a10f046e2d0e68c56616236cbf743653c73a7c476491bb8810"
+      sha256: a025026a01910f6aa9c837cf0f83be182a38c182e983feff88dd0160db72e6b8
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0-rc.9"
+    version: "1.0.0-rc.10"
   wakelock_plus:
     dependency: transitive
     description:
