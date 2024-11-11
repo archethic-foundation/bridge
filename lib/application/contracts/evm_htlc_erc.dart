@@ -28,7 +28,7 @@ class EVMHTLCERC with EVMBridgeProcessMixin {
       () async {
         ref.read(bridgeFormNotifierProvider.notifier).setRequestTooLong(false);
 
-        var tokenUnits = (Decimal.parse('$amount') *
+        final tokenUnits = (Decimal.parse('$amount') *
                 Decimal.fromBigInt(BigInt.from(10).pow(decimal)))
             .toBigInt();
 
