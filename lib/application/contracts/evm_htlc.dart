@@ -27,7 +27,7 @@ class EVMHTLC with EVMBridgeProcessMixin, ArchethicBridgeProcessMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
-        final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier)
+        final refundNotifier = ref.read(refundFormNotifierProvider.notifier)
           ..setRequestTooLong(false);
 
         final contractAbi = await loadAbi(

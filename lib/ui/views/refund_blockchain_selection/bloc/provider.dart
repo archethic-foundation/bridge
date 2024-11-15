@@ -1,10 +1,10 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
-import 'package:aebridge/ui/views/blockchain_selection/bloc/state.dart';
-import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/refund/bloc/provider.dart';
+import 'package:aebridge/ui/views/refund_blockchain_selection/bloc/state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final _blockchainSelectionFormProvider = NotifierProvider.autoDispose<
-    BlockchainSelectionFormNotifier, BlockchainSelectionFormState>(
+    BlockchainSelectionFormNotifier, RefundBlockchainSelectionFormState>(
   () {
     return BlockchainSelectionFormNotifier();
   },
@@ -12,24 +12,24 @@ final _blockchainSelectionFormProvider = NotifierProvider.autoDispose<
 );
 
 class BlockchainSelectionFormNotifier
-    extends AutoDisposeNotifier<BlockchainSelectionFormState> {
+    extends AutoDisposeNotifier<RefundBlockchainSelectionFormState> {
   BlockchainSelectionFormNotifier();
 
   @override
-  BlockchainSelectionFormState build() {
+  RefundBlockchainSelectionFormState build() {
     final isTestnetSelected = ref.watch(
-      bridgeFormNotifierProvider.select((bridge) => bridge.isTestnetSelected),
+      refundFormNotifierProvider.select((refund) => refund.isTestnetSelected),
     );
-    return BlockchainSelectionFormState(
-      testnetIncluded: isTestnetSelected,
+    return RefundBlockchainSelectionFormState(
+      isTestnetSelected: isTestnetSelected,
     );
   }
 
   void setTestnetIncluded(
-    bool testnetIncluded,
+    bool isTestnetSelected,
   ) {
     state = state.copyWith(
-      testnetIncluded: testnetIncluded,
+      isTestnetSelected: isTestnetSelected,
     );
   }
 }

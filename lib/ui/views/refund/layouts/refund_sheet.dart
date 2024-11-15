@@ -32,16 +32,14 @@ class _RefundSheetState extends ConsumerState<RefundSheet> {
       if (widget.htlcAddress != null &&
           widget.htlcAddress!.isNotEmpty &&
           mounted) {
-        await ref
-            .read(RefundFormProvider.refundForm.notifier)
-            .setContractAddress(
+        await ref.read(refundFormNotifierProvider.notifier).setContractAddress(
               AppLocalizations.of(context)!,
               widget.htlcAddress!,
             );
       }
       if (widget.chainId != null && widget.chainId!.isNaN == false) {
         await ref
-            .read(RefundFormProvider.refundForm.notifier)
+            .read(refundFormNotifierProvider.notifier)
             .setChainId(widget.chainId!);
       }
     });

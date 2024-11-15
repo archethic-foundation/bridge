@@ -16,7 +16,7 @@ class RefundCanRefundInfo extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final refund = ref.watch(RefundFormProvider.refundForm);
+    final refund = ref.watch(refundFormNotifierProvider);
     if (refund.isAlreadyRefunded == true ||
         refund.isAlreadyWithdrawn == true ||
         refund.processRefund == null ||

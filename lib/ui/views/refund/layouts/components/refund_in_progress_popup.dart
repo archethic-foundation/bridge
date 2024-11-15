@@ -14,7 +14,7 @@ class RefundInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final refund = ref.watch(RefundFormProvider.refundForm);
+    final refund = ref.watch(refundFormNotifierProvider);
     return [
       aedappfm.InProgressCircularStepProgressIndicator(
         currentStep: 1,
@@ -54,7 +54,7 @@ class RefundInProgressPopup {
     BuildContext context,
     WidgetRef ref,
   ) {
-    final refund = ref.watch(RefundFormProvider.refundForm);
+    final refund = ref.watch(refundFormNotifierProvider);
     return aedappfm.PopupCloseButton(
       warningCloseWarning: refund.refundInProgress,
       warningCloseLabel: refund.refundInProgress == true
@@ -65,7 +65,7 @@ class RefundInProgressPopup {
         Navigator.of(context).pop();
       },
       closeFunction: () {
-        ref.invalidate(RefundFormProvider.refundForm);
+        ref.invalidate(refundFormNotifierProvider);
         if (!context.mounted) return;
         Navigator.of(context).pop();
       },

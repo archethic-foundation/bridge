@@ -14,7 +14,7 @@ class RefundInProgressUserExplorer extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final refund = ref.watch(RefundFormProvider.refundForm);
+    final refund = ref.watch(refundFormNotifierProvider);
 
     if (refund.addressType == AddressType.evm &&
         (refund.requestTooLong == true ||

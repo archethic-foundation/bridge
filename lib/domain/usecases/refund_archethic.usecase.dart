@@ -18,7 +18,7 @@ class RefundArchethicCase {
     String currentNameAccount,
     String htlcContractAddressAE,
   ) async {
-    final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier)
+    final refundNotifier = ref.read(refundFormNotifierProvider.notifier)
       ..setRefundTxAddress(null)
       ..setRefundInProgress(true)
       ..setFailure(null)

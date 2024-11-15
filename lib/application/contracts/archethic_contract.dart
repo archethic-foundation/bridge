@@ -160,9 +160,9 @@ class ArchethicContract
           ],
         );
 
-        final refundNotifier = ref.read(RefundFormProvider.refundForm.notifier);
+        final refundNotifier = ref.read(refundFormNotifierProvider.notifier);
         ref
-            .read(RefundFormProvider.refundForm.notifier)
+            .read(refundFormNotifierProvider.notifier)
             .setWalletConfirmation(WalletConfirmationRefund.archethic);
         transaction = (await signTx(
           dappClient,

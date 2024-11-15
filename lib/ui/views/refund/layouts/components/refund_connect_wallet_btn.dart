@@ -14,7 +14,7 @@ class RefundConnectWalletButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final refund = ref.watch(RefundFormProvider.refundForm);
+    final refund = ref.watch(refundFormNotifierProvider);
 
     if ((refund.wallet != null && refund.wallet!.isConnected) ||
         (refund.blockchain == null || refund.addressType == null)) {
@@ -25,7 +25,7 @@ class RefundConnectWalletButton extends ConsumerWidget {
             labelBtn: AppLocalizations.of(context)!.btn_refund_evm_connect,
             onPressed: () async {
               await ref
-                  .read(RefundFormProvider.refundForm.notifier)
+                  .read(refundFormNotifierProvider.notifier)
                   .connectToEVMWallet(AppLocalizations.of(context)!);
             },
           )
@@ -34,7 +34,7 @@ class RefundConnectWalletButton extends ConsumerWidget {
                 AppLocalizations.of(context)!.btn_refund_archethic_connect,
             onPressed: () async {
               await ref
-                  .read(RefundFormProvider.refundForm.notifier)
+                  .read(refundFormNotifierProvider.notifier)
                   .connectToArchethicWallet(AppLocalizations.of(context)!);
             },
           );

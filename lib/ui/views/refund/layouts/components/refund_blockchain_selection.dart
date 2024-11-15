@@ -3,9 +3,9 @@ import 'dart:math';
 
 import 'package:aebridge/application/app_embedded.dart';
 
-import 'package:aebridge/ui/views/blockchain_selection/blockchain_selection_popup.dart';
 import 'package:aebridge/ui/views/mobile_info/layouts/mobile_info.dart';
 import 'package:aebridge/ui/views/refund/bloc/provider.dart';
+import 'package:aebridge/ui/views/refund_blockchain_selection/refund_blockchain_selection_popup.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -24,7 +24,7 @@ class RefundBlockchainSelection extends ConsumerWidget {
     final textTheme = Theme.of(context)
         .textTheme
         .apply(displayColor: Theme.of(context).colorScheme.onSurface);
-    final refund = ref.watch(RefundFormProvider.refundForm);
+    final refund = ref.watch(refundFormNotifierProvider);
     final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
     final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     return Column(
@@ -128,14 +128,15 @@ class RefundBlockchainSelection extends ConsumerWidget {
                   return;
                 }
 
-                final blockchain = await BlockchainSelectionPopup.getDialog(
+                final blockchain =
+                    await RefundBlockchainSelectionPopup.getDialog(
                   context,
                   true,
                 );
                 if (blockchain == null) return;
 
                 ref
-                    .read(RefundFormProvider.refundForm.notifier)
+                    .read(refundFormNotifierProvider.notifier)
                     .setBlockchain(blockchain);
               },
             ),

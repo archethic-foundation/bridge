@@ -13,7 +13,7 @@ class RefundInfosWallet extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final refund = ref.watch(RefundFormProvider.refundForm);
+    final refund = ref.watch(refundFormNotifierProvider);
     if (refund.wallet == null ||
         refund.processRefund == null ||
         refund.isAlreadyRefunded == true ||
