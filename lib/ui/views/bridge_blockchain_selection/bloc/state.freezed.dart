@@ -15,39 +15,40 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$BlockchainSelectionFormState {
+mixin _$BridgeBlockchainSelectionFormState {
   bool get testnetIncluded => throw _privateConstructorUsedError;
 
-  /// Create a copy of BlockchainSelectionFormState
+  /// Create a copy of BridgeBlockchainSelectionFormState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $BlockchainSelectionFormStateCopyWith<BlockchainSelectionFormState>
+  $BridgeBlockchainSelectionFormStateCopyWith<
+          BridgeBlockchainSelectionFormState>
       get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $BlockchainSelectionFormStateCopyWith<$Res> {
-  factory $BlockchainSelectionFormStateCopyWith(
-          BlockchainSelectionFormState value,
-          $Res Function(BlockchainSelectionFormState) then) =
-      _$BlockchainSelectionFormStateCopyWithImpl<$Res,
-          BlockchainSelectionFormState>;
+abstract class $BridgeBlockchainSelectionFormStateCopyWith<$Res> {
+  factory $BridgeBlockchainSelectionFormStateCopyWith(
+          BridgeBlockchainSelectionFormState value,
+          $Res Function(BridgeBlockchainSelectionFormState) then) =
+      _$BridgeBlockchainSelectionFormStateCopyWithImpl<$Res,
+          BridgeBlockchainSelectionFormState>;
   @useResult
   $Res call({bool testnetIncluded});
 }
 
 /// @nodoc
-class _$BlockchainSelectionFormStateCopyWithImpl<$Res,
-        $Val extends BlockchainSelectionFormState>
-    implements $BlockchainSelectionFormStateCopyWith<$Res> {
-  _$BlockchainSelectionFormStateCopyWithImpl(this._value, this._then);
+class _$BridgeBlockchainSelectionFormStateCopyWithImpl<$Res,
+        $Val extends BridgeBlockchainSelectionFormState>
+    implements $BridgeBlockchainSelectionFormStateCopyWith<$Res> {
+  _$BridgeBlockchainSelectionFormStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of BlockchainSelectionFormState
+  /// Create a copy of BridgeBlockchainSelectionFormState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -64,35 +65,35 @@ class _$BlockchainSelectionFormStateCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$BlockchainSelectionFormStateImplCopyWith<$Res>
-    implements $BlockchainSelectionFormStateCopyWith<$Res> {
-  factory _$$BlockchainSelectionFormStateImplCopyWith(
-          _$BlockchainSelectionFormStateImpl value,
-          $Res Function(_$BlockchainSelectionFormStateImpl) then) =
-      __$$BlockchainSelectionFormStateImplCopyWithImpl<$Res>;
+abstract class _$$BridgeBlockchainSelectionFormStateImplCopyWith<$Res>
+    implements $BridgeBlockchainSelectionFormStateCopyWith<$Res> {
+  factory _$$BridgeBlockchainSelectionFormStateImplCopyWith(
+          _$BridgeBlockchainSelectionFormStateImpl value,
+          $Res Function(_$BridgeBlockchainSelectionFormStateImpl) then) =
+      __$$BridgeBlockchainSelectionFormStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({bool testnetIncluded});
 }
 
 /// @nodoc
-class __$$BlockchainSelectionFormStateImplCopyWithImpl<$Res>
-    extends _$BlockchainSelectionFormStateCopyWithImpl<$Res,
-        _$BlockchainSelectionFormStateImpl>
-    implements _$$BlockchainSelectionFormStateImplCopyWith<$Res> {
-  __$$BlockchainSelectionFormStateImplCopyWithImpl(
-      _$BlockchainSelectionFormStateImpl _value,
-      $Res Function(_$BlockchainSelectionFormStateImpl) _then)
+class __$$BridgeBlockchainSelectionFormStateImplCopyWithImpl<$Res>
+    extends _$BridgeBlockchainSelectionFormStateCopyWithImpl<$Res,
+        _$BridgeBlockchainSelectionFormStateImpl>
+    implements _$$BridgeBlockchainSelectionFormStateImplCopyWith<$Res> {
+  __$$BridgeBlockchainSelectionFormStateImplCopyWithImpl(
+      _$BridgeBlockchainSelectionFormStateImpl _value,
+      $Res Function(_$BridgeBlockchainSelectionFormStateImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of BlockchainSelectionFormState
+  /// Create a copy of BridgeBlockchainSelectionFormState
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
     Object? testnetIncluded = null,
   }) {
-    return _then(_$BlockchainSelectionFormStateImpl(
+    return _then(_$BridgeBlockchainSelectionFormStateImpl(
       testnetIncluded: null == testnetIncluded
           ? _value.testnetIncluded
           : testnetIncluded // ignore: cast_nullable_to_non_nullable
@@ -103,8 +104,9 @@ class __$$BlockchainSelectionFormStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$BlockchainSelectionFormStateImpl extends _BlockchainSelectionFormState {
-  const _$BlockchainSelectionFormStateImpl({this.testnetIncluded = false})
+class _$BridgeBlockchainSelectionFormStateImpl
+    extends _BridgeBlockchainSelectionFormState {
+  const _$BridgeBlockchainSelectionFormStateImpl({this.testnetIncluded = false})
       : super._();
 
   @override
@@ -113,14 +115,14 @@ class _$BlockchainSelectionFormStateImpl extends _BlockchainSelectionFormState {
 
   @override
   String toString() {
-    return 'BlockchainSelectionFormState(testnetIncluded: $testnetIncluded)';
+    return 'BridgeBlockchainSelectionFormState(testnetIncluded: $testnetIncluded)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$BlockchainSelectionFormStateImpl &&
+            other is _$BridgeBlockchainSelectionFormStateImpl &&
             (identical(other.testnetIncluded, testnetIncluded) ||
                 other.testnetIncluded == testnetIncluded));
   }
@@ -128,31 +130,31 @@ class _$BlockchainSelectionFormStateImpl extends _BlockchainSelectionFormState {
   @override
   int get hashCode => Object.hash(runtimeType, testnetIncluded);
 
-  /// Create a copy of BlockchainSelectionFormState
+  /// Create a copy of BridgeBlockchainSelectionFormState
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$BlockchainSelectionFormStateImplCopyWith<
-          _$BlockchainSelectionFormStateImpl>
-      get copyWith => __$$BlockchainSelectionFormStateImplCopyWithImpl<
-          _$BlockchainSelectionFormStateImpl>(this, _$identity);
+  _$$BridgeBlockchainSelectionFormStateImplCopyWith<
+          _$BridgeBlockchainSelectionFormStateImpl>
+      get copyWith => __$$BridgeBlockchainSelectionFormStateImplCopyWithImpl<
+          _$BridgeBlockchainSelectionFormStateImpl>(this, _$identity);
 }
 
-abstract class _BlockchainSelectionFormState
-    extends BlockchainSelectionFormState {
-  const factory _BlockchainSelectionFormState({final bool testnetIncluded}) =
-      _$BlockchainSelectionFormStateImpl;
-  const _BlockchainSelectionFormState._() : super._();
+abstract class _BridgeBlockchainSelectionFormState
+    extends BridgeBlockchainSelectionFormState {
+  const factory _BridgeBlockchainSelectionFormState(
+      {final bool testnetIncluded}) = _$BridgeBlockchainSelectionFormStateImpl;
+  const _BridgeBlockchainSelectionFormState._() : super._();
 
   @override
   bool get testnetIncluded;
 
-  /// Create a copy of BlockchainSelectionFormState
+  /// Create a copy of BridgeBlockchainSelectionFormState
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$BlockchainSelectionFormStateImplCopyWith<
-          _$BlockchainSelectionFormStateImpl>
+  _$$BridgeBlockchainSelectionFormStateImplCopyWith<
+          _$BridgeBlockchainSelectionFormStateImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

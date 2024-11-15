@@ -2,15 +2,15 @@
 import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/domain/models/bridge_blockchain_environment.dart';
-import 'package:aebridge/ui/views/blockchain_selection/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/bridge_blockchain_selection/bloc/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 
-class BlockchainList extends ConsumerWidget {
-  const BlockchainList({
+class BridgeBlockchainList extends ConsumerWidget {
+  const BridgeBlockchainList({
     required this.isFrom,
     super.key,
   });
@@ -54,7 +54,7 @@ class BlockchainList extends ConsumerWidget {
             );
           }
 
-          return _BlockchainsList(isFrom: isFrom, blockchains: filteredChains);
+          return _BlockchainsList(blockchains: filteredChains);
         },
         error: (error) => const SizedBox(
           height: 300,
@@ -81,10 +81,9 @@ class BlockchainList extends ConsumerWidget {
 }
 
 class _BlockchainsList extends StatelessWidget {
-  const _BlockchainsList({required this.isFrom, required this.blockchains});
+  const _BlockchainsList({required this.blockchains});
 
   final List<BridgeBlockchain> blockchains;
-  final bool isFrom;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -97,7 +96,6 @@ class _BlockchainsList extends StatelessWidget {
         itemCount: blockchains.length,
         itemBuilder: (BuildContext context, int index) {
           return _SingleBlockchain(
-            isFrom: isFrom,
             blockchain: blockchains[index],
           );
         },
@@ -107,8 +105,7 @@ class _BlockchainsList extends StatelessWidget {
 }
 
 class _SingleBlockchain extends ConsumerWidget {
-  const _SingleBlockchain({required this.isFrom, required this.blockchain});
-  final bool isFrom;
+  const _SingleBlockchain({required this.blockchain});
   final BridgeBlockchain blockchain;
   @override
   Widget build(BuildContext context, WidgetRef ref) {

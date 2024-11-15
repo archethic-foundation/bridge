@@ -3,8 +3,8 @@ import 'dart:math';
 
 import 'package:aebridge/application/app_embedded.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
-import 'package:aebridge/ui/views/blockchain_selection/blockchain_selection_popup.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
+import 'package:aebridge/ui/views/bridge_blockchain_selection/bridge_blockchain_selection_popup.dart';
 import 'package:aebridge/ui/views/mobile_info/layouts/mobile_info.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -155,7 +155,8 @@ class BridgeBlockchainSelection extends ConsumerWidget {
                   return;
                 }
 
-                final blockchain = await BlockchainSelectionPopup.getDialog(
+                final blockchain =
+                    await BridgeBlockchainSelectionPopup.getDialog(
                   context,
                   isFrom,
                 );

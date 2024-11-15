@@ -16,7 +16,7 @@ class RefundButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final refund = ref.watch(RefundFormProvider.refundForm);
+    final refund = ref.watch(refundFormNotifierProvider);
     if (refund.wallet == null || refund.wallet!.isConnected == false) {
       return const SizedBox.shrink();
     }
@@ -42,7 +42,7 @@ class RefundButton extends ConsumerWidget {
             labelBtn: AppLocalizations.of(context)!.btn_refund,
             onPressed: () async {
               final refundNotifier =
-                  ref.read(RefundFormProvider.refundForm.notifier);
+                  ref.read(refundFormNotifierProvider.notifier);
               unawaited(refundNotifier.refund(context, ref));
               await RefundInProgressPopup.getDialog(
                 context,

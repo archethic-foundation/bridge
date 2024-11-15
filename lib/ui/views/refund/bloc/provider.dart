@@ -29,19 +29,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
+
+part 'provider.g.dart';
 
 const kArchethicAddressLength = 68;
 const kEvmAddressLength = 42;
 
-final _refundFormNotifierProvider =
-    NotifierProvider.autoDispose<RefundFormNotifier, RefundFormState>(
-  () {
-    return RefundFormNotifier();
-  },
-);
-
-class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
+@riverpod
+class RefundFormNotifier extends _$RefundFormNotifier {
   StreamSubscription? _connectionStatusSubscription;
   final __evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
 
@@ -705,8 +702,4 @@ class RefundFormNotifier extends AutoDisposeNotifier<RefundFormState> {
       state = state.copyWith(wallet: wallet);
     }
   }
-}
-
-abstract class RefundFormProvider {
-  static final refundForm = _refundFormNotifierProvider;
 }

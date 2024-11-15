@@ -38,7 +38,7 @@ class _RefundContractAddressState extends ConsumerState<RefundContractAddress> {
   }
 
   void _updateTextController() {
-    final refund = ref.read(RefundFormProvider.refundForm);
+    final refund = ref.read(refundFormNotifierProvider);
     addressController = TextEditingController(text: refund.htlcAddressFilled);
   }
 
@@ -46,7 +46,7 @@ class _RefundContractAddressState extends ConsumerState<RefundContractAddress> {
   Widget build(
     BuildContext context,
   ) {
-    final refund = ref.watch(RefundFormProvider.refundForm);
+    final refund = ref.watch(refundFormNotifierProvider);
     final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     if (refund.htlcAddressFilled != addressController.text) {
       _updateTextController();
@@ -106,7 +106,7 @@ class _RefundContractAddressState extends ConsumerState<RefundContractAddress> {
                             controller: addressController,
                             onChanged: (text) async {
                               await ref
-                                  .read(RefundFormProvider.refundForm.notifier)
+                                  .read(refundFormNotifierProvider.notifier)
                                   .setContractAddress(
                                     AppLocalizations.of(context)!,
                                     text,

@@ -1,13 +1,13 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
-import 'package:aebridge/ui/views/blockchain_selection/components/blockchain_list.dart';
-import 'package:aebridge/ui/views/blockchain_selection/components/blockchain_testnet_included_switch.dart';
+import 'package:aebridge/ui/views/bridge_blockchain_selection/components/bridge_blockchain_list.dart';
+import 'package:aebridge/ui/views/util/blockchain_testnet_included_switch.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 
-class BlockchainSelectionPopup {
+class BridgeBlockchainSelectionPopup {
   static Future<BridgeBlockchain?> getDialog(
     BuildContext context,
     bool isFrom,
@@ -30,7 +30,7 @@ class BlockchainSelectionPopup {
                 height: 10,
               ),
               Expanded(
-                child: BlockchainList(isFrom: isFrom),
+                child: BridgeBlockchainList(isFrom: isFrom),
               ),
             ],
           ),

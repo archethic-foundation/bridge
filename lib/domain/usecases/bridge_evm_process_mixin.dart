@@ -517,7 +517,7 @@ mixin EVMBridgeProcessMixin {
         break;
       case EVMBridgeProcess.refund:
         ref
-            .read(RefundFormProvider.refundForm.notifier)
+            .read(refundFormNotifierProvider.notifier)
             .setWalletConfirmation(null);
         break;
     }
@@ -559,7 +559,7 @@ mixin EVMBridgeProcessMixin {
               break;
             case EVMBridgeProcess.refund:
               ref
-                  .read(RefundFormProvider.refundForm.notifier)
+                  .read(refundFormNotifierProvider.notifier)
                   .setRequestTooLong(false);
               break;
           }
@@ -602,7 +602,7 @@ mixin EVMBridgeProcessMixin {
             break;
           case EVMBridgeProcess.refund:
             ref
-                .read(RefundFormProvider.refundForm.notifier)
+                .read(refundFormNotifierProvider.notifier)
                 .setRequestTooLong(true);
             break;
         }
