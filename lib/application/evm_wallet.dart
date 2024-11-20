@@ -71,6 +71,7 @@ class EVMWalletProvider with EVMBridgeProcessMixin {
     wagmi.Web3Modal.init(
       projectId: _projectId,
       chains: blockchains.map((blockchain) => blockchain.chainId).toList(),
+      storage: wagmi.CoreStorage.noStorage,
       metadata: wagmi.Web3ModalMetadata(
         name: 'Archethic Bridge',
         description:
