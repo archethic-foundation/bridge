@@ -27,7 +27,7 @@ jobs:
         uses: subosito/flutter-action@v2
         with:
           channel: "stable"
-          flutter-version: '3.24.3'
+          flutter-version: "3.24.5"
       - run: flutter --version
 
       - name: Install dependencies
@@ -45,7 +45,7 @@ jobs:
       - name: Inject meta robots tag if in test environment
         run: |
           sed -i 's/<!-- #robotsMetaTag -->/<meta name="robots" content="noindex">/' build/web/index.html
-          
+
       - name: Check files
         run: |
           ls -R
@@ -62,4 +62,4 @@ jobs:
           keychainFundingService: "archethic-wallet-ARCHETHIC.NET"
           keychainWebsiteService: "aeweb-BRIDGE"
           sendTransactionTimeout: 260
-          percentageOfConfirmations: 50       
+          percentageOfConfirmations: 50
