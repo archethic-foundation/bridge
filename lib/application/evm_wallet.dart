@@ -121,18 +121,18 @@ class EVMWalletProvider with EVMBridgeProcessMixin {
 
   Future<int> getChainId() async => wagmi.Core.getChainId();
 
-  // TODO(chralu): Utiliser une écoute plutot que du polling
-  Future<wagmi.Account> _waitForConnection() async {
-    while (true) {
-      _logger.finest('... wait for connection');
-      final account = wagmi.Core.getAccount();
-      if (account.isConnected) {
-        _requestedAccount = account;
-        _logger.finest('Connected to $account !');
-        return account;
-      }
-      await Future.delayed(const Duration(seconds: 1));
+  Future<void> _waitForWeb3modalClosing() async {
+    _logger.finest('... wait for web3modal closing');
+    await wagmi.Web3Modal.state.firstWhere(
+      (state) => state.open == false,
+    );
+    final account = wagmi.Core.getAccount();
+    if (account.isConnected) {
+      _requestedAccount = account;
+      _logger.finest('Connected to $account !');
+      return;
     }
+    _logger.finest('Connection to $account failed !');
   }
 
   Future<void> connect(BridgeBlockchain chain) async {
@@ -141,13 +141,12 @@ class EVMWalletProvider with EVMBridgeProcessMixin {
       _logger.finest('Wallet not connected -> opening web3modal');
       await wagmi.Web3Modal.open();
 
-      await _waitForConnection();
+      await _waitForWeb3modalClosing();
+    }
 
-      /// Wait for the application to get focus back
-      /// If not, deeplink call will be dismissed by web browser
-      ///
-      /// Ideally, we should listen to the focus event (https://developer.mozilla.org/en-US/docs/Web/API/Window/focus_event)
-      await Future.delayed(const Duration(seconds: 1));
+    if (!walletConnected) {
+      _logger.finest('Connection to wallet failed.');
+      return;
     }
     await useChain(chain.chainId);
   }

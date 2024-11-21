@@ -68,16 +68,18 @@ class SessionNotifier extends _$SessionNotifier {
         try {
           final evmWalletProvider = await _evmWalletProvider;
           await evmWalletProvider.connect(blockchain);
-          if (evmWalletProvider.walletConnected) {
-            bridgeWallet = bridgeWallet.copyWith(
-              wallet: kEVMWallet,
-              isConnected: true,
-              error: '',
-              nameAccount: evmWalletProvider.currentAddress!,
-              genesisAddress: evmWalletProvider.currentAddress!,
-              endpoint: blockchain.name,
-            );
+          if (!evmWalletProvider.walletConnected) {
+            throw const aedappfm.Failure.userRejected();
           }
+
+          bridgeWallet = bridgeWallet.copyWith(
+            wallet: kEVMWallet,
+            isConnected: true,
+            error: '',
+            nameAccount: evmWalletProvider.currentAddress!,
+            genesisAddress: evmWalletProvider.currentAddress!,
+            endpoint: blockchain.name,
+          );
 
           _fillState(bridgeWallet, from);
 
