@@ -683,8 +683,8 @@ mixin EVMBridgeProcessMixin {
       final payloadSigned = await wagmi.Core.signMessage(
         wagmi.SignMessageParameters(
           account: wagmi.Core.getAccount().address!,
-          message: const wagmi.MessageToSign.rawMessage(
-            message: wagmi.RawMessage.hex(raw: payload),
+          message: const wagmi.MessageToSign.stringMessage(
+            message: payload,
           ),
         ),
       );
