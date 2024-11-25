@@ -693,6 +693,7 @@ mixin EVMBridgeProcessMixin {
       aedappfm.sl.get<aedappfm.LogManager>().log(
             'Error signing $e',
             name: 'signTxFaucetUCO',
+            level: aedappfm.LogLevel.error,
           );
       rethrow;
     }
