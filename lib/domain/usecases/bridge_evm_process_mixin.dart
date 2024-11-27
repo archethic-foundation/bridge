@@ -688,10 +688,6 @@ mixin EVMBridgeProcessMixin {
           ),
         ),
       );
-      aedappfm.sl.get<aedappfm.LogManager>().log(
-            'SignedPayload : $payloadSigned',
-            name: 'signTxFaucetUCO',
-          );
       return payloadSigned;
     } catch (e) {
       aedappfm.sl.get<aedappfm.LogManager>().log(

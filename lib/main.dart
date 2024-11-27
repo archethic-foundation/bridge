@@ -17,7 +17,7 @@ import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  aedappfm.LoggerOutput.setup(level: Level.ALL);
+  aedappfm.LoggerOutput.setup(level: Level.SEVERE);
 
   await DBHelper.setupDatabase();
   await setupServiceLocator();
