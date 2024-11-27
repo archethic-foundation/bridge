@@ -1,6 +1,7 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'dart:async';
 
+import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/application/contracts/evm_htlc.dart';
 import 'package:aebridge/application/contracts/evm_htlc_erc.dart';
 import 'package:aebridge/application/session/provider.dart';
@@ -232,16 +233,39 @@ class BridgeEVMToArchethicUseCase
             },
           );
         }
+        if (htlcAEAddress != null) {
+          var info =
+              await getInfo(aedappfm.sl.get<ApiService>(), htlcAEAddress);
+          if (info.statusHTLC == 0 &&
+              info.aePoolAddress != null &&
+              info.evmHTLCAddress == null) {
+            final apiService = aedappfm.sl.get<ApiService>();
+            print('>>>> wait');
+            if (await waitForManualTxConfirmation(
+                  htlcAEAddress,
+                  2,
+                  apiService,
+                ) ==
+                false) {
+              await bridgeNotifier.setFailure(const aedappfm.Failure.timeout());
+              await bridgeNotifier.setTransferInProgress(false);
+              return;
+            }
+            info = await getInfo(aedappfm.sl.get<ApiService>(), htlcAEAddress);
+          }
+
+          if (info.evmHTLCAddress == null ||
+              info.evmHTLCAddress!.toUpperCase() !=
+                  htlcEVMAddress.toUpperCase()) {
+            htlcAEAddress = null;
+          }
+        }
 
         if (htlcAEAddress == null) {
-          htlcAEAddress = await deployAEChargeableHTLC(
-            ref,
-            secretHash,
-            amount,
-            endTime!,
-            htlcEVMAddress,
-            htlcEVMTxAddress!,
-          );
+          final resultDefineHTLCAddress =
+              ArchethicContract().defineHTLCAddress();
+          htlcAEAddress = resultDefineHTLCAddress.genesisAddressHTLC;
+          final _seedSC = resultDefineHTLCAddress.seedHTLC;
 
           await bridgeNotifier.setHTLCAEAddress(htlcAEAddress);
 
@@ -249,6 +273,17 @@ class BridgeEVMToArchethicUseCase
           blockchainTo = blockchainTo!.copyWith(htlcAddress: htlcAEAddress);
 
           await bridgeNotifier.setBlockchainTo(localizations, blockchainTo);
+
+          await deployAEChargeableHTLC(
+            ref,
+            secretHash,
+            amount,
+            endTime!,
+            htlcEVMAddress,
+            htlcEVMTxAddress!,
+            htlcAEAddress,
+            _seedSC,
+          );
 
           // Wait for AE HTLC Update
           final apiService = aedappfm.sl.get<ApiService>();

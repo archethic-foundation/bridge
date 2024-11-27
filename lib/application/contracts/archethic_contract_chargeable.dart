@@ -13,7 +13,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class ArchethicContractChargeable with aedappfm.TransactionMixin {
   ArchethicContractChargeable();
 
-  Future<aedappfm.Result<String, aedappfm.Failure>> deployChargeableHTLC(
+  Future<aedappfm.Result<void, aedappfm.Failure>> deployChargeableHTLC(
     awc.ArchethicDAppClient dappClient,
     WidgetRef ref,
     String factoryAddress,
@@ -26,6 +26,8 @@ class ArchethicContractChargeable with aedappfm.TransactionMixin {
     int chainId,
     String htlcEVMAddress,
     String txAddress,
+    String htlcGenesisAddress,
+    String seedSC,
   ) async {
     return aedappfm.Result.guard(
       () async {
@@ -64,9 +66,6 @@ class ArchethicContractChargeable with aedappfm.TransactionMixin {
           ],
         );
 
-        final resultDefineHTLCAddress = ArchethicContract().defineHTLCAddress();
-        final htlcGenesisAddress = resultDefineHTLCAddress.genesisAddressHTLC;
-        final _seedSC = resultDefineHTLCAddress.seedHTLC;
         const slippageFees = 1.5;
         final resultDeployHTLC = await ArchethicContract().deployHTLC(
           dappClient,
@@ -74,7 +73,7 @@ class ArchethicContractChargeable with aedappfm.TransactionMixin {
           recipient,
           code.toString(),
           htlcGenesisAddress,
-          _seedSC,
+          seedSC,
           slippageFees,
         );
         resultDeployHTLC.map(
@@ -83,8 +82,6 @@ class ArchethicContractChargeable with aedappfm.TransactionMixin {
             throw failure;
           },
         );
-
-        return htlcGenesisAddress;
       },
     );
   }
