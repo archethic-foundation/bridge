@@ -241,24 +241,31 @@ class BridgeArchethicToEVMUseCase
     if (recoveryStep <= 5) {
       await bridgeNotifier.setCurrentStep(5);
       try {
-        await requestAESecretFromLP(
-          ref,
-          htlcAEAddress,
-          htlcEVMAddress!,
-          htlcEVMTxAddress!,
-        );
-
-        // Wait for AE HTLC Update
         final apiService = aedappfm.sl.get<archethic.ApiService>();
-        if (await waitForManualTxConfirmation(
-              htlcAEAddress,
-              3,
-              apiService,
-            ) ==
-            false) {
-          await bridgeNotifier.setFailure(const aedappfm.Failure.timeout());
-          await bridgeNotifier.setTransferInProgress(false);
-          return;
+
+        final info = await ArchethicContract().getInfo(
+          apiService,
+          htlcAEAddress,
+        );
+        if (info.statusHTLC != 1) {
+          await requestAESecretFromLP(
+            ref,
+            htlcAEAddress,
+            htlcEVMAddress!,
+            htlcEVMTxAddress!,
+          );
+
+          // Wait for AE HTLC Update
+          if (await waitForManualTxConfirmation(
+                htlcAEAddress,
+                3,
+                apiService,
+              ) ==
+              false) {
+            await bridgeNotifier.setFailure(const aedappfm.Failure.timeout());
+            await bridgeNotifier.setTransferInProgress(false);
+            return;
+          }
         }
       } catch (e) {
         return;
