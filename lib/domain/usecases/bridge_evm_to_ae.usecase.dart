@@ -233,36 +233,39 @@ class BridgeEVMToArchethicUseCase
           );
         }
 
-        htlcAEAddress = await deployAEChargeableHTLC(
-          ref,
-          secretHash,
-          amount,
-          endTime!,
-          htlcEVMAddress,
-          htlcEVMTxAddress!,
-        );
+        if (htlcAEAddress == null) {
+          htlcAEAddress = await deployAEChargeableHTLC(
+            ref,
+            secretHash,
+            amount,
+            endTime!,
+            htlcEVMAddress,
+            htlcEVMTxAddress!,
+          );
 
-        await bridgeNotifier.setHTLCAEAddress(htlcAEAddress);
+          await bridgeNotifier.setHTLCAEAddress(htlcAEAddress);
 
-        // Wait for AE HTLC Update
-        final apiService = aedappfm.sl.get<ApiService>();
-        if (await waitForManualTxConfirmation(
-              htlcAEAddress,
-              2,
-              apiService,
-            ) ==
-            false) {
-          await bridgeNotifier.setFailure(const aedappfm.Failure.timeout());
-          await bridgeNotifier.setTransferInProgress(false);
-          return;
+          var blockchainTo = ref.read(bridgeFormNotifierProvider).blockchainTo;
+          blockchainTo = blockchainTo!.copyWith(htlcAddress: htlcAEAddress);
+
+          await bridgeNotifier.setBlockchainTo(localizations, blockchainTo);
+
+          // Wait for AE HTLC Update
+          final apiService = aedappfm.sl.get<ApiService>();
+          if (await waitForManualTxConfirmation(
+                htlcAEAddress,
+                2,
+                apiService,
+              ) ==
+              false) {
+            await bridgeNotifier.setFailure(const aedappfm.Failure.timeout());
+            await bridgeNotifier.setTransferInProgress(false);
+            return;
+          }
         }
       } catch (e) {
         return;
       }
-      var blockchainTo = ref.read(bridgeFormNotifierProvider).blockchainTo;
-      blockchainTo = blockchainTo!.copyWith(htlcAddress: htlcAEAddress);
-
-      await bridgeNotifier.setBlockchainTo(localizations, blockchainTo);
     }
 
     // 6) Withdraw
