@@ -80,18 +80,19 @@ mixin ArchethicBridgeProcessMixin {
     return archethicHTLCAddress;
   }
 
-  Future<String> deployAEChargeableHTLC(
+  Future<void> deployAEChargeableHTLC(
     WidgetRef ref,
     Digest secretHash,
     double amount,
     int endTime,
     String htlcEVMAddress,
     String txAddress,
+    String htlcAEAddress,
+    String seedSC,
   ) async {
     final bridge = ref.read(bridgeFormNotifierProvider);
     final bridgeNotifier = ref.read(bridgeFormNotifierProvider.notifier);
     final dappClient = await aedappfm.sl.getAsync<awc.ArchethicDAppClient>();
-    late String htlcAddress;
     final resultDeployChargeableHTLCAE =
         await ArchethicContractChargeable().deployChargeableHTLC(
       dappClient,
@@ -108,18 +109,17 @@ mixin ArchethicBridgeProcessMixin {
       bridge.blockchainFrom!.chainId,
       htlcEVMAddress,
       txAddress,
+      htlcAEAddress,
+      seedSC,
     );
     await resultDeployChargeableHTLCAE.map(
-      success: (success) {
-        htlcAddress = success;
-      },
+      success: (success) {},
       failure: (failure) async {
         await bridgeNotifier.setFailure(failure);
         await bridgeNotifier.setTransferInProgress(false);
         throw failure;
       },
     );
-    return htlcAddress;
   }
 
   Future<void> provisionAEHTLC(
@@ -299,9 +299,13 @@ mixin ArchethicBridgeProcessMixin {
         resultMap: true,
       ) as Map<String, dynamic>;
       return (
-        evmHTLCAddress: dataJson['evm_contract']?.toString(),
-        evmPoolAddress: dataJson['evm_pool']?.toString(),
-        aePoolAddress: dataJson['ae_pool']?.toString(),
+        evmHTLCAddress: dataJson['evm_contract'] != null
+            ? '0x${dataJson['evm_contract']!}'
+            : null,
+        evmPoolAddress:
+            dataJson['evm_pool'] != null ? '0x${dataJson['evm_pool']!}' : null,
+        aePoolAddress:
+            dataJson['ae_pool'] != null ? '0x${dataJson['ae_pool']!}' : null,
         statusHTLC:
             dataJson['status'] == null ? null : dataJson['status'] as int
       );
