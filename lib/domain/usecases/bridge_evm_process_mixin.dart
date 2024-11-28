@@ -380,6 +380,14 @@ mixin EVMBridgeProcessMixin {
     required EVMBridgeProcess evmBridgeProcess,
   }) async {
     try {
+      final walletChainId = await evmWalletProvider.getChainId();
+      if (walletChainId != evmWalletProvider.requestedChainId) {
+        throw const aedappfm.Failure.other(
+          cause:
+              "The network configured in your EVM wallet doesn't match the Bridge network. Please change it in your EVM wallet and resume the process.",
+        );
+      }
+
       final transactionHash = await wagmi.Core.writeContract(
         parameters.copyWith(chainId: evmWalletProvider.requestedChainId),
       );
