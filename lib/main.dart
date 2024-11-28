@@ -4,6 +4,7 @@ import 'package:aebridge/application/bridge_blockchain.dart';
 import 'package:aebridge/application/evm_wallet.dart';
 import 'package:aebridge/infrastructure/hive/db_helper.hive.dart';
 import 'package:aebridge/ui/util/router.dart';
+import 'package:aebridge/util/log_level.dart';
 import 'package:aebridge/util/service_locator.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -11,13 +12,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:logging/logging.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  aedappfm.LoggerOutput.setup(level: Level.SEVERE);
+
+  setupLogLevel();
 
   await DBHelper.setupDatabase();
   await setupServiceLocator();
