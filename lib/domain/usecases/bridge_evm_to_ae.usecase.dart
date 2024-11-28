@@ -240,7 +240,6 @@ class BridgeEVMToArchethicUseCase
               info.aePoolAddress != null &&
               info.evmHTLCAddress == null) {
             final apiService = aedappfm.sl.get<ApiService>();
-            print('>>>> wait');
             if (await waitForManualTxConfirmation(
                   htlcAEAddress,
                   2,
