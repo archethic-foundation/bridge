@@ -329,7 +329,7 @@ mixin EVMBridgeProcessMixin {
       }
     } catch (e, stackTrace) {
       aedappfm.sl.get<aedappfm.LogManager>().log(
-            '$e',
+            'address: $address - typeToken $typeToken - decimal $decimal - erc20address $erc20address : $e - chainId ${wagmi.Core.getChainId()}',
             stackTrace: stackTrace,
             level: aedappfm.LogLevel.error,
             name: 'EVMWalletProvider - getBalance',
@@ -364,7 +364,7 @@ mixin EVMBridgeProcessMixin {
       }
     } catch (e, stackTrace) {
       aedappfm.sl.get<aedappfm.LogManager>().log(
-            '$e',
+            'typeToken $typeToken - erc20address $erc20address : $e - chainId ${wagmi.Core.getChainId()}',
             stackTrace: stackTrace,
             level: aedappfm.LogLevel.error,
             name: 'EVMWalletProvider - getTokenDecimals',
@@ -380,7 +380,7 @@ mixin EVMBridgeProcessMixin {
     required EVMBridgeProcess evmBridgeProcess,
   }) async {
     try {
-      final walletChainId = await evmWalletProvider.getChainId();
+      final walletChainId = evmWalletProvider.getChainId();
       if (walletChainId != evmWalletProvider.requestedChainId) {
         throw const aedappfm.Failure.other(
           cause:
@@ -556,6 +556,7 @@ mixin EVMBridgeProcessMixin {
           aedappfm.sl.get<aedappfm.LogManager>().log(
                 'transactionHash: $transactionHash - status true (chainId $chainId)',
                 name: 'EVMBridgeProcessMixin - $fromMethod',
+                level: aedappfm.LogLevel.debug,
               );
 
           switch (evmBridgeProcess) {
@@ -585,6 +586,7 @@ mixin EVMBridgeProcessMixin {
       } on wagmi.WagmiError catch (e) {
         aedappfm.sl.get<aedappfm.LogManager>().log(
               'transactionHash: $transactionHash - not found (chainId $chainId) - $e',
+              level: aedappfm.LogLevel.debug,
               name: 'EVMBridgeProcessMixin - $fromMethod',
             );
         if (e.findError(wagmi.WagmiErrors.TransactionReceiptNotFoundError) ==
