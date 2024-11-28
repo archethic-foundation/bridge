@@ -119,7 +119,7 @@ class EVMWalletProvider with EVMBridgeProcessMixin {
 
   static const _projectId = 'ce9ee3c8e58873e8708247895990bc27';
 
-  Future<int> getChainId() async => wagmi.Core.getChainId();
+  int getChainId() => wagmi.Core.getChainId();
 
   Future<void> _waitForWeb3modalClosing() async {
     _logger.finest('... wait for web3modal closing');
