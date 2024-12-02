@@ -1,3 +1,4 @@
+import 'package:aebridge/application/app_embedded.dart';
 import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/layouts/bridge_evm_sheet.dart';
@@ -16,7 +17,7 @@ class BridgeLinkToWormhole extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
-
+    final isAppEmbedded = ref.watch(isAppEmbeddedProvider);
     final bridge = ref.watch(bridgeFormNotifierProvider);
     final session = ref.watch(sessionNotifierProvider);
 
@@ -34,37 +35,59 @@ class BridgeLinkToWormhole extends ConsumerWidget {
             top: 10,
             bottom: isAppMobileFormat ? 30 : 0,
           ),
-          child: InkWell(
-            onTap: () async {
-              context.go(
-                Uri(
-                  path: BridgeEVMSheet.navPage,
-                  queryParameters: {
-                    'fromNetwork': bridge.blockchainFrom!.wormholeId ?? '',
-                    'toNetwork': bridge.blockchainTo!.wormholeId ?? '',
+          child: isAppEmbedded
+              ? Row(
+                  children: [
+                    Text(
+                      textAlign: isAppMobileFormat ? TextAlign.center : null,
+                      AppLocalizations.of(context)!
+                          .goToEVMBridgeWithBCEmbedded
+                          .replaceFirst(
+                            '%1',
+                            bridge.blockchainFrom!.name,
+                          )
+                          .replaceFirst(
+                            '%2',
+                            bridge.blockchainTo!.name,
+                          ),
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                            color: aedappfm.ArchethicThemeBase.systemWarning500,
+                          ),
+                    ),
+                  ],
+                )
+              : InkWell(
+                  onTap: () async {
+                    context.go(
+                      Uri(
+                        path: BridgeEVMSheet.navPage,
+                        queryParameters: {
+                          'fromNetwork':
+                              bridge.blockchainFrom!.wormholeId ?? '',
+                          'toNetwork': bridge.blockchainTo!.wormholeId ?? '',
+                        },
+                      ).toString(),
+                    );
                   },
-                ).toString(),
-              );
-            },
-            child: Text(
-              textAlign: isAppMobileFormat ? TextAlign.center : null,
-              AppLocalizations.of(context)!
-                  .goToEVMBridgeWithBC
-                  .replaceFirst(
-                    '%1',
-                    bridge.blockchainFrom!.name,
-                  )
-                  .replaceFirst(
-                    '%2',
-                    bridge.blockchainTo!.name,
+                  child: Text(
+                    textAlign: isAppMobileFormat ? TextAlign.center : null,
+                    AppLocalizations.of(context)!
+                        .goToEVMBridgeWithBC
+                        .replaceFirst(
+                          '%1',
+                          bridge.blockchainFrom!.name,
+                        )
+                        .replaceFirst(
+                          '%2',
+                          bridge.blockchainTo!.name,
+                        ),
+                    style: TextStyle(
+                      fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize,
+                      color: aedappfm.AppThemeBase.secondaryColor,
+                      decoration: TextDecoration.underline,
+                    ),
                   ),
-              style: TextStyle(
-                fontSize: Theme.of(context).textTheme.bodyLarge!.fontSize,
-                color: aedappfm.AppThemeBase.secondaryColor,
-                decoration: TextDecoration.underline,
-              ),
-            ),
-          ),
+                ),
         ),
       ],
     );

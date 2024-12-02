@@ -157,8 +157,9 @@ class _BridgeSheetState extends ConsumerState<BridgeSheet> {
                 ),
               ],
             ),
-      afterBottomWidget: processStep == aedappfm.ProcessStep.confirmation &&
-              isAppMobileFormat
+      afterBottomWidget: (processStep == aedappfm.ProcessStep.confirmation &&
+                  isAppMobileFormat) ||
+              isAppEmbedded
           ? null
           : Wrap(
               children: [
