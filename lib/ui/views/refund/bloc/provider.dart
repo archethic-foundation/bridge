@@ -152,8 +152,10 @@ class RefundFormNotifier extends _$RefundFormNotifier {
           case null:
         }
 
-        final symbol = await PoolsRepositoryImpl()
-            .getSymbolFromPoolAddress(chainId, infoResult.aePoolAddress!);
+        final symbol = await PoolsRepositoryImpl().getSymbolFromPoolAddress(
+          chainId,
+          infoResult.aePoolAddress!.replaceAll('0x', ''),
+        );
         if (symbol != null) {
           setAmountCurrency(symbol);
         }
