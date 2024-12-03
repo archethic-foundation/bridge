@@ -153,7 +153,7 @@ class ArchethicContract
           version: blockchainTxVersion,
           data: Transaction.initData(),
         ).addRecipient(
-          infoResult.aePoolAddress!,
+          infoResult.aePoolAddress!.replaceAll('0x', ''),
           action: 'refund',
           args: [
             htlcAddress,
