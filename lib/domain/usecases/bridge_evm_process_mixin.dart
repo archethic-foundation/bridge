@@ -494,6 +494,9 @@ mixin EVMBridgeProcessMixin {
               cause: 'This pool cannot received ethers',
             );
           default:
+            if (errorName.isEmpty && e.cause?.details?['reason'] != null) {
+              throw aedappfm.Failure.other(cause: e.cause?.details?['reason']);
+            }
             throw aedappfm.Failure.other(cause: e.shortMessage);
         }
       }
