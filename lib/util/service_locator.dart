@@ -1,5 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
 import 'package:aebridge/application/evm_wallet.dart';
+import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/infrastructure/hive/db_helper.hive.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
@@ -17,7 +18,7 @@ Future<void> setupServiceLocator() async {
     )
     ..registerLazySingleton<DBHelper>(DBHelper.new)
     ..registerLazySingleton<OracleService>(
-      () => OracleService('https://mainnet.archethic.net'),
+      () => OracleService(kArchethicEndPointMainnet),
     )
     ..registerLazySingleton<aedappfm.LogManager>(() {
       if (Uri.base.toString().toLowerCase().contains('bridge.archethic')) {

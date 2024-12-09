@@ -570,13 +570,13 @@ class RefundFormNotifier extends _$RefundFormNotifier {
         success: (result) async {
           var chainId = 0;
           switch (result.endpointUrl) {
-            case 'https://mainnet.archethic.net':
+            case kArchethicEndPointMainnet:
               chainId = -1;
               break;
-            case 'https://testnet.archethic.net':
+            case kArchethicEndPointTestnet:
               chainId = -2;
               break;
-            case 'http://localhost:4000':
+            case kArchethicEndPointLocalHost:
               chainId = -3;
               break;
             default:

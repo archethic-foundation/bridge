@@ -1,4 +1,4 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'package:aebridge/domain/models/bridge_blockchain_environment.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'state.freezed.dart';
@@ -7,7 +7,9 @@ part 'state.freezed.dart';
 class RefundBlockchainSelectionFormState
     with _$RefundBlockchainSelectionFormState {
   const factory RefundBlockchainSelectionFormState({
-    @Default(false) bool isTestnetSelected,
+    @Default(false) bool isTestnetIncludedComponentDisplayed,
+    @Default(false) bool testnetIncluded,
+    BridgeBlockchainEnvironment? archethicEnvironment,
   }) = _RefundBlockchainSelectionFormState;
   const RefundBlockchainSelectionFormState._();
 }

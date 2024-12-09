@@ -15,19 +15,25 @@ class BlockchainTestnetIncludedSwitch extends ConsumerWidget {
     WidgetRef ref,
   ) {
     final blockchainSelectionNotifier = ref.watch(
-      BlockchainSelectionFormProvider.blockchainSelectionForm.notifier,
+      blockchainSelectionFormNotifierProvider.notifier,
     );
 
     final blockchainSelectionProvider =
-        ref.watch(BlockchainSelectionFormProvider.blockchainSelectionForm);
-    final thumbIcon = WidgetStateProperty.resolveWith<Icon?>(
-      (Set<WidgetState> states) {
-        if (states.contains(WidgetState.selected)) {
-          return const Icon(Icons.check);
-        }
-        return const Icon(Icons.close);
-      },
-    );
+        ref.watch(blockchainSelectionFormNotifierProvider);
+    if (blockchainSelectionProvider is AsyncLoading) {
+      return const CircularProgressIndicator();
+    } else if (blockchainSelectionProvider is AsyncError) {
+      return Text('Error: ${blockchainSelectionProvider.error}');
+    }
+
+    final blockchainSelectionData = blockchainSelectionProvider.valueOrNull;
+
+    if (blockchainSelectionData != null &&
+        blockchainSelectionData.isTestnetIncludedComponentDisplayed == false) {
+      return const SizedBox.shrink();
+    }
+
+    final testnetIncluded = blockchainSelectionData?.testnetIncluded ?? false;
 
     return Padding(
       padding: const EdgeInsets.only(left: 16),
@@ -46,8 +52,15 @@ class BlockchainTestnetIncludedSwitch extends ConsumerWidget {
                 child: FittedBox(
                   fit: BoxFit.fill,
                   child: Switch(
-                    thumbIcon: thumbIcon,
-                    value: blockchainSelectionProvider.testnetIncluded,
+                    thumbIcon: WidgetStateProperty.resolveWith<Icon?>(
+                      (Set<WidgetState> states) {
+                        if (states.contains(WidgetState.selected)) {
+                          return const Icon(Icons.check);
+                        }
+                        return const Icon(Icons.close);
+                      },
+                    ),
+                    value: testnetIncluded,
                     onChanged: blockchainSelectionNotifier.setTestnetIncluded,
                   ),
                 ),

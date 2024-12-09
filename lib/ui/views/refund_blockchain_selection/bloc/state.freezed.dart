@@ -16,7 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$RefundBlockchainSelectionFormState {
-  bool get isTestnetSelected => throw _privateConstructorUsedError;
+  bool get isTestnetIncludedComponentDisplayed =>
+      throw _privateConstructorUsedError;
+  bool get testnetIncluded => throw _privateConstructorUsedError;
+  BridgeBlockchainEnvironment? get archethicEnvironment =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of RefundBlockchainSelectionFormState
   /// with the given fields replaced by the non-null parameter values.
@@ -34,7 +38,10 @@ abstract class $RefundBlockchainSelectionFormStateCopyWith<$Res> {
       _$RefundBlockchainSelectionFormStateCopyWithImpl<$Res,
           RefundBlockchainSelectionFormState>;
   @useResult
-  $Res call({bool isTestnetSelected});
+  $Res call(
+      {bool isTestnetIncludedComponentDisplayed,
+      bool testnetIncluded,
+      BridgeBlockchainEnvironment? archethicEnvironment});
 }
 
 /// @nodoc
@@ -53,13 +60,24 @@ class _$RefundBlockchainSelectionFormStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isTestnetSelected = null,
+    Object? isTestnetIncludedComponentDisplayed = null,
+    Object? testnetIncluded = null,
+    Object? archethicEnvironment = freezed,
   }) {
     return _then(_value.copyWith(
-      isTestnetSelected: null == isTestnetSelected
-          ? _value.isTestnetSelected
-          : isTestnetSelected // ignore: cast_nullable_to_non_nullable
+      isTestnetIncludedComponentDisplayed: null ==
+              isTestnetIncludedComponentDisplayed
+          ? _value.isTestnetIncludedComponentDisplayed
+          : isTestnetIncludedComponentDisplayed // ignore: cast_nullable_to_non_nullable
               as bool,
+      testnetIncluded: null == testnetIncluded
+          ? _value.testnetIncluded
+          : testnetIncluded // ignore: cast_nullable_to_non_nullable
+              as bool,
+      archethicEnvironment: freezed == archethicEnvironment
+          ? _value.archethicEnvironment
+          : archethicEnvironment // ignore: cast_nullable_to_non_nullable
+              as BridgeBlockchainEnvironment?,
     ) as $Val);
   }
 }
@@ -73,7 +91,10 @@ abstract class _$$RefundBlockchainSelectionFormStateImplCopyWith<$Res>
       __$$RefundBlockchainSelectionFormStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool isTestnetSelected});
+  $Res call(
+      {bool isTestnetIncludedComponentDisplayed,
+      bool testnetIncluded,
+      BridgeBlockchainEnvironment? archethicEnvironment});
 }
 
 /// @nodoc
@@ -91,13 +112,24 @@ class __$$RefundBlockchainSelectionFormStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? isTestnetSelected = null,
+    Object? isTestnetIncludedComponentDisplayed = null,
+    Object? testnetIncluded = null,
+    Object? archethicEnvironment = freezed,
   }) {
     return _then(_$RefundBlockchainSelectionFormStateImpl(
-      isTestnetSelected: null == isTestnetSelected
-          ? _value.isTestnetSelected
-          : isTestnetSelected // ignore: cast_nullable_to_non_nullable
+      isTestnetIncludedComponentDisplayed: null ==
+              isTestnetIncludedComponentDisplayed
+          ? _value.isTestnetIncludedComponentDisplayed
+          : isTestnetIncludedComponentDisplayed // ignore: cast_nullable_to_non_nullable
               as bool,
+      testnetIncluded: null == testnetIncluded
+          ? _value.testnetIncluded
+          : testnetIncluded // ignore: cast_nullable_to_non_nullable
+              as bool,
+      archethicEnvironment: freezed == archethicEnvironment
+          ? _value.archethicEnvironment
+          : archethicEnvironment // ignore: cast_nullable_to_non_nullable
+              as BridgeBlockchainEnvironment?,
     ));
   }
 }
@@ -107,16 +139,23 @@ class __$$RefundBlockchainSelectionFormStateImplCopyWithImpl<$Res>
 class _$RefundBlockchainSelectionFormStateImpl
     extends _RefundBlockchainSelectionFormState {
   const _$RefundBlockchainSelectionFormStateImpl(
-      {this.isTestnetSelected = false})
+      {this.isTestnetIncludedComponentDisplayed = false,
+      this.testnetIncluded = false,
+      this.archethicEnvironment})
       : super._();
 
   @override
   @JsonKey()
-  final bool isTestnetSelected;
+  final bool isTestnetIncludedComponentDisplayed;
+  @override
+  @JsonKey()
+  final bool testnetIncluded;
+  @override
+  final BridgeBlockchainEnvironment? archethicEnvironment;
 
   @override
   String toString() {
-    return 'RefundBlockchainSelectionFormState(isTestnetSelected: $isTestnetSelected)';
+    return 'RefundBlockchainSelectionFormState(isTestnetIncludedComponentDisplayed: $isTestnetIncludedComponentDisplayed, testnetIncluded: $testnetIncluded, archethicEnvironment: $archethicEnvironment)';
   }
 
   @override
@@ -124,12 +163,22 @@ class _$RefundBlockchainSelectionFormStateImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RefundBlockchainSelectionFormStateImpl &&
-            (identical(other.isTestnetSelected, isTestnetSelected) ||
-                other.isTestnetSelected == isTestnetSelected));
+            (identical(other.isTestnetIncludedComponentDisplayed,
+                    isTestnetIncludedComponentDisplayed) ||
+                other.isTestnetIncludedComponentDisplayed ==
+                    isTestnetIncludedComponentDisplayed) &&
+            (identical(other.testnetIncluded, testnetIncluded) ||
+                other.testnetIncluded == testnetIncluded) &&
+            (identical(other.archethicEnvironment, archethicEnvironment) ||
+                other.archethicEnvironment == archethicEnvironment));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, isTestnetSelected);
+  int get hashCode => Object.hash(
+      runtimeType,
+      isTestnetIncludedComponentDisplayed,
+      testnetIncluded,
+      archethicEnvironment);
 
   /// Create a copy of RefundBlockchainSelectionFormState
   /// with the given fields replaced by the non-null parameter values.
@@ -145,12 +194,18 @@ class _$RefundBlockchainSelectionFormStateImpl
 abstract class _RefundBlockchainSelectionFormState
     extends RefundBlockchainSelectionFormState {
   const factory _RefundBlockchainSelectionFormState(
-          {final bool isTestnetSelected}) =
+          {final bool isTestnetIncludedComponentDisplayed,
+          final bool testnetIncluded,
+          final BridgeBlockchainEnvironment? archethicEnvironment}) =
       _$RefundBlockchainSelectionFormStateImpl;
   const _RefundBlockchainSelectionFormState._() : super._();
 
   @override
-  bool get isTestnetSelected;
+  bool get isTestnetIncludedComponentDisplayed;
+  @override
+  bool get testnetIncluded;
+  @override
+  BridgeBlockchainEnvironment? get archethicEnvironment;
 
   /// Create a copy of RefundBlockchainSelectionFormState
   /// with the given fields replaced by the non-null parameter values.
