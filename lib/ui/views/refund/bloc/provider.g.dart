@@ -7,7 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$refundFormNotifierHash() =>
-    r'8c4577d4ce804d8b9cc5c4655af92ad5a3c573e8';
+    r'd21448e0b358e496b7455e37999b6bbdf325e1c9';
 
 /// See also [RefundFormNotifier].
 @ProviderFor(RefundFormNotifier)

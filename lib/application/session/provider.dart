@@ -21,6 +21,10 @@ import 'package:wagmi_flutter_web/wagmi_flutter_web.dart' as wagmi;
 
 part 'provider.g.dart';
 
+const kArchethicEndPointMainnet = 'https://mainnet.archethic.net';
+const kArchethicEndPointTestnet = 'https://testnet.archethic.net';
+const kArchethicEndPointLocalHost = 'http://localhost:4000';
+
 @Riverpod(keepAlive: true)
 class SessionNotifier extends _$SessionNotifier {
   StreamSubscription? _archethicConnectionStatusSubscription;
@@ -156,7 +160,7 @@ class SessionNotifier extends _$SessionNotifier {
         success: (result) async {
           switch (blockchain.env) {
             case BridgeBlockchainEnvironment.mainnet:
-              if (result.endpointUrl != 'https://mainnet.archethic.net') {
+              if (result.endpointUrl != kArchethicEndPointMainnet) {
                 bridgeWallet = bridgeWallet.copyWith(
                   isConnected: false,
                   error: localizations.failureConnectivityArchethicMainnet,
@@ -166,7 +170,7 @@ class SessionNotifier extends _$SessionNotifier {
               }
               break;
             case BridgeBlockchainEnvironment.testnet:
-              if (result.endpointUrl != 'https://testnet.archethic.net') {
+              if (result.endpointUrl != kArchethicEndPointTestnet) {
                 bridgeWallet = bridgeWallet.copyWith(
                   isConnected: false,
                   error: localizations.failureConnectivityArchethicTestnet,
@@ -176,8 +180,8 @@ class SessionNotifier extends _$SessionNotifier {
               }
               break;
             case BridgeBlockchainEnvironment.devnet:
-              if (result.endpointUrl == 'https://testnet.archethic.net' ||
-                  result.endpointUrl == 'https://mainnet.archethic.net') {
+              if (result.endpointUrl == kArchethicEndPointTestnet ||
+                  result.endpointUrl == kArchethicEndPointMainnet) {
                 bridgeWallet = bridgeWallet.copyWith(
                   isConnected: false,
                   error: localizations.failureConnectivityArchethicDevnet,

@@ -23,17 +23,33 @@ class BridgeBlockchainList extends ConsumerWidget {
       getBlockchainsListProvider,
     );
     final blockchainSelectionProvider = ref.watch(
-      BlockchainSelectionFormProvider.blockchainSelectionForm,
+      blockchainSelectionFormNotifierProvider,
     );
 
     return SizedBox(
-      child: blockchains.map(
+      child: blockchains.when(
         data: (data) {
-          final filteredChains = [...data.value];
-          if (blockchainSelectionProvider.testnetIncluded == false) {
+          final filteredChains = List.of(data);
+
+          final archethicEnvironment = blockchainSelectionProvider.maybeWhen(
+            data: (state) => state.archethicEnvironment,
+            orElse: () => null,
+          );
+          if (archethicEnvironment != null) {
             filteredChains.removeWhere(
-              (element) => element.env != BridgeBlockchainEnvironment.mainnet,
+              (element) => element.env != archethicEnvironment,
             );
+          } else {
+            final testnetIncluded = blockchainSelectionProvider.maybeWhen(
+              data: (state) => state.testnetIncluded,
+              orElse: () => true,
+            );
+
+            if (testnetIncluded == false) {
+              filteredChains.removeWhere(
+                (element) => element.env != BridgeBlockchainEnvironment.mainnet,
+              );
+            }
           }
 
           final otherBlockchain = isFrom
@@ -56,10 +72,10 @@ class BridgeBlockchainList extends ConsumerWidget {
 
           return _BlockchainsList(blockchains: filteredChains);
         },
-        error: (error) => const SizedBox(
+        error: (error, stackTrace) => const SizedBox(
           height: 300,
         ),
-        loading: (loading) => const Stack(
+        loading: () => const Stack(
           children: [
             SizedBox(
               height: 300,

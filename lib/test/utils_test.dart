@@ -4,6 +4,7 @@ library test.utils_test;
 
 import 'dart:developer';
 
+import 'package:aebridge/application/session/provider.dart';
 import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/domain/models/bridge_token.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
@@ -47,7 +48,7 @@ void main() {
             'isArchethic': true,
             'archethicFactoryAddress':
                 '0000eeb877e7a3ffd7e81f9a1c4d5eedde7f881866c3154b99b78a9a54e3dfbdccd9',
-            'providerEndpoint': 'https://mainnet.archethic.net',
+            'providerEndpoint': kArchethicEndPointMainnet,
             'nativeCurrency': 'UCO',
           },
         ),

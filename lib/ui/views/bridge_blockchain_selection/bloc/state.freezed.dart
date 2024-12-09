@@ -16,7 +16,11 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$BridgeBlockchainSelectionFormState {
+  bool get isTestnetIncludedComponentDisplayed =>
+      throw _privateConstructorUsedError;
   bool get testnetIncluded => throw _privateConstructorUsedError;
+  BridgeBlockchainEnvironment? get archethicEnvironment =>
+      throw _privateConstructorUsedError;
 
   /// Create a copy of BridgeBlockchainSelectionFormState
   /// with the given fields replaced by the non-null parameter values.
@@ -34,7 +38,10 @@ abstract class $BridgeBlockchainSelectionFormStateCopyWith<$Res> {
       _$BridgeBlockchainSelectionFormStateCopyWithImpl<$Res,
           BridgeBlockchainSelectionFormState>;
   @useResult
-  $Res call({bool testnetIncluded});
+  $Res call(
+      {bool isTestnetIncludedComponentDisplayed,
+      bool testnetIncluded,
+      BridgeBlockchainEnvironment? archethicEnvironment});
 }
 
 /// @nodoc
@@ -53,13 +60,24 @@ class _$BridgeBlockchainSelectionFormStateCopyWithImpl<$Res,
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? isTestnetIncludedComponentDisplayed = null,
     Object? testnetIncluded = null,
+    Object? archethicEnvironment = freezed,
   }) {
     return _then(_value.copyWith(
+      isTestnetIncludedComponentDisplayed: null ==
+              isTestnetIncludedComponentDisplayed
+          ? _value.isTestnetIncludedComponentDisplayed
+          : isTestnetIncludedComponentDisplayed // ignore: cast_nullable_to_non_nullable
+              as bool,
       testnetIncluded: null == testnetIncluded
           ? _value.testnetIncluded
           : testnetIncluded // ignore: cast_nullable_to_non_nullable
               as bool,
+      archethicEnvironment: freezed == archethicEnvironment
+          ? _value.archethicEnvironment
+          : archethicEnvironment // ignore: cast_nullable_to_non_nullable
+              as BridgeBlockchainEnvironment?,
     ) as $Val);
   }
 }
@@ -73,7 +91,10 @@ abstract class _$$BridgeBlockchainSelectionFormStateImplCopyWith<$Res>
       __$$BridgeBlockchainSelectionFormStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool testnetIncluded});
+  $Res call(
+      {bool isTestnetIncludedComponentDisplayed,
+      bool testnetIncluded,
+      BridgeBlockchainEnvironment? archethicEnvironment});
 }
 
 /// @nodoc
@@ -91,13 +112,24 @@ class __$$BridgeBlockchainSelectionFormStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? isTestnetIncludedComponentDisplayed = null,
     Object? testnetIncluded = null,
+    Object? archethicEnvironment = freezed,
   }) {
     return _then(_$BridgeBlockchainSelectionFormStateImpl(
+      isTestnetIncludedComponentDisplayed: null ==
+              isTestnetIncludedComponentDisplayed
+          ? _value.isTestnetIncludedComponentDisplayed
+          : isTestnetIncludedComponentDisplayed // ignore: cast_nullable_to_non_nullable
+              as bool,
       testnetIncluded: null == testnetIncluded
           ? _value.testnetIncluded
           : testnetIncluded // ignore: cast_nullable_to_non_nullable
               as bool,
+      archethicEnvironment: freezed == archethicEnvironment
+          ? _value.archethicEnvironment
+          : archethicEnvironment // ignore: cast_nullable_to_non_nullable
+              as BridgeBlockchainEnvironment?,
     ));
   }
 }
@@ -106,16 +138,24 @@ class __$$BridgeBlockchainSelectionFormStateImplCopyWithImpl<$Res>
 
 class _$BridgeBlockchainSelectionFormStateImpl
     extends _BridgeBlockchainSelectionFormState {
-  const _$BridgeBlockchainSelectionFormStateImpl({this.testnetIncluded = false})
+  const _$BridgeBlockchainSelectionFormStateImpl(
+      {this.isTestnetIncludedComponentDisplayed = false,
+      this.testnetIncluded = false,
+      this.archethicEnvironment})
       : super._();
 
   @override
   @JsonKey()
+  final bool isTestnetIncludedComponentDisplayed;
+  @override
+  @JsonKey()
   final bool testnetIncluded;
+  @override
+  final BridgeBlockchainEnvironment? archethicEnvironment;
 
   @override
   String toString() {
-    return 'BridgeBlockchainSelectionFormState(testnetIncluded: $testnetIncluded)';
+    return 'BridgeBlockchainSelectionFormState(isTestnetIncludedComponentDisplayed: $isTestnetIncludedComponentDisplayed, testnetIncluded: $testnetIncluded, archethicEnvironment: $archethicEnvironment)';
   }
 
   @override
@@ -123,12 +163,22 @@ class _$BridgeBlockchainSelectionFormStateImpl
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BridgeBlockchainSelectionFormStateImpl &&
+            (identical(other.isTestnetIncludedComponentDisplayed,
+                    isTestnetIncludedComponentDisplayed) ||
+                other.isTestnetIncludedComponentDisplayed ==
+                    isTestnetIncludedComponentDisplayed) &&
             (identical(other.testnetIncluded, testnetIncluded) ||
-                other.testnetIncluded == testnetIncluded));
+                other.testnetIncluded == testnetIncluded) &&
+            (identical(other.archethicEnvironment, archethicEnvironment) ||
+                other.archethicEnvironment == archethicEnvironment));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, testnetIncluded);
+  int get hashCode => Object.hash(
+      runtimeType,
+      isTestnetIncludedComponentDisplayed,
+      testnetIncluded,
+      archethicEnvironment);
 
   /// Create a copy of BridgeBlockchainSelectionFormState
   /// with the given fields replaced by the non-null parameter values.
@@ -144,11 +194,18 @@ class _$BridgeBlockchainSelectionFormStateImpl
 abstract class _BridgeBlockchainSelectionFormState
     extends BridgeBlockchainSelectionFormState {
   const factory _BridgeBlockchainSelectionFormState(
-      {final bool testnetIncluded}) = _$BridgeBlockchainSelectionFormStateImpl;
+          {final bool isTestnetIncludedComponentDisplayed,
+          final bool testnetIncluded,
+          final BridgeBlockchainEnvironment? archethicEnvironment}) =
+      _$BridgeBlockchainSelectionFormStateImpl;
   const _BridgeBlockchainSelectionFormState._() : super._();
 
   @override
+  bool get isTestnetIncludedComponentDisplayed;
+  @override
   bool get testnetIncluded;
+  @override
+  BridgeBlockchainEnvironment? get archethicEnvironment;
 
   /// Create a copy of BridgeBlockchainSelectionFormState
   /// with the given fields replaced by the non-null parameter values.
