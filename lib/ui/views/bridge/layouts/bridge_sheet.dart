@@ -103,6 +103,7 @@ class _BridgeSheetState extends ConsumerState<BridgeSheet> {
                       },
                       child: Text(
                         AppLocalizations.of(context)!.havingTrouble,
+                        textAlign: TextAlign.end,
                         style: TextStyle(
                           fontSize:
                               Theme.of(context).textTheme.bodyLarge!.fontSize,
@@ -144,7 +145,7 @@ class _BridgeSheetState extends ConsumerState<BridgeSheet> {
                     AppLocalizations.of(context)!.havingTrouble,
                     style: TextStyle(
                       fontSize:
-                          Theme.of(context).textTheme.labelSmall!.fontSize,
+                          Theme.of(context).textTheme.labelLarge!.fontSize,
                       color: aedappfm.AppThemeBase.secondaryColor,
                       decoration: TextDecoration.underline,
                     ),
