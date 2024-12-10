@@ -165,7 +165,7 @@
     "warningBalanceUCOTooLow": "Warning! Please note that your UCO balance is not sufficient to pay the bridge transaction fees. Please add UCOs to your Archethic wallet first.",
     "infoBalanceUCOZero": "To help you join the Archethic ecosystem, we're offering you free Archethic transaction fees. For security reasons, this will require your signature while the process.",
     "maintenanceInfo": "aeBridge is currently undergoing maintenance to improve your experience.\nWe apologize for the inconvenience.\nPlease try again later.\nThank you for your understanding.",
-    "havingTrouble": "Any trouble?",
+    "havingTrouble": "Do you want to resume or refund a bridge ?\nAny questions ? ",
     "havingTroubleHeader": "Any trouble?",
     "troubleItem1Title": "Got questions?",
     "troubleItem1Desc": "Explore our FAQ for quick answers.",
