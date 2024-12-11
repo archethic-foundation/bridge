@@ -9,6 +9,7 @@ import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_confirm_sheet_fees.dart';
 import 'package:aebridge/ui/views/bridge/layouts/components/bridge_in_progress_popup.dart';
 import 'package:aebridge/ui/views/util/consent_uri.dart';
+import 'package:aebridge/ui/views/util/trust_wallet_warning.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/material.dart';
@@ -171,6 +172,7 @@ class BridgeConfirmSheetState extends ConsumerState<BridgeConfirmSheet> {
         const SizedBox(
           height: 10,
         ),
+        const TrustWalletWarning(),
         const Spacer(),
         if (bridge.consentDateTime == null)
           Expanded(

@@ -1,7 +1,6 @@
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
-import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -28,7 +27,7 @@ class BridgeUCOV1Warning extends ConsumerWidget {
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Wrap(
         children: [
-          BlockInfo(
+          aedappfm.BlockInfo(
             width: aedappfm.AppThemeBase.sizeBoxComponentWidth,
             height: 200,
             info: Column(
