@@ -8,6 +8,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ArchethicContractChargeable with aedappfm.TransactionMixin {
@@ -16,6 +17,7 @@ class ArchethicContractChargeable with aedappfm.TransactionMixin {
   Future<aedappfm.Result<void, aedappfm.Failure>> deployChargeableHTLC(
     awc.ArchethicDAppClient dappClient,
     WidgetRef ref,
+    AppLocalizations localizations,
     String factoryAddress,
     String poolAddress,
     String userAddress,
@@ -70,6 +72,7 @@ class ArchethicContractChargeable with aedappfm.TransactionMixin {
         final resultDeployHTLC = await ArchethicContract().deployHTLC(
           dappClient,
           ref,
+          localizations,
           recipient,
           code.toString(),
           htlcGenesisAddress,
@@ -90,6 +93,7 @@ class ArchethicContractChargeable with aedappfm.TransactionMixin {
       revealSecretToChargeableHTLC(
     awc.ArchethicDAppClient dappClient,
     WidgetRef ref,
+    AppLocalizations localizations,
     String userGenesisAddress,
     String currentNameAccount,
     String htlcAddress,
@@ -151,6 +155,9 @@ class ArchethicContractChargeable with aedappfm.TransactionMixin {
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transaction],
+          description: {
+            'en': localizations.aeSignTxDesc1,
+          },
         ))
             .first;
         await bridgeNotifier.setWalletConfirmation(null);

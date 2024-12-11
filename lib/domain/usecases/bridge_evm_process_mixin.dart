@@ -219,6 +219,7 @@ mixin EVMBridgeProcessMixin {
 
   Future<void> revealEVMSecret(
     WidgetRef ref,
+    AppLocalizations localizations,
     String htlcAddress,
     Uint8List secret,
     double amount,
@@ -232,6 +233,7 @@ mixin EVMBridgeProcessMixin {
         await ArchethicContractChargeable().revealSecretToChargeableHTLC(
       dappClient,
       ref,
+      localizations,
       walletTo!.genesisAddress,
       walletTo.nameAccount,
       htlcAddress,

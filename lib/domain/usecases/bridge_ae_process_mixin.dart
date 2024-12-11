@@ -44,6 +44,7 @@ mixin ArchethicBridgeProcessMixin {
 
   Future<String> deployAESignedHTLC(
     WidgetRef ref,
+    AppLocalizations localizations,
     String htlcAEAddress,
     String seedHTLC,
   ) async {
@@ -57,6 +58,7 @@ mixin ArchethicBridgeProcessMixin {
         await ArchethicContractSigned().deploySignedHTLC(
       dappClient,
       ref,
+      localizations,
       htlcAEAddress,
       seedHTLC,
       bridge.blockchainFrom!.archethicFactoryAddress!,
@@ -82,6 +84,7 @@ mixin ArchethicBridgeProcessMixin {
 
   Future<void> deployAEChargeableHTLC(
     WidgetRef ref,
+    AppLocalizations localizations,
     Digest secretHash,
     double amount,
     int endTime,
@@ -97,6 +100,7 @@ mixin ArchethicBridgeProcessMixin {
         await ArchethicContractChargeable().deployChargeableHTLC(
       dappClient,
       ref,
+      localizations,
       bridge.blockchainTo!.archethicFactoryAddress!,
       bridge.tokenToBridge!.poolAddressTo,
       bridge.targetAddress,
@@ -124,6 +128,7 @@ mixin ArchethicBridgeProcessMixin {
 
   Future<void> provisionAEHTLC(
     WidgetRef ref,
+    AppLocalizations localizations,
     String htlcGenesisAddress,
   ) async {
     final bridge = ref.read(bridgeFormNotifierProvider);
@@ -136,6 +141,7 @@ mixin ArchethicBridgeProcessMixin {
         await ArchethicContractSigned().provisionSignedHTLC(
       dappClient,
       ref,
+      localizations,
       bridge.tokenToBridgeAmount,
       bridge.tokenToBridge!.tokenAddressSource,
       bridge.tokenToBridge!.poolAddressFrom,
@@ -200,6 +206,7 @@ mixin ArchethicBridgeProcessMixin {
 
   Future<void> requestAESecretFromLP(
     WidgetRef ref,
+    AppLocalizations localizations,
     String htlcAddress,
     String htlcEVMAddress,
     String txAddress,
@@ -213,6 +220,7 @@ mixin ArchethicBridgeProcessMixin {
         await ArchethicContractSigned().requestSecretFromSignedHTLC(
       dappClient,
       ref,
+      localizations,
       walletFrom!.nameAccount,
       htlcAddress,
       bridge.tokenToBridge!.poolAddressFrom,

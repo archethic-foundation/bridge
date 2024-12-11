@@ -8,6 +8,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ArchethicContractSigned with aedappfm.TransactionMixin {
@@ -16,6 +17,7 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
   Future<aedappfm.Result<String, aedappfm.Failure>> deploySignedHTLC(
     awc.ArchethicDAppClient dappClient,
     WidgetRef ref,
+    AppLocalizations localizations,
     String htlcGenesisAddress,
     String seedSC,
     String factoryAddress,
@@ -47,6 +49,7 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
         final resultDeploy = await ArchethicContract().deployHTLC(
           dappClient,
           ref,
+          localizations,
           null,
           code.toString(),
           htlcGenesisAddress,
@@ -68,6 +71,7 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
   Future<aedappfm.Result<void, aedappfm.Failure>> provisionSignedHTLC(
     awc.ArchethicDAppClient dappClient,
     WidgetRef ref,
+    AppLocalizations localizations,
     double amount,
     String tokenAddress,
     String poolAddress,
@@ -133,6 +137,9 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionTransfer],
+          description: {
+            'en': localizations.aeSignTxDesc2,
+          },
         ))
             .first;
         await bridgeNotifier.setWalletConfirmation(null);
@@ -150,6 +157,7 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
   Future<aedappfm.Result<String, aedappfm.Failure>> requestSecretFromSignedHTLC(
     awc.ArchethicDAppClient dappClient,
     WidgetRef ref,
+    AppLocalizations localizations,
     String currentNameAccount,
     String htlcAddress,
     String poolAddress,
@@ -187,6 +195,9 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transaction],
+          description: {
+            'en': localizations.aeSignTxDesc3,
+          },
         ))
             .first;
         await bridgeNotifier.setWalletConfirmation(null);

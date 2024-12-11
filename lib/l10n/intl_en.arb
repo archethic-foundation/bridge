@@ -193,5 +193,10 @@
     "mobileInfoTxt3": "2. Use our application within your Archethic wallet version 4 on iOS or Android, Bridge tab.",
     "mobileInfoTxt4": "Please note that updates for mobile compatibility are coming soon.",
     "mobileInfoTxt5": "Thank you for your understanding.",
-    "btn_close": "Close"
+    "btn_close": "Close",
+    "aeSignTxDesc1": "This action reveals the secret required to securely unlock funds on both chains, ensuring the finality and symmetry of the bridge.",
+    "aeSignTxDesc2": "This action allows transferring the bridged value into a contract and calling the smart contract to initiate the secure bridging process.",
+    "aeSignTxDesc3": "This action reveals the secret required to securely unlock funds on both chains, ensuring the finality and symmetry of the bridge.",
+    "aeSignTxDesc4": "This action allows funds to be sent to the smart contract, enabling its execution and ensuring the secure processing of the bridge",
+    "aeSignTxDesc5": "This action allows you to execute the refund of your funds."
 }
