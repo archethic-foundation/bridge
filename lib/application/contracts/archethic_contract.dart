@@ -13,6 +13,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:decimal/decimal.dart';
+import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class ArchethicContract
@@ -34,6 +35,7 @@ class ArchethicContract
   Future<aedappfm.Result<void, aedappfm.Failure>> deployHTLC(
     awc.ArchethicDAppClient dappClient,
     WidgetRef ref,
+    AppLocalizations localizations,
     Recipient? recipient,
     String code,
     String htlcGenesisAddress,
@@ -122,6 +124,9 @@ class ArchethicContract
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transactionTransfer],
+          description: {
+            'en': localizations.aeSignTxDesc4,
+          },
         ))
             .first;
         await bridgeNotifier.setWalletConfirmation(null);
@@ -136,6 +141,7 @@ class ArchethicContract
   Future<aedappfm.Result<String, aedappfm.Failure>> refund(
     awc.ArchethicDAppClient dappClient,
     WidgetRef ref,
+    AppLocalizations localizations,
     String currentNameAccount,
     String htlcAddress,
   ) async {
@@ -169,6 +175,9 @@ class ArchethicContract
           Uri.encodeFull('archethic-wallet-$currentNameAccount'),
           '',
           [transaction],
+          description: {
+            'en': localizations.aeSignTxDesc5,
+          },
         ))
             .first;
         refundNotifier.setWalletConfirmation(null);

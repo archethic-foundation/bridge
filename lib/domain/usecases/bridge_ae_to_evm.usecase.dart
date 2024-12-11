@@ -59,6 +59,7 @@ class BridgeArchethicToEVMUseCase
         await bridgeNotifier.setCurrentStep(1);
         await deployAESignedHTLC(
           ref,
+          localizations,
           htlcAEAddress,
           seedHTLC!,
         );
@@ -78,6 +79,7 @@ class BridgeArchethicToEVMUseCase
         await bridgeNotifier.setCurrentStep(2);
         await provisionAEHTLC(
           ref,
+          localizations,
           htlcAEAddress,
         );
 
@@ -250,6 +252,7 @@ class BridgeArchethicToEVMUseCase
         if (info.statusHTLC != 1) {
           await requestAESecretFromLP(
             ref,
+            localizations,
             htlcAEAddress,
             htlcEVMAddress!,
             htlcEVMTxAddress!,

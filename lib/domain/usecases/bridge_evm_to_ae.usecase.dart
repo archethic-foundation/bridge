@@ -275,6 +275,7 @@ class BridgeEVMToArchethicUseCase
 
           await deployAEChargeableHTLC(
             ref,
+            localizations,
             secretHash,
             amount,
             endTime!,
@@ -405,6 +406,7 @@ class BridgeEVMToArchethicUseCase
         }
         await revealEVMSecret(
           ref,
+          localizations,
           htlcAEAddress!,
           secret,
           amount,

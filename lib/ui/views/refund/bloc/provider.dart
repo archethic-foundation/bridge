@@ -474,7 +474,11 @@ class RefundFormNotifier extends _$RefundFormNotifier {
     return controlAddress.result;
   }
 
-  Future<void> refund(BuildContext context, WidgetRef ref) async {
+  Future<void> refund(
+    BuildContext context,
+    WidgetRef ref,
+    AppLocalizations localizations,
+  ) async {
     //
     if (state.chainId == null) {
       return;
@@ -491,8 +495,12 @@ class RefundFormNotifier extends _$RefundFormNotifier {
       case AddressType.archethic:
         final dappClient =
             await aedappfm.sl.getAsync<awc.ArchethicDAppClient>();
-        await RefundArchethicCase(dappClient: dappClient)
-            .run(ref, state.wallet!.nameAccount, state.htlcAddressFilled);
+        await RefundArchethicCase(dappClient: dappClient).run(
+          ref,
+          localizations,
+          state.wallet!.nameAccount,
+          state.htlcAddressFilled,
+        );
         break;
       case null:
         break;
