@@ -14,6 +14,7 @@ import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutte
 import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:go_router/go_router.dart';
 
 class BridgeSheet extends ConsumerStatefulWidget {
@@ -69,6 +70,44 @@ class _BridgeSheetState extends ConsumerState<BridgeSheet> {
             if (isAppMobileFormat == false)
               const SizedBox(
                 height: 10,
+              ),
+            if (isAppEmbedded && processStep == aedappfm.ProcessStep.form)
+              Row(
+                children: [
+                  Text(
+                    '${AppLocalizations.of(context)!.aeBridgeProvidedBy} ',
+                    style: Theme.of(context).textTheme.labelLarge,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 3),
+                    child: SvgPicture.asset(
+                      'assets/images/AELogo.svg',
+                      height: 12,
+                    ),
+                  ),
+                  Stack(
+                    alignment: Alignment.centerRight,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Text(
+                          ' bêta',
+                          style: Theme.of(context)
+                              .textTheme
+                              .labelSmall!
+                              .copyWith(fontSize: 10),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 25),
+                        child: Text(
+                          ' aeBridge',
+                          style: Theme.of(context).textTheme.labelLarge,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             if (isAppMobileFormat == false ||
                 (isAppMobileFormat && processStep == aedappfm.ProcessStep.form))
