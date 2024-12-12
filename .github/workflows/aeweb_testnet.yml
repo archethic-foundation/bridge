@@ -2,8 +2,7 @@ on:
   push:
     branches:
       - testnet
-      - 232-trust-wallet---inform-user-to-activate-eth_sign-option-to-allow-transaction-signature-from-mobile-app
-
+ 
 jobs:
   deploy_to_aeHosting:
     runs-on: ubuntu-latest
