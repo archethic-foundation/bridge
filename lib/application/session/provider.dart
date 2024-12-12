@@ -77,7 +77,7 @@ class SessionNotifier extends _$SessionNotifier {
           }
 
           aedappfm.sl.get<aedappfm.LogManager>().log(
-                'evmWalletProvider.walletConnector.id ${evmWalletProvider.walletConnector?.id}',
+                'evmWalletProvider.walletConnector id:${evmWalletProvider.walletConnector?.id}, name:${evmWalletProvider.walletConnector?.name}, uid:${evmWalletProvider.walletConnector?.uid}',
                 name: 'connectToEVMWallet',
               );
 
