@@ -76,6 +76,11 @@ class SessionNotifier extends _$SessionNotifier {
             throw const aedappfm.Failure.userRejected();
           }
 
+          aedappfm.sl.get<aedappfm.LogManager>().log(
+                'evmWalletProvider.walletConnector.id ${evmWalletProvider.walletConnector?.id}',
+                name: 'connectToEVMWallet',
+              );
+
           bridgeWallet = bridgeWallet.copyWith(
             wallet: kEVMWallet,
             isConnected: true,
