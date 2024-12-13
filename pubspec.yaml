@@ -8,29 +8,29 @@ environment:
   sdk: ">=3.3.0 <4.0.0"
 
 dependencies:
-  #archethic_dapp_framework_flutter: ^3.0.3
-  archethic_dapp_framework_flutter:
-    git:
-      url: https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git
-      ref: 41-rpc---add-encrypt-and-decrypt-methods
+  archethic_dapp_framework_flutter: ^3.2.5
+  #archethic_dapp_framework_flutter:
+  #  git:
+  #    url: https://github.com/archethic-foundation/archethic-dapp-framework-flutter.git
+  #    ref: main
   #archethic_dapp_framework_flutter:
   #  path: ../archethic-dapp-framework-flutter
 
   # Archethic dart library for Flutter
-  #archethic_lib_dart: ^4.0.0
-  archethic_lib_dart:
-    git: # TODO Waiting for https://github.com/zino-hofmann/graphql-flutter/issues/1460 resolution to use stable versions.
-      url: https://github.com/archethic-foundation/libdart.git
-      ref: upgrade_graqhql
+  archethic_lib_dart: ^5.0.2
+  #archethic_lib_dart:
+  #  git:
+  #    url: https://github.com/archethic-foundation/libdart.git
+  #    ref: main
   # archethic_lib_dart:
   #   path: ../../packages/libdart
 
   # A client dart library to interact with Archethic Wallet RPC API.
-  #archethic_wallet_client: ^2.1.5
-  archethic_wallet_client:
-    git:
-      url: https://github.com/archethic-foundation/archethic-wallet-client-dart.git
-      ref: 70-add-encrypt-and-decrypt-methods
+  archethic_wallet_client: ^2.1.7
+  #archethic_wallet_client:
+  #  git:
+  #    url: https://github.com/archethic-foundation/archethic-wallet-client-dart.git
+  #    ref: main
   # archethic_wallet_client:
   #   path: ../../packages/archethic-wallet-client-dart
 
