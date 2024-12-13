@@ -210,6 +210,7 @@
     "aeSignTxDesc3": "This action reveals the secret required to securely unlock funds on both chains, ensuring the finality and symmetry of the bridge.",
     "aeSignTxDesc4": "This action allows funds to be sent to the smart contract, enabling its execution and ensuring the secure processing of the bridge",
     "aeSignTxDesc5": "This action allows you to execute the refund of your funds.",
+    "aeDecryptSecret": "This action allows to decrypt the secret required to secure the bridge between the 2 blockchains.",
     "aeBridgeProvidedBy": "Bridge provided by",
     "trustWalletWarning": "Trust Wallet users, please check that the \"Authorize eth_sign\" option is ticked in your application's security menu before processing."
 }
