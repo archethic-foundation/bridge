@@ -190,6 +190,19 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
           canResume = true;
         });
       }
+
+      // EVM -> Archethic (EVM Withdrawn && AE pending)
+      if (widget.bridge.blockchainFrom != null &&
+          widget.bridge.blockchainFrom!.isArchethic == false &&
+          isRefunded == false &&
+          (statusEVM != null &&
+              statusEVM == 1 &&
+              statusAE != null &&
+              statusAE == 0)) {
+        setState(() {
+          canResume = true;
+        });
+      }
     });
 
     super.initState();
