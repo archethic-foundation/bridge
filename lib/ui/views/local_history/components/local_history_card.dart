@@ -1,7 +1,9 @@
-/// SPDX-License-Identifier: AGPL-3.0-or-later
+import 'dart:developer';
 
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/application/contracts/evm_htlc.dart';
+import 'package:aebridge/application/evm_wallet.dart';
+import 'package:aebridge/domain/models/bridge_blockchain.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_direction_infos.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_htlc_infos.dart';
@@ -44,161 +46,117 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
 
   @override
   void initState() {
-    Future.delayed(Duration.zero, () async {
-      if (widget.bridge.blockchainFrom != null &&
-          widget.bridge.blockchainFrom!.htlcAddress != null) {
-        if (widget.bridge.blockchainFrom!.isArchethic) {
-          if (widget.bridge.blockchainFrom!.providerEndpoint.isEmpty) {
-            if (mounted) {
-              setState(() {
-                statusAE = -1;
-              });
-            }
-          } else {
-            final apiService = archethic.ApiService(
-              widget.bridge.blockchainFrom!.providerEndpoint,
-            );
-
-            try {
-              final info = await ArchethicContract().getInfo(
-                apiService,
-                widget.bridge.blockchainFrom!.htlcAddress!,
-              );
-              if (mounted) {
-                setState(() {
-                  statusAE = info.statusHTLC;
-                });
-              }
-              // ignore: empty_catches
-            } catch (e) {}
-
-            try {
-              final htlcInfo = await ArchethicContract().getHTLCInfo(
-                apiService,
-                widget.bridge.blockchainFrom!.htlcAddress!,
-              );
-              if (mounted) {
-                setState(() {
-                  htlcLockTime = htlcInfo.endTime ?? 0;
-                });
-              }
-              // ignore: empty_catches
-            } catch (e) {}
-          }
-        } else {
-          final evmHTLC = EVMHTLC(
-            widget.bridge.blockchainFrom!.htlcAddress!,
-          );
-
-          final _statusEVM = await evmHTLC.getStatus(
-            chainId: widget.bridge.blockchainFrom!.chainId,
-          );
-          if (mounted) {
-            setState(() {
-              statusEVM = _statusEVM;
-            });
-          }
-
-          final resultGetHTLCLockTime = await evmHTLC.getHTLCLockTime();
-          resultGetHTLCLockTime.map(
-            success: (_htlcLockTime) {
-              if (mounted) {
-                setState(() {
-                  htlcLockTime = _htlcLockTime;
-                });
-              }
-            },
-            failure: (failure) {},
-          );
-        }
-      }
-      if (widget.bridge.blockchainTo != null &&
-          widget.bridge.blockchainTo!.htlcAddress != null) {
-        if (widget.bridge.blockchainTo!.isArchethic) {
-          if (widget.bridge.blockchainTo!.providerEndpoint.isEmpty) {
-            if (mounted) {
-              setState(() {
-                statusAE = -1;
-              });
-            }
-          } else {
-            final apiService = archethic.ApiService(
-              widget.bridge.blockchainTo!.providerEndpoint,
-            );
-            try {
-              final info = await ArchethicContract().getInfo(
-                apiService,
-                widget.bridge.blockchainTo!.htlcAddress!,
-              );
-              if (mounted) {
-                setState(() {
-                  statusAE = info.statusHTLC;
-                });
-              }
-              // ignore: empty_catches
-            } catch (e) {}
-          }
-        } else {
-          final evmHTLC = EVMHTLC(
-            widget.bridge.blockchainTo!.htlcAddress!,
-          );
-
-          final _statusEVM = await evmHTLC.getStatus(
-            chainId: widget.bridge.blockchainTo!.chainId,
-          );
-          if (mounted) {
-            setState(() {
-              statusEVM = _statusEVM;
-            });
-          }
-        }
-      }
-
-      if (statusEVM != null && statusEVM == 2 ||
-          statusAE != null && statusAE == 2) {
-        setState(() {
-          isRefunded = true;
-        });
-      }
-
-      final htlcLockTimeOver = htlcLockTime == null ||
-          (htlcLockTime != null &&
-              DateTime.fromMillisecondsSinceEpoch(
-                htlcLockTime! * 1000,
-              ).isAfter(DateTime.now()));
-      if (isRefunded == false &&
-          htlcLockTimeOver == false &&
-          (!(statusEVM != null &&
-              statusEVM == 1 &&
-              statusAE != null &&
-              statusAE == 1))) {
-        setState(() {
-          canResume = true;
-        });
-      }
-
-      // EVM -> Archethic (EVM Withdrawn && AE pending)
-      if (widget.bridge.blockchainFrom != null &&
-          widget.bridge.blockchainFrom!.isArchethic == false &&
-          isRefunded == false &&
-          (statusEVM != null &&
-              statusEVM == 1 &&
-              statusAE != null &&
-              statusAE == 0)) {
-        setState(() {
-          canResume = true;
-        });
-      }
-    });
-
     super.initState();
+    _initializeState();
+  }
+
+  Future<void> _initializeState() async {
+    await Future.wait([
+      _fetchBlockchainInfo(widget.bridge.blockchainFrom, isFrom: true),
+      _fetchBlockchainInfo(widget.bridge.blockchainTo, isFrom: false),
+    ]);
+
+    _evaluateResumeConditions();
+  }
+
+  Future<void> _fetchBlockchainInfo(
+    BridgeBlockchain? blockchain, {
+    required bool isFrom,
+  }) async {
+    if (blockchain == null || blockchain.htlcAddress == null) return;
+
+    if (blockchain.isArchethic) {
+      await _fetchArchethicInfo(blockchain, isFrom);
+    } else {
+      await _fetchEVMInfo(blockchain, isFrom);
+    }
+  }
+
+  Future<void> _fetchArchethicInfo(
+      BridgeBlockchain blockchain, bool isFrom) async {
+    if (blockchain.providerEndpoint.isEmpty) {
+      if (mounted) setState(() => statusAE = -1);
+      return;
+    }
+
+    final apiService = archethic.ApiService(blockchain.providerEndpoint);
+
+    try {
+      final info = await ArchethicContract().getInfo(
+        apiService,
+        blockchain.htlcAddress!,
+      );
+      if (mounted) setState(() => statusAE = info.statusHTLC ?? -1);
+    } catch (e) {
+      log('Error fetching Archethic status: $e');
+    }
+
+    if (isFrom) {
+      try {
+        final htlcInfo = await ArchethicContract().getHTLCInfo(
+          apiService,
+          blockchain.htlcAddress!,
+        );
+        if (mounted) setState(() => htlcLockTime = htlcInfo.endTime ?? 0);
+      } catch (e) {
+        log('Error fetching Archethic HTLC info: $e');
+      }
+    }
+  }
+
+  Future<void> _fetchEVMInfo(BridgeBlockchain blockchain, bool isFrom) async {
+    final evmHTLC = EVMHTLC(blockchain.htlcAddress!);
+    final evmWalletProvider = aedappfm.sl.get<EVMWalletProvider>();
+    await evmWalletProvider.connect(blockchain);
+
+    try {
+      final _statusEVM = await evmHTLC.getStatus(
+        chainId: blockchain.chainId,
+      );
+      if (mounted) setState(() => statusEVM = _statusEVM);
+    } catch (e) {
+      log('Error fetching EVM status: $e');
+    }
+
+    if (isFrom) {
+      try {
+        final result = await evmHTLC.getHTLCLockTime();
+        result.map(
+          success: (_htlcLockTime) {
+            if (mounted) setState(() => htlcLockTime = _htlcLockTime);
+          },
+          failure: (failure) => log('Error fetching HTLC lock time: $failure'),
+        );
+      } catch (e) {
+        log('Error fetching EVM HTLC info: $e');
+      }
+    }
+  }
+
+  void _evaluateResumeConditions() {
+    final htlcLockTimeOver = htlcLockTime != 0 &&
+        htlcLockTime != null &&
+        DateTime.fromMillisecondsSinceEpoch(htlcLockTime! * 1000)
+            .isBefore(DateTime.now());
+
+    if (statusEVM == 2 || statusAE == 2) {
+      setState(() => isRefunded = true);
+    } else {
+      if ((!htlcLockTimeOver &&
+              ((statusEVM == null || statusEVM == 0 || statusEVM == -1) &&
+                  (statusAE == null || statusAE == 0 || statusAE == -1))) ||
+          ((statusEVM == 1 && statusAE == 0) ||
+              (statusEVM == 0 && statusAE == 1))) {
+        setState(() => canResume = true);
+      }
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
-
     final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 50),
       child: aedappfm.SingleCard(
@@ -209,34 +167,8 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
           alignment: Alignment.centerLeft,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    DateFormat.yMd(
-                      Localizations.localeOf(context).languageCode,
-                    ).add_Hms().format(
-                          DateTime.fromMillisecondsSinceEpoch(
-                            widget.bridge.timestampExec!,
-                          ).toLocal(),
-                        ),
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: isAppMobileFormat
-                        ? Theme.of(context).textTheme.bodyMedium
-                        : Theme.of(context).textTheme.bodyMedium!.copyWith(
-                              fontSize:
-                                  aedappfm.Responsive.fontSizeFromTextStyle(
-                                context,
-                                Theme.of(context).textTheme.bodyMedium!,
-                              ),
-                            ),
-                  ),
-                ],
-              ),
+              _buildTimestamp(context),
               LocalHistoryCardStatusInfos(bridge: widget.bridge),
               _line(context, isAppMobileFormat),
               LocalHistoryCardDirectionInfos(bridge: widget.bridge),
@@ -249,59 +181,91 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
                 statusAE: statusAE,
               ),
               _line(context, isAppMobileFormat),
-              Padding(
-                padding: const EdgeInsets.only(top: 30),
-                child: isAppMobileFormat
-                    ? Column(
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              LocalHistoryCardOptionsResume(
-                                bridge: widget.bridge,
-                                canResume: canResume,
-                              ),
-                              LocalHistoryCardOptionsRefund(
-                                bridge: widget.bridge,
-                                isRefunded: isRefunded,
-                              ),
-                              const CardOptionsSupport(),
-                            ],
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              LocalHistoryCardOptionsLogs(
-                                bridge: widget.bridge,
-                              ),
-                              LocalHistoryCardOptionsDelete(
-                                bridge: widget.bridge,
-                              ),
-                            ],
-                          ),
-                        ],
-                      )
-                    : Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          LocalHistoryCardOptionsResume(
-                            bridge: widget.bridge,
-                            canResume: canResume,
-                          ),
-                          LocalHistoryCardOptionsRefund(
-                            bridge: widget.bridge,
-                            isRefunded: isRefunded,
-                          ),
-                          const CardOptionsSupport(),
-                          LocalHistoryCardOptionsLogs(bridge: widget.bridge),
-                          LocalHistoryCardOptionsDelete(bridge: widget.bridge),
-                        ],
-                      ),
-              ),
+              _buildOptions(context, isAppMobileFormat),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTimestamp(BuildContext context) {
+    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          DateFormat.yMd(Localizations.localeOf(context).languageCode)
+              .add_Hms()
+              .format(DateTime.fromMillisecondsSinceEpoch(
+                widget.bridge.timestampExec!,
+              ).toLocal()),
+          style: isAppMobileFormat
+              ? Theme.of(context).textTheme.bodyMedium
+              : Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                      context,
+                      Theme.of(context).textTheme.bodyMedium!,
+                    ),
+                  ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildOptions(BuildContext context, bool isAppMobileFormat) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 30),
+      child: isAppMobileFormat
+          ? Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    LocalHistoryCardOptionsResume(
+                      bridge: widget.bridge,
+                      canResume: canResume,
+                    ),
+                    LocalHistoryCardOptionsRefund(
+                      bridge: widget.bridge,
+                      isRefunded: isRefunded,
+                    ),
+                    const CardOptionsSupport(),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    LocalHistoryCardOptionsLogs(
+                      bridge: widget.bridge,
+                    ),
+                    LocalHistoryCardOptionsDelete(
+                      bridge: widget.bridge,
+                    ),
+                  ],
+                ),
+              ],
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                LocalHistoryCardOptionsResume(
+                  bridge: widget.bridge,
+                  canResume: canResume,
+                ),
+                const SizedBox(width: 10),
+                LocalHistoryCardOptionsRefund(
+                  bridge: widget.bridge,
+                  isRefunded: isRefunded,
+                ),
+                const SizedBox(width: 10),
+                const CardOptionsSupport(),
+                const SizedBox(width: 10),
+                LocalHistoryCardOptionsLogs(bridge: widget.bridge),
+                const SizedBox(width: 10),
+                LocalHistoryCardOptionsDelete(bridge: widget.bridge),
+              ],
+            ),
     );
   }
 
