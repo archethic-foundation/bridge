@@ -161,28 +161,13 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
         });
       }
 
-      // Archethic -> EVM
-      if (widget.bridge.blockchainFrom != null &&
-          widget.bridge.blockchainFrom!.isArchethic &&
-          isRefunded == false &&
-          (!(statusEVM != null &&
-              statusEVM == 1 &&
-              statusAE != null &&
-              statusAE == 1))) {
-        setState(() {
-          canResume = true;
-        });
-      }
-      // EVM -> Archethic
       final htlcLockTimeOver = htlcLockTime == null ||
           (htlcLockTime != null &&
               DateTime.fromMillisecondsSinceEpoch(
                 htlcLockTime! * 1000,
               ).isAfter(DateTime.now()));
-      if (widget.bridge.blockchainFrom != null &&
-          widget.bridge.blockchainFrom!.isArchethic == false &&
-          isRefunded == false &&
-          htlcLockTimeOver &&
+      if (isRefunded == false &&
+          htlcLockTimeOver == false &&
           (!(statusEVM != null &&
               statusEVM == 1 &&
               statusAE != null &&
