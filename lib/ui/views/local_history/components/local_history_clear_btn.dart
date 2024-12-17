@@ -9,160 +9,126 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LocalHistoryClearButton extends ConsumerWidget {
   const LocalHistoryClearButton({
+    required this.bridgesList,
     super.key,
   });
 
+  final List<Map<String, dynamic>> bridgesList;
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
-
-    return ref.watch(fetchBridgesListProvider()).map(
-          data: (data) {
-            if (data.value.isEmpty) {
-              return const SizedBox.shrink();
-            }
-            return Column(
+    return Column(
+      children: [
+        const Divider(),
+        MenuItemButton(
+          child: Padding(
+            padding: const EdgeInsets.all(8),
+            child: Row(
               children: [
-                const Divider(),
-                MenuItemButton(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Row(
-                      children: [
-                        const Icon(
-                          Icons.delete_forever_outlined,
-                          size: 16,
-                        ),
-                        const SizedBox(
-                          width: 10,
-                        ),
-                        Text(
-                          AppLocalizations.of(context)!.btn_clear_local_history,
-                        ),
-                      ],
-                    ),
-                  ),
-                  onPressed: () async {
-                    return showDialog(
-                      context: context,
-                      builder: (context) {
-                        return ScaffoldMessenger(
-                          key: scaffoldMessengerKey,
-                          child: Builder(
-                            builder: (context) {
-                              return Consumer(
-                                builder: (context, ref, _) {
-                                  return Scaffold(
-                                    backgroundColor: Colors.transparent,
-                                    body: AlertDialog(
-                                      backgroundColor: aedappfm
-                                          .AppThemeBase.backgroundPopupColor,
-                                      contentPadding: const EdgeInsets.only(
-                                        top: 10,
-                                      ),
-                                      content: Container(
-                                        color: Colors.transparent,
-                                        padding: const EdgeInsets.symmetric(
-                                          horizontal: 10,
-                                        ),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: <Widget>[
-                                            Padding(
-                                              padding: const EdgeInsets.all(10),
-                                              child: SelectableText(
-                                                AppLocalizations.of(context)!
-                                                    .confirmationPopupTitle,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleMedium!
-                                                    .copyWith(
-                                                      fontSize: aedappfm
-                                                              .Responsive
-                                                          .fontSizeFromTextStyle(
-                                                        context,
-                                                        Theme.of(context)
-                                                            .textTheme
-                                                            .titleMedium!,
-                                                      ),
-                                                    ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: const EdgeInsets.all(10),
-                                              child: SelectableText(
-                                                AppLocalizations.of(context)!
-                                                    .bridgesListClearWarning,
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyMedium,
-                                              ),
-                                            ),
-                                            const SizedBox(
-                                              height: 20,
-                                            ),
-                                            Container(
-                                              width: double.infinity,
-                                              padding: const EdgeInsets.only(
-                                                bottom: 20,
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                children: [
-                                                  aedappfm.AppButton(
-                                                    labelBtn:
-                                                        AppLocalizations.of(
-                                                      context,
-                                                    )!
-                                                            .no,
-                                                    onPressed: () {
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                  ),
-                                                  aedappfm.AppButton(
-                                                    labelBtn:
-                                                        AppLocalizations.of(
-                                                      context,
-                                                    )!
-                                                            .yes,
-                                                    onPressed: () async {
-                                                      ref.read(
-                                                        clearBridgesListProvider,
-                                                      );
-
-                                                      if (!context.mounted) {
-                                                        return;
-                                                      }
-                                                      Navigator.of(context)
-                                                          .pop();
-                                                    },
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              );
-                            },
-                          ),
-                        );
-                      },
-                    );
-                  },
+                const Icon(
+                  Icons.delete_forever_outlined,
+                  size: 16,
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  AppLocalizations.of(context)!.btn_clear_local_history,
                 ),
               ],
-            );
-          },
-          error: (error) => const SizedBox.shrink(),
-          loading: (loading) => const SizedBox.shrink(),
+            ),
+          ),
+          onPressed: () => _showConfirmationDialog(context, ref),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _showConfirmationDialog(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    await _ConfirmClearPopup.show(context, ref);
+  }
+}
+
+class _ConfirmClearPopup {
+  static Future<void> show(
+    BuildContext context,
+    WidgetRef ref,
+  ) async {
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) {
+        return aedappfm.PopupTemplate(
+          popupTitle: AppLocalizations.of(context)!.local_history_logs_title,
+          popupHeight: 210,
+          popupContent: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: SelectableText(
+                  AppLocalizations.of(context)!.confirmationPopupTitle,
+                  style: Theme.of(context).textTheme.titleMedium!.copyWith(
+                        fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
+                          context,
+                          Theme.of(context).textTheme.titleMedium!,
+                        ),
+                      ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: SelectableText(
+                  AppLocalizations.of(context)!.bridgesListClearWarning,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.only(
+                  bottom: 20,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    aedappfm.AppButton(
+                      labelBtn: AppLocalizations.of(
+                        context,
+                      )!
+                          .no,
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    aedappfm.AppButton(
+                      labelBtn: AppLocalizations.of(
+                        context,
+                      )!
+                          .yes,
+                      onPressed: () async {
+                        ref.read(
+                          clearBridgesListProvider,
+                        );
+
+                        if (!context.mounted) {
+                          return;
+                        }
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         );
+      },
+    );
   }
 }

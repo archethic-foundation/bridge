@@ -30,39 +30,49 @@ class LocalHistoryCardOptionsRefund extends ConsumerWidget {
       return const SizedBox.shrink();
     }
 
-    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
-
     return Padding(
-      padding: const EdgeInsets.only(left: 10),
-      child: InkWell(
-        onTap: () async {
-          final helper = aedappfm.QueryParameterHelper();
-          final htlcAddressEncoded = helper.encodeQueryParameter(
-            bridge.blockchainFrom!.isArchethic == true
-                ? bridge.htlcAEAddress!
-                : bridge.htlcEVMAddress!,
-          );
-          final chainIdEncoded =
-              helper.encodeQueryParameter(bridge.blockchainFrom!.chainId);
-          await context.push(
-            Uri(
-              path: RefundSheet.routerPage,
-              queryParameters: {
-                'htlcAddress': htlcAddressEncoded,
-                'chainId': chainIdEncoded,
-              },
-            ).toString(),
-          );
-        },
-        child: Column(
-          children: [
-            aedappfm.IconAnimated(
-              icon: aedappfm.Iconsax.empty_wallet_change,
-              color: Colors.white,
-              tooltip:
-                  AppLocalizations.of(context)!.local_history_option_refund,
-            ),
-            if (isAppMobileFormat)
+      padding: const EdgeInsets.all(10),
+      child: Container(
+        width: 70,
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(
+            10,
+          ),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.primaryContainer,
+            width: 0.5,
+          ),
+          gradient: aedappfm.AppThemeBase.gradientInputFormBackground,
+        ),
+        child: InkWell(
+          onTap: () async {
+            final helper = aedappfm.QueryParameterHelper();
+            final htlcAddressEncoded = helper.encodeQueryParameter(
+              bridge.blockchainFrom!.isArchethic == true
+                  ? bridge.htlcAEAddress!
+                  : bridge.htlcEVMAddress!,
+            );
+            final chainIdEncoded =
+                helper.encodeQueryParameter(bridge.blockchainFrom!.chainId);
+            await context.push(
+              Uri(
+                path: RefundSheet.routerPage,
+                queryParameters: {
+                  'htlcAddress': htlcAddressEncoded,
+                  'chainId': chainIdEncoded,
+                },
+              ).toString(),
+            );
+          },
+          child: Column(
+            children: [
+              aedappfm.IconAnimated(
+                icon: aedappfm.Iconsax.empty_wallet_change,
+                color: Colors.white,
+                tooltip:
+                    AppLocalizations.of(context)!.local_history_option_refund,
+              ),
               Padding(
                 padding: const EdgeInsets.only(top: 2),
                 child: Text(
@@ -70,7 +80,8 @@ class LocalHistoryCardOptionsRefund extends ConsumerWidget {
                   style: Theme.of(context).textTheme.bodySmall,
                 ),
               ),
-          ],
+            ],
+          ),
         ),
       ),
     );

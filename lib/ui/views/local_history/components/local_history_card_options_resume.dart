@@ -30,62 +30,76 @@ class LocalHistoryCardOptionsResumeState
         (widget.bridge.failure == null && widget.bridge.currentStep == 8)) {
       return const SizedBox.shrink();
     }
-    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
     return Row(
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 10),
-          child: InkWell(
-            onTap: () async {
-              try {
-                final state = await ref
-                    .read(bridgeFormNotifierProvider.notifier)
-                    .resume(AppLocalizations.of(context)!, widget.bridge);
-                if (!context.mounted) return;
-                final helper = aedappfm.QueryParameterHelper();
-                final initialStateEncoded = helper.encodeQueryParameter(state);
-                context.go(
-                  Uri(
-                    path: BridgeSheet.routerPage,
-                    queryParameters: {
-                      'initialState': initialStateEncoded,
-                    },
-                  ).toString(),
-                );
-              } catch (exc) {
-                if (!context.mounted) return;
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    backgroundColor:
-                        Theme.of(context).snackBarTheme.backgroundColor,
-                    content: Text(
-                      AppLocalizations.of(context)!
-                          .anErrorOccurred(exc.toString()),
-                      style: Theme.of(context).textTheme.labelMedium!.copyWith(
-                            fontSize: aedappfm.Responsive.fontSizeFromTextStyle(
-                              context,
-                              Theme.of(context).textTheme.labelMedium!,
-                            ),
-                          ),
+          padding: const EdgeInsets.all(10),
+          child: Container(
+            width: 70,
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(
+                10,
+              ),
+              border: Border.all(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                width: 0.5,
+              ),
+              gradient: aedappfm.AppThemeBase.gradientInputFormBackground,
+            ),
+            child: InkWell(
+              onTap: () async {
+                try {
+                  final state = await ref
+                      .read(bridgeFormNotifierProvider.notifier)
+                      .resume(AppLocalizations.of(context)!, widget.bridge);
+                  if (!context.mounted) return;
+                  final helper = aedappfm.QueryParameterHelper();
+                  final initialStateEncoded =
+                      helper.encodeQueryParameter(state);
+                  context.go(
+                    Uri(
+                      path: BridgeSheet.routerPage,
+                      queryParameters: {
+                        'initialState': initialStateEncoded,
+                      },
+                    ).toString(),
+                  );
+                } catch (exc) {
+                  if (!context.mounted) return;
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    SnackBar(
+                      backgroundColor:
+                          Theme.of(context).snackBarTheme.backgroundColor,
+                      content: Text(
+                        AppLocalizations.of(context)!
+                            .anErrorOccurred(exc.toString()),
+                        style:
+                            Theme.of(context).textTheme.labelMedium!.copyWith(
+                                  fontSize:
+                                      aedappfm.Responsive.fontSizeFromTextStyle(
+                                    context,
+                                    Theme.of(context).textTheme.labelMedium!,
+                                  ),
+                                ),
+                      ),
+                      duration: const Duration(seconds: 3),
+                      action: SnackBarAction(
+                        label: AppLocalizations.of(context)!.ok,
+                        onPressed: () {},
+                      ),
                     ),
-                    duration: const Duration(seconds: 3),
-                    action: SnackBarAction(
-                      label: AppLocalizations.of(context)!.ok,
-                      onPressed: () {},
-                    ),
+                  );
+                }
+              },
+              child: Column(
+                children: [
+                  aedappfm.IconAnimated(
+                    icon: aedappfm.Iconsax.play_circle,
+                    color: Colors.white,
+                    tooltip: AppLocalizations.of(context)!
+                        .local_history_option_resume,
                   ),
-                );
-              }
-            },
-            child: Column(
-              children: [
-                aedappfm.IconAnimated(
-                  icon: aedappfm.Iconsax.play_circle,
-                  color: Colors.white,
-                  tooltip:
-                      AppLocalizations.of(context)!.local_history_option_resume,
-                ),
-                if (isAppMobileFormat)
                   Padding(
                     padding: const EdgeInsets.only(top: 2),
                     child: Text(
@@ -93,7 +107,8 @@ class LocalHistoryCardOptionsResumeState
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
                   ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

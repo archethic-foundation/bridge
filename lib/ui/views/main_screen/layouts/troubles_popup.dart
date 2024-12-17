@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:aebridge/ui/views/local_history/local_history_sheet.dart';
 import 'package:aebridge/ui/views/refund/layouts/refund_sheet.dart';
 import 'package:aebridge/ui/views/util/app_styles.dart';
+import 'package:aebridge/ui/views/util/support_popup.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:flutter/gestures.dart';
@@ -110,6 +111,19 @@ class TroublesPopup extends ConsumerWidget {
                                   'assets', () async {
                                 context.pop();
                                 await context.push(RefundSheet.routerPage);
+                              }),
+                              _line(
+                                  context,
+                                  AppLocalizations.of(context)!
+                                      .troubleItem5Title,
+                                  AppLocalizations.of(context)!
+                                      .troubleItem5Desc,
+                                  'Support Team ', () async {
+                                context.pop();
+                                await SupportPopup.getDialog(
+                                  context,
+                                  ref,
+                                );
                               }),
                             ],
                           ),

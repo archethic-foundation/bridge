@@ -11,6 +11,7 @@ import 'package:aebridge/ui/views/local_history/components/local_history_card_op
 import 'package:aebridge/ui/views/local_history/components/local_history_card_options_resume.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_status_infos.dart';
 import 'package:aebridge/ui/views/local_history/components/local_history_card_trf_infos.dart';
+import 'package:aebridge/ui/views/util/card_options_support.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart' as archethic;
@@ -249,21 +250,6 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
                               ),
                             ),
                   ),
-                  if (isAppMobileFormat == false)
-                    Row(
-                      children: [
-                        LocalHistoryCardOptionsDelete(bridge: widget.bridge),
-                        LocalHistoryCardOptionsResume(
-                          bridge: widget.bridge,
-                          canResume: canResume,
-                        ),
-                        LocalHistoryCardOptionsRefund(
-                          bridge: widget.bridge,
-                          isRefunded: isRefunded,
-                        ),
-                        LocalHistoryCardOptionsLogs(bridge: widget.bridge),
-                      ],
-                    ),
                 ],
               ),
               LocalHistoryCardStatusInfos(bridge: widget.bridge),
@@ -278,25 +264,55 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
                 statusAE: statusAE,
               ),
               _line(context, isAppMobileFormat),
-              if (isAppMobileFormat)
-                Padding(
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      LocalHistoryCardOptionsDelete(bridge: widget.bridge),
-                      LocalHistoryCardOptionsResume(
-                        bridge: widget.bridge,
-                        canResume: canResume,
+              Padding(
+                padding: const EdgeInsets.only(top: 30),
+                child: isAppMobileFormat
+                    ? Column(
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              LocalHistoryCardOptionsResume(
+                                bridge: widget.bridge,
+                                canResume: canResume,
+                              ),
+                              LocalHistoryCardOptionsRefund(
+                                bridge: widget.bridge,
+                                isRefunded: isRefunded,
+                              ),
+                              const CardOptionsSupport(),
+                            ],
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              LocalHistoryCardOptionsLogs(
+                                bridge: widget.bridge,
+                              ),
+                              LocalHistoryCardOptionsDelete(
+                                bridge: widget.bridge,
+                              ),
+                            ],
+                          ),
+                        ],
+                      )
+                    : Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          LocalHistoryCardOptionsResume(
+                            bridge: widget.bridge,
+                            canResume: canResume,
+                          ),
+                          LocalHistoryCardOptionsRefund(
+                            bridge: widget.bridge,
+                            isRefunded: isRefunded,
+                          ),
+                          const CardOptionsSupport(),
+                          LocalHistoryCardOptionsLogs(bridge: widget.bridge),
+                          LocalHistoryCardOptionsDelete(bridge: widget.bridge),
+                        ],
                       ),
-                      LocalHistoryCardOptionsRefund(
-                        bridge: widget.bridge,
-                        isRefunded: isRefunded,
-                      ),
-                      LocalHistoryCardOptionsLogs(bridge: widget.bridge),
-                    ],
-                  ),
-                ),
+              ),
             ],
           ),
         ),
