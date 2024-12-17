@@ -43,118 +43,120 @@ Widget _body(BuildContext context, WidgetRef ref) {
         ? const EdgeInsets.only(top: 20)
         : const EdgeInsets.only(top: 90, left: 50, right: 50),
     child: Align(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (!isAppMobileFormat) const SizedBox(width: 20),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 10, left: 5),
-            child: Row(
-              children: [
-                InkWell(
-                  onTap: () {
-                    context.go(BridgeSheet.routerPage);
-                  },
-                  child: Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 2),
-                        child: Icon(
-                          Icons.arrow_back_ios_new,
-                          color: aedappfm.AppThemeBase.secondaryColor,
-                          size: 12,
+      child: bridgesList.when(
+        data: (data) {
+          final localHistory = ref.read(localHistoryFormNotifierProvider);
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (!isAppMobileFormat) const SizedBox(width: 20),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10, left: 5),
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        context.go(BridgeSheet.routerPage);
+                      },
+                      child: Row(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 2),
+                            child: Icon(
+                              Icons.arrow_back_ios_new,
+                              color: aedappfm.AppThemeBase.secondaryColor,
+                              size: 12,
+                            ),
+                          ),
+                          const SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            AppLocalizations.of(context)!.backToBridge,
+                            style: TextStyle(
+                              fontSize: Theme.of(context)
+                                  .textTheme
+                                  .labelLarge!
+                                  .fontSize,
+                              color: aedappfm.AppThemeBase.secondaryColor,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(10),
+                    child: SelectionArea(
+                      child: SelectableText(
+                        AppLocalizations.of(context)!.bridgesListTitle,
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Container(
+                      width: 25,
+                      height: 1,
+                      decoration: BoxDecoration(
+                        gradient: aedappfm.AppThemeBase.gradient,
+                      ),
+                    ),
+                  ),
+                  MenuAnchor(
+                    style: MenuStyle(
+                      shape: WidgetStateProperty.all(
+                        RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
                         ),
                       ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      Text(
-                        AppLocalizations.of(context)!.backToBridge,
-                        style: TextStyle(
-                          fontSize:
-                              Theme.of(context).textTheme.labelLarge!.fontSize,
-                          color: aedappfm.AppThemeBase.secondaryColor,
-                          decoration: TextDecoration.underline,
+                    ),
+                    alignmentOffset: const Offset(0, 10),
+                    builder: (context, controller, child) {
+                      return IconButton(
+                        onPressed: () {
+                          if (controller.isOpen) {
+                            controller.close();
+                          } else {
+                            controller.open();
+                          }
+                        },
+                        icon: Icon(
+                          Icons.more_vert_outlined,
+                          color: Theme.of(context).textTheme.bodyMedium?.color,
                         ),
-                      ),
+                      );
+                    },
+                    menuChildren: [
+                      const LocalHistoryPeriodFilter(),
+                      LocalHistoryClearButton(bridgesList: data),
                     ],
                   ),
-                ),
-              ],
-            ),
-          ),
-          Row(
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(10),
-                child: SelectionArea(
-                  child: SelectableText(
-                    AppLocalizations.of(context)!.bridgesListTitle,
-                    style: Theme.of(context).textTheme.titleSmall,
-                  ),
+                ],
+              ),
+              const Padding(
+                padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                child: Row(
+                  children: [
+                    LocalHistoryBridgeFinishedIncludedSwitch(),
+                  ],
                 ),
               ),
               Expanded(
-                child: Container(
-                  width: 25,
-                  height: 1,
-                  decoration: BoxDecoration(
-                    gradient: aedappfm.AppThemeBase.gradient,
-                  ),
-                ),
-              ),
-              MenuAnchor(
-                style: MenuStyle(
-                  shape: WidgetStateProperty.all(
-                    RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                  ),
-                ),
-                alignmentOffset: const Offset(0, 10),
-                builder: (context, controller, child) {
-                  return IconButton(
-                    onPressed: () {
-                      if (controller.isOpen) {
-                        controller.close();
-                      } else {
-                        controller.open();
-                      }
-                    },
-                    icon: Icon(
-                      Icons.more_vert_outlined,
-                      color: Theme.of(context).textTheme.bodyMedium?.color,
-                    ),
-                  );
-                },
-                menuChildren: const [
-                  LocalHistoryPeriodFilter(),
-                  LocalHistoryClearButton(),
-                ],
-              ),
-            ],
-          ),
-          const Padding(
-            padding: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-            child: Row(
-              children: [
-                LocalHistoryBridgeFinishedIncludedSwitch(),
-              ],
-            ),
-          ),
-          bridgesList.map(
-            data: (data) {
-              final localHistory = ref.read(localHistoryFormNotifierProvider);
-              return Expanded(
                 child: SizedBox(
                   width: 700,
                   child: ListView.builder(
                     padding: const EdgeInsets.all(8),
-                    itemCount: data.value.length,
+                    itemCount: data.length,
                     itemBuilder: (context, index) {
                       // Conversion LinkedMap to Map
                       final bridge = BridgeFormState.fromJson(
-                        json.decode(json.encode(data.value[index]))
+                        json.decode(json.encode(data[index]))
                             as Map<String, dynamic>,
                       );
                       if (localHistory.processCompletedIncluded == false &&
@@ -184,12 +186,12 @@ Widget _body(BuildContext context, WidgetRef ref) {
                     },
                   ),
                 ),
-              );
-            },
-            error: (error) => const SizedBox.shrink(),
-            loading: (loading) => const SizedBox.shrink(),
-          ),
-        ],
+              ),
+            ],
+          );
+        },
+        error: (_, stack) => const SizedBox.shrink(),
+        loading: () => const SizedBox.shrink(),
       ),
     ),
   );

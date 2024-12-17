@@ -67,7 +67,7 @@ class LocalHistoryPeriodFilter extends ConsumerWidget {
       return picked;
     }
 
-    final localHistory = ref.watch(localHistoryFormNotifierProvider);
+    final localHistory = ref.read(localHistoryFormNotifierProvider);
 
     return MenuItemButton(
       child: Padding(

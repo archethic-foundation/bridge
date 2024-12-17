@@ -18,129 +18,124 @@ class LocalHistoryCardOptionsDelete extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final scaffoldMessengerKey = GlobalKey<ScaffoldMessengerState>();
-    final isAppMobileFormat = aedappfm.Responsive.isMobile(context);
-    return InkWell(
-      onTap: () async {
-        await showDialog(
-          context: context,
-          builder: (context) {
-            return ScaffoldMessenger(
-              key: scaffoldMessengerKey,
-              child: Builder(
-                builder: (context) {
-                  return Scaffold(
-                    backgroundColor: Colors.transparent,
-                    body: AlertDialog(
-                      backgroundColor:
-                          aedappfm.AppThemeBase.backgroundPopupColor,
-                      contentPadding: const EdgeInsets.only(
-                        top: 10,
-                      ),
-                      content: Container(
-                        color: Colors.transparent,
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: <Widget>[
-                            Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: SelectableText(
-                                AppLocalizations.of(context)!
-                                    .confirmationPopupTitle,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .titleMedium!
-                                    .copyWith(
-                                      fontSize: aedappfm.Responsive
-                                          .fontSizeFromTextStyle(
-                                        context,
-                                        Theme.of(context)
-                                            .textTheme
-                                            .titleMedium!,
-                                      ),
-                                    ),
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(10),
-                              child: SelectableText(
-                                AppLocalizations.of(context)!
-                                    .bridgeClearWarning,
-                                style: Theme.of(context).textTheme.bodyMedium,
-                              ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            Container(
-                              width: double.infinity,
-                              padding: const EdgeInsets.only(
-                                bottom: 20,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  aedappfm.AppButton(
-                                    labelBtn: AppLocalizations.of(context)!.no,
-                                    onPressed: () async {
-                                      Navigator.of(context).pop();
-                                    },
-                                  ),
-                                  aedappfm.AppButton(
-                                    labelBtn: AppLocalizations.of(context)!.yes,
-                                    onPressed: () async {
-                                      await ref
-                                          .read(
-                                            bridgeHistoryRepositoryProvider,
-                                          )
-                                          .removeBridge(
-                                            timestampExec:
-                                                bridge.timestampExec!,
-                                          );
-
-                                      ref.invalidate(
-                                        fetchBridgesListProvider,
-                                      );
-                                      if (context.mounted) {
-                                        Navigator.of(context).pop();
-                                      }
-                                    },
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                },
-              ),
-            );
+    return Padding(
+      padding: const EdgeInsets.all(10),
+      child: Container(
+        width: 70,
+        padding: const EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(
+            10,
+          ),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.primaryContainer,
+            width: 0.5,
+          ),
+          gradient: aedappfm.AppThemeBase.gradientInputFormBackground,
+        ),
+        child: InkWell(
+          onTap: () async {
+            await _ConfirmDeletePopup.getDialog(context, ref, bridge);
           },
+          child: Column(
+            children: [
+              aedappfm.IconAnimated(
+                icon: aedappfm.Iconsax.trash,
+                color: Colors.white,
+                tooltip:
+                    AppLocalizations.of(context)!.local_history_option_delete,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(top: 2),
+                child: Text(
+                  AppLocalizations.of(context)!.local_history_option_delete,
+                  style: Theme.of(context).textTheme.bodySmall,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _ConfirmDeletePopup {
+  static Future<void> getDialog(
+    BuildContext context,
+    WidgetRef ref,
+    BridgeFormState bridge,
+  ) async {
+    return showDialog<void>(
+      context: context,
+      builder: (context) {
+        return aedappfm.PopupTemplate(
+          popupTitle: AppLocalizations.of(context)!.local_history_logs_title,
+          popupHeight: 250,
+          popupContent: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: SelectableText(
+                  AppLocalizations.of(context)!.confirmationPopupTitle,
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodyMedium!
+                      .copyWith(fontWeight: FontWeight.bold),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: SelectableText(
+                  AppLocalizations.of(context)!.bridgeClearWarning,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.only(
+                  bottom: 20,
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    aedappfm.AppButton(
+                      labelBtn: AppLocalizations.of(context)!.no,
+                      onPressed: () async {
+                        Navigator.of(context).pop();
+                      },
+                    ),
+                    aedappfm.AppButton(
+                      labelBtn: AppLocalizations.of(context)!.yes,
+                      onPressed: () async {
+                        await ref
+                            .read(
+                              bridgeHistoryRepositoryProvider,
+                            )
+                            .removeBridge(
+                              timestampExec: bridge.timestampExec!,
+                            );
+
+                        ref.invalidate(
+                          fetchBridgesListProvider,
+                        );
+                        if (context.mounted) {
+                          Navigator.of(context).pop();
+                        }
+                      },
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         );
       },
-      child: Column(
-        children: [
-          aedappfm.IconAnimated(
-            icon: aedappfm.Iconsax.trash,
-            color: Colors.white,
-            tooltip: AppLocalizations.of(context)!.local_history_option_delete,
-          ),
-          if (isAppMobileFormat)
-            Padding(
-              padding: const EdgeInsets.only(top: 2),
-              child: Text(
-                AppLocalizations.of(context)!.local_history_option_delete,
-                style: Theme.of(context).textTheme.bodySmall,
-              ),
-            ),
-        ],
-      ),
     );
   }
 }

@@ -85,7 +85,7 @@ class BridgeInProgressPopup {
       context,
       body,
       popupCloseButton,
-      height: 450,
+      height: 455,
     );
   }
 
