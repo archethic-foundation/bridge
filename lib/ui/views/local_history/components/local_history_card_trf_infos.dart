@@ -57,11 +57,11 @@ class LocalHistoryCardTrfInfos extends ConsumerWidget {
                                   ),
                                 ],
                               )
-                            : Column(
+                            : Row(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SelectableText(
-                                    '${bridge.tokenToBridgeAmount.formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data} ${AppLocalizations.of(context)!.localHistoryToLbl}',
+                                    '${bridge.tokenToBridgeAmount.formatNumber()} ${bridge.tokenToBridge!.symbol} ${snapshot.data}',
                                     style: TextStyle(
                                       fontSize:
                                           aedappfm.Responsive.fontSizeFromValue(
