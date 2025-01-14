@@ -16,6 +16,8 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+const blockchainTxVersion = 3;
+
 class ArchethicContract
     with aedappfm.TransactionMixin, ArchethicBridgeProcessMixin {
   ArchethicContract();
@@ -45,9 +47,6 @@ class ArchethicContract
     return aedappfm.Result.guard(
       () async {
         final apiService = aedappfm.sl.get<ApiService>();
-        final blockchainTxVersion = int.parse(
-          (await apiService.getBlockchainVersion()).version.transaction,
-        );
 
         final storageNoncePublicKey =
             await apiService.getStorageNoncePublicKey();
@@ -148,9 +147,6 @@ class ArchethicContract
     return aedappfm.Result.guard(
       () async {
         final apiService = aedappfm.sl.get<ApiService>();
-        final blockchainTxVersion = int.parse(
-          (await apiService.getBlockchainVersion()).version.transaction,
-        );
 
         final infoResult = await getInfo(apiService, htlcAddress);
 
