@@ -1,4 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'dart:async';
 
 import 'package:aebridge/application/contracts/archethic_contract.dart';
@@ -10,6 +12,8 @@ import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+const blockchainTxVersion = 3;
 
 class ArchethicContractChargeable with aedappfm.TransactionMixin {
   ArchethicContractChargeable();
@@ -130,10 +134,6 @@ class ArchethicContractChargeable with aedappfm.TransactionMixin {
             }
           }
         }
-
-        final blockchainTxVersion = int.parse(
-          (await apiService.getBlockchainVersion()).version.transaction,
-        );
 
         var transaction = Transaction(
           type: 'transfer',

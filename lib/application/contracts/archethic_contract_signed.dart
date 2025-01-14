@@ -1,4 +1,6 @@
 /// SPDX-License-Identifier: AGPL-3.0-or-later
+// ignore_for_file: avoid_redundant_argument_values
+
 import 'dart:async';
 
 import 'package:aebridge/application/contracts/archethic_contract.dart';
@@ -10,6 +12,8 @@ import 'package:archethic_lib_dart/archethic_lib_dart.dart';
 import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+const blockchainTxVersion = 3;
 
 class ArchethicContractSigned with aedappfm.TransactionMixin {
   ArchethicContractSigned();
@@ -83,11 +87,6 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
     return aedappfm.Result.guard(
       () async {
         Transaction? transactionTransfer;
-        final blockchainTxVersion = int.parse(
-          (await aedappfm.sl.get<ApiService>().getBlockchainVersion())
-              .version
-              .transaction,
-        );
         final recipient = Recipient(
           address: poolAddress.toUpperCase(),
           action: 'request_secret_hash',
@@ -166,12 +165,6 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
-        final blockchainTxVersion = int.parse(
-          (await aedappfm.sl.get<ApiService>().getBlockchainVersion())
-              .version
-              .transaction,
-        );
-
         var transaction = Transaction(
           type: 'transfer',
           version: blockchainTxVersion,
