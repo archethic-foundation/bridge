@@ -845,8 +845,8 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     double? minAmountDollars;
 
     state.blockchainTo!.isArchethic
-        ? minAmountDollars = 0.16
-        : minAmountDollars = 0.17;
+        ? minAmountDollars = 0.0000001
+        : minAmountDollars = 0.0000001;
 
     final session = ref.read(sessionNotifierProvider);
 
