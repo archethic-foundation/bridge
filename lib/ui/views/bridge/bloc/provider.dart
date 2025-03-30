@@ -878,7 +878,7 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
           state.tokenToBridge!.symbol == 'UCO') {
         minAmountUCOTotal = minAmountUCOTotal + state.tokenToBridgeAmount;
       }
-      if (balanceUCO! > 0 && minAmountUCOTotal > balanceUCO) {
+      /*  if (balanceUCO! > 0 && minAmountUCOTotal > balanceUCO) {
         await setFailure(
           aedappfm.Failure.other(
             cause:
@@ -886,7 +886,7 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
           ),
         );
         return false;
-      }
+      }*/
     }
 
     return true;
