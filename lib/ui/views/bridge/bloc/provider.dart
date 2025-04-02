@@ -878,15 +878,20 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
           state.tokenToBridge!.symbol == 'UCO') {
         minAmountUCOTotal = minAmountUCOTotal + state.tokenToBridgeAmount;
       }
-      /*  if (balanceUCO! > 0 && minAmountUCOTotal > balanceUCO) {
+      if (balanceUCO! > 0 && minAmountUCOTotal > balanceUCO) {
+        final maxAmountUCO = (Decimal.parse(balanceUCO.toString()) -
+                Decimal.parse(minAmountUCO.toString()))
+            .toDouble();
         await setFailure(
           aedappfm.Failure.other(
-            cause:
-                '${localizations.warningBalanceUCOTooLow} (approx: ${minAmountUCO.formatNumber(precision: 2)} UCO)',
+            cause: localizations.warningBalanceUCOTooLow(
+              minAmountUCO.formatNumber(precision: 5),
+              maxAmountUCO.formatNumber(precision: 8),
+            ),
           ),
         );
         return false;
-      }*/
+      }
     }
 
     return true;

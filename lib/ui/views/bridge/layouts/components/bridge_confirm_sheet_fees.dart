@@ -83,66 +83,6 @@ class BridgeConfirmSheetFees extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Flexible(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SelectableText(
-                    AppLocalizations.of(context)!
-                        .bridgeConfirmArchethicProtocolLbl,
-                  ),
-                  if (bridge.blockchainFrom!.isArchethic)
-                    SelectableText(
-                      '${bridge.archethicProtocolFeesRate}${AppLocalizations.of(context)!.bridgeConfirmFeesAEProtocolSigned}',
-                      style: isAppMobileFormat
-                          ? Theme.of(context).textTheme.labelSmall
-                          : Theme.of(context).textTheme.labelSmall!.copyWith(
-                                fontSize:
-                                    aedappfm.Responsive.fontSizeFromTextStyle(
-                                  context,
-                                  Theme.of(context).textTheme.labelSmall!,
-                                ),
-                              ),
-                    )
-                  else
-                    SelectableText(
-                      '${bridge.archethicProtocolFeesRate}${AppLocalizations.of(context)!.bridgeConfirmFeesAEProtocolChargeable}',
-                      style: isAppMobileFormat
-                          ? Theme.of(context).textTheme.labelSmall
-                          : Theme.of(context).textTheme.labelSmall!.copyWith(
-                                fontSize:
-                                    aedappfm.Responsive.fontSizeFromTextStyle(
-                                  context,
-                                  Theme.of(context).textTheme.labelSmall!,
-                                ),
-                              ),
-                    ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              width: 20,
-            ),
-            FutureBuilder<String>(
-              future: FiatValue().display(
-                ref,
-                bridge.archethicProtocolSymbol,
-                bridge.archethicProtocolFees,
-              ),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return SelectableText(
-                    '-${bridge.archethicProtocolFees.formatNumber()} ${bridge.archethicProtocolSymbol} ${snapshot.data}',
-                  );
-                }
-                return const SizedBox.shrink();
-              },
-            ),
-          ],
-        ),
         if (isAppMobileFormat)
           SizedBox(
             height: 30,

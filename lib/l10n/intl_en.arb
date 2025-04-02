@@ -171,7 +171,17 @@
     "bridgeControlInsufficicientLiquidity": "Sorry, but your request can't be completed due to insufficient liquidity on the destination chain. The current available liquidity is %1 %2.",
     "refundControlAddressEmpty": "Please enter a contract address.",
     "refundControlMalformatedAddress": "Malformated address.",
-    "warningBalanceUCOTooLow": "Warning! Please note that your UCO balance is not sufficient to pay the bridge transaction fees. Please add UCOs to your Archethic wallet first.",
+    "warningBalanceUCOTooLow": "Warning! You need to keep a few UCOs to pay transaction fees (approx: {minAmountUCO} UCO). The maximum you can transfer is {maxAmountUCO} UCO.",
+    "@warningBalanceUCOTooLow": {
+        "placeholders": {
+            "minAmountUCO": {
+                "type": "String"
+            },
+            "maxAmountUCO": {
+                "type": "String"
+            }
+        }
+    },
     "infoBalanceUCOZero": "To help you join the Archethic ecosystem, we're offering you free Archethic transaction fees. For security reasons, this will require your signature while the process.",
     "maintenanceInfo": "aeBridge is currently undergoing maintenance to improve your experience.\nWe apologize for the inconvenience.\nPlease try again later.\nThank you for your understanding.",
     "havingTrouble": "Any questions ?\nDo you want to resume or refund a bridge ?",
