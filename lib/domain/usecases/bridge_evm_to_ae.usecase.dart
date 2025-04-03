@@ -13,6 +13,7 @@ import 'package:aebridge/util/faucet_util.dart';
 import 'package:archethic_dapp_framework_flutter/archethic_dapp_framework_flutter.dart'
     as aedappfm;
 import 'package:archethic_lib_dart/archethic_lib_dart.dart';
+import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:crypto/crypto.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
@@ -38,16 +39,82 @@ class BridgeEVMToArchethicUseCase
     final session = ref.read(sessionNotifierProvider);
     await bridgeNotifier.setCurrentStep(0);
 
-    Uint8List? secret;
-    if (recoverySecret != null) {
-      secret = Uint8List.fromList(recoverySecret);
-    } else {
-      secret = generateRandomSecret();
-      await bridgeNotifier.setSecret(secret.toList());
+    late Uint8List secret;
+    try {
+      final dappClient = await aedappfm.sl.getAsync<awc.ArchethicDAppClient>();
+      final walletTo = session.walletTo;
+      if (recoverySecret != null) {
+        final encryptedSecret = Uint8List.fromList(recoverySecret);
+
+        final decryptedPayloadsResult = await dappClient.decryptPayloads(
+          awc.DecryptPayloadRequest(
+            serviceName:
+                Uri.encodeFull('archethic-wallet-${walletTo!.nameAccount}'),
+            payloads: [
+              awc.DecryptPayloadRequestData(
+                payload: uint8ListToHex(encryptedSecret),
+                isHexa: true,
+              ),
+            ],
+            description: {
+              'en': localizations.aeDecryptSecret,
+            },
+          ),
+        );
+        await decryptedPayloadsResult.when(
+          success: (decryptedPayloads) {
+            secret = hexToUint8List(
+              decryptedPayloads.decryptedPayloads[0].decryptedPayload,
+            );
+          },
+          failure: (failure) async {
+            await bridgeNotifier
+                .setFailure(const aedappfm.Failure.connectivityArchethic());
+            await bridgeNotifier.setTransferInProgress(false);
+            throw Exception();
+          },
+        );
+      } else {
+        secret = generateRandomSecret();
+
+        final encryptedPayloadsResult = await dappClient.encryptPayloads(
+          awc.EncryptPayloadRequest(
+            serviceName:
+                Uri.encodeFull('archethic-wallet-${walletTo!.nameAccount}'),
+            payloads: [
+              awc.EncryptPayloadRequestData(
+                payload: uint8ListToHex(secret),
+                isHexa: true,
+              ),
+            ],
+          ),
+        );
+        await encryptedPayloadsResult.when(
+          success: (encryptedPayload) async {
+            await bridgeNotifier.setSecret(
+              hexToUint8List(
+                encryptedPayload.encryptedPayloads[0].encryptedPayload,
+              ),
+            );
+          },
+          failure: (failure) async {
+            await bridgeNotifier
+                .setFailure(const aedappfm.Failure.connectivityArchethic());
+            await bridgeNotifier.setTransferInProgress(false);
+            throw Exception();
+          },
+        );
+      }
+    } catch (e) {
+      await bridgeNotifier.setFailure(
+        aedappfm.Failure.other(cause: '$e'),
+      );
+      await bridgeNotifier.setTransferInProgress(false);
+      throw Exception();
     }
 
     final secretHash = sha256.convert(
-      secret,
+      secret.toList(),
     );
 
     String? htlcEVMAddress;
