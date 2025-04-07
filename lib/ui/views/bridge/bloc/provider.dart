@@ -867,8 +867,8 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
         true,
       );
     } else {
-      final archethicOracleUCO =
-          ref.read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
+      final archethicOracleUCO = await ref
+          .read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO.future);
 
       final minAmountUCO = (Decimal.parse(minAmountDollars.toString()) /
               Decimal.parse(archethicOracleUCO.usd.toString()))

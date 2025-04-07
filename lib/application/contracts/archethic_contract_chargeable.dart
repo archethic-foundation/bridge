@@ -13,8 +13,6 @@ import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-const blockchainTxVersion = 3;
-
 class ArchethicContractChargeable with aedappfm.TransactionMixin {
   ArchethicContractChargeable();
 
@@ -137,7 +135,6 @@ class ArchethicContractChargeable with aedappfm.TransactionMixin {
 
         var transaction = Transaction(
           type: 'transfer',
-          version: blockchainTxVersion,
           data: Transaction.initData(),
         ).addRecipient(
           htlcAddress,

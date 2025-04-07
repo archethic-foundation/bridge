@@ -19,7 +19,6 @@ class MobileInfoScreen extends ConsumerWidget {
         .copyWith(fontWeight: FontWeight.w300);
     return aedappfm.BlockInfo(
       width: MediaQuery.of(context).size.width - 30,
-      height: MediaQuery.of(context).size.height - 30,
       info: ColoredBox(
         color: Colors.transparent,
         child: SizedBox(

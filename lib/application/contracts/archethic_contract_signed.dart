@@ -13,8 +13,6 @@ import 'package:archethic_wallet_client/archethic_wallet_client.dart' as awc;
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-const blockchainTxVersion = 3;
-
 class ArchethicContractSigned with aedappfm.TransactionMixin {
   ArchethicContractSigned();
 
@@ -101,7 +99,6 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
         if (tokenAddress.isEmpty) {
           transactionTransfer = Transaction(
             type: 'transfer',
-            version: blockchainTxVersion,
             data: Transaction.initData(),
           ).addUCOTransfer(htlcGenesisAddress, toBigInt(amount)).addRecipient(
                 recipient.address!,
@@ -111,7 +108,6 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
         } else {
           transactionTransfer = Transaction(
             type: 'transfer',
-            version: blockchainTxVersion,
             data: Transaction.initData(),
           )
               .addTokenTransfer(
@@ -167,7 +163,6 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
       () async {
         var transaction = Transaction(
           type: 'transfer',
-          version: blockchainTxVersion,
           data: Transaction.initData(),
         ).addRecipient(
           poolAddress,

@@ -12,10 +12,14 @@ class FiatValue {
     bool withParenthesis = true,
   }) async {
     if (symbol == 'UCO') {
-      final archethicOracleUCO =
-          ref.watch(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO);
+      final archethicOracleUCO = ref
+          .watch(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO)
+          .valueOrNull;
 
-      final fiatValue = archethicOracleUCO.usd * amount;
+      final fiatValue =
+          (Decimal.parse((archethicOracleUCO?.usd ?? 0).toString()) *
+                  Decimal.parse(amount.toString()))
+              .toDouble();
       return '(\$${fiatValue.formatNumber(precision: 2)})';
     } else {
       final prices = ref.watch(aedappfm.CoinPriceProviders.coinPrices);

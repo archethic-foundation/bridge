@@ -266,7 +266,7 @@ class Header extends ConsumerWidget {
                             style: ButtonStyle(
                               backgroundColor: WidgetStateProperty.all(
                                 aedappfm.ArchethicThemeBase.blue600
-                                    .withOpacity(0.7),
+                                    .withValues(alpha: 0.7),
                               ),
                             ),
                             onPressed: () async {
@@ -319,7 +319,8 @@ class Header extends ConsumerWidget {
                 child: TextButton(
                   style: ButtonStyle(
                     backgroundColor: WidgetStateProperty.all(
-                      aedappfm.ArchethicThemeBase.blue600.withOpacity(0.7),
+                      aedappfm.ArchethicThemeBase.blue600
+                          .withValues(alpha: 0.7),
                     ),
                   ),
                   onPressed: () async {

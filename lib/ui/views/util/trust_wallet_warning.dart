@@ -32,7 +32,6 @@ class TrustWalletWarning extends ConsumerWidget {
         children: [
           aedappfm.BlockInfo(
             width: aedappfm.AppThemeBase.sizeBoxComponentWidth,
-            height: 58,
             info: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

@@ -73,7 +73,9 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
   }
 
   Future<void> _fetchArchethicInfo(
-      BridgeBlockchain blockchain, bool isFrom) async {
+    BridgeBlockchain blockchain,
+    bool isFrom,
+  ) async {
     if (blockchain.providerEndpoint.isEmpty) {
       if (mounted) setState(() => statusAE = -1);
       return;
@@ -197,9 +199,11 @@ class LocalHistoryCardState extends ConsumerState<LocalHistoryCard>
         Text(
           DateFormat.yMd(Localizations.localeOf(context).languageCode)
               .add_Hms()
-              .format(DateTime.fromMillisecondsSinceEpoch(
-                widget.bridge.timestampExec!,
-              ).toLocal()),
+              .format(
+                DateTime.fromMillisecondsSinceEpoch(
+                  widget.bridge.timestampExec!,
+                ).toLocal(),
+              ),
           style: isAppMobileFormat
               ? Theme.of(context).textTheme.bodyMedium
               : Theme.of(context).textTheme.bodyMedium!.copyWith(

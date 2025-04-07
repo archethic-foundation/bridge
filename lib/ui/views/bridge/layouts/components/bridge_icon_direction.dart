@@ -30,7 +30,7 @@ class BridgeBlockchainIconDirection extends ConsumerWidget {
           isAppMobileFormat
               ? aedappfm.Iconsax.arrow_swap
               : aedappfm.Iconsax.arrow_swap_horizontal,
-          color: Colors.white.withOpacity(0.2),
+          color: Colors.white.withValues(alpha: 0.2),
         ),
       );
     }

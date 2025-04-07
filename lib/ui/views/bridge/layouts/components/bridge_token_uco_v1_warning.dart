@@ -29,7 +29,6 @@ class BridgeUCOV1Warning extends ConsumerWidget {
         children: [
           aedappfm.BlockInfo(
             width: aedappfm.AppThemeBase.sizeBoxComponentWidth,
-            height: 200,
             info: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [

@@ -35,7 +35,7 @@ class _BottomNavigationBarMainScreenState
         child: BottomNavigationBar(
           elevation: 1,
           type: BottomNavigationBarType.fixed,
-          backgroundColor: Colors.black.withOpacity(0.3),
+          backgroundColor: Colors.black.withValues(alpha: 0.3),
           selectedFontSize: 10,
           unselectedFontSize: 10,
           selectedLabelStyle: const TextStyle(

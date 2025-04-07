@@ -57,7 +57,7 @@ Widget _buildDisplay(BuildContext context, BridgeFormState bridge) {
                     : aedappfm
                         .AppThemeBase.gradientCircularStepProgressIndicator,
                 selectedColor: Colors.white,
-                unselectedColor: Colors.white.withOpacity(0.3),
+                unselectedColor: Colors.white.withValues(alpha: 0.3),
                 removeRoundedCapExtraAngle: true,
               ),
               const Icon(
@@ -110,7 +110,7 @@ Widget _buildSmallDisplay(BuildContext context, BridgeFormState bridge) {
                         : aedappfm
                             .AppThemeBase.gradientCircularStepProgressIndicator,
                     selectedColor: Colors.white,
-                    unselectedColor: Colors.white.withOpacity(0.3),
+                    unselectedColor: Colors.white.withValues(alpha: 0.3),
                     removeRoundedCapExtraAngle: true,
                   ),
                   const Icon(

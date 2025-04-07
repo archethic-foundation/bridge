@@ -16,8 +16,6 @@ import 'package:decimal/decimal.dart';
 import 'package:flutter_gen/gen_l10n/localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-const blockchainTxVersion = 3;
-
 class ArchethicContract
     with aedappfm.TransactionMixin, ArchethicBridgeProcessMixin {
   ArchethicContract();
@@ -68,7 +66,6 @@ class ArchethicContract
         final originPrivateKey = apiService.getOriginKey();
         final transactionSC = Transaction(
           type: 'contract',
-          version: blockchainTxVersion,
           data: Transaction.initData(),
         ).setCode(code).addOwnership(
           uint8ListToHex(
@@ -102,7 +99,6 @@ class ArchethicContract
         );
         var transactionTransfer = Transaction(
           type: 'transfer',
-          version: blockchainTxVersion,
           data: Transaction.initData(),
         ).addUCOTransfer(
           htlcGenesisAddress,
@@ -152,7 +148,6 @@ class ArchethicContract
 
         var transaction = Transaction(
           type: 'transfer',
-          version: blockchainTxVersion,
           data: Transaction.initData(),
         ).addRecipient(
           infoResult.aePoolAddress!.replaceAll('0x', ''),
