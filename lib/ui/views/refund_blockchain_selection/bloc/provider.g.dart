@@ -7,7 +7,7 @@ part of 'provider.dart';
 // **************************************************************************
 
 String _$blockchainSelectionFormNotifierHash() =>
-    r'805d75f8798147a9a8fafe78794db0384171deca';
+    r'143785d9d52cc539ae487b2b43320f931e28af83';
 
 /// See also [BlockchainSelectionFormNotifier].
 @ProviderFor(BlockchainSelectionFormNotifier)
