@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:math';
 import 'dart:typed_data';
 
+import 'package:aebridge/application/blockchain_tx_version.dart';
 import 'package:aebridge/domain/usecases/bridge_ae_process_mixin.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
@@ -66,6 +67,8 @@ class ArchethicContract
         final originPrivateKey = apiService.getOriginKey();
         final transactionSC = Transaction(
           type: 'contract',
+          // Interpreted SC // No WASM
+          version: 3,
           data: Transaction.initData(),
         ).setCode(code).addOwnership(
           uint8ListToHex(
@@ -97,8 +100,13 @@ class ArchethicContract
           apiService,
           slippage: slippageFees,
         );
+
+        final blockchainTxVersion =
+            await ref.read(blockchainTxCurrentVersionProvider.future);
+
         var transactionTransfer = Transaction(
           type: 'transfer',
+          version: blockchainTxVersion,
           data: Transaction.initData(),
         ).addUCOTransfer(
           htlcGenesisAddress,
@@ -145,9 +153,12 @@ class ArchethicContract
         final apiService = aedappfm.sl.get<ApiService>();
 
         final infoResult = await getInfo(apiService, htlcAddress);
+        final blockchainTxVersion =
+            await ref.read(blockchainTxCurrentVersionProvider.future);
 
         var transaction = Transaction(
           type: 'transfer',
+          version: blockchainTxVersion,
           data: Transaction.initData(),
         ).addRecipient(
           infoResult.aePoolAddress!.replaceAll('0x', ''),

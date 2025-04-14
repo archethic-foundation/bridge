@@ -3,6 +3,7 @@
 
 import 'dart:async';
 
+import 'package:aebridge/application/blockchain_tx_version.dart';
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
@@ -132,9 +133,11 @@ class ArchethicContractChargeable with aedappfm.TransactionMixin {
             }
           }
         }
-
+        final blockchainTxVersion =
+            await ref.read(blockchainTxCurrentVersionProvider.future);
         var transaction = Transaction(
           type: 'transfer',
+          version: blockchainTxVersion,
           data: Transaction.initData(),
         ).addRecipient(
           htlcAddress,
