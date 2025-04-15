@@ -3,7 +3,6 @@
 
 import 'dart:async';
 
-import 'package:aebridge/application/blockchain_tx_version.dart';
 import 'package:aebridge/application/contracts/archethic_contract.dart';
 import 'package:aebridge/ui/views/bridge/bloc/provider.dart';
 import 'package:aebridge/ui/views/bridge/bloc/state.dart';
@@ -97,13 +96,12 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
             evmUserAddress,
           ],
         );
-        final blockchainTxVersion =
-            await ref.read(blockchainTxCurrentVersionProvider.future);
 
         if (tokenAddress.isEmpty) {
           transactionTransfer = Transaction(
             type: 'transfer',
-            version: blockchainTxVersion,
+            // Interpreted SC // No WASM
+            version: 3,
             data: Transaction.initData(),
           ).addUCOTransfer(htlcGenesisAddress, toBigInt(amount)).addRecipient(
                 recipient.address!,
@@ -113,7 +111,8 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
         } else {
           transactionTransfer = Transaction(
             type: 'transfer',
-            version: blockchainTxVersion,
+            // Interpreted SC // No WASM
+            version: 3,
             data: Transaction.initData(),
           )
               .addTokenTransfer(
@@ -167,12 +166,10 @@ class ArchethicContractSigned with aedappfm.TransactionMixin {
   ) async {
     return aedappfm.Result.guard(
       () async {
-        final blockchainTxVersion =
-            await ref.read(blockchainTxCurrentVersionProvider.future);
-
         var transaction = Transaction(
           type: 'transfer',
-          version: blockchainTxVersion,
+          // Interpreted SC // No WASM
+          version: 3,
           data: Transaction.initData(),
         ).addRecipient(
           poolAddress,
