@@ -842,11 +842,6 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
     }
 
     double? balanceUCO;
-    double? minAmountDollars;
-
-    state.blockchainTo!.isArchethic
-        ? minAmountDollars = 0.0000001
-        : minAmountDollars = 0.0000001;
 
     final session = ref.read(sessionNotifierProvider);
 
@@ -867,6 +862,13 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
         true,
       );
     } else {
+      /* Removed after free fees
+       double? minAmountDollars;
+
+    state.blockchainTo!.isArchethic
+        ? minAmountDollars = 0.0000001
+        : minAmountDollars = 0.0000001;
+        
       final archethicOracleUCO = await ref
           .read(aedappfm.ArchethicOracleUCOProviders.archethicOracleUCO.future);
 
@@ -891,7 +893,7 @@ class BridgeFormNotifier extends _$BridgeFormNotifier
           ),
         );
         return false;
-      }
+      }*/
     }
 
     return true;
